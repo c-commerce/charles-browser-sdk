@@ -1,0 +1,38 @@
+version: 2
+jobs:
+  build:
+    branches:
+      ignore:
+        - gh-pages
+        - /feature-.*/
+    docker:
+      - image: "circleci/node:latest"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - restore_cache:
+          key: dependency-cache-{{ checksum "examples/vue/package.json" }}
+
+      - run:
+          name: install
+          command: npm install
+      - run:
+          name: test
+          command: npm run test:prod && npm run build:storybooks:prepare && npm run build
+
+      - run: npm run coverage
+      - run: npm run deploy-docs
+      # - run: git describe --exact-match --tags HEAD && npm run docs && npm run deploy-docs
+      - run:
+          name: release
+          command: npm run semantic-release || true
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - save_cache:
+          key: dependency-cache-{{ checksum "examples/vue/package.json" }}
+          paths:
+            - ./examples/vue/node_modules

@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "name": "Vue Example",
+      "path": "./examples/vue"
+    }
+  ],
+  "settings": {}
+}
