@@ -1,3 +1,10 @@
+# 1.0.0 (2020-02-22)
+
+
+### Bug Fixes
+
+* use correct import paths ([7bfed0f](https://github.com/c-commerce/charles-browser-sdk/commit/7bfed0fee087c7475a5d0d22ad53b20c120bcc34))
+
 # [1.1.0](https://github.com/c-commerce/charles-browser-sdk/compare/v1.0.0...v1.1.0) (2020-02-22)
 
 
