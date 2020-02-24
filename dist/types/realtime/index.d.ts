@@ -16,6 +16,13 @@ export interface RealtimeMessage {
         [key: string]: any;
     } | string;
 }
+export interface RealtimeMessageMessage extends RealtimeMessage {
+    payload: {
+        message: {
+            [key: string]: any;
+        };
+    };
+}
 export interface RealtimeLastMessageReference {
     mqttClientId: RealtimeMessage['mqttClientId'];
     clientId: RealtimeMessage['clientId'];
@@ -36,7 +43,7 @@ interface RealtimeClientOptions {
     password: string;
     mqttOptions?: MqttOptions;
 }
-export declare type OnMessageCallback = (message: RealtimeMessage) => void;
+export declare type OnMessageCallback = (message: RealtimeMessage | RealtimeMessageMessage) => void;
 export declare interface RealtimeClient {
     on(event: 'raw-error' | 'error', cb: (error: Error) => void): this;
     on(event: 'message', cb: OnMessageCallback): this;

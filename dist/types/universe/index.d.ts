@@ -44,7 +44,14 @@ export declare class Universe extends Readable {
     private setInitialized;
     private setMqttClient;
     private subscibeDefaults;
+    /**
+     *
+     * Parsing and routing logic is being handled here. We take extensive decisions about type and destionations here.
+     */
     private handleMessage;
+    /**
+     * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.
+     */
     private getMqttClient;
     create(options: IUniverseOptions): Universe;
     implode(): void;

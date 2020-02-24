@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.0.1...v2.1.0) (2020-02-24)
+
+
+### Features
+
+* **messaging:** add Message ([b765776](https://github.com/c-commerce/charles-browser-sdk/commit/b765776d93204b304b54d93c8d282489df232a4e))
+
 ## [2.0.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.0.0...v2.0.1) (2020-02-24)
 
 

@@ -12,6 +12,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,9 +59,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -58,12 +66,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var readable_stream_1 = require("readable-stream");
 var status_1 = require("./status");
-var realtime_1 = require("../realtime");
+var realtime = __importStar(require("../realtime"));
 var errors_1 = require("../errors");
 var topics_1 = __importDefault(require("./topics"));
+var messaging_1 = require("../messaging");
 var uuid = __importStar(require("../helpers/uuid"));
 var Universe = /** @class */ (function (_super) {
     __extends(Universe, _super);
@@ -126,7 +138,7 @@ var Universe = /** @class */ (function (_super) {
             username: this.user.id || 'charles-browser-sdk',
             password: this.user.accessToken
         };
-        this.mqtt = new realtime_1.RealtimeClient(realtimeOpts);
+        this.mqtt = new realtime.RealtimeClient(realtimeOpts);
         this.mqtt.on('message', function (msg) {
             _this.handleMessage(msg);
         });
@@ -136,6 +148,10 @@ var Universe = /** @class */ (function (_super) {
         this.getMqttClient()
             .subscribe(topics_1.default.api.message.generateTopic());
     };
+    /**
+     *
+     * Parsing and routing logic is being handled here. We take extensive decisions about type and destionations here.
+     */
     Universe.prototype.handleMessage = function (msg) {
         // each arming message will cause an unsubscription
         if (topics_1.default.api.clients.arm.isTopic(msg.topic)) {
@@ -145,11 +161,18 @@ var Universe = /** @class */ (function (_super) {
             return;
         }
         if (topics_1.default.api.message.isTopic(msg.topic)) {
-            this.emit('universe:message', msg);
+            var message = void 0;
+            if (msg.payload.message) {
+                message = messaging_1.Message.deserialize(msg.payload.message);
+            }
+            this.emit('universe:message', __assign(__assign({}, msg), { message: message }));
             return;
         }
         this.emit('message', msg);
     };
+    /**
+     * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.
+     */
     Universe.prototype.getMqttClient = function () {
         if (this.mqtt)
             return this.mqtt;
