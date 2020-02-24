@@ -16,8 +16,14 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
 
       - run:
+          # Replace typedoc's typescript dep with currently installed version
+          # because it comes with an incompatible version
           name: install
-          command: npm ci
+          command: |
+            npm install
+
+            rm -rf ./node_modules/typedoc/node_modules/typescript
+            cp -r ./node_modules/typescript ./node_modules/typedoc/node_modules/typescript
       - run:
           name: test
           command: npm run test:prod && npm run build:storybooks:prepare && npm run build
