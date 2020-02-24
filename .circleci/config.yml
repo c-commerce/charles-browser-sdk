@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - restore_cache:
           key: dependency-cache-{{ checksum "examples/vue/package.json" }}
 
@@ -29,7 +29,7 @@ jobs:
           command: npm run semantic-release || true
 
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
       - save_cache:
