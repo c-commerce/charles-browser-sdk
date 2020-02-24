@@ -8,6 +8,7 @@ import * as v0 from './v0'
 import * as errors from './errors'
 import { Client, ClientOptions } from './client'
 import { environment } from './environment'
+import { Universe, UnviverseSingleton, IUniverseOptions } from './universe'
 
 export { v0 }
 
@@ -28,6 +29,11 @@ type MaybeOptions = object
 export interface IInstanceOptions {
   universe: string
   [key: string]: any
+}
+
+export interface IUniverseFactoryOptions {
+  singleton?: boolean
+  base?: string
 }
 
 export declare interface CharlesClient {
@@ -119,11 +125,15 @@ export class CharlesClient extends events.EventEmitter {
         responseInterceptors: options.responseInterceptors
       }
 
+      this.auth = new v0.Auth(authOptions)
+      if ((options.credentials as TokenAuth).accessToken) {
+        this.auth.setAuthed((options.credentials as TokenAuth).accessToken)
+      }
+
       if ((options.credentials as TokenAuth).accessToken && clientOptions.headers) {
         clientOptions.headers['Authorization'] = `Bearer ${(options.credentials as TokenAuth).accessToken}`
       }
 
-      this.auth = new v0.Auth(authOptions)
       this.http = Client.getInstance(clientOptions).setDefaults(clientOptions)
       return true
     }
@@ -155,12 +165,30 @@ export class CharlesClient extends events.EventEmitter {
     )
   }
 
-  // /**
-  //  * Create an authenticated me instance
-  //  */
-  // me(): v0.Me {
-  //   return this.generateAuthenticatedInstance(v0.Me)
-  // }
+  /**
+   * Create a reference to a universe via singleton or instance
+   */
+  universe(name: string, options?: IUniverseFactoryOptions): Universe | UnviverseSingleton {
+    if (!this.http || !this.auth.accessToken) {
+      throw new errors.UninstantiatedClient('Cannot invoke universe without instantiated http client')
+    }
+
+    const opts = {
+      http: this.http,
+      name,
+      base: options && options.base ? options.base : 'https://hello-charles.com',
+      user: {
+        accessToken: this.auth.accessToken,
+        id: this.options ? this.options.user : undefined
+      }
+    }
+
+    if (options && options.singleton === true) {
+      return UnviverseSingleton.getInstance(opts)
+    }
+
+    return new Universe(opts)
+  }
 
   /**
    * Create an authenticated Messages instance

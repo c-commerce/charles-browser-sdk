@@ -14,12 +14,19 @@ export default {
     instructions: {
       type: Boolean,
       default: false
+    },
+    minHeight: {
+      type: String,
+      default: '150px'
+    },
+    maxHeight: {
+      type: String,
+      default: undefined
     }
   },
 
   data () {
     return {
-      authResponse: null,
       baseUrl: 'https://staging-3.hello-charles.com',
       universe: null
     }
@@ -42,13 +49,32 @@ export default {
         window.localStorage.setItem('username', v)
       }
     },
+    authResponse: {
+      get () {
+        try {
+          return window.localStorage.getItem('authResponse')
+        } catch (err) {
+          console.error(err)
+          return null
+        }
+      },
+      set (v) {
+       try {
+         window.localStorage.setItem('authResponse', JSON.stringify(v, undefined, 2))
+       } catch (err) {
+         console.error(err)
+       }
+      }
+    },
     styles () {
       return {
         container: {
           display: 'flex',
           flexDirection: 'row',
           maxWidth: '80%',
-          minHeight: '400px'
+          minHeight: this.minHeight,
+          maxHeight: this.maxHeight,
+          overflowY: 'auto'
         },
         inputs: {
           width: '50%',
@@ -69,7 +95,7 @@ export default {
 const response = await charles.auth.loginUsername({
   username: '${this.username || ''}',
   password: '${(this.password || '').replace(/./g, '*')}',
-  baseUrl: '${this.baseUrl}'
+  authBaseUrl: '${this.baseUrl}'
 })
 
 // we do provide cookie auth. However if you client does not support that
@@ -110,8 +136,8 @@ charles.init({
 
       <div :style="styles.results" >
 
-        <pre v-if="authResponse" v-text="authResponse">
-          {{ JSON.stringify(authResponse, undefined, 2) }}
+        <pre v-if="authResponse" v-text="authResponse" :key="authResponse">
+          {{authResponse}}
         </pre>
 
         <div v-else>
@@ -126,7 +152,7 @@ charles.init({
       // charles.init()
       this.$emit('auth-attempt')
 
-      const response = this.authResponse = await charles.auth.loginUsername({ username: this.username, password: this.password, baseUrl: this.baseUrl })
+      const response = this.authResponse = await charles.auth.loginUsername({ username: this.username, password: this.password, authBaseUrl: this.baseUrl })
 
       this.$emit('auth-success', response)
     }

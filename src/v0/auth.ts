@@ -88,6 +88,7 @@ export function isOrgAuth(object: any): object is KeyAuth {
 }
 
 export interface AuthResponse {
+  id: string
   access_token: string
   user: string
   name?: string
@@ -181,6 +182,7 @@ export class Auth {
       )
 
       return {
+        id: response.data.data.id,
         access_token: response.data.data.access_token,
         user: response.data.data.id,
         email: response.data.data.email,
@@ -236,9 +238,8 @@ export class Auth {
       }
     }
 
-    this.accessToken = token
+    this.setAuthed(token)
     this.user = user
-    this.authenticated = true
 
     Client.getInstance(clientOptions).setDefaults(clientOptions)
   }
@@ -261,6 +262,13 @@ export class Auth {
     } catch (err) {
       throw new LogoutFailed(undefined, { error: err })
     }
+  }
+
+  public setAuthed(accessToken: string): Auth {
+    if (!accessToken) throw new TypeError('setting authed requires access token')
+    this.accessToken = accessToken
+    this.authenticated = true
+    return this
   }
 }
 

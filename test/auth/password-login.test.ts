@@ -36,7 +36,7 @@ describe('Auth: make auth flow', () => {
           200,
           {
             data: {
-              access_token: '',
+              access_token: 'mockToken',
               id: 'something',
               roles: [],
               permissions: []
@@ -77,7 +77,7 @@ describe('Auth: make auth flow', () => {
           200,
           {
             data: {
-              access_token: '',
+              access_token: 'mockToken',
               id: 'something',
               roles: [],
               permissions: []

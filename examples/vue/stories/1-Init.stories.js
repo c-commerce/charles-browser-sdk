@@ -19,7 +19,7 @@ export const Auth = () => ({
         Make an auth call and retrieve an access token
       </p>
 
-      <init @auth-attempt="authAction" @auth-success="authSuccessAction" instructions store="init-first"></init>
+      <init @auth-attempt="authAction" @auth-success="authSuccessAction" instructions min-height="400px" store="init-first"></init>
     </div>
   `,
   methods: {
