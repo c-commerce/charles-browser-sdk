@@ -73,7 +73,7 @@ export const AuthAndInitialization = () => ({
       this.localUniversePayload = universe.payload
     }
   },
-  data() {
+  data () {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -121,7 +121,7 @@ await universe.init()
 ${this.universePayload}
       `
     }
-  },
+  }
 })
 
 export const InitializationAndDefaultSubscriptions = () => ({
@@ -153,7 +153,7 @@ export const InitializationAndDefaultSubscriptions = () => ({
 
       <prism-editor readonly :code="code" language="js"></prism-editor>
       <div v-for="(message, index) in messages" :key="index">
-        <pre v-text="JSON.stringify(message, undefined, 2)">
+        <pre v-text="JSON.stringify(message.message.serialize(), undefined, 2)">
         </pre>
       </div>
     </div>
@@ -190,7 +190,7 @@ export const InitializationAndDefaultSubscriptions = () => ({
       this.localUniversePayload = universe.payload
     }
   },
-  data() {
+  data () {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -244,5 +244,5 @@ universe.on('universe:message', (msg) => {
 })
       `
     }
-  },
+  }
 })

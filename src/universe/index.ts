@@ -1,9 +1,10 @@
 import { Readable } from 'readable-stream'
 import { UniverseHealth, UniverseStatus } from './status'
 import { Client } from '../client'
-import { RealtimeClient, RealtimeMessage } from '../realtime'
+import * as realtime from '../realtime'
 import { BaseError } from '../errors'
 import universeTopics from './topics'
+import { Message, MessagePayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 
 export interface IUniverseUser {
@@ -45,7 +46,7 @@ export class Universe extends Readable {
   public user: IUniverseUser
 
   private http: Client
-  private mqtt: RealtimeClient | null = null
+  private mqtt: realtime.RealtimeClient | null = null
   private base: string
   private static endpoint: string = 'api/v0/universes'
 
@@ -103,7 +104,7 @@ export class Universe extends Readable {
       password: this.user.accessToken
     }
 
-    this.mqtt = new RealtimeClient(realtimeOpts)
+    this.mqtt = new realtime.RealtimeClient(realtimeOpts)
     this.mqtt.on('message', (msg) => {
       this.handleMessage(msg)
     })
@@ -115,7 +116,11 @@ export class Universe extends Readable {
       .subscribe(universeTopics.api.message.generateTopic())
   }
 
-  private handleMessage(msg: RealtimeMessage) {
+  /**
+   *
+   * Parsing and routing logic is being handled here. We take extensive decisions about type and destionations here.
+   */
+  private handleMessage(msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage) {
 
     // each arming message will cause an unsubscription
     if (universeTopics.api.clients.arm.isTopic(msg.topic)) {
@@ -126,14 +131,21 @@ export class Universe extends Readable {
     }
 
     if (universeTopics.api.message.isTopic(msg.topic)) {
-      this.emit('universe:message', msg)
+      let message
+      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessagePayload)
+      }
+      this.emit('universe:message', { ...msg, message })
       return
     }
 
     this.emit('message', msg)
   }
 
-  private getMqttClient(): RealtimeClient {
+  /**
+   * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.
+   */
+  private getMqttClient(): realtime.RealtimeClient {
     if (this.mqtt) return this.mqtt
 
     throw new UninstantiatedRealtimeClient()
