@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.0.0...v2.0.1) (2020-02-24)
+
+
+### Bug Fixes
+
+* **docs:** correct typo to force publish ([da85548](https://github.com/c-commerce/charles-browser-sdk/commit/da85548266b62f35a876c63ff6d01096ffba17ab))
+
 # 1.0.0 (2020-02-22)
 
 

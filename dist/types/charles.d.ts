@@ -3,6 +3,7 @@ import events from 'events';
 import { UsernameAuth, KeyAuth, TokenAuth } from './v0/auth';
 import * as v0 from './v0';
 import { Client } from './client';
+import { Universe, UnviverseSingleton } from './universe';
 export { v0 };
 export declare const defaultOptions: CharlesSDKOptions;
 export interface CharlesSDKOptions {
@@ -16,6 +17,10 @@ export interface CharlesSDKOptions {
 export interface IInstanceOptions {
     universe: string;
     [key: string]: any;
+}
+export interface IUniverseFactoryOptions {
+    singleton?: boolean;
+    base?: string;
 }
 export declare interface CharlesClient {
     on(event: 'raw-error' | 'error', listener: (error: Error) => void): this;
@@ -43,6 +48,10 @@ export declare class CharlesClient extends events.EventEmitter {
     destroy(): void;
     private handleOptions;
     private generateAuthenticatedInstance;
+    /**
+     * Create a reference to a universe via singleton or instance
+     */
+    universe(name: string, options?: IUniverseFactoryOptions): Universe | UnviverseSingleton;
     /**
      * Create an authenticated Messages instance
      *

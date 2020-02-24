@@ -43,6 +43,7 @@ exports.v0 = v0;
 var errors = __importStar(require("./errors"));
 var client_1 = require("./client");
 var environment_1 = require("./environment");
+var universe_1 = require("./universe");
 exports.defaultOptions = {
     universe: undefined
 };
@@ -112,10 +113,13 @@ var CharlesClient = /** @class */ (function (_super) {
                 headers: {},
                 responseInterceptors: options.responseInterceptors
             };
+            this.auth = new v0.Auth(authOptions);
+            if (options.credentials.accessToken) {
+                this.auth.setAuthed(options.credentials.accessToken);
+            }
             if (options.credentials.accessToken && clientOptions.headers) {
                 clientOptions.headers['Authorization'] = "Bearer " + options.credentials.accessToken;
             }
-            this.auth = new v0.Auth(authOptions);
             this.http = client_1.Client.getInstance(clientOptions).setDefaults(clientOptions);
             return true;
         }
@@ -131,12 +135,27 @@ var CharlesClient = /** @class */ (function (_super) {
         }
         return new type(__assign({ user: this.auth.user, universe: this.options.universe }, maybeOptions), this.http);
     };
-    // /**
-    //  * Create an authenticated me instance
-    //  */
-    // me(): v0.Me {
-    //   return this.generateAuthenticatedInstance(v0.Me)
-    // }
+    /**
+     * Create a reference to a universe via singleton or instance
+     */
+    CharlesClient.prototype.universe = function (name, options) {
+        if (!this.http || !this.auth.accessToken) {
+            throw new errors.UninstantiatedClient('Cannot invoke universe without instantiated http client');
+        }
+        var opts = {
+            http: this.http,
+            name: name,
+            base: options && options.base ? options.base : 'https://hello-charles.com',
+            user: {
+                accessToken: this.auth.accessToken,
+                id: this.options ? this.options.user : undefined
+            }
+        };
+        if (options && options.singleton === true) {
+            return universe_1.UnviverseSingleton.getInstance(opts);
+        }
+        return new universe_1.Universe(opts);
+    };
     /**
      * Create an authenticated Messages instance
      *

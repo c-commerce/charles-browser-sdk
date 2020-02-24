@@ -165,6 +165,7 @@ var Auth = /** @class */ (function () {
                         response = _a.sent();
                         this.setDefaultHeader(response.data.data.id, response.data.data.access_token);
                         return [2 /*return*/, {
+                                id: response.data.data.id,
                                 access_token: response.data.data.access_token,
                                 user: response.data.data.id,
                                 email: response.data.data.email,
@@ -237,9 +238,8 @@ var Auth = /** @class */ (function () {
                 'X-Client-ID': user
             }
         };
-        this.accessToken = token;
+        this.setAuthed(token);
         this.user = user;
-        this.authenticated = true;
         client_1.Client.getInstance(clientOptions).setDefaults(clientOptions);
     };
     Auth.prototype.logout = function (token) {
@@ -271,6 +271,13 @@ var Auth = /** @class */ (function () {
                 }
             });
         });
+    };
+    Auth.prototype.setAuthed = function (accessToken) {
+        if (!accessToken)
+            throw new TypeError('setting authed requires access token');
+        this.accessToken = accessToken;
+        this.authenticated = true;
+        return this;
     };
     return Auth;
 }());

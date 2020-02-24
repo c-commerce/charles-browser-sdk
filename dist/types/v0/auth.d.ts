@@ -62,6 +62,7 @@ export declare function isKeyAuth(object: any): object is KeyAuth;
 export declare function isTokenAuth(object: any): object is KeyAuth;
 export declare function isOrgAuth(object: any): object is KeyAuth;
 export interface AuthResponse {
+    id: string;
     access_token: string;
     user: string;
     name?: string;
@@ -93,6 +94,7 @@ export declare class Auth {
     setNewPassword(nonce: PasswordResetNonce): Promise<PasswordResetRequestResponse>;
     protected setDefaultHeader(user: string, token: string): void;
     logout(token?: string): Promise<LogoutResponse>;
+    setAuthed(accessToken: string): Auth;
 }
 export declare class LogoutMissingToken extends errors.BaseError {
     message: string;
