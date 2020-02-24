@@ -23,7 +23,7 @@ export interface RealtimeMessage {
 export interface RealtimeMessageMessage extends RealtimeMessage {
   payload: {
     message: {
-      [key: string]: any
+      [key: string]: any | object | undefined | null
     }
   }
 }

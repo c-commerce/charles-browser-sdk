@@ -4,7 +4,7 @@ import { Client } from '../client'
 import * as realtime from '../realtime'
 import { BaseError } from '../errors'
 import universeTopics from './topics'
-import { Message, MessagePayload } from '../messaging'
+import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 
 export interface IUniverseUser {
@@ -45,9 +45,10 @@ export class Universe extends Readable {
   public payload: IUniversePayload | null = null
   public user: IUniverseUser
 
-  private http: Client
+  protected http: Client
   private mqtt: realtime.RealtimeClient | null = null
-  private base: string
+  public base: string
+  public universeBase: string
   private static endpoint: string = 'api/v0/universes'
 
   public constructor(options: IUniverseOptions) {
@@ -57,6 +58,7 @@ export class Universe extends Readable {
     this.name = options.name
     this.user = options.user
     this.base = this.options.base || 'https://hello-charles.com'
+    this.universeBase = `https://${this.name}.hello-charles.com`
 
     this.status = new UniverseStatus({ universe: this })
     this.health = new UniverseHealth({ universe: this })
@@ -133,7 +135,7 @@ export class Universe extends Readable {
     if (universeTopics.api.message.isTopic(msg.topic)) {
       let message
       if ((msg as realtime.RealtimeMessageMessage).payload.message) {
-        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessagePayload)
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this, this.http)
       }
       this.emit('universe:message', { ...msg, message })
       return

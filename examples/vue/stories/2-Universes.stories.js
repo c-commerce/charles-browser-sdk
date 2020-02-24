@@ -246,3 +246,133 @@ universe.on('universe:message', (msg) => {
     }
   }
 })
+
+export const InitializationAndDefaultSubscriptionsAndReply = () => ({
+  components: { Init, PrismEditor },
+  template: `
+    <div>
+      <init
+        @auth-attempt="authAction"
+        @auth-success="authSuccessAction"
+        :instructions="false"
+        store="init-first"
+        max-height="150px"
+      ></init>
+
+      <p>
+        With auth set let's initialise a universe
+      </p>
+
+      <input v-model="universeName" :key="universeName" placeholder="Univserse Name" />
+      <input v-model="apiBase" :key="apiBase" placeholder="API Base" />
+
+      <button @click="initUniverse">
+        Initialise Universe
+      </button>
+
+      <prism-editor readonly :code="code" language="js"></prism-editor>
+      <div v-for="(message, index) in messages" :key="index">
+        <p v-text="message.message.content.body">
+        </p>
+        <input placeholder="Reply Content" v-model="replyContent[index]" />
+        <button @click="handleReply(message.message, replyContent[index])">
+          Reply
+        </button>
+      </div>
+    </div>
+  `,
+  methods: {
+    authAction: function () {
+      action('auth-attempt').call(this, ...arguments)
+    },
+    authSuccessAction: function () {
+      this.token = [...arguments][0].access_token
+
+      window.localStorage.setItem('token', this.token)
+
+      action('auth-sucess').call(this, ...arguments)
+    },
+    async initUniverse () {
+      charles.init({
+        credentials: {
+          accessToken: this.token
+        }
+      })
+
+      const universe = charles.universe(this.universeName, {
+        base: this.apiBase
+      })
+
+      universe.on('universe:message', (msg) => {
+        this.messages.push(msg)
+        action('message').call(this, msg)
+      })
+
+      await universe.init()
+
+      this.localUniversePayload = universe.payload
+    },
+    async handleReply (message, content) {
+      const reply = message.reply({ content: { body: content } })
+
+      await reply.send()
+    }
+  },
+  data () {
+    return {
+      token: window.localStorage.getItem('token') || null,
+      universe: null,
+      localUniversePayload: null,
+      messages: [],
+      replyContent: []
+    }
+  },
+  computed: {
+    universeName: {
+      get () {
+        return window.localStorage.getItem('universeName')
+      },
+      set (v) {
+        window.localStorage.setItem('universeName', v)
+      }
+    },
+    apiBase: {
+      get () {
+        return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
+      },
+      set (v) {
+        window.localStorage.setItem('apiBase', v)
+      }
+    },
+
+    universePayload () {
+      if (!this.localUniversePayload) return ''
+
+      return JSON.stringify(this.localUniversePayload, undefined, 2)
+        .split('\n')
+        .map((line) => {
+          return `// ${line}`
+        })
+        .join('\n')
+    },
+    code () {
+      return `
+import charles from '@heycharles/browser-sdk'
+charles.init({
+  accessToken: '${this.token || ''}'
+})
+
+const universe = charles.universe('${this.universeName || ''}')
+// lets init it immediately to get it's remote state
+await universe.init()
+
+universe.on('universe:message', (event) => {
+  event.message
+    .reply({ content: { body: '${this.replyContent[0] ? this.replyContent[0] : ''}' } })
+    .send()
+    .then(() => {}).catch((err) => {})
+})
+      `
+    }
+  }
+})
