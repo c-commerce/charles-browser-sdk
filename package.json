@@ -30,7 +30,7 @@
     "build:storybooks:prepare": "(cd examples/vue && npm i && cd -)",
     "build:storybooks": "(cd examples/vue && npm run build-storybook && cd -)",
     "build:bundle": "tsc --module commonjs",
-    "build": "npm run clean && npm run build:bundle && npm run build:docs:all",
+    "build": "npm run clean && npm run build:bundle",
     "clean": "rimraf dist docs",
     "test": "jest --coverage",
     "test:watch": "jest --watchAll --runInBand",
