@@ -6,7 +6,7 @@ jobs:
         - gh-pages
         - /feature-.*/
     docker:
-      - image: "circleci/node:latest"
+      - image: "circleci/node:12"
     steps:
       - checkout
       # - restore_cache:
