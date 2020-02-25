@@ -30,7 +30,7 @@ jobs:
 
       - run:
           name: build-docs
-          command: npm run build:storybooks:prepare && npm run build:docs:all
+          command: npm run build:docs && npm run build:storybooks:prepare && npm run build:storybooks
       - run: npm run coverage
       - run: npm run deploy-docs
       # - run: git describe --exact-match --tags HEAD && npm run docs && npm run deploy-docs
