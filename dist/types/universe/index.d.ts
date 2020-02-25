@@ -34,9 +34,10 @@ export declare class Universe extends Readable {
     initialized: boolean;
     payload: IUniversePayload | null;
     user: IUniverseUser;
-    private http;
+    protected http: Client;
     private mqtt;
-    private base;
+    base: string;
+    universeBase: string;
     private static endpoint;
     constructor(options: IUniverseOptions);
     init(): Promise<Universe | undefined>;

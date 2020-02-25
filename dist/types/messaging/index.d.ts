@@ -1,2 +1,2 @@
-import { Message, MessagePayload } from './message';
-export { Message, MessagePayload };
+import { Message, MessagePayload, MessageRawPayload } from './message';
+export { Message, MessagePayload, MessageRawPayload };

@@ -88,6 +88,7 @@ var Universe = /** @class */ (function (_super) {
         _this.name = options.name;
         _this.user = options.user;
         _this.base = _this.options.base || 'https://hello-charles.com';
+        _this.universeBase = "https://" + _this.name + ".hello-charles.com";
         _this.status = new status_1.UniverseStatus({ universe: _this });
         _this.health = new status_1.UniverseHealth({ universe: _this });
         _this.http = options.http;
@@ -163,7 +164,7 @@ var Universe = /** @class */ (function (_super) {
         if (topics_1.default.api.message.isTopic(msg.topic)) {
             var message = void 0;
             if (msg.payload.message) {
-                message = messaging_1.Message.deserialize(msg.payload.message);
+                message = messaging_1.Message.deserialize(msg.payload.message, this, this.http);
             }
             this.emit('universe:message', __assign(__assign({}, msg), { message: message }));
             return;
