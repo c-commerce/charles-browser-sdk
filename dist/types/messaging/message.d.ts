@@ -2,6 +2,7 @@
 import { EventEmitter } from 'events';
 import { Universe } from '../universe';
 import { BaseError } from '../errors';
+import { Person, PersonRawPayload } from './person';
 export interface MessageOptions {
     universe: Universe;
     http: Universe['http'];
@@ -38,6 +39,7 @@ export interface MessageRawPayload {
             };
         };
     };
+    readonly person?: PersonRawPayload['id'];
 }
 export interface MessagePayload {
     readonly id?: string;
@@ -61,6 +63,7 @@ export interface MessagePayload {
     readonly isProcessed?: string;
     readonly processedData?: string;
     readonly replyables?: MessageRawPayload['replyables'] | null;
+    readonly person?: Person;
 }
 export interface Message extends MessagePayload {
 }
@@ -89,6 +92,7 @@ export declare class Message extends EventEmitter {
     readonly isProcessed?: string;
     readonly processedData?: string;
     readonly replyables?: MessageRawPayload['replyables'];
+    readonly person?: Person;
     constructor(options: MessageOptions);
     static deserialize(payload: MessageRawPayload, universe: Universe, http: Universe['http']): Message;
     serialize(): MessageRawPayload;

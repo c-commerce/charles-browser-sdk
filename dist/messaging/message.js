@@ -62,6 +62,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
 var errors_1 = require("../errors");
+var person_1 = require("./person");
 var Message = /** @class */ (function (_super) {
     __extends(Message, _super);
     function Message(options) {
@@ -89,6 +90,7 @@ var Message = /** @class */ (function (_super) {
             _this.isProcessed = options.rawPayload.is_processed;
             _this.processedData = options.rawPayload.processed_data;
             _this.replyables = options.rawPayload.replyables;
+            _this.person = options.rawPayload.person ? person_1.Person.createUninitialized({ id: options.rawPayload.person }, _this.universe, _this.http) : undefined;
         }
         return _this;
     }

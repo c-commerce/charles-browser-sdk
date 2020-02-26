@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.2.0...v2.3.0) (2020-02-26)
+
+
+### Features
+
+* **messaging:** add person ([2e23ac3](https://github.com/c-commerce/charles-browser-sdk/commit/2e23ac31511fba0b7a7b8ab14d480c347808c1d9))
+
 # [2.2.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.1.0...v2.2.0) (2020-02-25)
 
 
