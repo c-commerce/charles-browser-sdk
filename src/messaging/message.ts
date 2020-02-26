@@ -2,6 +2,7 @@ import { EventEmitter } from 'events'
 import { Universe } from '../universe'
 import { BaseError } from '../errors'
 import { Person, PersonRawPayload } from './person'
+import { FeedRawPayload, Feed } from '../eventing/feeds'
 
 export interface MessageOptions {
   universe: Universe
@@ -41,6 +42,7 @@ export interface MessageRawPayload {
     }
   },
   readonly person?: PersonRawPayload['id']
+  readonly feed?: FeedRawPayload['id']
 }
 
 export interface MessagePayload {
@@ -66,6 +68,7 @@ export interface MessagePayload {
   readonly processedData?: string
   readonly replyables?: MessageRawPayload['replyables'] | null
   readonly person?: Person
+  readonly feed?: Feed
 }
 
 export interface Message extends MessagePayload {
@@ -99,6 +102,7 @@ export class Message extends EventEmitter {
   public readonly processedData?: string
   public readonly replyables?: MessageRawPayload['replyables']
   public readonly person?: Person
+  public readonly feed?: Feed
 
   constructor(options: MessageOptions) {
     super()
@@ -127,6 +131,7 @@ export class Message extends EventEmitter {
       this.processedData = options.rawPayload.processed_data
       this.replyables = options.rawPayload.replyables
       this.person = options.rawPayload.person ? Person.createUninitialized({ id: options.rawPayload.person }, this.universe, this.http) : undefined
+      this.feed = options.rawPayload.feed ? Feed.createUninitialized({ id: options.rawPayload.feed }, this.universe, this.http) : undefined
     }
   }
 
@@ -154,7 +159,9 @@ export class Message extends EventEmitter {
       deleted: this.deleted,
       is_processed: this.isProcessed,
       processed_data: this.processedData,
-      replyables: this.replyables
+      replyables: this.replyables,
+      person: this.person ? this.person.id : undefined,
+      feed: this.feed ? this.feed.id : undefined
     }
   }
 
