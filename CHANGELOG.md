@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.3.0...v2.4.0) (2020-02-26)
+
+
+### Features
+
+* **messages:** add feed ([4f573f1](https://github.com/c-commerce/charles-browser-sdk/commit/4f573f15f19c249f7b69d5e7c6fbc141330aadad))
+
 # [2.3.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.2.0...v2.3.0) (2020-02-26)
 
 

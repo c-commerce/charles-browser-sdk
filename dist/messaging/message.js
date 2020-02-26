@@ -63,6 +63,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
 var errors_1 = require("../errors");
 var person_1 = require("./person");
+var feeds_1 = require("../eventing/feeds");
 var Message = /** @class */ (function (_super) {
     __extends(Message, _super);
     function Message(options) {
@@ -91,6 +92,7 @@ var Message = /** @class */ (function (_super) {
             _this.processedData = options.rawPayload.processed_data;
             _this.replyables = options.rawPayload.replyables;
             _this.person = options.rawPayload.person ? person_1.Person.createUninitialized({ id: options.rawPayload.person }, _this.universe, _this.http) : undefined;
+            _this.feed = options.rawPayload.feed ? feeds_1.Feed.createUninitialized({ id: options.rawPayload.feed }, _this.universe, _this.http) : undefined;
         }
         return _this;
     }
@@ -117,7 +119,9 @@ var Message = /** @class */ (function (_super) {
             deleted: this.deleted,
             is_processed: this.isProcessed,
             processed_data: this.processedData,
-            replyables: this.replyables
+            replyables: this.replyables,
+            person: this.person ? this.person.id : undefined,
+            feed: this.feed ? this.feed.id : undefined
         };
     };
     Message.prototype.reply = function (contentOptions) {
