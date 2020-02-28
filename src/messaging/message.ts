@@ -39,6 +39,14 @@ export interface MessageRawPayload {
         method: 'POST' | string
         uri: 'string'
       }
+    },
+    reply_to_feed?: {
+      deadline: string | null
+      type: 'http' | string | null
+      options: {
+        method: 'POST' | string
+        uri: 'string'
+      }
     }
   },
   readonly person?: PersonRawPayload['id']
@@ -177,6 +185,18 @@ export class Message extends EventEmitter {
     })
   }
 
+  public replyFeed(contentOptions: MessageReplyContentOptions): MessageFeedReply {
+    return new MessageFeedReply({
+      message: this,
+      http: this.http,
+      universe: this.universe,
+      rawPayload: {
+        ...contentOptions
+      },
+      ...contentOptions
+    })
+  }
+
   private handleError(err: Error) {
     if (this.listeners('error').length > 0) this.emit('error', err)
   }
@@ -196,13 +216,13 @@ export interface ReplyResponse extends MessageRawPayload {
 
 }
 
-class Reply extends Message {
+export class Reply extends Message {
   constructor(options: ReplyOptions) {
     super(options)
   }
 }
 
-class MessageReply extends Reply {
+export class MessageReply extends Reply {
   private message: Message
 
   constructor(options: MessageReplyOptions) {
@@ -213,6 +233,26 @@ class MessageReply extends Reply {
   public async send(): Promise<ReplyResponse | undefined> {
     try {
       const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_message?.options.uri}`, {
+        content: this.content
+      })
+      return res.data.data[0] as ReplyResponse
+    } catch (err) {
+      throw new MessagesReplyError(undefined, { error: err })
+    }
+  }
+}
+
+export class MessageFeedReply extends Reply {
+  private message: Message
+
+  constructor(options: MessageReplyOptions) {
+    super(options)
+    this.message = options.message
+  }
+
+  public async send(): Promise<ReplyResponse | undefined> {
+    try {
+      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_feed?.options.uri}`, {
         content: this.content
       })
       return res.data.data[0] as ReplyResponse

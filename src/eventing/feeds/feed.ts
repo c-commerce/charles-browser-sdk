@@ -1,5 +1,7 @@
 import { EventEmitter } from 'events'
 import { Universe } from '../../universe'
+import { BaseError } from '../../errors'
+import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse } from '../../messaging/message'
 
 export interface FeedOptions {
   universe: Universe
@@ -85,7 +87,70 @@ export class Feed extends EventEmitter {
     }
   }
 
+  public reply(contentOptions: FeedReplyContentOptions): FeedReply {
+    return new FeedReply({
+      feed: this,
+      http: this.http,
+      universe: this.universe,
+      rawPayload: {
+        ...contentOptions
+      },
+      ...contentOptions
+    })
+  }
+
   private handleError(err: Error) {
     if (this.listeners('error').length > 0) this.emit('error', err)
+  }
+}
+
+export interface FeedReplyContentOptions extends MessageReplyContentOptions {
+
+}
+
+export interface FeedReplyResponse extends ReplyResponse {
+
+}
+
+export interface FeedReplyOptions {
+  feed: Feed
+  universe: Universe
+  http: Universe['http']
+  rawPayload?: MessageRawPayload
+}
+
+export class FeedReply {
+  private feed: Feed
+  private universe: Universe
+  private http: Universe['http']
+
+  public content: Reply['content']
+  public contentType: Reply['contentType']
+
+  constructor(options: FeedReplyOptions) {
+    this.feed = options.feed
+    this.universe = options.universe
+    this.http = options.http
+  }
+
+  public async send(): Promise<FeedReplyResponse | undefined> {
+    try {
+      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.feed.id}`, {
+        content: this.content
+      })
+      return res.data.data[0] as FeedReplyResponse
+    } catch (err) {
+      throw new FeedReplyError(undefined, { error: err })
+    }
+  }
+}
+
+export class FeedReplyError extends BaseError {
+  public name = 'FeedReplyError'
+  constructor(
+    public message: string = 'Could not send feed reply unexpectedly.',
+    properties?: any
+  ) {
+    super(message, properties)
   }
 }
