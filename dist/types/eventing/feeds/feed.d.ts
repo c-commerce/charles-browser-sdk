@@ -1,6 +1,8 @@
 /// <reference types="node" />
 import { EventEmitter } from 'events';
 import { Universe } from '../../universe';
+import { BaseError } from '../../errors';
+import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse } from '../../messaging/message';
 export interface FeedOptions {
     universe: Universe;
     http: Universe['http'];
@@ -44,5 +46,30 @@ export declare class Feed extends EventEmitter {
     static deserialize(payload: FeedRawPayload, universe: Universe, http: Universe['http']): Feed;
     static createUninitialized(payload: FeedRawPayload, universe: Universe, http: Universe['http']): Feed;
     serialize(): FeedRawPayload;
+    reply(contentOptions: FeedReplyContentOptions): FeedReply;
     private handleError;
+}
+export interface FeedReplyContentOptions extends MessageReplyContentOptions {
+}
+export interface FeedReplyResponse extends ReplyResponse {
+}
+export interface FeedReplyOptions {
+    feed: Feed;
+    universe: Universe;
+    http: Universe['http'];
+    rawPayload?: MessageRawPayload;
+}
+export declare class FeedReply {
+    private feed;
+    private universe;
+    private http;
+    content: Reply['content'];
+    contentType: Reply['contentType'];
+    constructor(options: FeedReplyOptions);
+    send(): Promise<FeedReplyResponse | undefined>;
+}
+export declare class FeedReplyError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
 }

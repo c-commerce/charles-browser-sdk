@@ -127,6 +127,9 @@ var Message = /** @class */ (function (_super) {
     Message.prototype.reply = function (contentOptions) {
         return new MessageReply(__assign({ message: this, http: this.http, universe: this.universe, rawPayload: __assign({}, contentOptions) }, contentOptions));
     };
+    Message.prototype.replyFeed = function (contentOptions) {
+        return new MessageFeedReply(__assign({ message: this, http: this.http, universe: this.universe, rawPayload: __assign({}, contentOptions) }, contentOptions));
+    };
     Message.prototype.handleError = function (err) {
         if (this.listeners('error').length > 0)
             this.emit('error', err);
@@ -141,6 +144,7 @@ var Reply = /** @class */ (function (_super) {
     }
     return Reply;
 }(Message));
+exports.Reply = Reply;
 var MessageReply = /** @class */ (function (_super) {
     __extends(MessageReply, _super);
     function MessageReply(options) {
@@ -172,6 +176,39 @@ var MessageReply = /** @class */ (function (_super) {
     };
     return MessageReply;
 }(Reply));
+exports.MessageReply = MessageReply;
+var MessageFeedReply = /** @class */ (function (_super) {
+    __extends(MessageFeedReply, _super);
+    function MessageFeedReply(options) {
+        var _this = _super.call(this, options) || this;
+        _this.message = options.message;
+        return _this;
+    }
+    MessageFeedReply.prototype.send = function () {
+        var _a, _b, _c;
+        return __awaiter(this, void 0, void 0, function () {
+            var res, err_2;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _d.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post("" + this.universe.universeBase + ((_c = (_b = this.message.replyables) === null || _b === void 0 ? void 0 : _b.reply_to_feed) === null || _c === void 0 ? void 0 : _c.options.uri), {
+                                content: this.content
+                            }))];
+                    case 1:
+                        res = _d.sent();
+                        return [2 /*return*/, res.data.data[0]];
+                    case 2:
+                        err_2 = _d.sent();
+                        throw new MessagesReplyError(undefined, { error: err_2 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return MessageFeedReply;
+}(Reply));
+exports.MessageFeedReply = MessageFeedReply;
 var MessagesReplyError = /** @class */ (function (_super) {
     __extends(MessagesReplyError, _super);
     function MessagesReplyError(message, properties) {

@@ -39,6 +39,14 @@ export interface MessageRawPayload {
                 uri: 'string';
             };
         };
+        reply_to_feed?: {
+            deadline: string | null;
+            type: 'http' | string | null;
+            options: {
+                method: 'POST' | string;
+                uri: 'string';
+            };
+        };
     };
     readonly person?: PersonRawPayload['id'];
     readonly feed?: FeedRawPayload['id'];
@@ -101,6 +109,7 @@ export declare class Message extends EventEmitter {
     static deserialize(payload: MessageRawPayload, universe: Universe, http: Universe['http']): Message;
     serialize(): MessageRawPayload;
     reply(contentOptions: MessageReplyContentOptions): MessageReply;
+    replyFeed(contentOptions: MessageReplyContentOptions): MessageFeedReply;
     private handleError;
 }
 export interface MessageReplyContentOptions {
@@ -113,10 +122,15 @@ export interface MessageReplyOptions extends ReplyOptions {
 }
 export interface ReplyResponse extends MessageRawPayload {
 }
-declare class Reply extends Message {
+export declare class Reply extends Message {
     constructor(options: ReplyOptions);
 }
-declare class MessageReply extends Reply {
+export declare class MessageReply extends Reply {
+    private message;
+    constructor(options: MessageReplyOptions);
+    send(): Promise<ReplyResponse | undefined>;
+}
+export declare class MessageFeedReply extends Reply {
     private message;
     constructor(options: MessageReplyOptions);
     send(): Promise<ReplyResponse | undefined>;
@@ -126,4 +140,3 @@ export declare class MessagesReplyError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
-export {};
