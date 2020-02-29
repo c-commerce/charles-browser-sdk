@@ -1,7 +1,8 @@
 import { EventEmitter } from 'events'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse } from '../../messaging/message'
+import { Reply, Message, MessageRawPayload, MessageReplyContentOptions, ReplyResponse } from '../../messaging/message'
+import { Event, EventRawPayload } from './event'
 
 export interface FeedOptions {
   universe: Universe
@@ -21,6 +22,9 @@ export interface FeedRawPayload {
   readonly updated_at?: string
 }
 
+export type FeedlatestEventsRawPayload = EventRawPayload[]
+export type FeedEventsRawPayload = EventRawPayload[]
+
 export interface FeedPayload {
   readonly id?: string
   readonly participants?: string[]
@@ -32,20 +36,30 @@ export interface FeedPayload {
   readonly active?: boolean
 }
 
+export interface FeedEventKV {
+  eventId: Event['id'] | string
+  event: Event
+}
+
+export type FeedEventsMap = Map<Event['id'], Event>
+
 export class Feed extends EventEmitter {
   protected universe: Universe
   protected http: Universe['http']
   protected options: FeedOptions
   public initialized: boolean
 
-  public readonly id?: string
-  public readonly participants?: string[]
-  public readonly agents?: string[]
-  public readonly parents?: string[]
-  public readonly createdAt?: Date | null
-  public readonly updatedAt?: Date | null
-  public readonly deleted?: boolean
-  public readonly active?: boolean
+  private static endpoint: string = 'api/v0/feeds'
+  private eventsMap: FeedEventsMap = new Map()
+
+  public id?: string
+  public participants?: string[]
+  public agents?: string[]
+  public parents?: string[]
+  public createdAt?: Date | null
+  public updatedAt?: Date | null
+  public deleted?: boolean
+  public active?: boolean
 
   constructor(options: FeedOptions) {
     super()
@@ -55,18 +69,24 @@ export class Feed extends EventEmitter {
     this.initialized = options.initialized || false
 
     if (options && options.rawPayload) {
-      this.id = options.rawPayload.id
-      this.participants = options.rawPayload.participants
-      this.agents = options.rawPayload.agents
-      this.parents = options.rawPayload.parents
-      this.createdAt = options.rawPayload.created_at ? new Date(options.rawPayload.created_at) : undefined
-      this.updatedAt = options.rawPayload.updated_at ? new Date(options.rawPayload.updated_at) : undefined
-      this.deleted = options.rawPayload.deleted
-      this.active = options.rawPayload.active
+      this.deserialize(options.rawPayload)
     }
   }
 
-  public static deserialize(payload: FeedRawPayload, universe: Universe, http: Universe['http']): Feed {
+  private deserialize(rawPayload: FeedRawPayload): Feed {
+    this.id = rawPayload.id
+    this.participants = rawPayload.participants
+    this.agents = rawPayload.agents
+    this.parents = rawPayload.parents
+    this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
+    this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
+    this.deleted = rawPayload.deleted
+    this.active = rawPayload.active
+
+    return this
+  }
+
+  public static create(payload: FeedRawPayload, universe: Universe, http: Universe['http']): Feed {
     return new Feed({ rawPayload: payload, universe, http, initialized: true })
   }
 
@@ -99,8 +119,74 @@ export class Feed extends EventEmitter {
     })
   }
 
-  private handleError(err: Error) {
+  public async init(): Promise<Feed | undefined> {
+    try {
+      await this.fetch()
+
+      return this
+    } catch (err) {
+      throw this.handleError(new FeedInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public async fetch(): Promise<Feed | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id}`)
+
+      this.deserialize(res.data.data[0] as FeedRawPayload)
+
+      return this
+    } catch (err) {
+      throw this.handleError(new FeedFetchRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async fetchLatestEvents(): Promise<Event[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id}/events/latest`)
+
+      const events = res.data.data as FeedlatestEventsRawPayload
+
+      events.forEach((eventRaw: EventRawPayload) => {
+        const e = Event.create(eventRaw, this, this.universe, this.http)
+        this.eventsMap.set(e.id, e)
+      })
+
+      return Array.from(this.eventsMap.values())
+    } catch (err) {
+      throw this.handleError(new FeedFetchLatestEventsRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async fetchEvents(): Promise<Event[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id}/events`)
+
+      const events = res.data.data as FeedEventsRawPayload
+
+      events.forEach((eventRaw: EventRawPayload) => {
+        const e = Event.create(eventRaw, this, this.universe, this.http)
+        this.eventsMap.set(e.id, e)
+      })
+
+      return Array.from(this.eventsMap.values())
+    } catch (err) {
+      throw this.handleError(new FeedFetchEventsRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public events(): Array<Event> {
+    return Array.from(this.eventsMap.values())
+  }
+
+  public getEventsMap(): Feed['eventsMap'] {
+    return this.eventsMap
+  }
+
+  private handleError(err: Error): Error {
     if (this.listeners('error').length > 0) this.emit('error', err)
+
+    return err
   }
 }
 
@@ -151,6 +237,34 @@ export class FeedReplyError extends BaseError {
     public message: string = 'Could not send feed reply unexpectedly.',
     properties?: any
   ) {
+    super(message, properties)
+  }
+}
+
+export class FeedInitializationError extends BaseError {
+  public name = 'FeedInitializationError'
+  constructor(public message: string = 'Could not initialize feed.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class FeedFetchRemoteError extends BaseError {
+  public name = 'FeedFetchRemoteError'
+  constructor(public message: string = 'Could not get feed.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class FeedFetchLatestEventsRemoteError extends BaseError {
+  public name = 'FeedFetchLatestEventsRemoteError'
+  constructor(public message: string = 'Could not get latest feed events.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class FeedFetchEventsRemoteError extends BaseError {
+  public name = 'FeedFetchEventsRemoteError'
+  constructor(public message: string = 'Could not get feed events.', properties?: any) {
     super(message, properties)
   }
 }
