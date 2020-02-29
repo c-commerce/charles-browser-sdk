@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.5.0...v2.6.0) (2020-02-29)
+
+
+### Features
+
+* **feed/events:** add eventing ([5deb95e](https://github.com/c-commerce/charles-browser-sdk/commit/5deb95e9d2adeaf1b477468c3ff1ac1c92bf7a34))
+
 # [2.5.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.4.0...v2.5.0) (2020-02-28)
 
 

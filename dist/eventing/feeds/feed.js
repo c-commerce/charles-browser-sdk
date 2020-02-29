@@ -62,27 +62,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
 var errors_1 = require("../../errors");
+var event_1 = require("./event");
 var Feed = /** @class */ (function (_super) {
     __extends(Feed, _super);
     function Feed(options) {
         var _this = _super.call(this) || this;
+        _this.eventsMap = new Map();
         _this.universe = options.universe;
         _this.http = options.http;
         _this.options = options;
         _this.initialized = options.initialized || false;
         if (options && options.rawPayload) {
-            _this.id = options.rawPayload.id;
-            _this.participants = options.rawPayload.participants;
-            _this.agents = options.rawPayload.agents;
-            _this.parents = options.rawPayload.parents;
-            _this.createdAt = options.rawPayload.created_at ? new Date(options.rawPayload.created_at) : undefined;
-            _this.updatedAt = options.rawPayload.updated_at ? new Date(options.rawPayload.updated_at) : undefined;
-            _this.deleted = options.rawPayload.deleted;
-            _this.active = options.rawPayload.active;
+            _this.deserialize(options.rawPayload);
         }
         return _this;
     }
-    Feed.deserialize = function (payload, universe, http) {
+    Feed.prototype.deserialize = function (rawPayload) {
+        this.id = rawPayload.id;
+        this.participants = rawPayload.participants;
+        this.agents = rawPayload.agents;
+        this.parents = rawPayload.parents;
+        this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
+        this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
+        this.deleted = rawPayload.deleted;
+        this.active = rawPayload.active;
+        return this;
+    };
+    Feed.create = function (payload, universe, http) {
         return new Feed({ rawPayload: payload, universe: universe, http: http, initialized: true });
     };
     Feed.createUninitialized = function (payload, universe, http) {
@@ -103,10 +109,107 @@ var Feed = /** @class */ (function (_super) {
     Feed.prototype.reply = function (contentOptions) {
         return new FeedReply(__assign({ feed: this, http: this.http, universe: this.universe, rawPayload: __assign({}, contentOptions) }, contentOptions));
     };
+    Feed.prototype.init = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.fetch()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, this];
+                    case 2:
+                        err_1 = _a.sent();
+                        throw this.handleError(new FeedInitializationError(undefined, { error: err_1 }));
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Feed.prototype.fetch = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id)];
+                    case 1:
+                        res = _a.sent();
+                        this.deserialize(res.data.data[0]);
+                        return [2 /*return*/, this];
+                    case 2:
+                        err_2 = _a.sent();
+                        throw this.handleError(new FeedFetchRemoteError(undefined, { error: err_2 }));
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Feed.prototype.fetchLatestEvents = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, events, err_3;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id + "/events/latest")];
+                    case 1:
+                        res = _a.sent();
+                        events = res.data.data;
+                        events.forEach(function (eventRaw) {
+                            var e = event_1.Event.create(eventRaw, _this, _this.universe, _this.http);
+                            _this.eventsMap.set(e.id, e);
+                        });
+                        return [2 /*return*/, Array.from(this.eventsMap.values())];
+                    case 2:
+                        err_3 = _a.sent();
+                        throw this.handleError(new FeedFetchLatestEventsRemoteError(undefined, { error: err_3 }));
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Feed.prototype.fetchEvents = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, events, err_4;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id + "/events")];
+                    case 1:
+                        res = _a.sent();
+                        events = res.data.data;
+                        events.forEach(function (eventRaw) {
+                            var e = event_1.Event.create(eventRaw, _this, _this.universe, _this.http);
+                            _this.eventsMap.set(e.id, e);
+                        });
+                        return [2 /*return*/, Array.from(this.eventsMap.values())];
+                    case 2:
+                        err_4 = _a.sent();
+                        throw this.handleError(new FeedFetchEventsRemoteError(undefined, { error: err_4 }));
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Feed.prototype.events = function () {
+        return Array.from(this.eventsMap.values());
+    };
+    Feed.prototype.getEventsMap = function () {
+        return this.eventsMap;
+    };
     Feed.prototype.handleError = function (err) {
         if (this.listeners('error').length > 0)
             this.emit('error', err);
+        return err;
     };
+    Feed.endpoint = 'api/v0/feeds';
     return Feed;
 }(events_1.EventEmitter));
 exports.Feed = Feed;
@@ -119,7 +222,7 @@ var FeedReply = /** @class */ (function () {
     FeedReply.prototype.send = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var res, err_1;
+            var res, err_5;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -131,8 +234,8 @@ var FeedReply = /** @class */ (function () {
                         res = _b.sent();
                         return [2 /*return*/, res.data.data[0]];
                     case 2:
-                        err_1 = _b.sent();
-                        throw new FeedReplyError(undefined, { error: err_1 });
+                        err_5 = _b.sent();
+                        throw new FeedReplyError(undefined, { error: err_5 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -153,4 +256,52 @@ var FeedReplyError = /** @class */ (function (_super) {
     return FeedReplyError;
 }(errors_1.BaseError));
 exports.FeedReplyError = FeedReplyError;
+var FeedInitializationError = /** @class */ (function (_super) {
+    __extends(FeedInitializationError, _super);
+    function FeedInitializationError(message, properties) {
+        if (message === void 0) { message = 'Could not initialize feed.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'FeedInitializationError';
+        return _this;
+    }
+    return FeedInitializationError;
+}(errors_1.BaseError));
+exports.FeedInitializationError = FeedInitializationError;
+var FeedFetchRemoteError = /** @class */ (function (_super) {
+    __extends(FeedFetchRemoteError, _super);
+    function FeedFetchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get feed.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'FeedFetchRemoteError';
+        return _this;
+    }
+    return FeedFetchRemoteError;
+}(errors_1.BaseError));
+exports.FeedFetchRemoteError = FeedFetchRemoteError;
+var FeedFetchLatestEventsRemoteError = /** @class */ (function (_super) {
+    __extends(FeedFetchLatestEventsRemoteError, _super);
+    function FeedFetchLatestEventsRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get latest feed events.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'FeedFetchLatestEventsRemoteError';
+        return _this;
+    }
+    return FeedFetchLatestEventsRemoteError;
+}(errors_1.BaseError));
+exports.FeedFetchLatestEventsRemoteError = FeedFetchLatestEventsRemoteError;
+var FeedFetchEventsRemoteError = /** @class */ (function (_super) {
+    __extends(FeedFetchEventsRemoteError, _super);
+    function FeedFetchEventsRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get feed events.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'FeedFetchEventsRemoteError';
+        return _this;
+    }
+    return FeedFetchEventsRemoteError;
+}(errors_1.BaseError));
+exports.FeedFetchEventsRemoteError = FeedFetchEventsRemoteError;
 //# sourceMappingURL=feed.js.map
