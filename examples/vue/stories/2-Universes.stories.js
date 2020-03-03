@@ -308,6 +308,14 @@ export const InitializationAndDefaultSubscriptionsAndReply = () => ({
         action('message').call(this, msg)
       })
 
+      universe.on('universe:feeds:messages', (p) => {
+        action('feeds:messages').call(this, p)
+      })
+
+      universe.on('universe:feeds', (p) => {
+        action('feeds').call(this, p)
+      })
+
       await universe.init()
 
       this.localUniversePayload = universe.payload

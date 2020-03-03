@@ -21,6 +21,33 @@ export default {
         return topic === this.template
       }
     })(),
+    feeds: new (class extends TopicGenerator {
+      template: string = 'api/feeds'
+      generateTopic(): string {
+        return this.template
+      }
+      isTopic(topic: string): boolean {
+        return topic === this.template
+      }
+    })(),
+    feedsActivities: new (class extends TopicGenerator {
+      template: string = 'api/feeds/*/activities'
+      generateTopic(): string {
+        return this.template
+      }
+      isTopic(topic: string): boolean {
+        return topic === this.template
+      }
+    })(),
+    feedsMessages: new (class extends TopicGenerator {
+      template: string = 'api/feeds/*/messages'
+      generateTopic(): string {
+        return this.template
+      }
+      isTopic(topic: string): boolean {
+        return topic === this.template
+      }
+    })(),
     clients: {
       arm: new (class extends TopicGenerator {
         template: string = 'api/clients/${clientId}/arm'

@@ -1,6 +1,7 @@
 import { Readable } from 'readable-stream'
 import { UniverseHealth, UniverseStatus } from './status'
 import { Client } from '../client'
+import { Feed, FeedRawPayload } from '../eventing/feeds/feed'
 import * as realtime from '../realtime'
 import { BaseError } from '../errors'
 import universeTopics from './topics'
@@ -115,7 +116,12 @@ export class Universe extends Readable {
 
   private subscibeDefaults() {
     this.getMqttClient()
-      .subscribe(universeTopics.api.message.generateTopic())
+      .subscribe([
+        universeTopics.api.message.generateTopic(),
+        universeTopics.api.feeds.generateTopic(),
+        universeTopics.api.feedsActivities.generateTopic(),
+        universeTopics.api.feedsMessages.generateTopic()
+      ])
   }
 
   /**
@@ -138,6 +144,26 @@ export class Universe extends Readable {
         message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this, this.http)
       }
       this.emit('universe:message', { ...msg, message })
+      return
+    }
+
+    if (universeTopics.api.feedsMessages.isTopic(msg.topic)) {
+      let message
+      let feed
+      if ((msg as realtime.RealtimeFeedsMessages).payload.message) {
+        message = Message.deserialize((msg as realtime.RealtimeFeedsMessages).payload.message as MessageRawPayload, this, this.http)
+        feed = Feed.create((msg as realtime.RealtimeFeedsMessages).payload.feed as FeedRawPayload, this, this.http)
+      }
+      this.emit('universe:feeds:messages', { ...msg, message, feed })
+      return
+    }
+
+    if (universeTopics.api.feeds.isTopic(msg.topic)) {
+      let feed
+      if ((msg as realtime.RealtimeFeeds).payload.message) {
+        feed = Feed.create((msg as realtime.RealtimeFeeds).payload.feed as FeedRawPayload, this, this.http)
+      }
+      this.emit('universe:feeds', { ...msg, feed })
       return
     }
 
