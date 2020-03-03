@@ -8,6 +8,21 @@ declare const _default: {
             generateTopic(): string;
             isTopic(topic: string): boolean;
         };
+        feeds: {
+            template: string;
+            generateTopic(): string;
+            isTopic(topic: string): boolean;
+        };
+        feedsActivities: {
+            template: string;
+            generateTopic(): string;
+            isTopic(topic: string): boolean;
+        };
+        feedsMessages: {
+            template: string;
+            generateTopic(): string;
+            isTopic(topic: string): boolean;
+        };
         clients: {
             arm: {
                 template: string;

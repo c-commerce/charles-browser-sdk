@@ -1,3 +1,11 @@
+# [2.7.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.6.0...v2.7.0) (2020-03-03)
+
+
+### Features
+
+* **messaging:** get feed specific events ([0602714](https://github.com/c-commerce/charles-browser-sdk/commit/06027149f10981b1d323cee8e620342362104b8f))
+* **universe:** add feeds initilisation ([41e37d6](https://github.com/c-commerce/charles-browser-sdk/commit/41e37d6605fd22a7b30b85f169578181312a680d))
+
 # [2.6.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.5.0...v2.6.0) (2020-02-29)
 
 

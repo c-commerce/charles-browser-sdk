@@ -1,6 +1,7 @@
 import { Readable } from 'readable-stream';
 import { UniverseHealth, UniverseStatus } from './status';
 import { Client } from '../client';
+import { Feed } from '../eventing/feeds/feed';
 import { BaseError } from '../errors';
 export interface IUniverseUser {
     id?: string;
@@ -61,6 +62,7 @@ export declare class Universe extends Readable {
     get connected(): boolean;
     isConnected(): boolean;
     private handleError;
+    feeds(): Promise<Feed[] | undefined>;
     /**
      * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
      */

@@ -66,6 +66,9 @@ export declare class Feed extends EventEmitter {
     getEventsMap(): Feed['eventsMap'];
     private handleError;
 }
+export declare class Feeds {
+    static endpoint: string;
+}
 export interface FeedReplyContentOptions extends MessageReplyContentOptions {
 }
 export interface FeedReplyResponse extends ReplyResponse {
@@ -106,6 +109,11 @@ export declare class FeedFetchLatestEventsRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class FeedFetchEventsRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class FeedsFetchRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

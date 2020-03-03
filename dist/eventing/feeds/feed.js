@@ -213,6 +213,13 @@ var Feed = /** @class */ (function (_super) {
     return Feed;
 }(events_1.EventEmitter));
 exports.Feed = Feed;
+var Feeds = /** @class */ (function () {
+    function Feeds() {
+    }
+    Feeds.endpoint = 'api/v0/feeds';
+    return Feeds;
+}());
+exports.Feeds = Feeds;
 var FeedReply = /** @class */ (function () {
     function FeedReply(options) {
         this.feed = options.feed;
@@ -304,4 +311,16 @@ var FeedFetchEventsRemoteError = /** @class */ (function (_super) {
     return FeedFetchEventsRemoteError;
 }(errors_1.BaseError));
 exports.FeedFetchEventsRemoteError = FeedFetchEventsRemoteError;
+var FeedsFetchRemoteError = /** @class */ (function (_super) {
+    __extends(FeedsFetchRemoteError, _super);
+    function FeedsFetchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get feeds.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'FeedsFetchRemoteError';
+        return _this;
+    }
+    return FeedsFetchRemoteError;
+}(errors_1.BaseError));
+exports.FeedsFetchRemoteError = FeedsFetchRemoteError;
 //# sourceMappingURL=feed.js.map

@@ -72,6 +72,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var readable_stream_1 = require("readable-stream");
 var status_1 = require("./status");
+var feed_1 = require("../eventing/feeds/feed");
 var realtime = __importStar(require("../realtime"));
 var errors_1 = require("../errors");
 var topics_1 = __importDefault(require("./topics"));
@@ -147,7 +148,12 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.subscibeDefaults = function () {
         this.getMqttClient()
-            .subscribe(topics_1.default.api.message.generateTopic());
+            .subscribe([
+            topics_1.default.api.message.generateTopic(),
+            topics_1.default.api.feeds.generateTopic(),
+            topics_1.default.api.feedsActivities.generateTopic(),
+            topics_1.default.api.feedsMessages.generateTopic()
+        ]);
     };
     /**
      *
@@ -167,6 +173,24 @@ var Universe = /** @class */ (function (_super) {
                 message = messaging_1.Message.deserialize(msg.payload.message, this, this.http);
             }
             this.emit('universe:message', __assign(__assign({}, msg), { message: message }));
+            return;
+        }
+        if (topics_1.default.api.feedsMessages.isTopic(msg.topic)) {
+            var message = void 0;
+            var feed = void 0;
+            if (msg.payload.message) {
+                message = messaging_1.Message.deserialize(msg.payload.message, this, this.http);
+                feed = feed_1.Feed.create(msg.payload.feed, this, this.http);
+            }
+            this.emit('universe:feeds:messages', __assign(__assign({}, msg), { message: message, feed: feed }));
+            return;
+        }
+        if (topics_1.default.api.feeds.isTopic(msg.topic)) {
+            var feed = void 0;
+            if (msg.payload.message) {
+                feed = feed_1.Feed.create(msg.payload.feed, this, this.http);
+            }
+            this.emit('universe:feeds', __assign(__assign({}, msg), { feed: feed }));
             return;
         }
         this.emit('message', msg);
@@ -212,6 +236,29 @@ var Universe = /** @class */ (function (_super) {
     Universe.prototype.handleError = function (err) {
         if (this.listeners('error').length > 0)
             this.emit('error', err);
+    };
+    Universe.prototype.feeds = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, feeds, err_2;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + feed_1.Feeds.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        feeds = res.data.data;
+                        return [2 /*return*/, feeds.map(function (feed) {
+                                return feed_1.Feed.create(feed, _this, _this.http);
+                            })];
+                    case 2:
+                        err_2 = _a.sent();
+                        throw new feed_1.FeedsFetchRemoteError(undefined, { error: err_2 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     };
     /**
      * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.

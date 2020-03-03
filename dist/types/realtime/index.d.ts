@@ -23,6 +23,26 @@ export interface RealtimeMessageMessage extends RealtimeMessage {
         };
     };
 }
+export interface RealtimeFeedsMessages extends RealtimeMessage {
+    payload: {
+        message: {
+            [key: string]: any | object | undefined | null;
+        };
+        feed: {
+            [key: string]: any | object | undefined | null;
+        };
+    };
+}
+export interface RealtimeFeeds extends RealtimeMessage {
+    payload: {
+        message: {
+            [key: string]: any | object | undefined | null;
+        };
+        feed: {
+            [key: string]: any | object | undefined | null;
+        };
+    };
+}
 export interface RealtimeLastMessageReference {
     mqttClientId: RealtimeMessage['mqttClientId'];
     clientId: RealtimeMessage['clientId'];
@@ -64,7 +84,7 @@ export declare class RealtimeClient extends events.EventEmitter {
     destroy(): void;
     private getClient;
     private handleMessagePayload;
-    subscribe(topic: string, cb?: Function): RealtimeClient;
+    subscribe(topic: string | string[], cb?: Function): RealtimeClient;
     unsubscribe(topic: string): RealtimeClient;
     publish(topic: string, payload?: any): RealtimeClient;
 }
