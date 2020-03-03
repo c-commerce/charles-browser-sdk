@@ -1,7 +1,7 @@
 import { Readable } from 'readable-stream'
 import { UniverseHealth, UniverseStatus } from './status'
 import { Client } from '../client'
-import { Feed, FeedRawPayload } from '../eventing/feeds/feed'
+import { Feeds, Feed, FeedRawPayload, FeedsFetchRemoteError } from '../eventing/feeds/feed'
 import * as realtime from '../realtime'
 import { BaseError } from '../errors'
 import universeTopics from './topics'
@@ -209,6 +209,19 @@ export class Universe extends Readable {
 
   private handleError(err: Error) {
     if (this.listeners('error').length > 0) this.emit('error', err)
+  }
+
+  public async feeds(): Promise<Feed[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${Feeds.endpoint}`)
+      const feeds = res.data.data as FeedRawPayload[]
+
+      return feeds.map((feed: FeedRawPayload) => {
+        return Feed.create(feed, this, this.http)
+      })
+    } catch (err) {
+      throw new FeedsFetchRemoteError(undefined, { error: err })
+    }
   }
 
   /**

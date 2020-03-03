@@ -190,6 +190,10 @@ export class Feed extends EventEmitter {
   }
 }
 
+export class Feeds {
+  public static endpoint: string = 'api/v0/feeds'
+}
+
 export interface FeedReplyContentOptions extends MessageReplyContentOptions {
 
 }
@@ -265,6 +269,13 @@ export class FeedFetchLatestEventsRemoteError extends BaseError {
 export class FeedFetchEventsRemoteError extends BaseError {
   public name = 'FeedFetchEventsRemoteError'
   constructor(public message: string = 'Could not get feed events.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class FeedsFetchRemoteError extends BaseError {
+  public name = 'FeedsFetchRemoteError'
+  constructor(public message: string = 'Could not get feeds.', properties?: any) {
     super(message, properties)
   }
 }
