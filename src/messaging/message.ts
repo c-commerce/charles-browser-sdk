@@ -146,7 +146,9 @@ export class Message extends EventEmitter {
       if (options.feed) {
         this.feed = options.feed
       } else if (options.rawPayload.feed) {
-        // this.feed = Feed.createUninitialized({ id: options.rawPayload.feed }, this.universe, this.http, null)
+        this.feed = {
+          id: options.rawPayload.feed
+        } as Feed
       } else {
         this.feed = undefined
       }
