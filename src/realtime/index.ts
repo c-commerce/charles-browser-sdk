@@ -164,6 +164,7 @@ export class RealtimeClient extends events.EventEmitter {
   public destroy(): void {
     if (!this.client) throw new Error('cannot destroy instance, because a client is not initialized')
 
+    this.removeAllListeners()
     this.client.end()
     this.offline = true
     this.connected = false

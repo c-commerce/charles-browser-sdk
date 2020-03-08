@@ -183,8 +183,9 @@ export class Universe extends Readable {
     return new Universe(options)
   }
 
-  public implode(): void {
-    //
+  public deinitialize(): void {
+    this.removeAllListeners()
+    this.getMqttClient().destroy()
   }
 
   public get ready(): boolean {
@@ -259,7 +260,7 @@ export class UnviverseSingleton extends Universe {
   }
 
   static clearInstance(): void {
-    UnviverseSingleton.instance.implode()
+    UnviverseSingleton.instance.deinitialize()
   }
 }
 
