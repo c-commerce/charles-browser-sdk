@@ -1,3 +1,10 @@
+# [2.9.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.8.0...v2.9.0) (2020-03-08)
+
+
+### Features
+
+* **message:** document content correctly ([43606c8](https://github.com/c-commerce/charles-browser-sdk/commit/43606c85862090d3c449985b16155b8c3a925f05))
+
 # [2.8.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.7.0...v2.8.0) (2020-03-08)
 
 
