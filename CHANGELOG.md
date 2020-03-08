@@ -1,3 +1,10 @@
+## [2.9.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.9.0...v2.9.1) (2020-03-08)
+
+
+### Bug Fixes
+
+* **message:** add back feed ref ([28e3b63](https://github.com/c-commerce/charles-browser-sdk/commit/28e3b6354cb20010a3d34b233be646b8277523fe))
+
 # [2.9.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.8.0...v2.9.0) (2020-03-08)
 
 

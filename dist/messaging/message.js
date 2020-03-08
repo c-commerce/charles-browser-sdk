@@ -95,7 +95,9 @@ var Message = /** @class */ (function (_super) {
                 _this.feed = options.feed;
             }
             else if (options.rawPayload.feed) {
-                // this.feed = Feed.createUninitialized({ id: options.rawPayload.feed }, this.universe, this.http, null)
+                _this.feed = {
+                    id: options.rawPayload.feed
+                };
             }
             else {
                 _this.feed = undefined;
