@@ -11,15 +11,21 @@ export interface MessageOptions {
   feed?: Feed
 }
 
+export interface MessageRawPayloadAttachment {
+  type: 'image' | string
+  payload: string | null | object
+}
+
 export interface MessageRawPayload {
   readonly id?: string
   readonly source_type?: string
   readonly source_api?: string
   readonly tz?: string
   readonly date?: string
-  readonly content_type?: string
+  readonly content_type?: 'text' | 'mixed'
   readonly content?: {
     body?: string | null
+    attachments?: MessageRawPayloadAttachment[]
   }
   readonly external_reference_id?: string
   readonly external_person_reference_id?: string
@@ -60,10 +66,8 @@ export interface MessagePayload {
   readonly sourceApi?: string
   readonly tz?: string
   readonly date?: Date | null
-  readonly contentType?: string
-  readonly content?: {
-    body?: string | null
-  }
+  readonly contentType?: MessageRawPayload['content_type']
+  readonly content?: MessageRawPayload['content']
   readonly externalReferenceId?: string
   readonly externalPersonReferenceId?: string
   readonly externalChannelReferenceId?: string
@@ -94,10 +98,8 @@ export class Message extends EventEmitter {
   public readonly sourceApi?: string
   public readonly tz?: string
   public readonly date?: Date | null
-  public contentType?: string
-  public content?: {
-    body?: string | null
-  }
+  public contentType?: MessageRawPayload['content_type']
+  public content?: MessageRawPayload['content']
   public readonly externalReferenceId?: string
   public readonly externalPersonReferenceId?: string
   public readonly externalChannelReferenceId?: string
