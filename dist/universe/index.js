@@ -157,7 +157,7 @@ var Universe = /** @class */ (function (_super) {
     };
     /**
      *
-     * Parsing and routing logic is being handled here. We take extensive decisions about type and destionations here.
+     * Parsing and routing logic is being handled here. We take extensive decisions about type and destinations here.
      */
     Universe.prototype.handleMessage = function (msg) {
         // each arming message will cause an unsubscription
@@ -180,7 +180,7 @@ var Universe = /** @class */ (function (_super) {
             var feed = void 0;
             if (msg.payload.message) {
                 message = messaging_1.Message.deserialize(msg.payload.message, this, this.http);
-                feed = feed_1.Feed.create(msg.payload.feed, this, this.http);
+                feed = feed_1.Feed.create(msg.payload.feed, this, this.http, this.mqtt);
             }
             this.emit('universe:feeds:messages', __assign(__assign({}, msg), { message: message, feed: feed }));
             return;
@@ -188,7 +188,7 @@ var Universe = /** @class */ (function (_super) {
         if (topics_1.default.api.feeds.isTopic(msg.topic)) {
             var feed = void 0;
             if (msg.payload.message) {
-                feed = feed_1.Feed.create(msg.payload.feed, this, this.http);
+                feed = feed_1.Feed.create(msg.payload.feed, this, this.http, this.mqtt);
             }
             this.emit('universe:feeds', __assign(__assign({}, msg), { feed: feed }));
             return;
@@ -201,13 +201,14 @@ var Universe = /** @class */ (function (_super) {
     Universe.prototype.getMqttClient = function () {
         if (this.mqtt)
             return this.mqtt;
-        throw new UninstantiatedRealtimeClient();
+        throw new realtime.UninstantiatedRealtimeClient();
     };
     Universe.prototype.create = function (options) {
         return new Universe(options);
     };
-    Universe.prototype.implode = function () {
-        //
+    Universe.prototype.deinitialize = function () {
+        this.removeAllListeners();
+        this.getMqttClient().destroy();
     };
     Object.defineProperty(Universe.prototype, "ready", {
         get: function () {
@@ -250,7 +251,7 @@ var Universe = /** @class */ (function (_super) {
                         res = _a.sent();
                         feeds = res.data.data;
                         return [2 /*return*/, feeds.map(function (feed) {
-                                return feed_1.Feed.create(feed, _this, _this.http);
+                                return feed_1.Feed.create(feed, _this, _this.http, _this.mqtt);
                             })];
                     case 2:
                         err_2 = _a.sent();
@@ -292,7 +293,7 @@ var UnviverseSingleton = /** @class */ (function (_super) {
         return UnviverseSingleton.instance;
     };
     UnviverseSingleton.clearInstance = function () {
-        UnviverseSingleton.instance.implode();
+        UnviverseSingleton.instance.deinitialize();
     };
     return UnviverseSingleton;
 }(Universe));
@@ -309,16 +310,4 @@ var UniverseInitializationError = /** @class */ (function (_super) {
     return UniverseInitializationError;
 }(errors_1.BaseError));
 exports.UniverseInitializationError = UniverseInitializationError;
-var UninstantiatedRealtimeClient = /** @class */ (function (_super) {
-    __extends(UninstantiatedRealtimeClient, _super);
-    function UninstantiatedRealtimeClient(message, properties) {
-        if (message === void 0) { message = 'Cannot initialize client API without instantiated Realtime client'; }
-        var _this = _super.call(this, message, properties) || this;
-        _this.message = message;
-        _this.name = 'UninstantiatedRealtimeClient';
-        return _this;
-    }
-    return UninstantiatedRealtimeClient;
-}(errors_1.BaseError));
-exports.UninstantiatedRealtimeClient = UninstantiatedRealtimeClient;
 //# sourceMappingURL=index.js.map

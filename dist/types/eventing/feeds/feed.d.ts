@@ -2,11 +2,12 @@
 import { EventEmitter } from 'events';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse } from '../../messaging/message';
+import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse, ReplyOptions } from '../../messaging/message';
 import { Event, EventRawPayload } from './event';
 export interface FeedOptions {
     universe: Universe;
     http: Universe['http'];
+    mqtt: Universe['mqtt'];
     rawPayload?: FeedRawPayload;
     initialized?: boolean;
 }
@@ -37,12 +38,17 @@ export interface FeedEventKV {
     event: Event;
 }
 export declare type FeedEventsMap = Map<Event['id'], Event>;
+export declare interface Feed {
+    on(event: 'raw-error' | 'error', cb: (error: Error) => void): this;
+    on(event: 'feed:message' | string, cb: Function): this;
+}
 export declare class Feed extends EventEmitter {
     protected universe: Universe;
     protected http: Universe['http'];
+    protected mqtt?: Universe['mqtt'];
     protected options: FeedOptions;
     initialized: boolean;
-    private static endpoint;
+    static endpoint: string;
     private eventsMap;
     id?: string;
     participants?: string[];
@@ -54,11 +60,22 @@ export declare class Feed extends EventEmitter {
     active?: boolean;
     constructor(options: FeedOptions);
     private deserialize;
-    static create(payload: FeedRawPayload, universe: Universe, http: Universe['http']): Feed;
-    static createUninitialized(payload: FeedRawPayload, universe: Universe, http: Universe['http']): Feed;
+    static create(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed;
+    static createUninitialized(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed;
     serialize(): FeedRawPayload;
     reply(contentOptions: FeedReplyContentOptions): FeedReply;
     init(): Promise<Feed | undefined>;
+    deinitialize(): void;
+    private subscibeDefaults;
+    /**
+     * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.
+     */
+    private getMqttClient;
+    /**
+     *
+     * Parsing and routing logic is being handled here.
+     */
+    private handleMessage;
     fetch(): Promise<Feed | undefined>;
     fetchLatestEvents(): Promise<Event[] | undefined>;
     fetchEvents(): Promise<Event[] | undefined>;
@@ -73,14 +90,14 @@ export interface FeedReplyContentOptions extends MessageReplyContentOptions {
 }
 export interface FeedReplyResponse extends ReplyResponse {
 }
-export interface FeedReplyOptions {
+export interface FeedReplyOptions extends ReplyOptions {
     feed: Feed;
     universe: Universe;
     http: Universe['http'];
     rawPayload?: MessageRawPayload;
 }
 export declare class FeedReply {
-    private feed;
+    protected feed: Feed;
     private universe;
     private http;
     content: Reply['content'];

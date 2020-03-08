@@ -234,3 +234,13 @@ export class UninstantiatedMqttClient extends BaseError {
     super(message, properties)
   }
 }
+
+export class UninstantiatedRealtimeClient extends BaseError {
+  public name = 'UninstantiatedRealtimeClient'
+  constructor(
+    public message: string = 'Cannot initialize client API without instantiated Realtime client',
+    properties?: any
+  ) {
+    super(message, properties)
+  }
+}

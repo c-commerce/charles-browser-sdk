@@ -59,11 +59,11 @@ export default {
         }
       },
       set (v) {
-       try {
-         window.localStorage.setItem('authResponse', JSON.stringify(v, undefined, 2))
-       } catch (err) {
-         console.error(err)
-       }
+        try {
+          window.localStorage.setItem('authResponse', JSON.stringify(v, undefined, 2))
+        } catch (err) {
+          console.error(err)
+        }
       }
     },
     styles () {

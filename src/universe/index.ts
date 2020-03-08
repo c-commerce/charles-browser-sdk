@@ -126,7 +126,7 @@ export class Universe extends Readable {
 
   /**
    *
-   * Parsing and routing logic is being handled here. We take extensive decisions about type and destionations here.
+   * Parsing and routing logic is being handled here. We take extensive decisions about type and destinations here.
    */
   private handleMessage(msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage) {
 
@@ -152,7 +152,7 @@ export class Universe extends Readable {
       let feed
       if ((msg as realtime.RealtimeFeedsMessages).payload.message) {
         message = Message.deserialize((msg as realtime.RealtimeFeedsMessages).payload.message as MessageRawPayload, this, this.http)
-        feed = Feed.create((msg as realtime.RealtimeFeedsMessages).payload.feed as FeedRawPayload, this, this.http)
+        feed = Feed.create((msg as realtime.RealtimeFeedsMessages).payload.feed as FeedRawPayload, this, this.http, this.mqtt)
       }
       this.emit('universe:feeds:messages', { ...msg, message, feed })
       return
@@ -161,7 +161,7 @@ export class Universe extends Readable {
     if (universeTopics.api.feeds.isTopic(msg.topic)) {
       let feed
       if ((msg as realtime.RealtimeFeeds).payload.message) {
-        feed = Feed.create((msg as realtime.RealtimeFeeds).payload.feed as FeedRawPayload, this, this.http)
+        feed = Feed.create((msg as realtime.RealtimeFeeds).payload.feed as FeedRawPayload, this, this.http, this.mqtt)
       }
       this.emit('universe:feeds', { ...msg, feed })
       return
@@ -176,7 +176,7 @@ export class Universe extends Readable {
   private getMqttClient(): realtime.RealtimeClient {
     if (this.mqtt) return this.mqtt
 
-    throw new UninstantiatedRealtimeClient()
+    throw new realtime.UninstantiatedRealtimeClient()
   }
 
   public create(options: IUniverseOptions): Universe {
@@ -218,7 +218,7 @@ export class Universe extends Readable {
       const feeds = res.data.data as FeedRawPayload[]
 
       return feeds.map((feed: FeedRawPayload) => {
-        return Feed.create(feed, this, this.http)
+        return Feed.create(feed, this, this.http, this.mqtt)
       })
     } catch (err) {
       throw new FeedsFetchRemoteError(undefined, { error: err })
@@ -267,16 +267,6 @@ export class UnviverseSingleton extends Universe {
 export class UniverseInitializationError extends BaseError {
   public name = 'UniverseInitializationError'
   constructor(public message: string = 'Could not initialize universe', properties?: any) {
-    super(message, properties)
-  }
-}
-
-export class UninstantiatedRealtimeClient extends BaseError {
-  public name = 'UninstantiatedRealtimeClient'
-  constructor(
-    public message: string = 'Cannot initialize client API without instantiated Realtime client',
-    properties?: any
-  ) {
     super(message, properties)
   }
 }

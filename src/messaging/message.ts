@@ -8,6 +8,7 @@ export interface MessageOptions {
   universe: Universe
   http: Universe['http']
   rawPayload?: MessageRawPayload
+  feed?: Feed
 }
 
 export interface MessageRawPayload {
@@ -139,12 +140,19 @@ export class Message extends EventEmitter {
       this.processedData = options.rawPayload.processed_data
       this.replyables = options.rawPayload.replyables
       this.person = options.rawPayload.person ? Person.createUninitialized({ id: options.rawPayload.person }, this.universe, this.http) : undefined
-      this.feed = options.rawPayload.feed ? Feed.createUninitialized({ id: options.rawPayload.feed }, this.universe, this.http) : undefined
+
+      if (options.feed) {
+        this.feed = options.feed
+      } else if (options.rawPayload.feed) {
+        // this.feed = Feed.createUninitialized({ id: options.rawPayload.feed }, this.universe, this.http, null)
+      } else {
+        this.feed = undefined
+      }
     }
   }
 
-  public static deserialize(payload: MessageRawPayload, universe: Universe, http: Universe['http']): Message {
-    return new Message({ rawPayload: payload, universe, http })
+  public static deserialize(payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message {
+    return new Message({ rawPayload: payload, universe, http, feed })
   }
 
   public serialize(): MessageRawPayload {

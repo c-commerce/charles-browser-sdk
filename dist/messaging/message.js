@@ -63,7 +63,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
 var errors_1 = require("../errors");
 var person_1 = require("./person");
-var feeds_1 = require("../eventing/feeds");
 var Message = /** @class */ (function (_super) {
     __extends(Message, _super);
     function Message(options) {
@@ -92,12 +91,20 @@ var Message = /** @class */ (function (_super) {
             _this.processedData = options.rawPayload.processed_data;
             _this.replyables = options.rawPayload.replyables;
             _this.person = options.rawPayload.person ? person_1.Person.createUninitialized({ id: options.rawPayload.person }, _this.universe, _this.http) : undefined;
-            _this.feed = options.rawPayload.feed ? feeds_1.Feed.createUninitialized({ id: options.rawPayload.feed }, _this.universe, _this.http) : undefined;
+            if (options.feed) {
+                _this.feed = options.feed;
+            }
+            else if (options.rawPayload.feed) {
+                // this.feed = Feed.createUninitialized({ id: options.rawPayload.feed }, this.universe, this.http, null)
+            }
+            else {
+                _this.feed = undefined;
+            }
         }
         return _this;
     }
-    Message.deserialize = function (payload, universe, http) {
-        return new Message({ rawPayload: payload, universe: universe, http: http });
+    Message.deserialize = function (payload, universe, http, feed) {
+        return new Message({ rawPayload: payload, universe: universe, http: http, feed: feed });
     };
     Message.prototype.serialize = function () {
         return {

@@ -48,7 +48,7 @@ export declare class Universe extends Readable {
     private subscibeDefaults;
     /**
      *
-     * Parsing and routing logic is being handled here. We take extensive decisions about type and destionations here.
+     * Parsing and routing logic is being handled here. We take extensive decisions about type and destinations here.
      */
     private handleMessage;
     /**
@@ -56,7 +56,7 @@ export declare class Universe extends Readable {
      */
     private getMqttClient;
     create(options: IUniverseOptions): Universe;
-    implode(): void;
+    deinitialize(): void;
     get ready(): boolean;
     isReady(): boolean;
     get connected(): boolean;
@@ -75,11 +75,6 @@ export declare class UnviverseSingleton extends Universe {
     static clearInstance(): void;
 }
 export declare class UniverseInitializationError extends BaseError {
-    message: string;
-    name: string;
-    constructor(message?: string, properties?: any);
-}
-export declare class UninstantiatedRealtimeClient extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

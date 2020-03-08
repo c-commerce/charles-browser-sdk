@@ -7,7 +7,7 @@ interface IInjectableDataObject {
 abstract class TopicGenerator {
   public abstract template: string
   public abstract generateTopic(data?: IInjectableDataObject, ...args: any[]): string
-  public abstract isTopic(topic: string): boolean
+  public abstract isTopic(topic: string, data?: IInjectableDataObject): boolean
 }
 
 export default {
@@ -46,6 +46,15 @@ export default {
       }
       isTopic(topic: string): boolean {
         return topic === this.template
+      }
+    })(),
+    feedMessages: new (class extends TopicGenerator {
+      template: string = 'api/feeds/${id}/messages'
+      generateTopic(data: IInjectableDataObject): string {
+        return this.template.replace('${id}', data.id)
+      }
+      isTopic(topic: string, data: IInjectableDataObject): boolean {
+        return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic)
       }
     })(),
     clients: {

@@ -8,6 +8,7 @@ export interface MessageOptions {
     universe: Universe;
     http: Universe['http'];
     rawPayload?: MessageRawPayload;
+    feed?: Feed;
 }
 export interface MessageRawPayload {
     readonly id?: string;
@@ -106,7 +107,7 @@ export declare class Message extends EventEmitter {
     readonly person?: Person;
     readonly feed?: Feed;
     constructor(options: MessageOptions);
-    static deserialize(payload: MessageRawPayload, universe: Universe, http: Universe['http']): Message;
+    static deserialize(payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message;
     serialize(): MessageRawPayload;
     reply(contentOptions: MessageReplyContentOptions): MessageReply;
     replyFeed(contentOptions: MessageReplyContentOptions): MessageFeedReply;

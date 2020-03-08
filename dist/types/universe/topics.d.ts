@@ -23,6 +23,11 @@ declare const _default: {
             generateTopic(): string;
             isTopic(topic: string): boolean;
         };
+        feedMessages: {
+            template: string;
+            generateTopic(data: IInjectableDataObject): string;
+            isTopic(topic: string, data: IInjectableDataObject): boolean;
+        };
         clients: {
             arm: {
                 template: string;

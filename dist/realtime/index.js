@@ -94,6 +94,7 @@ var RealtimeClient = /** @class */ (function (_super) {
     RealtimeClient.prototype.destroy = function () {
         if (!this.client)
             throw new Error('cannot destroy instance, because a client is not initialized');
+        this.removeAllListeners();
         this.client.end();
         this.offline = true;
         this.connected = false;
@@ -143,4 +144,16 @@ var UninstantiatedMqttClient = /** @class */ (function (_super) {
     return UninstantiatedMqttClient;
 }(errors_1.BaseError));
 exports.UninstantiatedMqttClient = UninstantiatedMqttClient;
+var UninstantiatedRealtimeClient = /** @class */ (function (_super) {
+    __extends(UninstantiatedRealtimeClient, _super);
+    function UninstantiatedRealtimeClient(message, properties) {
+        if (message === void 0) { message = 'Cannot initialize client API without instantiated Realtime client'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UninstantiatedRealtimeClient';
+        return _this;
+    }
+    return UninstantiatedRealtimeClient;
+}(errors_1.BaseError));
+exports.UninstantiatedRealtimeClient = UninstantiatedRealtimeClient;
 //# sourceMappingURL=index.js.map

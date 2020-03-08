@@ -59,9 +59,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
+var topics_1 = __importDefault(require("../../universe/topics"));
+var realtime = __importStar(require("../../realtime"));
 var errors_1 = require("../../errors");
+var message_1 = require("../../messaging/message");
 var event_1 = require("./event");
 var Feed = /** @class */ (function (_super) {
     __extends(Feed, _super);
@@ -70,6 +83,7 @@ var Feed = /** @class */ (function (_super) {
         _this.eventsMap = new Map();
         _this.universe = options.universe;
         _this.http = options.http;
+        _this.mqtt = options.mqtt;
         _this.options = options;
         _this.initialized = options.initialized || false;
         if (options && options.rawPayload) {
@@ -88,11 +102,11 @@ var Feed = /** @class */ (function (_super) {
         this.active = rawPayload.active;
         return this;
     };
-    Feed.create = function (payload, universe, http) {
-        return new Feed({ rawPayload: payload, universe: universe, http: http, initialized: true });
+    Feed.create = function (payload, universe, http, mqtt) {
+        return new Feed({ rawPayload: payload, universe: universe, http: http, mqtt: mqtt, initialized: true });
     };
-    Feed.createUninitialized = function (payload, universe, http) {
-        return new Feed({ rawPayload: payload, universe: universe, http: http, initialized: false });
+    Feed.createUninitialized = function (payload, universe, http, mqtt) {
+        return new Feed({ rawPayload: payload, universe: universe, http: http, mqtt: mqtt, initialized: false });
     };
     Feed.prototype.serialize = function () {
         return {
@@ -110,23 +124,61 @@ var Feed = /** @class */ (function (_super) {
         return new FeedReply(__assign({ feed: this, http: this.http, universe: this.universe, rawPayload: __assign({}, contentOptions) }, contentOptions));
     };
     Feed.prototype.init = function () {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
             var err_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _this = this;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _b.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, this.fetch()];
                     case 1:
-                        _a.sent();
+                        _b.sent();
+                        (_a = this.mqtt) === null || _a === void 0 ? void 0 : _a.on('message', function (msg) {
+                            _this.handleMessage(msg);
+                        });
+                        this.subscibeDefaults();
                         return [2 /*return*/, this];
                     case 2:
-                        err_1 = _a.sent();
+                        err_1 = _b.sent();
                         throw this.handleError(new FeedInitializationError(undefined, { error: err_1 }));
                     case 3: return [2 /*return*/];
                 }
             });
         });
+    };
+    Feed.prototype.deinitialize = function () {
+        this.removeAllListeners();
+    };
+    Feed.prototype.subscibeDefaults = function () {
+        this.getMqttClient()
+            .subscribe([
+            topics_1.default.api.feedMessages.generateTopic(this.serialize())
+        ]);
+    };
+    /**
+     * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.
+     */
+    Feed.prototype.getMqttClient = function () {
+        if (this.mqtt)
+            return this.mqtt;
+        throw new realtime.UninstantiatedRealtimeClient();
+    };
+    /**
+     *
+     * Parsing and routing logic is being handled here.
+     */
+    Feed.prototype.handleMessage = function (msg) {
+        // NOTE: we are also receiving all other messages, but we do not emit them. This is a srtrong fan-out
+        if (topics_1.default.api.feedMessages.isTopic(msg.topic, this.serialize())) {
+            var message = void 0;
+            if (msg.payload.message) {
+                message = message_1.Message.deserialize(msg.payload.message, this.universe, this.http, this);
+            }
+            this.emit('feed:message', __assign(__assign({}, msg), { message: message, feed: this }));
+            return;
+        }
     };
     Feed.prototype.fetch = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -225,6 +277,8 @@ var FeedReply = /** @class */ (function () {
         this.feed = options.feed;
         this.universe = options.universe;
         this.http = options.http;
+        this.content = options.content;
+        // this.contentType = options.contentType
     }
     FeedReply.prototype.send = function () {
         var _a;
@@ -234,7 +288,7 @@ var FeedReply = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post("" + this.universe.universeBase + this.feed.id, {
+                        return [4 /*yield*/, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(this.universe.universeBase + "/" + Feed.endpoint + "/" + this.feed.id + "/reply", {
                                 content: this.content
                             }))];
                     case 1:

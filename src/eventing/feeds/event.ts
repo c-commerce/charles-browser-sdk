@@ -63,6 +63,7 @@ export class Event extends EventEmitter {
     this.id = rawPayload.id
     this.resource = rawPayload.resource
     this.resourceType = rawPayload.resource_type
+    this.payload = rawPayload.payload
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
 

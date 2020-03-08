@@ -1,12 +1,15 @@
 import { EventEmitter } from 'events'
 import { Universe } from '../../universe'
+import universeTopics from '../../universe/topics'
+import * as realtime from '../../realtime'
 import { BaseError } from '../../errors'
-import { Reply, Message, MessageRawPayload, MessageReplyContentOptions, ReplyResponse } from '../../messaging/message'
+import { Reply, Message, MessageRawPayload, MessageReplyContentOptions, ReplyResponse, ReplyOptions } from '../../messaging/message'
 import { Event, EventRawPayload } from './event'
 
 export interface FeedOptions {
   universe: Universe
   http: Universe['http']
+  mqtt: Universe['mqtt']
   rawPayload?: FeedRawPayload
   initialized?: boolean
 }
@@ -43,13 +46,19 @@ export interface FeedEventKV {
 
 export type FeedEventsMap = Map<Event['id'], Event>
 
+export declare interface Feed {
+  on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
+  on(event: 'feed:message' | string, cb: Function): this
+}
+
 export class Feed extends EventEmitter {
   protected universe: Universe
   protected http: Universe['http']
+  protected mqtt?: Universe['mqtt']
   protected options: FeedOptions
   public initialized: boolean
 
-  private static endpoint: string = 'api/v0/feeds'
+  public static endpoint: string = 'api/v0/feeds'
   private eventsMap: FeedEventsMap = new Map()
 
   public id?: string
@@ -65,6 +74,7 @@ export class Feed extends EventEmitter {
     super()
     this.universe = options.universe
     this.http = options.http
+    this.mqtt = options.mqtt
     this.options = options
     this.initialized = options.initialized || false
 
@@ -86,12 +96,12 @@ export class Feed extends EventEmitter {
     return this
   }
 
-  public static create(payload: FeedRawPayload, universe: Universe, http: Universe['http']): Feed {
-    return new Feed({ rawPayload: payload, universe, http, initialized: true })
+  public static create(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed {
+    return new Feed({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
-  public static createUninitialized(payload: FeedRawPayload, universe: Universe, http: Universe['http']): Feed {
-    return new Feed({ rawPayload: payload, universe, http, initialized: false })
+  public static createUninitialized(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed {
+    return new Feed({ rawPayload: payload, universe, http, mqtt, initialized: false })
   }
 
   public serialize(): FeedRawPayload {
@@ -123,9 +133,52 @@ export class Feed extends EventEmitter {
     try {
       await this.fetch()
 
+      this.mqtt?.on('message', (msg) => {
+        this.handleMessage(msg)
+      })
+
+      this.subscibeDefaults()
+
       return this
     } catch (err) {
       throw this.handleError(new FeedInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public deinitialize(): void {
+    this.removeAllListeners()
+  }
+
+  private subscibeDefaults() {
+    this.getMqttClient()
+      .subscribe([
+        universeTopics.api.feedMessages.generateTopic(this.serialize())
+      ])
+  }
+
+  /**
+   * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.
+   */
+  private getMqttClient(): realtime.RealtimeClient {
+    if (this.mqtt) return this.mqtt
+
+    throw new realtime.UninstantiatedRealtimeClient()
+  }
+
+  /**
+   *
+   * Parsing and routing logic is being handled here.
+   */
+  private handleMessage(msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage) {
+    // NOTE: we are also receiving all other messages, but we do not emit them. This is a srtrong fan-out
+    if (universeTopics.api.feedMessages.isTopic(msg.topic, this.serialize())) {
+      let message
+      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this)
+      }
+
+      this.emit('feed:message', { ...msg, message, feed: this })
+      return
     }
   }
 
@@ -202,7 +255,7 @@ export interface FeedReplyResponse extends ReplyResponse {
 
 }
 
-export interface FeedReplyOptions {
+export interface FeedReplyOptions extends ReplyOptions {
   feed: Feed
   universe: Universe
   http: Universe['http']
@@ -210,7 +263,7 @@ export interface FeedReplyOptions {
 }
 
 export class FeedReply {
-  private feed: Feed
+  protected feed: Feed
   private universe: Universe
   private http: Universe['http']
 
@@ -221,11 +274,13 @@ export class FeedReply {
     this.feed = options.feed
     this.universe = options.universe
     this.http = options.http
+    this.content = options.content
+    // this.contentType = options.contentType
   }
 
   public async send(): Promise<FeedReplyResponse | undefined> {
     try {
-      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.feed.id}`, {
+      const res = await this.http?.getClient().post(`${this.universe.universeBase}/${Feed.endpoint}/${this.feed.id}/reply`, {
         content: this.content
       })
       return res.data.data[0] as FeedReplyResponse

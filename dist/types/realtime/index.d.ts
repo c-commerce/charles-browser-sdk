@@ -93,4 +93,9 @@ export declare class UninstantiatedMqttClient extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class UninstantiatedRealtimeClient extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export {};
