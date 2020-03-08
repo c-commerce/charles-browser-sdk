@@ -1,3 +1,11 @@
+# [2.8.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.7.0...v2.8.0) (2020-03-08)
+
+
+### Features
+
+* **feed:** fix reply, add correct feed mq ([36d58b1](https://github.com/c-commerce/charles-browser-sdk/commit/36d58b184d7b16c0c0d7f3f06f3641e600d3fa6d))
+* **universe:** properly de-initialize ([40284e8](https://github.com/c-commerce/charles-browser-sdk/commit/40284e8907a2d57809ecf848be4d10698015bbbd))
+
 # [2.7.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.6.0...v2.7.0) (2020-03-03)
 
 
