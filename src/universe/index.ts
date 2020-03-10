@@ -8,6 +8,12 @@ import universeTopics from './topics'
 import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 
+import * as staff from '../entities/staff/staff'
+import * as asset from '../entities/asset/asset'
+import * as person from '../entities/person/person'
+
+// hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
+
 export interface IUniverseUser {
   id?: string
   accessToken: string
@@ -224,6 +230,47 @@ export class Universe extends Readable {
       throw new FeedsFetchRemoteError(undefined, { error: err })
     }
   }
+
+  public async staffs(): Promise<staff.Staff[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${staff.Staffs.endpoint}`)
+      const resources = res.data.data as staff.StaffRawPayload[]
+
+      return resources.map((resource: staff.StaffRawPayload) => {
+        return staff.Staff.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new staff.StaffsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async assets(): Promise<asset.Asset[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${asset.Assets.endpoint}`)
+      const resources = res.data.data as asset.AssetRawPayload[]
+
+      return resources.map((resource: asset.AssetRawPayload) => {
+        return asset.Asset.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new asset.AssetsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async people(): Promise<person.Person[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${person.People.endpoint}`)
+      const resources = res.data.data as person.PersonRawPayload[]
+
+      return resources.map((resource: person.PersonRawPayload) => {
+        return person.Person.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new person.PeopleFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
    * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
