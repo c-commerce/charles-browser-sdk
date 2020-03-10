@@ -1,3 +1,10 @@
+## [2.10.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.10.1...v2.10.2) (2020-03-10)
+
+
+### Bug Fixes
+
+* **entities:** add more missing types ([15a0743](https://github.com/c-commerce/charles-browser-sdk/commit/15a0743afc6ed1d51f2e8cc4646dac3623229124))
+
 ## [2.10.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.10.0...v2.10.1) (2020-03-10)
 
 

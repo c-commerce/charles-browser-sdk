@@ -69,8 +69,13 @@ var Staff = /** @class */ (function (_super) {
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
-        this.deleted = this.deleted || false;
-        this.active = this.active || true;
+        this.deleted = rawPayload.deleted || false;
+        this.active = rawPayload.active || true;
+        this.firstName = rawPayload.first_name;
+        this.middleName = rawPayload.middle_name;
+        this.lastName = rawPayload.last_name;
+        this.comment = rawPayload.comment;
+        this.type = rawPayload.type;
         return this;
     };
     Staff.create = function (payload, universe, http) {
@@ -82,7 +87,12 @@ var Staff = /** @class */ (function (_super) {
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: this.deleted || false,
-            active: this.active || true
+            active: this.active || true,
+            first_name: this.firstName,
+            middle_name: this.middleName,
+            last_name: this.lastName,
+            comment: this.comment,
+            type: this.type
         };
     };
     Staff.prototype.init = function () {

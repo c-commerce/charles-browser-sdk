@@ -14,6 +14,12 @@ export interface StaffRawPayload {
     readonly updated_at?: string;
     readonly deleted?: boolean;
     readonly active?: boolean;
+    readonly first_name?: string;
+    readonly middle_name?: string;
+    readonly last_name?: string;
+    readonly display_name?: string;
+    readonly comment?: string;
+    readonly type?: 'agent' | 'bot';
 }
 export interface StaffPayload {
     readonly id?: StaffRawPayload['id'];
@@ -21,6 +27,11 @@ export interface StaffPayload {
     readonly updatedAt?: Date | null;
     readonly deleted?: boolean;
     readonly active?: boolean;
+    readonly firstName?: StaffRawPayload['first_name'];
+    readonly middleName?: StaffRawPayload['middle_name'];
+    readonly lastName?: StaffRawPayload['last_name'];
+    readonly comment?: StaffRawPayload['comment'];
+    readonly type?: StaffRawPayload['type'];
 }
 export declare class Staff extends EventEmitter {
     protected universe: Universe;
@@ -33,6 +44,11 @@ export declare class Staff extends EventEmitter {
     updatedAt?: StaffPayload['updatedAt'];
     deleted?: StaffPayload['deleted'];
     active?: StaffPayload['active'];
+    firstName?: StaffRawPayload['first_name'];
+    middleName?: StaffRawPayload['middle_name'];
+    lastName?: StaffRawPayload['last_name'];
+    comment?: StaffRawPayload['comment'];
+    type?: StaffRawPayload['type'];
     constructor(options: StaffOptions);
     private deserialize;
     static create(payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff;

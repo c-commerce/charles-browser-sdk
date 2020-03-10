@@ -69,8 +69,16 @@ var Person = /** @class */ (function (_super) {
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
-        this.deleted = this.deleted || false;
-        this.active = this.active || true;
+        this.deleted = rawPayload.deleted || false;
+        this.active = rawPayload.active || true;
+        this.firstName = rawPayload.first_name;
+        this.middleName = rawPayload.middle_name;
+        this.lastName = rawPayload.last_name;
+        this.dateOfBirth = rawPayload.date_of_birth;
+        this.gender = rawPayload.gender;
+        this.comment = rawPayload.comment;
+        this.addresses = rawPayload.addresses;
+        this.phonenumbers = rawPayload.phonenumbers;
         return this;
     };
     Person.create = function (payload, universe, http) {
@@ -82,7 +90,15 @@ var Person = /** @class */ (function (_super) {
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: this.deleted || false,
-            active: this.active || true
+            active: this.active || true,
+            first_name: this.firstName,
+            middle_name: this.middleName,
+            last_name: this.lastName,
+            date_of_birth: this.dateOfBirth,
+            gender: this.gender,
+            comment: this.comment,
+            addresses: this.addresses,
+            phonenumbers: this.phonenumbers
         };
     };
     Person.prototype.init = function () {
