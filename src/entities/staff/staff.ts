@@ -14,12 +14,16 @@ export interface StaffRawPayload {
   readonly id?: string
   readonly created_at?: string
   readonly updated_at?: string
+  readonly deleted?: boolean
+  readonly active?: boolean
 }
 
 export interface StaffPayload {
   readonly id?: StaffRawPayload['id']
   readonly createdAt?: Date | null
-  readonly updatedAt?: Date | null
+  readonly updatedAt?: Date | null,
+  readonly deleted?: boolean
+  readonly active?: boolean
 }
 
 export class Staff extends EventEmitter {
@@ -32,6 +36,8 @@ export class Staff extends EventEmitter {
   public id?: string
   public createdAt?: StaffPayload['createdAt']
   public updatedAt?: StaffPayload['updatedAt']
+  public deleted?: StaffPayload['deleted']
+  public active?: StaffPayload['active']
 
   constructor(options: StaffOptions) {
     super()
@@ -50,6 +56,8 @@ export class Staff extends EventEmitter {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
+    this.deleted = this.deleted || false
+    this.active = this.active || true
 
     return this
   }
@@ -62,7 +70,9 @@ export class Staff extends EventEmitter {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
-      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined
+      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+      deleted: this.deleted || false,
+      active: this.active || true
     }
   }
 

@@ -14,12 +14,16 @@ export interface PersonRawPayload {
   readonly id?: string
   readonly created_at?: string
   readonly updated_at?: string
+  readonly deleted?: boolean
+  readonly active?: boolean
 }
 
 export interface PersonPayload {
   readonly id?: PersonRawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
+  readonly deleted?: boolean
+  readonly active?: boolean
 }
 
 export class Person extends EventEmitter {
@@ -32,6 +36,8 @@ export class Person extends EventEmitter {
   public id?: string
   public createdAt?: PersonPayload['createdAt']
   public updatedAt?: PersonPayload['updatedAt']
+  public deleted?: PersonPayload['deleted']
+  public active?: PersonPayload['active']
 
   constructor(options: PersonOptions) {
     super()
@@ -50,6 +56,8 @@ export class Person extends EventEmitter {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
+    this.deleted = this.deleted || false
+    this.active = this.active || true
 
     return this
   }
@@ -62,7 +70,9 @@ export class Person extends EventEmitter {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
-      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined
+      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+      deleted: this.deleted || false,
+      active: this.active || true
     }
   }
 

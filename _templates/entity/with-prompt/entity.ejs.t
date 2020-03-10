@@ -22,12 +22,16 @@ export interface <%= capitalizedName %>RawPayload {
   readonly id?: string
   readonly created_at?: string
   readonly updated_at?: string
+  readonly deleted?: boolean
+  readonly active?: boolean
 }
 
 export interface <%= capitalizedName %>Payload {
   readonly id?: <%= capitalizedName %>RawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
+  readonly deleted?: boolean
+  readonly active?: boolean
 }
 
 export class <%= capitalizedName %> extends EventEmitter {
@@ -40,6 +44,8 @@ export class <%= capitalizedName %> extends EventEmitter {
   public id?: string
   public createdAt?: <%= capitalizedName %>Payload['createdAt']
   public updatedAt?: <%= capitalizedName %>Payload['updatedAt']
+  public deleted?: <%= capitalizedName %>Payload['deleted']
+  public active?: <%= capitalizedName %>Payload['active']
 
   constructor(options: <%= capitalizedName %>Options) {
     super()
@@ -58,6 +64,8 @@ export class <%= capitalizedName %> extends EventEmitter {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
+    this.deleted = this.deleted || false
+    this.active = this.active || true
 
     return this
   }
@@ -70,7 +78,9 @@ export class <%= capitalizedName %> extends EventEmitter {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
-      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined
+      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+      deleted: this.deleted || false,
+      active: this.active || true
     }
   }
 
