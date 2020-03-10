@@ -3,6 +3,9 @@ import { UniverseHealth, UniverseStatus } from './status';
 import { Client } from '../client';
 import { Feed } from '../eventing/feeds/feed';
 import { BaseError } from '../errors';
+import * as staff from '../entities/staff/staff';
+import * as asset from '../entities/asset/asset';
+import * as person from '../entities/person/person';
 export interface IUniverseUser {
     id?: string;
     accessToken: string;
@@ -63,6 +66,9 @@ export declare class Universe extends Readable {
     isConnected(): boolean;
     private handleError;
     feeds(): Promise<Feed[] | undefined>;
+    staffs(): Promise<staff.Staff[] | undefined>;
+    assets(): Promise<asset.Asset[] | undefined>;
+    people(): Promise<person.Person[] | undefined>;
     /**
      * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
      */

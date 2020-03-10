@@ -78,6 +78,9 @@ var errors_1 = require("../errors");
 var topics_1 = __importDefault(require("./topics"));
 var messaging_1 = require("../messaging");
 var uuid = __importStar(require("../helpers/uuid"));
+var staff = __importStar(require("../entities/staff/staff"));
+var asset = __importStar(require("../entities/asset/asset"));
+var person = __importStar(require("../entities/person/person"));
 var Universe = /** @class */ (function (_super) {
     __extends(Universe, _super);
     function Universe(options) {
@@ -261,6 +264,76 @@ var Universe = /** @class */ (function (_super) {
             });
         });
     };
+    Universe.prototype.staffs = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_3;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + staff.Staffs.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2 /*return*/, resources.map(function (resource) {
+                                return staff.Staff.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_3 = _a.sent();
+                        throw new staff.StaffsFetchRemoteError(undefined, { error: err_3 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Universe.prototype.assets = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_4;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + asset.Assets.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2 /*return*/, resources.map(function (resource) {
+                                return asset.Asset.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_4 = _a.sent();
+                        throw new asset.AssetsFetchRemoteError(undefined, { error: err_4 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Universe.prototype.people = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_5;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + person.People.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2 /*return*/, resources.map(function (resource) {
+                                return person.Person.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_5 = _a.sent();
+                        throw new person.PeopleFetchRemoteError(undefined, { error: err_5 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
     /**
      * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
      */

@@ -1,3 +1,10 @@
+# [2.10.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.9.1...v2.10.0) (2020-03-10)
+
+
+### Features
+
+* **entities:** add people, staff, assets ([f41c160](https://github.com/c-commerce/charles-browser-sdk/commit/f41c160a1b54bcb856b5bacec0daef1d9cf59a65))
+
 ## [2.9.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.9.0...v2.9.1) (2020-03-08)
 
 
