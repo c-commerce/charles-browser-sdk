@@ -80,8 +80,8 @@ export class Asset extends EventEmitter {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = this.deleted || false
-    this.active = this.active || true
+    this.deleted = rawPayload.deleted || false
+    this.active = rawPayload.active || true
     this.uri = rawPayload.uri
     this.mimeType = rawPayload.mime_type
     this.storageType = rawPayload.storage_type

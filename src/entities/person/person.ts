@@ -10,12 +10,46 @@ export interface PersonOptions {
   initialized?: boolean
 }
 
+export interface PersonAddressRawPayload {
+  readonly id?: string
+  readonly person?: string
+  readonly created_at?: string
+  readonly updated_at?: string
+  readonly deleted?: boolean
+  readonly active?: boolean
+  readonly type?: string
+  readonly lines?: string
+  readonly locality?: string
+  readonly country?: string
+  readonly region?: string
+  readonly postal_code?: string
+}
+
+export interface PersonPhonenumberRawPayload {
+  readonly id?: string
+  readonly person?: string
+  readonly created_at?: string
+  readonly updated_at?: string
+  readonly deleted?: boolean
+  readonly active?: boolean
+  readonly type?: string
+  readonly value?: string
+}
+
 export interface PersonRawPayload {
   readonly id?: string
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
   readonly active?: boolean
+  readonly first_name?: string
+  readonly middle_name?: string
+  readonly last_name?: string
+  readonly date_of_birth?: string
+  readonly gender?: string
+  readonly comment?: string
+  readonly addresses?: PersonAddressRawPayload[]
+  readonly phonenumbers?: PersonPhonenumberRawPayload[]
 }
 
 export interface PersonPayload {
@@ -24,6 +58,14 @@ export interface PersonPayload {
   readonly updatedAt?: Date | null
   readonly deleted?: boolean
   readonly active?: boolean
+  readonly firstName?: PersonRawPayload['first_name']
+  readonly middleName?: PersonRawPayload['middle_name']
+  readonly lastName?: PersonRawPayload['last_name']
+  readonly dateOfBirth?: PersonRawPayload['date_of_birth']
+  readonly gender?: PersonRawPayload['gender']
+  readonly comment?: PersonRawPayload['comment']
+  readonly addresses?: PersonRawPayload['addresses']
+  readonly phonenumbers?: PersonRawPayload['phonenumbers']
 }
 
 export class Person extends EventEmitter {
@@ -38,6 +80,14 @@ export class Person extends EventEmitter {
   public updatedAt?: PersonPayload['updatedAt']
   public deleted?: PersonPayload['deleted']
   public active?: PersonPayload['active']
+  public firstName?: PersonPayload['firstName']
+  public middleName?: PersonPayload['middleName']
+  public lastName?: PersonPayload['lastName']
+  public dateOfBirth?: PersonPayload['dateOfBirth']
+  public gender?: PersonPayload['gender']
+  public comment?: PersonPayload['comment']
+  public addresses?: PersonPayload['addresses']
+  public phonenumbers?: PersonPayload['phonenumbers']
 
   constructor(options: PersonOptions) {
     super()
@@ -56,8 +106,16 @@ export class Person extends EventEmitter {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = this.deleted || false
-    this.active = this.active || true
+    this.deleted = rawPayload.deleted || false
+    this.active = rawPayload.active || true
+    this.firstName = rawPayload.first_name
+    this.middleName = rawPayload.middle_name
+    this.lastName = rawPayload.last_name
+    this.dateOfBirth = rawPayload.date_of_birth
+    this.gender = rawPayload.gender
+    this.comment = rawPayload.comment
+    this.addresses = rawPayload.addresses
+    this.phonenumbers = rawPayload.phonenumbers
 
     return this
   }
@@ -72,7 +130,15 @@ export class Person extends EventEmitter {
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted || false,
-      active: this.active || true
+      active: this.active || true,
+      first_name: this.firstName,
+      middle_name: this.middleName,
+      last_name: this.lastName,
+      date_of_birth: this.dateOfBirth,
+      gender: this.gender,
+      comment: this.comment,
+      addresses: this.addresses,
+      phonenumbers: this.phonenumbers
     }
   }
 
