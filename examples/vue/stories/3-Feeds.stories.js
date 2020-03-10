@@ -210,6 +210,8 @@ export const SelectFeedAndInitialise = () => ({
             Replayable
           </h3>
           <input placeholder="Reply Content" v-model="replyContent" />
+          <input placeholder="URI attachment" v-model="uriAttachment" />
+          <input type="file" id="files" name="files" multiple @change="filesChange($event.target.files)" />
           <button @click="handleReply(selectedFeed, replyContent)">
             Reply
           </button>
@@ -222,9 +224,7 @@ export const SelectFeedAndInitialise = () => ({
 
           <div style="max-height: 200px;" v-if="latestEvents">
             <div v-for="(event) in latestEvents">
-              <p>
-              {{ event.id }}
-              {{ event.resourceType }}
+              <p v-text="JSON.stringify(event.serialize(), undefined, 2)" style="white-space: pre-wrap;">
               </p>
             </div>
           </div>
@@ -281,13 +281,40 @@ export const SelectFeedAndInitialise = () => ({
       await this.selectedFeed.init()
     },
     async handleReply (feed, content) {
-      const reply = this.selectedFeed.reply({ content: { body: content } })
+      let attachments
+      console.log('==============================')
+      console.log(this.formDataAttachment)
+      console.log('==============================')
+      let rawAssets
+      if (this.formDataAttachment) {
+        rawAssets = this.formDataAttachment
+      } else if (this.uriAttachment) {
+        attachments = [
+          {
+            type: 'image',
+            payload: this.uriAttachment
+          }
+        ]
+      }
+
+      const reply = this.selectedFeed.reply({ content: { body: content, attachments }, rawAssets })
 
       await reply.send()
     },
     async handleLatestEvents (feed, content) {
       this.latestEvents = await this.selectedFeed.fetchLatestEvents()
       action('latest-events').call(this, this.latestEvents)
+    },
+    filesChange (fileList) {
+      const formData = new FormData()
+      if (!fileList.length) return
+      for (var i = 0; i < fileList.length; i++) {
+        const file = fileList[i]
+        // Here we create unique key 'files[i]' in our response dict
+        formData.append('file', file)
+      }
+
+      this.formDataAttachment = formData
     }
   },
   data () {
@@ -297,6 +324,8 @@ export const SelectFeedAndInitialise = () => ({
       localUniversePayload: null,
       localFeeds: [],
       replyContent: null,
+      uriAttachment: null,
+      formDataAttachment: null,
       selectedFeed: null,
       latestEvents: null
     }

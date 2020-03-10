@@ -2,6 +2,7 @@ import { EventEmitter } from 'events'
 import { Universe } from '../universe'
 import { BaseError } from '../errors'
 import { Person, PersonRawPayload } from './person'
+import { Assets, Asset, AssetRawPayload, AssetsPostError } from '../entities/asset/asset'
 import { FeedRawPayload, Feed } from '../eventing/feeds'
 
 export interface MessageOptions {
@@ -191,7 +192,7 @@ export class Message extends EventEmitter {
       http: this.http,
       universe: this.universe,
       rawPayload: {
-        ...contentOptions
+        content: contentOptions.content
       },
       ...contentOptions
     })
@@ -203,7 +204,7 @@ export class Message extends EventEmitter {
       http: this.http,
       universe: this.universe,
       rawPayload: {
-        ...contentOptions
+        content: contentOptions.content
       },
       ...contentOptions
     })
@@ -216,12 +217,14 @@ export class Message extends EventEmitter {
 
 export interface MessageReplyContentOptions {
   content: MessagePayload['content']
+  rawAssets?: FormData
 }
 
 export interface ReplyOptions extends MessageOptions, MessageReplyContentOptions { }
 
 export interface MessageReplyOptions extends ReplyOptions {
   message: Message
+  rawAssets?: FormData
 }
 
 export interface ReplyResponse extends MessageRawPayload {
@@ -232,20 +235,67 @@ export class Reply extends Message {
   constructor(options: ReplyOptions) {
     super(options)
   }
+
+  protected async prepareSendWithAssets(payload: FormData): Promise<Asset[] | undefined> {
+    try {
+      const assetsHandler = new Assets({
+        http: this.options.http,
+        universe: this.options.universe
+      })
+
+      const data = await assetsHandler.post(payload)
+
+      return data
+    } catch (err) {
+      throw err
+    }
+  }
 }
 
 export class MessageReply extends Reply {
   private message: Message
+  private rawAssets?: FormData
 
   constructor(options: MessageReplyOptions) {
     super(options)
+
     this.message = options.message
+    this.rawAssets = options.rawAssets
   }
 
   public async send(): Promise<ReplyResponse | undefined> {
     try {
+      let additonalAttachments
+      if (this.rawAssets) {
+        const assets = await this.prepareSendWithAssets(this.rawAssets)
+        if (Array.isArray(assets)) {
+          additonalAttachments = assets.map((item: Asset) => {
+            return {
+              // TODO: move this to mime type, when the API catches up
+              type: 'image',
+              payload: item.uri
+            } as MessageRawPayloadAttachment
+          }) as MessageRawPayloadAttachment[]
+        }
+      }
+
+      let attachments
+      if (additonalAttachments && this.content && Array.isArray(this.content.attachments)) {
+        attachments = [...this.content.attachments, ...additonalAttachments]
+      } else if (this.content && !Array.isArray(this.content.attachments) && additonalAttachments) {
+        attachments = additonalAttachments
+      } else if (this.content && Array.isArray(this.content.attachments)) {
+        attachments = this.content.attachments
+      }
+
+      if (this.content && attachments) {
+        this.content.attachments = attachments
+      }
+
       const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_message?.options.uri}`, {
-        content: this.content
+        content: {
+          ...this.content
+        }
       })
       return res.data.data[0] as ReplyResponse
     } catch (err) {
@@ -256,16 +306,48 @@ export class MessageReply extends Reply {
 
 export class MessageFeedReply extends Reply {
   private message: Message
+  private rawAssets?: FormData
 
   constructor(options: MessageReplyOptions) {
     super(options)
+
     this.message = options.message
+    this.rawAssets = options.rawAssets
   }
 
   public async send(): Promise<ReplyResponse | undefined> {
     try {
+      let additonalAttachments
+      if (this.rawAssets) {
+        const assets = await this.prepareSendWithAssets(this.rawAssets)
+        if (Array.isArray(assets)) {
+          additonalAttachments = assets.map((item: Asset) => {
+            return {
+              // TODO: move this to mime type, when the API catches up
+              type: 'image',
+              payload: item.uri
+            } as MessageRawPayloadAttachment
+          }) as MessageRawPayloadAttachment[]
+        }
+      }
+
+      let attachments
+      if (additonalAttachments && this.content && Array.isArray(this.content.attachments)) {
+        attachments = [...this.content.attachments, ...additonalAttachments]
+      } else if (this.content && !Array.isArray(this.content.attachments) && additonalAttachments) {
+        attachments = additonalAttachments
+      } else if (this.content && Array.isArray(this.content.attachments)) {
+        attachments = this.content.attachments
+      }
+
+      if (this.content && attachments) {
+        this.content.attachments = attachments
+      }
+
       const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_feed?.options.uri}`, {
-        content: this.content
+        content: {
+          ...this.content
+        }
       })
       return res.data.data[0] as ReplyResponse
     } catch (err) {

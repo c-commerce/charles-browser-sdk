@@ -10,6 +10,11 @@ export interface AssetOptions {
   initialized?: boolean
 }
 
+export interface AssetsOptions {
+  http: Universe['http']
+  universe: Universe
+}
+
 export interface AssetRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -145,8 +150,45 @@ export class Asset extends EventEmitter {
   }
 }
 
+export interface AssetsPostOptions {
+  public?: boolean
+}
+
 export class Assets {
+  protected http: Universe['http']
+  protected universe: Universe
   public static endpoint: string = 'api/v0/assets'
+
+  private options?: AssetsOptions
+
+  constructor(options: AssetsOptions) {
+    this.options = options
+    this.http = options.http
+    this.universe = options.universe
+  }
+
+  public async post(payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined> {
+    try {
+      const opts = {
+        timeout: 60000,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        params: {
+          ...options,
+          public: true
+        }
+      }
+
+      const res = await this.http?.getClient().post(`${this.universe?.universeBase}/${Assets.endpoint}`, payload, opts)
+      const data = res?.data.data as AssetRawPayload[]
+      return data.map((item: AssetRawPayload) => {
+        return Asset.create(item, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new AssetsPostError(undefined, { error: err })
+    }
+  }
 }
 
 export class AssetInitializationError extends BaseError {
@@ -166,6 +208,13 @@ export class AssetFetchRemoteError extends BaseError {
 export class AssetsFetchRemoteError extends BaseError {
   public name = 'AssetsFetchRemoteError'
   constructor(public message: string = 'Could not get assets.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class AssetsPostError extends BaseError {
+  public name = 'AssetsPostError'
+  constructor(public message: string = 'Could not create assets.', properties?: any) {
     super(message, properties)
   }
 }

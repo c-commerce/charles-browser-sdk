@@ -410,7 +410,7 @@ export const FetchEntities = () => ({
 
       <prism-editor readonly :code="code" language="js"></prism-editor>
 
-      <div style="display: flex;">
+      <div style="display: flex; flex-wrap: wrap;">
         <div style="width: 30%; max-height: 300px; overflow: scroll;">
           <h2>
             Feeds
