@@ -69,6 +69,8 @@ var Person = /** @class */ (function (_super) {
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
+        this.deleted = this.deleted || false;
+        this.active = this.active || true;
         return this;
     };
     Person.create = function (payload, universe, http) {
@@ -78,7 +80,9 @@ var Person = /** @class */ (function (_super) {
         return {
             id: this.id,
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
-            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined
+            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+            deleted: this.deleted || false,
+            active: this.active || true
         };
     };
     Person.prototype.init = function () {

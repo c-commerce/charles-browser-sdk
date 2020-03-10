@@ -12,11 +12,15 @@ export interface StaffRawPayload {
     readonly id?: string;
     readonly created_at?: string;
     readonly updated_at?: string;
+    readonly deleted?: boolean;
+    readonly active?: boolean;
 }
 export interface StaffPayload {
     readonly id?: StaffRawPayload['id'];
     readonly createdAt?: Date | null;
     readonly updatedAt?: Date | null;
+    readonly deleted?: boolean;
+    readonly active?: boolean;
 }
 export declare class Staff extends EventEmitter {
     protected universe: Universe;
@@ -27,6 +31,8 @@ export declare class Staff extends EventEmitter {
     id?: string;
     createdAt?: StaffPayload['createdAt'];
     updatedAt?: StaffPayload['updatedAt'];
+    deleted?: StaffPayload['deleted'];
+    active?: StaffPayload['active'];
     constructor(options: StaffOptions);
     private deserialize;
     static create(payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff;

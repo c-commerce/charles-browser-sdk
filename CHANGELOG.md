@@ -1,3 +1,10 @@
+## [2.10.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.10.0...v2.10.1) (2020-03-10)
+
+
+### Bug Fixes
+
+* **entities:** add missing props ([11f1575](https://github.com/c-commerce/charles-browser-sdk/commit/11f15753631ce8f6e9846c551aeae7d23951aaf3))
+
 # [2.10.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.9.1...v2.10.0) (2020-03-10)
 
 

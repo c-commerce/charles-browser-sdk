@@ -12,11 +12,15 @@ export interface PersonRawPayload {
     readonly id?: string;
     readonly created_at?: string;
     readonly updated_at?: string;
+    readonly deleted?: boolean;
+    readonly active?: boolean;
 }
 export interface PersonPayload {
     readonly id?: PersonRawPayload['id'];
     readonly createdAt?: Date | null;
     readonly updatedAt?: Date | null;
+    readonly deleted?: boolean;
+    readonly active?: boolean;
 }
 export declare class Person extends EventEmitter {
     protected universe: Universe;
@@ -27,6 +31,8 @@ export declare class Person extends EventEmitter {
     id?: string;
     createdAt?: PersonPayload['createdAt'];
     updatedAt?: PersonPayload['updatedAt'];
+    deleted?: PersonPayload['deleted'];
+    active?: PersonPayload['active'];
     constructor(options: PersonOptions);
     private deserialize;
     static create(payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person;

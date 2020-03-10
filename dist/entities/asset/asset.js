@@ -69,6 +69,16 @@ var Asset = /** @class */ (function (_super) {
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
+        this.deleted = this.deleted || false;
+        this.active = this.active || true;
+        this.uri = rawPayload.uri;
+        this.mimeType = rawPayload.mime_type;
+        this.storageType = rawPayload.storage_type;
+        this.payloadId = rawPayload.payload_id;
+        this.originalName = rawPayload.original_name;
+        this.comment = rawPayload.comment;
+        this.metadata = rawPayload.metadata;
+        this.public = rawPayload.public;
         return this;
     };
     Asset.create = function (payload, universe, http) {
@@ -78,7 +88,17 @@ var Asset = /** @class */ (function (_super) {
         return {
             id: this.id,
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
-            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined
+            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+            deleted: this.deleted || false,
+            active: this.active || true,
+            uri: this.uri,
+            mime_type: this.mimeType,
+            storage_type: this.storageType,
+            payload_id: this.payloadId,
+            original_name: this.originalName,
+            comment: this.comment,
+            metadata: this.metadata || null,
+            public: this.public || false
         };
     };
     Asset.prototype.init = function () {
