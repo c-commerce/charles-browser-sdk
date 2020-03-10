@@ -12,6 +12,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -149,8 +160,42 @@ var Asset = /** @class */ (function (_super) {
 }(events_1.EventEmitter));
 exports.Asset = Asset;
 var Assets = /** @class */ (function () {
-    function Assets() {
+    function Assets(options) {
+        this.options = options;
+        this.http = options.http;
+        this.universe = options.universe;
     }
+    Assets.prototype.post = function (payload, options) {
+        var _a, _b, _c;
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, res, data, err_3;
+            var _this = this;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _d.trys.push([0, 2, , 3]);
+                        opts = {
+                            timeout: 60000,
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            },
+                            params: __assign(__assign({}, options), { public: true })
+                        };
+                        return [4 /*yield*/, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(((_b = this.universe) === null || _b === void 0 ? void 0 : _b.universeBase) + "/" + Assets.endpoint, payload, opts))];
+                    case 1:
+                        res = _d.sent();
+                        data = (_c = res) === null || _c === void 0 ? void 0 : _c.data.data;
+                        return [2 /*return*/, data.map(function (item) {
+                                return Asset.create(item, _this.universe, _this.http);
+                            })];
+                    case 2:
+                        err_3 = _d.sent();
+                        throw new AssetsPostError(undefined, { error: err_3 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Assets.endpoint = 'api/v0/assets';
     return Assets;
 }());
@@ -191,4 +236,16 @@ var AssetsFetchRemoteError = /** @class */ (function (_super) {
     return AssetsFetchRemoteError;
 }(errors_1.BaseError));
 exports.AssetsFetchRemoteError = AssetsFetchRemoteError;
+var AssetsPostError = /** @class */ (function (_super) {
+    __extends(AssetsPostError, _super);
+    function AssetsPostError(message, properties) {
+        if (message === void 0) { message = 'Could not create assets.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'AssetsPostError';
+        return _this;
+    }
+    return AssetsPostError;
+}(errors_1.BaseError));
+exports.AssetsPostError = AssetsPostError;
 //# sourceMappingURL=asset.js.map

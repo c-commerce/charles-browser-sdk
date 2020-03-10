@@ -1,3 +1,10 @@
+# [2.11.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.10.2...v2.11.0) (2020-03-10)
+
+
+### Features
+
+* **messaging:** add formdata reply ([6c90a2b](https://github.com/c-commerce/charles-browser-sdk/commit/6c90a2b543241cd4fd3556f32227cc1036aa4eca))
+
 ## [2.10.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.10.1...v2.10.2) (2020-03-10)
 
 

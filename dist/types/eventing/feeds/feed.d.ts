@@ -3,6 +3,7 @@ import { EventEmitter } from 'events';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse, ReplyOptions } from '../../messaging/message';
+import { Asset } from '../../entities/asset';
 import { Event, EventRawPayload } from './event';
 export interface FeedOptions {
     universe: Universe;
@@ -95,14 +96,18 @@ export interface FeedReplyOptions extends ReplyOptions {
     universe: Universe;
     http: Universe['http'];
     rawPayload?: MessageRawPayload;
+    rawAssets?: FormData;
 }
 export declare class FeedReply {
     protected feed: Feed;
     private universe;
     private http;
+    private options?;
     content: Reply['content'];
     contentType: Reply['contentType'];
+    rawAssets?: FormData;
     constructor(options: FeedReplyOptions);
+    protected prepareSendWithAssets(payload: FormData): Promise<Asset[] | undefined>;
     send(): Promise<FeedReplyResponse | undefined>;
 }
 export declare class FeedReplyError extends BaseError {

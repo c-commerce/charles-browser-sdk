@@ -59,10 +59,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
 var errors_1 = require("../errors");
 var person_1 = require("./person");
+var asset_1 = require("../entities/asset/asset");
 var Message = /** @class */ (function (_super) {
     __extends(Message, _super);
     function Message(options) {
@@ -134,10 +142,14 @@ var Message = /** @class */ (function (_super) {
         };
     };
     Message.prototype.reply = function (contentOptions) {
-        return new MessageReply(__assign({ message: this, http: this.http, universe: this.universe, rawPayload: __assign({}, contentOptions) }, contentOptions));
+        return new MessageReply(__assign({ message: this, http: this.http, universe: this.universe, rawPayload: {
+                content: contentOptions.content
+            } }, contentOptions));
     };
     Message.prototype.replyFeed = function (contentOptions) {
-        return new MessageFeedReply(__assign({ message: this, http: this.http, universe: this.universe, rawPayload: __assign({}, contentOptions) }, contentOptions));
+        return new MessageFeedReply(__assign({ message: this, http: this.http, universe: this.universe, rawPayload: {
+                content: contentOptions.content
+            } }, contentOptions));
     };
     Message.prototype.handleError = function (err) {
         if (this.listeners('error').length > 0)
@@ -151,6 +163,29 @@ var Reply = /** @class */ (function (_super) {
     function Reply(options) {
         return _super.call(this, options) || this;
     }
+    Reply.prototype.prepareSendWithAssets = function (payload) {
+        return __awaiter(this, void 0, void 0, function () {
+            var assetsHandler, data, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        assetsHandler = new asset_1.Assets({
+                            http: this.options.http,
+                            universe: this.options.universe
+                        });
+                        return [4 /*yield*/, assetsHandler.post(payload)];
+                    case 1:
+                        data = _a.sent();
+                        return [2 /*return*/, data];
+                    case 2:
+                        err_1 = _a.sent();
+                        throw err_1;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return Reply;
 }(Message));
 exports.Reply = Reply;
@@ -159,26 +194,56 @@ var MessageReply = /** @class */ (function (_super) {
     function MessageReply(options) {
         var _this = _super.call(this, options) || this;
         _this.message = options.message;
+        _this.rawAssets = options.rawAssets;
         return _this;
     }
     MessageReply.prototype.send = function () {
         var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            var res, err_1;
+            var additonalAttachments, assets, attachments, res, err_2;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
-                        _d.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post("" + this.universe.universeBase + ((_c = (_b = this.message.replyables) === null || _b === void 0 ? void 0 : _b.reply_to_message) === null || _c === void 0 ? void 0 : _c.options.uri), {
-                                content: this.content
-                            }))];
+                        _d.trys.push([0, 4, , 5]);
+                        additonalAttachments = void 0;
+                        if (!this.rawAssets) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.prepareSendWithAssets(this.rawAssets)];
                     case 1:
+                        assets = _d.sent();
+                        if (Array.isArray(assets)) {
+                            additonalAttachments = assets.map(function (item) {
+                                return {
+                                    // TODO: move this to mime type, when the API catches up
+                                    type: 'image',
+                                    payload: item.uri
+                                };
+                            });
+                        }
+                        _d.label = 2;
+                    case 2:
+                        attachments = void 0;
+                        if (additonalAttachments && this.content && Array.isArray(this.content.attachments)) {
+                            attachments = __spreadArrays(this.content.attachments, additonalAttachments);
+                        }
+                        else if (this.content && !Array.isArray(this.content.attachments) && additonalAttachments) {
+                            attachments = additonalAttachments;
+                        }
+                        else if (this.content && Array.isArray(this.content.attachments)) {
+                            attachments = this.content.attachments;
+                        }
+                        if (this.content && attachments) {
+                            this.content.attachments = attachments;
+                        }
+                        return [4 /*yield*/, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post("" + this.universe.universeBase + ((_c = (_b = this.message.replyables) === null || _b === void 0 ? void 0 : _b.reply_to_message) === null || _c === void 0 ? void 0 : _c.options.uri), {
+                                content: __assign({}, this.content)
+                            }))];
+                    case 3:
                         res = _d.sent();
                         return [2 /*return*/, res.data.data[0]];
-                    case 2:
-                        err_1 = _d.sent();
-                        throw new MessagesReplyError(undefined, { error: err_1 });
-                    case 3: return [2 /*return*/];
+                    case 4:
+                        err_2 = _d.sent();
+                        throw new MessagesReplyError(undefined, { error: err_2 });
+                    case 5: return [2 /*return*/];
                 }
             });
         });
@@ -191,26 +256,56 @@ var MessageFeedReply = /** @class */ (function (_super) {
     function MessageFeedReply(options) {
         var _this = _super.call(this, options) || this;
         _this.message = options.message;
+        _this.rawAssets = options.rawAssets;
         return _this;
     }
     MessageFeedReply.prototype.send = function () {
         var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            var res, err_2;
+            var additonalAttachments, assets, attachments, res, err_3;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
-                        _d.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post("" + this.universe.universeBase + ((_c = (_b = this.message.replyables) === null || _b === void 0 ? void 0 : _b.reply_to_feed) === null || _c === void 0 ? void 0 : _c.options.uri), {
-                                content: this.content
-                            }))];
+                        _d.trys.push([0, 4, , 5]);
+                        additonalAttachments = void 0;
+                        if (!this.rawAssets) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.prepareSendWithAssets(this.rawAssets)];
                     case 1:
+                        assets = _d.sent();
+                        if (Array.isArray(assets)) {
+                            additonalAttachments = assets.map(function (item) {
+                                return {
+                                    // TODO: move this to mime type, when the API catches up
+                                    type: 'image',
+                                    payload: item.uri
+                                };
+                            });
+                        }
+                        _d.label = 2;
+                    case 2:
+                        attachments = void 0;
+                        if (additonalAttachments && this.content && Array.isArray(this.content.attachments)) {
+                            attachments = __spreadArrays(this.content.attachments, additonalAttachments);
+                        }
+                        else if (this.content && !Array.isArray(this.content.attachments) && additonalAttachments) {
+                            attachments = additonalAttachments;
+                        }
+                        else if (this.content && Array.isArray(this.content.attachments)) {
+                            attachments = this.content.attachments;
+                        }
+                        if (this.content && attachments) {
+                            this.content.attachments = attachments;
+                        }
+                        return [4 /*yield*/, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post("" + this.universe.universeBase + ((_c = (_b = this.message.replyables) === null || _b === void 0 ? void 0 : _b.reply_to_feed) === null || _c === void 0 ? void 0 : _c.options.uri), {
+                                content: __assign({}, this.content)
+                            }))];
+                    case 3:
                         res = _d.sent();
                         return [2 /*return*/, res.data.data[0]];
-                    case 2:
-                        err_2 = _d.sent();
-                        throw new MessagesReplyError(undefined, { error: err_2 });
-                    case 3: return [2 /*return*/];
+                    case 4:
+                        err_3 = _d.sent();
+                        throw new MessagesReplyError(undefined, { error: err_3 });
+                    case 5: return [2 /*return*/];
                 }
             });
         });

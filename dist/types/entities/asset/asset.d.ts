@@ -8,6 +8,10 @@ export interface AssetOptions {
     rawPayload?: AssetRawPayload;
     initialized?: boolean;
 }
+export interface AssetsOptions {
+    http: Universe['http'];
+    universe: Universe;
+}
 export interface AssetRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -65,8 +69,16 @@ export declare class Asset extends EventEmitter {
     fetch(): Promise<Asset | undefined>;
     private handleError;
 }
+export interface AssetsPostOptions {
+    public?: boolean;
+}
 export declare class Assets {
+    protected http: Universe['http'];
+    protected universe: Universe;
     static endpoint: string;
+    private options?;
+    constructor(options: AssetsOptions);
+    post(payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined>;
 }
 export declare class AssetInitializationError extends BaseError {
     message: string;
@@ -79,6 +91,11 @@ export declare class AssetFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class AssetsFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class AssetsPostError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
