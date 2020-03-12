@@ -20,6 +20,7 @@ export interface FeedRawPayload {
     readonly active?: boolean;
     readonly deleted?: boolean;
     readonly created_at?: string;
+    readonly latest_activity_at?: string;
     readonly updated_at?: string;
 }
 export declare type FeedlatestEventsRawPayload = EventRawPayload[];
@@ -31,6 +32,7 @@ export interface FeedPayload {
     readonly parents?: string[];
     readonly createdAt?: Date | null;
     readonly updatedAt?: Date | null;
+    readonly latestActivityAt?: Date | null;
     readonly deleted?: boolean;
     readonly active?: boolean;
 }
@@ -57,6 +59,7 @@ export declare class Feed extends EventEmitter {
     parents?: string[];
     createdAt?: Date | null;
     updatedAt?: Date | null;
+    latestActivityAt?: Date | null;
     deleted?: boolean;
     active?: boolean;
     constructor(options: FeedOptions);

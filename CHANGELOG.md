@@ -1,3 +1,10 @@
+# [2.12.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.11.0...v2.12.0) (2020-03-12)
+
+
+### Features
+
+* **feed:** at latest activity ([44e4d27](https://github.com/c-commerce/charles-browser-sdk/commit/44e4d2729d0ae26b2102c3b55d1f0ca269864537))
+
 # [2.11.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.10.2...v2.11.0) (2020-03-10)
 
 

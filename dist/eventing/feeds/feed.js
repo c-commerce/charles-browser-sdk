@@ -106,6 +106,7 @@ var Feed = /** @class */ (function (_super) {
         this.parents = rawPayload.parents;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
+        this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined;
         this.deleted = rawPayload.deleted;
         this.active = rawPayload.active;
         return this;
@@ -124,6 +125,7 @@ var Feed = /** @class */ (function (_super) {
             parents: this.parents,
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+            latest_activity_at: this.latestActivityAt ? this.latestActivityAt.toISOString() : undefined,
             deleted: this.deleted,
             active: this.active
         };
