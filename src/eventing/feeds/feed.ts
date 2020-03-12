@@ -3,7 +3,10 @@ import { Universe } from '../../universe'
 import universeTopics from '../../universe/topics'
 import * as realtime from '../../realtime'
 import { BaseError } from '../../errors'
-import { Reply, Message, MessageRawPayload, MessageRawPayloadAttachment, MessageReplyContentOptions, ReplyResponse, ReplyOptions } from '../../messaging/message'
+import {
+  Reply, Message, MessageRawPayload,
+  MessageRawPayloadAttachment, MessageReplyContentOptions, ReplyResponse, ReplyOptions
+} from '../../messaging/message'
 import { Asset, Assets } from '../../entities/asset'
 import { Event, EventRawPayload } from './event'
 
@@ -23,6 +26,7 @@ export interface FeedRawPayload {
   readonly active?: boolean
   readonly deleted?: boolean
   readonly created_at?: string
+  readonly latest_activity_at?: string
   readonly updated_at?: string
 }
 
@@ -36,6 +40,7 @@ export interface FeedPayload {
   readonly parents?: string[]
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
+  readonly latestActivityAt?: Date | null
   readonly deleted?: boolean
   readonly active?: boolean
 }
@@ -68,6 +73,7 @@ export class Feed extends EventEmitter {
   public parents?: string[]
   public createdAt?: Date | null
   public updatedAt?: Date | null
+  public latestActivityAt?: Date | null
   public deleted?: boolean
   public active?: boolean
 
@@ -91,6 +97,7 @@ export class Feed extends EventEmitter {
     this.parents = rawPayload.parents
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
+    this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined
     this.deleted = rawPayload.deleted
     this.active = rawPayload.active
 
@@ -113,6 +120,7 @@ export class Feed extends EventEmitter {
       parents: this.parents,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+      latest_activity_at: this.latestActivityAt ? this.latestActivityAt.toISOString() : undefined,
       deleted: this.deleted,
       active: this.active
     }
