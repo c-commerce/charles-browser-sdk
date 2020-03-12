@@ -100,6 +100,7 @@ var Feed = /** @class */ (function (_super) {
         return _this;
     }
     Feed.prototype.deserialize = function (rawPayload) {
+        var _this = this;
         this.id = rawPayload.id;
         this.participants = rawPayload.participants;
         this.agents = rawPayload.agents;
@@ -109,6 +110,7 @@ var Feed = /** @class */ (function (_super) {
         this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined;
         this.deleted = rawPayload.deleted;
         this.active = rawPayload.active;
+        this.topLatestEvents = Array.isArray(rawPayload.top_latest_events) ? rawPayload.top_latest_events.map(function (item) { return (event_1.Event.create(item, _this, _this.universe, _this.http)); }) : undefined;
         return this;
     };
     Feed.create = function (payload, universe, http, mqtt) {
@@ -127,7 +129,8 @@ var Feed = /** @class */ (function (_super) {
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             latest_activity_at: this.latestActivityAt ? this.latestActivityAt.toISOString() : undefined,
             deleted: this.deleted,
-            active: this.active
+            active: this.active,
+            top_latest_events: Array.isArray(this.topLatestEvents) ? this.topLatestEvents.map(function (item) { return (item.serialize()); }) : undefined
         };
     };
     Feed.prototype.reply = function (contentOptions) {
