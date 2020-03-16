@@ -146,7 +146,12 @@ export class Feed extends EventEmitter {
   public serialize(): FeedRawPayload {
     return {
       id: this.id,
-      participants: this.participants,
+      participants: Array.isArray(this.participants) ? this.participants.map((item: Person | string) => {
+        if (typeOf(item) === 'object') {
+          return (item as Person).serialize()
+        }
+        return item as string
+      }) : undefined,
       agents: this.agents,
       parents: this.parents,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
