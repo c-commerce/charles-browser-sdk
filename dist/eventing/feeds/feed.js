@@ -149,7 +149,12 @@ var Feed = /** @class */ (function (_super) {
     Feed.prototype.serialize = function () {
         return {
             id: this.id,
-            participants: this.participants,
+            participants: Array.isArray(this.participants) ? this.participants.map(function (item) {
+                if (just_typeof_1.default(item) === 'object') {
+                    return item.serialize();
+                }
+                return item;
+            }) : undefined,
             agents: this.agents,
             parents: this.parents,
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,

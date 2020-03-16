@@ -1,3 +1,10 @@
+## [2.15.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.15.0...v2.15.1) (2020-03-16)
+
+
+### Bug Fixes
+
+* **feeds:** add missing serialization ([2b6b445](https://github.com/c-commerce/charles-browser-sdk/commit/2b6b445f13eb3f8a3cf6b202597619ef10199121))
+
 # [2.15.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.14.0...v2.15.0) (2020-03-16)
 
 
