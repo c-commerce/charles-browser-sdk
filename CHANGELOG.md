@@ -1,3 +1,10 @@
+# [2.14.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.13.0...v2.14.0) (2020-03-16)
+
+
+### Features
+
+* **eventing:** handle state updates for callers gracefully ([3c2e1fa](https://github.com/c-commerce/charles-browser-sdk/commit/3c2e1fab5626b89988d26ea65969b0535dd8d2de))
+
 # [2.13.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.12.0...v2.13.0) (2020-03-12)
 
 

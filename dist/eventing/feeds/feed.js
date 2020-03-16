@@ -101,7 +101,10 @@ var Feed = /** @class */ (function (_super) {
     }
     Feed.prototype.deserialize = function (rawPayload) {
         var _this = this;
-        this.id = rawPayload.id;
+        // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
+        // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
+        if (!this.id)
+            this.id = rawPayload.id;
         this.participants = rawPayload.participants;
         this.agents = rawPayload.agents;
         this.parents = rawPayload.parents;
@@ -110,7 +113,17 @@ var Feed = /** @class */ (function (_super) {
         this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined;
         this.deleted = rawPayload.deleted;
         this.active = rawPayload.active;
-        this.topLatestEvents = Array.isArray(rawPayload.top_latest_events) ? rawPayload.top_latest_events.map(function (item) { return (event_1.Event.create(item, _this, _this.universe, _this.http)); }) : undefined;
+        // we will only inject latest events, but never override it in false data scenarios. Note: this is
+        // due to the API not sending virtual properties on a hard contract, but us not wanting to affect embedding
+        // application state very eagerly. Also note: the API will anyhow implement uniformity as much as it can.
+        // The ossues arose in clients sharing the Feed[] state and making subequent calls, such as .init() on a Feed instance,
+        // leaving them with some undefined data and possible re-renders
+        if (Array.isArray(rawPayload.top_latest_events)) {
+            this.topLatestEvents = rawPayload.top_latest_events.map(function (item) { return (event_1.Event.create(item, _this, _this.universe, _this.http)); });
+        }
+        else if (!rawPayload.top_latest_events && !Array.isArray(this.topLatestEvents)) {
+            this.topLatestEvents = undefined;
+        } // ELSE no-op, meaning we keep what we got
         return this;
     };
     Feed.create = function (payload, universe, http, mqtt) {

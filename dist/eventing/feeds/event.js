@@ -67,6 +67,10 @@ var Event = /** @class */ (function (_super) {
         return _this;
     }
     Event.prototype.deserialize = function (rawPayload) {
+        // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
+        // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
+        if (!this.id)
+            this.id = rawPayload.id;
         this.id = rawPayload.id;
         this.resource = rawPayload.resource;
         this.resourceType = rawPayload.resource_type;
