@@ -220,7 +220,17 @@ export class Universe extends Readable {
 
   public async feeds(): Promise<Feed[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${Feeds.endpoint}`)
+      const opts = {
+        method: 'GET',
+        url: `${this.universeBase}/${Feeds.endpoint}`,
+        params: {
+          embed: [
+            'participants',
+            'top_latest_events'
+          ]
+        }
+      }
+      const res = await this.http.getClient()(opts)
       const feeds = res.data.data as FeedRawPayload[]
 
       return feeds.map((feed: FeedRawPayload) => {

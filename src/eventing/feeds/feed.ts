@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events'
+import typeOf from 'just-typeof'
 import { Universe } from '../../universe'
 import universeTopics from '../../universe/topics'
 import * as realtime from '../../realtime'
@@ -8,6 +9,7 @@ import {
   MessageRawPayloadAttachment, MessageReplyContentOptions, ReplyResponse, ReplyOptions
 } from '../../messaging/message'
 import { Asset, Assets } from '../../entities/asset'
+import { Person, PersonRawPayload } from '../../entities/person'
 import { Event, EventRawPayload } from './event'
 
 export interface FeedOptions {
@@ -20,7 +22,7 @@ export interface FeedOptions {
 
 export interface FeedRawPayload {
   readonly id?: string
-  readonly participants?: string[]
+  readonly participants?: (string | PersonRawPayload)[]
   readonly agents?: string[]
   readonly parents?: string[]
   readonly active?: boolean
@@ -36,7 +38,7 @@ export type FeedEventsRawPayload = EventRawPayload[]
 
 export interface FeedPayload {
   readonly id?: string
-  readonly participants?: string[]
+  readonly participants?: (string | Person)[]
   readonly agents?: string[]
   readonly parents?: string[]
   readonly createdAt?: Date | null
@@ -70,7 +72,7 @@ export class Feed extends EventEmitter {
   private eventsMap: FeedEventsMap = new Map()
 
   public id?: string
-  public participants?: string[]
+  public participants?: FeedPayload['participants']
   public agents?: string[]
   public parents?: string[]
   public createdAt?: Date | null
@@ -97,7 +99,7 @@ export class Feed extends EventEmitter {
     // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
     // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
     if (!this.id) this.id = rawPayload.id
-    this.participants = rawPayload.participants
+
     this.agents = rawPayload.agents
     this.parents = rawPayload.parents
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
@@ -105,6 +107,19 @@ export class Feed extends EventEmitter {
     this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined
     this.deleted = rawPayload.deleted
     this.active = rawPayload.active
+
+    if (Array.isArray(rawPayload.participants)) {
+      // NOTE: casting here and a runtime check seems an ugly hack. At the time of writing no
+      // better solution was available
+      this.participants = rawPayload.participants.map((item: string | PersonRawPayload) => {
+        if (typeOf(item) === 'object') {
+          return Person.create(item as PersonRawPayload, this.universe, this.http)
+        }
+        return item as string
+      })
+    } else if (!rawPayload.participants && !Array.isArray(this.topLatestEvents)) {
+      this.participants = undefined
+    }
 
     // we will only inject latest events, but never override it in false data scenarios. Note: this is
     // due to the API not sending virtual properties on a hard contract, but us not wanting to affect embedding
