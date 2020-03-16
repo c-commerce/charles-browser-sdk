@@ -1,3 +1,10 @@
+# [2.15.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.14.0...v2.15.0) (2020-03-16)
+
+
+### Features
+
+* **feeds:** embed participants ([22fc999](https://github.com/c-commerce/charles-browser-sdk/commit/22fc999418ebe27aae816deb5919fa7127cff07d))
+
 # [2.14.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.13.0...v2.14.0) (2020-03-16)
 
 

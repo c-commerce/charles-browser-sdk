@@ -78,11 +78,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
+var just_typeof_1 = __importDefault(require("just-typeof"));
 var topics_1 = __importDefault(require("../../universe/topics"));
 var realtime = __importStar(require("../../realtime"));
 var errors_1 = require("../../errors");
 var message_1 = require("../../messaging/message");
 var asset_1 = require("../../entities/asset");
+var person_1 = require("../../entities/person");
 var event_1 = require("./event");
 var Feed = /** @class */ (function (_super) {
     __extends(Feed, _super);
@@ -105,7 +107,6 @@ var Feed = /** @class */ (function (_super) {
         // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
         if (!this.id)
             this.id = rawPayload.id;
-        this.participants = rawPayload.participants;
         this.agents = rawPayload.agents;
         this.parents = rawPayload.parents;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
@@ -113,6 +114,19 @@ var Feed = /** @class */ (function (_super) {
         this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined;
         this.deleted = rawPayload.deleted;
         this.active = rawPayload.active;
+        if (Array.isArray(rawPayload.participants)) {
+            // NOTE: casting here and a runtime check seems an ugly hack. At the time of writing no
+            // better solution was available
+            this.participants = rawPayload.participants.map(function (item) {
+                if (just_typeof_1.default(item) === 'object') {
+                    return person_1.Person.create(item, _this.universe, _this.http);
+                }
+                return item;
+            });
+        }
+        else if (!rawPayload.participants && !Array.isArray(this.topLatestEvents)) {
+            this.participants = undefined;
+        }
         // we will only inject latest events, but never override it in false data scenarios. Note: this is
         // due to the API not sending virtual properties on a hard contract, but us not wanting to affect embedding
         // application state very eagerly. Also note: the API will anyhow implement uniformity as much as it can.

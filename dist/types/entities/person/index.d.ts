@@ -1,2 +1,2 @@
-import { Person, People, PeopleFetchRemoteError } from './person';
-export { Person, People, PeopleFetchRemoteError };
+import { Person, People, PeopleFetchRemoteError, PersonRawPayload } from './person';
+export { Person, People, PeopleFetchRemoteError, PersonRawPayload };

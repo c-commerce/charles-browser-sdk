@@ -4,6 +4,7 @@ import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse, ReplyOptions } from '../../messaging/message';
 import { Asset } from '../../entities/asset';
+import { Person, PersonRawPayload } from '../../entities/person';
 import { Event, EventRawPayload } from './event';
 export interface FeedOptions {
     universe: Universe;
@@ -14,7 +15,7 @@ export interface FeedOptions {
 }
 export interface FeedRawPayload {
     readonly id?: string;
-    readonly participants?: string[];
+    readonly participants?: (string | PersonRawPayload)[];
     readonly agents?: string[];
     readonly parents?: string[];
     readonly active?: boolean;
@@ -28,7 +29,7 @@ export declare type FeedlatestEventsRawPayload = EventRawPayload[];
 export declare type FeedEventsRawPayload = EventRawPayload[];
 export interface FeedPayload {
     readonly id?: string;
-    readonly participants?: string[];
+    readonly participants?: (string | Person)[];
     readonly agents?: string[];
     readonly parents?: string[];
     readonly createdAt?: Date | null;
@@ -56,7 +57,7 @@ export declare class Feed extends EventEmitter {
     static endpoint: string;
     private eventsMap;
     id?: string;
-    participants?: string[];
+    participants?: FeedPayload['participants'];
     agents?: string[];
     parents?: string[];
     createdAt?: Date | null;

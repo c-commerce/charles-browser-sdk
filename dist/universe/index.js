@@ -243,13 +243,23 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.feeds = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, feeds, err_2;
+            var opts, res, feeds, err_2;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + feed_1.Feeds.endpoint)];
+                        opts = {
+                            method: 'GET',
+                            url: this.universeBase + "/" + feed_1.Feeds.endpoint,
+                            params: {
+                                embed: [
+                                    'participants',
+                                    'top_latest_events'
+                                ]
+                            }
+                        };
+                        return [4 /*yield*/, this.http.getClient()(opts)];
                     case 1:
                         res = _a.sent();
                         feeds = res.data.data;
