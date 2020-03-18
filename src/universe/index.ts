@@ -11,7 +11,7 @@ import * as uuid from '../helpers/uuid'
 import * as staff from '../entities/staff/staff'
 import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
-import * as product from '../entities/Product/Product'
+import * as product from '../entities/product/product'
 import * as ticket from '../entities/ticket/ticket'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
