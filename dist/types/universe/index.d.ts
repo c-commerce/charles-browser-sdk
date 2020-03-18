@@ -6,6 +6,8 @@ import { BaseError } from '../errors';
 import * as staff from '../entities/staff/staff';
 import * as asset from '../entities/asset/asset';
 import * as person from '../entities/person/person';
+import * as product from '../entities/product/product';
+import * as ticket from '../entities/ticket/ticket';
 export interface IUniverseUser {
     id?: string;
     accessToken: string;
@@ -69,6 +71,8 @@ export declare class Universe extends Readable {
     staffs(): Promise<staff.Staff[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
     people(): Promise<person.Person[] | undefined>;
+    products(): Promise<product.Product[] | undefined>;
+    tickets(): Promise<ticket.Ticket[] | undefined>;
     /**
      * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
      */

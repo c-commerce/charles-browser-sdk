@@ -1,3 +1,16 @@
+# [2.16.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.15.1...v2.16.0) (2020-03-18)
+
+
+### Bug Fixes
+
+* **products:** make correct path ref (linux) ([56ddcc4](https://github.com/c-commerce/charles-browser-sdk/commit/56ddcc48481d9abfbc9975d7c135d5deb4e98c0c))
+
+
+### Features
+
+* add products ([37693c6](https://github.com/c-commerce/charles-browser-sdk/commit/37693c6fb886151a7eb3de3f492853446fd1ab80))
+* add tickets ([221d557](https://github.com/c-commerce/charles-browser-sdk/commit/221d557ba740ba0467f8ff6552dfbf7fdd221861))
+
 ## [2.15.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.15.0...v2.15.1) (2020-03-16)
 
 

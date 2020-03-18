@@ -81,6 +81,8 @@ var uuid = __importStar(require("../helpers/uuid"));
 var staff = __importStar(require("../entities/staff/staff"));
 var asset = __importStar(require("../entities/asset/asset"));
 var person = __importStar(require("../entities/person/person"));
+var product = __importStar(require("../entities/product/product"));
+var ticket = __importStar(require("../entities/ticket/ticket"));
 var Universe = /** @class */ (function (_super) {
     __extends(Universe, _super);
     function Universe(options) {
@@ -338,6 +340,52 @@ var Universe = /** @class */ (function (_super) {
                     case 2:
                         err_5 = _a.sent();
                         throw new person.PeopleFetchRemoteError(undefined, { error: err_5 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Universe.prototype.products = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_6;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + product.Products.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2 /*return*/, resources.map(function (resource) {
+                                return product.Product.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_6 = _a.sent();
+                        throw new product.ProductsFetchRemoteError(undefined, { error: err_6 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Universe.prototype.tickets = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_7;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + ticket.Tickets.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2 /*return*/, resources.map(function (resource) {
+                                return ticket.Ticket.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_7 = _a.sent();
+                        throw new ticket.TicketsFetchRemoteError(undefined, { error: err_7 });
                     case 3: return [2 /*return*/];
                 }
             });
