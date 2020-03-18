@@ -11,7 +11,7 @@ import * as uuid from '../helpers/uuid'
 import * as staff from '../entities/staff/staff'
 import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
-
+import * as product from '../entities/Product/Product'
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface IUniverseUser {
@@ -280,6 +280,18 @@ export class Universe extends Readable {
     }
   }
 
+  public async products(): Promise<product.Product[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${product.Products.endpoint}`)
+      const resources = res.data.data as product.ProductRawPayload[]
+
+      return resources.map((resource: product.ProductRawPayload) => {
+        return product.Product.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new product.ProductsFetchRemoteError(undefined, { error: err })
+    }
+  }
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**

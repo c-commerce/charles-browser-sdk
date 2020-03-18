@@ -53,7 +53,7 @@ export const ListFeeds = () => ({
 
       action('auth-sucess').call(this, ...arguments)
     },
-    async initUniverse () {
+    async initUniverse() {
       charles.init({
         credentials: {
           accessToken: this.token
@@ -81,13 +81,13 @@ export const ListFeeds = () => ({
 
       this.localFeeds = await universe.feeds()
     },
-    async handleReply (message, content) {
+    async handleReply(message, content) {
       const reply = message.reply({ content: { body: content } })
 
       await reply.send()
     }
   },
-  data () {
+  data() {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -98,23 +98,23 @@ export const ListFeeds = () => ({
   },
   computed: {
     universeName: {
-      get () {
+      get() {
         return window.localStorage.getItem('universeName')
       },
-      set (v) {
+      set(v) {
         window.localStorage.setItem('universeName', v)
       }
     },
     apiBase: {
-      get () {
+      get() {
         return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
       },
-      set (v) {
+      set(v) {
         window.localStorage.setItem('apiBase', v)
       }
     },
 
-    universePayload () {
+    universePayload() {
       if (!this.localUniversePayload) return ''
 
       return JSON.stringify(this.localUniversePayload, undefined, 2)
@@ -124,7 +124,7 @@ export const ListFeeds = () => ({
         })
         .join('\n')
     },
-    feedsPayload () {
+    feedsPayload() {
       if (!this.localFeeds || !this.localFeeds.length) return ''
 
       const list = this.localFeeds.map((item) => (item.serialize()))
@@ -135,7 +135,7 @@ export const ListFeeds = () => ({
         })
         .join('\n')
     },
-    code () {
+    code() {
       return `
 import charles from '@heycharles/browser-sdk'
 charles.init({
@@ -244,7 +244,7 @@ export const SelectFeedAndInitialise = () => ({
 
       action('auth-sucess').call(this, ...arguments)
     },
-    async initUniverse () {
+    async initUniverse() {
       charles.init({
         credentials: {
           accessToken: this.token
@@ -271,7 +271,7 @@ export const SelectFeedAndInitialise = () => ({
 
       this.localFeeds = await universe.feeds()
     },
-    async handleFeedSelect (index) {
+    async handleFeedSelect(index) {
       this.selectedFeed = this.localFeeds[index]
 
       this.selectedFeed.on('feed:message', (p) => {
@@ -280,11 +280,8 @@ export const SelectFeedAndInitialise = () => ({
 
       await this.selectedFeed.init()
     },
-    async handleReply (feed, content) {
+    async handleReply(feed, content) {
       let attachments
-      console.log('==============================')
-      console.log(this.formDataAttachment)
-      console.log('==============================')
       let rawAssets
       if (this.formDataAttachment) {
         rawAssets = this.formDataAttachment
@@ -301,11 +298,11 @@ export const SelectFeedAndInitialise = () => ({
 
       await reply.send()
     },
-    async handleLatestEvents (feed, content) {
+    async handleLatestEvents(feed, content) {
       this.latestEvents = await this.selectedFeed.fetchLatestEvents()
       action('latest-events').call(this, this.latestEvents)
     },
-    filesChange (fileList) {
+    filesChange(fileList) {
       const formData = new FormData()
       if (!fileList.length) return
       for (var i = 0; i < fileList.length; i++) {
@@ -317,7 +314,7 @@ export const SelectFeedAndInitialise = () => ({
       this.formDataAttachment = formData
     }
   },
-  data () {
+  data() {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -332,22 +329,22 @@ export const SelectFeedAndInitialise = () => ({
   },
   computed: {
     universeName: {
-      get () {
+      get() {
         return window.localStorage.getItem('universeName')
       },
-      set (v) {
+      set(v) {
         window.localStorage.setItem('universeName', v)
       }
     },
     apiBase: {
-      get () {
+      get() {
         return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
       },
-      set (v) {
+      set(v) {
         window.localStorage.setItem('apiBase', v)
       }
     },
-    code () {
+    code() {
       return `
 import charles from '@heycharles/browser-sdk'
 charles.init({

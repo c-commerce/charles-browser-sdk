@@ -9,13 +9,13 @@ before: hygen:handler:injection
   capitalizedName = h.inflection.capitalize(singularizedName)
   capitalizedPluralName = h.inflection.capitalize(pluralizedName)
 %>
-  public async <%= pluralizedName %>(): Promise<<%= name %>.<%= capitalizedName %>[] | undefined> {
+  public async <%= pluralizedName %>(): Promise<<%= singularizedName %>.<%= capitalizedName %>[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${<%= name %>.<%= capitalizedPluralName %>.endpoint}`)
-      const resources = res.data.data as <%= name %>.<%= capitalizedName %>RawPayload[]
+      const resources = res.data.data as <%= singularizedName %>.<%= capitalizedName %>RawPayload[]
 
-      return resources.map((resource: <%= name %>.<%= capitalizedName %>RawPayload) => {
-        return <%= name %>.<%= capitalizedName %>.create(resource, this, this.http)
+      return resources.map((resource: <%= singularizedName %>.<%= capitalizedName %>RawPayload) => {
+        return <%= name %>.<%= singularizedName %>.create(resource, this, this.http)
       })
     } catch (err) {
       throw new <%= name %>.<%= capitalizedPluralName %>FetchRemoteError(undefined, { error: err })
