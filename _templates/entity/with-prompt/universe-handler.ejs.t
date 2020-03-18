@@ -15,9 +15,9 @@ before: hygen:handler:injection
       const resources = res.data.data as <%= singularizedName %>.<%= capitalizedName %>RawPayload[]
 
       return resources.map((resource: <%= singularizedName %>.<%= capitalizedName %>RawPayload) => {
-        return <%= name %>.<%= singularizedName %>.create(resource, this, this.http)
+        return <%= singularizedName %>.<%= capitalizedName %>.create(resource, this, this.http)
       })
     } catch (err) {
-      throw new <%= name %>.<%= capitalizedPluralName %>FetchRemoteError(undefined, { error: err })
+      throw new <%= singularizedName %>.<%= capitalizedPluralName %>FetchRemoteError(undefined, { error: err })
     }
   }

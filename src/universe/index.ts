@@ -12,6 +12,8 @@ import * as staff from '../entities/staff/staff'
 import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
 import * as product from '../entities/Product/Product'
+import * as ticket from '../entities/ticket/ticket'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface IUniverseUser {
@@ -292,6 +294,20 @@ export class Universe extends Readable {
       throw new product.ProductsFetchRemoteError(undefined, { error: err })
     }
   }
+
+  public async tickets(): Promise<ticket.Ticket[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${ticket.Tickets.endpoint}`)
+      const resources = res.data.data as ticket.TicketRawPayload[]
+
+      return resources.map((resource: ticket.TicketRawPayload) => {
+        return ticket.Ticket.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new ticket.TicketsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**

@@ -9,7 +9,7 @@ import PrismEditor from 'vue-prism-editor'
 import Init from './init'
 
 export default {
-  title: 'Products',
+  title: 'Business',
   component: Init,
   parameters: {
     notes: 'Your base action will be interacting with a universe. A universe is a system and namespace that is itself a URL that provides agent UIs and many more.'
@@ -66,7 +66,7 @@ export const ListProducts = () => ({
 
       await universe.init()
 
-      this.localProducts = await universe.products()
+      this.localTickets = await universe.tickets()
     },
     async handleReply(message, content) {
       const reply = message.reply({ content: { body: content } })
@@ -79,7 +79,7 @@ export const ListProducts = () => ({
       token: window.localStorage.getItem('token') || null,
       universe: null,
       localUniversePayload: null,
-      localProducts: [],
+      localTickets: [],
       replyContent: []
     }
   },
@@ -111,10 +111,10 @@ export const ListProducts = () => ({
         })
         .join('\n')
     },
-    productsPayload() {
-      if (!this.localProducts || !this.localProducts.length) return ''
+    ticketsPayload() {
+      if (!this.localTickets || !this.localTickets.length) return ''
 
-      const list = this.localProducts.map((item) => (item.serialize()))
+      const list = this.localTickets.map((item) => (item.serialize()))
       return JSON.stringify(list, undefined, 2)
         .split('\n')
         .map((line) => {
@@ -133,9 +133,9 @@ const universe = charles.universe('${this.universeName || ''}')
 // lets init it immediately to get it's remote state
 await universe.init()
 
-const products = await universe.products()
+const tickets = await universe.tickets()
 
-${this.productsPayload}
+${this.ticketsPayload}
       `
     }
   }

@@ -9,4 +9,4 @@ before: hygen:import:injection
   capitalizedName = h.inflection.capitalize(singularizedName)
   capitalizedPluralName = h.inflection.capitalize(name)
 %>
-import * as <%= singularizedName %> from '../entities/<%= name %>/<%= name %>'
+import * as <%= singularizedName %> from '../entities/<%= singularizedName %>/<%= singularizedName %>'
