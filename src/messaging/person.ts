@@ -21,6 +21,9 @@ export interface PersonRawPayload {
   readonly first_name?: string
   readonly middle_name?: string
   readonly last_name?: string
+  readonly name?: string
+  readonly avatar?: string
+  readonly email?: string
   readonly date_of_birth?: string | null
   readonly created_at?: string
   readonly updated_at?: string
@@ -64,6 +67,9 @@ export interface PersonPayload {
   readonly firstName?: string
   readonly middleName?: string
   readonly lastName?: string
+  readonly name?: string
+  readonly avatar?: string
+  readonly email?: string
   readonly dateOfBirth?: Date | null
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
@@ -116,6 +122,9 @@ export class Person extends EventEmitter {
   public readonly firstName?: string
   public readonly middleName?: string
   public readonly lastName?: string
+  public readonly name?: string
+  public readonly avatar?: string
+  public readonly email?: string
   public readonly dateOfBirth?: Date | null
   public readonly createdAt?: Date | null
   public readonly updatedAt?: Date | null
@@ -140,6 +149,9 @@ export class Person extends EventEmitter {
       this.firstName = options.rawPayload.first_name
       this.middleName = options.rawPayload.middle_name
       this.lastName = options.rawPayload.last_name
+      this.name = options.rawPayload.name
+      this.avatar = options.rawPayload.avatar
+      this.email = options.rawPayload.email
       this.dateOfBirth = options.rawPayload.date_of_birth ? new Date(options.rawPayload.date_of_birth) : null
       this.createdAt = options.rawPayload.created_at ? new Date(options.rawPayload.created_at) : null
       this.updatedAt = options.rawPayload.updated_at ? new Date(options.rawPayload.updated_at) : null
@@ -180,6 +192,9 @@ export class Person extends EventEmitter {
       first_name: this.firstName,
       middle_name: this.middleName,
       last_name: this.lastName,
+      name: this.name,
+      avatar: this.avatar,
+      email: this.email,
       date_of_birth: this.dateOfBirth ? this.dateOfBirth.toISOString() : undefined,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
