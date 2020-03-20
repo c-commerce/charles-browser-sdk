@@ -1,13 +1,10 @@
 
-import { EventEmitter } from 'events'
+import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface AssetOptions {
-  universe: Universe
-  http: Universe['http']
+export interface AssetOptions extends EntityOptions {
   rawPayload?: AssetRawPayload
-  initialized?: boolean
 }
 
 export interface AssetsOptions {
@@ -47,7 +44,7 @@ export interface AssetPayload {
   readonly public?: boolean
 }
 
-export class Asset extends EventEmitter {
+export class Asset extends Entity<AssetPayload, AssetRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
   protected options: AssetOptions
@@ -81,7 +78,9 @@ export class Asset extends EventEmitter {
     }
   }
 
-  private deserialize(rawPayload: AssetRawPayload): Asset {
+  protected deserialize(rawPayload: AssetRawPayload): Asset {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -141,12 +140,6 @@ export class Asset extends EventEmitter {
     } catch (err) {
       throw this.handleError(new AssetFetchRemoteError(undefined, { error: err }))
     }
-  }
-
-  private handleError(err: Error): Error {
-    if (this.listeners('error').length > 0) this.emit('error', err)
-
-    return err
   }
 }
 

@@ -7,15 +7,12 @@ to: "<%= 'src/entities/' + h.inflection.camelize(h.inflection.singularize(h.infl
   capitalizedName = h.inflection.capitalize(singularizedName)
   capitalizedPluralName = h.inflection.capitalize(pluralizedName)
 %>
-import { EventEmitter } from 'events'
+import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface <%= capitalizedName %>Options {
-  universe: Universe
-  http: Universe['http']
+export interface <%= capitalizedName %>Options extends EntityOptions {
   rawPayload?: <%= capitalizedName %>RawPayload
-  initialized?: boolean
 }
 
 export interface <%= capitalizedName %>RawPayload {
@@ -34,7 +31,7 @@ export interface <%= capitalizedName %>Payload {
   readonly active?: boolean
 }
 
-export class <%= capitalizedName %> extends EventEmitter {
+export class <%= capitalizedName %> extends Entity<<%= capitalizedName %>Payload, <%= capitalizedName %>RawPayload> {
   protected universe: Universe
   protected http: Universe['http']
   protected options: <%= capitalizedName %>Options
@@ -104,12 +101,6 @@ export class <%= capitalizedName %> extends EventEmitter {
     } catch (err) {
       throw this.handleError(new <%= capitalizedName %>FetchRemoteError(undefined, { error: err }))
     }
-  }
-
-  private handleError(err: Error): Error {
-    if (this.listeners('error').length > 0) this.emit('error', err)
-
-    return err
   }
 }
 

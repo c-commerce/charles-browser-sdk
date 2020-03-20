@@ -1,13 +1,10 @@
 
-import { EventEmitter } from 'events'
+import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface StaffOptions {
-  universe: Universe
-  http: Universe['http']
+export interface StaffOptions extends EntityOptions {
   rawPayload?: StaffRawPayload
-  initialized?: boolean
 }
 
 export interface StaffRawPayload {
@@ -37,7 +34,7 @@ export interface StaffPayload {
   readonly type?: StaffRawPayload['type']
 }
 
-export class Staff extends EventEmitter {
+export class Staff extends Entity<StaffPayload, StaffRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
   protected options: StaffOptions
@@ -68,7 +65,9 @@ export class Staff extends EventEmitter {
     }
   }
 
-  private deserialize(rawPayload: StaffRawPayload): Staff {
+  protected deserialize(rawPayload: StaffRawPayload): Staff {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -122,12 +121,6 @@ export class Staff extends EventEmitter {
     } catch (err) {
       throw this.handleError(new StaffFetchRemoteError(undefined, { error: err }))
     }
-  }
-
-  private handleError(err: Error): Error {
-    if (this.listeners('error').length > 0) this.emit('error', err)
-
-    return err
   }
 }
 

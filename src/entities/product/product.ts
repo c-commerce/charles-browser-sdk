@@ -1,13 +1,10 @@
 
-import { EventEmitter } from 'events'
+import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface ProductOptions {
-  universe: Universe
-  http: Universe['http']
+export interface ProductOptions extends EntityOptions {
   rawPayload?: ProductRawPayload
-  initialized?: boolean
 }
 
 export interface ProductRawPayloadPrice {
@@ -135,7 +132,7 @@ export interface ProductPayload {
   readonly prices?: ProductRawPayload['prices']
 }
 
-export class Product extends EventEmitter {
+export class Product extends Entity<ProductPayload, ProductRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
   protected options: ProductOptions
@@ -208,7 +205,9 @@ export class Product extends EventEmitter {
     }
   }
 
-  private deserialize(rawPayload: ProductRawPayload): Product {
+  protected deserialize(rawPayload: ProductRawPayload): Product {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -344,12 +343,6 @@ export class Product extends EventEmitter {
     } catch (err) {
       throw this.handleError(new ProductFetchRemoteError(undefined, { error: err }))
     }
-  }
-
-  private handleError(err: Error): Error {
-    if (this.listeners('error').length > 0) this.emit('error', err)
-
-    return err
   }
 }
 

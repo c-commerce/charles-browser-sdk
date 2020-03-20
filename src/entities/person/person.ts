@@ -1,13 +1,10 @@
 
-import { EventEmitter } from 'events'
+import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface PersonOptions {
-  universe: Universe
-  http: Universe['http']
+export interface PersonOptions extends EntityOptions {
   rawPayload?: PersonRawPayload
-  initialized?: boolean
 }
 
 export interface PersonAddressRawPayload {
@@ -74,7 +71,7 @@ export interface PersonPayload {
   readonly phonenumbers?: PersonRawPayload['phonenumbers']
 }
 
-export class Person extends EventEmitter {
+export class Person extends Entity<PersonPayload, PersonRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
   protected options: PersonOptions
@@ -111,7 +108,9 @@ export class Person extends EventEmitter {
     }
   }
 
-  private deserialize(rawPayload: PersonRawPayload): Person {
+  protected deserialize(rawPayload: PersonRawPayload): Person {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -177,12 +176,6 @@ export class Person extends EventEmitter {
     } catch (err) {
       throw this.handleError(new PersonFetchRemoteError(undefined, { error: err }))
     }
-  }
-
-  private handleError(err: Error): Error {
-    if (this.listeners('error').length > 0) this.emit('error', err)
-
-    return err
   }
 }
 

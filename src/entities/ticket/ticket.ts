@@ -1,13 +1,10 @@
 
-import { EventEmitter } from 'events'
+import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface TicketOptions {
-  universe: Universe
-  http: Universe['http']
+export interface TicketOptions extends EntityOptions {
   rawPayload?: TicketRawPayload
-  initialized?: boolean
 }
 
 export interface TicketRawPayload {
@@ -54,7 +51,7 @@ export interface TicketPayload {
   readonly linked?: TicketRawPayload['linked']
 }
 
-export class Ticket extends EventEmitter {
+export class Ticket extends Entity<TicketPayload, TicketRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
   protected options: TicketOptions
@@ -94,7 +91,9 @@ export class Ticket extends EventEmitter {
     }
   }
 
-  private deserialize(rawPayload: TicketRawPayload): Ticket {
+  protected deserialize(rawPayload: TicketRawPayload): Ticket {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -166,12 +165,6 @@ export class Ticket extends EventEmitter {
     } catch (err) {
       throw this.handleError(new TicketFetchRemoteError(undefined, { error: err }))
     }
-  }
-
-  private handleError(err: Error): Error {
-    if (this.listeners('error').length > 0) this.emit('error', err)
-
-    return err
   }
 }
 
