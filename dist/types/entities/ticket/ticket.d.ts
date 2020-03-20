@@ -1,12 +1,8 @@
-/// <reference types="node" />
-import { EventEmitter } from 'events';
+import Entity, { EntityOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface TicketOptions {
-    universe: Universe;
-    http: Universe['http'];
+export interface TicketOptions extends EntityOptions {
     rawPayload?: TicketRawPayload;
-    initialized?: boolean;
 }
 export interface TicketRawPayload {
     readonly id?: string;
@@ -50,7 +46,7 @@ export interface TicketPayload {
     readonly tags?: string[];
     readonly linked?: TicketRawPayload['linked'];
 }
-export declare class Ticket extends EventEmitter {
+export declare class Ticket extends Entity<TicketPayload, TicketRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: TicketOptions;
@@ -76,12 +72,11 @@ export declare class Ticket extends EventEmitter {
     tags?: TicketPayload['tags'];
     linked?: TicketPayload['linked'];
     constructor(options: TicketOptions);
-    private deserialize;
+    protected deserialize(rawPayload: TicketRawPayload): Ticket;
     static create(payload: TicketRawPayload, universe: Universe, http: Universe['http']): Ticket;
     serialize(): TicketRawPayload;
     init(): Promise<Ticket | undefined>;
     fetch(): Promise<Ticket | undefined>;
-    private handleError;
 }
 export declare class Tickets {
     static endpoint: string;

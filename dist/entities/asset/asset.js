@@ -59,8 +59,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var events_1 = require("events");
+var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var Asset = /** @class */ (function (_super) {
     __extends(Asset, _super);
@@ -77,6 +80,7 @@ var Asset = /** @class */ (function (_super) {
         return _this;
     }
     Asset.prototype.deserialize = function (rawPayload) {
+        this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
@@ -151,13 +155,8 @@ var Asset = /** @class */ (function (_super) {
             });
         });
     };
-    Asset.prototype.handleError = function (err) {
-        if (this.listeners('error').length > 0)
-            this.emit('error', err);
-        return err;
-    };
     return Asset;
-}(events_1.EventEmitter));
+}(_base_1.default));
 exports.Asset = Asset;
 var Assets = /** @class */ (function () {
     function Assets(options) {

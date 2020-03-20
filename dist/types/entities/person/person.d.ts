@@ -1,12 +1,8 @@
-/// <reference types="node" />
-import { EventEmitter } from 'events';
+import Entity, { EntityOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface PersonOptions {
-    universe: Universe;
-    http: Universe['http'];
+export interface PersonOptions extends EntityOptions {
     rawPayload?: PersonRawPayload;
-    initialized?: boolean;
 }
 export interface PersonAddressRawPayload {
     readonly id?: string;
@@ -41,6 +37,9 @@ export interface PersonRawPayload {
     readonly first_name?: string;
     readonly middle_name?: string;
     readonly last_name?: string;
+    readonly name?: string;
+    readonly email?: string;
+    readonly avatar?: string;
     readonly date_of_birth?: string;
     readonly gender?: string;
     readonly comment?: string;
@@ -56,13 +55,16 @@ export interface PersonPayload {
     readonly firstName?: PersonRawPayload['first_name'];
     readonly middleName?: PersonRawPayload['middle_name'];
     readonly lastName?: PersonRawPayload['last_name'];
+    readonly name?: PersonRawPayload['name'];
+    readonly email?: PersonRawPayload['email'];
+    readonly avatar?: PersonRawPayload['avatar'];
     readonly dateOfBirth?: PersonRawPayload['date_of_birth'];
     readonly gender?: PersonRawPayload['gender'];
     readonly comment?: PersonRawPayload['comment'];
     readonly addresses?: PersonRawPayload['addresses'];
     readonly phonenumbers?: PersonRawPayload['phonenumbers'];
 }
-export declare class Person extends EventEmitter {
+export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: PersonOptions;
@@ -76,18 +78,20 @@ export declare class Person extends EventEmitter {
     firstName?: PersonPayload['firstName'];
     middleName?: PersonPayload['middleName'];
     lastName?: PersonPayload['lastName'];
+    name?: PersonPayload['name'];
+    email?: PersonPayload['email'];
+    avatar?: PersonPayload['avatar'];
     dateOfBirth?: PersonPayload['dateOfBirth'];
     gender?: PersonPayload['gender'];
     comment?: PersonPayload['comment'];
     addresses?: PersonPayload['addresses'];
     phonenumbers?: PersonPayload['phonenumbers'];
     constructor(options: PersonOptions);
-    private deserialize;
+    protected deserialize(rawPayload: PersonRawPayload): Person;
     static create(payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person;
     serialize(): PersonRawPayload;
     init(): Promise<Person | undefined>;
     fetch(): Promise<Person | undefined>;
-    private handleError;
 }
 export declare class People {
     static endpoint: string;

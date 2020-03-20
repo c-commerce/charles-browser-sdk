@@ -1,3 +1,15 @@
+# [2.18.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.17.1...v2.18.0) (2020-03-20)
+
+
+### Bug Fixes
+
+* **person:** remove unused implementation, add missing fields, add seperate story ([29438d5](https://github.com/c-commerce/charles-browser-sdk/commit/29438d57a5ffaabff2d4cfc7aaf1ce646194af6a))
+
+
+### Features
+
+* move all entities to extend entity ([23d7518](https://github.com/c-commerce/charles-browser-sdk/commit/23d7518e8f7e09eff8d105ae43cffe3d6dae67cd))
+
 ## [2.17.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.17.0...v2.17.1) (2020-03-20)
 
 

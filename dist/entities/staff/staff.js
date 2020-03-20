@@ -48,8 +48,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var events_1 = require("events");
+var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var Staff = /** @class */ (function (_super) {
     __extends(Staff, _super);
@@ -66,6 +69,7 @@ var Staff = /** @class */ (function (_super) {
         return _this;
     }
     Staff.prototype.deserialize = function (rawPayload) {
+        this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
@@ -134,13 +138,8 @@ var Staff = /** @class */ (function (_super) {
             });
         });
     };
-    Staff.prototype.handleError = function (err) {
-        if (this.listeners('error').length > 0)
-            this.emit('error', err);
-        return err;
-    };
     return Staff;
-}(events_1.EventEmitter));
+}(_base_1.default));
 exports.Staff = Staff;
 var Staffs = /** @class */ (function () {
     function Staffs() {

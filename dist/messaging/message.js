@@ -69,7 +69,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
 var errors_1 = require("../errors");
-var person_1 = require("./person");
+var person_1 = require("../entities/person");
 var asset_1 = require("../entities/asset/asset");
 var Message = /** @class */ (function (_super) {
     __extends(Message, _super);
@@ -98,7 +98,7 @@ var Message = /** @class */ (function (_super) {
             _this.isProcessed = options.rawPayload.is_processed;
             _this.processedData = options.rawPayload.processed_data;
             _this.replyables = options.rawPayload.replyables;
-            _this.person = options.rawPayload.person ? person_1.Person.createUninitialized({ id: options.rawPayload.person }, _this.universe, _this.http) : undefined;
+            _this.person = options.rawPayload.person ? person_1.Person.create({ id: options.rawPayload.person }, _this.universe, _this.http) : undefined;
             if (options.feed) {
                 _this.feed = options.feed;
             }

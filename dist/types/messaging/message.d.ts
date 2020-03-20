@@ -2,7 +2,7 @@
 import { EventEmitter } from 'events';
 import { Universe } from '../universe';
 import { BaseError } from '../errors';
-import { Person, PersonRawPayload } from './person';
+import { Person, PersonRawPayload } from '../entities/person';
 import { Asset } from '../entities/asset/asset';
 import { FeedRawPayload, Feed } from '../eventing/feeds';
 export interface MessageOptions {

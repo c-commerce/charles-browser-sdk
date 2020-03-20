@@ -1,12 +1,8 @@
-/// <reference types="node" />
-import { EventEmitter } from 'events';
+import Entity, { EntityOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface AssetOptions {
-    universe: Universe;
-    http: Universe['http'];
+export interface AssetOptions extends EntityOptions {
     rawPayload?: AssetRawPayload;
-    initialized?: boolean;
 }
 export interface AssetsOptions {
     http: Universe['http'];
@@ -42,7 +38,7 @@ export interface AssetPayload {
     readonly metadata?: object | null;
     readonly public?: boolean;
 }
-export declare class Asset extends EventEmitter {
+export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: AssetOptions;
@@ -62,12 +58,11 @@ export declare class Asset extends EventEmitter {
     metadata?: AssetPayload['metadata'];
     public?: AssetPayload['public'];
     constructor(options: AssetOptions);
-    private deserialize;
+    protected deserialize(rawPayload: AssetRawPayload): Asset;
     static create(payload: AssetRawPayload, universe: Universe, http: Universe['http']): Asset;
     serialize(): AssetRawPayload;
     init(): Promise<Asset | undefined>;
     fetch(): Promise<Asset | undefined>;
-    private handleError;
 }
 export interface AssetsPostOptions {
     public?: boolean;

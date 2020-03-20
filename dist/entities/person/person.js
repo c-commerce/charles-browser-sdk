@@ -48,8 +48,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var events_1 = require("events");
+var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var Person = /** @class */ (function (_super) {
     __extends(Person, _super);
@@ -66,6 +69,7 @@ var Person = /** @class */ (function (_super) {
         return _this;
     }
     Person.prototype.deserialize = function (rawPayload) {
+        this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
@@ -74,6 +78,9 @@ var Person = /** @class */ (function (_super) {
         this.firstName = rawPayload.first_name;
         this.middleName = rawPayload.middle_name;
         this.lastName = rawPayload.last_name;
+        this.name = rawPayload.name;
+        this.email = rawPayload.email;
+        this.avatar = rawPayload.avatar;
         this.dateOfBirth = rawPayload.date_of_birth;
         this.gender = rawPayload.gender;
         this.comment = rawPayload.comment;
@@ -94,6 +101,9 @@ var Person = /** @class */ (function (_super) {
             first_name: this.firstName,
             middle_name: this.middleName,
             last_name: this.lastName,
+            name: this.name,
+            email: this.email,
+            avatar: this.avatar,
             date_of_birth: this.dateOfBirth,
             gender: this.gender,
             comment: this.comment,
@@ -140,13 +150,8 @@ var Person = /** @class */ (function (_super) {
             });
         });
     };
-    Person.prototype.handleError = function (err) {
-        if (this.listeners('error').length > 0)
-            this.emit('error', err);
-        return err;
-    };
     return Person;
-}(events_1.EventEmitter));
+}(_base_1.default));
 exports.Person = Person;
 var People = /** @class */ (function () {
     function People() {

@@ -1,12 +1,8 @@
-/// <reference types="node" />
-import { EventEmitter } from 'events';
+import Entity, { EntityOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface ProductOptions {
-    universe: Universe;
-    http: Universe['http'];
+export interface ProductOptions extends EntityOptions {
     rawPayload?: ProductRawPayload;
-    initialized?: boolean;
 }
 export interface ProductRawPayloadPrice {
     readonly calculatory_base_price?: number;
@@ -130,7 +126,7 @@ export interface ProductPayload {
     readonly metadata?: object;
     readonly prices?: ProductRawPayload['prices'];
 }
-export declare class Product extends EventEmitter {
+export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: ProductOptions;
@@ -188,12 +184,11 @@ export declare class Product extends EventEmitter {
     metadata?: ProductPayload['metadata'];
     prices?: ProductPayload['prices'];
     constructor(options: ProductOptions);
-    private deserialize;
+    protected deserialize(rawPayload: ProductRawPayload): Product;
     static create(payload: ProductRawPayload, universe: Universe, http: Universe['http']): Product;
     serialize(): ProductRawPayload;
     init(): Promise<Product | undefined>;
     fetch(): Promise<Product | undefined>;
-    private handleError;
 }
 export declare class Products {
     static endpoint: string;

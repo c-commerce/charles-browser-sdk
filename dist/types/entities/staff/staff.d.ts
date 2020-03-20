@@ -1,12 +1,8 @@
-/// <reference types="node" />
-import { EventEmitter } from 'events';
+import Entity, { EntityOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface StaffOptions {
-    universe: Universe;
-    http: Universe['http'];
+export interface StaffOptions extends EntityOptions {
     rawPayload?: StaffRawPayload;
-    initialized?: boolean;
 }
 export interface StaffRawPayload {
     readonly id?: string;
@@ -33,7 +29,7 @@ export interface StaffPayload {
     readonly comment?: StaffRawPayload['comment'];
     readonly type?: StaffRawPayload['type'];
 }
-export declare class Staff extends EventEmitter {
+export declare class Staff extends Entity<StaffPayload, StaffRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: StaffOptions;
@@ -50,12 +46,11 @@ export declare class Staff extends EventEmitter {
     comment?: StaffRawPayload['comment'];
     type?: StaffRawPayload['type'];
     constructor(options: StaffOptions);
-    private deserialize;
+    protected deserialize(rawPayload: StaffRawPayload): Staff;
     static create(payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff;
     serialize(): StaffRawPayload;
     init(): Promise<Staff | undefined>;
     fetch(): Promise<Staff | undefined>;
-    private handleError;
 }
 export declare class Staffs {
     static endpoint: string;
