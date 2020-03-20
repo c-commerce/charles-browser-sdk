@@ -27,6 +27,9 @@ var Person = /** @class */ (function (_super) {
             _this.firstName = options.rawPayload.first_name;
             _this.middleName = options.rawPayload.middle_name;
             _this.lastName = options.rawPayload.last_name;
+            _this.name = options.rawPayload.name;
+            _this.avatar = options.rawPayload.avatar;
+            _this.email = options.rawPayload.email;
             _this.dateOfBirth = options.rawPayload.date_of_birth ? new Date(options.rawPayload.date_of_birth) : null;
             _this.createdAt = options.rawPayload.created_at ? new Date(options.rawPayload.created_at) : null;
             _this.updatedAt = options.rawPayload.updated_at ? new Date(options.rawPayload.updated_at) : null;
@@ -65,6 +68,9 @@ var Person = /** @class */ (function (_super) {
             first_name: this.firstName,
             middle_name: this.middleName,
             last_name: this.lastName,
+            name: this.name,
+            avatar: this.avatar,
+            email: this.email,
             date_of_birth: this.dateOfBirth ? this.dateOfBirth.toISOString() : undefined,
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,

@@ -18,6 +18,9 @@ export interface PersonRawPayload {
     readonly first_name?: string;
     readonly middle_name?: string;
     readonly last_name?: string;
+    readonly name?: string;
+    readonly avatar?: string;
+    readonly email?: string;
     readonly date_of_birth?: string | null;
     readonly created_at?: string;
     readonly updated_at?: string;
@@ -58,6 +61,9 @@ export interface PersonPayload {
     readonly firstName?: string;
     readonly middleName?: string;
     readonly lastName?: string;
+    readonly name?: string;
+    readonly avatar?: string;
+    readonly email?: string;
     readonly dateOfBirth?: Date | null;
     readonly createdAt?: Date | null;
     readonly updatedAt?: Date | null;
@@ -104,6 +110,9 @@ export declare class Person extends EventEmitter {
     readonly firstName?: string;
     readonly middleName?: string;
     readonly lastName?: string;
+    readonly name?: string;
+    readonly avatar?: string;
+    readonly email?: string;
     readonly dateOfBirth?: Date | null;
     readonly createdAt?: Date | null;
     readonly updatedAt?: Date | null;

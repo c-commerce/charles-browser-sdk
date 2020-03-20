@@ -1,3 +1,10 @@
+# [2.17.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.16.0...v2.17.0) (2020-03-20)
+
+
+### Features
+
+* **person:** expose missing fields ([0799b90](https://github.com/c-commerce/charles-browser-sdk/commit/0799b909d288b8f2492c9055ea38ed9ce383dcc8))
+
 # [2.16.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.15.1...v2.16.0) (2020-03-18)
 
 
