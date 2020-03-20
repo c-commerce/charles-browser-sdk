@@ -45,6 +45,9 @@ export interface PersonRawPayload {
   readonly first_name?: string
   readonly middle_name?: string
   readonly last_name?: string
+  readonly name?: string
+  readonly email?: string
+  readonly avatar?: string
   readonly date_of_birth?: string
   readonly gender?: string
   readonly comment?: string
@@ -61,6 +64,9 @@ export interface PersonPayload {
   readonly firstName?: PersonRawPayload['first_name']
   readonly middleName?: PersonRawPayload['middle_name']
   readonly lastName?: PersonRawPayload['last_name']
+  readonly name?: PersonRawPayload['name']
+  readonly email?: PersonRawPayload['email']
+  readonly avatar?: PersonRawPayload['avatar']
   readonly dateOfBirth?: PersonRawPayload['date_of_birth']
   readonly gender?: PersonRawPayload['gender']
   readonly comment?: PersonRawPayload['comment']
@@ -83,6 +89,9 @@ export class Person extends EventEmitter {
   public firstName?: PersonPayload['firstName']
   public middleName?: PersonPayload['middleName']
   public lastName?: PersonPayload['lastName']
+  public name?: PersonPayload['name']
+  public email?: PersonPayload['email']
+  public avatar?: PersonPayload['avatar']
   public dateOfBirth?: PersonPayload['dateOfBirth']
   public gender?: PersonPayload['gender']
   public comment?: PersonPayload['comment']
@@ -111,6 +120,9 @@ export class Person extends EventEmitter {
     this.firstName = rawPayload.first_name
     this.middleName = rawPayload.middle_name
     this.lastName = rawPayload.last_name
+    this.name = rawPayload.name
+    this.email = rawPayload.email
+    this.avatar = rawPayload.avatar
     this.dateOfBirth = rawPayload.date_of_birth
     this.gender = rawPayload.gender
     this.comment = rawPayload.comment
@@ -134,6 +146,9 @@ export class Person extends EventEmitter {
       first_name: this.firstName,
       middle_name: this.middleName,
       last_name: this.lastName,
+      name: this.name,
+      email: this.email,
+      avatar: this.avatar,
       date_of_birth: this.dateOfBirth,
       gender: this.gender,
       comment: this.comment,

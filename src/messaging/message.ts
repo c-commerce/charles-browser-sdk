@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events'
 import { Universe } from '../universe'
 import { BaseError } from '../errors'
-import { Person, PersonRawPayload } from './person'
+import { Person, PersonRawPayload } from '../entities/person'
 import { Assets, Asset, AssetRawPayload, AssetsPostError } from '../entities/asset/asset'
 import { FeedRawPayload, Feed } from '../eventing/feeds'
 
@@ -142,7 +142,7 @@ export class Message extends EventEmitter {
       this.isProcessed = options.rawPayload.is_processed
       this.processedData = options.rawPayload.processed_data
       this.replyables = options.rawPayload.replyables
-      this.person = options.rawPayload.person ? Person.createUninitialized({ id: options.rawPayload.person }, this.universe, this.http) : undefined
+      this.person = options.rawPayload.person ? Person.create({ id: options.rawPayload.person }, this.universe, this.http) : undefined
 
       if (options.feed) {
         this.feed = options.feed
