@@ -16,7 +16,7 @@ export default {
   }
 }
 
-export const ListProducts = () => ({
+export const ListTickets = () => ({
   components: { Init, PrismEditor },
   template: `
     <div>
