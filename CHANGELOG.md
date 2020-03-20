@@ -1,3 +1,10 @@
+## [2.17.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.17.0...v2.17.1) (2020-03-20)
+
+
+### Bug Fixes
+
+* **docs:** name correct category ([4d33888](https://github.com/c-commerce/charles-browser-sdk/commit/4d33888877201c5c94457f47c6559457cc66dfd7))
+
 # [2.17.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.16.0...v2.17.0) (2020-03-20)
 
 
