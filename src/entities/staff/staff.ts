@@ -1,5 +1,5 @@
 
-import Entity, { EntityOptions } from '../_base'
+import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
@@ -7,8 +7,7 @@ export interface StaffOptions extends EntityOptions {
   rawPayload?: StaffRawPayload
 }
 
-export interface StaffRawPayload {
-  readonly id?: string
+export interface StaffRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
@@ -41,7 +40,8 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
   public initialized: boolean
 
   public endpoint: string
-  public id?: string
+
+  public id?: StaffPayload['id']
   public createdAt?: StaffPayload['createdAt']
   public updatedAt?: StaffPayload['updatedAt']
   public deleted?: StaffPayload['deleted']

@@ -38,7 +38,8 @@ export class <%= capitalizedName %> extends Entity<<%= capitalizedName %>Payload
   public initialized: boolean
 
   public endpoint: string
-  public id?: string
+
+  public id?: <%= capitalizedName %>Payload['id']
   public createdAt?: <%= capitalizedName %>Payload['createdAt']
   public updatedAt?: <%= capitalizedName %>Payload['updatedAt']
   public deleted?: <%= capitalizedName %>Payload['deleted']

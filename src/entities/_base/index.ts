@@ -9,6 +9,10 @@ export interface EntityOptions {
   initialized?: boolean
 }
 
+export interface EntityRawPayload {
+  readonly id?: string
+}
+
 export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
   protected abstract universe: Universe
   protected abstract http: Universe['http']
@@ -24,6 +28,9 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     return this
   }
 
+  /**
+   * Convert object to a JS struct.
+   */
   public abstract serialize(): RawPayload
   protected abstract deserialize(rawPayload: RawPayload): Entity<Payload, RawPayload>
 
@@ -33,6 +40,10 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     return err
   }
 
+  /**
+   * Change this object on the remote by partially applying a change object to it as diff.
+   * @param changePart
+   */
   public async patch(changePart: RawPayload): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._patch directly and e.g. handle our error differently
     return this._patch(changePart)
@@ -41,6 +52,7 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
   protected async _patch(changePart: RawPayload): Promise<Entity<Payload, RawPayload>> {
     if (this._rawPayload === null || this._rawPayload === undefined) throw new TypeError('patch requires raw payload to be set.')
     if (!changePart) throw new TypeError('patch requires incoming object to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('patch requires id to be set.')
 
     try {
       const patch = diff(
@@ -70,6 +82,9 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     }
   }
 
+  /**
+   * Create this object on the remote.
+   */
   public async post(): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._post directly and e.g. handle our error differently
     return this._post()
@@ -97,6 +112,42 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     }
   }
 
+  /**
+   * Delete this object on the remote.
+   */
+  public async delete(): Promise<Entity<Payload, RawPayload>> {
+    // we allow implementers to override us by calling ._delete directly and e.g. handle our error differently
+    return this._delete()
+  }
+
+  protected async _delete(): Promise<Entity<Payload, RawPayload>> {
+    if (this.id === null || this.id === undefined) throw new TypeError('delete requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as RawPayload)
+
+      return this
+    } catch (err) {
+      throw new EntityPostError(undefined, { error: err })
+    }
+  }
+
+  /**
+   * Save a change to this local object, by either creating or patching it on the remote.
+   * @param payload
+   */
   public async save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._save directly and e.g. handle our error differently
     return this._save()

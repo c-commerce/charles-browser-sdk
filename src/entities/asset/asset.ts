@@ -1,5 +1,5 @@
 
-import Entity, { EntityOptions } from '../_base'
+import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
@@ -12,8 +12,7 @@ export interface AssetsOptions {
   universe: Universe
 }
 
-export interface AssetRawPayload {
-  readonly id?: string
+export interface AssetRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
@@ -51,7 +50,8 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
   public initialized: boolean
 
   public endpoint: string
-  public id?: string
+
+  public id?: AssetPayload['id']
   public createdAt?: AssetPayload['createdAt']
   public updatedAt?: AssetPayload['updatedAt']
   public deleted?: AssetPayload['deleted']

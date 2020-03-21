@@ -1,5 +1,5 @@
 
-import Entity, { EntityOptions } from '../_base'
+import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
@@ -22,8 +22,7 @@ export interface ProductRawPayloadPrice {
   readonly tax_region?: string
 }
 
-export interface ProductRawPayload {
-  readonly id?: string
+export interface ProductRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
@@ -140,7 +139,7 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
 
   public endpoint: string
 
-  public id?: string
+  public id?: ProductPayload['id']
   public createdAt?: ProductPayload['createdAt']
   public updatedAt?: ProductPayload['updatedAt']
   public deleted?: ProductPayload['deleted']

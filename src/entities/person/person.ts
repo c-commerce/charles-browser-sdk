@@ -1,5 +1,5 @@
 
-import Entity, { EntityOptions } from '../_base'
+import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
@@ -7,8 +7,7 @@ export interface PersonOptions extends EntityOptions {
   rawPayload?: PersonRawPayload
 }
 
-export interface PersonAddressRawPayload {
-  readonly id?: string
+export interface PersonAddressRawPayload extends EntityRawPayload {
   readonly person?: string
   readonly created_at?: string
   readonly updated_at?: string
@@ -22,8 +21,7 @@ export interface PersonAddressRawPayload {
   readonly postal_code?: string
 }
 
-export interface PersonPhonenumberRawPayload {
-  readonly id?: string
+export interface PersonPhonenumberRawPayload extends EntityRawPayload {
   readonly person?: string
   readonly created_at?: string
   readonly updated_at?: string
@@ -33,8 +31,7 @@ export interface PersonPhonenumberRawPayload {
   readonly value?: string
 }
 
-export interface PersonRawPayload {
-  readonly id?: string
+export interface PersonRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
@@ -78,7 +75,8 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public initialized: boolean
 
   public endpoint: string
-  public id?: string
+
+  public id?: PersonPayload['id']
   public createdAt?: PersonPayload['createdAt']
   public updatedAt?: PersonPayload['updatedAt']
   public deleted?: PersonPayload['deleted']

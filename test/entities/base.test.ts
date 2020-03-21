@@ -95,6 +95,8 @@ describe('Entities: base', () => {
     })
 
     expect(inst).toBeInstanceOf(Cls)
+    expect(inst.delete).toBeInstanceOf(Function)
+    expect(inst.save).toBeInstanceOf(Function)
     expect(inst.patch).toBeInstanceOf(Function)
     expect(inst.post).toBeInstanceOf(Function)
     expect(inst.serialize()).toStrictEqual({ id: '1234', name: undefined })
@@ -115,6 +117,19 @@ describe('Entities: base', () => {
     })
 
     expect(inst.serialize()).toStrictEqual({ id: '1234', name: 'new name' })
+
+    await inst.delete()
+
+    expect(mockCallback.mock.calls.length).toBe(2)
+    expect(mockCallback.mock.calls[1][0]).toStrictEqual({
+      data: undefined,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      method: 'DELETE',
+      responseType: 'json',
+      url: 'https://my-business.hello-charles.com/api/v0/cls_endpoint/1234'
+    })
 
     const postableMockCallback = jest.fn((opts: object) => {
       return {
@@ -147,6 +162,8 @@ describe('Entities: base', () => {
     })
 
     expect(instPostable).toBeInstanceOf(Cls)
+    expect(instPostable.delete).toBeInstanceOf(Function)
+    expect(instPostable.save).toBeInstanceOf(Function)
     expect(instPostable.patch).toBeInstanceOf(Function)
     expect(instPostable.post).toBeInstanceOf(Function)
     expect(instPostable.serialize()).toStrictEqual({ id: undefined, name: 'something' })

@@ -1,5 +1,5 @@
 
-import Entity, { EntityOptions } from '../_base'
+import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
@@ -7,8 +7,7 @@ export interface TicketOptions extends EntityOptions {
   rawPayload?: TicketRawPayload
 }
 
-export interface TicketRawPayload {
-  readonly id?: string
+export interface TicketRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
@@ -58,7 +57,7 @@ export class Ticket extends Entity<TicketPayload, TicketRawPayload> {
   public initialized: boolean
 
   public endpoint: string
-  public id?: string
+  public id?: TicketPayload['id']
   public createdAt?: TicketPayload['createdAt']
   public updatedAt?: TicketPayload['updatedAt']
   public deleted?: TicketPayload['deleted']
