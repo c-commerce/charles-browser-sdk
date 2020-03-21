@@ -1,3 +1,10 @@
+# [2.21.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.20.2...v2.21.0) (2020-03-21)
+
+
+### Features
+
+* **entity:** add .fetch ([be94320](https://github.com/c-commerce/charles-browser-sdk/commit/be943208389c34aa172471440f633511007f3c53))
+
 ## [2.20.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.20.1...v2.20.2) (2020-03-21)
 
 

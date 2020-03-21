@@ -33,6 +33,14 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
      */
     protected handleError(err: Error): Error;
     /**
+     * Fetch the current state of this object.
+     */
+    fetch(): Promise<Entity<Payload, RawPayload>>;
+    /**
+     * @ignore
+     */
+    protected _fetch(): Promise<Entity<Payload, RawPayload>>;
+    /**
      * Change this object on the remote by partially applying a change object to it as diff.
      * @param changePart
      */
@@ -73,6 +81,11 @@ export declare class EntityPatchError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class EntityPostError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EntityFetchError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

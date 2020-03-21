@@ -195,7 +195,6 @@ export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
     static create(payload: ProductRawPayload, universe: Universe, http: Universe['http']): Product;
     serialize(): ProductRawPayload;
     init(): Promise<Product | undefined>;
-    fetch(): Promise<Product | undefined>;
 }
 export declare class Products {
     static endpoint: string;

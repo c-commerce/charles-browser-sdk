@@ -8,11 +8,6 @@ export interface AssetsOptions {
     http: Universe['http'];
     universe: Universe;
 }
-/**
- * Manage assets.
- *
- * @category Entity
- */
 export interface AssetRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
@@ -42,6 +37,11 @@ export interface AssetPayload {
     readonly metadata?: object | null;
     readonly public?: boolean;
 }
+/**
+ * Manage assets.
+ *
+ * @category Entity
+ */
 export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
@@ -66,7 +66,6 @@ export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
     static create(payload: AssetRawPayload, universe: Universe, http: Universe['http']): Asset;
     serialize(): AssetRawPayload;
     init(): Promise<Asset | undefined>;
-    fetch(): Promise<Asset | undefined>;
 }
 export interface AssetsPostOptions {
     public?: boolean;

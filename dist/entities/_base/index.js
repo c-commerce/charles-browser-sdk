@@ -89,6 +89,54 @@ var Entity = /** @class */ (function (_super) {
         return err;
     };
     /**
+     * Fetch the current state of this object.
+     */
+    Entity.prototype.fetch = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
+                return [2 /*return*/, this._fetch()];
+            });
+        });
+    };
+    /**
+     * @ignore
+     */
+    Entity.prototype._fetch = function () {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, response, err_1;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('fetch requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'GET',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: undefined,
+                            responseType: 'json'
+                        };
+                        return [4 /*yield*/, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        response = _c.sent();
+                        this.deserialize(response.data.data[0]);
+                        return [2 /*return*/, this];
+                    case 3:
+                        err_1 = _c.sent();
+                        throw new EntityFetchError(undefined, { error: err_1 });
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
      * Change this object on the remote by partially applying a change object to it as diff.
      * @param changePart
      */
@@ -106,7 +154,7 @@ var Entity = /** @class */ (function (_super) {
     Entity.prototype._patch = function (changePart) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var patch, opts, response, err_1;
+            var patch, opts, response, err_2;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -137,8 +185,8 @@ var Entity = /** @class */ (function (_super) {
                         this.deserialize(response.data.data[0]);
                         return [2 /*return*/, this];
                     case 3:
-                        err_1 = _c.sent();
-                        throw new EntityPatchError(undefined, { error: err_1 });
+                        err_2 = _c.sent();
+                        throw new EntityPatchError(undefined, { error: err_2 });
                     case 4: return [2 /*return*/];
                 }
             });
@@ -161,7 +209,7 @@ var Entity = /** @class */ (function (_super) {
     Entity.prototype._post = function () {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var opts, response, err_2;
+            var opts, response, err_3;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -181,8 +229,8 @@ var Entity = /** @class */ (function (_super) {
                         this.deserialize(response.data.data[0]);
                         return [2 /*return*/, this];
                     case 2:
-                        err_2 = _c.sent();
-                        throw new EntityPostError(undefined, { error: err_2 });
+                        err_3 = _c.sent();
+                        throw new EntityPostError(undefined, { error: err_3 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -205,7 +253,7 @@ var Entity = /** @class */ (function (_super) {
     Entity.prototype._delete = function () {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var opts, response, err_3;
+            var opts, response, err_4;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -229,8 +277,8 @@ var Entity = /** @class */ (function (_super) {
                         this.deserialize(response.data.data[0]);
                         return [2 /*return*/, this];
                     case 3:
-                        err_3 = _c.sent();
-                        throw new EntityPostError(undefined, { error: err_3 });
+                        err_4 = _c.sent();
+                        throw new EntityPostError(undefined, { error: err_4 });
                     case 4: return [2 /*return*/];
                 }
             });
@@ -293,4 +341,16 @@ var EntityPostError = /** @class */ (function (_super) {
     return EntityPostError;
 }(errors_1.BaseError));
 exports.EntityPostError = EntityPostError;
+var EntityFetchError = /** @class */ (function (_super) {
+    __extends(EntityFetchError, _super);
+    function EntityFetchError(message, properties) {
+        if (message === void 0) { message = 'Could fetch resource unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EntityFetchError';
+        return _this;
+    }
+    return EntityFetchError;
+}(errors_1.BaseError));
+exports.EntityFetchError = EntityFetchError;
 //# sourceMappingURL=index.js.map

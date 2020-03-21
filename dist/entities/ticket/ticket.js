@@ -141,26 +141,6 @@ var Ticket = /** @class */ (function (_super) {
             });
         });
     };
-    Ticket.prototype.fetch = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var res, err_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id)];
-                    case 1:
-                        res = _a.sent();
-                        this.deserialize(res.data.data[0]);
-                        return [2 /*return*/, this];
-                    case 2:
-                        err_2 = _a.sent();
-                        throw this.handleError(new TicketFetchRemoteError(undefined, { error: err_2 }));
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
     return Ticket;
 }(_base_1.default));
 exports.Ticket = Ticket;

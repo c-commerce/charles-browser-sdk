@@ -80,7 +80,6 @@ export declare class Ticket extends Entity<TicketPayload, TicketRawPayload> {
     static create(payload: TicketRawPayload, universe: Universe, http: Universe['http']): Ticket;
     serialize(): TicketRawPayload;
     init(): Promise<Ticket | undefined>;
-    fetch(): Promise<Ticket | undefined>;
 }
 export declare class Tickets {
     static endpoint: string;

@@ -93,7 +93,6 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     static create(payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person;
     serialize(): PersonRawPayload;
     init(): Promise<Person | undefined>;
-    fetch(): Promise<Person | undefined>;
 }
 export declare class People {
     static endpoint: string;
