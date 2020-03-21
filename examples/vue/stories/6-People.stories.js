@@ -53,7 +53,7 @@ export const ListPeople = () => ({
 
       action('auth-sucess').call(this, ...arguments)
     },
-    async initUniverse() {
+    async initUniverse () {
       charles.init({
         credentials: {
           accessToken: this.token
@@ -68,13 +68,13 @@ export const ListPeople = () => ({
 
       this.localPeople = await universe.people()
     },
-    async handleReply(message, content) {
+    async handleReply (message, content) {
       const reply = message.reply({ content: { body: content } })
 
       await reply.send()
     }
   },
-  data() {
+  data () {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -85,23 +85,23 @@ export const ListPeople = () => ({
   },
   computed: {
     universeName: {
-      get() {
+      get () {
         return window.localStorage.getItem('universeName')
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('universeName', v)
       }
     },
     apiBase: {
-      get() {
+      get () {
         return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('apiBase', v)
       }
     },
 
-    universePayload() {
+    universePayload () {
       if (!this.localUniversePayload) return ''
 
       return JSON.stringify(this.localUniversePayload, undefined, 2)
@@ -111,7 +111,7 @@ export const ListPeople = () => ({
         })
         .join('\n')
     },
-    ticketsPayload() {
+    ticketsPayload () {
       if (!this.localPeople || !this.localPeople.length) return ''
 
       const list = this.localPeople.map((item) => (item.serialize()))
@@ -122,7 +122,7 @@ export const ListPeople = () => ({
         })
         .join('\n')
     },
-    code() {
+    code () {
       return `
 import charles from '@heycharles/browser-sdk'
 charles.init({
@@ -215,7 +215,7 @@ export const ListPeopleSelectAndEditOne = () => ({
 
       action('auth-sucess').call(this, ...arguments)
     },
-    async initUniverse() {
+    async initUniverse () {
       charles.init({
         credentials: {
           accessToken: this.token
@@ -230,18 +230,18 @@ export const ListPeopleSelectAndEditOne = () => ({
 
       this.localPeople = await universe.people()
     },
-    async handleReply(message, content) {
+    async handleReply (message, content) {
       const reply = message.reply({ content: { body: content } })
 
       await reply.send()
     },
-    async handlePersonSelect(index) {
+    async handlePersonSelect (index) {
       this.selectedPerson = this.localPeople[index]
 
       await this.selectedPerson.init()
-    },
+    }
   },
-  data() {
+  data () {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -253,23 +253,23 @@ export const ListPeopleSelectAndEditOne = () => ({
   },
   computed: {
     universeName: {
-      get() {
+      get () {
         return window.localStorage.getItem('universeName')
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('universeName', v)
       }
     },
     apiBase: {
-      get() {
+      get () {
         return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('apiBase', v)
       }
     },
 
-    universePayload() {
+    universePayload () {
       if (!this.localUniversePayload) return ''
 
       return JSON.stringify(this.localUniversePayload, undefined, 2)
@@ -279,7 +279,7 @@ export const ListPeopleSelectAndEditOne = () => ({
         })
         .join('\n')
     },
-    ticketsPayload() {
+    ticketsPayload () {
       if (!this.localPeople || !this.localPeople.length) return ''
 
       const list = this.localPeople.map((item) => (item.serialize()))
@@ -290,7 +290,7 @@ export const ListPeopleSelectAndEditOne = () => ({
         })
         .join('\n')
     },
-    code() {
+    code () {
       return `
 import charles from '@heycharles/browser-sdk'
 charles.init({

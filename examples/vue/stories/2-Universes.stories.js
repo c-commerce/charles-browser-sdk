@@ -57,7 +57,7 @@ export const AuthAndInitialization = () => ({
 
       action('auth-sucess').call(this, ...arguments)
     },
-    async initUniverse() {
+    async initUniverse () {
       charles.init({
         credentials: {
           accessToken: this.token
@@ -73,7 +73,7 @@ export const AuthAndInitialization = () => ({
       this.localUniversePayload = universe.payload
     }
   },
-  data() {
+  data () {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -82,23 +82,23 @@ export const AuthAndInitialization = () => ({
   },
   computed: {
     universeName: {
-      get() {
+      get () {
         return window.localStorage.getItem('universeName')
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('universeName', v)
       }
     },
     apiBase: {
-      get() {
+      get () {
         return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('apiBase', v)
       }
     },
 
-    universePayload() {
+    universePayload () {
       if (!this.localUniversePayload) return ''
 
       return JSON.stringify(this.localUniversePayload, undefined, 2)
@@ -108,7 +108,7 @@ export const AuthAndInitialization = () => ({
         })
         .join('\n')
     },
-    code() {
+    code () {
       return `
 import charles from '@heycharles/browser-sdk'
 charles.init({
@@ -169,7 +169,7 @@ export const InitializationAndDefaultSubscriptions = () => ({
 
       action('auth-sucess').call(this, ...arguments)
     },
-    async initUniverse() {
+    async initUniverse () {
       charles.init({
         credentials: {
           accessToken: this.token
@@ -190,7 +190,7 @@ export const InitializationAndDefaultSubscriptions = () => ({
       this.localUniversePayload = universe.payload
     }
   },
-  data() {
+  data () {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -200,23 +200,23 @@ export const InitializationAndDefaultSubscriptions = () => ({
   },
   computed: {
     universeName: {
-      get() {
+      get () {
         return window.localStorage.getItem('universeName')
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('universeName', v)
       }
     },
     apiBase: {
-      get() {
+      get () {
         return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('apiBase', v)
       }
     },
 
-    universePayload() {
+    universePayload () {
       if (!this.localUniversePayload) return ''
 
       return JSON.stringify(this.localUniversePayload, undefined, 2)
@@ -226,7 +226,7 @@ export const InitializationAndDefaultSubscriptions = () => ({
         })
         .join('\n')
     },
-    code() {
+    code () {
       return `
 import charles from '@heycharles/browser-sdk'
 charles.init({
@@ -292,7 +292,7 @@ export const InitializationAndDefaultSubscriptionsAndReply = () => ({
 
       action('auth-sucess').call(this, ...arguments)
     },
-    async initUniverse() {
+    async initUniverse () {
       charles.init({
         credentials: {
           accessToken: this.token
@@ -320,13 +320,13 @@ export const InitializationAndDefaultSubscriptionsAndReply = () => ({
 
       this.localUniversePayload = universe.payload
     },
-    async handleReply(message, content) {
+    async handleReply (message, content) {
       const reply = message.reply({ content: { body: content } })
 
       await reply.send()
     }
   },
-  data() {
+  data () {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -337,23 +337,23 @@ export const InitializationAndDefaultSubscriptionsAndReply = () => ({
   },
   computed: {
     universeName: {
-      get() {
+      get () {
         return window.localStorage.getItem('universeName')
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('universeName', v)
       }
     },
     apiBase: {
-      get() {
+      get () {
         return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('apiBase', v)
       }
     },
 
-    universePayload() {
+    universePayload () {
       if (!this.localUniversePayload) return ''
 
       return JSON.stringify(this.localUniversePayload, undefined, 2)
@@ -363,7 +363,7 @@ export const InitializationAndDefaultSubscriptionsAndReply = () => ({
         })
         .join('\n')
     },
-    code() {
+    code () {
       return `
 import charles from '@heycharles/browser-sdk'
 charles.init({
@@ -461,7 +461,7 @@ export const FetchEntities = () => ({
 
       action('auth-sucess').call(this, ...arguments)
     },
-    async initUniverse() {
+    async initUniverse () {
       charles.init({
         credentials: {
           accessToken: this.token
@@ -494,7 +494,7 @@ export const FetchEntities = () => ({
       this.localUniversePayload = universe.payload
     }
   },
-  data() {
+  data () {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -509,23 +509,23 @@ export const FetchEntities = () => ({
   },
   computed: {
     universeName: {
-      get() {
+      get () {
         return window.localStorage.getItem('universeName')
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('universeName', v)
       }
     },
     apiBase: {
-      get() {
+      get () {
         return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('apiBase', v)
       }
     },
 
-    universePayload() {
+    universePayload () {
       if (!this.localUniversePayload) return ''
 
       return JSON.stringify(this.localUniversePayload, undefined, 2)
@@ -535,7 +535,7 @@ export const FetchEntities = () => ({
         })
         .join('\n')
     },
-    code() {
+    code () {
       return `
 import charles from '@heycharles/browser-sdk'
 charles.init({

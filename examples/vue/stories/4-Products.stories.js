@@ -53,7 +53,7 @@ export const ListProducts = () => ({
 
       action('auth-sucess').call(this, ...arguments)
     },
-    async initUniverse() {
+    async initUniverse () {
       charles.init({
         credentials: {
           accessToken: this.token
@@ -68,13 +68,13 @@ export const ListProducts = () => ({
 
       this.localProducts = await universe.products()
     },
-    async handleReply(message, content) {
+    async handleReply (message, content) {
       const reply = message.reply({ content: { body: content } })
 
       await reply.send()
     }
   },
-  data() {
+  data () {
     return {
       token: window.localStorage.getItem('token') || null,
       universe: null,
@@ -85,23 +85,23 @@ export const ListProducts = () => ({
   },
   computed: {
     universeName: {
-      get() {
+      get () {
         return window.localStorage.getItem('universeName')
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('universeName', v)
       }
     },
     apiBase: {
-      get() {
+      get () {
         return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
       },
-      set(v) {
+      set (v) {
         window.localStorage.setItem('apiBase', v)
       }
     },
 
-    universePayload() {
+    universePayload () {
       if (!this.localUniversePayload) return ''
 
       return JSON.stringify(this.localUniversePayload, undefined, 2)
@@ -111,7 +111,7 @@ export const ListProducts = () => ({
         })
         .join('\n')
     },
-    productsPayload() {
+    productsPayload () {
       if (!this.localProducts || !this.localProducts.length) return ''
 
       const list = this.localProducts.map((item) => (item.serialize()))
@@ -122,7 +122,7 @@ export const ListProducts = () => ({
         })
         .join('\n')
     },
-    code() {
+    code () {
       return `
 import charles from '@heycharles/browser-sdk'
 charles.init({
