@@ -50,6 +50,11 @@ export interface TicketPayload {
   readonly linked?: TicketRawPayload['linked']
 }
 
+/**
+ * Manage tickets in a business context.
+ *
+ * @category Entity
+ */
 export class Ticket extends Entity<TicketPayload, TicketRawPayload> {
   protected universe: Universe
   protected http: Universe['http']

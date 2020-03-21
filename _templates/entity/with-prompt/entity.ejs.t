@@ -31,6 +31,11 @@ export interface <%= capitalizedName %>Payload {
   readonly active?: boolean
 }
 
+/**
+ * Manage <%= pluralizedName %>.
+ *
+ * @category Entity
+ */
 export class <%= capitalizedName %> extends Entity<<%= capitalizedName %>Payload, <%= capitalizedName %>RawPayload> {
   protected universe: Universe
   protected http: Universe['http']

@@ -68,6 +68,11 @@ export interface PersonPayload {
   readonly phonenumbers?: PersonRawPayload['phonenumbers']
 }
 
+/**
+ * Manage people, that usually are generated from channel users.
+ *
+ * @category Entity
+ */
 export class Person extends Entity<PersonPayload, PersonRawPayload> {
   protected universe: Universe
   protected http: Universe['http']

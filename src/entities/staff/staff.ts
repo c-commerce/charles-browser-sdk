@@ -33,6 +33,11 @@ export interface StaffPayload {
   readonly type?: StaffRawPayload['type']
 }
 
+/**
+ * Manage staff members.
+ *
+ * @category Entity
+ */
 export class Staff extends Entity<StaffPayload, StaffRawPayload> {
   protected universe: Universe
   protected http: Universe['http']

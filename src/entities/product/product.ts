@@ -131,6 +131,11 @@ export interface ProductPayload {
   readonly prices?: ProductRawPayload['prices']
 }
 
+/**
+ * Manage prodcucts.
+ *
+ * @category Entity
+ */
 export class Product extends Entity<ProductPayload, ProductRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
@@ -148,6 +153,10 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
   public name?: ProductPayload['name']
   public summary?: ProductPayload['summary']
   public description?: ProductPayload['description']
+  /**
+   * Prices of a product.
+   */
+  public prices?: ProductPayload['prices']
   public brand?: ProductPayload['brand']
   public assets?: ProductPayload['assets']
   public assetsConfig?: ProductPayload['assets_config']
@@ -189,7 +198,6 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
   public shippingFequired?: ProductPayload['shipping_required']
   public proxyConfiguration?: ProductPayload['proxy_configuration']
   public metadata?: ProductPayload['metadata']
-  public prices?: ProductPayload['prices']
 
   constructor(options: ProductOptions) {
     super()

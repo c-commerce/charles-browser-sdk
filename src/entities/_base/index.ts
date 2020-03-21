@@ -17,11 +17,17 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
   protected abstract universe: Universe
   protected abstract http: Universe['http']
 
+  /**
+   * @ignore
+   */
   protected _rawPayload?: RawPayload | null = null
 
   public abstract id?: string
   public abstract endpoint: string
 
+  /**
+   * @ignore
+   */
   protected setRawPayload(p: RawPayload): Entity<Payload, RawPayload> {
     this._rawPayload = p
 
@@ -34,6 +40,9 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
   public abstract serialize(): RawPayload
   protected abstract deserialize(rawPayload: RawPayload): Entity<Payload, RawPayload>
 
+  /**
+   * @ignore
+   */
   protected handleError(err: Error): Error {
     if (this.listeners('error').length > 0) this.emit('error', err)
 
@@ -49,6 +58,9 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     return this._patch(changePart)
   }
 
+  /**
+   * @ignore
+   */
   protected async _patch(changePart: RawPayload): Promise<Entity<Payload, RawPayload>> {
     if (this._rawPayload === null || this._rawPayload === undefined) throw new TypeError('patch requires raw payload to be set.')
     if (!changePart) throw new TypeError('patch requires incoming object to be set.')
@@ -90,6 +102,9 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     return this._post()
   }
 
+  /**
+   * @ignore
+   */
   protected async _post(): Promise<Entity<Payload, RawPayload>> {
     try {
       const opts = {
@@ -120,6 +135,9 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     return this._delete()
   }
 
+  /**
+   * @ignore
+   */
   protected async _delete(): Promise<Entity<Payload, RawPayload>> {
     if (this.id === null || this.id === undefined) throw new TypeError('delete requires id to be set.')
 
@@ -153,6 +171,9 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     return this._save()
   }
 
+  /**
+   * @ignore
+   */
   protected async _save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
     if (this.id && payload) {
       return this.patch(payload)

@@ -12,6 +12,11 @@ export interface AssetsOptions {
   universe: Universe
 }
 
+/**
+ * Manage assets.
+ *
+ * @category Entity
+ */
 export interface AssetRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
