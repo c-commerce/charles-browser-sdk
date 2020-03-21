@@ -168,18 +168,6 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       throw this.handleError(new PersonInitializationError(undefined, { error: err }))
     }
   }
-
-  public async fetch(): Promise<Person | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}`)
-
-      this.deserialize(res.data.data[0] as PersonRawPayload)
-
-      return this
-    } catch (err) {
-      throw this.handleError(new PersonFetchRemoteError(undefined, { error: err }))
-    }
-  }
 }
 
 export class People {

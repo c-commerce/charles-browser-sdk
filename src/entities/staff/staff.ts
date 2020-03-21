@@ -115,18 +115,6 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
       throw this.handleError(new StaffInitializationError(undefined, { error: err }))
     }
   }
-
-  public async fetch(): Promise<Staff | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}`)
-
-      this.deserialize(res.data.data[0] as StaffRawPayload)
-
-      return this
-    } catch (err) {
-      throw this.handleError(new StaffFetchRemoteError(undefined, { error: err }))
-    }
-  }
 }
 
 export class Staffs {

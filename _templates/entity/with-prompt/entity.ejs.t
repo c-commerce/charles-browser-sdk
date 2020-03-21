@@ -96,18 +96,6 @@ export class <%= capitalizedName %> extends Entity<<%= capitalizedName %>Payload
       throw this.handleError(new <%= capitalizedName %>InitializationError(undefined, { error: err }))
     }
   }
-
-  public async fetch(): Promise<<%= capitalizedName %> | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}`)
-
-      this.deserialize(res.data.data[0] as <%= capitalizedName %>RawPayload)
-
-      return this
-    } catch (err) {
-      throw this.handleError(new <%= capitalizedName %>FetchRemoteError(undefined, { error: err }))
-    }
-  }
 }
 
 export class <%= capitalizedPluralName %> {

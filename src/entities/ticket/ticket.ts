@@ -158,18 +158,6 @@ export class Ticket extends Entity<TicketPayload, TicketRawPayload> {
       throw this.handleError(new TicketInitializationError(undefined, { error: err }))
     }
   }
-
-  public async fetch(): Promise<Ticket | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}`)
-
-      this.deserialize(res.data.data[0] as TicketRawPayload)
-
-      return this
-    } catch (err) {
-      throw this.handleError(new TicketFetchRemoteError(undefined, { error: err }))
-    }
-  }
 }
 
 export class Tickets {

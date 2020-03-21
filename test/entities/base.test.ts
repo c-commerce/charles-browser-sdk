@@ -99,6 +99,7 @@ describe('Entities: base', () => {
     expect(inst.save).toBeInstanceOf(Function)
     expect(inst.patch).toBeInstanceOf(Function)
     expect(inst.post).toBeInstanceOf(Function)
+    expect(inst.fetch).toBeInstanceOf(Function)
     expect(inst.serialize()).toStrictEqual({ id: '1234', name: undefined })
 
     await inst.patch({ name: 'new name' })
@@ -118,10 +119,25 @@ describe('Entities: base', () => {
 
     expect(inst.serialize()).toStrictEqual({ id: '1234', name: 'new name' })
 
-    await inst.delete()
+    await inst.fetch()
 
     expect(mockCallback.mock.calls.length).toBe(2)
     expect(mockCallback.mock.calls[1][0]).toStrictEqual({
+      data: undefined,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      method: 'GET',
+      responseType: 'json',
+      url: 'https://my-business.hello-charles.com/api/v0/cls_endpoint/1234'
+    })
+
+    expect(inst.serialize()).toStrictEqual({ id: '1234', name: 'new name' })
+
+    await inst.delete()
+
+    expect(mockCallback.mock.calls.length).toBe(3)
+    expect(mockCallback.mock.calls[2][0]).toStrictEqual({
       data: undefined,
       headers: {
         'Content-Type': 'application/json; charset=utf-8'

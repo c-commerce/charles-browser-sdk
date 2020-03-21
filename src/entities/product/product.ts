@@ -339,18 +339,6 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
       throw this.handleError(new ProductInitializationError(undefined, { error: err }))
     }
   }
-
-  public async fetch(): Promise<Product | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}`)
-
-      this.deserialize(res.data.data[0] as ProductRawPayload)
-
-      return this
-    } catch (err) {
-      throw this.handleError(new ProductFetchRemoteError(undefined, { error: err }))
-    }
-  }
 }
 
 export class Products {

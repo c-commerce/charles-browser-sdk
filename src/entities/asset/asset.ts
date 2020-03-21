@@ -12,11 +12,6 @@ export interface AssetsOptions {
   universe: Universe
 }
 
-/**
- * Manage assets.
- *
- * @category Entity
- */
 export interface AssetRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
@@ -48,6 +43,11 @@ export interface AssetPayload {
   readonly public?: boolean
 }
 
+/**
+ * Manage assets.
+ *
+ * @category Entity
+ */
 export class Asset extends Entity<AssetPayload, AssetRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
@@ -132,18 +132,6 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
       return this
     } catch (err) {
       throw this.handleError(new AssetInitializationError(undefined, { error: err }))
-    }
-  }
-
-  public async fetch(): Promise<Asset | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}`)
-
-      this.deserialize(res.data.data[0] as AssetRawPayload)
-
-      return this
-    } catch (err) {
-      throw this.handleError(new AssetFetchRemoteError(undefined, { error: err }))
     }
   }
 }

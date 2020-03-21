@@ -50,6 +50,41 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
   }
 
   /**
+   * Fetch the current state of this object.
+   */
+  public async fetch(): Promise<Entity<Payload, RawPayload>> {
+    // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
+    return this._fetch()
+  }
+
+  /**
+   * @ignore
+   */
+  protected async _fetch(): Promise<Entity<Payload, RawPayload>> {
+    if (this.id === null || this.id === undefined) throw new TypeError('fetch requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as RawPayload)
+
+      return this
+    } catch (err) {
+      throw new EntityFetchError(undefined, { error: err })
+    }
+  }
+
+  /**
    * Change this object on the remote by partially applying a change object to it as diff.
    * @param changePart
    */
@@ -199,6 +234,13 @@ export class EntityPatchError extends BaseError {
 export class EntityPostError extends BaseError {
   public name = 'EntityPostError'
   constructor(public message: string = 'Could not create resource unexpectedly.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EntityFetchError extends BaseError {
+  public name = 'EntityFetchError'
+  constructor(public message: string = 'Could fetch resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
