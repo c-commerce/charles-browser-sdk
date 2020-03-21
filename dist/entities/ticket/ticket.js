@@ -54,6 +54,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+/**
+ * Manage tickets in a business context.
+ *
+ * @category Entity
+ */
 var Ticket = /** @class */ (function (_super) {
     __extends(Ticket, _super);
     function Ticket(options) {

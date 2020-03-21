@@ -1,3 +1,11 @@
+# [2.20.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.19.0...v2.20.0) (2020-03-21)
+
+
+### Features
+
+* **docs:** enhance overall, exports ([7c13856](https://github.com/c-commerce/charles-browser-sdk/commit/7c13856fa7d760eef7e4cc7b5d50def7c5688ebe))
+* **docs:** exlcude even more hidden logic ([72ef938](https://github.com/c-commerce/charles-browser-sdk/commit/72ef938259c5f545a3b1fa391227cf36ccbf8ebc))
+
 # [2.19.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.18.1...v2.19.0) (2020-03-21)
 
 

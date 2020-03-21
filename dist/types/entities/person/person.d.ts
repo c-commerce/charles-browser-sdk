@@ -1,11 +1,10 @@
-import Entity, { EntityOptions } from '../_base';
+import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 export interface PersonOptions extends EntityOptions {
     rawPayload?: PersonRawPayload;
 }
-export interface PersonAddressRawPayload {
-    readonly id?: string;
+export interface PersonAddressRawPayload extends EntityRawPayload {
     readonly person?: string;
     readonly created_at?: string;
     readonly updated_at?: string;
@@ -18,8 +17,7 @@ export interface PersonAddressRawPayload {
     readonly region?: string;
     readonly postal_code?: string;
 }
-export interface PersonPhonenumberRawPayload {
-    readonly id?: string;
+export interface PersonPhonenumberRawPayload extends EntityRawPayload {
     readonly person?: string;
     readonly created_at?: string;
     readonly updated_at?: string;
@@ -28,8 +26,7 @@ export interface PersonPhonenumberRawPayload {
     readonly type?: string;
     readonly value?: string;
 }
-export interface PersonRawPayload {
-    readonly id?: string;
+export interface PersonRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
     readonly deleted?: boolean;
@@ -64,13 +61,18 @@ export interface PersonPayload {
     readonly addresses?: PersonRawPayload['addresses'];
     readonly phonenumbers?: PersonRawPayload['phonenumbers'];
 }
+/**
+ * Manage people, that usually are generated from channel users.
+ *
+ * @category Entity
+ */
 export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: PersonOptions;
     initialized: boolean;
     endpoint: string;
-    id?: string;
+    id?: PersonPayload['id'];
     createdAt?: PersonPayload['createdAt'];
     updatedAt?: PersonPayload['updatedAt'];
     deleted?: PersonPayload['deleted'];

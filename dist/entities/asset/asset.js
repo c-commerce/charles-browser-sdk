@@ -165,14 +165,14 @@ var Assets = /** @class */ (function () {
         this.universe = options.universe;
     }
     Assets.prototype.post = function (payload, options) {
-        var _a, _b, _c;
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
             var opts, res, data, err_3;
             var _this = this;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _d.trys.push([0, 2, , 3]);
+                        _c.trys.push([0, 2, , 3]);
                         opts = {
                             timeout: 60000,
                             headers: {
@@ -182,13 +182,13 @@ var Assets = /** @class */ (function () {
                         };
                         return [4 /*yield*/, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(((_b = this.universe) === null || _b === void 0 ? void 0 : _b.universeBase) + "/" + Assets.endpoint, payload, opts))];
                     case 1:
-                        res = _d.sent();
-                        data = (_c = res) === null || _c === void 0 ? void 0 : _c.data.data;
+                        res = _c.sent();
+                        data = res === null || res === void 0 ? void 0 : res.data.data;
                         return [2 /*return*/, data.map(function (item) {
                                 return Asset.create(item, _this.universe, _this.http);
                             })];
                     case 2:
-                        err_3 = _d.sent();
+                        err_3 = _c.sent();
                         throw new AssetsPostError(undefined, { error: err_3 });
                     case 3: return [2 /*return*/];
                 }

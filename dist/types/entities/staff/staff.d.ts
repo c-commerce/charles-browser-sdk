@@ -1,11 +1,10 @@
-import Entity, { EntityOptions } from '../_base';
+import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 export interface StaffOptions extends EntityOptions {
     rawPayload?: StaffRawPayload;
 }
-export interface StaffRawPayload {
-    readonly id?: string;
+export interface StaffRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
     readonly deleted?: boolean;
@@ -29,13 +28,18 @@ export interface StaffPayload {
     readonly comment?: StaffRawPayload['comment'];
     readonly type?: StaffRawPayload['type'];
 }
+/**
+ * Manage staff members.
+ *
+ * @category Entity
+ */
 export declare class Staff extends Entity<StaffPayload, StaffRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: StaffOptions;
     initialized: boolean;
     endpoint: string;
-    id?: string;
+    id?: StaffPayload['id'];
     createdAt?: StaffPayload['createdAt'];
     updatedAt?: StaffPayload['updatedAt'];
     deleted?: StaffPayload['deleted'];

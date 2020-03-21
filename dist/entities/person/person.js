@@ -54,6 +54,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+/**
+ * Manage people, that usually are generated from channel users.
+ *
+ * @category Entity
+ */
 var Person = /** @class */ (function (_super) {
     __extends(Person, _super);
     function Person(options) {

@@ -1,4 +1,4 @@
-import Entity, { EntityOptions } from '../_base';
+import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 export interface AssetOptions extends EntityOptions {
@@ -8,8 +8,12 @@ export interface AssetsOptions {
     http: Universe['http'];
     universe: Universe;
 }
-export interface AssetRawPayload {
-    readonly id?: string;
+/**
+ * Manage assets.
+ *
+ * @category Entity
+ */
+export interface AssetRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
     readonly deleted?: boolean;
@@ -44,7 +48,7 @@ export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
     protected options: AssetOptions;
     initialized: boolean;
     endpoint: string;
-    id?: string;
+    id?: AssetPayload['id'];
     createdAt?: AssetPayload['createdAt'];
     updatedAt?: AssetPayload['updatedAt'];
     deleted?: AssetPayload['deleted'];

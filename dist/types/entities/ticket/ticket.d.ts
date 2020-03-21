@@ -1,11 +1,10 @@
-import Entity, { EntityOptions } from '../_base';
+import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 export interface TicketOptions extends EntityOptions {
     rawPayload?: TicketRawPayload;
 }
-export interface TicketRawPayload {
-    readonly id?: string;
+export interface TicketRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
     readonly deleted?: boolean;
@@ -46,13 +45,18 @@ export interface TicketPayload {
     readonly tags?: string[];
     readonly linked?: TicketRawPayload['linked'];
 }
+/**
+ * Manage tickets in a business context.
+ *
+ * @category Entity
+ */
 export declare class Ticket extends Entity<TicketPayload, TicketRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: TicketOptions;
     initialized: boolean;
     endpoint: string;
-    id?: string;
+    id?: TicketPayload['id'];
     createdAt?: TicketPayload['createdAt'];
     updatedAt?: TicketPayload['updatedAt'];
     deleted?: TicketPayload['deleted'];

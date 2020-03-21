@@ -67,18 +67,31 @@ var Entity = /** @class */ (function (_super) {
     __extends(Entity, _super);
     function Entity() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
+        /**
+         * @ignore
+         */
         _this._rawPayload = null;
         return _this;
     }
+    /**
+     * @ignore
+     */
     Entity.prototype.setRawPayload = function (p) {
         this._rawPayload = p;
         return this;
     };
+    /**
+     * @ignore
+     */
     Entity.prototype.handleError = function (err) {
         if (this.listeners('error').length > 0)
             this.emit('error', err);
         return err;
     };
+    /**
+     * Change this object on the remote by partially applying a change object to it as diff.
+     * @param changePart
+     */
     Entity.prototype.patch = function (changePart) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -87,6 +100,9 @@ var Entity = /** @class */ (function (_super) {
             });
         });
     };
+    /**
+     * @ignore
+     */
     Entity.prototype._patch = function (changePart) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
@@ -98,6 +114,8 @@ var Entity = /** @class */ (function (_super) {
                             throw new TypeError('patch requires raw payload to be set.');
                         if (!changePart)
                             throw new TypeError('patch requires incoming object to be set.');
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('patch requires id to be set.');
                         _c.label = 1;
                     case 1:
                         _c.trys.push([1, 3, , 4]);
@@ -126,6 +144,9 @@ var Entity = /** @class */ (function (_super) {
             });
         });
     };
+    /**
+     * Create this object on the remote.
+     */
     Entity.prototype.post = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -134,6 +155,9 @@ var Entity = /** @class */ (function (_super) {
             });
         });
     };
+    /**
+     * @ignore
+     */
     Entity.prototype._post = function () {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
@@ -164,6 +188,58 @@ var Entity = /** @class */ (function (_super) {
             });
         });
     };
+    /**
+     * Delete this object on the remote.
+     */
+    Entity.prototype.delete = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                // we allow implementers to override us by calling ._delete directly and e.g. handle our error differently
+                return [2 /*return*/, this._delete()];
+            });
+        });
+    };
+    /**
+     * @ignore
+     */
+    Entity.prototype._delete = function () {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, response, err_3;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('delete requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'DELETE',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: undefined,
+                            responseType: 'json'
+                        };
+                        return [4 /*yield*/, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        response = _c.sent();
+                        this.deserialize(response.data.data[0]);
+                        return [2 /*return*/, this];
+                    case 3:
+                        err_3 = _c.sent();
+                        throw new EntityPostError(undefined, { error: err_3 });
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * Save a change to this local object, by either creating or patching it on the remote.
+     * @param payload
+     */
     Entity.prototype.save = function (payload) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -172,6 +248,9 @@ var Entity = /** @class */ (function (_super) {
             });
         });
     };
+    /**
+     * @ignore
+     */
     Entity.prototype._save = function (payload) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

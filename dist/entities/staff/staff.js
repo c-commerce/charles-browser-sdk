@@ -54,6 +54,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+/**
+ * Manage staff members.
+ *
+ * @category Entity
+ */
 var Staff = /** @class */ (function (_super) {
     __extends(Staff, _super);
     function Staff(options) {

@@ -1,4 +1,4 @@
-import Entity, { EntityOptions } from '../_base';
+import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 export interface ProductOptions extends EntityOptions {
@@ -18,8 +18,7 @@ export interface ProductRawPayloadPrice {
     readonly tax_country?: string;
     readonly tax_region?: string;
 }
-export interface ProductRawPayload {
-    readonly id?: string;
+export interface ProductRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
     readonly deleted?: boolean;
@@ -126,13 +125,18 @@ export interface ProductPayload {
     readonly metadata?: object;
     readonly prices?: ProductRawPayload['prices'];
 }
+/**
+ * Manage prodcucts.
+ *
+ * @category Entity
+ */
 export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: ProductOptions;
     initialized: boolean;
     endpoint: string;
-    id?: string;
+    id?: ProductPayload['id'];
     createdAt?: ProductPayload['createdAt'];
     updatedAt?: ProductPayload['updatedAt'];
     deleted?: ProductPayload['deleted'];
@@ -141,6 +145,10 @@ export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
     name?: ProductPayload['name'];
     summary?: ProductPayload['summary'];
     description?: ProductPayload['description'];
+    /**
+     * Prices of a product.
+     */
+    prices?: ProductPayload['prices'];
     brand?: ProductPayload['brand'];
     assets?: ProductPayload['assets'];
     assetsConfig?: ProductPayload['assets_config'];
@@ -182,7 +190,6 @@ export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
     shippingFequired?: ProductPayload['shipping_required'];
     proxyConfiguration?: ProductPayload['proxy_configuration'];
     metadata?: ProductPayload['metadata'];
-    prices?: ProductPayload['prices'];
     constructor(options: ProductOptions);
     protected deserialize(rawPayload: ProductRawPayload): Product;
     static create(payload: ProductRawPayload, universe: Universe, http: Universe['http']): Product;
