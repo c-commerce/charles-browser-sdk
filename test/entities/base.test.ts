@@ -96,6 +96,7 @@ describe('Entities: base', () => {
 
     expect(inst).toBeInstanceOf(Cls)
     expect(inst.patch).toBeInstanceOf(Function)
+    expect(inst.post).toBeInstanceOf(Function)
     expect(inst.serialize()).toStrictEqual({ id: '1234', name: undefined })
 
     await inst.patch({ name: 'new name' })
@@ -114,5 +115,56 @@ describe('Entities: base', () => {
     })
 
     expect(inst.serialize()).toStrictEqual({ id: '1234', name: 'new name' })
+
+    const postableMockCallback = jest.fn((opts: object) => {
+      return {
+        responseStatus: 200,
+        data: {
+          data: [
+            {
+              id: '5678',
+              name: 'something'
+            }
+          ]
+        }
+      } as object
+    })
+
+    const postableMockHttp = {
+      getClient() {
+        return (opts: object) => {
+          return postableMockCallback(opts)
+        }
+      }
+    } as EntityOptions['http']
+
+    const instPostable = new Cls({
+      rawPayload: {
+        name: 'something'
+      },
+      universe: mockUniverse,
+      http: postableMockHttp
+    })
+
+    expect(instPostable).toBeInstanceOf(Cls)
+    expect(instPostable.patch).toBeInstanceOf(Function)
+    expect(instPostable.post).toBeInstanceOf(Function)
+    expect(instPostable.serialize()).toStrictEqual({ id: undefined, name: 'something' })
+
+    await instPostable.post()
+    expect(postableMockCallback.mock.calls.length).toBe(1)
+    expect(postableMockCallback.mock.calls[0][0]).toStrictEqual({
+      data: {
+        name: 'something'
+      },
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      method: 'POST',
+      responseType: 'json',
+      url: 'https://my-business.hello-charles.com/api/v0/cls_endpoint'
+    })
+
+    expect(instPostable.serialize()).toStrictEqual({ id: '5678', name: 'something' })
   })
 })

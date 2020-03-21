@@ -69,11 +69,64 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
       throw new EntityPatchError(undefined, { error: err })
     }
   }
+
+  public async post(): Promise<Entity<Payload, RawPayload>> {
+    // we allow implementers to override us by calling ._post directly and e.g. handle our error differently
+    return this._post()
+  }
+
+  protected async _post(): Promise<Entity<Payload, RawPayload>> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: this._rawPayload || undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as RawPayload)
+
+      return this
+    } catch (err) {
+      throw new EntityPostError(undefined, { error: err })
+    }
+  }
+
+  public async save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
+    // we allow implementers to override us by calling ._save directly and e.g. handle our error differently
+    return this._save()
+  }
+
+  protected async _save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
+    if (this.id && payload) {
+      return this.patch(payload)
+    }
+
+    if (!this.id && payload) {
+      this.deserialize(payload)
+      return this.post()
+    }
+
+    // TODO: this should change if we get PUT or PATCH (application/json) endpoints
+    throw new TypeError('save requires a sendable payload')
+  }
 }
 
 export class EntityPatchError extends BaseError {
   public name = 'EntityPatchError'
   constructor(public message: string = 'Could not partially alter resource unexpectedly.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EntityPostError extends BaseError {
+  public name = 'EntityPostError'
+  constructor(public message: string = 'Could not create resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
