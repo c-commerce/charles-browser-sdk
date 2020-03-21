@@ -1,3 +1,10 @@
+## [2.20.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.20.1...v2.20.2) (2020-03-21)
+
+
+### Bug Fixes
+
+* **ci:** use stricter build order ([f3583df](https://github.com/c-commerce/charles-browser-sdk/commit/f3583df4b00bb9d3c98f41ac83f599839d90ab7e))
+
 ## [2.20.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.20.0...v2.20.1) (2020-03-21)
 
 
