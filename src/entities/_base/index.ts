@@ -43,7 +43,12 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     if (!changePart) throw new TypeError('patch requires incoming object to be set.')
 
     try {
-      const patch = diff(this._rawPayload as unknown as object, changePart as unknown as object, jsonPatchPathConverter)
+      const patch = diff(
+        this._rawPayload as unknown as object,
+        // first merge with what we got, in order not to throw away any properties
+        { ...this._rawPayload, ...changePart } as unknown as object,
+        jsonPatchPathConverter
+      )
 
       const opts = {
         method: 'PATCH',
