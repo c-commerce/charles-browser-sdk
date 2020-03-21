@@ -1,3 +1,10 @@
+# [2.22.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.21.0...v2.22.0) (2020-03-21)
+
+
+### Features
+
+* **docs:** enhance universe docs ([e3fc841](https://github.com/c-commerce/charles-browser-sdk/commit/e3fc841fe581ef1fefbf5fe54b0364f109d8ceb0))
+
 # [2.21.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.20.2...v2.21.0) (2020-03-21)
 
 

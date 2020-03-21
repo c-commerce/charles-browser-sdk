@@ -83,6 +83,39 @@ var asset = __importStar(require("../entities/asset/asset"));
 var person = __importStar(require("../entities/person/person"));
 var product = __importStar(require("../entities/product/product"));
 var ticket = __importStar(require("../entities/ticket/ticket"));
+/**
+ * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
+ * or namespace for data.
+ *
+ * It also allows easy access to remote states of entities, such as:
+ *
+ * ```js
+ * await universe.feeds()
+ * await universe.staffs()
+ * await universe.assets()
+ * await universe.people()
+ * await universe.products()
+ * await universe.tickets()
+ * ```
+ *
+ * Furthermore it is a global event emitter, informing implementers about e.g. about new messages
+ *
+ * ```js
+ * universe.on('universe:message', (msg) => {
+ *   // your logic
+ * })
+ *
+ * universe.on('universe:feeds:messages', (p) => {
+ *   // your logic
+ * })
+ *
+ * universe.on('universe:feeds', (p) => {
+ *   // your logic
+ * })
+ * ```
+ *
+ * @category Universe
+ */
 var Universe = /** @class */ (function (_super) {
     __extends(Universe, _super);
     function Universe(options) {
