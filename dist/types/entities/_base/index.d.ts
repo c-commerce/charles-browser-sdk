@@ -19,8 +19,17 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     protected handleError(err: Error): Error;
     patch(changePart: RawPayload): Promise<Entity<Payload, RawPayload>>;
     protected _patch(changePart: RawPayload): Promise<Entity<Payload, RawPayload>>;
+    post(): Promise<Entity<Payload, RawPayload>>;
+    protected _post(): Promise<Entity<Payload, RawPayload>>;
+    save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>>;
+    protected _save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>>;
 }
 export declare class EntityPatchError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EntityPostError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

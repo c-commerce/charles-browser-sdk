@@ -1,3 +1,10 @@
+# [2.19.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.18.1...v2.19.0) (2020-03-21)
+
+
+### Features
+
+* **entity:** add post and save ([d2312ad](https://github.com/c-commerce/charles-browser-sdk/commit/d2312adaf0450101a55a351952080230f678ac1c))
+
 ## [2.18.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.18.0...v2.18.1) (2020-03-21)
 
 

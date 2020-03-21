@@ -126,6 +126,67 @@ var Entity = /** @class */ (function (_super) {
             });
         });
     };
+    Entity.prototype.post = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                // we allow implementers to override us by calling ._post directly and e.g. handle our error differently
+                return [2 /*return*/, this._post()];
+            });
+        });
+    };
+    Entity.prototype._post = function () {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, response, err_2;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint,
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: this._rawPayload || undefined,
+                            responseType: 'json'
+                        };
+                        return [4 /*yield*/, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 1:
+                        response = _c.sent();
+                        this.deserialize(response.data.data[0]);
+                        return [2 /*return*/, this];
+                    case 2:
+                        err_2 = _c.sent();
+                        throw new EntityPostError(undefined, { error: err_2 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Entity.prototype.save = function (payload) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                // we allow implementers to override us by calling ._save directly and e.g. handle our error differently
+                return [2 /*return*/, this._save()];
+            });
+        });
+    };
+    Entity.prototype._save = function (payload) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                if (this.id && payload) {
+                    return [2 /*return*/, this.patch(payload)];
+                }
+                if (!this.id && payload) {
+                    this.deserialize(payload);
+                    return [2 /*return*/, this.post()];
+                }
+                // TODO: this should change if we get PUT or PATCH (application/json) endpoints
+                throw new TypeError('save requires a sendable payload');
+            });
+        });
+    };
     return Entity;
 }(events_1.EventEmitter));
 exports.default = Entity;
@@ -141,4 +202,16 @@ var EntityPatchError = /** @class */ (function (_super) {
     return EntityPatchError;
 }(errors_1.BaseError));
 exports.EntityPatchError = EntityPatchError;
+var EntityPostError = /** @class */ (function (_super) {
+    __extends(EntityPostError, _super);
+    function EntityPostError(message, properties) {
+        if (message === void 0) { message = 'Could not create resource unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EntityPostError';
+        return _this;
+    }
+    return EntityPostError;
+}(errors_1.BaseError));
+exports.EntityPostError = EntityPostError;
 //# sourceMappingURL=index.js.map
