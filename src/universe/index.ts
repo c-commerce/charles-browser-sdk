@@ -41,9 +41,42 @@ export interface IUniversePayload {
 
 export declare interface Universe {
   on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
-  on(event: 'armed' | 'universe:message' | string, cb: Function): this
+  on(event: 'armed' | 'universe:message' | 'universe:feeds:messages' | 'universe:feeds' | string, cb: Function): this
 }
 
+/**
+ * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
+ * or namespace for data.
+ *
+ * It also allows easy access to remote states of entities, such as:
+ *
+ * ```js
+ * await universe.feeds()
+ * await universe.staffs()
+ * await universe.assets()
+ * await universe.people()
+ * await universe.products()
+ * await universe.tickets()
+ * ```
+ *
+ * Furthermore it is a global event emitter, informing implementers about e.g. about new messages
+ *
+ * ```js
+ * universe.on('universe:message', (msg) => {
+ *   // your logic
+ * })
+ *
+ * universe.on('universe:feeds:messages', (p) => {
+ *   // your logic
+ * })
+ *
+ * universe.on('universe:feeds', (p) => {
+ *   // your logic
+ * })
+ * ```
+ *
+ * @category Universe
+ */
 export class Universe extends Readable {
   public status: UniverseStatus
   public health: UniverseHealth
