@@ -1,3 +1,10 @@
+## [2.20.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.20.0...v2.20.1) (2020-03-21)
+
+
+### Bug Fixes
+
+* **docs:** use correct ci badge ([920ad51](https://github.com/c-commerce/charles-browser-sdk/commit/920ad51a37e2799240178cb5f4a63ff3c7bed899))
+
 # [2.20.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.19.0...v2.20.0) (2020-03-21)
 
 
