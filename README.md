@@ -4,7 +4,7 @@
 
 ---
 
-[![CircleCI](https://circleci.com/gh/c-commerce/charles-browser-sdk.svg?style=svg)](https://circleci.com/gh/c-commerce/charles-browser-sdk)
+[![CircleCI](https://circleci.com/gh/c-commerce/charles-browser-sdk/tree/master.svg?style=svg)](https://circleci.com/gh/c-commerce/charles-browser-sdk/tree/master)
 
 ## Usage
 
