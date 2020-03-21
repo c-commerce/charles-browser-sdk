@@ -12,6 +12,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -90,7 +101,9 @@ var Entity = /** @class */ (function (_super) {
                         _c.label = 1;
                     case 1:
                         _c.trys.push([1, 3, , 4]);
-                        patch = just_diff_1.diff(this._rawPayload, changePart, just_diff_1.jsonPatchPathConverter);
+                        patch = just_diff_1.diff(this._rawPayload, 
+                        // first merge with what we got, in order not to throw away any properties
+                        __assign(__assign({}, this._rawPayload), changePart), just_diff_1.jsonPatchPathConverter);
                         opts = {
                             method: 'PATCH',
                             url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,

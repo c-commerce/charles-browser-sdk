@@ -1,3 +1,10 @@
+## [2.18.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.18.0...v2.18.1) (2020-03-21)
+
+
+### Bug Fixes
+
+* **entity:** merge before diffing ([8d37e9c](https://github.com/c-commerce/charles-browser-sdk/commit/8d37e9cace218442cccd57014489c8b59025599f))
+
 # [2.18.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.17.1...v2.18.0) (2020-03-20)
 
 
