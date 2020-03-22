@@ -74,6 +74,7 @@ var Person = /** @class */ (function (_super) {
         return _this;
     }
     Person.prototype.deserialize = function (rawPayload) {
+        var _this = this;
         this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
@@ -89,8 +90,20 @@ var Person = /** @class */ (function (_super) {
         this.dateOfBirth = rawPayload.date_of_birth;
         this.gender = rawPayload.gender;
         this.comment = rawPayload.comment;
-        this.addresses = rawPayload.addresses;
-        this.phonenumbers = rawPayload.phonenumbers;
+        this.addresses = [];
+        if (rawPayload.addresses && this.initialized) {
+            this.addresses = rawPayload.addresses.map(function (i) { return (Address.create(i, _this.universe, _this.http)); });
+        }
+        else if (rawPayload.addresses && !this.initialized) {
+            this.addresses = rawPayload.addresses.map(function (i) { return (Address.createUninitialized(i, _this.universe, _this.http)); });
+        }
+        this.phonenumbers = [];
+        if (rawPayload.phonenumbers && this.initialized) {
+            this.phonenumbers = rawPayload.phonenumbers.map(function (i) { return (Phonenumber.create(i, _this.universe, _this.http)); });
+        }
+        else if (rawPayload.phonenumbers && !this.initialized) {
+            this.phonenumbers = rawPayload.phonenumbers.map(function (i) { return (Phonenumber.createUninitialized(i, _this.universe, _this.http)); });
+        }
         return this;
     };
     Person.create = function (payload, universe, http) {
@@ -112,8 +125,8 @@ var Person = /** @class */ (function (_super) {
             date_of_birth: this.dateOfBirth,
             gender: this.gender,
             comment: this.comment,
-            addresses: this.addresses,
-            phonenumbers: this.phonenumbers
+            addresses: Array.isArray(this.addresses) ? this.addresses.map(function (item) { return (item.serialize()); }) : undefined,
+            phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map(function (item) { return (item.serialize()); }) : undefined
         };
     };
     Person.prototype.init = function () {
@@ -145,6 +158,96 @@ var People = /** @class */ (function () {
     return People;
 }());
 exports.People = People;
+var Address = /** @class */ (function () {
+    function Address(options) {
+        this.universe = options.universe;
+        this.http = options.http;
+        this.options = options;
+        this.initialized = options.initialized || false;
+        if (options && options.rawPayload) {
+            this.deserialize(options.rawPayload);
+        }
+    }
+    Address.prototype.deserialize = function (rawPayload) {
+        this.id = rawPayload.id;
+        this.lines = rawPayload.lines;
+        this.locality = rawPayload.locality;
+        this.country = rawPayload.country;
+        this.region = rawPayload.region;
+        this.postalCode = rawPayload.postal_code;
+        this.type = rawPayload.type;
+        this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
+        this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
+        this.comment = rawPayload.comment;
+        this.deleted = rawPayload.deleted;
+        this.active = rawPayload.active;
+        return this;
+    };
+    Address.create = function (payload, universe, http) {
+        return new Address({ rawPayload: payload, universe: universe, http: http, initialized: true });
+    };
+    Address.createUninitialized = function (payload, universe, http) {
+        return new Address({ rawPayload: payload, universe: universe, http: http, initialized: false });
+    };
+    Address.prototype.serialize = function () {
+        return {
+            id: this.id,
+            lines: this.lines,
+            locality: this.locality,
+            country: this.country,
+            region: this.region,
+            postal_code: this.postalCode,
+            type: this.type,
+            created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
+            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+            comment: this.comment,
+            deleted: this.deleted,
+            active: this.active
+        };
+    };
+    return Address;
+}());
+exports.Address = Address;
+var Phonenumber = /** @class */ (function () {
+    function Phonenumber(options) {
+        this.universe = options.universe;
+        this.http = options.http;
+        this.options = options;
+        this.initialized = options.initialized || false;
+        if (options && options.rawPayload) {
+            this.deserialize(options.rawPayload);
+        }
+    }
+    Phonenumber.prototype.deserialize = function (rawPayload) {
+        this.id = rawPayload.id;
+        this.value = rawPayload.value;
+        this.type = rawPayload.type;
+        this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
+        this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
+        this.deleted = rawPayload.deleted;
+        this.active = rawPayload.active;
+        return this;
+    };
+    Phonenumber.create = function (payload, universe, http) {
+        return new Phonenumber({ rawPayload: payload, universe: universe, http: http, initialized: true });
+    };
+    Phonenumber.createUninitialized = function (payload, universe, http) {
+        return new Phonenumber({ rawPayload: payload, universe: universe, http: http, initialized: false });
+    };
+    Phonenumber.prototype.serialize = function () {
+        return {
+            id: this.id,
+            value: this.value,
+            type: this.type,
+            created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
+            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+            deleted: this.deleted,
+            active: this.active
+        };
+    };
+    return Phonenumber;
+}());
+exports.Phonenumber = Phonenumber;
 var PersonInitializationError = /** @class */ (function (_super) {
     __extends(PersonInitializationError, _super);
     function PersonInitializationError(message, properties) {

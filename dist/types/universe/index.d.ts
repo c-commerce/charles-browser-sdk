@@ -8,6 +8,8 @@ import * as asset from '../entities/asset/asset';
 import * as person from '../entities/person/person';
 import * as product from '../entities/product/product';
 import * as ticket from '../entities/ticket/ticket';
+import * as cart from '../entities/cart/cart';
+import * as order from '../entities/order/order';
 export interface IUniverseUser {
     id?: string;
     accessToken: string;
@@ -106,6 +108,8 @@ export declare class Universe extends Readable {
     people(): Promise<person.Person[] | undefined>;
     products(): Promise<product.Product[] | undefined>;
     tickets(): Promise<ticket.Ticket[] | undefined>;
+    carts(): Promise<cart.Cart[] | undefined>;
+    orders(): Promise<order.Order[] | undefined>;
     /**
      * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
      */

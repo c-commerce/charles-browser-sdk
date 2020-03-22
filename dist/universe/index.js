@@ -83,6 +83,8 @@ var asset = __importStar(require("../entities/asset/asset"));
 var person = __importStar(require("../entities/person/person"));
 var product = __importStar(require("../entities/product/product"));
 var ticket = __importStar(require("../entities/ticket/ticket"));
+var cart = __importStar(require("../entities/cart/cart"));
+var order = __importStar(require("../entities/order/order"));
 /**
  * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
  * or namespace for data.
@@ -419,6 +421,52 @@ var Universe = /** @class */ (function (_super) {
                     case 2:
                         err_7 = _a.sent();
                         throw new ticket.TicketsFetchRemoteError(undefined, { error: err_7 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Universe.prototype.carts = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_8;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + cart.Carts.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2 /*return*/, resources.map(function (resource) {
+                                return cart.Cart.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_8 = _a.sent();
+                        throw new cart.CartsFetchRemoteError(undefined, { error: err_8 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Universe.prototype.orders = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_9;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + order.Orders.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2 /*return*/, resources.map(function (resource) {
+                                return order.Order.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_9 = _a.sent();
+                        throw new order.OrdersFetchRemoteError(undefined, { error: err_9 });
                     case 3: return [2 /*return*/];
                 }
             });
