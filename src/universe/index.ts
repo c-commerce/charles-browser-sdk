@@ -13,7 +13,8 @@ import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
 import * as product from '../entities/product/product'
 import * as ticket from '../entities/ticket/ticket'
-
+import * as cart from '../entities/cart/cart'
+import * as order from '../entities/order/order'
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface IUniverseUser {
@@ -341,6 +342,31 @@ export class Universe extends Readable {
     }
   }
 
+  public async carts(): Promise<cart.Cart[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${cart.Carts.endpoint}`)
+      const resources = res.data.data as cart.CartRawPayload[]
+
+      return resources.map((resource: cart.CartRawPayload) => {
+        return cart.Cart.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new cart.CartsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async orders(): Promise<order.Order[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${order.Orders.endpoint}`)
+      const resources = res.data.data as order.OrderRawPayload[]
+
+      return resources.map((resource: order.OrderRawPayload) => {
+        return order.Order.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new order.OrdersFetchRemoteError(undefined, { error: err })
+    }
+  }
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
