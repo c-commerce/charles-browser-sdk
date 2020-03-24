@@ -15,6 +15,7 @@ import * as product from '../entities/product/product'
 import * as ticket from '../entities/ticket/ticket'
 import * as cart from '../entities/cart/cart'
 import * as order from '../entities/order/order'
+import * as discount from '../entities/discount/discount'
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface IUniverseUser {
@@ -367,6 +368,20 @@ export class Universe extends Readable {
       throw new order.OrdersFetchRemoteError(undefined, { error: err })
     }
   }
+
+  public async discounts(): Promise<discount.Discount[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${discount.Discounts.endpoint}`)
+      const resources = res.data.data as discount.DiscountRawPayload[]
+
+      return resources.map((resource: discount.DiscountRawPayload) => {
+        return discount.Discount.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new discount.DiscountsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
