@@ -2,6 +2,7 @@
 import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { IDiscountType } from '../discount/discount'
 
 export interface OrderOptions extends EntityOptions {
   rawPayload?: OrderRawPayload
@@ -33,7 +34,7 @@ export interface OrderItemPriceRawPayload {
 
 export interface OrderItemDiscountRawPayload {
   readonly id?: string
-  readonly type?: 'value' | 'rate'
+  readonly type?: IDiscountType
   readonly name?: string
   readonly rate?: number
   readonly value?: {
@@ -96,6 +97,15 @@ export interface OrderContact {
   readonly email?: string
 }
 
+export enum IOrderStatusEnum {
+  open = 'open',
+  pending = 'pending',
+  completed = 'completed',
+  cancelled = 'cancelled'
+}
+
+export type IOrderStatusType = IOrderStatusEnum.open | IOrderStatusEnum.pending | IOrderStatusEnum.completed | IOrderStatusEnum.cancelled
+
 export interface OrderRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -120,6 +130,14 @@ export interface OrderRawPayload {
   readonly metadata?: object
   readonly custom_properies?: object
   readonly cart?: string
+  readonly shipping_fulfillment?: string
+  readonly amount_total_gross?: string
+  readonly amount_total_net?: string
+  readonly amount_total_tax?: string
+  readonly amount_total_shipping_gross?: string
+  readonly order_prompt?: string
+  readonly status?: IOrderStatusType | null
+  readonly proxy_payload?: object | null
 }
 
 export interface OrderPayload {
@@ -146,6 +164,14 @@ export interface OrderPayload {
   readonly metadata?: OrderRawPayload['metadata']
   readonly customProperies?: OrderRawPayload['custom_properies']
   readonly cart?: OrderRawPayload['cart']
+  readonly shippingFulfillment?: OrderRawPayload['shipping_fulfillment']
+  readonly amountTotalGross?: OrderRawPayload['amount_total_gross']
+  readonly amountTotalNet?: OrderRawPayload['amount_total_net']
+  readonly amountTotalTax?: OrderRawPayload['amount_total_tax']
+  readonly amountTotalShippingGross?: OrderRawPayload['amount_total_shipping_gross']
+  readonly orderPrompt?: OrderRawPayload['order_prompt']
+  readonly status?: OrderRawPayload['status']
+  readonly proxyPayload?: OrderRawPayload['proxy_payload']
 }
 
 export class OrderItem {
@@ -254,6 +280,14 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
   public metadata?: OrderPayload['metadata']
   public customProperies?: OrderPayload['customProperies']
   public cart?: OrderPayload['cart']
+  public shippingFulfillment?: OrderPayload['shippingFulfillment']
+  public amountTotalGross?: OrderPayload['amountTotalGross']
+  public amountTotalNet?: OrderPayload['amountTotalNet']
+  public amountTotalTax?: OrderPayload['amountTotalTax']
+  public amountTotalShippingGross?: OrderPayload['amountTotalShippingGross']
+  public orderPrompt?: OrderPayload['orderPrompt']
+  public status?: OrderPayload['status']
+  public proxyPayload?: OrderPayload['proxyPayload']
 
   constructor(options: OrderOptions) {
     super()
@@ -291,6 +325,14 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
     this.metadata = rawPayload.metadata
     this.customProperies = rawPayload.custom_properies
     this.cart = rawPayload.cart
+    this.shippingFulfillment = rawPayload.shipping_fulfillment
+    this.amountTotalGross = rawPayload.amount_total_gross
+    this.amountTotalNet = rawPayload.amount_total_net
+    this.amountTotalTax = rawPayload.amount_total_tax
+    this.amountTotalShippingGross = rawPayload.amount_total_shipping_gross
+    this.orderPrompt = rawPayload.order_prompt
+    this.status = rawPayload.status
+    this.proxyPayload = rawPayload.proxy_payload
 
     if (Array.isArray(rawPayload.items)) {
       this.items = rawPayload.items.map((item) => (OrderItem.create(item, this.universe, this.http)))
@@ -334,7 +376,15 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
       metadata: this.metadata,
       custom_properies: this.customProperies,
       cart: this.cart,
-      items
+      items,
+      shipping_fulfillment: this.shippingFulfillment,
+      amount_total_gross: this.amountTotalGross,
+      amount_total_net: this.amountTotalNet,
+      amount_total_tax: this.amountTotalTax,
+      amount_total_shipping_gross: this.amountTotalShippingGross,
+      order_prompt: this.orderPrompt,
+      status: this.status,
+      proxy_payload: this.proxyPayload
     }
   }
 

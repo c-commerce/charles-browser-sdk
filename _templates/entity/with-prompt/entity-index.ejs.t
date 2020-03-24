@@ -10,7 +10,7 @@ to: "<%= 'src/entities/' + h.inflection.camelize(h.inflection.singularize(h.infl
 import {
   <%= capitalizedName %>,
   <%= capitalizedPluralName %>,
-   <%= capitalizedPluralName %>FetchRemoteError
+  <%= capitalizedPluralName %>FetchRemoteError
 } from '<%= './' + h.inflection.camelize(h.inflection.singularize(h.inflection.humanize(name, true)), true) %>'
 
 export {

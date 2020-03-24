@@ -2,6 +2,7 @@
 import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { IDiscountType } from '../discount/discount'
 
 export interface CartOptions extends EntityOptions {
   rawPayload?: CartRawPayload
@@ -11,13 +12,21 @@ export interface CartItemOptions extends EntityOptions {
   rawPayload?: CartItemRawPayload
 }
 
-export interface CartAmout {
+export interface CartAmount {
   net?: number
   gross?: number
 }
+export enum ICartStatusEnum {
+  open = 'open',
+  pending = 'pending',
+  completed = 'completed',
+  cancelled = 'cancelled'
+}
+
+export type ICartStatusType = ICartStatusEnum.open | ICartStatusEnum.pending | ICartStatusEnum.completed | ICartStatusEnum.cancelled
 
 export interface CartItemPriceRawPayload {
-  readonly amount: CartAmout
+  readonly amount: CartAmount
   readonly currency: string
   readonly vat_rate: number
   readonly vat_class: 'vat_class_zero' | 'vat_class_reduced' | 'vat_class_normal' | 'vat_class_custom'
@@ -33,7 +42,7 @@ export interface CartItemPriceRawPayload {
 
 export interface CartItemDiscountRawPayload {
   readonly id?: string
-  readonly type?: 'value' | 'rate'
+  readonly type?: IDiscountType
   readonly name?: string
   readonly rate?: number
   readonly value?: {
@@ -119,6 +128,14 @@ export interface CartRawPayload {
   readonly contact?: CartContact
   readonly metadata?: object
   readonly custom_properies?: object
+  readonly shipping_fulfillment?: string
+  readonly amount_total_gross?: string
+  readonly amount_total_net?: string
+  readonly amount_total_tax?: string
+  readonly amount_total_shipping_gross?: string
+  readonly order_prompt?: string
+  readonly status?: ICartStatusType | null
+  readonly proxy_payload?: object | null
 }
 
 export interface CartPayload {
@@ -144,6 +161,14 @@ export interface CartPayload {
   readonly contact?: CartRawPayload['contact']
   readonly metadata?: CartRawPayload['metadata']
   readonly customProperies?: CartRawPayload['custom_properies']
+  readonly shippingFulfillment?: CartRawPayload['shipping_fulfillment']
+  readonly amountTotalGross?: CartRawPayload['amount_total_gross']
+  readonly amountTotalNet?: CartRawPayload['amount_total_net']
+  readonly amountTotalTax?: CartRawPayload['amount_total_tax']
+  readonly amountTotalShippingGross?: CartRawPayload['amount_total_shipping_gross']
+  readonly orderPrompt?: CartRawPayload['order_prompt']
+  readonly status?: CartRawPayload['status']
+  readonly proxyPayload?: CartRawPayload['proxy_payload']
 }
 
 export class CartItem {
@@ -251,6 +276,14 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   public contact?: CartPayload['contact']
   public metadata?: CartPayload['metadata']
   public customProperies?: CartPayload['customProperies']
+  public shippingFulfillment?: CartPayload['shippingFulfillment']
+  public amountTotalGross?: CartPayload['amountTotalGross']
+  public amountTotalNet?: CartPayload['amountTotalNet']
+  public amountTotalTax?: CartPayload['amountTotalTax']
+  public amountTotalShippingGross?: CartPayload['amountTotalShippingGross']
+  public orderPrompt?: CartPayload['orderPrompt']
+  public status?: CartPayload['status']
+  public proxyPayload?: CartPayload['proxyPayload']
 
   constructor(options: CartOptions) {
     super()
@@ -287,6 +320,14 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
     this.contact = rawPayload.contact
     this.metadata = rawPayload.metadata
     this.customProperies = rawPayload.custom_properies
+    this.shippingFulfillment = rawPayload.shipping_fulfillment
+    this.amountTotalGross = rawPayload.amount_total_gross
+    this.amountTotalNet = rawPayload.amount_total_net
+    this.amountTotalTax = rawPayload.amount_total_tax
+    this.amountTotalShippingGross = rawPayload.amount_total_shipping_gross
+    this.orderPrompt = rawPayload.order_prompt
+    this.status = rawPayload.status
+    this.proxyPayload = rawPayload.proxy_payload
 
     if (Array.isArray(rawPayload.items)) {
       this.items = rawPayload.items.map((item) => (CartItem.create(item, this.universe, this.http)))
@@ -329,7 +370,15 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
       contact: this.contact,
       metadata: this.metadata,
       custom_properies: this.customProperies,
-      items
+      items,
+      shipping_fulfillment: this.shippingFulfillment,
+      amount_total_gross: this.amountTotalGross,
+      amount_total_net: this.amountTotalNet,
+      amount_total_tax: this.amountTotalTax,
+      amount_total_shipping_gross: this.amountTotalShippingGross,
+      order_prompt: this.orderPrompt,
+      status: this.status,
+      proxy_payload: this.proxyPayload
     }
   }
 

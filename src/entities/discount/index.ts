@@ -2,7 +2,7 @@
 import {
   Discount,
   Discounts,
-   DiscountsFetchRemoteError
+  DiscountsFetchRemoteError
 } from './discount'
 
 export {
