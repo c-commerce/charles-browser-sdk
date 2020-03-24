@@ -8,10 +8,15 @@ export enum EventTypesEnum {
   resource = 'resource',
   followUp = 'follow_up',
   personFeedbackPending = 'person:feedback_pending',
-  conversationCompleted = 'conversation:completed'
+  conversationCompleted = 'conversation:completed',
+  agentView = 'agent:view'
 }
 
-export type IEventType = EventTypesEnum.resource | EventTypesEnum.followUp | EventTypesEnum.personFeedbackPending
+export type IEventType = 'resource'
+  | 'follow_up'
+  | 'person:feedback_pending'
+  | 'conversation:completed'
+  | 'agent:view'
 
 export enum EventResourcesTypesEnum {
   message = 'message',

@@ -296,6 +296,10 @@ export class Feed extends EventEmitter {
     }
   }
 
+  public async viewed(): Promise<Event | undefined> {
+    return this.createFeedEvent('agent:view')
+  }
+
   public events(): Array<Event> {
     return Array.from(this.eventsMap.values())
   }
