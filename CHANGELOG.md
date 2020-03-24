@@ -1,3 +1,10 @@
+# [2.25.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.24.0...v2.25.0) (2020-03-24)
+
+
+### Features
+
+* **events:** add flag / mark ([f96db38](https://github.com/c-commerce/charles-browser-sdk/commit/f96db38d2aa5ab18f9619809e0435df52aa09259))
+
 # [2.24.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.23.0...v2.24.0) (2020-03-24)
 
 

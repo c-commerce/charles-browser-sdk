@@ -63,6 +63,10 @@ export declare class Event extends EventEmitter {
     serialize(): EventRawPayload;
     init(): Promise<Event | undefined>;
     fetch(): Promise<Event | undefined>;
+    mark(): Promise<Event | undefined>;
+    unmark(): Promise<Event | undefined>;
+    flag(): Promise<Event | undefined>;
+    unflag(): Promise<Event | undefined>;
     private handleError;
 }
 export declare class EventInitializationError extends BaseError {
@@ -71,6 +75,26 @@ export declare class EventInitializationError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class EventFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EventMarkRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EventUnmarkRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EventUnarkRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EventUnflagRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

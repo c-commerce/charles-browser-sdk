@@ -87,10 +87,17 @@ var Event = /** @class */ (function (_super) {
         this.id = rawPayload.id;
         this.resource = rawPayload.resource;
         this.resourceType = rawPayload.resource_type;
-        this.payload = rawPayload.payload;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.type = rawPayload.type;
+        // for the time being we are trying not to override existing data if the remote is not sending any
+        // e.g. in special calls
+        if (this.payload && !rawPayload.payload) {
+            // no-op
+        }
+        else {
+            this.payload = rawPayload.payload;
+        }
         return this;
     };
     Event.create = function (payload, feed, universe, http) {
@@ -149,6 +156,86 @@ var Event = /** @class */ (function (_super) {
             });
         });
     };
+    Event.prototype.mark = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, err_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/mark")];
+                    case 1:
+                        res = _a.sent();
+                        this.deserialize(res.data.data[0]);
+                        return [2 /*return*/, this];
+                    case 2:
+                        err_3 = _a.sent();
+                        throw this.handleError(new EventMarkRemoteError(undefined, { error: err_3 }));
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Event.prototype.unmark = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, err_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/unmark")];
+                    case 1:
+                        res = _a.sent();
+                        this.deserialize(res.data.data[0]);
+                        return [2 /*return*/, this];
+                    case 2:
+                        err_4 = _a.sent();
+                        throw this.handleError(new EventUnmarkRemoteError(undefined, { error: err_4 }));
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Event.prototype.flag = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, err_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/flag")];
+                    case 1:
+                        res = _a.sent();
+                        this.deserialize(res.data.data[0]);
+                        return [2 /*return*/, this];
+                    case 2:
+                        err_5 = _a.sent();
+                        throw this.handleError(new EventUnarkRemoteError(undefined, { error: err_5 }));
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Event.prototype.unflag = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, err_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/unflag")];
+                    case 1:
+                        res = _a.sent();
+                        this.deserialize(res.data.data[0]);
+                        return [2 /*return*/, this];
+                    case 2:
+                        err_6 = _a.sent();
+                        throw this.handleError(new EventUnflagRemoteError(undefined, { error: err_6 }));
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Event.prototype.handleError = function (err) {
         if (this.listeners('error').length > 0)
             this.emit('error', err);
@@ -181,4 +268,52 @@ var EventFetchRemoteError = /** @class */ (function (_super) {
     return EventFetchRemoteError;
 }(errors_1.BaseError));
 exports.EventFetchRemoteError = EventFetchRemoteError;
+var EventMarkRemoteError = /** @class */ (function (_super) {
+    __extends(EventMarkRemoteError, _super);
+    function EventMarkRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not mark event.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EventMarkRemoteError';
+        return _this;
+    }
+    return EventMarkRemoteError;
+}(errors_1.BaseError));
+exports.EventMarkRemoteError = EventMarkRemoteError;
+var EventUnmarkRemoteError = /** @class */ (function (_super) {
+    __extends(EventUnmarkRemoteError, _super);
+    function EventUnmarkRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not unmark event.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EventUnmarkRemoteError';
+        return _this;
+    }
+    return EventUnmarkRemoteError;
+}(errors_1.BaseError));
+exports.EventUnmarkRemoteError = EventUnmarkRemoteError;
+var EventUnarkRemoteError = /** @class */ (function (_super) {
+    __extends(EventUnarkRemoteError, _super);
+    function EventUnarkRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not flag event.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EventUnarkRemoteError';
+        return _this;
+    }
+    return EventUnarkRemoteError;
+}(errors_1.BaseError));
+exports.EventUnarkRemoteError = EventUnarkRemoteError;
+var EventUnflagRemoteError = /** @class */ (function (_super) {
+    __extends(EventUnflagRemoteError, _super);
+    function EventUnflagRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not unflag event.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EventUnflagRemoteError';
+        return _this;
+    }
+    return EventUnflagRemoteError;
+}(errors_1.BaseError));
+exports.EventUnflagRemoteError = EventUnflagRemoteError;
 //# sourceMappingURL=event.js.map
