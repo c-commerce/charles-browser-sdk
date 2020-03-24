@@ -38,6 +38,8 @@ export interface EventRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
   readonly type?: IEventType | null
+  readonly flagged?: boolean
+  readonly marked?: boolean
 }
 
 export interface EventPayload {
@@ -48,6 +50,8 @@ export interface EventPayload {
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
   readonly type?: IEventType | null
+  readonly flagged?: EventRawPayload['flagged']
+  readonly marked?: EventRawPayload['marked']
 }
 
 export class Event extends EventEmitter {
@@ -65,6 +69,10 @@ export class Event extends EventEmitter {
   public createdAt?: EventPayload['createdAt']
   public updatedAt?: EventPayload['updatedAt']
   public type?: EventPayload['type']
+  public flagged?: EventPayload['flagged']
+  public marked?: EventPayload['marked']
+
+  static eventTypes = EventTypesEnum
 
   constructor(options: EventOptions) {
     super()
@@ -90,6 +98,8 @@ export class Event extends EventEmitter {
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.type = rawPayload.type
+    this.marked = rawPayload.marked
+    this.flagged = rawPayload.flagged
 
     // for the time being we are trying not to override existing data if the remote is not sending any
     // e.g. in special calls
@@ -118,7 +128,9 @@ export class Event extends EventEmitter {
       payload: this.payload,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      type: this.type
+      type: this.type,
+      flagged: this.flagged,
+      marked: this.marked
     }
   }
 
