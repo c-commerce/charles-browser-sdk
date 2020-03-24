@@ -86,10 +86,17 @@ export class Event extends EventEmitter {
     this.id = rawPayload.id
     this.resource = rawPayload.resource
     this.resourceType = rawPayload.resource_type
-    this.payload = rawPayload.payload
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.type = rawPayload.type
+
+    // for the time being we are trying not to override existing data if the remote is not sending any
+    // e.g. in special calls
+    if (this.payload && !rawPayload.payload) {
+      // no-op
+    } else {
+      this.payload = rawPayload.payload
+    }
 
     return this
   }
@@ -136,6 +143,54 @@ export class Event extends EventEmitter {
     }
   }
 
+  public async mark(): Promise<Event | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/mark`)
+
+      this.deserialize(res.data.data[0] as EventRawPayload)
+
+      return this
+    } catch (err) {
+      throw this.handleError(new EventMarkRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async unmark(): Promise<Event | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/unmark`)
+
+      this.deserialize(res.data.data[0] as EventRawPayload)
+
+      return this
+    } catch (err) {
+      throw this.handleError(new EventUnmarkRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async flag(): Promise<Event | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/flag`)
+
+      this.deserialize(res.data.data[0] as EventRawPayload)
+
+      return this
+    } catch (err) {
+      throw this.handleError(new EventUnarkRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async unflag(): Promise<Event | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/unflag`)
+
+      this.deserialize(res.data.data[0] as EventRawPayload)
+
+      return this
+    } catch (err) {
+      throw this.handleError(new EventUnflagRemoteError(undefined, { error: err }))
+    }
+  }
+
   private handleError(err: Error): Error {
     if (this.listeners('error').length > 0) this.emit('error', err)
 
@@ -153,6 +208,34 @@ export class EventInitializationError extends BaseError {
 export class EventFetchRemoteError extends BaseError {
   public name = 'EventFetchRemoteError'
   constructor(public message: string = 'Could not get event.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EventMarkRemoteError extends BaseError {
+  public name = 'EventMarkRemoteError'
+  constructor(public message: string = 'Could not mark event.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EventUnmarkRemoteError extends BaseError {
+  public name = 'EventUnmarkRemoteError'
+  constructor(public message: string = 'Could not unmark event.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EventUnarkRemoteError extends BaseError {
+  public name = 'EventUnarkRemoteError'
+  constructor(public message: string = 'Could not flag event.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EventUnflagRemoteError extends BaseError {
+  public name = 'EventUnflagRemoteError'
+  constructor(public message: string = 'Could not unflag event.', properties?: any) {
     super(message, properties)
   }
 }
