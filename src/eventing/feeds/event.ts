@@ -7,7 +7,8 @@ import { Message } from '../../messaging/message'
 export enum EventTypesEnum {
   resource = 'resource',
   followUp = 'follow_up',
-  personFeedbackPending = 'follow_up'
+  personFeedbackPending = 'person:feedback_pending',
+  conversationCompleted = 'conversation:completed'
 }
 
 export type IEventType = EventTypesEnum.resource | EventTypesEnum.followUp | EventTypesEnum.personFeedbackPending
