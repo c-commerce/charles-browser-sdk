@@ -54,6 +54,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+var ICartStatusEnum;
+(function (ICartStatusEnum) {
+    ICartStatusEnum["open"] = "open";
+    ICartStatusEnum["pending"] = "pending";
+    ICartStatusEnum["completed"] = "completed";
+    ICartStatusEnum["cancelled"] = "cancelled";
+})(ICartStatusEnum = exports.ICartStatusEnum || (exports.ICartStatusEnum = {}));
 var CartItem = /** @class */ (function () {
     function CartItem(options) {
         this.universe = options.universe;
@@ -144,6 +151,14 @@ var Cart = /** @class */ (function (_super) {
         this.contact = rawPayload.contact;
         this.metadata = rawPayload.metadata;
         this.customProperies = rawPayload.custom_properies;
+        this.shippingFulfillment = rawPayload.shipping_fulfillment;
+        this.amountTotalGross = rawPayload.amount_total_gross;
+        this.amountTotalNet = rawPayload.amount_total_net;
+        this.amountTotalTax = rawPayload.amount_total_tax;
+        this.amountTotalShippingGross = rawPayload.amount_total_shipping_gross;
+        this.orderPrompt = rawPayload.order_prompt;
+        this.status = rawPayload.status;
+        this.proxyPayload = rawPayload.proxy_payload;
         if (Array.isArray(rawPayload.items)) {
             this.items = rawPayload.items.map(function (item) { return (CartItem.create(item, _this.universe, _this.http)); });
         }
@@ -182,7 +197,15 @@ var Cart = /** @class */ (function (_super) {
             contact: this.contact,
             metadata: this.metadata,
             custom_properies: this.customProperies,
-            items: items
+            items: items,
+            shipping_fulfillment: this.shippingFulfillment,
+            amount_total_gross: this.amountTotalGross,
+            amount_total_net: this.amountTotalNet,
+            amount_total_tax: this.amountTotalTax,
+            amount_total_shipping_gross: this.amountTotalShippingGross,
+            order_prompt: this.orderPrompt,
+            status: this.status,
+            proxy_payload: this.proxyPayload
         };
     };
     Cart.prototype.init = function () {

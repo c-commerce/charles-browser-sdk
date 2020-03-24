@@ -297,6 +297,35 @@ var Feed = /** @class */ (function (_super) {
             });
         });
     };
+    Feed.prototype.createFeedEvent = function (type, resource, resourceType) {
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, res, event_2, err_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id + "/events",
+                            data: {
+                                type: type,
+                                resource: resource || undefined,
+                                resource_type: resourceType || undefined
+                            }
+                        };
+                        return [4 /*yield*/, this.http.getClient()(opts)];
+                    case 1:
+                        res = _a.sent();
+                        event_2 = res.data.data[0];
+                        return [2 /*return*/, event_1.Event.create(event_2, this, this.universe, this.http)];
+                    case 2:
+                        err_5 = _a.sent();
+                        throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err_5 }));
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Feed.prototype.events = function () {
         return Array.from(this.eventsMap.values());
     };
@@ -331,7 +360,7 @@ var FeedReply = /** @class */ (function () {
     }
     FeedReply.prototype.prepareSendWithAssets = function (payload) {
         return __awaiter(this, void 0, void 0, function () {
-            var assetsHandler, data, err_5;
+            var assetsHandler, data, err_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -345,8 +374,8 @@ var FeedReply = /** @class */ (function () {
                         data = _a.sent();
                         return [2 /*return*/, data];
                     case 2:
-                        err_5 = _a.sent();
-                        throw err_5;
+                        err_6 = _a.sent();
+                        throw err_6;
                     case 3: return [2 /*return*/];
                 }
             });
@@ -355,7 +384,7 @@ var FeedReply = /** @class */ (function () {
     FeedReply.prototype.send = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var additonalAttachments, assets, attachments, res, err_6;
+            var additonalAttachments, assets, attachments, res, err_7;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -396,8 +425,8 @@ var FeedReply = /** @class */ (function () {
                         res = _b.sent();
                         return [2 /*return*/, res.data.data[0]];
                     case 4:
-                        err_6 = _b.sent();
-                        throw new FeedReplyError(undefined, { error: err_6 });
+                        err_7 = _b.sent();
+                        throw new FeedReplyError(undefined, { error: err_7 });
                     case 5: return [2 /*return*/];
                 }
             });
@@ -466,6 +495,18 @@ var FeedFetchEventsRemoteError = /** @class */ (function (_super) {
     return FeedFetchEventsRemoteError;
 }(errors_1.BaseError));
 exports.FeedFetchEventsRemoteError = FeedFetchEventsRemoteError;
+var FeedCreateEventRemoteError = /** @class */ (function (_super) {
+    __extends(FeedCreateEventRemoteError, _super);
+    function FeedCreateEventRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not create feed event.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'FeedCreateEventRemoteError';
+        return _this;
+    }
+    return FeedCreateEventRemoteError;
+}(errors_1.BaseError));
+exports.FeedCreateEventRemoteError = FeedCreateEventRemoteError;
 var FeedsFetchRemoteError = /** @class */ (function (_super) {
     __extends(FeedsFetchRemoteError, _super);
     function FeedsFetchRemoteError(message, properties) {

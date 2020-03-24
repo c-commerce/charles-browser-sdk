@@ -48,29 +48,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var events_1 = require("events");
+var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
-var EventTypesEnum;
-(function (EventTypesEnum) {
-    EventTypesEnum["resource"] = "resource";
-    EventTypesEnum["followUp"] = "follow_up";
-    EventTypesEnum["personFeedbackPending"] = "follow_up";
-})(EventTypesEnum = exports.EventTypesEnum || (exports.EventTypesEnum = {}));
-var EventResourcesTypesEnum;
-(function (EventResourcesTypesEnum) {
-    EventResourcesTypesEnum["message"] = "message";
-    EventResourcesTypesEnum["merge"] = "merge";
-    EventResourcesTypesEnum["order"] = "order";
-    EventResourcesTypesEnum["cart"] = "cart";
-})(EventResourcesTypesEnum = exports.EventResourcesTypesEnum || (exports.EventResourcesTypesEnum = {}));
-var Event = /** @class */ (function (_super) {
-    __extends(Event, _super);
-    function Event(options) {
+var DiscountTypesEnum;
+(function (DiscountTypesEnum) {
+    DiscountTypesEnum["rate"] = "rate";
+    DiscountTypesEnum["value"] = "value";
+})(DiscountTypesEnum = exports.DiscountTypesEnum || (exports.DiscountTypesEnum = {}));
+/**
+ * Manage discounts.
+ *
+ * @category Entity
+ */
+var Discount = /** @class */ (function (_super) {
+    __extends(Discount, _super);
+    function Discount(options) {
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
-        _this.feed = options.feed;
-        _this.endpoint = _this.feed.id + "/events";
+        _this.endpoint = 'api/v0/discounts';
         _this.http = options.http;
         _this.options = options;
         _this.initialized = options.initialized || false;
@@ -79,38 +78,35 @@ var Event = /** @class */ (function (_super) {
         }
         return _this;
     }
-    Event.prototype.deserialize = function (rawPayload) {
-        // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
-        // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
-        if (!this.id)
-            this.id = rawPayload.id;
+    Discount.prototype.deserialize = function (rawPayload) {
         this.id = rawPayload.id;
-        this.resource = rawPayload.resource;
-        this.resourceType = rawPayload.resource_type;
-        this.payload = rawPayload.payload;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
+        this.deleted = rawPayload.deleted || false;
+        this.active = rawPayload.active || true;
         this.type = rawPayload.type;
+        this.value = rawPayload.value;
+        this.name = rawPayload.name;
+        this.i18n = rawPayload.i18n;
         return this;
     };
-    Event.create = function (payload, feed, universe, http) {
-        return new Event({ rawPayload: payload, universe: universe, http: http, initialized: true, feed: feed });
+    Discount.create = function (payload, universe, http) {
+        return new Discount({ rawPayload: payload, universe: universe, http: http, initialized: true });
     };
-    Event.createUninitialized = function (payload, feed, universe, http) {
-        return new Event({ rawPayload: payload, universe: universe, http: http, initialized: false, feed: feed });
-    };
-    Event.prototype.serialize = function () {
+    Discount.prototype.serialize = function () {
         return {
             id: this.id,
-            resource: this.resource,
-            resource_type: this.resourceType,
-            payload: this.payload,
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-            type: this.type
+            deleted: this.deleted || false,
+            active: this.active || true,
+            type: this.type,
+            value: this.value,
+            name: this.name,
+            i18n: this.i18n
         };
     };
-    Event.prototype.init = function () {
+    Discount.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             var err_1;
             return __generator(this, function (_a) {
@@ -123,62 +119,56 @@ var Event = /** @class */ (function (_super) {
                         return [2 /*return*/, this];
                     case 2:
                         err_1 = _a.sent();
-                        throw this.handleError(new EventInitializationError(undefined, { error: err_1 }));
+                        throw this.handleError(new DiscountInitializationError(undefined, { error: err_1 }));
                     case 3: return [2 /*return*/];
                 }
             });
         });
     };
-    Event.prototype.fetch = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var res, err_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id)];
-                    case 1:
-                        res = _a.sent();
-                        this.deserialize(res.data.data[0]);
-                        return [2 /*return*/, this];
-                    case 2:
-                        err_2 = _a.sent();
-                        throw this.handleError(new EventFetchRemoteError(undefined, { error: err_2 }));
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Event.prototype.handleError = function (err) {
-        if (this.listeners('error').length > 0)
-            this.emit('error', err);
-        return err;
-    };
-    return Event;
-}(events_1.EventEmitter));
-exports.Event = Event;
-var EventInitializationError = /** @class */ (function (_super) {
-    __extends(EventInitializationError, _super);
-    function EventInitializationError(message, properties) {
-        if (message === void 0) { message = 'Could not initialize event.'; }
+    return Discount;
+}(_base_1.default));
+exports.Discount = Discount;
+var Discounts = /** @class */ (function () {
+    function Discounts() {
+    }
+    Discounts.endpoint = 'api/v0/discounts';
+    return Discounts;
+}());
+exports.Discounts = Discounts;
+var DiscountInitializationError = /** @class */ (function (_super) {
+    __extends(DiscountInitializationError, _super);
+    function DiscountInitializationError(message, properties) {
+        if (message === void 0) { message = 'Could not initialize discount.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
-        _this.name = 'EventInitializationError';
+        _this.name = 'DiscountInitializationError';
         return _this;
     }
-    return EventInitializationError;
+    return DiscountInitializationError;
 }(errors_1.BaseError));
-exports.EventInitializationError = EventInitializationError;
-var EventFetchRemoteError = /** @class */ (function (_super) {
-    __extends(EventFetchRemoteError, _super);
-    function EventFetchRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could not get event.'; }
+exports.DiscountInitializationError = DiscountInitializationError;
+var DiscountFetchRemoteError = /** @class */ (function (_super) {
+    __extends(DiscountFetchRemoteError, _super);
+    function DiscountFetchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get discount.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
-        _this.name = 'EventFetchRemoteError';
+        _this.name = 'DiscountFetchRemoteError';
         return _this;
     }
-    return EventFetchRemoteError;
+    return DiscountFetchRemoteError;
 }(errors_1.BaseError));
-exports.EventFetchRemoteError = EventFetchRemoteError;
-//# sourceMappingURL=event.js.map
+exports.DiscountFetchRemoteError = DiscountFetchRemoteError;
+var DiscountsFetchRemoteError = /** @class */ (function (_super) {
+    __extends(DiscountsFetchRemoteError, _super);
+    function DiscountsFetchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get discounts.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'DiscountsFetchRemoteError';
+        return _this;
+    }
+    return DiscountsFetchRemoteError;
+}(errors_1.BaseError));
+exports.DiscountsFetchRemoteError = DiscountsFetchRemoteError;
+//# sourceMappingURL=discount.js.map

@@ -4,6 +4,19 @@ import { Universe } from '../../universe';
 import { Feed } from './feed';
 import { BaseError } from '../../errors';
 import { Message } from '../../messaging/message';
+export declare enum EventTypesEnum {
+    resource = "resource",
+    followUp = "follow_up",
+    personFeedbackPending = "follow_up"
+}
+export declare type IEventType = EventTypesEnum.resource | EventTypesEnum.followUp | EventTypesEnum.personFeedbackPending;
+export declare enum EventResourcesTypesEnum {
+    message = "message",
+    merge = "merge",
+    order = "order",
+    cart = "cart"
+}
+export declare type IEventResourceType = EventResourcesTypesEnum.message | EventResourcesTypesEnum.merge | EventResourcesTypesEnum.order | EventResourcesTypesEnum.cart;
 export interface EventOptions {
     universe: Universe;
     feed: Feed;
@@ -13,11 +26,12 @@ export interface EventOptions {
 }
 export interface EventRawPayload {
     readonly id?: string;
-    readonly resource_type?: 'message' | 'merge' | 'order';
+    readonly resource_type?: IEventResourceType | null;
     readonly resource?: string;
     readonly payload?: Message | object;
     readonly created_at?: string;
     readonly updated_at?: string;
+    readonly type?: IEventType | null;
 }
 export interface EventPayload {
     readonly id?: EventRawPayload['id'];
@@ -26,6 +40,7 @@ export interface EventPayload {
     readonly payload?: EventRawPayload['payload'];
     readonly createdAt?: Date | null;
     readonly updatedAt?: Date | null;
+    readonly type?: IEventType | null;
 }
 export declare class Event extends EventEmitter {
     protected universe: Universe;
@@ -40,6 +55,7 @@ export declare class Event extends EventEmitter {
     payload?: EventPayload['payload'];
     createdAt?: EventPayload['createdAt'];
     updatedAt?: EventPayload['updatedAt'];
+    type?: EventPayload['type'];
     constructor(options: EventOptions);
     private deserialize;
     static create(payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event;

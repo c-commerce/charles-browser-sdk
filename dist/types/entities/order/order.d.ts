@@ -1,6 +1,7 @@
 import Entity, { EntityOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { IDiscountType } from '../discount/discount';
 export interface OrderOptions extends EntityOptions {
     rawPayload?: OrderRawPayload;
 }
@@ -27,7 +28,7 @@ export interface OrderItemPriceRawPayload {
 }
 export interface OrderItemDiscountRawPayload {
     readonly id?: string;
-    readonly type?: 'value' | 'rate';
+    readonly type?: IDiscountType;
     readonly name?: string;
     readonly rate?: number;
     readonly value?: {
@@ -81,6 +82,13 @@ export interface OrderBillingAddress extends OrderAdress {
 export interface OrderContact {
     readonly email?: string;
 }
+export declare enum IOrderStatusEnum {
+    open = "open",
+    pending = "pending",
+    completed = "completed",
+    cancelled = "cancelled"
+}
+export declare type IOrderStatusType = IOrderStatusEnum.open | IOrderStatusEnum.pending | IOrderStatusEnum.completed | IOrderStatusEnum.cancelled;
 export interface OrderRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -105,6 +113,14 @@ export interface OrderRawPayload {
     readonly metadata?: object;
     readonly custom_properies?: object;
     readonly cart?: string;
+    readonly shipping_fulfillment?: string;
+    readonly amount_total_gross?: string;
+    readonly amount_total_net?: string;
+    readonly amount_total_tax?: string;
+    readonly amount_total_shipping_gross?: string;
+    readonly order_prompt?: string;
+    readonly status?: IOrderStatusType | null;
+    readonly proxy_payload?: object | null;
 }
 export interface OrderPayload {
     readonly id?: OrderRawPayload['id'];
@@ -130,6 +146,14 @@ export interface OrderPayload {
     readonly metadata?: OrderRawPayload['metadata'];
     readonly customProperies?: OrderRawPayload['custom_properies'];
     readonly cart?: OrderRawPayload['cart'];
+    readonly shippingFulfillment?: OrderRawPayload['shipping_fulfillment'];
+    readonly amountTotalGross?: OrderRawPayload['amount_total_gross'];
+    readonly amountTotalNet?: OrderRawPayload['amount_total_net'];
+    readonly amountTotalTax?: OrderRawPayload['amount_total_tax'];
+    readonly amountTotalShippingGross?: OrderRawPayload['amount_total_shipping_gross'];
+    readonly orderPrompt?: OrderRawPayload['order_prompt'];
+    readonly status?: OrderRawPayload['status'];
+    readonly proxyPayload?: OrderRawPayload['proxy_payload'];
 }
 export declare class OrderItem {
     protected universe: Universe;
@@ -187,6 +211,14 @@ export declare class Order extends Entity<OrderPayload, OrderRawPayload> {
     metadata?: OrderPayload['metadata'];
     customProperies?: OrderPayload['customProperies'];
     cart?: OrderPayload['cart'];
+    shippingFulfillment?: OrderPayload['shippingFulfillment'];
+    amountTotalGross?: OrderPayload['amountTotalGross'];
+    amountTotalNet?: OrderPayload['amountTotalNet'];
+    amountTotalTax?: OrderPayload['amountTotalTax'];
+    amountTotalShippingGross?: OrderPayload['amountTotalShippingGross'];
+    orderPrompt?: OrderPayload['orderPrompt'];
+    status?: OrderPayload['status'];
+    proxyPayload?: OrderPayload['proxyPayload'];
     constructor(options: OrderOptions);
     protected deserialize(rawPayload: OrderRawPayload): Order;
     static create(payload: OrderRawPayload, universe: Universe, http: Universe['http']): Order;

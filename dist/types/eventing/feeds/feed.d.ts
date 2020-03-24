@@ -5,7 +5,7 @@ import { BaseError } from '../../errors';
 import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse, ReplyOptions } from '../../messaging/message';
 import { Asset } from '../../entities/asset';
 import { Person, PersonRawPayload } from '../../entities/person';
-import { Event, EventRawPayload } from './event';
+import { Event, EventRawPayload, IEventType, IEventResourceType } from './event';
 export interface FeedOptions {
     universe: Universe;
     http: Universe['http'];
@@ -87,6 +87,7 @@ export declare class Feed extends EventEmitter {
     fetch(): Promise<Feed | undefined>;
     fetchLatestEvents(): Promise<Event[] | undefined>;
     fetchEvents(): Promise<Event[] | undefined>;
+    createFeedEvent(type: IEventType, resource?: string, resourceType?: IEventResourceType): Promise<Event | undefined>;
     events(): Array<Event>;
     getEventsMap(): Feed['eventsMap'];
     private handleError;
@@ -138,6 +139,11 @@ export declare class FeedFetchLatestEventsRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class FeedFetchEventsRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class FeedCreateEventRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

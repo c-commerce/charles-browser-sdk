@@ -1,3 +1,16 @@
+# [2.24.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.23.0...v2.24.0) (2020-03-24)
+
+
+### Bug Fixes
+
+* **carts/orders:** add missing fields ([a19cd5c](https://github.com/c-commerce/charles-browser-sdk/commit/a19cd5cd1b499cc423a282171f0492bc888381cf))
+
+
+### Features
+
+* add discounts ([1e63613](https://github.com/c-commerce/charles-browser-sdk/commit/1e636133eab98baa75588b9293c05f3e9be31225))
+* **feeds:** add create feed event ([345c7af](https://github.com/c-commerce/charles-browser-sdk/commit/345c7afdb6818a219c2579ee5d79482fd7d944aa))
+
 # [2.23.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.22.0...v2.23.0) (2020-03-22)
 
 

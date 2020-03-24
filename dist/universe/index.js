@@ -85,6 +85,7 @@ var product = __importStar(require("../entities/product/product"));
 var ticket = __importStar(require("../entities/ticket/ticket"));
 var cart = __importStar(require("../entities/cart/cart"));
 var order = __importStar(require("../entities/order/order"));
+var discount = __importStar(require("../entities/discount/discount"));
 /**
  * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
  * or namespace for data.
@@ -467,6 +468,29 @@ var Universe = /** @class */ (function (_super) {
                     case 2:
                         err_9 = _a.sent();
                         throw new order.OrdersFetchRemoteError(undefined, { error: err_9 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Universe.prototype.discounts = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_10;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + discount.Discounts.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2 /*return*/, resources.map(function (resource) {
+                                return discount.Discount.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_10 = _a.sent();
+                        throw new discount.DiscountsFetchRemoteError(undefined, { error: err_10 });
                     case 3: return [2 /*return*/];
                 }
             });

@@ -1,18 +1,26 @@
 import Entity, { EntityOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { IDiscountType } from '../discount/discount';
 export interface CartOptions extends EntityOptions {
     rawPayload?: CartRawPayload;
 }
 export interface CartItemOptions extends EntityOptions {
     rawPayload?: CartItemRawPayload;
 }
-export interface CartAmout {
+export interface CartAmount {
     net?: number;
     gross?: number;
 }
+export declare enum ICartStatusEnum {
+    open = "open",
+    pending = "pending",
+    completed = "completed",
+    cancelled = "cancelled"
+}
+export declare type ICartStatusType = ICartStatusEnum.open | ICartStatusEnum.pending | ICartStatusEnum.completed | ICartStatusEnum.cancelled;
 export interface CartItemPriceRawPayload {
-    readonly amount: CartAmout;
+    readonly amount: CartAmount;
     readonly currency: string;
     readonly vat_rate: number;
     readonly vat_class: 'vat_class_zero' | 'vat_class_reduced' | 'vat_class_normal' | 'vat_class_custom';
@@ -27,7 +35,7 @@ export interface CartItemPriceRawPayload {
 }
 export interface CartItemDiscountRawPayload {
     readonly id?: string;
-    readonly type?: 'value' | 'rate';
+    readonly type?: IDiscountType;
     readonly name?: string;
     readonly rate?: number;
     readonly value?: {
@@ -104,6 +112,14 @@ export interface CartRawPayload {
     readonly contact?: CartContact;
     readonly metadata?: object;
     readonly custom_properies?: object;
+    readonly shipping_fulfillment?: string;
+    readonly amount_total_gross?: string;
+    readonly amount_total_net?: string;
+    readonly amount_total_tax?: string;
+    readonly amount_total_shipping_gross?: string;
+    readonly order_prompt?: string;
+    readonly status?: ICartStatusType | null;
+    readonly proxy_payload?: object | null;
 }
 export interface CartPayload {
     readonly id?: CartRawPayload['id'];
@@ -128,6 +144,14 @@ export interface CartPayload {
     readonly contact?: CartRawPayload['contact'];
     readonly metadata?: CartRawPayload['metadata'];
     readonly customProperies?: CartRawPayload['custom_properies'];
+    readonly shippingFulfillment?: CartRawPayload['shipping_fulfillment'];
+    readonly amountTotalGross?: CartRawPayload['amount_total_gross'];
+    readonly amountTotalNet?: CartRawPayload['amount_total_net'];
+    readonly amountTotalTax?: CartRawPayload['amount_total_tax'];
+    readonly amountTotalShippingGross?: CartRawPayload['amount_total_shipping_gross'];
+    readonly orderPrompt?: CartRawPayload['order_prompt'];
+    readonly status?: CartRawPayload['status'];
+    readonly proxyPayload?: CartRawPayload['proxy_payload'];
 }
 export declare class CartItem {
     protected universe: Universe;
@@ -184,6 +208,14 @@ export declare class Cart extends Entity<CartPayload, CartRawPayload> {
     contact?: CartPayload['contact'];
     metadata?: CartPayload['metadata'];
     customProperies?: CartPayload['customProperies'];
+    shippingFulfillment?: CartPayload['shippingFulfillment'];
+    amountTotalGross?: CartPayload['amountTotalGross'];
+    amountTotalNet?: CartPayload['amountTotalNet'];
+    amountTotalTax?: CartPayload['amountTotalTax'];
+    amountTotalShippingGross?: CartPayload['amountTotalShippingGross'];
+    orderPrompt?: CartPayload['orderPrompt'];
+    status?: CartPayload['status'];
+    proxyPayload?: CartPayload['proxyPayload'];
     constructor(options: CartOptions);
     protected deserialize(rawPayload: CartRawPayload): Cart;
     static create(payload: CartRawPayload, universe: Universe, http: Universe['http']): Cart;
