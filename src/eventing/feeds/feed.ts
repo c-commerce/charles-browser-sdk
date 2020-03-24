@@ -10,7 +10,7 @@ import {
 } from '../../messaging/message'
 import { Asset, Assets } from '../../entities/asset'
 import { Person, PersonRawPayload } from '../../entities/person'
-import { Event, EventRawPayload } from './event'
+import { Event, EventRawPayload, IEventType, IEventResourceType } from './event'
 
 export interface FeedOptions {
   universe: Universe
@@ -275,6 +275,27 @@ export class Feed extends EventEmitter {
     }
   }
 
+  public async createFeedEvent(type: IEventType, resource?: string, resourceType?: IEventResourceType): Promise<Event | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${Feed.endpoint}/${this.id}/events`,
+        data: {
+          type: type,
+          resource: resource || undefined,
+          resource_type: resourceType || undefined
+        }
+      }
+      const res = await this.http.getClient()(opts)
+
+      const event = res.data.data[0] as EventRawPayload
+
+      return Event.create(event, this, this.universe, this.http)
+    } catch (err) {
+      throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err }))
+    }
+  }
+
   public events(): Array<Event> {
     return Array.from(this.eventsMap.values())
   }
@@ -418,6 +439,13 @@ export class FeedFetchLatestEventsRemoteError extends BaseError {
 export class FeedFetchEventsRemoteError extends BaseError {
   public name = 'FeedFetchEventsRemoteError'
   constructor(public message: string = 'Could not get feed events.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class FeedCreateEventRemoteError extends BaseError {
+  public name = 'FeedCreateEventRemoteError'
+  constructor(public message: string = 'Could not create feed event.', properties?: any) {
     super(message, properties)
   }
 }

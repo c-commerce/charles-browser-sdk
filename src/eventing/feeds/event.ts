@@ -4,6 +4,23 @@ import { Feed } from './feed'
 import { BaseError } from '../../errors'
 import { Message } from '../../messaging/message'
 
+export enum EventTypesEnum {
+  resource = 'resource',
+  followUp = 'follow_up',
+  personFeedbackPending = 'follow_up'
+}
+
+export type IEventType = EventTypesEnum.resource | EventTypesEnum.followUp | EventTypesEnum.personFeedbackPending
+
+export enum EventResourcesTypesEnum {
+  message = 'message',
+  merge = 'merge',
+  order = 'order',
+  cart = 'cart'
+}
+
+export type IEventResourceType = EventResourcesTypesEnum.message | EventResourcesTypesEnum.merge | EventResourcesTypesEnum.order | EventResourcesTypesEnum.cart
+
 export interface EventOptions {
   universe: Universe
   feed: Feed
@@ -14,11 +31,12 @@ export interface EventOptions {
 
 export interface EventRawPayload {
   readonly id?: string
-  readonly resource_type?: 'message' | 'merge' | 'order'
+  readonly resource_type?: IEventResourceType | null
   readonly resource?: string
   readonly payload?: Message | object
   readonly created_at?: string
   readonly updated_at?: string
+  readonly type?: IEventType | null
 }
 
 export interface EventPayload {
@@ -28,6 +46,7 @@ export interface EventPayload {
   readonly payload?: EventRawPayload['payload']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
+  readonly type?: IEventType | null
 }
 
 export class Event extends EventEmitter {
@@ -44,6 +63,7 @@ export class Event extends EventEmitter {
   public payload?: EventPayload['payload']
   public createdAt?: EventPayload['createdAt']
   public updatedAt?: EventPayload['updatedAt']
+  public type?: EventPayload['type']
 
   constructor(options: EventOptions) {
     super()
@@ -69,6 +89,7 @@ export class Event extends EventEmitter {
     this.payload = rawPayload.payload
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
+    this.type = rawPayload.type
 
     return this
   }
@@ -88,7 +109,8 @@ export class Event extends EventEmitter {
       resource_type: this.resourceType,
       payload: this.payload,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
-      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined
+      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+      type: this.type
     }
   }
 
