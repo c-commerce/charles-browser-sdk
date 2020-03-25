@@ -4,6 +4,7 @@ import { BaseError } from '../errors'
 import { Person, PersonRawPayload } from '../entities/person'
 import { Assets, Asset, AssetRawPayload, AssetsPostError } from '../entities/asset/asset'
 import { FeedRawPayload, Feed } from '../eventing/feeds'
+import { Event } from '../eventing/feeds/event'
 
 export interface MessageOptions {
   universe: Universe
@@ -263,7 +264,7 @@ export class MessageReply extends Reply {
     this.rawAssets = options.rawAssets
   }
 
-  public async send(): Promise<ReplyResponse | undefined> {
+  public async send(): Promise<Event | ReplyResponse | undefined> {
     try {
       let additonalAttachments
       if (this.rawAssets) {
@@ -297,6 +298,11 @@ export class MessageReply extends Reply {
           ...this.content
         }
       })
+
+      if (this.feed) {
+        return Event.create(res.data.data[0], this.feed, this.universe, this.http)
+      }
+
       return res.data.data[0] as ReplyResponse
     } catch (err) {
       throw new MessagesReplyError(undefined, { error: err })

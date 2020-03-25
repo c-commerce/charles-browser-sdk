@@ -370,7 +370,7 @@ export class FeedReply {
     }
   }
 
-  public async send(): Promise<FeedReplyResponse | undefined> {
+  public async send(): Promise<Event | undefined> {
     try {
       let additonalAttachments
       if (this.rawAssets) {
@@ -402,7 +402,7 @@ export class FeedReply {
       const res = await this.http?.getClient().post(`${this.universe.universeBase}/${Feed.endpoint}/${this.feed.id}/reply`, {
         content: this.content
       })
-      return res.data.data[0] as FeedReplyResponse
+      return Event.create(res.data.data[0], this.feed, this.universe, this.http)
     } catch (err) {
       throw new FeedReplyError(undefined, { error: err })
     }
