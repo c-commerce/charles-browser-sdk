@@ -201,7 +201,8 @@ var Feed = /** @class */ (function (_super) {
     Feed.prototype.subscibeDefaults = function () {
         this.getMqttClient()
             .subscribe([
-            topics_1.default.api.feedMessages.generateTopic(this.serialize())
+            topics_1.default.api.feedMessages.generateTopic(this.serialize()),
+            topics_1.default.api.feedEvents.generateTopic(this.serialize())
         ]);
     };
     /**
@@ -224,6 +225,14 @@ var Feed = /** @class */ (function (_super) {
                 message = message_1.Message.deserialize(msg.payload.message, this.universe, this.http, this);
             }
             this.emit('feed:message', __assign(__assign({}, msg), { message: message, feed: this }));
+            return;
+        }
+        if (topics_1.default.api.feedEvents.isTopic(msg.topic, this.serialize())) {
+            var event_2;
+            if (msg.payload.message) {
+                event_2 = event_1.Event.create(msg.payload.event, this, this.universe, this.http);
+            }
+            this.emit('feed:event', __assign(__assign({}, msg), { event: event_2, feed: this }));
             return;
         }
     };
@@ -299,7 +308,7 @@ var Feed = /** @class */ (function (_super) {
     };
     Feed.prototype.createFeedEvent = function (type, resource, resourceType) {
         return __awaiter(this, void 0, void 0, function () {
-            var opts, res, event_2, err_5;
+            var opts, res, event_3, err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -316,8 +325,8 @@ var Feed = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.http.getClient()(opts)];
                     case 1:
                         res = _a.sent();
-                        event_2 = res.data.data[0];
-                        return [2 /*return*/, event_1.Event.create(event_2, this, this.universe, this.http)];
+                        event_3 = res.data.data[0];
+                        return [2 /*return*/, event_1.Event.create(event_3, this, this.universe, this.http)];
                     case 2:
                         err_5 = _a.sent();
                         throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err_5 }));

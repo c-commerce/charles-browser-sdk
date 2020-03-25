@@ -21,6 +21,9 @@ export interface RealtimeMessageMessage extends RealtimeMessage {
         message: {
             [key: string]: any | object | undefined | null;
         };
+        event: {
+            [key: string]: any | object | undefined | null;
+        };
     };
 }
 export interface RealtimeFeedsMessages extends RealtimeMessage {

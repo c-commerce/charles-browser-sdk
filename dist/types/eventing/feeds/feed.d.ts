@@ -46,7 +46,7 @@ export interface FeedEventKV {
 export declare type FeedEventsMap = Map<Event['id'], Event>;
 export declare interface Feed {
     on(event: 'raw-error' | 'error', cb: (error: Error) => void): this;
-    on(event: 'feed:message' | string, cb: Function): this;
+    on(event: 'feed:message' | 'feed:event' | string, cb: Function): this;
 }
 export declare class Feed extends EventEmitter {
     protected universe: Universe;

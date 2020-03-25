@@ -99,22 +99,37 @@ exports.default = {
             };
             return class_5;
         }(TopicGenerator)))(),
+        feedEvents: new (/** @class */ (function (_super) {
+            __extends(class_6, _super);
+            function class_6() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.template = 'api/feeds/${id}/events';
+                return _this;
+            }
+            class_6.prototype.generateTopic = function (data) {
+                return this.template.replace('${id}', data.id);
+            };
+            class_6.prototype.isTopic = function (topic, data) {
+                return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic);
+            };
+            return class_6;
+        }(TopicGenerator)))(),
         clients: {
             arm: new (/** @class */ (function (_super) {
-                __extends(class_6, _super);
-                function class_6() {
+                __extends(class_7, _super);
+                function class_7() {
                     var _this = _super !== null && _super.apply(this, arguments) || this;
                     _this.template = 'api/clients/${clientId}/arm';
                     return _this;
                 }
-                class_6.prototype.generateTopic = function (data) {
+                class_7.prototype.generateTopic = function (data) {
                     return just_template_1.default(this.template, data);
                 };
-                class_6.prototype.isTopic = function (topic) {
+                class_7.prototype.isTopic = function (topic) {
                     // TODO: this expression
                     return new RegExp(this.template.replace('${clientId}', '\\w+'), 'g').test(topic);
                 };
-                return class_6;
+                return class_7;
             }(TopicGenerator)))()
         }
     }
