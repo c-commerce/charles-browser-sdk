@@ -228,10 +228,10 @@ var Universe = /** @class */ (function (_super) {
         }
         if (topics_1.default.api.feeds.isTopic(msg.topic)) {
             var feed = void 0;
-            if (msg.payload.message) {
+            if (msg.payload.feed) {
                 feed = feed_1.Feed.create(msg.payload.feed, this, this.http, this.mqtt);
             }
-            this.emit('universe:feeds', __assign(__assign({}, msg), { feed: feed }));
+            this.emit('universe:feeds', __assign(__assign({}, msg), { feed: feed, action: msg.payload.action }));
             return;
         }
         this.emit('message', msg);

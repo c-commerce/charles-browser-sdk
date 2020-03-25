@@ -1,3 +1,10 @@
+# [2.28.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.27.0...v2.28.0) (2020-03-25)
+
+
+### Features
+
+* **feed:** implement action, correcy cast ([af35b68](https://github.com/c-commerce/charles-browser-sdk/commit/af35b6854c869e715d54e4823114032e397b9285))
+
 # [2.27.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.26.0...v2.27.0) (2020-03-25)
 
 

@@ -44,6 +44,7 @@ export interface RealtimeFeeds extends RealtimeMessage {
         feed: {
             [key: string]: any | object | undefined | null;
         };
+        action: 'create' | 'update';
     };
 }
 export interface RealtimeLastMessageReference {
