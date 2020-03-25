@@ -1,3 +1,10 @@
+# [2.29.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.28.0...v2.29.0) (2020-03-25)
+
+
+### Features
+
+* **person:** add measurements ([bfb5211](https://github.com/c-commerce/charles-browser-sdk/commit/bfb521109d2fd41e53ccedd4d74ccc5372bc89cd))
+
 # [2.28.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.27.0...v2.28.0) (2020-03-25)
 
 

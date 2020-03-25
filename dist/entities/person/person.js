@@ -90,6 +90,7 @@ var Person = /** @class */ (function (_super) {
         this.dateOfBirth = rawPayload.date_of_birth;
         this.gender = rawPayload.gender;
         this.comment = rawPayload.comment;
+        this.measurements = rawPayload.measurements;
         this.addresses = [];
         if (rawPayload.addresses && this.initialized) {
             this.addresses = rawPayload.addresses.map(function (i) { return (Address.create(i, _this.universe, _this.http)); });
@@ -125,6 +126,7 @@ var Person = /** @class */ (function (_super) {
             date_of_birth: this.dateOfBirth,
             gender: this.gender,
             comment: this.comment,
+            measurements: this.measurements,
             addresses: Array.isArray(this.addresses) ? this.addresses.map(function (item) { return (item.serialize()); }) : undefined,
             phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map(function (item) { return (item.serialize()); }) : undefined
         };
