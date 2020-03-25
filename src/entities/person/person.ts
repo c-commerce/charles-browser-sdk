@@ -54,6 +54,20 @@ export interface PersonRawPayload extends EntityRawPayload {
   readonly date_of_birth?: string
   readonly gender?: string
   readonly comment?: string
+  readonly measurements?: {
+    body?: {
+      weight: number
+      height: number
+    }
+    shoes?: {
+      sizes?: {
+        type?: 'womens' | 'mens' | 'kids' | 'babys' | null
+        uk?: number | null
+        eu?: number | null
+        us?: number | null
+      }
+    }
+  }
   readonly addresses?: PersonAddressRawPayload[]
   readonly phonenumbers?: PersonPhonenumberRawPayload[]
 }
@@ -73,6 +87,7 @@ export interface PersonPayload {
   readonly dateOfBirth?: PersonRawPayload['date_of_birth']
   readonly gender?: PersonRawPayload['gender']
   readonly comment?: PersonRawPayload['comment']
+  readonly measurements?: PersonRawPayload['measurements']
   readonly addresses?: Address[]
   readonly phonenumbers?: Phonenumber[]
 }
@@ -104,6 +119,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public dateOfBirth?: PersonPayload['dateOfBirth']
   public gender?: PersonPayload['gender']
   public comment?: PersonPayload['comment']
+  public measurements?: PersonPayload['measurements']
   public addresses?: PersonPayload['addresses']
   public phonenumbers?: PersonPayload['phonenumbers']
 
@@ -137,6 +153,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this.dateOfBirth = rawPayload.date_of_birth
     this.gender = rawPayload.gender
     this.comment = rawPayload.comment
+    this.measurements = rawPayload.measurements
 
     this.addresses = []
     if (rawPayload.addresses && this.initialized) {
@@ -175,6 +192,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       date_of_birth: this.dateOfBirth,
       gender: this.gender,
       comment: this.comment,
+      measurements: this.measurements,
       addresses: Array.isArray(this.addresses) ? this.addresses.map((item) => (item.serialize())) : undefined,
       phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map((item) => (item.serialize())) : undefined
     }
