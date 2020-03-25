@@ -5,6 +5,7 @@ import { BaseError } from '../errors';
 import { Person, PersonRawPayload } from '../entities/person';
 import { Asset } from '../entities/asset/asset';
 import { FeedRawPayload, Feed } from '../eventing/feeds';
+import { Event } from '../eventing/feeds/event';
 export interface MessageOptions {
     universe: Universe;
     http: Universe['http'];
@@ -135,7 +136,7 @@ export declare class MessageReply extends Reply {
     private message;
     private rawAssets?;
     constructor(options: MessageReplyOptions);
-    send(): Promise<ReplyResponse | undefined>;
+    send(): Promise<Event | ReplyResponse | undefined>;
 }
 export declare class MessageFeedReply extends Reply {
     private message;

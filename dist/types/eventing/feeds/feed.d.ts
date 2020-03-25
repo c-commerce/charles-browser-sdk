@@ -88,6 +88,7 @@ export declare class Feed extends EventEmitter {
     fetchLatestEvents(): Promise<Event[] | undefined>;
     fetchEvents(): Promise<Event[] | undefined>;
     createFeedEvent(type: IEventType, resource?: string, resourceType?: IEventResourceType): Promise<Event | undefined>;
+    viewed(): Promise<Event | undefined>;
     events(): Array<Event>;
     getEventsMap(): Feed['eventsMap'];
     private handleError;
@@ -116,7 +117,7 @@ export declare class FeedReply {
     rawAssets?: FormData;
     constructor(options: FeedReplyOptions);
     protected prepareSendWithAssets(payload: FormData): Promise<Asset[] | undefined>;
-    send(): Promise<FeedReplyResponse | undefined>;
+    send(): Promise<Event | undefined>;
 }
 export declare class FeedReplyError extends BaseError {
     message: string;

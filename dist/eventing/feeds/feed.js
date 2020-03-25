@@ -326,6 +326,13 @@ var Feed = /** @class */ (function (_super) {
             });
         });
     };
+    Feed.prototype.viewed = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.createFeedEvent('agent:view')];
+            });
+        });
+    };
     Feed.prototype.events = function () {
         return Array.from(this.eventsMap.values());
     };
@@ -423,7 +430,7 @@ var FeedReply = /** @class */ (function () {
                             }))];
                     case 3:
                         res = _b.sent();
-                        return [2 /*return*/, res.data.data[0]];
+                        return [2 /*return*/, event_1.Event.create(res.data.data[0], this.feed, this.universe, this.http)];
                     case 4:
                         err_7 = _b.sent();
                         throw new FeedReplyError(undefined, { error: err_7 });

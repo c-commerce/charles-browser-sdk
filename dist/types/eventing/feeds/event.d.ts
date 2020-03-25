@@ -7,9 +7,11 @@ import { Message } from '../../messaging/message';
 export declare enum EventTypesEnum {
     resource = "resource",
     followUp = "follow_up",
-    personFeedbackPending = "follow_up"
+    personFeedbackPending = "person:feedback_pending",
+    conversationCompleted = "conversation:completed",
+    agentView = "agent:view"
 }
-export declare type IEventType = EventTypesEnum.resource | EventTypesEnum.followUp | EventTypesEnum.personFeedbackPending;
+export declare type IEventType = 'resource' | 'follow_up' | 'person:feedback_pending' | 'conversation:completed' | 'agent:view';
 export declare enum EventResourcesTypesEnum {
     message = "message",
     merge = "merge",
@@ -32,6 +34,8 @@ export interface EventRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
     readonly type?: IEventType | null;
+    readonly flagged?: boolean;
+    readonly marked?: boolean;
 }
 export interface EventPayload {
     readonly id?: EventRawPayload['id'];
@@ -41,6 +45,8 @@ export interface EventPayload {
     readonly createdAt?: Date | null;
     readonly updatedAt?: Date | null;
     readonly type?: IEventType | null;
+    readonly flagged?: EventRawPayload['flagged'];
+    readonly marked?: EventRawPayload['marked'];
 }
 export declare class Event extends EventEmitter {
     protected universe: Universe;
@@ -56,6 +62,9 @@ export declare class Event extends EventEmitter {
     createdAt?: EventPayload['createdAt'];
     updatedAt?: EventPayload['updatedAt'];
     type?: EventPayload['type'];
+    flagged?: EventPayload['flagged'];
+    marked?: EventPayload['marked'];
+    static eventTypes: typeof EventTypesEnum;
     constructor(options: EventOptions);
     private deserialize;
     static create(payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event;

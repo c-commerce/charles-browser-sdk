@@ -71,6 +71,7 @@ var events_1 = require("events");
 var errors_1 = require("../errors");
 var person_1 = require("../entities/person");
 var asset_1 = require("../entities/asset/asset");
+var event_1 = require("../eventing/feeds/event");
 var Message = /** @class */ (function (_super) {
     __extends(Message, _super);
     function Message(options) {
@@ -239,6 +240,9 @@ var MessageReply = /** @class */ (function (_super) {
                             }))];
                     case 3:
                         res = _d.sent();
+                        if (this.feed) {
+                            return [2 /*return*/, event_1.Event.create(res.data.data[0], this.feed, this.universe, this.http)];
+                        }
                         return [2 /*return*/, res.data.data[0]];
                     case 4:
                         err_2 = _d.sent();

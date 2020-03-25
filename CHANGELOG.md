@@ -1,3 +1,12 @@
+# [2.26.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.25.0...v2.26.0) (2020-03-25)
+
+
+### Features
+
+* **event:** expose flagged / marked ([276b221](https://github.com/c-commerce/charles-browser-sdk/commit/276b221ad71795b28c556c15275fb629b589ec0e))
+* **events:** support conversation events ([11c1ad1](https://github.com/c-commerce/charles-browser-sdk/commit/11c1ad148e2f60929d9ff9ec370b67b6161ba602))
+* **feed:** add viewed event ([7264756](https://github.com/c-commerce/charles-browser-sdk/commit/7264756921048d3cda7e1d1ca1489078270b0c0f))
+
 # [2.25.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.24.0...v2.25.0) (2020-03-24)
 
 

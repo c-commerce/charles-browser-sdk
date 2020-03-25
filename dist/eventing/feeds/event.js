@@ -55,7 +55,9 @@ var EventTypesEnum;
 (function (EventTypesEnum) {
     EventTypesEnum["resource"] = "resource";
     EventTypesEnum["followUp"] = "follow_up";
-    EventTypesEnum["personFeedbackPending"] = "follow_up";
+    EventTypesEnum["personFeedbackPending"] = "person:feedback_pending";
+    EventTypesEnum["conversationCompleted"] = "conversation:completed";
+    EventTypesEnum["agentView"] = "agent:view";
 })(EventTypesEnum = exports.EventTypesEnum || (exports.EventTypesEnum = {}));
 var EventResourcesTypesEnum;
 (function (EventResourcesTypesEnum) {
@@ -90,6 +92,8 @@ var Event = /** @class */ (function (_super) {
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.type = rawPayload.type;
+        this.marked = rawPayload.marked;
+        this.flagged = rawPayload.flagged;
         // for the time being we are trying not to override existing data if the remote is not sending any
         // e.g. in special calls
         if (this.payload && !rawPayload.payload) {
@@ -114,7 +118,9 @@ var Event = /** @class */ (function (_super) {
             payload: this.payload,
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-            type: this.type
+            type: this.type,
+            flagged: this.flagged,
+            marked: this.marked
         };
     };
     Event.prototype.init = function () {
@@ -241,6 +247,7 @@ var Event = /** @class */ (function (_super) {
             this.emit('error', err);
         return err;
     };
+    Event.eventTypes = EventTypesEnum;
     return Event;
 }(events_1.EventEmitter));
 exports.Event = Event;
