@@ -24,6 +24,9 @@ export interface RealtimeMessageMessage extends RealtimeMessage {
   payload: {
     message: {
       [key: string]: any | object | undefined | null
+    },
+    event: {
+      [key: string]: any | object | undefined | null
     }
   }
 }

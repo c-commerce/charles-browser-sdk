@@ -58,7 +58,7 @@ export type FeedEventsMap = Map<Event['id'], Event>
 
 export declare interface Feed {
   on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
-  on(event: 'feed:message' | string, cb: Function): this
+  on(event: 'feed:message' | 'feed:event' | string, cb: Function): this
 }
 
 export class Feed extends EventEmitter {
@@ -199,7 +199,8 @@ export class Feed extends EventEmitter {
   private subscibeDefaults() {
     this.getMqttClient()
       .subscribe([
-        universeTopics.api.feedMessages.generateTopic(this.serialize())
+        universeTopics.api.feedMessages.generateTopic(this.serialize()),
+        universeTopics.api.feedEvents.generateTopic(this.serialize())
       ])
   }
 
@@ -225,6 +226,16 @@ export class Feed extends EventEmitter {
       }
 
       this.emit('feed:message', { ...msg, message, feed: this })
+      return
+    }
+
+    if (universeTopics.api.feedEvents.isTopic(msg.topic, this.serialize())) {
+      let event
+      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
+        event = Event.create((msg as realtime.RealtimeMessageMessage).payload.event as EventRawPayload, this, this.universe, this.http)
+      }
+
+      this.emit('feed:event', { ...msg, event, feed: this })
       return
     }
   }

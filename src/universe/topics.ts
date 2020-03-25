@@ -57,6 +57,15 @@ export default {
         return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic)
       }
     })(),
+    feedEvents: new (class extends TopicGenerator {
+      template: string = 'api/feeds/${id}/events'
+      generateTopic(data: IInjectableDataObject): string {
+        return this.template.replace('${id}', data.id)
+      }
+      isTopic(topic: string, data: IInjectableDataObject): boolean {
+        return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic)
+      }
+    })(),
     clients: {
       arm: new (class extends TopicGenerator {
         template: string = 'api/clients/${clientId}/arm'
