@@ -203,10 +203,10 @@ export class Universe extends Readable {
 
     if (universeTopics.api.feeds.isTopic(msg.topic)) {
       let feed
-      if ((msg as realtime.RealtimeFeeds).payload.message) {
+      if ((msg as realtime.RealtimeFeeds).payload.feed) {
         feed = Feed.create((msg as realtime.RealtimeFeeds).payload.feed as FeedRawPayload, this, this.http, this.mqtt)
       }
-      this.emit('universe:feeds', { ...msg, feed })
+      this.emit('universe:feeds', { ...msg, feed, action: (msg as realtime.RealtimeFeeds).payload.action })
       return
     }
 
