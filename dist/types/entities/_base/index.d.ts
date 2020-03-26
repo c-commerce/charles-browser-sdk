@@ -7,6 +7,11 @@ export interface EntityOptions {
     http: Universe['http'];
     initialized?: boolean;
 }
+export interface EntityFetchOptions {
+    query?: {
+        [key: string]: any;
+    };
+}
 export interface EntityRawPayload {
     readonly id?: string;
 }
@@ -35,11 +40,11 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     /**
      * Fetch the current state of this object.
      */
-    fetch(): Promise<Entity<Payload, RawPayload>>;
+    fetch(options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>>;
     /**
      * @ignore
      */
-    protected _fetch(): Promise<Entity<Payload, RawPayload>>;
+    protected _fetch(options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>>;
     /**
      * Change this object on the remote by partially applying a change object to it as diff.
      * @param changePart

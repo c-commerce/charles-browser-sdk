@@ -1,3 +1,11 @@
+# [2.30.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.29.0...v2.30.0) (2020-03-26)
+
+
+### Features
+
+* **person:** add analytics ([563b9ea](https://github.com/c-commerce/charles-browser-sdk/commit/563b9ea3e40d359356deae453e7fc53a00edc0b1))
+* **person:** expose channel users ([79b65a0](https://github.com/c-commerce/charles-browser-sdk/commit/79b65a0c259323a57fd76730d4567290fdbb7c14))
+
 # [2.29.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.28.0...v2.29.0) (2020-03-25)
 
 

@@ -59,9 +59,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
 var just_diff_1 = require("just-diff");
+var qs_1 = __importDefault(require("qs"));
 var errors_1 = require("../../errors");
 var Entity = /** @class */ (function (_super) {
     __extends(Entity, _super);
@@ -91,18 +95,18 @@ var Entity = /** @class */ (function (_super) {
     /**
      * Fetch the current state of this object.
      */
-    Entity.prototype.fetch = function () {
+    Entity.prototype.fetch = function (options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
-                return [2 /*return*/, this._fetch()];
+                return [2 /*return*/, this._fetch(options)];
             });
         });
     };
     /**
      * @ignore
      */
-    Entity.prototype._fetch = function () {
+    Entity.prototype._fetch = function (options) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
             var opts, response, err_1;
@@ -116,7 +120,7 @@ var Entity = /** @class */ (function (_super) {
                         _c.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'GET',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + (options && options.query ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
                             },

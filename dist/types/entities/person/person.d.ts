@@ -1,6 +1,7 @@
 import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { Order } from '../../entities/order/order';
 export interface PersonOptions extends EntityOptions {
     rawPayload?: PersonRawPayload;
 }
@@ -9,6 +10,9 @@ export interface AddressOptions extends PersonOptions {
 }
 export interface PhonenumberOptions extends PersonOptions {
     rawPayload?: PersonPhonenumberRawPayload;
+}
+export interface ChannelUserOptions extends PersonOptions {
+    rawPayload?: PersonChannelUserRawPayload;
 }
 export interface PersonAddressRawPayload extends EntityRawPayload {
     readonly person?: string;
@@ -32,6 +36,23 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
     readonly active?: boolean;
     readonly type?: string;
     readonly value?: string;
+}
+export interface PersonChannelUserRawPayload extends EntityRawPayload {
+    readonly person?: string;
+    readonly created_at?: string;
+    readonly updated_at?: string;
+    readonly deleted?: boolean;
+    readonly active?: boolean;
+    readonly last_source_fetch_at?: string;
+    readonly broker?: string;
+    readonly external_person_reference_id?: string | null;
+    readonly external_person_custom_id?: string | null;
+    readonly external_channel_reference_id?: string | null;
+    readonly source_type?: string;
+    readonly source_api?: string;
+    readonly payload_name?: string;
+    readonly comment?: string;
+    readonly payload?: object | null;
 }
 export interface PersonRawPayload extends EntityRawPayload {
     readonly created_at?: string;
@@ -63,6 +84,7 @@ export interface PersonRawPayload extends EntityRawPayload {
     };
     readonly addresses?: PersonAddressRawPayload[];
     readonly phonenumbers?: PersonPhonenumberRawPayload[];
+    readonly channel_users?: PersonChannelUserRawPayload[];
 }
 export interface PersonPayload {
     readonly id?: PersonRawPayload['id'];
@@ -82,6 +104,16 @@ export interface PersonPayload {
     readonly measurements?: PersonRawPayload['measurements'];
     readonly addresses?: Address[];
     readonly phonenumbers?: Phonenumber[];
+    readonly channelUsers?: ChannelUser[];
+}
+export interface PersonAnalyticsSnapshotResponse {
+    customer_lifetime_value: {
+        overall_net_value: number;
+        currency: string;
+    }[];
+    latest_orders: Order[];
+    mean_polarity: number;
+    mean_nps_score: number;
 }
 /**
  * Manage people, that usually are generated from channel users.
@@ -111,11 +143,13 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     measurements?: PersonPayload['measurements'];
     addresses?: PersonPayload['addresses'];
     phonenumbers?: PersonPayload['phonenumbers'];
+    channelUsers?: PersonPayload['channelUsers'];
     constructor(options: PersonOptions);
     protected deserialize(rawPayload: PersonRawPayload): Person;
     static create(payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person;
     serialize(): PersonRawPayload;
     init(): Promise<Person | undefined>;
+    analytics(): object;
 }
 export declare class People {
     static endpoint: string;
@@ -162,6 +196,35 @@ export declare class Phonenumber {
     static createUninitialized(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
     serialize(): PersonPhonenumberRawPayload;
 }
+export declare class ChannelUser {
+    protected universe: Universe;
+    protected http: Universe['http'];
+    protected options: ChannelUserOptions;
+    initialized: boolean;
+    id?: string;
+    value?: string;
+    type?: string;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
+    deleted?: PersonChannelUserRawPayload['deleted'];
+    active?: PersonChannelUserRawPayload['active'];
+    person?: PersonChannelUserRawPayload['person'];
+    lastSourceFetchAt?: Date | null;
+    broker?: PersonChannelUserRawPayload['broker'];
+    externalPersonReferenceId?: PersonChannelUserRawPayload['external_person_reference_id'];
+    externalPersonCustomId?: PersonChannelUserRawPayload['external_person_custom_id'];
+    externalChannelReferenceId?: PersonChannelUserRawPayload['external_channel_reference_id'];
+    sourceType?: PersonChannelUserRawPayload['source_type'];
+    sourceApi?: PersonChannelUserRawPayload['source_api'];
+    payloadName?: PersonChannelUserRawPayload['payload_name'];
+    comment?: PersonChannelUserRawPayload['comment'];
+    payload?: PersonChannelUserRawPayload['payload'];
+    constructor(options: ChannelUserOptions);
+    protected deserialize(rawPayload: PersonChannelUserRawPayload): ChannelUser;
+    static create(payload: PersonChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser;
+    static createUninitialized(payload: PersonChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser;
+    serialize(): PersonChannelUserRawPayload;
+}
 export declare class PersonInitializationError extends BaseError {
     message: string;
     name: string;
@@ -173,6 +236,11 @@ export declare class PersonFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class PeopleFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PeopleAnalyticsRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

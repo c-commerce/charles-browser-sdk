@@ -105,6 +105,13 @@ var Person = /** @class */ (function (_super) {
         else if (rawPayload.phonenumbers && !this.initialized) {
             this.phonenumbers = rawPayload.phonenumbers.map(function (i) { return (Phonenumber.createUninitialized(i, _this.universe, _this.http)); });
         }
+        this.channelUsers = [];
+        if (rawPayload.channel_users && this.initialized) {
+            this.channelUsers = rawPayload.channel_users.map(function (i) { return (ChannelUser.create(i, _this.universe, _this.http)); });
+        }
+        else if (rawPayload.channel_users && !this.initialized) {
+            this.channelUsers = rawPayload.channel_users.map(function (i) { return (ChannelUser.createUninitialized(i, _this.universe, _this.http)); });
+        }
         return this;
     };
     Person.create = function (payload, universe, http) {
@@ -128,7 +135,8 @@ var Person = /** @class */ (function (_super) {
             comment: this.comment,
             measurements: this.measurements,
             addresses: Array.isArray(this.addresses) ? this.addresses.map(function (item) { return (item.serialize()); }) : undefined,
-            phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map(function (item) { return (item.serialize()); }) : undefined
+            phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map(function (item) { return (item.serialize()); }) : undefined,
+            channel_users: Array.isArray(this.channelUsers) ? this.channelUsers.map(function (item) { return (item.serialize()); }) : undefined
         };
     };
     Person.prototype.init = function () {
@@ -138,7 +146,15 @@ var Person = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.fetch()];
+                        return [4 /*yield*/, this.fetch({
+                                query: {
+                                    embed: [
+                                        'channel_users',
+                                        'phonenumbers',
+                                        'addresses'
+                                    ]
+                                }
+                            })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/, this];
@@ -149,6 +165,33 @@ var Person = /** @class */ (function (_super) {
                 }
             });
         });
+    };
+    Person.prototype.analytics = function () {
+        var _this = this;
+        return {
+            snapshot: function () { return __awaiter(_this, void 0, void 0, function () {
+                var response, err_2;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 2, , 3]);
+                            return [4 /*yield*/, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/analytics/snapshot")];
+                        case 1:
+                            response = _a.sent();
+                            return [2 /*return*/, {
+                                    customer_lifetime_value: response.data.data[0].customer_lifetime_value,
+                                    latest_orders: response.data.data[0].latest_orders,
+                                    mean_polarity: response.data.data[0].mean_polarity,
+                                    mean_nps_score: response.data.data[0].mean_nps_score
+                                }];
+                        case 2:
+                            err_2 = _a.sent();
+                            throw new PeopleAnalyticsRemoteError(undefined, { error: err_2 });
+                        case 3: return [2 /*return*/];
+                    }
+                });
+            }); }
+        };
     };
     return Person;
 }(_base_1.default));
@@ -250,6 +293,64 @@ var Phonenumber = /** @class */ (function () {
     return Phonenumber;
 }());
 exports.Phonenumber = Phonenumber;
+var ChannelUser = /** @class */ (function () {
+    function ChannelUser(options) {
+        this.universe = options.universe;
+        this.http = options.http;
+        this.options = options;
+        this.initialized = options.initialized || false;
+        if (options && options.rawPayload) {
+            this.deserialize(options.rawPayload);
+        }
+    }
+    ChannelUser.prototype.deserialize = function (rawPayload) {
+        this.id = rawPayload.id;
+        this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
+        this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
+        this.deleted = rawPayload.deleted;
+        this.active = rawPayload.active;
+        this.person = rawPayload.person;
+        this.lastSourceFetchAt = rawPayload.last_source_fetch_at ? new Date(rawPayload.last_source_fetch_at) : undefined;
+        this.broker = rawPayload.broker;
+        this.externalPersonReferenceId = rawPayload.external_person_reference_id;
+        this.externalPersonCustomId = rawPayload.external_person_custom_id;
+        this.externalChannelReferenceId = rawPayload.external_channel_reference_id;
+        this.sourceType = rawPayload.source_type;
+        this.sourceApi = rawPayload.source_api;
+        this.payloadName = rawPayload.payload_name;
+        this.comment = rawPayload.comment;
+        this.payload = rawPayload.payload;
+        return this;
+    };
+    ChannelUser.create = function (payload, universe, http) {
+        return new ChannelUser({ rawPayload: payload, universe: universe, http: http, initialized: true });
+    };
+    ChannelUser.createUninitialized = function (payload, universe, http) {
+        return new ChannelUser({ rawPayload: payload, universe: universe, http: http, initialized: false });
+    };
+    ChannelUser.prototype.serialize = function () {
+        return {
+            id: this.id,
+            created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
+            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+            deleted: this.deleted,
+            active: this.active,
+            person: this.person,
+            last_source_fetch_at: this.lastSourceFetchAt ? this.lastSourceFetchAt.toISOString() : undefined,
+            broker: this.broker,
+            external_person_reference_id: this.externalPersonReferenceId,
+            external_person_custom_id: this.externalPersonCustomId,
+            external_channel_reference_id: this.externalChannelReferenceId,
+            source_type: this.sourceType,
+            source_api: this.sourceApi,
+            payload_name: this.payloadName,
+            comment: this.comment,
+            payload: this.payload
+        };
+    };
+    return ChannelUser;
+}());
+exports.ChannelUser = ChannelUser;
 var PersonInitializationError = /** @class */ (function (_super) {
     __extends(PersonInitializationError, _super);
     function PersonInitializationError(message, properties) {
@@ -286,4 +387,16 @@ var PeopleFetchRemoteError = /** @class */ (function (_super) {
     return PeopleFetchRemoteError;
 }(errors_1.BaseError));
 exports.PeopleFetchRemoteError = PeopleFetchRemoteError;
+var PeopleAnalyticsRemoteError = /** @class */ (function (_super) {
+    __extends(PeopleAnalyticsRemoteError, _super);
+    function PeopleAnalyticsRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get analytics data.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PeopleAnalyticsRemoteError';
+        return _this;
+    }
+    return PeopleAnalyticsRemoteError;
+}(errors_1.BaseError));
+exports.PeopleAnalyticsRemoteError = PeopleAnalyticsRemoteError;
 //# sourceMappingURL=person.js.map
