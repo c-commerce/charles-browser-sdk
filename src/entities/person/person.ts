@@ -2,6 +2,7 @@
 import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { Order } from '../../entities/order/order'
 
 export interface PersonOptions extends EntityOptions {
   rawPayload?: PersonRawPayload
@@ -90,6 +91,16 @@ export interface PersonPayload {
   readonly measurements?: PersonRawPayload['measurements']
   readonly addresses?: Address[]
   readonly phonenumbers?: Phonenumber[]
+}
+
+export interface PersonAnalyticsSnapshotResponse {
+  customer_lifetime_value: {
+    overall_net_value: number
+    currency: string
+  }[]
+  latest_orders: Order[]
+  mean_polarity: number
+  mean_nps_score: number
 }
 
 /**
@@ -205,6 +216,25 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       return this
     } catch (err) {
       throw this.handleError(new PersonInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public analytics(): object {
+    return {
+      snapshot: async (): Promise<PersonAnalyticsSnapshotResponse | undefined> => {
+        try {
+          const data = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/analytics/snapshot`)
+
+          return {
+            customer_lifetime_value: data.data[0].customer_lifetime_value,
+            latest_orders: data.data[0].latest_orders,
+            mean_polarity: data.data[0].mean_polarity,
+            mean_nps_score: data.data[0].mean_nps_score
+          }
+        } catch (err) {
+          throw new PeopleAnalyticsRemoteError(undefined, { error: err })
+        }
+      }
     }
   }
 }
@@ -361,6 +391,13 @@ export class PersonFetchRemoteError extends BaseError {
 export class PeopleFetchRemoteError extends BaseError {
   public name = 'PeopleFetchRemoteError'
   constructor(public message: string = 'Could not get people.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class PeopleAnalyticsRemoteError extends BaseError {
+  public name = 'PeopleAnalyticsRemoteError'
+  constructor(public message: string = 'Could not get analytics data.', properties?: any) {
     super(message, properties)
   }
 }
