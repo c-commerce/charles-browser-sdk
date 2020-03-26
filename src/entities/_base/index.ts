@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events'
 import { diff, jsonPatchPathConverter } from 'just-diff'
+import qs from 'qs'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
@@ -7,6 +8,12 @@ export interface EntityOptions {
   universe: Universe
   http: Universe['http']
   initialized?: boolean
+}
+
+export interface EntityFetchOptions {
+  query?: {
+    [key: string]: any;
+  }
 }
 
 export interface EntityRawPayload {
@@ -52,21 +59,21 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
   /**
    * Fetch the current state of this object.
    */
-  public async fetch(): Promise<Entity<Payload, RawPayload>> {
+  public async fetch(options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
-    return this._fetch()
+    return this._fetch(options)
   }
 
   /**
    * @ignore
    */
-  protected async _fetch(): Promise<Entity<Payload, RawPayload>> {
+  protected async _fetch(options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
     if (this.id === null || this.id === undefined) throw new TypeError('fetch requires id to be set.')
 
     try {
       const opts = {
         method: 'GET',
-        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}${options && options.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },

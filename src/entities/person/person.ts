@@ -16,6 +16,10 @@ export interface PhonenumberOptions extends PersonOptions {
   rawPayload?: PersonPhonenumberRawPayload
 }
 
+export interface ChannelUserOptions extends PersonOptions {
+  rawPayload?: PersonChannelUserRawPayload
+}
+
 export interface PersonAddressRawPayload extends EntityRawPayload {
   readonly person?: string
   readonly created_at?: string
@@ -39,6 +43,24 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
   readonly active?: boolean
   readonly type?: string
   readonly value?: string
+}
+
+export interface PersonChannelUserRawPayload extends EntityRawPayload {
+  readonly person?: string
+  readonly created_at?: string
+  readonly updated_at?: string
+  readonly deleted?: boolean
+  readonly active?: boolean
+  readonly last_source_fetch_at?: string
+  readonly broker?: string
+  readonly external_person_reference_id?: string | null
+  readonly external_person_custom_id?: string | null
+  readonly external_channel_reference_id?: string | null
+  readonly source_type?: string
+  readonly source_api?: string
+  readonly payload_name?: string
+  readonly comment?: string
+  readonly payload?: object | null
 }
 
 export interface PersonRawPayload extends EntityRawPayload {
@@ -71,6 +93,7 @@ export interface PersonRawPayload extends EntityRawPayload {
   }
   readonly addresses?: PersonAddressRawPayload[]
   readonly phonenumbers?: PersonPhonenumberRawPayload[]
+  readonly channel_users?: PersonChannelUserRawPayload[]
 }
 
 export interface PersonPayload {
@@ -91,6 +114,7 @@ export interface PersonPayload {
   readonly measurements?: PersonRawPayload['measurements']
   readonly addresses?: Address[]
   readonly phonenumbers?: Phonenumber[]
+  readonly channelUsers?: ChannelUser[]
 }
 
 export interface PersonAnalyticsSnapshotResponse {
@@ -133,6 +157,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public measurements?: PersonPayload['measurements']
   public addresses?: PersonPayload['addresses']
   public phonenumbers?: PersonPayload['phonenumbers']
+  public channelUsers?: PersonPayload['channelUsers']
 
   constructor(options: PersonOptions) {
     super()
@@ -180,6 +205,13 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       this.phonenumbers = rawPayload.phonenumbers.map((i) => (Phonenumber.createUninitialized(i, this.universe, this.http)))
     }
 
+    this.channelUsers = []
+    if (rawPayload.channel_users && this.initialized) {
+      this.channelUsers = rawPayload.channel_users.map((i) => (ChannelUser.create(i, this.universe, this.http)))
+    } else if (rawPayload.channel_users && !this.initialized) {
+      this.channelUsers = rawPayload.channel_users.map((i) => (ChannelUser.createUninitialized(i, this.universe, this.http)))
+    }
+
     return this
   }
 
@@ -205,13 +237,22 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       comment: this.comment,
       measurements: this.measurements,
       addresses: Array.isArray(this.addresses) ? this.addresses.map((item) => (item.serialize())) : undefined,
-      phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map((item) => (item.serialize())) : undefined
+      phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map((item) => (item.serialize())) : undefined,
+      channel_users: Array.isArray(this.channelUsers) ? this.channelUsers.map((item) => (item.serialize())) : undefined
     }
   }
 
   public async init(): Promise<Person | undefined> {
     try {
-      await this.fetch()
+      await this.fetch({
+        query: {
+          embed: [
+            'channel_users',
+            'phonenumbers',
+            'addresses'
+          ]
+        }
+      })
 
       return this
     } catch (err) {
@@ -223,13 +264,13 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     return {
       snapshot: async (): Promise<PersonAnalyticsSnapshotResponse | undefined> => {
         try {
-          const data = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/analytics/snapshot`)
+          const response = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/analytics/snapshot`)
 
           return {
-            customer_lifetime_value: data.data[0].customer_lifetime_value,
-            latest_orders: data.data[0].latest_orders,
-            mean_polarity: data.data[0].mean_polarity,
-            mean_nps_score: data.data[0].mean_nps_score
+            customer_lifetime_value: response.data.data[0].customer_lifetime_value,
+            latest_orders: response.data.data[0].latest_orders,
+            mean_polarity: response.data.data[0].mean_polarity,
+            mean_nps_score: response.data.data[0].mean_nps_score
           }
         } catch (err) {
           throw new PeopleAnalyticsRemoteError(undefined, { error: err })
@@ -370,6 +411,93 @@ export class Phonenumber {
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted,
       active: this.active
+    }
+  }
+}
+
+export class ChannelUser {
+  protected universe: Universe
+  protected http: Universe['http']
+  protected options: ChannelUserOptions
+  public initialized: boolean
+
+  public id?: string
+  public value?: string
+  public type?: string
+  public createdAt?: Date | null
+  public updatedAt?: Date | null
+  public deleted?: PersonChannelUserRawPayload['deleted']
+  public active?: PersonChannelUserRawPayload['active']
+  public person?: PersonChannelUserRawPayload['person']
+  public lastSourceFetchAt?: Date | null
+  public broker?: PersonChannelUserRawPayload['broker']
+  public externalPersonReferenceId?: PersonChannelUserRawPayload['external_person_reference_id']
+  public externalPersonCustomId?: PersonChannelUserRawPayload['external_person_custom_id']
+  public externalChannelReferenceId?: PersonChannelUserRawPayload['external_channel_reference_id']
+  public sourceType?: PersonChannelUserRawPayload['source_type']
+  public sourceApi?: PersonChannelUserRawPayload['source_api']
+  public payloadName?: PersonChannelUserRawPayload['payload_name']
+  public comment?: PersonChannelUserRawPayload['comment']
+  public payload?: PersonChannelUserRawPayload['payload']
+
+  constructor(options: ChannelUserOptions) {
+    this.universe = options.universe
+    this.http = options.http
+    this.options = options
+    this.initialized = options.initialized || false
+
+    if (options && options.rawPayload) {
+      this.deserialize(options.rawPayload)
+    }
+  }
+
+  protected deserialize(rawPayload: PersonChannelUserRawPayload): ChannelUser {
+    this.id = rawPayload.id
+    this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
+    this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
+    this.deleted = rawPayload.deleted
+    this.active = rawPayload.active
+    this.person = rawPayload.person
+    this.lastSourceFetchAt = rawPayload.last_source_fetch_at ? new Date(rawPayload.last_source_fetch_at) : undefined
+    this.broker = rawPayload.broker
+    this.externalPersonReferenceId = rawPayload.external_person_reference_id
+    this.externalPersonCustomId = rawPayload.external_person_custom_id
+    this.externalChannelReferenceId = rawPayload.external_channel_reference_id
+    this.sourceType = rawPayload.source_type
+    this.sourceApi = rawPayload.source_api
+    this.payloadName = rawPayload.payload_name
+    this.comment = rawPayload.comment
+    this.payload = rawPayload.payload
+
+    return this
+  }
+
+  public static create(payload: PersonChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser {
+    return new ChannelUser({ rawPayload: payload, universe, http, initialized: true })
+  }
+
+  public static createUninitialized(payload: PersonChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser {
+    return new ChannelUser({ rawPayload: payload, universe, http, initialized: false })
+  }
+
+  public serialize(): PersonChannelUserRawPayload {
+    return {
+      id: this.id,
+      created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
+      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+      deleted: this.deleted,
+      active: this.active,
+      person: this.person,
+      last_source_fetch_at: this.lastSourceFetchAt ? this.lastSourceFetchAt.toISOString() : undefined,
+      broker: this.broker,
+      external_person_reference_id: this.externalPersonReferenceId,
+      external_person_custom_id: this.externalPersonCustomId,
+      external_channel_reference_id: this.externalChannelReferenceId,
+      source_type: this.sourceType,
+      source_api: this.sourceApi,
+      payload_name: this.payloadName,
+      comment: this.comment,
+      payload: this.payload
     }
   }
 }
