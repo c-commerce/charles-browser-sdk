@@ -89,7 +89,7 @@ export declare class RealtimeClient extends events.EventEmitter {
     private getClient;
     private handleMessagePayload;
     subscribe(topic: string | string[], cb?: Function): RealtimeClient;
-    unsubscribe(topic: string | string[]): RealtimeClient;
+    unsubscribe(topic: string | string[], cb?: Function): RealtimeClient;
     publish(topic: string, payload?: any): RealtimeClient;
 }
 export declare class UninstantiatedMqttClient extends BaseError {

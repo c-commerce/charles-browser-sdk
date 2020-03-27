@@ -187,14 +187,21 @@ var Universe = /** @class */ (function (_super) {
         });
         this.subscibeDefaults();
     };
+    Object.defineProperty(Universe.prototype, "defaultSubscriptions", {
+        get: function () {
+            return [
+                topics_1.default.api.message.generateTopic(),
+                topics_1.default.api.feeds.generateTopic(),
+                topics_1.default.api.feedsActivities.generateTopic(),
+                topics_1.default.api.feedsMessages.generateTopic()
+            ];
+        },
+        enumerable: true,
+        configurable: true
+    });
     Universe.prototype.subscibeDefaults = function () {
         this.getMqttClient()
-            .subscribe([
-            topics_1.default.api.message.generateTopic(),
-            topics_1.default.api.feeds.generateTopic(),
-            topics_1.default.api.feedsActivities.generateTopic(),
-            topics_1.default.api.feedsMessages.generateTopic()
-        ]);
+            .subscribe(this.defaultSubscriptions);
     };
     /**
      *
@@ -247,9 +254,18 @@ var Universe = /** @class */ (function (_super) {
     Universe.prototype.create = function (options) {
         return new Universe(options);
     };
+    /**
+     * In order to notify backends about the universe leaving we will try to
+     * unsubscripe from topics before destroying. In any case all event handlers are gone
+     * immediately.
+     *
+     */
     Universe.prototype.deinitialize = function () {
         this.removeAllListeners();
-        this.getMqttClient().destroy();
+        var client = this.getMqttClient();
+        client.unsubscribe(this.defaultSubscriptions, function () {
+            client.destroy();
+        });
     };
     Object.defineProperty(Universe.prototype, "ready", {
         get: function () {

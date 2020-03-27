@@ -86,6 +86,7 @@ export declare class Universe extends Readable {
     private static parsePayload;
     private setInitialized;
     private setMqttClient;
+    private get defaultSubscriptions();
     private subscibeDefaults;
     /**
      *
@@ -97,6 +98,12 @@ export declare class Universe extends Readable {
      */
     private getMqttClient;
     create(options: IUniverseOptions): Universe;
+    /**
+     * In order to notify backends about the universe leaving we will try to
+     * unsubscripe from topics before destroying. In any case all event handlers are gone
+     * immediately.
+     *
+     */
     deinitialize(): void;
     get ready(): boolean;
     isReady(): boolean;

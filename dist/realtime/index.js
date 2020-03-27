@@ -121,8 +121,8 @@ var RealtimeClient = /** @class */ (function (_super) {
         this.getClient().subscribe(topic, cb);
         return this;
     };
-    RealtimeClient.prototype.unsubscribe = function (topic) {
-        this.getClient().unsubscribe(topic);
+    RealtimeClient.prototype.unsubscribe = function (topic, cb) {
+        this.getClient().unsubscribe(topic, cb || undefined);
         return this;
     };
     RealtimeClient.prototype.publish = function (topic, payload) {
