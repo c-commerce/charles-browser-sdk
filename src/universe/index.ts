@@ -157,14 +157,18 @@ export class Universe extends Readable {
     this.subscibeDefaults()
   }
 
+  private get defaultSubscriptions(): string[] {
+    return [
+      universeTopics.api.message.generateTopic(),
+      universeTopics.api.feeds.generateTopic(),
+      universeTopics.api.feedsActivities.generateTopic(),
+      universeTopics.api.feedsMessages.generateTopic()
+    ]
+  }
+
   private subscibeDefaults() {
     this.getMqttClient()
-      .subscribe([
-        universeTopics.api.message.generateTopic(),
-        universeTopics.api.feeds.generateTopic(),
-        universeTopics.api.feedsActivities.generateTopic(),
-        universeTopics.api.feedsMessages.generateTopic()
-      ])
+      .subscribe(this.defaultSubscriptions)
   }
 
   /**
@@ -226,9 +230,19 @@ export class Universe extends Readable {
     return new Universe(options)
   }
 
+  /**
+   * In order to notify backends about the universe leaving we will try to
+   * unsubscripe from topics before destroying. In any case all event handlers are gone
+   * immediately.
+   *
+   */
   public deinitialize(): void {
     this.removeAllListeners()
-    this.getMqttClient().destroy()
+    const client = this.getMqttClient()
+
+    client.unsubscribe(this.defaultSubscriptions, function () {
+      client.destroy()
+    })
   }
 
   public get ready(): boolean {
