@@ -218,7 +218,7 @@ export class RealtimeClient extends events.EventEmitter {
     return this
   }
 
-  public unsubscribe(topic: string): RealtimeClient {
+  public unsubscribe(topic: string | string[]): RealtimeClient {
     this.getClient().unsubscribe(topic)
     return this
   }

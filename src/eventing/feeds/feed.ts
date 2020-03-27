@@ -58,7 +58,12 @@ export type FeedEventsMap = Map<Event['id'], Event>
 
 export declare interface Feed {
   on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
-  on(event: 'feed:message' | 'feed:event' | string, cb: Function): this
+  on(
+    event:
+      'feed:message' // receive messages in the current scope of this feed
+      | 'feed:event' // receive events in the current scope of this feed
+      | string,
+    cb: Function): this
 }
 
 export class Feed extends EventEmitter {
@@ -192,16 +197,21 @@ export class Feed extends EventEmitter {
     }
   }
 
+  private get defaultSubscriptions(): string[] {
+    return [
+      universeTopics.api.feedMessages.generateTopic(this.serialize()),
+      universeTopics.api.feedEvents.generateTopic(this.serialize())
+    ]
+  }
+
   public deinitialize(): void {
     this.removeAllListeners()
+    this.getMqttClient().unsubscribe(this.defaultSubscriptions)
   }
 
   private subscibeDefaults() {
     this.getMqttClient()
-      .subscribe([
-        universeTopics.api.feedMessages.generateTopic(this.serialize()),
-        universeTopics.api.feedEvents.generateTopic(this.serialize())
-      ])
+      .subscribe(this.defaultSubscriptions)
   }
 
   /**
