@@ -68,6 +68,7 @@ export interface PersonRawPayload extends EntityRawPayload {
     readonly date_of_birth?: string;
     readonly gender?: string;
     readonly comment?: string;
+    readonly tags?: string[];
     readonly measurements?: {
         body?: {
             weight: number;
@@ -102,6 +103,7 @@ export interface PersonPayload {
     readonly gender?: PersonRawPayload['gender'];
     readonly comment?: PersonRawPayload['comment'];
     readonly measurements?: PersonRawPayload['measurements'];
+    readonly tags?: PersonRawPayload['tags'];
     readonly addresses?: Address[];
     readonly phonenumbers?: Phonenumber[];
     readonly channelUsers?: ChannelUser[];
@@ -141,6 +143,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     gender?: PersonPayload['gender'];
     comment?: PersonPayload['comment'];
     measurements?: PersonPayload['measurements'];
+    tags?: PersonPayload['tags'];
     addresses?: PersonPayload['addresses'];
     phonenumbers?: PersonPayload['phonenumbers'];
     channelUsers?: PersonPayload['channelUsers'];
