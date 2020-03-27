@@ -73,6 +73,7 @@ export declare class Feed extends EventEmitter {
     serialize(): FeedRawPayload;
     reply(contentOptions: FeedReplyContentOptions): FeedReply;
     init(): Promise<Feed | undefined>;
+    private get defaultSubscriptions();
     deinitialize(): void;
     private subscibeDefaults;
     /**

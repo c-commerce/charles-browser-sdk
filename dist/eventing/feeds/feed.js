@@ -195,15 +195,23 @@ var Feed = /** @class */ (function (_super) {
             });
         });
     };
+    Object.defineProperty(Feed.prototype, "defaultSubscriptions", {
+        get: function () {
+            return [
+                topics_1.default.api.feedMessages.generateTopic(this.serialize()),
+                topics_1.default.api.feedEvents.generateTopic(this.serialize())
+            ];
+        },
+        enumerable: true,
+        configurable: true
+    });
     Feed.prototype.deinitialize = function () {
         this.removeAllListeners();
+        this.getMqttClient().unsubscribe(this.defaultSubscriptions);
     };
     Feed.prototype.subscibeDefaults = function () {
         this.getMqttClient()
-            .subscribe([
-            topics_1.default.api.feedMessages.generateTopic(this.serialize()),
-            topics_1.default.api.feedEvents.generateTopic(this.serialize())
-        ]);
+            .subscribe(this.defaultSubscriptions);
     };
     /**
      * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.

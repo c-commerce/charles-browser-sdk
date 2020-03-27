@@ -1,3 +1,10 @@
+# [2.32.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.31.0...v2.32.0) (2020-03-27)
+
+
+### Features
+
+* **feed:** unsubscribe feed ([e812e94](https://github.com/c-commerce/charles-browser-sdk/commit/e812e9458cdbaab012d3ffa566e207e6b8c89d5f))
+
 # [2.31.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.30.0...v2.31.0) (2020-03-27)
 
 
