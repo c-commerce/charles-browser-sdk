@@ -43,7 +43,13 @@ export interface IUniversePayload {
 
 export declare interface Universe {
   on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
-  on(event: 'armed' | 'universe:message' | 'universe:feeds:messages' | 'universe:feeds' | string, cb: Function): this
+  on(event:
+    'armed' // currently unused
+    | 'universe:message' // receive any message in this universe
+    | 'universe:feeds:messages' // receive any message in any feed in this universe
+    | 'universe:feeds' // receive notifications about feeds and their updates, also which action happened for that feed
+    | string,
+    cb: Function): this
 }
 
 /**
