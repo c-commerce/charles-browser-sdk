@@ -14,7 +14,10 @@ export interface MessageOptions {
 }
 
 export interface MessageRawPayloadAttachment {
-  type: 'image' | string
+  type: 'image' | 'document' | string
+  // NOTE: the API is capable of digesting any mime type, however both messaging platforms and UIs are not.
+  // This likely means that the "group" of types that is denoted by "type" is likely what implementers are after.
+  mime_type?: string
   payload: string | null | object
 }
 
