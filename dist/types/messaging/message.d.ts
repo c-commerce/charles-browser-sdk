@@ -13,7 +13,8 @@ export interface MessageOptions {
     feed?: Feed;
 }
 export interface MessageRawPayloadAttachment {
-    type: 'image' | string;
+    type: 'image' | 'document' | string;
+    mime_type?: string;
     payload: string | null | object;
 }
 export interface MessageRawPayload {

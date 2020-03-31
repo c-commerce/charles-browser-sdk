@@ -1,3 +1,10 @@
+# [2.34.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.33.0...v2.34.0) (2020-03-31)
+
+
+### Features
+
+* **reply:** support documents ([f3fa28a](https://github.com/c-commerce/charles-browser-sdk/commit/f3fa28ab69502fd2a8fbc97d205aeaceb1bbfc3e))
+
 # [2.33.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.32.0...v2.33.0) (2020-03-27)
 
 
