@@ -554,3 +554,150 @@ await universe.people()
     }
   }
 })
+
+export const Searches = () => ({
+  components: { Init, PrismEditor },
+  template: `
+    <div>
+      <p>
+        Make an auth call and retrieve an access token
+      </p>
+
+      <init
+        @auth-attempt="authAction"
+        @auth-success="authSuccessAction"
+        :instructions="false"
+        store="init-first"
+        max-height="150px"
+      ></init>
+
+      <p>
+        With auth set let's initialise a universe
+      </p>
+
+      <input v-model="universeName" :key="universeName" placeholder="Univserse Name" />
+      <input v-model="apiBase" :key="apiBase" placeholder="API Base" />
+
+      <button @click="initUniverse">
+        Initialise Universe
+      </button>
+
+      <prism-editor readonly :code="code" language="js"></prism-editor>
+
+      <div style="display: flex; width: 100%; justify-items: space-between;">
+        <div style="width: 50%; overflow-x: hidden;">
+          <input placeholder="People Search" v-model="peopleSearchInput" />
+          <button @click="handlePeopleSearch">
+            Execute Search
+          </button>
+
+          <div v-for="(item, index) in (peopleSearchResult || [])" :key="index">
+            <p v-text="JSON.stringify(item, undefined, 2)" style="white-space: pre-wrap;">
+            </p>
+          </div>
+        </div>
+        <div style="width: 50%; overflow-x: hidden;">
+          <input placeholder="Feed Search" v-model="feedsSearchInput" />
+          <button @click="handleFeedSearch">
+            Execute Search
+          </button>
+
+          <div v-for="(item, index) in (feedSearchResult || [])" :key="index">
+            <p v-text="JSON.stringify(item, undefined, 2)" style="white-space: pre-wrap;">
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  methods: {
+    authAction: function () {
+      action('auth-attempt').call(this, ...arguments)
+    },
+    authSuccessAction: function () {
+      this.token = [...arguments][0].access_token
+
+      window.localStorage.setItem('token', this.token)
+
+      action('auth-sucess').call(this, ...arguments)
+    },
+    async initUniverse () {
+      charles.init({
+        credentials: {
+          accessToken: this.token
+        }
+      })
+
+      const universe = this.universe = charles.universe(this.universeName, {
+        base: this.apiBase
+      })
+
+      await universe.init()
+
+      this.localUniversePayload = universe.payload
+    },
+    async handlePeopleSearch () {
+      const result = await this.universe.search.people(this.peopleSearchInput)
+      this.peopleSearchResult = result
+    },
+    async handleFeedSearch () {
+      const result = await this.universe.search.feeds(this.feedsSearchInput)
+      this.feedSearchResult = result
+    }
+  },
+  data () {
+    return {
+      token: window.localStorage.getItem('token') || null,
+      universe: null,
+      localUniversePayload: null,
+      peopleSearchInput: null,
+      feedsSearchInput: null,
+      peopleSearchResult: null,
+      feedSearchResult: null
+    }
+  },
+  computed: {
+    universeName: {
+      get () {
+        return window.localStorage.getItem('universeName')
+      },
+      set (v) {
+        window.localStorage.setItem('universeName', v)
+      }
+    },
+    apiBase: {
+      get () {
+        return window.localStorage.getItem('apiBase') || 'https://staging-3.hello-charles.com'
+      },
+      set (v) {
+        window.localStorage.setItem('apiBase', v)
+      }
+    },
+
+    universePayload () {
+      if (!this.localUniversePayload) return ''
+
+      return JSON.stringify(this.localUniversePayload, undefined, 2)
+        .split('\n')
+        .map((line) => {
+          return `// ${line}`
+        })
+        .join('\n')
+    },
+    code () {
+      return `
+import charles from '@heycharles/browser-sdk'
+charles.init({
+  accessToken: '${this.token || ''}'
+})
+
+const universe = charles.universe('${this.universeName || ''}')
+// lets init it immediately to get it's remote state
+await universe.init()
+
+await universe.search.people('${this.peopleSearchInput || ''}')
+await universe.search.feeds('${this.feedsSearchInput || ''}')
+      `
+    }
+  }
+})
