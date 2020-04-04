@@ -1,3 +1,11 @@
+# [2.35.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.34.0...v2.35.0) (2020-04-04)
+
+
+### Features
+
+* **event:** add annotations ([62be926](https://github.com/c-commerce/charles-browser-sdk/commit/62be9264ebbea34d59015aef7c46d524d1a14dd8))
+* **universe:** add entity factories ([c0a140a](https://github.com/c-commerce/charles-browser-sdk/commit/c0a140a330b6c5f92c153d7961971f2bb2c66d3b))
+
 # [2.34.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.33.0...v2.34.0) (2020-03-31)
 
 

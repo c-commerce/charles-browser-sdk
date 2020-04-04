@@ -110,6 +110,14 @@ export declare class Universe extends Readable {
     get connected(): boolean;
     isConnected(): boolean;
     private handleError;
+    product(payload: product.ProductRawPayload): product.Product;
+    staff(payload: staff.StaffRawPayload): staff.Staff;
+    asset(payload: asset.AssetRawPayload): asset.Asset;
+    cart(payload: cart.CartRawPayload): cart.Cart;
+    order(payload: order.OrderRawPayload): order.Order;
+    person(payload: person.PersonRawPayload): person.Person;
+    ticket(payload: ticket.TicketRawPayload): ticket.Ticket;
+    discount(payload: discount.DiscountRawPayload): discount.Discount;
     feeds(): Promise<Feed[] | undefined>;
     staffs(): Promise<staff.Staff[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;

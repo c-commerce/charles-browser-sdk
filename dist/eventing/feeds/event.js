@@ -94,6 +94,7 @@ var Event = /** @class */ (function (_super) {
         this.type = rawPayload.type;
         this.marked = rawPayload.marked;
         this.flagged = rawPayload.flagged;
+        this.annotations = rawPayload.annotations;
         // for the time being we are trying not to override existing data if the remote is not sending any
         // e.g. in special calls
         if (this.payload && !rawPayload.payload) {
@@ -120,7 +121,8 @@ var Event = /** @class */ (function (_super) {
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             type: this.type,
             flagged: this.flagged,
-            marked: this.marked
+            marked: this.marked,
+            annotations: this.annotations
         };
     };
     Event.prototype.init = function () {

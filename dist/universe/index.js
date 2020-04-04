@@ -295,6 +295,31 @@ var Universe = /** @class */ (function (_super) {
         if (this.listeners('error').length > 0)
             this.emit('error', err);
     };
+    Universe.prototype.product = function (payload) {
+        return product.Product.create(payload, this, this.http);
+    };
+    Universe.prototype.staff = function (payload) {
+        return staff.Staff.create(payload, this, this.http);
+    };
+    Universe.prototype.asset = function (payload) {
+        return asset.Asset.create(payload, this, this.http);
+    };
+    Universe.prototype.cart = function (payload) {
+        return cart.Cart.create(payload, this, this.http);
+    };
+    Universe.prototype.order = function (payload) {
+        return order.Order.create(payload, this, this.http);
+    };
+    Universe.prototype.person = function (payload) {
+        return person.Person.create(payload, this, this.http);
+    };
+    Universe.prototype.ticket = function (payload) {
+        return ticket.Ticket.create(payload, this, this.http);
+    };
+    Universe.prototype.discount = function (payload) {
+        return discount.Discount.create(payload, this, this.http);
+    };
+    // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
     Universe.prototype.feeds = function () {
         return __awaiter(this, void 0, void 0, function () {
             var opts, res, feeds, err_2;
