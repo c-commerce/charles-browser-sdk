@@ -1,3 +1,10 @@
+# [2.38.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.37.0...v2.38.0) (2020-04-04)
+
+
+### Features
+
+* **universe:** add message templates ([73ae3eb](https://github.com/c-commerce/charles-browser-sdk/commit/73ae3ebb3ecb612f6a5802846c62a267dc4e1fea))
+
 # [2.37.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.36.0...v2.37.0) (2020-04-04)
 
 

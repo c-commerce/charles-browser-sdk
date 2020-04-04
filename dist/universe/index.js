@@ -86,6 +86,7 @@ var ticket = __importStar(require("../entities/ticket/ticket"));
 var cart = __importStar(require("../entities/cart/cart"));
 var order = __importStar(require("../entities/order/order"));
 var discount = __importStar(require("../entities/discount/discount"));
+var messageTemplate = __importStar(require("../entities/message-template/message-template"));
 /**
  * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
  * or namespace for data.
@@ -319,6 +320,9 @@ var Universe = /** @class */ (function (_super) {
     Universe.prototype.discount = function (payload) {
         return discount.Discount.create(payload, this, this.http);
     };
+    Universe.prototype.messageTemplate = function (payload) {
+        return messageTemplate.MessageTemplate.create(payload, this, this.http);
+    };
     // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
     Universe.prototype.feeds = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -537,6 +541,29 @@ var Universe = /** @class */ (function (_super) {
             });
         });
     };
+    Universe.prototype.messageTemplates = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_11;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + messageTemplate.MessageTemplates.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2 /*return*/, resources.map(function (resource) {
+                                return messageTemplate.MessageTemplate.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_11 = _a.sent();
+                        throw new messageTemplate.MessageTemplatesFetchRemoteError(undefined, { error: err_11 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
     /**
      * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
@@ -587,7 +614,7 @@ var Universe = /** @class */ (function (_super) {
      */
     Universe.prototype.searchEntity = function (endpoint, q) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, err_11;
+            var res, err_12;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -601,8 +628,8 @@ var Universe = /** @class */ (function (_super) {
                         res = _a.sent();
                         return [2 /*return*/, res.data.data];
                     case 2:
-                        err_11 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_11 });
+                        err_12 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_12 });
                     case 3: return [2 /*return*/];
                 }
             });

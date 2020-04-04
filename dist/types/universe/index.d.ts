@@ -12,6 +12,7 @@ import * as ticket from '../entities/ticket/ticket';
 import * as cart from '../entities/cart/cart';
 import * as order from '../entities/order/order';
 import * as discount from '../entities/discount/discount';
+import * as messageTemplate from '../entities/message-template/message-template';
 export interface IUniverseUser {
     id?: string;
     accessToken: string;
@@ -151,6 +152,7 @@ export declare class Universe extends Readable {
     person(payload: person.PersonRawPayload): person.Person;
     ticket(payload: ticket.TicketRawPayload): ticket.Ticket;
     discount(payload: discount.DiscountRawPayload): discount.Discount;
+    messageTemplate(payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate;
     feeds(): Promise<Feed[] | undefined>;
     staffs(): Promise<staff.Staff[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
@@ -160,6 +162,7 @@ export declare class Universe extends Readable {
     carts(): Promise<cart.Cart[] | undefined>;
     orders(): Promise<order.Order[] | undefined>;
     discounts(): Promise<discount.Discount[] | undefined>;
+    messageTemplates(): Promise<messageTemplate.MessageTemplate[] | undefined>;
     /**
      * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
      */
