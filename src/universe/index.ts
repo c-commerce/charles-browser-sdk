@@ -52,6 +52,42 @@ export declare interface Universe {
     cb: Function): this
 }
 
+export interface UnviverseSearchResultItem {
+  document: object
+}
+
+export interface UnviversePeopleSearchResultItem extends UnviverseSearchResultItem {
+  document: {
+    id: person.PersonRawPayload['id']
+    name: person.PersonRawPayload['name']
+    first_name: person.PersonRawPayload['first_name']
+    middle_name: person.PersonRawPayload['middle_name']
+    last_name: person.PersonRawPayload['last_name']
+    created_at: person.PersonRawPayload['created_at']
+    avatar: person.PersonRawPayload['avatar']
+  }
+  feeds: string[]
+}
+
+export interface UnviverseFeedsSearchResultItem extends UnviverseSearchResultItem {
+  document: {
+    id: MessageRawPayload['id']
+    date: MessageRawPayload['date']
+    feed: MessageRawPayload['feed']
+    person: MessageRawPayload['person']
+    content: MessageRawPayload['content']
+  }
+  event: string
+  feed: string
+  resource_type: 'message'
+  person: person.PersonRawPayload
+}
+
+export interface UniverseSearches {
+  people: Function
+  feeds: Function
+}
+
 /**
  * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
  * or namespace for data.
@@ -455,6 +491,42 @@ export class Universe extends Readable {
 
     return this
   }
+
+  /**
+   * Gets executable search
+   *
+   * @example
+   * await universe.search.people('Your Name')
+   */
+  public get search(): UniverseSearches {
+    return {
+      people: async (q: string): Promise<UnviversePeopleSearchResultItem[]> => {
+        return this.searchEntity<UnviversePeopleSearchResultItem[]>(person.People.endpoint, q)
+      },
+      feeds: async (q: string): Promise<UnviverseFeedsSearchResultItem[]> => {
+        return this.searchEntity<UnviverseFeedsSearchResultItem[]>(Feeds.endpoint, q)
+      }
+    }
+  }
+
+  /**
+   * Execute search for a given entity
+   * @ignore
+   * @param endpoint
+   * @param q
+   */
+  private async searchEntity<T>(endpoint: string, q: string): Promise<T> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${endpoint}/search`, {
+        params: {
+          q
+        }
+      })
+      return res.data.data
+    } catch (err) {
+      throw new UniverseSearchError(undefined, { error: err })
+    }
+  }
 }
 
 export class UnviverseSingleton extends Universe {
@@ -479,7 +551,14 @@ export class UnviverseSingleton extends Universe {
 
 export class UniverseInitializationError extends BaseError {
   public name = 'UniverseInitializationError'
-  constructor(public message: string = 'Could not initialize universe', properties?: any) {
+  constructor(public message: string = 'Could not initialize universe.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class UniverseSearchError extends BaseError {
+  public name = 'UniverseSearchError'
+  constructor(public message: string = 'Could not fulfill search unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
