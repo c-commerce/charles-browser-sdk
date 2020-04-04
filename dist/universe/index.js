@@ -554,6 +554,60 @@ var Universe = /** @class */ (function (_super) {
         });
         return this;
     };
+    Object.defineProperty(Universe.prototype, "search", {
+        /**
+         * Gets executable search
+         *
+         * @example
+         * await universe.search.people('Your Name')
+         */
+        get: function () {
+            var _this = this;
+            return {
+                people: function (q) { return __awaiter(_this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        return [2 /*return*/, this.searchEntity(person.People.endpoint, q)];
+                    });
+                }); },
+                feeds: function (q) { return __awaiter(_this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        return [2 /*return*/, this.searchEntity(feed_1.Feeds.endpoint, q)];
+                    });
+                }); }
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Execute search for a given entity
+     * @ignore
+     * @param endpoint
+     * @param q
+     */
+    Universe.prototype.searchEntity = function (endpoint, q) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, err_11;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + endpoint + "/search", {
+                                params: {
+                                    q: q
+                                }
+                            })];
+                    case 1:
+                        res = _a.sent();
+                        return [2 /*return*/, res.data.data];
+                    case 2:
+                        err_11 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_11 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Universe.endpoint = 'api/v0/universes';
     return Universe;
 }(readable_stream_1.Readable));
@@ -578,7 +632,7 @@ exports.UnviverseSingleton = UnviverseSingleton;
 var UniverseInitializationError = /** @class */ (function (_super) {
     __extends(UniverseInitializationError, _super);
     function UniverseInitializationError(message, properties) {
-        if (message === void 0) { message = 'Could not initialize universe'; }
+        if (message === void 0) { message = 'Could not initialize universe.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'UniverseInitializationError';
@@ -587,4 +641,16 @@ var UniverseInitializationError = /** @class */ (function (_super) {
     return UniverseInitializationError;
 }(errors_1.BaseError));
 exports.UniverseInitializationError = UniverseInitializationError;
+var UniverseSearchError = /** @class */ (function (_super) {
+    __extends(UniverseSearchError, _super);
+    function UniverseSearchError(message, properties) {
+        if (message === void 0) { message = 'Could not fulfill search unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UniverseSearchError';
+        return _this;
+    }
+    return UniverseSearchError;
+}(errors_1.BaseError));
+exports.UniverseSearchError = UniverseSearchError;
 //# sourceMappingURL=index.js.map

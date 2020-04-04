@@ -1,3 +1,10 @@
+# [2.36.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.35.0...v2.36.0) (2020-04-04)
+
+
+### Features
+
+* **universe:** add searches ([152bf60](https://github.com/c-commerce/charles-browser-sdk/commit/152bf6096803e81e24483b0110f9dcdc2f39b439))
+
 # [2.35.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.34.0...v2.35.0) (2020-04-04)
 
 

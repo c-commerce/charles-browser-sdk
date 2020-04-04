@@ -3,6 +3,7 @@ import { UniverseHealth, UniverseStatus } from './status';
 import { Client } from '../client';
 import { Feed } from '../eventing/feeds/feed';
 import { BaseError } from '../errors';
+import { MessageRawPayload } from '../messaging';
 import * as staff from '../entities/staff/staff';
 import * as asset from '../entities/asset/asset';
 import * as person from '../entities/person/person';
@@ -34,6 +35,38 @@ export interface IUniversePayload {
 export declare interface Universe {
     on(event: 'raw-error' | 'error', cb: (error: Error) => void): this;
     on(event: 'armed' | 'universe:message' | 'universe:feeds:messages' | 'universe:feeds' | string, cb: Function): this;
+}
+export interface UnviverseSearchResultItem {
+    document: object;
+}
+export interface UnviversePeopleSearchResultItem extends UnviverseSearchResultItem {
+    document: {
+        id: person.PersonRawPayload['id'];
+        name: person.PersonRawPayload['name'];
+        first_name: person.PersonRawPayload['first_name'];
+        middle_name: person.PersonRawPayload['middle_name'];
+        last_name: person.PersonRawPayload['last_name'];
+        created_at: person.PersonRawPayload['created_at'];
+        avatar: person.PersonRawPayload['avatar'];
+    };
+    feeds: string[];
+}
+export interface UnviverseFeedsSearchResultItem extends UnviverseSearchResultItem {
+    document: {
+        id: MessageRawPayload['id'];
+        date: MessageRawPayload['date'];
+        feed: MessageRawPayload['feed'];
+        person: MessageRawPayload['person'];
+        content: MessageRawPayload['content'];
+    };
+    event: string;
+    feed: string;
+    resource_type: 'message';
+    person: person.PersonRawPayload;
+}
+export interface UniverseSearches {
+    people: Function;
+    feeds: Function;
 }
 /**
  * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
@@ -131,6 +164,20 @@ export declare class Universe extends Readable {
      * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
      */
     arm(): Universe;
+    /**
+     * Gets executable search
+     *
+     * @example
+     * await universe.search.people('Your Name')
+     */
+    get search(): UniverseSearches;
+    /**
+     * Execute search for a given entity
+     * @ignore
+     * @param endpoint
+     * @param q
+     */
+    private searchEntity;
 }
 export declare class UnviverseSingleton extends Universe {
     private static instance;
@@ -139,6 +186,11 @@ export declare class UnviverseSingleton extends Universe {
     static clearInstance(): void;
 }
 export declare class UniverseInitializationError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseSearchError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
