@@ -275,6 +275,40 @@ export class Universe extends Readable {
     if (this.listeners('error').length > 0) this.emit('error', err)
   }
 
+  public product(payload: product.ProductRawPayload): product.Product {
+    return product.Product.create(payload, this, this.http)
+  }
+
+  public staff(payload: staff.StaffRawPayload): staff.Staff {
+    return staff.Staff.create(payload, this, this.http)
+  }
+
+  public asset(payload: asset.AssetRawPayload): asset.Asset {
+    return asset.Asset.create(payload, this, this.http)
+  }
+
+  public cart(payload: cart.CartRawPayload): cart.Cart {
+    return cart.Cart.create(payload, this, this.http)
+  }
+
+  public order(payload: order.OrderRawPayload): order.Order {
+    return order.Order.create(payload, this, this.http)
+  }
+
+  public person(payload: person.PersonRawPayload): person.Person {
+    return person.Person.create(payload, this, this.http)
+  }
+
+  public ticket(payload: ticket.TicketRawPayload): ticket.Ticket {
+    return ticket.Ticket.create(payload, this, this.http)
+  }
+
+  public discount(payload: discount.DiscountRawPayload): discount.Discount {
+    return discount.Discount.create(payload, this, this.http)
+  }
+
+  // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
+
   public async feeds(): Promise<Feed[] | undefined> {
     try {
       const opts = {
