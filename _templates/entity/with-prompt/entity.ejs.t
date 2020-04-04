@@ -27,8 +27,8 @@ export interface <%= capitalizedName %>Payload {
   readonly id?: <%= capitalizedName %>RawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
-  readonly deleted?: boolean
-  readonly active?: boolean
+  readonly deleted?: <%= capitalizedName %>RawPayload['deleted']
+  readonly active?: <%= capitalizedName %>RawPayload['active']
 }
 
 /**

@@ -16,6 +16,8 @@ import * as ticket from '../entities/ticket/ticket'
 import * as cart from '../entities/cart/cart'
 import * as order from '../entities/order/order'
 import * as discount from '../entities/discount/discount'
+import * as messageTemplate from '../entities/message-template/message-template'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface IUniverseUser {
@@ -343,6 +345,10 @@ export class Universe extends Readable {
     return discount.Discount.create(payload, this, this.http)
   }
 
+  public messageTemplate(payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate {
+    return messageTemplate.MessageTemplate.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   public async feeds(): Promise<Feed[] | undefined> {
@@ -469,6 +475,19 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new discount.DiscountsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async messageTemplates(): Promise<messageTemplate.MessageTemplate[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${messageTemplate.MessageTemplates.endpoint}`)
+      const resources = res.data.data as messageTemplate.MessageTemplateRawPayload[]
+
+      return resources.map((resource: messageTemplate.MessageTemplateRawPayload) => {
+        return messageTemplate.MessageTemplate.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new messageTemplate.MessageTemplatesFetchRemoteError(undefined, { error: err })
     }
   }
 
