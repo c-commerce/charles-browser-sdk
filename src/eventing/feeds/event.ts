@@ -45,6 +45,22 @@ export interface EventRawPayload {
   readonly type?: IEventType | null
   readonly flagged?: boolean
   readonly marked?: boolean
+  readonly annotations?: {
+    language?: {
+      language?: string | null
+      confidence?: number | null
+      vectors?: {
+        language?: string | null
+        confidence?: number | null
+      }[] | null
+      payload?: {
+        cld3?: any
+        cld2?: any
+        langdetect?: any
+        fasttext?: any
+      } | null
+    } | null
+  } | null
 }
 
 export interface EventPayload {
@@ -57,6 +73,7 @@ export interface EventPayload {
   readonly type?: IEventType | null
   readonly flagged?: EventRawPayload['flagged']
   readonly marked?: EventRawPayload['marked']
+  readonly annotations?: EventRawPayload['annotations']
 }
 
 export class Event extends EventEmitter {
@@ -76,6 +93,7 @@ export class Event extends EventEmitter {
   public type?: EventPayload['type']
   public flagged?: EventPayload['flagged']
   public marked?: EventPayload['marked']
+  public annotations?: EventPayload['annotations']
 
   static eventTypes = EventTypesEnum
 
@@ -105,6 +123,7 @@ export class Event extends EventEmitter {
     this.type = rawPayload.type
     this.marked = rawPayload.marked
     this.flagged = rawPayload.flagged
+    this.annotations = rawPayload.annotations
 
     // for the time being we are trying not to override existing data if the remote is not sending any
     // e.g. in special calls
@@ -135,7 +154,8 @@ export class Event extends EventEmitter {
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       type: this.type,
       flagged: this.flagged,
-      marked: this.marked
+      marked: this.marked,
+      annotations: this.annotations
     }
   }
 
