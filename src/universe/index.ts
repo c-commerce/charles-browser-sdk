@@ -326,6 +326,10 @@ export class Universe extends Readable {
     if (this.listeners('error').length > 0) this.emit('error', err)
   }
 
+  public feed(payload: FeedRawPayload): Feed {
+    return Feed.create(payload, this, this.http, this.mqtt)
+  }
+
   public product(payload: product.ProductRawPayload): product.Product {
     return product.Product.create(payload, this, this.http)
   }
