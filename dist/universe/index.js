@@ -296,6 +296,9 @@ var Universe = /** @class */ (function (_super) {
         if (this.listeners('error').length > 0)
             this.emit('error', err);
     };
+    Universe.prototype.feed = function (payload) {
+        return feed_1.Feed.create(payload, this, this.http, this.mqtt);
+    };
     Universe.prototype.product = function (payload) {
         return product.Product.create(payload, this, this.http);
     };
@@ -324,7 +327,7 @@ var Universe = /** @class */ (function (_super) {
         return messageTemplate.MessageTemplate.create(payload, this, this.http);
     };
     // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
-    Universe.prototype.feeds = function () {
+    Universe.prototype.feeds = function (query, options) {
         return __awaiter(this, void 0, void 0, function () {
             var opts, res, feeds, err_2;
             var _this = this;
@@ -335,17 +338,18 @@ var Universe = /** @class */ (function (_super) {
                         opts = {
                             method: 'GET',
                             url: this.universeBase + "/" + feed_1.Feeds.endpoint,
-                            params: {
-                                embed: [
+                            params: __assign(__assign({}, (query || {})), { embed: query && query.embed ? query.embed : [
                                     'participants',
                                     'top_latest_events'
-                                ]
-                            }
+                                ] })
                         };
                         return [4 /*yield*/, this.http.getClient()(opts)];
                     case 1:
                         res = _a.sent();
                         feeds = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2 /*return*/, feeds];
+                        }
                         return [2 /*return*/, feeds.map(function (feed) {
                                 return feed_1.Feed.create(feed, _this, _this.http, _this.mqtt);
                             })];

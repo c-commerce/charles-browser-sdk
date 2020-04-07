@@ -1,3 +1,10 @@
+# [2.39.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.38.0...v2.39.0) (2020-04-07)
+
+
+### Features
+
+* **universe:** expose feed factory ([1b0435b](https://github.com/c-commerce/charles-browser-sdk/commit/1b0435b7029be695c0d8e21c30b7538666545d3c))
+
 # [2.38.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.37.0...v2.38.0) (2020-04-04)
 
 

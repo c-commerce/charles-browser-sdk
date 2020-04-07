@@ -1,7 +1,7 @@
 import { Readable } from 'readable-stream';
 import { UniverseHealth, UniverseStatus } from './status';
 import { Client } from '../client';
-import { Feed } from '../eventing/feeds/feed';
+import { Feed, FeedRawPayload } from '../eventing/feeds/feed';
 import { BaseError } from '../errors';
 import { MessageRawPayload } from '../messaging';
 import * as staff from '../entities/staff/staff';
@@ -32,6 +32,12 @@ export interface IUniversePayload {
     configuration: object | null;
     updatedAt: Date | null;
     createdAt: Date | null;
+}
+export interface UniverseFetchOptions {
+    raw: boolean;
+}
+export interface UniverseFetchQuery {
+    [key: string]: any;
 }
 export declare interface Universe {
     on(event: 'raw-error' | 'error', cb: (error: Error) => void): this;
@@ -68,6 +74,10 @@ export interface UnviverseFeedsSearchResultItem extends UnviverseSearchResultIte
 export interface UniverseSearches {
     people: Function;
     feeds: Function;
+}
+export interface IUniverseFeeds {
+    fromJson: Function;
+    toJson: Function;
 }
 /**
  * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
@@ -144,6 +154,7 @@ export declare class Universe extends Readable {
     get connected(): boolean;
     isConnected(): boolean;
     private handleError;
+    feed(payload: FeedRawPayload): Feed;
     product(payload: product.ProductRawPayload): product.Product;
     staff(payload: staff.StaffRawPayload): staff.Staff;
     asset(payload: asset.AssetRawPayload): asset.Asset;
@@ -153,7 +164,7 @@ export declare class Universe extends Readable {
     ticket(payload: ticket.TicketRawPayload): ticket.Ticket;
     discount(payload: discount.DiscountRawPayload): discount.Discount;
     messageTemplate(payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate;
-    feeds(): Promise<Feed[] | undefined>;
+    feeds(query: UniverseFetchQuery, options: UniverseFetchOptions): Promise<Feed[] | FeedRawPayload[] | undefined>;
     staffs(): Promise<staff.Staff[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
     people(): Promise<person.Person[] | undefined>;
