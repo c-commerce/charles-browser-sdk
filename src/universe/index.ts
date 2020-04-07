@@ -377,7 +377,7 @@ export class Universe extends Readable {
       toJson: (feeds: Feed[]): FeedRawPayload[] => {
         return feeds.map((item) => (item.serialize()))
       },
-      fetch: async (query: UniverseFetchQuery, options: UniverseFetchOptions): Promise<Feed[] | FeedRawPayload[] | undefined> => {
+      fetch: async (query?: UniverseFetchQuery, options?: UniverseFetchOptions): Promise<Feed[] | FeedRawPayload[] | undefined> => {
         try {
           const opts = {
             method: 'GET',
