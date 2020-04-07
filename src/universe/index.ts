@@ -99,6 +99,7 @@ export interface UniverseSearches {
 }
 
 export interface IUniverseFeeds {
+  fetch: Function
   fromJson: Function
   toJson: Function
 }
@@ -368,31 +369,41 @@ export class Universe extends Readable {
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
-  public async feeds(query: UniverseFetchQuery, options: UniverseFetchOptions): Promise<Feed[] | FeedRawPayload[] | undefined> {
-    try {
-      const opts = {
-        method: 'GET',
-        url: `${this.universeBase}/${Feeds.endpoint}`,
-        params: {
-          ...(query || {}),
-          embed: query && query.embed ? query.embed : [
-            'participants',
-            'top_latest_events'
-          ]
+  public get feeds(): IUniverseFeeds {
+    return {
+      fromJson: (payloads: FeedRawPayload[]): Feed[] => {
+        return payloads.map((item) => (Feed.create(item, this, this.http, this.mqtt)))
+      },
+      toJson: (feeds: Feed[]): FeedRawPayload[] => {
+        return feeds.map((item) => (item.serialize()))
+      },
+      fetch: async (query: UniverseFetchQuery, options: UniverseFetchOptions): Promise<Feed[] | FeedRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${Feeds.endpoint}`,
+            params: {
+              ...(query || {}),
+              embed: query && query.embed ? query.embed : [
+                'participants',
+                'top_latest_events'
+              ]
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const feeds = res.data.data as FeedRawPayload[]
+
+          if (options && options.raw === true) {
+            return feeds
+          }
+
+          return feeds.map((feed: FeedRawPayload) => {
+            return Feed.create(feed, this, this.http, this.mqtt)
+          })
+        } catch (err) {
+          throw new FeedsFetchRemoteError(undefined, { error: err })
         }
       }
-      const res = await this.http.getClient()(opts)
-      const feeds = res.data.data as FeedRawPayload[]
-
-      if (options && options.raw === true) {
-        return feeds
-      }
-
-      return feeds.map((feed: FeedRawPayload) => {
-        return Feed.create(feed, this, this.http, this.mqtt)
-      })
-    } catch (err) {
-      throw new FeedsFetchRemoteError(undefined, { error: err })
     }
   }
 
