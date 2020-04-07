@@ -1,3 +1,10 @@
+## [2.40.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.40.0...v2.40.1) (2020-04-07)
+
+
+### Bug Fixes
+
+* **universe/feeds:** make fetch options optional ([dfd3683](https://github.com/c-commerce/charles-browser-sdk/commit/dfd3683867653850affa746279858af9781d5e23))
+
 # [2.40.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.39.0...v2.40.0) (2020-04-07)
 
 
