@@ -76,6 +76,7 @@ export interface UniverseSearches {
     feeds: Function;
 }
 export interface IUniverseFeeds {
+    fetch: Function;
     fromJson: Function;
     toJson: Function;
 }
@@ -164,7 +165,7 @@ export declare class Universe extends Readable {
     ticket(payload: ticket.TicketRawPayload): ticket.Ticket;
     discount(payload: discount.DiscountRawPayload): discount.Discount;
     messageTemplate(payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate;
-    feeds(query: UniverseFetchQuery, options: UniverseFetchOptions): Promise<Feed[] | FeedRawPayload[] | undefined>;
+    get feeds(): IUniverseFeeds;
     staffs(): Promise<staff.Staff[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
     people(): Promise<person.Person[] | undefined>;

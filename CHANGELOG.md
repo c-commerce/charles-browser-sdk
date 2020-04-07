@@ -1,3 +1,10 @@
+# [2.40.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.39.0...v2.40.0) (2020-04-07)
+
+
+### Features
+
+* **universe/feeds:** refactor fro getter and helper functions ([10d486e](https://github.com/c-commerce/charles-browser-sdk/commit/10d486e3f94157d296182dcc869d92583378bc7d))
+
 # [2.39.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.38.0...v2.39.0) (2020-04-07)
 
 

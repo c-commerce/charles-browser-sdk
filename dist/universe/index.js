@@ -326,41 +326,54 @@ var Universe = /** @class */ (function (_super) {
     Universe.prototype.messageTemplate = function (payload) {
         return messageTemplate.MessageTemplate.create(payload, this, this.http);
     };
-    // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
-    Universe.prototype.feeds = function (query, options) {
-        return __awaiter(this, void 0, void 0, function () {
-            var opts, res, feeds, err_2;
+    Object.defineProperty(Universe.prototype, "feeds", {
+        // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
+        get: function () {
             var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        opts = {
-                            method: 'GET',
-                            url: this.universeBase + "/" + feed_1.Feeds.endpoint,
-                            params: __assign(__assign({}, (query || {})), { embed: query && query.embed ? query.embed : [
-                                    'participants',
-                                    'top_latest_events'
-                                ] })
-                        };
-                        return [4 /*yield*/, this.http.getClient()(opts)];
-                    case 1:
-                        res = _a.sent();
-                        feeds = res.data.data;
-                        if (options && options.raw === true) {
-                            return [2 /*return*/, feeds];
+            return {
+                fromJson: function (payloads) {
+                    return payloads.map(function (item) { return (feed_1.Feed.create(item, _this, _this.http, _this.mqtt)); });
+                },
+                toJson: function (feeds) {
+                    return feeds.map(function (item) { return (item.serialize()); });
+                },
+                fetch: function (query, options) { return __awaiter(_this, void 0, void 0, function () {
+                    var opts, res, feeds, err_2;
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'GET',
+                                    url: this.universeBase + "/" + feed_1.Feeds.endpoint,
+                                    params: __assign(__assign({}, (query || {})), { embed: query && query.embed ? query.embed : [
+                                            'participants',
+                                            'top_latest_events'
+                                        ] })
+                                };
+                                return [4 /*yield*/, this.http.getClient()(opts)];
+                            case 1:
+                                res = _a.sent();
+                                feeds = res.data.data;
+                                if (options && options.raw === true) {
+                                    return [2 /*return*/, feeds];
+                                }
+                                return [2 /*return*/, feeds.map(function (feed) {
+                                        return feed_1.Feed.create(feed, _this, _this.http, _this.mqtt);
+                                    })];
+                            case 2:
+                                err_2 = _a.sent();
+                                throw new feed_1.FeedsFetchRemoteError(undefined, { error: err_2 });
+                            case 3: return [2 /*return*/];
                         }
-                        return [2 /*return*/, feeds.map(function (feed) {
-                                return feed_1.Feed.create(feed, _this, _this.http, _this.mqtt);
-                            })];
-                    case 2:
-                        err_2 = _a.sent();
-                        throw new feed_1.FeedsFetchRemoteError(undefined, { error: err_2 });
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
+                    });
+                }); }
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
     Universe.prototype.staffs = function () {
         return __awaiter(this, void 0, void 0, function () {
             var res, resources, err_3;
