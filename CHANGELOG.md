@@ -1,3 +1,10 @@
+## [2.41.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.41.1...v2.41.2) (2020-04-08)
+
+
+### Bug Fixes
+
+* **Universe:** Trigger release for 081170ba (used wrong conventional commit type) ([05e83ba](https://github.com/c-commerce/charles-browser-sdk/commit/05e83bae2ad1b5502eaaf3ae4b5215312cf9c41a))
+
 ## [2.41.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.41.0...v2.41.1) (2020-04-08)
 
 

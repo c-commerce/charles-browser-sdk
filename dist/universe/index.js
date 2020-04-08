@@ -317,6 +317,13 @@ var Universe = /** @class */ (function (_super) {
     Universe.prototype.person = function (payload) {
         return person.Person.create(payload, this, this.http);
     };
+    /**
+     * person address fac tory
+     * @param payload
+     */
+    Universe.prototype.address = function (payload) {
+        return person.Address.create(payload, this, this.http);
+    };
     Universe.prototype.ticket = function (payload) {
         return ticket.Ticket.create(payload, this, this.http);
     };
