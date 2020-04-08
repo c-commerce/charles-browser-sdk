@@ -112,7 +112,7 @@ export interface IUniverseFeeds {
  * It also allows easy access to remote states of entities, such as:
  *
  * ```js
- * await universe.feeds()
+ * await universe.feeds.fetch()
  * await universe.staffs()
  * await universe.assets()
  * await universe.people()
@@ -373,7 +373,7 @@ export class Universe extends Readable {
   /**
    * Feeds accessor
    *
-   * @example
+   * ```js
    * // fetch all feeds with regular defaults (as class instance list)
    * await universe.feeds.fetch()
    * // fetch all feeds as raw structs with some query options
@@ -382,6 +382,7 @@ export class Universe extends Readable {
    * universe.feeds.toJson([feed])
    * // cast a list of structs to list of class instances
    * universe.feeds.fromJson([feed])
+   * ```
    */
   public get feeds(): IUniverseFeeds {
     return {
