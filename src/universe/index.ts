@@ -356,6 +356,10 @@ export class Universe extends Readable {
     return person.Person.create(payload, this, this.http)
   }
 
+  public address(payload: person.PersonAddressRawPayload): person.Address {
+    return person.Address.create(payload, this, this.http)
+  }
+
   public ticket(payload: ticket.TicketRawPayload): ticket.Ticket {
     return ticket.Ticket.create(payload, this, this.http)
   }
