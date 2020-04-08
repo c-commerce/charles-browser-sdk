@@ -43,12 +43,13 @@ export interface IUniversePayload {
   createdAt: Date | null
 }
 
-export interface UniverseFetchOptions {
-  raw: boolean
-}
-
 export interface UniverseFetchQuery {
   [key: string]: any
+}
+
+export interface UniverseFetchOptions {
+  raw?: boolean
+  query?: UniverseFetchQuery,
 }
 
 export declare interface Universe {
@@ -369,6 +370,19 @@ export class Universe extends Readable {
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
+  /**
+   * Feeds accessor
+   *
+   * @example
+   * // fetch all feeds with regular defaults (as class instance list)
+   * await universe.feeds.fetch()
+   * // fetch all feeds as raw structs with some query options
+   * await universe.feeds.fetch({ raw: true, query: { embed: ['participants', 'top_latest_events'] } })
+   * // cast a list of class instances to list of structs
+   * universe.feeds.toJson([feed])
+   * // cast a list of structs to list of class instances
+   * universe.feeds.fromJson([feed])
+   */
   public get feeds(): IUniverseFeeds {
     return {
       fromJson: (payloads: FeedRawPayload[]): Feed[] => {
@@ -377,14 +391,14 @@ export class Universe extends Readable {
       toJson: (feeds: Feed[]): FeedRawPayload[] => {
         return feeds.map((item) => (item.serialize()))
       },
-      fetch: async (query?: UniverseFetchQuery, options?: UniverseFetchOptions): Promise<Feed[] | FeedRawPayload[] | undefined> => {
+      fetch: async (options?: UniverseFetchOptions): Promise<Feed[] | FeedRawPayload[] | undefined> => {
         try {
           const opts = {
             method: 'GET',
             url: `${this.universeBase}/${Feeds.endpoint}`,
             params: {
-              ...(query || {}),
-              embed: query && query.embed ? query.embed : [
+              ...(options && options.query ? options.query : {}),
+              embed: options && options.query && options.query.embed ? options.query.embed : [
                 'participants',
                 'top_latest_events'
               ]
