@@ -1,3 +1,10 @@
+# [2.41.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.40.1...v2.41.0) (2020-04-08)
+
+
+### Features
+
+* **universe:** unify feeds fetch options and query ([6ea5571](https://github.com/c-commerce/charles-browser-sdk/commit/6ea5571f0fd427b3441c420d52455b994a84aed0))
+
 ## [2.40.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.40.0...v2.40.1) (2020-04-07)
 
 

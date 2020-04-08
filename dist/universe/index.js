@@ -328,6 +328,19 @@ var Universe = /** @class */ (function (_super) {
     };
     Object.defineProperty(Universe.prototype, "feeds", {
         // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
+        /**
+         * Feeds accessor
+         *
+         * @example
+         * // fetch all feeds with regular defaults (as class instance list)
+         * await universe.feeds.fetch()
+         * // fetch all feeds as raw structs with some query options
+         * await universe.feeds.fetch({ raw: true, query: { embed: ['participants', 'top_latest_events'] } })
+         * // cast a list of class instances to list of structs
+         * universe.feeds.toJson([feed])
+         * // cast a list of structs to list of class instances
+         * universe.feeds.fromJson([feed])
+         */
         get: function () {
             var _this = this;
             return {
@@ -337,7 +350,7 @@ var Universe = /** @class */ (function (_super) {
                 toJson: function (feeds) {
                     return feeds.map(function (item) { return (item.serialize()); });
                 },
-                fetch: function (query, options) { return __awaiter(_this, void 0, void 0, function () {
+                fetch: function (options) { return __awaiter(_this, void 0, void 0, function () {
                     var opts, res, feeds, err_2;
                     var _this = this;
                     return __generator(this, function (_a) {
@@ -347,7 +360,7 @@ var Universe = /** @class */ (function (_super) {
                                 opts = {
                                     method: 'GET',
                                     url: this.universeBase + "/" + feed_1.Feeds.endpoint,
-                                    params: __assign(__assign({}, (query || {})), { embed: query && query.embed ? query.embed : [
+                                    params: __assign(__assign({}, (options && options.query ? options.query : {})), { embed: options && options.query && options.query.embed ? options.query.embed : [
                                             'participants',
                                             'top_latest_events'
                                         ] })

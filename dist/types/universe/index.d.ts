@@ -33,11 +33,12 @@ export interface IUniversePayload {
     updatedAt: Date | null;
     createdAt: Date | null;
 }
-export interface UniverseFetchOptions {
-    raw: boolean;
-}
 export interface UniverseFetchQuery {
     [key: string]: any;
+}
+export interface UniverseFetchOptions {
+    raw?: boolean;
+    query?: UniverseFetchQuery;
 }
 export declare interface Universe {
     on(event: 'raw-error' | 'error', cb: (error: Error) => void): this;
@@ -165,6 +166,19 @@ export declare class Universe extends Readable {
     ticket(payload: ticket.TicketRawPayload): ticket.Ticket;
     discount(payload: discount.DiscountRawPayload): discount.Discount;
     messageTemplate(payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate;
+    /**
+     * Feeds accessor
+     *
+     * @example
+     * // fetch all feeds with regular defaults (as class instance list)
+     * await universe.feeds.fetch()
+     * // fetch all feeds as raw structs with some query options
+     * await universe.feeds.fetch({ raw: true, query: { embed: ['participants', 'top_latest_events'] } })
+     * // cast a list of class instances to list of structs
+     * universe.feeds.toJson([feed])
+     * // cast a list of structs to list of class instances
+     * universe.feeds.fromJson([feed])
+     */
     get feeds(): IUniverseFeeds;
     staffs(): Promise<staff.Staff[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
