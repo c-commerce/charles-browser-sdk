@@ -1,3 +1,10 @@
+## [2.41.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.41.0...v2.41.1) (2020-04-08)
+
+
+### Bug Fixes
+
+* **universe/docs:** mention getters correctly ([aa40040](https://github.com/c-commerce/charles-browser-sdk/commit/aa400403c13e0becb98bd6b6fad51cc75c291387))
+
 # [2.41.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.40.1...v2.41.0) (2020-04-08)
 
 

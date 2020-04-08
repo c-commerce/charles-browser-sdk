@@ -94,7 +94,7 @@ var messageTemplate = __importStar(require("../entities/message-template/message
  * It also allows easy access to remote states of entities, such as:
  *
  * ```js
- * await universe.feeds()
+ * await universe.feeds.fetch()
  * await universe.staffs()
  * await universe.assets()
  * await universe.people()
@@ -331,7 +331,7 @@ var Universe = /** @class */ (function (_super) {
         /**
          * Feeds accessor
          *
-         * @example
+         * ```js
          * // fetch all feeds with regular defaults (as class instance list)
          * await universe.feeds.fetch()
          * // fetch all feeds as raw structs with some query options
@@ -340,6 +340,7 @@ var Universe = /** @class */ (function (_super) {
          * universe.feeds.toJson([feed])
          * // cast a list of structs to list of class instances
          * universe.feeds.fromJson([feed])
+         * ```
          */
         get: function () {
             var _this = this;
