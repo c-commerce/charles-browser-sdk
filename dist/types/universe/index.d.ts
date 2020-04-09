@@ -163,11 +163,9 @@ export declare class Universe extends Readable {
     cart(payload: cart.CartRawPayload): cart.Cart;
     order(payload: order.OrderRawPayload): order.Order;
     person(payload: person.PersonRawPayload): person.Person;
-    /**
-     * person address fac tory
-     * @param payload
-     */
     address(payload: person.PersonAddressRawPayload): person.Address;
+    phonenumber(payload: person.PersonPhonenumberRawPayload): person.Phonenumber;
+    channelUser(payload: person.PersonChannelUserRawPayload): person.ChannelUser;
     ticket(payload: ticket.TicketRawPayload): ticket.Ticket;
     discount(payload: discount.DiscountRawPayload): discount.Discount;
     messageTemplate(payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate;

@@ -1,3 +1,10 @@
+# [2.42.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.41.2...v2.42.0) (2020-04-09)
+
+
+### Features
+
+* **Universe:** Added missing person factories (phonenumber, channelUser) to be able to mock sdk dat ([bae7d3b](https://github.com/c-commerce/charles-browser-sdk/commit/bae7d3b88432899a4a67858b18ee0e7ad85d1538))
+
 ## [2.41.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.41.1...v2.41.2) (2020-04-08)
 
 
