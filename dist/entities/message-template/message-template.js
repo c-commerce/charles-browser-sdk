@@ -64,7 +64,7 @@ var MessageTemplate = /** @class */ (function (_super) {
     function MessageTemplate(options) {
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
-        _this.endpoint = 'api/v0/messagetemplates';
+        _this.endpoint = 'api/v0/message_templates';
         _this.http = options.http;
         _this.options = options;
         _this.initialized = options.initialized || false;
@@ -136,7 +136,7 @@ exports.MessageTemplate = MessageTemplate;
 var MessageTemplates = /** @class */ (function () {
     function MessageTemplates() {
     }
-    MessageTemplates.endpoint = 'api/v0/messagetemplates';
+    MessageTemplates.endpoint = 'api/v0/message_templates';
     return MessageTemplates;
 }());
 exports.MessageTemplates = MessageTemplates;

@@ -1,3 +1,10 @@
+## [2.42.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.42.0...v2.42.1) (2020-04-09)
+
+
+### Bug Fixes
+
+* **message-template:** fix endpoint ([6236e0e](https://github.com/c-commerce/charles-browser-sdk/commit/6236e0eb34a090e08fd58cc2cacb90a2b7ac9aae))
+
 # [2.42.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.41.2...v2.42.0) (2020-04-09)
 
 
