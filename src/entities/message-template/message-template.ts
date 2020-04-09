@@ -88,7 +88,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   constructor(options: MessageTemplateOptions) {
     super()
     this.universe = options.universe
-    this.endpoint = 'api/v0/messagetemplates'
+    this.endpoint = 'api/v0/message_templates'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized || false
@@ -98,7 +98,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
     }
   }
 
-  protected deserialize(rawPayload: MessageTemplateRawPayload): MessageTemplate {
+  protected deserialize (rawPayload: MessageTemplateRawPayload): MessageTemplate {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -117,11 +117,11 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
     return this
   }
 
-  public static create(payload: MessageTemplateRawPayload, universe: Universe, http: Universe['http']): MessageTemplate {
+  public static create (payload: MessageTemplateRawPayload, universe: Universe, http: Universe['http']): MessageTemplate {
     return new MessageTemplate({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize(): MessageTemplateRawPayload {
+  public serialize (): MessageTemplateRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
@@ -140,7 +140,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
     }
   }
 
-  public async init(): Promise<MessageTemplate | undefined> {
+  public async init (): Promise<MessageTemplate | undefined> {
     try {
       await this.fetch()
 
@@ -152,7 +152,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
 }
 
 export class MessageTemplates {
-  public static endpoint: string = 'api/v0/messagetemplates'
+  public static endpoint: string = 'api/v0/message_templates'
 }
 
 export class MessageTemplateInitializationError extends BaseError {
