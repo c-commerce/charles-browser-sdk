@@ -356,12 +356,16 @@ export class Universe extends Readable {
     return person.Person.create(payload, this, this.http)
   }
 
-  /**
-   * person address fac tory
-   * @param payload
-   */
   public address(payload: person.PersonAddressRawPayload): person.Address {
     return person.Address.create(payload, this, this.http)
+  }
+
+  public phonenumber(payload: person.PersonPhonenumberRawPayload): person.Phonenumber {
+    return person.Phonenumber.create(payload, this, this.http)
+  }
+
+  public channelUser(payload: person.PersonChannelUserRawPayload): person.ChannelUser {
+    return person.ChannelUser.create(payload, this, this.http)
   }
 
   public ticket(payload: ticket.TicketRawPayload): ticket.Ticket {
