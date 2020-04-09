@@ -67,9 +67,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   protected http: Universe['http']
   protected options: MessageTemplateOptions
   public initialized: boolean
-
   public endpoint: string
-
   public id?: MessageTemplatePayload['id']
   public createdAt?: MessageTemplatePayload['createdAt']
   public updatedAt?: MessageTemplatePayload['updatedAt']
