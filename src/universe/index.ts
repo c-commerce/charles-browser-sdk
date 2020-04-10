@@ -11,6 +11,7 @@ import * as uuid from '../helpers/uuid'
 import * as staff from '../entities/staff/staff'
 import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
+import * as channelUser from '../entities/person/channel-user'
 import * as product from '../entities/product/product'
 import * as ticket from '../entities/ticket/ticket'
 import * as cart from '../entities/cart/cart'
@@ -383,8 +384,8 @@ export class Universe extends Readable {
     return person.Phonenumber.create(payload, this, this.http)
   }
 
-  public channelUser(payload: person.PersonChannelUserRawPayload): person.ChannelUser {
-    return person.ChannelUser.create(payload, this, this.http)
+  public channelUser(payload: person.PersonChannelUserRawPayload): channelUser.ChannelUser {
+    return channelUser.ChannelUser.create(payload, this, this.http)
   }
 
   public ticket(payload: ticket.TicketRawPayload): ticket.Ticket {
