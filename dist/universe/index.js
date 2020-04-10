@@ -335,8 +335,38 @@ var Universe = /** @class */ (function (_super) {
     Universe.prototype.messageTemplate = function (payload) {
         return messageTemplate.MessageTemplate.create(payload, this, this.http);
     };
+    // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
+    /**
+     * Fetch the data of the current user. If you receive an instane of UniverseUnauthenticatedError
+     * you should logout the current session and create a new one.
+     */
+    Universe.prototype.me = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, response, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universeBase + "/api/v0/me"
+                        };
+                        return [4 /*yield*/, this.http.getClient()(opts)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.data.data];
+                    case 2:
+                        err_2 = _a.sent();
+                        if (err_2.response.status === 401) {
+                            throw new UniverseUnauthenticatedError(undefined, { error: err_2 });
+                        }
+                        throw new UniverseMeError(undefined, { error: err_2 });
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     Object.defineProperty(Universe.prototype, "feeds", {
-        // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
         /**
          * Feeds accessor
          *
@@ -361,7 +391,7 @@ var Universe = /** @class */ (function (_super) {
                     return feeds.map(function (item) { return (item.serialize()); });
                 },
                 fetch: function (options) { return __awaiter(_this, void 0, void 0, function () {
-                    var opts, res, feeds, err_2;
+                    var opts, res, feeds, err_3;
                     var _this = this;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
@@ -386,8 +416,8 @@ var Universe = /** @class */ (function (_super) {
                                         return feed_1.Feed.create(feed, _this, _this.http, _this.mqtt);
                                     })];
                             case 2:
-                                err_2 = _a.sent();
-                                throw new feed_1.FeedsFetchRemoteError(undefined, { error: err_2 });
+                                err_3 = _a.sent();
+                                throw new feed_1.FeedsFetchRemoteError(undefined, { error: err_3 });
                             case 3: return [2 /*return*/];
                         }
                     });
@@ -399,7 +429,7 @@ var Universe = /** @class */ (function (_super) {
     });
     Universe.prototype.staffs = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_3;
+            var res, resources, err_4;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -413,8 +443,8 @@ var Universe = /** @class */ (function (_super) {
                                 return staff.Staff.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_3 = _a.sent();
-                        throw new staff.StaffsFetchRemoteError(undefined, { error: err_3 });
+                        err_4 = _a.sent();
+                        throw new staff.StaffsFetchRemoteError(undefined, { error: err_4 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -422,7 +452,7 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.assets = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_4;
+            var res, resources, err_5;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -436,8 +466,8 @@ var Universe = /** @class */ (function (_super) {
                                 return asset.Asset.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_4 = _a.sent();
-                        throw new asset.AssetsFetchRemoteError(undefined, { error: err_4 });
+                        err_5 = _a.sent();
+                        throw new asset.AssetsFetchRemoteError(undefined, { error: err_5 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -445,7 +475,7 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.people = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_5;
+            var res, resources, err_6;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -459,8 +489,8 @@ var Universe = /** @class */ (function (_super) {
                                 return person.Person.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_5 = _a.sent();
-                        throw new person.PeopleFetchRemoteError(undefined, { error: err_5 });
+                        err_6 = _a.sent();
+                        throw new person.PeopleFetchRemoteError(undefined, { error: err_6 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -468,7 +498,7 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.products = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_6;
+            var res, resources, err_7;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -482,8 +512,8 @@ var Universe = /** @class */ (function (_super) {
                                 return product.Product.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_6 = _a.sent();
-                        throw new product.ProductsFetchRemoteError(undefined, { error: err_6 });
+                        err_7 = _a.sent();
+                        throw new product.ProductsFetchRemoteError(undefined, { error: err_7 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -491,7 +521,7 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.tickets = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_7;
+            var res, resources, err_8;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -505,8 +535,8 @@ var Universe = /** @class */ (function (_super) {
                                 return ticket.Ticket.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_7 = _a.sent();
-                        throw new ticket.TicketsFetchRemoteError(undefined, { error: err_7 });
+                        err_8 = _a.sent();
+                        throw new ticket.TicketsFetchRemoteError(undefined, { error: err_8 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -514,7 +544,7 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.carts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_8;
+            var res, resources, err_9;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -528,8 +558,8 @@ var Universe = /** @class */ (function (_super) {
                                 return cart.Cart.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_8 = _a.sent();
-                        throw new cart.CartsFetchRemoteError(undefined, { error: err_8 });
+                        err_9 = _a.sent();
+                        throw new cart.CartsFetchRemoteError(undefined, { error: err_9 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -537,7 +567,7 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.orders = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_9;
+            var res, resources, err_10;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -551,8 +581,8 @@ var Universe = /** @class */ (function (_super) {
                                 return order.Order.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_9 = _a.sent();
-                        throw new order.OrdersFetchRemoteError(undefined, { error: err_9 });
+                        err_10 = _a.sent();
+                        throw new order.OrdersFetchRemoteError(undefined, { error: err_10 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -560,7 +590,7 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.discounts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_10;
+            var res, resources, err_11;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -574,8 +604,8 @@ var Universe = /** @class */ (function (_super) {
                                 return discount.Discount.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_10 = _a.sent();
-                        throw new discount.DiscountsFetchRemoteError(undefined, { error: err_10 });
+                        err_11 = _a.sent();
+                        throw new discount.DiscountsFetchRemoteError(undefined, { error: err_11 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -583,7 +613,7 @@ var Universe = /** @class */ (function (_super) {
     };
     Universe.prototype.messageTemplates = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_11;
+            var res, resources, err_12;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -597,8 +627,8 @@ var Universe = /** @class */ (function (_super) {
                                 return messageTemplate.MessageTemplate.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_11 = _a.sent();
-                        throw new messageTemplate.MessageTemplatesFetchRemoteError(undefined, { error: err_11 });
+                        err_12 = _a.sent();
+                        throw new messageTemplate.MessageTemplatesFetchRemoteError(undefined, { error: err_12 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -654,7 +684,7 @@ var Universe = /** @class */ (function (_super) {
      */
     Universe.prototype.searchEntity = function (endpoint, q) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, err_12;
+            var res, err_13;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -668,8 +698,8 @@ var Universe = /** @class */ (function (_super) {
                         res = _a.sent();
                         return [2 /*return*/, res.data.data];
                     case 2:
-                        err_12 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_12 });
+                        err_13 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_13 });
                     case 3: return [2 /*return*/];
                 }
             });
@@ -720,4 +750,30 @@ var UniverseSearchError = /** @class */ (function (_super) {
     return UniverseSearchError;
 }(errors_1.BaseError));
 exports.UniverseSearchError = UniverseSearchError;
+var UniverseUnauthenticatedError = /** @class */ (function (_super) {
+    __extends(UniverseUnauthenticatedError, _super);
+    function UniverseUnauthenticatedError(message, properties) {
+        if (message === void 0) { message = 'Invalid or expired session.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UniverseUnauthenticatedError';
+        Object.setPrototypeOf(_this, UniverseUnauthenticatedError.prototype);
+        return _this;
+    }
+    return UniverseUnauthenticatedError;
+}(errors_1.BaseError));
+exports.UniverseUnauthenticatedError = UniverseUnauthenticatedError;
+var UniverseMeError = /** @class */ (function (_super) {
+    __extends(UniverseMeError, _super);
+    function UniverseMeError(message, properties) {
+        if (message === void 0) { message = 'Unexptected error fetching me data'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UniverseMeError';
+        Object.setPrototypeOf(_this, UniverseMeError.prototype);
+        return _this;
+    }
+    return UniverseMeError;
+}(errors_1.BaseError));
+exports.UniverseMeError = UniverseMeError;
 //# sourceMappingURL=index.js.map

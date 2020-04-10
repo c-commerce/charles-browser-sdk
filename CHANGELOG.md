@@ -1,3 +1,10 @@
+# [2.43.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.42.1...v2.43.0) (2020-04-10)
+
+
+### Features
+
+* **universe:** add me ([85d415e](https://github.com/c-commerce/charles-browser-sdk/commit/85d415ee56455ec82b64d7acaac1349465332b50))
+
 ## [2.42.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.42.0...v2.42.1) (2020-04-09)
 
 

@@ -81,6 +81,20 @@ export interface IUniverseFeeds {
     fromJson: Function;
     toJson: Function;
 }
+export declare type UniversePermissionType = 'admin';
+export declare type UniverseRoleType = 'admin';
+export interface MeData {
+    user: {
+        email: string;
+        /**
+         * user id
+         */
+        sub: string;
+    };
+    permissions: UniversePermissionType[];
+    roles: UniversePermissionType[];
+    staff: staff.StaffRawPayload;
+}
 /**
  * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
  * or namespace for data.
@@ -170,6 +184,11 @@ export declare class Universe extends Readable {
     discount(payload: discount.DiscountRawPayload): discount.Discount;
     messageTemplate(payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate;
     /**
+     * Fetch the data of the current user. If you receive an instane of UniverseUnauthenticatedError
+     * you should logout the current session and create a new one.
+     */
+    me(): Promise<MeData | undefined>;
+    /**
      * Feeds accessor
      *
      * ```js
@@ -224,6 +243,16 @@ export declare class UniverseInitializationError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class UniverseSearchError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseUnauthenticatedError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseMeError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
