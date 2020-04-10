@@ -105,6 +105,25 @@ export interface IUniverseFeeds {
   toJson: Function
 }
 
+export type UniversePermissionType =
+  | 'admin'
+
+export type UniverseRoleType =
+  | 'admin'
+
+export interface MeData {
+  user: {
+    email: string
+    /**
+     * user id
+     */
+    sub: string
+  }
+  permissions: UniversePermissionType[]
+  roles: UniversePermissionType[]
+  staff: staff.StaffRawPayload
+}
+
 /**
  * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
  * or namespace for data.
@@ -383,6 +402,29 @@ export class Universe extends Readable {
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
+   * Fetch the data of the current user. If you receive an instane of UniverseUnauthenticatedError
+   * you should logout the current session and create a new one.
+   */
+  public async me(): Promise<MeData | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universeBase}/api/v0/me`
+      }
+
+      const response = await this.http.getClient()(opts)
+
+      return response.data.data
+    } catch (err) {
+      if (err.response.status === 401) {
+        throw new UniverseUnauthenticatedError(undefined, { error: err })
+      }
+
+      throw new UniverseMeError(undefined, { error: err })
+    }
+  }
+
+  /**
    * Feeds accessor
    *
    * ```js
@@ -639,5 +681,23 @@ export class UniverseSearchError extends BaseError {
   public name = 'UniverseSearchError'
   constructor(public message: string = 'Could not fulfill search unexpectedly.', properties?: any) {
     super(message, properties)
+  }
+}
+
+export class UniverseUnauthenticatedError extends BaseError {
+  public name = 'UniverseUnauthenticatedError'
+  constructor(public message: string = 'Invalid or expired session.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseUnauthenticatedError.prototype)
+  }
+}
+
+export class UniverseMeError extends BaseError {
+  public name = 'UniverseMeError'
+  constructor(public message: string = 'Unexptected error fetching me data', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseMeError.prototype)
   }
 }

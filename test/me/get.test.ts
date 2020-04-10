@@ -1,148 +1,108 @@
-// import * as dotenv from 'dotenv'
-// import axios from 'axios'
-// import MockAdapter from 'axios-mock-adapter'
-// dotenv.config()
-// import { v0 } from '../../src/charles'
-// import { initInstance } from '../util'
+import * as dotenv from 'dotenv'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
+dotenv.config()
+import * as universe from '../../src/universe/index'
+import { stubUniverse } from '../util'
 
 // const legacyId = '4564'
 
-// const mock = new MockAdapter(axios)
-// afterEach(() => {
-//   mock.reset()
-// })
+const mock = new MockAdapter(axios)
 
-// const meResponse = {
-//   role: 'owner',
-//   scopes: ['products:read', 'products:create', 'products:delete']
-// }
-
-describe.skip('v0: Me: can get me data', () => {
-  it('skip', () => {
-    //
+describe('v0: Me: can get me data', () => {
+  beforeEach(() => {
+    mock.reset()
+    mock.resetHandlers()
   })
-  //   it("Charles's Me is instantiable", async () => {
-  //     if (process.env.SYSTEM_TEST !== 'true') {
-  //       mock
-  //         .onPost('https://hello-charles.com/api/v0/users/auth/login')
-  //         .reply(function (config) {
-  //           return [
-  //             200,
-  //             {
-  //               data: {
-  //                 id: '123',
-  //                 access_token: 'mockToken',
-  //                 roles: [],
-  //                 permissions: []
-  //               }
-  //             }
-  //           ]
-  //         })
 
-  //       mock
-  //         .onGet(`https://api.hello-charles.com/api/v0/me`)
-  //         .reply(function (config) {
-  //           return [
-  //             200,
-  //             {
-  //               count: 1,
-  //               results: [meResponse]
-  //             }
-  //           ]
-  //         })
-  //     }
+  it('Charles\'s Me is instantiable', async () => {
+    mock
+      .onGet(`https://stub-universe.hello-charles.com/api/v0/me`)
+      .reply(function (config) {
+        return [
+          200,
+          {
+            data: {
+              'user': {
+                'sub': 'SOME_USER_ID',
+                'roles': [
+                  'user',
+                  'organization:owner'
+                ],
+                'permissions': [
+                  'user',
+                  'universes:admin'
+                ],
+                'email': 'USER@hey-charles.com'
+              },
+              'permissions': [],
+              'roles': [],
+              'staff': {
+                'id': 'SOME_STAFF_ID',
+                'created_at': '2020-04-10T19:18:01.604Z',
+                'updated_at': '2020-04-10T19:18:01.604Z',
+                'deleted': false,
+                'active': true,
+                'first_name': 'FIRSTNAME',
+                'middle_name': null,
+                'display_name': null,
+                'last_name': null,
+                'comment': null,
+                'type': null,
+                'user': 'SOME_USER_ID',
+                'permissions': [
+                ],
+                'roles': [
+                  'agent'
+                ]
+              }
+            }
+          }
+        ]
+      })
 
-  //     const inst = await initInstance()
+    const universeStub = stubUniverse()
 
-  //     const Me = inst.me()
+    const meData = await universeStub.universe.me()
 
-  //     expect(Me).toBeInstanceOf(v0.Me)
+    expect(meData).toBeDefined()
+    expect(meData?.staff).toBeDefined()
+    expect(meData?.user).toBeDefined()
+    expect(meData?.user.sub).toBe('SOME_USER_ID')
+    expect(meData?.staff.id).toBe('SOME_STAFF_ID')
+  })
 
-  //     const { data } = await Me.get()
+  it('Charles\'s return unautenticated on 401s', async () => {
+    mock
+      .onGet(`https://stub-universe.hello-charles.com/api/v0/me`)
+      .reply(function (config) {
+        return [
+          401,
+          {
 
-  //     expect(data).toMatchObject(meResponse)
-  //   })
+          }
+        ]
+      })
 
-  //   it('rejects on status codes that are not 200', async () => {
-  //     if (process.env.SYSTEM_TEST !== 'true') {
-  //       mock
-  //         .onPost('https://hello-charles.com/api/v0/users/auth/login')
-  //         .reply(function (config) {
-  //           return [
-  //             200,
-  //             {
-  //               data: {
-  //                 id: '123',
-  //                 access_token: 'mockToken',
-  //                 roles: [],
-  //                 permissions: []
-  //               }
-  //             }
-  //           ]
-  //         })
+    const universeStub = stubUniverse()
 
-  //       mock
-  //         .onGet(`https://api.hello-charles.com/api/v0/me`)
-  //         .reply(function (config) {
-  //           return [205]
-  //         })
-  //     }
+    expect(universeStub.universe.me()).rejects.toBeInstanceOf(universe.UniverseUnauthenticatedError)
+  })
 
-  //     try {
-  //       const inst = await initInstance()
-  //       await inst.me().get()
-  //     } catch (err) {
-  //       expect(err.name).toBe('MeFetchFailed')
-  //     }
-  //   })
+  it('Charles\'s return on anything else', async () => {
+    mock
+      .onGet(`https://stub-universe.hello-charles.com/api/v0/me`)
+      .reply(function (config) {
+        return [
+          500,
+          {
 
-  //   it('can send errors attached to the response', async () => {
-  //     const errorsArr = [
-  //       {
-  //         id: '1234',
-  //         label: 'some.error.key',
-  //         errorDetails: { msg: 'Error message' }
-  //       }
-  //     ]
+          }
+        ]
+      })
 
-  //     if (process.env.SYSTEM_TEST !== 'true') {
-  //       mock
-  //         .onPost('https://hello-charles.com/api/v0/users/auth/login')
-  //         .reply(function (config) {
-  //           return [
-  //             200,
-  //             {
-  //               data: {
-  //                 id: '123',
-  //                 access_token: 'mockToken',
-  //                 roles: [],
-  //                 permissions: []
-  //               }
-  //             }
-  //           ]
-  //         })
+    const universeStub = stubUniverse()
 
-  //       mock.onGet(`https://api.hello-charles.com/api/v0/me`).reply(function (config) {
-  //         return [
-  //           200,
-  //           {
-  //             count: 1,
-  //             errors: errorsArr,
-  //             results: [meResponse]
-  //           }
-  //         ]
-  //       })
-  //     }
-
-  //     const inst = await initInstance()
-
-  //     const Me = inst.me()
-
-  //     expect(Me).toBeInstanceOf(v0.Me)
-
-  //     const { data, errors } = await Me.get()
-
-  //     expect(data).toMatchObject(meResponse)
-  //     expect(errors).toMatchObject(errorsArr)
-  //   })
+    expect(universeStub.universe.me()).rejects.toBeInstanceOf(universe.UniverseMeError)
+  })
 })

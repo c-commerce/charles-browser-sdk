@@ -1,4 +1,6 @@
 import { CharlesClient } from '../src/charles'
+import { Universe } from '../src/universe'
+import { Client } from '../src/client'
 
 export class LocalStorageMock {
   private store = {}
@@ -29,10 +31,12 @@ export const initInstance = async (opts?: object) => {
     ...options,
     ...opts
   })
+
   await instance.auth.loginUsername({
     username: user.username,
     password: user.password
   })
+
   return instance
 }
 
@@ -56,4 +60,27 @@ const options = {
     password: user.password
   },
   base: process.env.CHARLES_BASE
+}
+
+export function stubUniverse(): { universe: Universe, client: Client } {
+  const token = 'UNI_USER_STUB_ACCESS_TOKEN'
+
+  const client = Client.getInstance({
+    token: token
+  })
+
+  const opts = {
+    name: 'stub-universe',
+    http: client,
+    base: 'https://hello-charles.local',
+    user: {
+      id: 'UNI_USER_STUB_ID',
+      accessToken: token
+    }
+  }
+
+  return {
+    client: client,
+    universe: new Universe(opts)
+  }
 }

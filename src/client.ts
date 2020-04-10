@@ -59,7 +59,7 @@ export class Client {
     Client.instance.clearDefaults()
   }
 
-  getClient(): AxiosInstance {
+  public getClient(): AxiosInstance {
     return Client.instance.axiosInstance
   }
 
