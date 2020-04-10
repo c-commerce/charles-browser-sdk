@@ -54,6 +54,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+var channel_user_1 = require("./channel-user");
 /**
  * Manage people, that usually are generated from channel users.
  *
@@ -107,10 +108,10 @@ var Person = /** @class */ (function (_super) {
         }
         this.channelUsers = [];
         if (rawPayload.channel_users && this.initialized) {
-            this.channelUsers = rawPayload.channel_users.map(function (i) { return (ChannelUser.create(i, _this.universe, _this.http)); });
+            this.channelUsers = rawPayload.channel_users.map(function (i) { return (channel_user_1.ChannelUser.create(i, _this.universe, _this.http)); });
         }
         else if (rawPayload.channel_users && !this.initialized) {
-            this.channelUsers = rawPayload.channel_users.map(function (i) { return (ChannelUser.createUninitialized(i, _this.universe, _this.http)); });
+            this.channelUsers = rawPayload.channel_users.map(function (i) { return (channel_user_1.ChannelUser.createUninitialized(i, _this.universe, _this.http)); });
         }
         return this;
     };
@@ -293,64 +294,6 @@ var Phonenumber = /** @class */ (function () {
     return Phonenumber;
 }());
 exports.Phonenumber = Phonenumber;
-var ChannelUser = /** @class */ (function () {
-    function ChannelUser(options) {
-        this.universe = options.universe;
-        this.http = options.http;
-        this.options = options;
-        this.initialized = options.initialized || false;
-        if (options && options.rawPayload) {
-            this.deserialize(options.rawPayload);
-        }
-    }
-    ChannelUser.prototype.deserialize = function (rawPayload) {
-        this.id = rawPayload.id;
-        this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
-        this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
-        this.deleted = rawPayload.deleted;
-        this.active = rawPayload.active;
-        this.person = rawPayload.person;
-        this.lastSourceFetchAt = rawPayload.last_source_fetch_at ? new Date(rawPayload.last_source_fetch_at) : undefined;
-        this.broker = rawPayload.broker;
-        this.externalPersonReferenceId = rawPayload.external_person_reference_id;
-        this.externalPersonCustomId = rawPayload.external_person_custom_id;
-        this.externalChannelReferenceId = rawPayload.external_channel_reference_id;
-        this.sourceType = rawPayload.source_type;
-        this.sourceApi = rawPayload.source_api;
-        this.payloadName = rawPayload.payload_name;
-        this.comment = rawPayload.comment;
-        this.payload = rawPayload.payload;
-        return this;
-    };
-    ChannelUser.create = function (payload, universe, http) {
-        return new ChannelUser({ rawPayload: payload, universe: universe, http: http, initialized: true });
-    };
-    ChannelUser.createUninitialized = function (payload, universe, http) {
-        return new ChannelUser({ rawPayload: payload, universe: universe, http: http, initialized: false });
-    };
-    ChannelUser.prototype.serialize = function () {
-        return {
-            id: this.id,
-            created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
-            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-            deleted: this.deleted,
-            active: this.active,
-            person: this.person,
-            last_source_fetch_at: this.lastSourceFetchAt ? this.lastSourceFetchAt.toISOString() : undefined,
-            broker: this.broker,
-            external_person_reference_id: this.externalPersonReferenceId,
-            external_person_custom_id: this.externalPersonCustomId,
-            external_channel_reference_id: this.externalChannelReferenceId,
-            source_type: this.sourceType,
-            source_api: this.sourceApi,
-            payload_name: this.payloadName,
-            comment: this.comment,
-            payload: this.payload
-        };
-    };
-    return ChannelUser;
-}());
-exports.ChannelUser = ChannelUser;
 var PersonInitializationError = /** @class */ (function (_super) {
     __extends(PersonInitializationError, _super);
     function PersonInitializationError(message, properties) {

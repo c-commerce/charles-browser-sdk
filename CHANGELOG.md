@@ -1,3 +1,10 @@
+# [2.44.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.43.0...v2.44.0) (2020-04-10)
+
+
+### Features
+
+* **channel-user:** add message from message template ([f3fbdcf](https://github.com/c-commerce/charles-browser-sdk/commit/f3fbdcf1abbb3b6bfc13d0ca315ead4c32c358ae))
+
 # [2.43.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.42.1...v2.43.0) (2020-04-10)
 
 

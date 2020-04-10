@@ -2,6 +2,7 @@ import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Order } from '../../entities/order/order';
+import { ChannelUser, ChannelUserRawPayload } from './channel-user';
 export interface PersonOptions extends EntityOptions {
     rawPayload?: PersonRawPayload;
 }
@@ -10,9 +11,6 @@ export interface AddressOptions extends PersonOptions {
 }
 export interface PhonenumberOptions extends PersonOptions {
     rawPayload?: PersonPhonenumberRawPayload;
-}
-export interface ChannelUserOptions extends PersonOptions {
-    rawPayload?: PersonChannelUserRawPayload;
 }
 export interface PersonAddressRawPayload extends EntityRawPayload {
     readonly person?: string;
@@ -37,22 +35,7 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
     readonly type?: string;
     readonly value?: string;
 }
-export interface PersonChannelUserRawPayload extends EntityRawPayload {
-    readonly person?: string;
-    readonly created_at?: string;
-    readonly updated_at?: string;
-    readonly deleted?: boolean;
-    readonly active?: boolean;
-    readonly last_source_fetch_at?: string;
-    readonly broker?: string;
-    readonly external_person_reference_id?: string | null;
-    readonly external_person_custom_id?: string | null;
-    readonly external_channel_reference_id?: string | null;
-    readonly source_type?: string;
-    readonly source_api?: string;
-    readonly payload_name?: string;
-    readonly comment?: string;
-    readonly payload?: object | null;
+export interface PersonChannelUserRawPayload extends ChannelUserRawPayload {
 }
 export interface PersonRawPayload extends EntityRawPayload {
     readonly created_at?: string;
@@ -198,35 +181,6 @@ export declare class Phonenumber {
     static create(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
     static createUninitialized(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
     serialize(): PersonPhonenumberRawPayload;
-}
-export declare class ChannelUser {
-    protected universe: Universe;
-    protected http: Universe['http'];
-    protected options: ChannelUserOptions;
-    initialized: boolean;
-    id?: string;
-    value?: string;
-    type?: string;
-    createdAt?: Date | null;
-    updatedAt?: Date | null;
-    deleted?: PersonChannelUserRawPayload['deleted'];
-    active?: PersonChannelUserRawPayload['active'];
-    person?: PersonChannelUserRawPayload['person'];
-    lastSourceFetchAt?: Date | null;
-    broker?: PersonChannelUserRawPayload['broker'];
-    externalPersonReferenceId?: PersonChannelUserRawPayload['external_person_reference_id'];
-    externalPersonCustomId?: PersonChannelUserRawPayload['external_person_custom_id'];
-    externalChannelReferenceId?: PersonChannelUserRawPayload['external_channel_reference_id'];
-    sourceType?: PersonChannelUserRawPayload['source_type'];
-    sourceApi?: PersonChannelUserRawPayload['source_api'];
-    payloadName?: PersonChannelUserRawPayload['payload_name'];
-    comment?: PersonChannelUserRawPayload['comment'];
-    payload?: PersonChannelUserRawPayload['payload'];
-    constructor(options: ChannelUserOptions);
-    protected deserialize(rawPayload: PersonChannelUserRawPayload): ChannelUser;
-    static create(payload: PersonChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser;
-    static createUninitialized(payload: PersonChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser;
-    serialize(): PersonChannelUserRawPayload;
 }
 export declare class PersonInitializationError extends BaseError {
     message: string;

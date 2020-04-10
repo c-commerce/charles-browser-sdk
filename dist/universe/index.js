@@ -81,6 +81,7 @@ var uuid = __importStar(require("../helpers/uuid"));
 var staff = __importStar(require("../entities/staff/staff"));
 var asset = __importStar(require("../entities/asset/asset"));
 var person = __importStar(require("../entities/person/person"));
+var channelUser = __importStar(require("../entities/person/channel-user"));
 var product = __importStar(require("../entities/product/product"));
 var ticket = __importStar(require("../entities/ticket/ticket"));
 var cart = __importStar(require("../entities/cart/cart"));
@@ -324,7 +325,7 @@ var Universe = /** @class */ (function (_super) {
         return person.Phonenumber.create(payload, this, this.http);
     };
     Universe.prototype.channelUser = function (payload) {
-        return person.ChannelUser.create(payload, this, this.http);
+        return channelUser.ChannelUser.create(payload, this, this.http);
     };
     Universe.prototype.ticket = function (payload) {
         return ticket.Ticket.create(payload, this, this.http);
