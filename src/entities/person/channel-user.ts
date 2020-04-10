@@ -1,6 +1,9 @@
 import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
-// import { BaseError } from '../../errors'
+import * as messageTemplate from '../message-template/message-template'
+import * as event from '../../eventing/feeds/event'
+import * as feed from '../../eventing/feeds/feed'
+import { BaseError } from '../../errors'
 
 export interface ChannelUserRawPayload extends EntityRawPayload {
   readonly person?: string
@@ -108,5 +111,31 @@ export class ChannelUser {
       comment: this.comment,
       payload: this.payload
     }
+  }
+
+  public async sendMessageFromMessageTemplate(messageTemplate: messageTemplate.MessageTemplate, parameters?: object | object[] | null): Promise<event.Event | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/api/v0/people/${this.person}/channel_users/${this.id}/notifications/templates/${messageTemplate.id}`,
+        data: {
+          parameters
+        }
+      }
+      const response = await this.http.getClient()(opts)
+
+      const _feed = feed.Feed.createUninitialized({ id: response.data.data[0].id }, this.universe, this.http, null)
+
+      return event.Event.create(response.data.data[0], _feed, this.universe, this.http)
+    } catch (err) {
+      throw new PersonChannelUserMessageTemplateSendError(undefined, { error: err })
+    }
+  }
+}
+
+export class PersonChannelUserMessageTemplateSendError extends BaseError {
+  public name = 'PersonChannelUserMessageTemplateSendError'
+  constructor(public message: string = 'Could not send message via message template unexpectedl.', properties?: any) {
+    super(message, properties)
   }
 }
