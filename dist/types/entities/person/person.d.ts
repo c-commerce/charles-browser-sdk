@@ -70,6 +70,12 @@ export interface PersonRawPayload extends EntityRawPayload {
     readonly phonenumbers?: PersonPhonenumberRawPayload[];
     readonly channel_users?: PersonChannelUserRawPayload[];
 }
+export interface IPersonCarts {
+    fetch: Function;
+    fromJson: Function;
+    toJson: Function;
+    create: Function;
+}
 export interface PersonPayload {
     readonly id?: PersonRawPayload['id'];
     readonly createdAt?: Date | null;
@@ -136,6 +142,23 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     serialize(): PersonRawPayload;
     init(): Promise<Person | undefined>;
     analytics(): object;
+    /**
+     * Carts accessor
+     *
+     * ```js
+     * // fetch all carts of a person
+     * await person.carts.fetch()
+     * // fetch all feeds as raw structs with some query options
+     * await person.carts.fetch({ raw: true })
+     * // cast a list of class instances to list of structs
+     * person.carts.toJson([cart])
+     * // cast a list of structs to list of class instances
+     * person.carts.fromJson([cart])
+     * // create a cart for this person
+     * person.carts.create(cart)
+     * ```
+     */
+    get carts(): IPersonCarts;
 }
 export declare class People {
     static endpoint: string;

@@ -15,6 +15,13 @@ export interface EntityFetchOptions {
 export interface EntityRawPayload {
     readonly id?: string;
 }
+export interface EntityFetchQuery {
+    [key: string]: any;
+}
+export interface EntityFetchOptions {
+    raw?: boolean;
+    query?: EntityFetchQuery;
+}
 export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
     protected abstract universe: Universe;
     protected abstract http: Universe['http'];

@@ -1,3 +1,10 @@
+# [2.45.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.44.0...v2.45.0) (2020-04-14)
+
+
+### Features
+
+* **person:** add carts accessor ([9a4a9e6](https://github.com/c-commerce/charles-browser-sdk/commit/9a4a9e6ef9c61dc76418772f7f8f036c4616d2de))
+
 # [2.44.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.43.0...v2.44.0) (2020-04-10)
 
 

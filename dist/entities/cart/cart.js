@@ -244,6 +244,7 @@ var CartInitializationError = /** @class */ (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'CartInitializationError';
+        Object.setPrototypeOf(_this, CartInitializationError.prototype);
         return _this;
     }
     return CartInitializationError;
@@ -256,6 +257,7 @@ var CartFetchRemoteError = /** @class */ (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'CartFetchRemoteError';
+        Object.setPrototypeOf(_this, CartFetchRemoteError.prototype);
         return _this;
     }
     return CartFetchRemoteError;
@@ -268,9 +270,23 @@ var CartsFetchRemoteError = /** @class */ (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'CartsFetchRemoteError';
+        Object.setPrototypeOf(_this, CartsFetchRemoteError.prototype);
         return _this;
     }
     return CartsFetchRemoteError;
 }(errors_1.BaseError));
 exports.CartsFetchRemoteError = CartsFetchRemoteError;
+var CartCreateRemoteError = /** @class */ (function (_super) {
+    __extends(CartCreateRemoteError, _super);
+    function CartCreateRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not create carts'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CartCreateRemoteError';
+        Object.setPrototypeOf(_this, CartCreateRemoteError.prototype);
+        return _this;
+    }
+    return CartCreateRemoteError;
+}(errors_1.BaseError));
+exports.CartCreateRemoteError = CartCreateRemoteError;
 //# sourceMappingURL=cart.js.map

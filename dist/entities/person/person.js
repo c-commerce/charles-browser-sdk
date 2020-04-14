@@ -12,6 +12,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -55,6 +66,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var channel_user_1 = require("./channel-user");
+var cart_1 = require("../cart/cart");
 /**
  * Manage people, that usually are generated from channel users.
  *
@@ -194,6 +206,92 @@ var Person = /** @class */ (function (_super) {
             }); }
         };
     };
+    Object.defineProperty(Person.prototype, "carts", {
+        /**
+         * Carts accessor
+         *
+         * ```js
+         * // fetch all carts of a person
+         * await person.carts.fetch()
+         * // fetch all feeds as raw structs with some query options
+         * await person.carts.fetch({ raw: true })
+         * // cast a list of class instances to list of structs
+         * person.carts.toJson([cart])
+         * // cast a list of structs to list of class instances
+         * person.carts.fromJson([cart])
+         * // create a cart for this person
+         * person.carts.create(cart)
+         * ```
+         */
+        get: function () {
+            var _this = this;
+            return {
+                fromJson: function (payloads) {
+                    return payloads.map(function (item) { return (cart_1.Cart.create(item, _this.universe, _this.http)); });
+                },
+                toJson: function (feeds) {
+                    return feeds.map(function (item) { return (item.serialize()); });
+                },
+                fetch: function (options) { return __awaiter(_this, void 0, void 0, function () {
+                    var opts, res, feeds, err_3;
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'GET',
+                                    url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/carts",
+                                    params: __assign({}, (options && options.query ? options.query : {}))
+                                };
+                                return [4 /*yield*/, this.http.getClient()(opts)];
+                            case 1:
+                                res = _a.sent();
+                                feeds = res.data.data;
+                                if (options && options.raw === true) {
+                                    return [2 /*return*/, feeds];
+                                }
+                                return [2 /*return*/, feeds.map(function (feed) {
+                                        return cart_1.Cart.create(feed, _this.universe, _this.http);
+                                    })];
+                            case 2:
+                                err_3 = _a.sent();
+                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_3 });
+                            case 3: return [2 /*return*/];
+                        }
+                    });
+                }); },
+                create: function (cart) { return __awaiter(_this, void 0, void 0, function () {
+                    var opts, res, carts, err_4;
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'POST',
+                                    url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/carts",
+                                    data: cart
+                                };
+                                return [4 /*yield*/, this.http.getClient()(opts)];
+                            case 1:
+                                res = _a.sent();
+                                carts = res.data.data;
+                                return [2 /*return*/, carts.map(function (feed) {
+                                        return cart_1.Cart.create(feed, _this.universe, _this.http);
+                                    })[0]];
+                            case 2:
+                                err_4 = _a.sent();
+                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_4 });
+                            case 3: return [2 /*return*/];
+                        }
+                    });
+                }); }
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Person;
 }(_base_1.default));
 exports.Person = Person;
@@ -301,6 +399,7 @@ var PersonInitializationError = /** @class */ (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'PersonInitializationError';
+        Object.setPrototypeOf(_this, PersonInitializationError.prototype);
         return _this;
     }
     return PersonInitializationError;
@@ -313,6 +412,7 @@ var PersonFetchRemoteError = /** @class */ (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'PersonFetchRemoteError';
+        Object.setPrototypeOf(_this, PersonFetchRemoteError.prototype);
         return _this;
     }
     return PersonFetchRemoteError;
@@ -325,6 +425,7 @@ var PeopleFetchRemoteError = /** @class */ (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'PeopleFetchRemoteError';
+        Object.setPrototypeOf(_this, PeopleFetchRemoteError.prototype);
         return _this;
     }
     return PeopleFetchRemoteError;
@@ -337,6 +438,7 @@ var PeopleAnalyticsRemoteError = /** @class */ (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'PeopleAnalyticsRemoteError';
+        Object.setPrototypeOf(_this, PeopleAnalyticsRemoteError.prototype);
         return _this;
     }
     return PeopleAnalyticsRemoteError;
