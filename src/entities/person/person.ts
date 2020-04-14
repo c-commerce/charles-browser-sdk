@@ -1,9 +1,12 @@
 
-import Entity, { EntityOptions, EntityRawPayload } from '../_base'
+import Entity, {
+  EntityOptions, EntityRawPayload, EntityFetchOptions
+} from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Order } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
+import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } from '../cart/cart'
 
 export interface PersonOptions extends EntityOptions {
   rawPayload?: PersonRawPayload
@@ -78,6 +81,13 @@ export interface PersonRawPayload extends EntityRawPayload {
   readonly addresses?: PersonAddressRawPayload[]
   readonly phonenumbers?: PersonPhonenumberRawPayload[]
   readonly channel_users?: PersonChannelUserRawPayload[]
+}
+
+export interface IPersonCarts {
+  fetch: Function
+  fromJson: Function
+  toJson: Function
+  create: Function
 }
 
 export interface PersonPayload {
@@ -264,6 +274,73 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       }
     }
   }
+
+  /**
+   * Carts accessor
+   *
+   * ```js
+   * // fetch all carts of a person
+   * await person.carts.fetch()
+   * // fetch all feeds as raw structs with some query options
+   * await person.carts.fetch({ raw: true })
+   * // cast a list of class instances to list of structs
+   * person.carts.toJson([cart])
+   * // cast a list of structs to list of class instances
+   * person.carts.fromJson([cart])
+   * // create a cart for this person
+   * person.carts.create(cart)
+   * ```
+   */
+  public get carts(): IPersonCarts {
+    return {
+      fromJson: (payloads: CartRawPayload[]): Cart[] => {
+        return payloads.map((item) => (Cart.create(item, this.universe, this.http)))
+      },
+      toJson: (feeds: Cart[]): CartRawPayload[] => {
+        return feeds.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: EntityFetchOptions): Promise<Cart[] | CartRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id}/carts`,
+            params: {
+              ...(options && options.query ? options.query : {})
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const feeds = res.data.data as CartRawPayload[]
+
+          if (options && options.raw === true) {
+            return feeds
+          }
+
+          return feeds.map((feed: CartRawPayload) => {
+            return Cart.create(feed, this.universe, this.http)
+          })
+        } catch (err) {
+          throw new CartsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      create: async (cart: CartRawPayload): Promise<Cart | undefined> => {
+        try {
+          const opts = {
+            method: 'POST',
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id}/carts`,
+            data: cart
+          }
+          const res = await this.http.getClient()(opts)
+          const carts = res.data.data as CartRawPayload[]
+
+          return carts.map((feed: CartRawPayload) => {
+            return Cart.create(feed, this.universe, this.http)
+          })[0]
+        } catch (err) {
+          throw new CartCreateRemoteError(undefined, { error: err })
+        }
+      }
+    }
+  }
 }
 
 export class People {
@@ -405,6 +482,7 @@ export class PersonInitializationError extends BaseError {
   public name = 'PersonInitializationError'
   constructor(public message: string = 'Could not initialize person.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, PersonInitializationError.prototype)
   }
 }
 
@@ -412,6 +490,7 @@ export class PersonFetchRemoteError extends BaseError {
   public name = 'PersonFetchRemoteError'
   constructor(public message: string = 'Could not get person.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, PersonFetchRemoteError.prototype)
   }
 }
 
@@ -419,6 +498,7 @@ export class PeopleFetchRemoteError extends BaseError {
   public name = 'PeopleFetchRemoteError'
   constructor(public message: string = 'Could not get people.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, PeopleFetchRemoteError.prototype)
   }
 }
 
@@ -426,5 +506,6 @@ export class PeopleAnalyticsRemoteError extends BaseError {
   public name = 'PeopleAnalyticsRemoteError'
   constructor(public message: string = 'Could not get analytics data.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, PeopleAnalyticsRemoteError.prototype)
   }
 }

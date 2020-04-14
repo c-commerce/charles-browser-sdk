@@ -106,6 +106,7 @@ export class <%= capitalizedName %>InitializationError extends BaseError {
   public name = '<%= capitalizedName %>InitializationError'
   constructor(public message: string = 'Could not initialize <%= singularizedName %>.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, <%= capitalizedName %>InitializationError.prototype)
   }
 }
 
@@ -113,6 +114,7 @@ export class <%= capitalizedName %>FetchRemoteError extends BaseError {
   public name = '<%= capitalizedName %>FetchRemoteError'
   constructor(public message: string = 'Could not get <%= singularizedName %>.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, <%= capitalizedName %>FetchRemoteError.prototype)
   }
 }
 
@@ -120,5 +122,6 @@ export class <%= capitalizedPluralName %>FetchRemoteError extends BaseError {
   public name = '<%= capitalizedPluralName %>FetchRemoteError'
   constructor(public message: string = 'Could not get <%= pluralizedName %>.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, <%= capitalizedPluralName %>FetchRemoteError.prototype)
   }
 }

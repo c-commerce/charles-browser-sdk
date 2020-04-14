@@ -401,6 +401,7 @@ export class CartInitializationError extends BaseError {
   public name = 'CartInitializationError'
   constructor(public message: string = 'Could not initialize cart.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, CartInitializationError.prototype)
   }
 }
 
@@ -408,6 +409,7 @@ export class CartFetchRemoteError extends BaseError {
   public name = 'CartFetchRemoteError'
   constructor(public message: string = 'Could not get cart.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, CartFetchRemoteError.prototype)
   }
 }
 
@@ -415,5 +417,14 @@ export class CartsFetchRemoteError extends BaseError {
   public name = 'CartsFetchRemoteError'
   constructor(public message: string = 'Could not get carts.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, CartsFetchRemoteError.prototype)
+  }
+}
+
+export class CartCreateRemoteError extends BaseError {
+  public name = 'CartCreateRemoteError'
+  constructor(public message: string = 'Could not create carts', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CartCreateRemoteError.prototype)
   }
 }
