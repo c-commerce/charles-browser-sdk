@@ -114,7 +114,7 @@ var ChannelUser = /** @class */ (function () {
             payload: this.payload
         };
     };
-    ChannelUser.prototype.sendMessageFromMessageTemplate = function (messageTemplate, parameters) {
+    ChannelUser.prototype.sendMessageFromMessageTemplate = function (messageTemplate, language, parameters) {
         return __awaiter(this, void 0, void 0, function () {
             var opts, response, _feed, err_1;
             return __generator(this, function (_a) {
@@ -125,7 +125,8 @@ var ChannelUser = /** @class */ (function () {
                             method: 'POST',
                             url: this.universe.universeBase + "/api/v0/people/" + this.person + "/channel_users/" + this.id + "/notifications/templates/" + messageTemplate.id,
                             data: {
-                                parameters: parameters
+                                parameters: parameters,
+                                language: language
                             }
                         };
                         return [4 /*yield*/, this.http.getClient()(opts)];

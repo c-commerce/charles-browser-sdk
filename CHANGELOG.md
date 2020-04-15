@@ -1,3 +1,10 @@
+## [2.45.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.45.0...v2.45.1) (2020-04-15)
+
+
+### Bug Fixes
+
+* **channeluser:** require language to be set ([ed50df2](https://github.com/c-commerce/charles-browser-sdk/commit/ed50df299b27c9c9190ea35cc8eb581240febacc))
+
 # [2.45.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.44.0...v2.45.0) (2020-04-14)
 
 

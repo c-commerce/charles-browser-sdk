@@ -51,7 +51,7 @@ export declare class ChannelUser {
     static create(payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser;
     static createUninitialized(payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser;
     serialize(): ChannelUserRawPayload;
-    sendMessageFromMessageTemplate(messageTemplate: messageTemplate.MessageTemplate, parameters?: object | object[] | null): Promise<event.Event | undefined>;
+    sendMessageFromMessageTemplate(messageTemplate: messageTemplate.MessageTemplate, language: string, parameters?: object | object[] | null): Promise<event.Event | undefined>;
 }
 export declare class PersonChannelUserMessageTemplateSendError extends BaseError {
     message: string;
