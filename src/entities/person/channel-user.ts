@@ -113,13 +113,14 @@ export class ChannelUser {
     }
   }
 
-  public async sendMessageFromMessageTemplate(messageTemplate: messageTemplate.MessageTemplate, parameters?: object | object[] | null): Promise<event.Event | undefined> {
+  public async sendMessageFromMessageTemplate(messageTemplate: messageTemplate.MessageTemplate, language: string, parameters?: object | object[] | null): Promise<event.Event | undefined> {
     try {
       const opts = {
         method: 'POST',
         url: `${this.universe.universeBase}/api/v0/people/${this.person}/channel_users/${this.id}/notifications/templates/${messageTemplate.id}`,
         data: {
-          parameters
+          parameters,
+          language
         }
       }
       const response = await this.http.getClient()(opts)
