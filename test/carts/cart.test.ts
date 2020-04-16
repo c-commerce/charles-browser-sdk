@@ -111,13 +111,19 @@ describe('v0: Cart: can handle cart', () => {
     expect(cart).toBeInstanceOf(Cart)
     expect(cart.isProxy).toBe(true)
     expect(cart.proxyVendor).toBe('shopify')
-    expect(cart.items.length).toBe(1)
+    expect(cart.items).toBeDefined()
+    expect(cart.items?.length).toBe(1)
+
+    if (!cart.items || !cart.items[0]) {
+      throw new TypeError('cart item was undefined')
+    }
 
     const cartItem = cart.items[0]
+    expect(cartItem).toBeDefined()
     expect(cartItem).toBeInstanceOf(CartItem)
     expect(cartItem.product).toBe('pxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx')
     expect(cartItem.qty).toBe(1)
     expect(cartItem.amount).toBeDefined()
-    expect(cartItem.amount.gross).toEqual(30.99)
+    expect(cartItem.amount?.gross).toEqual(30.99)
   })
 })
