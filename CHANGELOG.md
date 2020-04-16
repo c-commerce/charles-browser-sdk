@@ -1,3 +1,11 @@
+## [2.45.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.45.1...v2.45.2) (2020-04-16)
+
+
+### Bug Fixes
+
+* **cart:** safely access items in test ([2bf3c8f](https://github.com/c-commerce/charles-browser-sdk/commit/2bf3c8fe295a9c14968918658288d38b5df3061e))
+* **cart:** set raw payload, refactor for carts accessor ([d80626a](https://github.com/c-commerce/charles-browser-sdk/commit/d80626a4f66b16efefc88dab509f12abc1f08e0c))
+
 ## [2.45.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.45.0...v2.45.1) (2020-04-15)
 
 

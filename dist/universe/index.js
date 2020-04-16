@@ -543,29 +543,64 @@ var Universe = /** @class */ (function (_super) {
             });
         });
     };
-    Universe.prototype.carts = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_9;
+    Object.defineProperty(Universe.prototype, "carts", {
+        /**
+         * Carts accessor
+         *
+         * ```js
+         * // fetch all carts with regular defaults (as class instance list)
+         * await universe.carts.fetch()
+         * // fetch all carts as raw structs with some query options
+         * await universe.carts.fetch({ raw: true })
+         * // cast a list of class instances to list of structs
+         * universe.carts.toJson([feed])
+         * // cast a list of structs to list of class instances
+         * universe.carts.fromJson([feed])
+         * ```
+         */
+        get: function () {
             var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.http.getClient().get(this.universeBase + "/" + cart.Carts.endpoint)];
-                    case 1:
-                        res = _a.sent();
-                        resources = res.data.data;
-                        return [2 /*return*/, resources.map(function (resource) {
-                                return cart.Cart.create(resource, _this, _this.http);
-                            })];
-                    case 2:
-                        err_9 = _a.sent();
-                        throw new cart.CartsFetchRemoteError(undefined, { error: err_9 });
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
+            return {
+                fromJson: function (payloads) {
+                    return payloads.map(function (item) { return (cart.Cart.create(item, _this, _this.http)); });
+                },
+                toJson: function (carts) {
+                    return carts.map(function (item) { return (item.serialize()); });
+                },
+                fetch: function (options) { return __awaiter(_this, void 0, void 0, function () {
+                    var opts, res, resources, err_9;
+                    var _this = this;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'GET',
+                                    url: this.universeBase + "/" + cart.Carts.endpoint,
+                                    params: __assign({}, (options && options.query ? options.query : {}))
+                                };
+                                return [4 /*yield*/, this.http.getClient()(opts)];
+                            case 1:
+                                res = _a.sent();
+                                resources = res.data.data;
+                                if (options && options.raw === true) {
+                                    return [2 /*return*/, resources];
+                                }
+                                return [2 /*return*/, resources.map(function (resource) {
+                                        return cart.Cart.create(resource, _this, _this.http);
+                                    })];
+                            case 2:
+                                err_9 = _a.sent();
+                                throw new cart.CartsFetchRemoteError(undefined, { error: err_9 });
+                            case 3: return [2 /*return*/];
+                        }
+                    });
+                }); }
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
     Universe.prototype.orders = function () {
         return __awaiter(this, void 0, void 0, function () {
             var res, resources, err_10;

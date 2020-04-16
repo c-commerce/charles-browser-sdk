@@ -19,20 +19,6 @@ export declare enum ICartStatusEnum {
     cancelled = "cancelled"
 }
 export declare type ICartStatusType = ICartStatusEnum.open | ICartStatusEnum.pending | ICartStatusEnum.completed | ICartStatusEnum.cancelled;
-export interface CartItemPriceRawPayload {
-    readonly amount: CartAmount;
-    readonly currency: string;
-    readonly vat_rate: number;
-    readonly vat_class: 'vat_class_zero' | 'vat_class_reduced' | 'vat_class_normal' | 'vat_class_custom';
-    readonly custom_vat_rate: number;
-    readonly tax_region: string;
-    readonly tax_country: string;
-    readonly additional_taxes: {
-        readonly id: string;
-        readonly rate: number;
-        readonly amount: number;
-    }[];
-}
 export interface CartItemDiscountRawPayload {
     readonly id?: string;
     readonly type?: IDiscountType;
@@ -49,7 +35,18 @@ export interface CartItemRawPayload {
     readonly qty?: number;
     readonly sku?: string;
     readonly name?: string;
-    readonly price?: CartItemPriceRawPayload;
+    readonly amount?: CartAmount;
+    readonly currency?: string;
+    readonly vat_rate?: number;
+    readonly vat_class?: 'vat_class_zero' | 'vat_class_reduced' | 'vat_class_normal' | 'vat_class_custom';
+    readonly custom_vat_rate?: number;
+    readonly tax_region?: string;
+    readonly tax_country?: string;
+    readonly additional_taxes?: {
+        readonly id: string;
+        readonly rate: number;
+        readonly amount: number;
+    }[];
     readonly product?: string;
     readonly metadata?: object;
     readonly custom_id?: string;
@@ -64,7 +61,14 @@ export interface CartItemPayload {
     readonly qty?: number;
     readonly sku?: string;
     readonly name: string;
-    readonly price: CartItemPriceRawPayload;
+    readonly amount?: CartItemRawPayload['amount'];
+    readonly currency?: CartItemRawPayload['currency'];
+    readonly vatRate?: CartItemRawPayload['vat_rate'];
+    readonly vatClass?: CartItemRawPayload['vat_class'];
+    readonly customVatRate?: CartItemRawPayload['custom_vat_rate'];
+    readonly taxRegion?: CartItemRawPayload['tax_region'];
+    readonly taxCountry?: CartItemRawPayload['tax_country'];
+    readonly additionalTaxes?: CartItemRawPayload['additional_taxes'];
     readonly product?: string;
     readonly metadata?: object;
     readonly customId?: string;
@@ -160,7 +164,14 @@ export declare class CartItem {
     qty?: CartItemPayload['qty'];
     sku?: CartItemPayload['sku'];
     name?: CartItemPayload['name'];
-    price?: CartItemPayload['price'];
+    amount?: CartItemRawPayload['amount'];
+    currency?: CartItemRawPayload['currency'];
+    vatRate?: CartItemRawPayload['vat_rate'];
+    vatClass?: CartItemRawPayload['vat_class'];
+    customVatRate?: CartItemRawPayload['custom_vat_rate'];
+    taxRegion?: CartItemRawPayload['tax_region'];
+    taxCountry?: CartItemRawPayload['tax_country'];
+    additionalTaxes?: CartItemRawPayload['additional_taxes'];
     product?: CartItemPayload['product'];
     metadata?: CartItemPayload['metadata'];
     customId?: CartItemPayload['customId'];

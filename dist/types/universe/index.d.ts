@@ -78,9 +78,14 @@ export interface UniverseSearches {
     feeds: Function;
 }
 export interface IUniverseFeeds {
-    fetch: Function;
-    fromJson: Function;
-    toJson: Function;
+    fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>;
+    fromJson: (feeds: FeedRawPayload[]) => Feed[];
+    toJson: (feeds: Feed[]) => FeedRawPayload[];
+}
+export interface IUniverseCarts {
+    fetch: (options?: UniverseFetchOptions) => Promise<cart.Cart[] | cart.CartRawPayload[] | undefined>;
+    fromJson: (carts: cart.CartRawPayload[]) => cart.Cart[];
+    toJson: (carts: cart.Cart[]) => cart.CartRawPayload[];
 }
 export declare type UniversePermissionType = 'admin';
 export declare type UniverseRoleType = 'admin';
@@ -209,7 +214,21 @@ export declare class Universe extends Readable {
     people(): Promise<person.Person[] | undefined>;
     products(): Promise<product.Product[] | undefined>;
     tickets(): Promise<ticket.Ticket[] | undefined>;
-    carts(): Promise<cart.Cart[] | undefined>;
+    /**
+     * Carts accessor
+     *
+     * ```js
+     * // fetch all carts with regular defaults (as class instance list)
+     * await universe.carts.fetch()
+     * // fetch all carts as raw structs with some query options
+     * await universe.carts.fetch({ raw: true })
+     * // cast a list of class instances to list of structs
+     * universe.carts.toJson([feed])
+     * // cast a list of structs to list of class instances
+     * universe.carts.fromJson([feed])
+     * ```
+     */
+    get carts(): IUniverseCarts;
     orders(): Promise<order.Order[] | undefined>;
     discounts(): Promise<discount.Discount[] | undefined>;
     messageTemplates(): Promise<messageTemplate.MessageTemplate[] | undefined>;

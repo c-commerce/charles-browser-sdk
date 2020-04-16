@@ -74,7 +74,14 @@ var CartItem = /** @class */ (function () {
         this.qty = rawPayload.qty;
         this.sku = rawPayload.sku;
         this.name = rawPayload.name;
-        this.price = rawPayload.price;
+        this.amount = rawPayload.amount;
+        this.currency = rawPayload.currency;
+        this.vatRate = rawPayload.vat_rate;
+        this.vatClass = rawPayload.vat_class;
+        this.customVatRate = rawPayload.custom_vat_rate;
+        this.taxRegion = rawPayload.tax_region;
+        this.taxCountry = rawPayload.tax_country;
+        this.additionalTaxes = rawPayload.additional_taxes;
         this.product = rawPayload.product;
         this.metadata = rawPayload.metadata;
         this.customId = rawPayload.custom_id;
@@ -94,7 +101,14 @@ var CartItem = /** @class */ (function () {
             qty: this.qty,
             sku: this.sku,
             name: this.name,
-            price: this.price,
+            amount: this.amount,
+            currency: this.currency,
+            vat_rate: this.vatRate,
+            vat_class: this.vatClass,
+            custom_vat_rate: this.customVatRate,
+            tax_region: this.taxRegion,
+            tax_country: this.taxCountry,
+            additional_taxes: this.additionalTaxes,
             product: this.product,
             metadata: this.metadata,
             custom_id: this.customId,
@@ -130,6 +144,7 @@ var Cart = /** @class */ (function (_super) {
     }
     Cart.prototype.deserialize = function (rawPayload) {
         var _this = this;
+        this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
