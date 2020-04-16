@@ -25,21 +25,6 @@ export enum ICartStatusEnum {
 
 export type ICartStatusType = ICartStatusEnum.open | ICartStatusEnum.pending | ICartStatusEnum.completed | ICartStatusEnum.cancelled
 
-export interface CartItemPriceRawPayload {
-  readonly amount: CartAmount
-  readonly currency: string
-  readonly vat_rate: number
-  readonly vat_class: 'vat_class_zero' | 'vat_class_reduced' | 'vat_class_normal' | 'vat_class_custom'
-  readonly custom_vat_rate: number
-  readonly tax_region: string
-  readonly tax_country: string
-  readonly additional_taxes: {
-    readonly id: string
-    readonly rate: number
-    readonly amount: number
-  }[]
-}
-
 export interface CartItemDiscountRawPayload {
   readonly id?: string
   readonly type?: IDiscountType
@@ -57,7 +42,18 @@ export interface CartItemRawPayload {
   readonly qty?: number
   readonly sku?: string
   readonly name?: string
-  readonly price?: CartItemPriceRawPayload
+  readonly amount?: CartAmount
+  readonly currency?: string
+  readonly vat_rate?: number
+  readonly vat_class?: 'vat_class_zero' | 'vat_class_reduced' | 'vat_class_normal' | 'vat_class_custom'
+  readonly custom_vat_rate?: number
+  readonly tax_region?: string
+  readonly tax_country?: string
+  readonly additional_taxes?: {
+    readonly id: string
+    readonly rate: number
+    readonly amount: number
+  }[]
   readonly product?: string
   readonly metadata?: object
   readonly custom_id?: string
@@ -73,7 +69,14 @@ export interface CartItemPayload {
   readonly qty?: number
   readonly sku?: string
   readonly name: string
-  readonly price: CartItemPriceRawPayload
+  readonly amount?: CartItemRawPayload['amount']
+  readonly currency?: CartItemRawPayload['currency']
+  readonly vatRate?: CartItemRawPayload['vat_rate']
+  readonly vatClass?: CartItemRawPayload['vat_class']
+  readonly customVatRate?: CartItemRawPayload['custom_vat_rate']
+  readonly taxRegion?: CartItemRawPayload['tax_region']
+  readonly taxCountry?: CartItemRawPayload['tax_country']
+  readonly additionalTaxes?: CartItemRawPayload['additional_taxes']
   readonly product?: string
   readonly metadata?: object
   readonly customId?: string
@@ -179,7 +182,14 @@ export class CartItem {
   public qty?: CartItemPayload['qty']
   public sku?: CartItemPayload['sku']
   public name?: CartItemPayload['name']
-  public price?: CartItemPayload['price']
+  public amount?: CartItemRawPayload['amount']
+  public currency?: CartItemRawPayload['currency']
+  public vatRate?: CartItemRawPayload['vat_rate']
+  public vatClass?: CartItemRawPayload['vat_class']
+  public customVatRate?: CartItemRawPayload['custom_vat_rate']
+  public taxRegion?: CartItemRawPayload['tax_region']
+  public taxCountry?: CartItemRawPayload['tax_country']
+  public additionalTaxes?: CartItemRawPayload['additional_taxes']
   public product?: CartItemPayload['product']
   public metadata?: CartItemPayload['metadata']
   public customId?: CartItemPayload['customId']
@@ -204,7 +214,14 @@ export class CartItem {
     this.qty = rawPayload.qty
     this.sku = rawPayload.sku
     this.name = rawPayload.name
-    this.price = rawPayload.price
+    this.amount = rawPayload.amount
+    this.currency = rawPayload.currency
+    this.vatRate = rawPayload.vat_rate
+    this.vatClass = rawPayload.vat_class
+    this.customVatRate = rawPayload.custom_vat_rate
+    this.taxRegion = rawPayload.tax_region
+    this.taxCountry = rawPayload.tax_country
+    this.additionalTaxes = rawPayload.additional_taxes
     this.product = rawPayload.product
     this.metadata = rawPayload.metadata
     this.customId = rawPayload.custom_id
@@ -227,7 +244,14 @@ export class CartItem {
       qty: this.qty,
       sku: this.sku,
       name: this.name,
-      price: this.price,
+      amount: this.amount,
+      currency: this.currency,
+      vat_rate: this.vatRate,
+      vat_class: this.vatClass,
+      custom_vat_rate: this.customVatRate,
+      tax_region: this.taxRegion,
+      tax_country: this.taxCountry,
+      additional_taxes: this.additionalTaxes,
       product: this.product,
       metadata: this.metadata,
       custom_id: this.customId,
@@ -299,6 +323,8 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   }
 
   protected deserialize(rawPayload: CartRawPayload): Cart {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined

@@ -101,9 +101,15 @@ export interface UniverseSearches {
 }
 
 export interface IUniverseFeeds {
-  fetch: Function
-  fromJson: Function
-  toJson: Function
+  fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>
+  fromJson: (feeds: FeedRawPayload[]) => Feed[]
+  toJson: (feeds: Feed[]) => FeedRawPayload[]
+}
+
+export interface IUniverseCarts {
+  fetch: (options?: UniverseFetchOptions) => Promise<cart.Cart[] | cart.CartRawPayload[] | undefined>
+  fromJson: (carts: cart.CartRawPayload[]) => cart.Cart[]
+  toJson: (carts: cart.Cart[]) => cart.CartRawPayload[]
 }
 
 export type UniversePermissionType =
@@ -542,16 +548,51 @@ export class Universe extends Readable {
     }
   }
 
-  public async carts(): Promise<cart.Cart[] | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${cart.Carts.endpoint}`)
-      const resources = res.data.data as cart.CartRawPayload[]
+  /**
+   * Carts accessor
+   *
+   * ```js
+   * // fetch all carts with regular defaults (as class instance list)
+   * await universe.carts.fetch()
+   * // fetch all carts as raw structs with some query options
+   * await universe.carts.fetch({ raw: true })
+   * // cast a list of class instances to list of structs
+   * universe.carts.toJson([feed])
+   * // cast a list of structs to list of class instances
+   * universe.carts.fromJson([feed])
+   * ```
+   */
+  public get carts(): IUniverseCarts {
+    return {
+      fromJson: (payloads: cart.CartRawPayload[]): cart.Cart[] => {
+        return payloads.map((item) => (cart.Cart.create(item, this, this.http)))
+      },
+      toJson: (carts: cart.Cart[]): cart.CartRawPayload[] => {
+        return carts.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: UniverseFetchOptions): Promise<cart.Cart[] | cart.CartRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${cart.Carts.endpoint}`,
+            params: {
+              ...(options && options.query ? options.query : {})
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const resources = res.data.data as cart.CartRawPayload[]
 
-      return resources.map((resource: cart.CartRawPayload) => {
-        return cart.Cart.create(resource, this, this.http)
-      })
-    } catch (err) {
-      throw new cart.CartsFetchRemoteError(undefined, { error: err })
+          if (options && options.raw === true) {
+            return resources
+          }
+
+          return resources.map((resource: cart.CartRawPayload) => {
+            return cart.Cart.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new cart.CartsFetchRemoteError(undefined, { error: err })
+        }
+      }
     }
   }
 
