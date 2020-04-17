@@ -2,7 +2,7 @@
 import {
   Product,
   Products,
-   ProductsFetchRemoteError
+  ProductsFetchRemoteError
 } from './product'
 
 export {

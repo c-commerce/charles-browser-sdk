@@ -49,11 +49,11 @@ export interface CartItemRawPayload {
   readonly custom_vat_rate?: number
   readonly tax_region?: string
   readonly tax_country?: string
-  readonly additional_taxes?: {
+  readonly additional_taxes?: Array<{
     readonly id: string
     readonly rate: number
     readonly amount: number
-  }[]
+  }>
   readonly product?: string
   readonly metadata?: object
   readonly custom_id?: string
@@ -96,13 +96,9 @@ export interface CartAdress {
   readonly country?: string
 }
 
-export interface CartShippingAddress extends CartAdress {
+export type CartShippingAddress = CartAdress
 
-}
-
-export interface CartBillingAddress extends CartAdress {
-
-}
+export type CartBillingAddress = CartAdress
 
 export interface CartContact {
   readonly email?: string
@@ -200,17 +196,17 @@ export class CartItem {
   public externalReferenceId?: CartItemPayload['externalReferenceId']
   public externalReferenceCustomId?: CartItemPayload['externalReferenceCustomId']
 
-  constructor(options: CartItemOptions) {
+  constructor (options: CartItemOptions) {
     this.universe = options.universe
     this.http = options.http
     this.options = options
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: CartItemRawPayload): CartItem {
+  protected deserialize (rawPayload: CartItemRawPayload): CartItem {
     this.qty = rawPayload.qty
     this.sku = rawPayload.sku
     this.name = rawPayload.name
@@ -235,11 +231,11 @@ export class CartItem {
     return this
   }
 
-  public static create(payload: CartItemRawPayload, universe: Universe, http: Universe['http']): CartItem {
+  public static create (payload: CartItemRawPayload, universe: Universe, http: Universe['http']): CartItem {
     return new CartItem({ rawPayload: payload, universe, http })
   }
 
-  public serialize(): CartItemRawPayload {
+  public serialize (): CartItemRawPayload {
     return {
       qty: this.qty,
       sku: this.sku,
@@ -309,30 +305,30 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   public status?: CartPayload['status']
   public proxyPayload?: CartPayload['proxyPayload']
 
-  constructor(options: CartOptions) {
+  constructor (options: CartOptions) {
     super()
     this.universe = options.universe
     this.endpoint = 'api/v0/carts'
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: CartRawPayload): Cart {
+  protected deserialize (rawPayload: CartRawPayload): Cart {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted || false
-    this.active = rawPayload.active || true
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
     this.name = rawPayload.name
     this.customId = rawPayload.custom_id
-    this.isProxy = rawPayload.is_proxy || false
+    this.isProxy = rawPayload.is_proxy ?? false
     this.proxyVendor = rawPayload.proxy_vendor
     this.type = rawPayload.type
     this.externalReferenceId = rawPayload.external_reference_id
@@ -364,12 +360,12 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
     return this
   }
 
-  public static create(payload: CartRawPayload, universe: Universe, http: Universe['http']): Cart {
+  public static create (payload: CartRawPayload, universe: Universe, http: Universe['http']): Cart {
     return new Cart({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize(): CartRawPayload {
-    let items = undefined
+  public serialize (): CartRawPayload {
+    let items
     if (Array.isArray(this.items)) {
       items = this.items.map((item) => (item.serialize()))
     }
@@ -378,8 +374,8 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted || false,
-      active: this.active || true,
+      deleted: this.deleted ?? false,
+      active: this.active ?? true,
       name: this.name,
       custom_id: this.customId,
       is_proxy: this.isProxy,
@@ -408,7 +404,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
     }
   }
 
-  public async init(): Promise<Cart | undefined> {
+  public async init (): Promise<Cart | undefined> {
     try {
       await this.fetch()
 
@@ -419,13 +415,14 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Carts {
   public static endpoint: string = 'api/v0/carts'
 }
 
 export class CartInitializationError extends BaseError {
   public name = 'CartInitializationError'
-  constructor(public message: string = 'Could not initialize cart.', properties?: any) {
+  constructor (public message: string = 'Could not initialize cart.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CartInitializationError.prototype)
   }
@@ -433,7 +430,7 @@ export class CartInitializationError extends BaseError {
 
 export class CartFetchRemoteError extends BaseError {
   public name = 'CartFetchRemoteError'
-  constructor(public message: string = 'Could not get cart.', properties?: any) {
+  constructor (public message: string = 'Could not get cart.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CartFetchRemoteError.prototype)
   }
@@ -441,7 +438,7 @@ export class CartFetchRemoteError extends BaseError {
 
 export class CartsFetchRemoteError extends BaseError {
   public name = 'CartsFetchRemoteError'
-  constructor(public message: string = 'Could not get carts.', properties?: any) {
+  constructor (public message: string = 'Could not get carts.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CartsFetchRemoteError.prototype)
   }
@@ -449,7 +446,7 @@ export class CartsFetchRemoteError extends BaseError {
 
 export class CartCreateRemoteError extends BaseError {
   public name = 'CartCreateRemoteError'
-  constructor(public message: string = 'Could not create carts', properties?: any) {
+  constructor (public message: string = 'Could not create carts', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CartCreateRemoteError.prototype)
   }

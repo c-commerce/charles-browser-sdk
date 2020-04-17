@@ -13,7 +13,7 @@ export class UniverseHealth extends EventEmitter {
   universe: Universe
   options: UniverseHealthOptions
 
-  constructor(opts: UniverseHealthOptions) {
+  constructor (opts: UniverseHealthOptions) {
     super()
 
     this.options = opts
@@ -26,7 +26,7 @@ export class UniverseStatus extends EventEmitter {
   universe: Universe
   options: UniverseStatusOptions
 
-  constructor(opts: UniverseStatusOptions) {
+  constructor (opts: UniverseStatusOptions) {
     super()
 
     this.options = opts

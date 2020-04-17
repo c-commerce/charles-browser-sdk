@@ -22,7 +22,7 @@ export interface FeedOptions {
 
 export interface FeedRawPayload {
   readonly id?: string
-  readonly participants?: (string | PersonRawPayload)[]
+  readonly participants?: Array<string | PersonRawPayload>
   readonly agents?: string[]
   readonly parents?: string[]
   readonly active?: boolean
@@ -38,7 +38,7 @@ export type FeedEventsRawPayload = EventRawPayload[]
 
 export interface FeedPayload {
   readonly id?: string
-  readonly participants?: (string | Person)[]
+  readonly participants?: Array<string | Person>
   readonly agents?: string[]
   readonly parents?: string[]
   readonly createdAt?: Date | null
@@ -60,9 +60,9 @@ export declare interface Feed {
   on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
   on(
     event:
-      'feed:message' // receive messages in the current scope of this feed
-      | 'feed:event' // receive events in the current scope of this feed
-      | string,
+    'feed:message' // receive messages in the current scope of this feed
+    | 'feed:event' // receive events in the current scope of this feed
+    | string,
     cb: Function): this
 }
 
@@ -74,7 +74,7 @@ export class Feed extends EventEmitter {
   public initialized: boolean
 
   public static endpoint: string = 'api/v0/feeds'
-  private eventsMap: FeedEventsMap = new Map()
+  private readonly eventsMap: FeedEventsMap = new Map()
 
   public id?: string
   public participants?: FeedPayload['participants']
@@ -87,20 +87,20 @@ export class Feed extends EventEmitter {
   public active?: boolean
   public topLatestEvents?: FeedPayload['topLatestEvents']
 
-  constructor(options: FeedOptions) {
+  constructor (options: FeedOptions) {
     super()
     this.universe = options.universe
     this.http = options.http
     this.mqtt = options.mqtt
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  private deserialize(rawPayload: FeedRawPayload): Feed {
+  private deserialize (rawPayload: FeedRawPayload): Feed {
     // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
     // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
     if (!this.id) this.id = rawPayload.id
@@ -140,15 +140,15 @@ export class Feed extends EventEmitter {
     return this
   }
 
-  public static create(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed {
+  public static create (payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed {
     return new Feed({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
-  public static createUninitialized(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed {
+  public static createUninitialized (payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed {
     return new Feed({ rawPayload: payload, universe, http, mqtt, initialized: false })
   }
 
-  public serialize(): FeedRawPayload {
+  public serialize (): FeedRawPayload {
     return {
       id: this.id,
       participants: Array.isArray(this.participants) ? this.participants.map((item: Person | string) => {
@@ -168,7 +168,7 @@ export class Feed extends EventEmitter {
     }
   }
 
-  public reply(contentOptions: FeedReplyContentOptions): FeedReply {
+  public reply (contentOptions: FeedReplyContentOptions): FeedReply {
     return new FeedReply({
       feed: this,
       http: this.http,
@@ -181,7 +181,7 @@ export class Feed extends EventEmitter {
     })
   }
 
-  public async init(): Promise<Feed | undefined> {
+  public async init (): Promise<Feed | undefined> {
     try {
       await this.fetch()
 
@@ -197,19 +197,19 @@ export class Feed extends EventEmitter {
     }
   }
 
-  private get defaultSubscriptions(): string[] {
+  private get defaultSubscriptions (): string[] {
     return [
       universeTopics.api.feedMessages.generateTopic(this.serialize()),
       universeTopics.api.feedEvents.generateTopic(this.serialize())
     ]
   }
 
-  public deinitialize(): void {
+  public deinitialize (): void {
     this.removeAllListeners()
     this.getMqttClient().unsubscribe(this.defaultSubscriptions)
   }
 
-  private subscibeDefaults() {
+  private subscibeDefaults (): void {
     this.getMqttClient()
       .subscribe(this.defaultSubscriptions)
   }
@@ -217,7 +217,7 @@ export class Feed extends EventEmitter {
   /**
    * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.
    */
-  private getMqttClient(): realtime.RealtimeClient {
+  private getMqttClient (): realtime.RealtimeClient {
     if (this.mqtt) return this.mqtt
 
     throw new realtime.UninstantiatedRealtimeClient()
@@ -227,7 +227,7 @@ export class Feed extends EventEmitter {
    *
    * Parsing and routing logic is being handled here.
    */
-  private handleMessage(msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage) {
+  private handleMessage (msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage): void {
     // NOTE: we are also receiving all other messages, but we do not emit them. This is a srtrong fan-out
     if (universeTopics.api.feedMessages.isTopic(msg.topic, this.serialize())) {
       let message
@@ -246,13 +246,12 @@ export class Feed extends EventEmitter {
       }
 
       this.emit('feed:event', { ...msg, event, feed: this })
-      return
     }
   }
 
-  public async fetch(): Promise<Feed | undefined> {
+  public async fetch (): Promise<Feed | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id}`)
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}`)
 
       this.deserialize(res.data.data[0] as FeedRawPayload)
 
@@ -262,9 +261,9 @@ export class Feed extends EventEmitter {
     }
   }
 
-  public async fetchLatestEvents(): Promise<Event[] | undefined> {
+  public async fetchLatestEvents (): Promise<Event[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id}/events/latest`)
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}/events/latest`)
 
       const events = res.data.data as FeedlatestEventsRawPayload
 
@@ -279,9 +278,9 @@ export class Feed extends EventEmitter {
     }
   }
 
-  public async fetchEvents(): Promise<Event[] | undefined> {
+  public async fetchEvents (): Promise<Event[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id}/events`)
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}/events`)
 
       const events = res.data.data as FeedEventsRawPayload
 
@@ -296,15 +295,15 @@ export class Feed extends EventEmitter {
     }
   }
 
-  public async createFeedEvent(type: IEventType, resource?: string, resourceType?: IEventResourceType): Promise<Event | undefined> {
+  public async createFeedEvent (type: IEventType, resource?: string, resourceType?: IEventResourceType): Promise<Event | undefined> {
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe.universeBase}/${Feed.endpoint}/${this.id}/events`,
+        url: `${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}/events`,
         data: {
           type: type,
-          resource: resource || undefined,
-          resource_type: resourceType || undefined
+          resource: resource ?? undefined,
+          resource_type: resourceType ?? undefined
         }
       }
       const res = await this.http.getClient()(opts)
@@ -317,36 +316,33 @@ export class Feed extends EventEmitter {
     }
   }
 
-  public async viewed(): Promise<Event | undefined> {
-    return this.createFeedEvent('agent:view')
+  public async viewed (): Promise<Event | undefined> {
+    return await this.createFeedEvent('agent:view')
   }
 
-  public events(): Array<Event> {
+  public events (): Event[] {
     return Array.from(this.eventsMap.values())
   }
 
-  public getEventsMap(): Feed['eventsMap'] {
+  public getEventsMap (): Feed['eventsMap'] {
     return this.eventsMap
   }
 
-  private handleError(err: Error): Error {
+  private handleError (err: Error): Error {
     if (this.listeners('error').length > 0) this.emit('error', err)
 
     return err
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Feeds {
   public static endpoint: string = 'api/v0/feeds'
 }
 
-export interface FeedReplyContentOptions extends MessageReplyContentOptions {
+export type FeedReplyContentOptions = MessageReplyContentOptions
 
-}
-
-export interface FeedReplyResponse extends ReplyResponse {
-
-}
+export type FeedReplyResponse = ReplyResponse
 
 export interface FeedReplyOptions extends ReplyOptions {
   feed: Feed
@@ -358,15 +354,15 @@ export interface FeedReplyOptions extends ReplyOptions {
 
 export class FeedReply {
   protected feed: Feed
-  private universe: Universe
-  private http: Universe['http']
-  private options?: FeedReplyOptions
+  private readonly universe: Universe
+  private readonly http: Universe['http']
+  private readonly options?: FeedReplyOptions
 
   public content: Reply['content']
   public contentType: Reply['contentType']
   public rawAssets?: FormData
 
-  constructor(options: FeedReplyOptions) {
+  constructor (options: FeedReplyOptions) {
     this.options = options
     this.feed = options.feed
     this.universe = options.universe
@@ -376,9 +372,10 @@ export class FeedReply {
     // this.contentType = options.contentType
   }
 
-  protected async prepareSendWithAssets(payload: FormData): Promise<Asset[] | undefined> {
+  protected async prepareSendWithAssets (payload: FormData): Promise<Asset[] | undefined> {
+    // eslint-disable-next-line no-useless-catch
     try {
-      const assetsHandler = new Assets({
+      const assetsHandler: Assets = new Assets({
         http: this.http,
         universe: this.universe
       })
@@ -391,19 +388,20 @@ export class FeedReply {
     }
   }
 
-  public async send(): Promise<Event | undefined> {
+  public async send (): Promise<Event | undefined> {
     try {
       let additonalAttachments
       if (this.rawAssets) {
         const assets = await this.prepareSendWithAssets(this.rawAssets)
         if (Array.isArray(assets)) {
-          additonalAttachments = assets.map((item: Asset) => {
+          additonalAttachments = assets.map((item: Asset): MessageRawPayloadAttachment => {
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             return {
               // TODO: move this to mime type, when the API catches up
               type: 'image',
               payload: item.uri
             } as MessageRawPayloadAttachment
-          }) as MessageRawPayloadAttachment[]
+          })
         }
       }
 
@@ -420,7 +418,7 @@ export class FeedReply {
         this.content.attachments = attachments
       }
 
-      const res = await this.http?.getClient().post(`${this.universe.universeBase}/${Feed.endpoint}/${this.feed.id}/reply`, {
+      const res = await this.http?.getClient().post(`${this.universe.universeBase}/${Feed.endpoint}/${this.feed.id as string}/reply`, {
         content: this.content
       })
       return Event.create(res.data.data[0], this.feed, this.universe, this.http)
@@ -432,7 +430,7 @@ export class FeedReply {
 
 export class FeedReplyError extends BaseError {
   public name = 'FeedReplyError'
-  constructor(
+  constructor (
     public message: string = 'Could not send feed reply unexpectedly.',
     properties?: any
   ) {
@@ -442,42 +440,42 @@ export class FeedReplyError extends BaseError {
 
 export class FeedInitializationError extends BaseError {
   public name = 'FeedInitializationError'
-  constructor(public message: string = 'Could not initialize feed.', properties?: any) {
+  constructor (public message: string = 'Could not initialize feed.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class FeedFetchRemoteError extends BaseError {
   public name = 'FeedFetchRemoteError'
-  constructor(public message: string = 'Could not get feed.', properties?: any) {
+  constructor (public message: string = 'Could not get feed.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class FeedFetchLatestEventsRemoteError extends BaseError {
   public name = 'FeedFetchLatestEventsRemoteError'
-  constructor(public message: string = 'Could not get latest feed events.', properties?: any) {
+  constructor (public message: string = 'Could not get latest feed events.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class FeedFetchEventsRemoteError extends BaseError {
   public name = 'FeedFetchEventsRemoteError'
-  constructor(public message: string = 'Could not get feed events.', properties?: any) {
+  constructor (public message: string = 'Could not get feed events.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class FeedCreateEventRemoteError extends BaseError {
   public name = 'FeedCreateEventRemoteError'
-  constructor(public message: string = 'Could not create feed event.', properties?: any) {
+  constructor (public message: string = 'Could not create feed event.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class FeedsFetchRemoteError extends BaseError {
   public name = 'FeedsFetchRemoteError'
-  constructor(public message: string = 'Could not get feeds.', properties?: any) {
+  constructor (public message: string = 'Could not get feeds.', properties?: any) {
     super(message, properties)
   }
 }

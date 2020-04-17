@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 
 import { Client } from '../client'
 import { BaseError } from '../errors/base-error'
@@ -44,8 +45,8 @@ export class Messages extends CharlesBaseHandler {
   http: Client
   public options: MessagesOptions
 
-  constructor(options: MessagesOptions, http: Client) {
-    super(http, { endpoint: Messages.baseEndpoint, base: options.base || `https://${options.universe}.hello-charles.com` })
+  constructor (options: MessagesOptions, http: Client) {
+    super(http, { endpoint: Messages.baseEndpoint, base: options.base ?? `https://${options.universe}.hello-charles.com` })
     this.options = options
     this.http = http
 
@@ -53,8 +54,9 @@ export class Messages extends CharlesBaseHandler {
     this.universe = options.universe
   }
 
-  getAll(query?: MessagesQueryOptions | undefined): Promise<MessagesResponse> {
-    return new Promise(async (resolve, reject) => {
+  public async getAll (query?: MessagesQueryOptions | undefined): Promise<MessagesResponse> {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    return await new Promise(async (resolve, reject) => {
       try {
         const uri = this.getURI({ endpoint: this.endpoint, query })
         const response = await this.http.getClient().get(uri)
@@ -63,6 +65,7 @@ export class Messages extends CharlesBaseHandler {
           return reject(new MessagesFetchFailed())
         }
 
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
         return resolve({
           data: response.data.data,
           metadata: { count: response.data.count }
@@ -73,8 +76,9 @@ export class Messages extends CharlesBaseHandler {
     })
   }
 
-  update(messageId: string, messageRequest: Message): Promise<MessagesResponse> {
-    return new Promise(async (resolve, reject) => {
+  public async update (messageId: string, messageRequest: Message): Promise<MessagesResponse> {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    return await new Promise(async (resolve, reject) => {
       try {
         const uri = this.getURI({ endpoint: this.endpoint, params: [messageId] })
 
@@ -83,6 +87,7 @@ export class Messages extends CharlesBaseHandler {
           return reject(new MessageUpdateFailed())
         }
 
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
         return resolve({
           data: response.data.data[0] as Message,
           metadata: { count: response.data.count }
@@ -96,14 +101,14 @@ export class Messages extends CharlesBaseHandler {
 
 export class MessageUpdateFailed extends BaseError {
   public name = 'MessageUpdateFailed'
-  constructor(public message: string = 'Could not update message', properties?: any) {
+  constructor (public message: string = 'Could not update message', properties?: any) {
     super(message, properties)
   }
 }
 
 export class MessagesFetchFailed extends BaseError {
   public name = 'MessagesFetchFailed'
-  constructor(public message: string = 'Could not fetch messages', properties?: any) {
+  constructor (public message: string = 'Could not fetch messages', properties?: any) {
     super(message, properties)
   }
 }

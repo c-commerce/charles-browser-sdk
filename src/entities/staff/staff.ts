@@ -57,27 +57,27 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
   public comment?: StaffRawPayload['comment']
   public type?: StaffRawPayload['type']
 
-  constructor(options: StaffOptions) {
+  constructor (options: StaffOptions) {
     super()
     this.universe = options.universe
     this.endpoint = 'api/v0/staff'
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: StaffRawPayload): Staff {
+  protected deserialize (rawPayload: StaffRawPayload): Staff {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted || false
-    this.active = rawPayload.active || true
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
     this.firstName = rawPayload.first_name
     this.middleName = rawPayload.middle_name
     this.lastName = rawPayload.last_name
@@ -87,17 +87,17 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
     return this
   }
 
-  public static create(payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff {
+  public static create (payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff {
     return new Staff({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize(): StaffRawPayload {
+  public serialize (): StaffRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted || false,
-      active: this.active || true,
+      deleted: this.deleted ?? false,
+      active: this.active ?? true,
       first_name: this.firstName,
       middle_name: this.middleName,
       last_name: this.lastName,
@@ -106,7 +106,7 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
     }
   }
 
-  public async init(): Promise<Staff | undefined> {
+  public async init (): Promise<Staff | undefined> {
     try {
       await this.fetch()
 
@@ -117,27 +117,28 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Staffs {
   public static endpoint: string = 'api/v0/staff'
 }
 
 export class StaffInitializationError extends BaseError {
   public name = 'StaffInitializationError'
-  constructor(public message: string = 'Could not initialize staff.', properties?: any) {
+  constructor (public message: string = 'Could not initialize staff.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class StaffFetchRemoteError extends BaseError {
   public name = 'StaffFetchRemoteError'
-  constructor(public message: string = 'Could not get staff.', properties?: any) {
+  constructor (public message: string = 'Could not get staff.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class StaffsFetchRemoteError extends BaseError {
   public name = 'StaffsFetchRemoteError'
-  constructor(public message: string = 'Could not get staffs.', properties?: any) {
+  constructor (public message: string = 'Could not get staffs.', properties?: any) {
     super(message, properties)
   }
 }

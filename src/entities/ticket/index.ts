@@ -2,7 +2,7 @@
 import {
   Ticket,
   Tickets,
-   TicketsFetchRemoteError
+  TicketsFetchRemoteError
 } from './ticket'
 
 export {

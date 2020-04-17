@@ -5,19 +5,23 @@ import { Client } from '../src/client'
 export class LocalStorageMock {
   private store = {}
 
-  clear() {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  clear () {
     this.store = {}
   }
 
-  getItem(key: string): any {
+  getItem (key: string): any {
     return (this.store as any)[key] || null
   }
 
-  setItem(key: string, value: string | null) {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  setItem (key: string, value: string | null) {
     (this.store as any)[key] = value as any
   }
 
-  removeItem(key: string) {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  removeItem (key: string) {
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete (this.store as any)[key]
   }
 }
@@ -25,7 +29,8 @@ export class LocalStorageMock {
 /**
  * Instantiate Charles in the tests - reduce boilerplate
  */
-export const initInstance = async (opts?: object) => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export async function initInstance (opts?: object) {
   const instance = new CharlesClient()
   instance.init({
     ...options,
@@ -40,7 +45,7 @@ export const initInstance = async (opts?: object) => {
   return instance
 }
 
-let user = {
+const user = {
   username: 'test@example.com',
   password: '12345678',
   clientAccount: 'someuuid',
@@ -48,10 +53,10 @@ let user = {
 }
 
 if (process.env.SYSTEM_TEST) {
-  user.username = process.env.SYSTEM_TEST_USERNAME || user.username
-  user.password = process.env.SYSTEM_TEST_PASSWORD || user.password
-  user.clientAccount = process.env.SYSTEM_TEST_CLIENT_ACCOUNT_ID || user.clientAccount
-  user.apiKey = process.env.SYSTEM_TEST_API_KEY || user.apiKey
+  user.username = process.env.SYSTEM_TEST_USERNAME ?? user.username
+  user.password = process.env.SYSTEM_TEST_PASSWORD ?? user.password
+  user.clientAccount = process.env.SYSTEM_TEST_CLIENT_ACCOUNT_ID ?? user.clientAccount
+  user.apiKey = process.env.SYSTEM_TEST_API_KEY ?? user.apiKey
 }
 
 const options = {
@@ -62,7 +67,7 @@ const options = {
   base: process.env.CHARLES_BASE
 }
 
-export function stubUniverse(): { universe: Universe, client: Client } {
+export function stubUniverse (): { universe: Universe, client: Client } {
   const token = 'UNI_USER_STUB_ACCESS_TOKEN'
 
   const client = Client.getInstance({

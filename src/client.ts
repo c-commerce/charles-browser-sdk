@@ -6,9 +6,9 @@ export interface ClientOptions {
   base?: string
   timeout?: number
   headers?: {
-    [key: string]: any;
+    [key: string]: any
   }
-  token?: string,
+  token?: string
   responseInterceptors?: Function[]
   requestInterceptors?: Function[]
 }
@@ -26,14 +26,14 @@ const defaultHeaders = {
  */
 export class Client {
   private static instance: Client
-  private axiosInstance: AxiosInstance
+  private readonly axiosInstance: AxiosInstance
   private responseInterceptorIds: number[] = []
   private requestInterceptorIds: number[] = []
 
-  private constructor(options: ClientOptions) {
+  private constructor (options: ClientOptions) {
     this.axiosInstance = axios.create({
       // baseURL: options.base || 'https://api.hello-charles.com',
-      timeout: options.timeout || 10000,
+      timeout: options.timeout ?? 10000,
       headers: {
         ...options.headers,
         ...defaultHeaders
@@ -41,7 +41,7 @@ export class Client {
     })
   }
 
-  static getInstance(options: ClientOptions): Client {
+  static getInstance (options: ClientOptions): Client {
     // use headers in any case
     if (Client.instance) {
       Client.instance.setDefaults(options)
@@ -55,15 +55,15 @@ export class Client {
     return Client.instance
   }
 
-  static clearInstance(): void {
+  static clearInstance (): void {
     Client.instance.clearDefaults()
   }
 
-  public getClient(): AxiosInstance {
+  public getClient (): AxiosInstance {
     return Client.instance.axiosInstance
   }
 
-  setDefaults(options: ClientOptions): Client {
+  setDefaults (options: ClientOptions): Client {
     Client.instance.axiosInstance.defaults.headers.common = {
       ...this.axiosInstance.defaults.headers.common,
       ...options.headers
@@ -96,9 +96,9 @@ export class Client {
     return Client.instance
   }
 
-  clearDefaults(): void {
-    Client.instance.axiosInstance.defaults.headers.common['Authorization'] = undefined
-    Client.instance.axiosInstance.defaults.headers['Authorization'] = undefined
+  clearDefaults (): void {
+    Client.instance.axiosInstance.defaults.headers.common.Authorization = undefined
+    Client.instance.axiosInstance.defaults.headers.Authorization = undefined
     Client.instance.axiosInstance.defaults.headers.common = {
       ...defaultHeaders
     }

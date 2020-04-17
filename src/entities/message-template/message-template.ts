@@ -29,11 +29,11 @@ export interface MessageTemplateRawPayload {
   readonly content?: {
     body?: string | null
     attachments?: MessageTemplateRawPayloadAttachment[] | null
-    i18n: {
+    i18n: Array<{
       locale: string
       body?: string
       attachments?: MessageTemplateRawPayloadAttachment[]
-    }[] | null
+    }> | null
   } | null
   readonly configuration?: object
   readonly payload?: object
@@ -84,15 +84,15 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   public payload?: MessageTemplatePayload['payload']
   public metadata?: MessageTemplatePayload['metadata']
 
-  constructor(options: MessageTemplateOptions) {
+  constructor (options: MessageTemplateOptions) {
     super()
     this.universe = options.universe
     this.endpoint = 'api/v0/message_templates'
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
@@ -101,8 +101,8 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted || false
-    this.active = rawPayload.active || true
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
     this.isProxy = rawPayload.is_proxy
     this.approved = rawPayload.approved
     this.name = rawPayload.name
@@ -125,8 +125,8 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted || false,
-      active: this.active || true,
+      deleted: this.deleted ?? false,
+      active: this.active ?? true,
       is_proxy: this.isProxy,
       approved: this.approved,
       name: this.name,
@@ -150,27 +150,28 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class MessageTemplates {
   public static endpoint: string = 'api/v0/message_templates'
 }
 
 export class MessageTemplateInitializationError extends BaseError {
   public name = 'MessageTemplateInitializationError'
-  constructor(public message: string = 'Could not initialize messagetemplate.', properties?: any) {
+  constructor (public message: string = 'Could not initialize messagetemplate.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class MessageTemplateFetchRemoteError extends BaseError {
   public name = 'MessageTemplateFetchRemoteError'
-  constructor(public message: string = 'Could not get messagetemplate.', properties?: any) {
+  constructor (public message: string = 'Could not get messagetemplate.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class MessageTemplatesFetchRemoteError extends BaseError {
   public name = 'MessageTemplatesFetchRemoteError'
-  constructor(public message: string = 'Could not get messagetemplates.', properties?: any) {
+  constructor (public message: string = 'Could not get messagetemplates.', properties?: any) {
     super(message, properties)
   }
 }

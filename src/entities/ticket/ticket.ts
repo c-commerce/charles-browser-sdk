@@ -82,30 +82,30 @@ export class Ticket extends Entity<TicketPayload, TicketRawPayload> {
   public tags?: TicketPayload['tags']
   public linked?: TicketPayload['linked']
 
-  constructor(options: TicketOptions) {
+  constructor (options: TicketOptions) {
     super()
     this.universe = options.universe
     this.endpoint = 'api/v0/tickets'
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: TicketRawPayload): Ticket {
+  protected deserialize (rawPayload: TicketRawPayload): Ticket {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted || false
-    this.active = rawPayload.active || true
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
     this.dueAt = rawPayload.due_at ? new Date(rawPayload.due_at) : undefined
     this.closureAt = rawPayload.closure_at ? new Date(rawPayload.closure_at) : undefined
-    this.flagged = rawPayload.flagged || false
+    this.flagged = rawPayload.flagged ?? false
     this.author = rawPayload.author
     this.status = rawPayload.status
     this.assignee = rawPayload.assignee
@@ -121,17 +121,17 @@ export class Ticket extends Entity<TicketPayload, TicketRawPayload> {
     return this
   }
 
-  public static create(payload: TicketRawPayload, universe: Universe, http: Universe['http']): Ticket {
+  public static create (payload: TicketRawPayload, universe: Universe, http: Universe['http']): Ticket {
     return new Ticket({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize(): TicketRawPayload {
+  public serialize (): TicketRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted || false,
-      active: this.active || true,
+      deleted: this.deleted ?? false,
+      active: this.active ?? true,
       due_at: this.dueAt ? this.dueAt.toISOString() : undefined,
       closure_at: this.closureAt ? this.closureAt.toISOString() : undefined,
       flagged: this.flagged,
@@ -149,7 +149,7 @@ export class Ticket extends Entity<TicketPayload, TicketRawPayload> {
     }
   }
 
-  public async init(): Promise<Ticket | undefined> {
+  public async init (): Promise<Ticket | undefined> {
     try {
       await this.fetch()
 
@@ -160,27 +160,28 @@ export class Ticket extends Entity<TicketPayload, TicketRawPayload> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Tickets {
   public static endpoint: string = 'api/v0/tickets'
 }
 
 export class TicketInitializationError extends BaseError {
   public name = 'TicketInitializationError'
-  constructor(public message: string = 'Could not initialize ticket.', properties?: any) {
+  constructor (public message: string = 'Could not initialize ticket.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class TicketFetchRemoteError extends BaseError {
   public name = 'TicketFetchRemoteError'
-  constructor(public message: string = 'Could not get ticket.', properties?: any) {
+  constructor (public message: string = 'Could not get ticket.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class TicketsFetchRemoteError extends BaseError {
   public name = 'TicketsFetchRemoteError'
-  constructor(public message: string = 'Could not get tickets.', properties?: any) {
+  constructor (public message: string = 'Could not get tickets.', properties?: any) {
     super(message, properties)
   }
 }

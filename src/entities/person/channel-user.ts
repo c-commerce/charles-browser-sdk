@@ -52,18 +52,18 @@ export class ChannelUser {
   public comment?: ChannelUserRawPayload['comment']
   public payload?: ChannelUserRawPayload['payload']
 
-  constructor(options: ChannelUserOptions) {
+  constructor (options: ChannelUserOptions) {
     this.universe = options.universe
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: ChannelUserRawPayload): ChannelUser {
+  protected deserialize (rawPayload: ChannelUserRawPayload): ChannelUser {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -84,15 +84,15 @@ export class ChannelUser {
     return this
   }
 
-  public static create(payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser {
+  public static create (payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser {
     return new ChannelUser({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public static createUninitialized(payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser {
+  public static createUninitialized (payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser {
     return new ChannelUser({ rawPayload: payload, universe, http, initialized: false })
   }
 
-  public serialize(): ChannelUserRawPayload {
+  public serialize (): ChannelUserRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
@@ -113,11 +113,11 @@ export class ChannelUser {
     }
   }
 
-  public async sendMessageFromMessageTemplate(messageTemplate: messageTemplate.MessageTemplate, language: string, parameters?: object | object[] | null): Promise<event.Event | undefined> {
+  public async sendMessageFromMessageTemplate (messageTemplate: messageTemplate.MessageTemplate, language: string, parameters?: object | object[] | null): Promise<event.Event | undefined> {
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe.universeBase}/api/v0/people/${this.person}/channel_users/${this.id}/notifications/templates/${messageTemplate.id}`,
+        url: `${this.universe.universeBase}/api/v0/people/${this.person as string}/channel_users/${this.id as string}/notifications/templates/${messageTemplate.id as string}`,
         data: {
           parameters,
           language
@@ -136,7 +136,7 @@ export class ChannelUser {
 
 export class PersonChannelUserMessageTemplateSendError extends BaseError {
   public name = 'PersonChannelUserMessageTemplateSendError'
-  constructor(public message: string = 'Could not send message via message template unexpectedl.', properties?: any) {
+  constructor (public message: string = 'Could not send message via message template unexpectedl.', properties?: any) {
     super(message, properties)
   }
 }

@@ -8,7 +8,7 @@ import * as v0 from './v0'
 import * as errors from './errors'
 import { Client, ClientOptions } from './client'
 import { environment } from './environment'
-import { Universe, UnviverseSingleton, IUniverseOptions } from './universe'
+import { Universe, UnviverseSingleton, UniverseOptions } from './universe'
 
 export { v0 }
 
@@ -50,7 +50,7 @@ export class CharlesClient extends events.EventEmitter {
   public static environment = environment
   public initialized = false
 
-  constructor(options?: CharlesSDKOptions) {
+  constructor (options?: CharlesSDKOptions) {
     super()
 
     this.auth = new v0.Auth({ base: defaultOptions.universe })
@@ -66,7 +66,7 @@ export class CharlesClient extends events.EventEmitter {
    * Initialise the SDK instance by authenticating the client
    *
    */
-  public init(options: CharlesSDKOptions = defaultOptions): void {
+  public init (options: CharlesSDKOptions = defaultOptions): void {
     // in cases where credentials and / or tokens and / or users are already
     // we will short circuit the client initialisations
     if (this.handleOptions(options)) return
@@ -96,7 +96,7 @@ export class CharlesClient extends events.EventEmitter {
    * De-Initialise the SDK instance and all its state
    *
    */
-  public destroy(): void {
+  public destroy (): void {
     Client.clearInstance()
 
     if (this.auth) {
@@ -108,9 +108,9 @@ export class CharlesClient extends events.EventEmitter {
     this.user = undefined
   }
 
-  private handleOptions(options: CharlesSDKOptions): boolean {
+  private handleOptions (options: CharlesSDKOptions): boolean {
     this.options = options
-    this.options.universe = this.options.universe
+    // this.options.universe = this.options.universe
     this.user = this.options.user
 
     if (options.credentials) {
@@ -131,7 +131,7 @@ export class CharlesClient extends events.EventEmitter {
       }
 
       if ((options.credentials as TokenAuth).accessToken && clientOptions.headers) {
-        clientOptions.headers['Authorization'] = `Bearer ${(options.credentials as TokenAuth).accessToken}`
+        clientOptions.headers.Authorization = `Bearer ${(options.credentials as TokenAuth).accessToken}`
       }
 
       this.http = Client.getInstance(clientOptions).setDefaults(clientOptions)
@@ -142,7 +142,7 @@ export class CharlesClient extends events.EventEmitter {
   }
 
   private generateAuthenticatedInstance<T>(
-    type: { new(options: IInstanceOptions, http: Client): T },
+    type: new(options: IInstanceOptions, http: Client) => T,
     maybeOptions?: MaybeOptions
   ): T {
     if (
@@ -155,6 +155,7 @@ export class CharlesClient extends events.EventEmitter {
       throw new errors.UninstantiatedClient()
     }
 
+    // eslint-disable-next-line new-cap
     return new type(
       {
         user: this.auth.user,
@@ -168,7 +169,7 @@ export class CharlesClient extends events.EventEmitter {
   /**
    * Create a reference to a universe via singleton or instance
    */
-  universe(name: string, options?: IUniverseFactoryOptions): Universe | UnviverseSingleton {
+  universe (name: string, options?: IUniverseFactoryOptions): Universe | UnviverseSingleton {
     if (!this.http || !this.auth.accessToken) {
       throw new errors.UninstantiatedClient('Cannot invoke universe without instantiated http client')
     }
@@ -176,7 +177,7 @@ export class CharlesClient extends events.EventEmitter {
     const opts = {
       http: this.http,
       name,
-      base: options && options.base ? options.base : 'https://hello-charles.com',
+      base: options?.base ? options.base : 'https://hello-charles.com',
       user: {
         accessToken: this.auth.accessToken,
         id: this.options ? this.options.user : undefined
@@ -194,14 +195,14 @@ export class CharlesClient extends events.EventEmitter {
    * Create an authenticated Messages instance
    *
    */
-  messages(): v0.Messages {
+  messages (): v0.Messages {
     return this.generateAuthenticatedInstance(v0.Messages)
   }
 }
 
 export class Charles extends CharlesClient {
   private static instance: Charles
-  constructor(options: CharlesSDKOptions) {
+  constructor (options: CharlesSDKOptions) {
     super(options)
 
     // only emit errors, when we have listeners to prevent unhandled rejects etc.
@@ -210,7 +211,7 @@ export class Charles extends CharlesClient {
     })
   }
 
-  static getInstance(options: CharlesSDKOptions): Charles {
+  static getInstance (options: CharlesSDKOptions): Charles {
     if (!Charles.instance) {
       Charles.instance = new Charles(options)
     }

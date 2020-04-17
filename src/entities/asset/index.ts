@@ -2,7 +2,7 @@
 import {
   Asset,
   Assets,
-   AssetsFetchRemoteError
+  AssetsFetchRemoteError
 } from './asset'
 
 export {

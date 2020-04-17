@@ -1,10 +1,10 @@
 import * as dotenv from 'dotenv'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-dotenv.config()
 // import * as universe from '../../src/universe/index'
 import { stubUniverse } from '../util'
 import { Cart, CartItem } from '../../src/entities/cart/cart'
+dotenv.config()
 
 // const legacyId = '4564'
 
@@ -18,7 +18,7 @@ describe('v0: Cart: can handle cart', () => {
 
   it('Charles\'s Cart is instantiable', async () => {
     mock
-      .onPatch(`https://stub-universe.hello-charles.com/api/v0/carts/pxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx`)
+      .onPatch('https://stub-universe.hello-charles.com/api/v0/carts/pxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx')
       .reply(function (config) {
         return [
           200,

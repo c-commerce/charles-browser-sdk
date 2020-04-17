@@ -26,7 +26,7 @@ export interface AuthBase {
 export interface UsernameAuth extends AuthBase {
   username: string
   password: string
-  recaptcha_token?: string,
+  recaptcha_token?: string
   baseUrl?: string
   authBaseUrl?: string
 }
@@ -47,7 +47,7 @@ export interface OrgAuth extends AuthBase {
 
 export interface SupportAuth extends AuthBase {
   access_token: string
-  client_account: string,
+  client_account: string
   recaptcha_token?: string
 }
 
@@ -71,19 +71,19 @@ export interface TokenAuth {
   accessToken: string
 }
 
-export function isUsernameAuth(object: any): object is UsernameAuth {
+export function isUsernameAuth (object: any): object is UsernameAuth {
   return 'password' in object
 }
 
-export function isKeyAuth(object: any): object is KeyAuth {
+export function isKeyAuth (object: any): object is KeyAuth {
   return 'apiKey' in object
 }
 
-export function isTokenAuth(object: any): object is KeyAuth {
+export function isTokenAuth (object: any): object is KeyAuth {
   return 'accessToken' in object
 }
 
-export function isOrgAuth(object: any): object is KeyAuth {
+export function isOrgAuth (object: any): object is KeyAuth {
   return 'organization' in object
 }
 
@@ -109,11 +109,11 @@ export class Auth {
   public user?: string
   public authBaseUrl?: string
 
-  constructor(options: AuthOptions) {
+  constructor (options: AuthOptions) {
     this.options = options
 
-    this.options.base = this.options.base || 'https://hello-charles.com'
-    this.authBaseUrl = this.options.authBaseUrl || 'https://hello-charles.com'
+    this.options.base = this.options.base ?? 'https://hello-charles.com'
+    this.authBaseUrl = this.options.authBaseUrl ?? 'https://hello-charles.com'
 
     if (!this.options.credentials) return
 
@@ -128,7 +128,7 @@ export class Auth {
    * Initialise the SDK instance by authenticating the client
    *
    */
-  public clearInstance(): void {
+  public clearInstance (): void {
     this.authenticated = false
     this.options.credentials = undefined
     this.options.accessToken = undefined
@@ -136,22 +136,23 @@ export class Auth {
     this.options.type = undefined
   }
 
-  protected determineAuthType() {
+  protected determineAuthType (): void {
     if (isUsernameAuth(this.options.credentials)) this.options.type = AuthTypes.username
     if (isKeyAuth(this.options.credentials)) this.options.type = AuthTypes.key
     if (isTokenAuth(this.options.credentials)) this.options.type = AuthTypes.accessToken
     if (isOrgAuth(this.options.credentials)) this.options.type = AuthTypes.org
   }
 
-  async authenticate(): Promise<AuthResponse> {
+  async authenticate (): Promise<AuthResponse> {
     if (this.options.type === AuthTypes.username) {
-      return this.loginUsername(this.options.credentials as UsernameAuth)
+      return await this.loginUsername(this.options.credentials as UsernameAuth)
     }
 
     throw new errors.AuthenticationFailed('No auth data was provided')
   }
 
-  async loginUsername(authData: UsernameAuth = {} as UsernameAuth): Promise<AuthResponse> {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  async loginUsername (authData: UsernameAuth = {} as UsernameAuth): Promise<AuthResponse> {
     let username: string
     let password: string
 
@@ -162,7 +163,7 @@ export class Auth {
     ) {
       username = (this.options.credentials as UsernameAuth).username
       password = (this.options.credentials as UsernameAuth).password
-    } else if (authData && authData.username && authData.password) {
+    } else if (authData?.username && authData.password) {
       username = authData.username
       password = authData.password
     } else {
@@ -170,7 +171,7 @@ export class Auth {
     }
 
     try {
-      const response = await axios.post(`${authData.authBaseUrl || this.authBaseUrl}/api/v0/users/auth/login`, {
+      const response = await axios.post(`${authData.authBaseUrl ?? this.authBaseUrl as string}/api/v0/users/auth/login`, {
         email: username,
         password: password,
         recaptcha_token: authData.recaptcha_token
@@ -181,6 +182,7 @@ export class Auth {
         response.data.data.access_token
       )
 
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
         id: response.data.data.id,
         access_token: response.data.data.access_token,
@@ -199,38 +201,38 @@ export class Auth {
     }
   }
 
-  async requestPasswordReset(target: PasswordResetRequest): Promise<PasswordResetRequestResponse> {
+  async requestPasswordReset (target: PasswordResetRequest): Promise<PasswordResetRequestResponse> {
     try {
-      const { data } = await axios.post(`${this.authBaseUrl}/api/v0/users/auth/login/password_reset`, {
+      const { data } = await axios.post(`${this.authBaseUrl as string}/api/v0/users/auth/login/password_reset`, {
         email: target.email
       })
 
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
         msg: data.msg
       } as PasswordResetRequestResponse
     } catch (err) {
-
       throw new errors.PasswordResetRequestFailed(undefined, { error: err })
     }
   }
 
-  async setNewPassword(nonce: PasswordResetNonce): Promise<PasswordResetRequestResponse> {
+  async setNewPassword (nonce: PasswordResetNonce): Promise<PasswordResetRequestResponse> {
     try {
-      const { data } = await axios.post(`${this.authBaseUrl}/api/v0/users/auth/login/password_set`, {
+      const { data } = await axios.post(`${this.authBaseUrl as string}/api/v0/users/auth/login/password_set`, {
         password: nonce.password,
         password_reset_id: nonce.password_reset_id
       })
 
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
         msg: data.msg
       } as PasswordResetRequestResponse
     } catch (err) {
-
       throw new errors.PasswordSetRequestFailed(undefined, { error: err })
     }
   }
 
-  protected setDefaultHeader(user: string, token: string): void {
+  protected setDefaultHeader (user: string, token: string): void {
     const clientOptions: ClientOptions = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -244,18 +246,19 @@ export class Auth {
     Client.getInstance(clientOptions).setDefaults(clientOptions)
   }
 
-  public async logout(token?: string): Promise<LogoutResponse> {
+  public async logout (token?: string): Promise<LogoutResponse> {
     if (!token && !this.accessToken) {
       throw new LogoutMissingToken()
     }
 
     try {
-      const { data } = await axios.get(`${this.authBaseUrl}/api/v0/users/auth/logout`, {
+      const { data } = await axios.get(`${this.authBaseUrl as string}/api/v0/users/auth/logout`, {
         headers: {
-          Authorization: `Bearer ${token || this.accessToken}`
+          Authorization: `Bearer ${token ?? this.accessToken as string}`
         }
       })
 
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
         msg: data.msg
       } as LogoutResponse
@@ -264,7 +267,7 @@ export class Auth {
     }
   }
 
-  public setAuthed(accessToken: string): Auth {
+  public setAuthed (accessToken: string): Auth {
     if (!accessToken) throw new TypeError('setting authed requires access token')
     this.accessToken = accessToken
     this.authenticated = true
@@ -274,14 +277,14 @@ export class Auth {
 
 export class LogoutMissingToken extends errors.BaseError {
   public name = 'LogoutMissingToken'
-  constructor(public message: string = 'Could not log out due to missing token.', properties?: any) {
+  constructor (public message: string = 'Could not log out due to missing token.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class LogoutFailed extends errors.BaseError {
   public name = 'LogoutFailed'
-  constructor(public message: string = 'Could not log out.', properties?: any) {
+  constructor (public message: string = 'Could not log out.', properties?: any) {
     super(message, properties)
   }
 }

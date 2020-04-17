@@ -21,19 +21,19 @@ import * as messageTemplate from '../entities/message-template/message-template'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
-export interface IUniverseUser {
+export interface UniverseUser {
   id?: string
   accessToken: string
 }
 
-export interface IUniverseOptions {
+export interface UniverseOptions {
   name: string
   http: Client
   base: string
-  user: IUniverseUser
+  user: UniverseUser
 }
 
-export interface IUniversePayload {
+export interface UniversePayload {
   name: string
   id: string
   active: boolean
@@ -50,17 +50,17 @@ export interface UniverseFetchQuery {
 
 export interface UniverseFetchOptions {
   raw?: boolean
-  query?: UniverseFetchQuery,
+  query?: UniverseFetchQuery
 }
 
 export declare interface Universe {
   on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
   on(event:
-    'armed' // currently unused
-    | 'universe:message' // receive any message in this universe
-    | 'universe:feeds:messages' // receive any message in any feed in this universe
-    | 'universe:feeds' // receive notifications about feeds and their updates, also which action happened for that feed
-    | string,
+  'armed' // currently unused
+  | 'universe:message' // receive any message in this universe
+  | 'universe:feeds:messages' // receive any message in any feed in this universe
+  | 'universe:feeds' // receive notifications about feeds and their updates, also which action happened for that feed
+  | string,
     cb: Function): this
 }
 
@@ -100,7 +100,7 @@ export interface UniverseSearches {
   feeds: Function
 }
 
-export interface IUniverseFeeds {
+export interface UniverseFeeds {
   fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>
   fromJson: (feeds: FeedRawPayload[]) => Feed[]
   toJson: (feeds: Feed[]) => FeedRawPayload[]
@@ -167,26 +167,26 @@ export interface MeData {
 export class Universe extends Readable {
   public status: UniverseStatus
   public health: UniverseHealth
-  public options: IUniverseOptions
-  public name: IUniverseOptions['name']
+  public options: UniverseOptions
+  public name: UniverseOptions['name']
 
-  public initialized: boolean = false
-  public payload: IUniversePayload | null = null
-  public user: IUniverseUser
+  public initialized = false
+  public payload: UniversePayload | null = null
+  public user: UniverseUser
 
   protected http: Client
   private mqtt: realtime.RealtimeClient | null = null
   public base: string
   public universeBase: string
-  private static endpoint: string = 'api/v0/universes'
+  private static readonly endpoint: string = 'api/v0/universes'
 
-  public constructor(options: IUniverseOptions) {
+  public constructor (options: UniverseOptions) {
     super()
 
     this.options = options
     this.name = options.name
     this.user = options.user
-    this.base = this.options.base || 'https://hello-charles.com'
+    this.base = this.options.base ?? 'https://hello-charles.com'
     this.universeBase = `https://${this.name}.hello-charles.com`
 
     this.status = new UniverseStatus({ universe: this })
@@ -196,7 +196,7 @@ export class Universe extends Readable {
     return this
   }
 
-  public async init(): Promise<Universe | undefined> {
+  public async init (): Promise<Universe | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.base}/${Universe.endpoint}/${this.name}`)
 
@@ -209,10 +209,10 @@ export class Universe extends Readable {
     }
   }
 
-  private static parsePayload(payload: any): IUniversePayload {
+  private static parsePayload (payload: any): UniversePayload {
     return {
-      createdAt: payload.created_at ? new Date(payload.created_at) : null,
-      updatedAt: payload.updated_at ? new Date(payload.updated_at) : null,
+      createdAt: new Date(payload.created_at) ?? null,
+      updatedAt: new Date(payload.updated_at) ?? null,
       id: payload.id,
       organization: payload.organization,
       active: payload.active,
@@ -222,16 +222,16 @@ export class Universe extends Readable {
     }
   }
 
-  private setInitialized(payload: any) {
+  private setInitialized (payload: any): Universe {
     this.payload = Universe.parsePayload(payload)
     this.initialized = true
     return this
   }
 
-  private setMqttClient(): void {
+  private setMqttClient (): void {
     const realtimeOpts = {
       base: `wss:${this.name}.hello-charles.com`,
-      username: this.user.id || 'charles-browser-sdk',
+      username: this.user.id ?? 'charles-browser-sdk',
       password: this.user.accessToken
     }
 
@@ -242,7 +242,7 @@ export class Universe extends Readable {
     this.subscibeDefaults()
   }
 
-  private get defaultSubscriptions(): string[] {
+  private get defaultSubscriptions (): string[] {
     return [
       universeTopics.api.message.generateTopic(),
       universeTopics.api.feeds.generateTopic(),
@@ -251,7 +251,7 @@ export class Universe extends Readable {
     ]
   }
 
-  private subscibeDefaults() {
+  private subscibeDefaults (): void {
     this.getMqttClient()
       .subscribe(this.defaultSubscriptions)
   }
@@ -260,8 +260,7 @@ export class Universe extends Readable {
    *
    * Parsing and routing logic is being handled here. We take extensive decisions about type and destinations here.
    */
-  private handleMessage(msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage) {
-
+  private handleMessage (msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage): void {
     // each arming message will cause an unsubscription
     if (universeTopics.api.clients.arm.isTopic(msg.topic)) {
       this.emit('armed', msg)
@@ -305,13 +304,13 @@ export class Universe extends Readable {
   /**
    * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.
    */
-  private getMqttClient(): realtime.RealtimeClient {
+  private getMqttClient (): realtime.RealtimeClient {
     if (this.mqtt) return this.mqtt
 
     throw new realtime.UninstantiatedRealtimeClient()
   }
 
-  public create(options: IUniverseOptions): Universe {
+  public create (options: UniverseOptions): Universe {
     return new Universe(options)
   }
 
@@ -321,7 +320,7 @@ export class Universe extends Readable {
    * immediately.
    *
    */
-  public deinitialize(): void {
+  public deinitialize (): void {
     this.removeAllListeners()
     const client = this.getMqttClient()
 
@@ -330,79 +329,79 @@ export class Universe extends Readable {
     })
   }
 
-  public get ready(): boolean {
+  public get ready (): boolean {
     // TODO: implement
     return false
   }
 
-  public isReady(): boolean {
+  public isReady (): boolean {
     // TODO: implement
     return false
   }
 
-  public get connected(): boolean {
+  public get connected (): boolean {
     // TODO: implement
     return false
   }
 
-  public isConnected(): boolean {
+  public isConnected (): boolean {
     // TODO: implement
     return false
   }
 
-  private handleError(err: Error) {
+  private handleError (err: Error): void {
     if (this.listeners('error').length > 0) this.emit('error', err)
   }
 
-  public feed(payload: FeedRawPayload): Feed {
+  public feed (payload: FeedRawPayload): Feed {
     return Feed.create(payload, this, this.http, this.mqtt)
   }
 
-  public product(payload: product.ProductRawPayload): product.Product {
+  public product (payload: product.ProductRawPayload): product.Product {
     return product.Product.create(payload, this, this.http)
   }
 
-  public staff(payload: staff.StaffRawPayload): staff.Staff {
+  public staff (payload: staff.StaffRawPayload): staff.Staff {
     return staff.Staff.create(payload, this, this.http)
   }
 
-  public asset(payload: asset.AssetRawPayload): asset.Asset {
+  public asset (payload: asset.AssetRawPayload): asset.Asset {
     return asset.Asset.create(payload, this, this.http)
   }
 
-  public cart(payload: cart.CartRawPayload): cart.Cart {
+  public cart (payload: cart.CartRawPayload): cart.Cart {
     return cart.Cart.create(payload, this, this.http)
   }
 
-  public order(payload: order.OrderRawPayload): order.Order {
+  public order (payload: order.OrderRawPayload): order.Order {
     return order.Order.create(payload, this, this.http)
   }
 
-  public person(payload: person.PersonRawPayload): person.Person {
+  public person (payload: person.PersonRawPayload): person.Person {
     return person.Person.create(payload, this, this.http)
   }
 
-  public address(payload: person.PersonAddressRawPayload): person.Address {
+  public address (payload: person.PersonAddressRawPayload): person.Address {
     return person.Address.create(payload, this, this.http)
   }
 
-  public phonenumber(payload: person.PersonPhonenumberRawPayload): person.Phonenumber {
+  public phonenumber (payload: person.PersonPhonenumberRawPayload): person.Phonenumber {
     return person.Phonenumber.create(payload, this, this.http)
   }
 
-  public channelUser(payload: person.PersonChannelUserRawPayload): channelUser.ChannelUser {
+  public channelUser (payload: person.PersonChannelUserRawPayload): channelUser.ChannelUser {
     return channelUser.ChannelUser.create(payload, this, this.http)
   }
 
-  public ticket(payload: ticket.TicketRawPayload): ticket.Ticket {
+  public ticket (payload: ticket.TicketRawPayload): ticket.Ticket {
     return ticket.Ticket.create(payload, this, this.http)
   }
 
-  public discount(payload: discount.DiscountRawPayload): discount.Discount {
+  public discount (payload: discount.DiscountRawPayload): discount.Discount {
     return discount.Discount.create(payload, this, this.http)
   }
 
-  public messageTemplate(payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate {
+  public messageTemplate (payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate {
     return messageTemplate.MessageTemplate.create(payload, this, this.http)
   }
 
@@ -412,7 +411,7 @@ export class Universe extends Readable {
    * Fetch the data of the current user. If you receive an instane of UniverseUnauthenticatedError
    * you should logout the current session and create a new one.
    */
-  public async me(): Promise<MeData | undefined> {
+  public async me (): Promise<MeData | undefined> {
     try {
       const opts = {
         method: 'GET',
@@ -445,7 +444,7 @@ export class Universe extends Readable {
    * universe.feeds.fromJson([feed])
    * ```
    */
-  public get feeds(): IUniverseFeeds {
+  public get feeds (): UniverseFeeds {
     return {
       fromJson: (payloads: FeedRawPayload[]): Feed[] => {
         return payloads.map((item) => (Feed.create(item, this, this.http, this.mqtt)))
@@ -459,8 +458,8 @@ export class Universe extends Readable {
             method: 'GET',
             url: `${this.universeBase}/${Feeds.endpoint}`,
             params: {
-              ...(options && options.query ? options.query : {}),
-              embed: options && options.query && options.query.embed ? options.query.embed : [
+              ...(options?.query ?? {}),
+              embed: options?.query?.embed ?? [
                 'participants',
                 'top_latest_events'
               ]
@@ -483,7 +482,7 @@ export class Universe extends Readable {
     }
   }
 
-  public async staffs(): Promise<staff.Staff[] | undefined> {
+  public async staffs (): Promise<staff.Staff[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${staff.Staffs.endpoint}`)
       const resources = res.data.data as staff.StaffRawPayload[]
@@ -496,7 +495,7 @@ export class Universe extends Readable {
     }
   }
 
-  public async assets(): Promise<asset.Asset[] | undefined> {
+  public async assets (): Promise<asset.Asset[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${asset.Assets.endpoint}`)
       const resources = res.data.data as asset.AssetRawPayload[]
@@ -509,7 +508,7 @@ export class Universe extends Readable {
     }
   }
 
-  public async people(): Promise<person.Person[] | undefined> {
+  public async people (): Promise<person.Person[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${person.People.endpoint}`)
       const resources = res.data.data as person.PersonRawPayload[]
@@ -522,7 +521,7 @@ export class Universe extends Readable {
     }
   }
 
-  public async products(): Promise<product.Product[] | undefined> {
+  public async products (): Promise<product.Product[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${product.Products.endpoint}`)
       const resources = res.data.data as product.ProductRawPayload[]
@@ -535,7 +534,7 @@ export class Universe extends Readable {
     }
   }
 
-  public async tickets(): Promise<ticket.Ticket[] | undefined> {
+  public async tickets (): Promise<ticket.Ticket[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${ticket.Tickets.endpoint}`)
       const resources = res.data.data as ticket.TicketRawPayload[]
@@ -562,7 +561,7 @@ export class Universe extends Readable {
    * universe.carts.fromJson([feed])
    * ```
    */
-  public get carts(): IUniverseCarts {
+  public get carts (): IUniverseCarts {
     return {
       fromJson: (payloads: cart.CartRawPayload[]): cart.Cart[] => {
         return payloads.map((item) => (cart.Cart.create(item, this, this.http)))
@@ -576,7 +575,7 @@ export class Universe extends Readable {
             method: 'GET',
             url: `${this.universeBase}/${cart.Carts.endpoint}`,
             params: {
-              ...(options && options.query ? options.query : {})
+              ...(options?.query ?? {})
             }
           }
           const res = await this.http.getClient()(opts)
@@ -596,7 +595,7 @@ export class Universe extends Readable {
     }
   }
 
-  public async orders(): Promise<order.Order[] | undefined> {
+  public async orders (): Promise<order.Order[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${order.Orders.endpoint}`)
       const resources = res.data.data as order.OrderRawPayload[]
@@ -609,7 +608,7 @@ export class Universe extends Readable {
     }
   }
 
-  public async discounts(): Promise<discount.Discount[] | undefined> {
+  public async discounts (): Promise<discount.Discount[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${discount.Discounts.endpoint}`)
       const resources = res.data.data as discount.DiscountRawPayload[]
@@ -622,7 +621,7 @@ export class Universe extends Readable {
     }
   }
 
-  public async messageTemplates(): Promise<messageTemplate.MessageTemplate[] | undefined> {
+  public async messageTemplates (): Promise<messageTemplate.MessageTemplate[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${messageTemplate.MessageTemplates.endpoint}`)
       const resources = res.data.data as messageTemplate.MessageTemplateRawPayload[]
@@ -640,11 +639,11 @@ export class Universe extends Readable {
   /**
    * Arm the client by retrieving latest data. Arming emits to the server and listens for the response once.
    */
-  public arm(): Universe {
+  public arm (): Universe {
     const mqtt = this.getMqttClient()
     const topicString = universeTopics.api.clients.arm.generateTopic({ client: uuid.v4() })
     // NOTE: this requires unsubscribing from this topic in the armed listener
-    mqtt.subscribe(topicString, (err: Error) => {
+    mqtt.subscribe(topicString, (err?: Error) => {
       if (err) {
         return this.handleError(err)
       }
@@ -661,13 +660,13 @@ export class Universe extends Readable {
    * @example
    * await universe.search.people('Your Name')
    */
-  public get search(): UniverseSearches {
+  public get search (): UniverseSearches {
     return {
       people: async (q: string): Promise<UnviversePeopleSearchResultItem[]> => {
-        return this.searchEntity<UnviversePeopleSearchResultItem[]>(person.People.endpoint, q)
+        return await this.searchEntity<UnviversePeopleSearchResultItem[]>(person.People.endpoint, q)
       },
       feeds: async (q: string): Promise<UnviverseFeedsSearchResultItem[]> => {
-        return this.searchEntity<UnviverseFeedsSearchResultItem[]>(Feeds.endpoint, q)
+        return await this.searchEntity<UnviverseFeedsSearchResultItem[]>(Feeds.endpoint, q)
       }
     }
   }
@@ -695,11 +694,11 @@ export class Universe extends Readable {
 export class UnviverseSingleton extends Universe {
   private static instance: Universe
 
-  constructor(options: IUniverseOptions) {
-    super(options)
-  }
+  // constructor (options: UniverseOptions) {
+  //   super(options)
+  // }
 
-  static getInstance(options: IUniverseOptions): Universe {
+  static getInstance (options: UniverseOptions): Universe {
     if (!UnviverseSingleton.instance) {
       UnviverseSingleton.instance = new UnviverseSingleton(options)
     }
@@ -707,28 +706,28 @@ export class UnviverseSingleton extends Universe {
     return UnviverseSingleton.instance
   }
 
-  static clearInstance(): void {
+  static clearInstance (): void {
     UnviverseSingleton.instance.deinitialize()
   }
 }
 
 export class UniverseInitializationError extends BaseError {
   public name = 'UniverseInitializationError'
-  constructor(public message: string = 'Could not initialize universe.', properties?: any) {
+  constructor (public message: string = 'Could not initialize universe.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class UniverseSearchError extends BaseError {
   public name = 'UniverseSearchError'
-  constructor(public message: string = 'Could not fulfill search unexpectedly.', properties?: any) {
+  constructor (public message: string = 'Could not fulfill search unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class UniverseUnauthenticatedError extends BaseError {
   public name = 'UniverseUnauthenticatedError'
-  constructor(public message: string = 'Invalid or expired session.', properties?: any) {
+  constructor (public message: string = 'Invalid or expired session.', properties?: any) {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseUnauthenticatedError.prototype)
@@ -737,7 +736,7 @@ export class UniverseUnauthenticatedError extends BaseError {
 
 export class UniverseMeError extends BaseError {
   public name = 'UniverseMeError'
-  constructor(public message: string = 'Unexptected error fetching me data', properties?: any) {
+  constructor (public message: string = 'Unexptected error fetching me data', properties?: any) {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseMeError.prototype)

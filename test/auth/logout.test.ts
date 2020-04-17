@@ -1,10 +1,10 @@
 import * as dotenv from 'dotenv'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-dotenv.config()
 import { v0 } from '../../src/charles'
+dotenv.config()
 
-let user = {
+const user = {
   username: 'test@example.com',
   password: '12345678',
   clientAccount: 'someuuid',
@@ -17,10 +17,10 @@ afterEach(() => {
 })
 
 if (process.env.SYSTEM_TEST) {
-  user.username = process.env.SYSTEM_TEST_USERNAME || user.username
-  user.password = process.env.SYSTEM_TEST_PASSWORD || user.password
-  user.clientAccount = process.env.SYSTEM_TEST_CLIENT_ACCOUNT_ID || user.clientAccount
-  user.apiKey = process.env.SYSTEM_TEST_API_KEY || user.apiKey
+  user.username = process.env.SYSTEM_TEST_USERNAME ?? user.username
+  user.password = process.env.SYSTEM_TEST_PASSWORD ?? user.password
+  user.clientAccount = process.env.SYSTEM_TEST_CLIENT_ACCOUNT_ID ?? user.clientAccount
+  user.apiKey = process.env.SYSTEM_TEST_API_KEY ?? user.apiKey
 }
 
 describe('Auth: logout', () => {
@@ -42,7 +42,7 @@ describe('Auth: logout', () => {
     const auth = new v0.Auth(options)
 
     try {
-      let data = await auth.logout()
+      const data = await auth.logout()
     } catch (err) {
       expect(err.name).toBe('LogoutMissingToken')
     }
@@ -79,14 +79,14 @@ describe('Auth: logout', () => {
           }
         ]
       })
-
     }
 
     const auth = new v0.Auth(options)
 
+    // eslint-disable-next-line no-useless-catch
     try {
       await auth.authenticate()
-      let data = await auth.logout()
+      const data = await auth.logout()
       expect(data).toBeTruthy()
       expect(data.msg === 'Logout successful.').toBe(true)
     } catch (err) {
@@ -120,14 +120,13 @@ describe('Auth: logout', () => {
       mock.onGet('https://hello-charles.com/api/v0/users/auth/logout').reply(function (config) {
         return [500]
       })
-
     }
 
     const auth = new v0.Auth(options)
 
     try {
       await auth.authenticate()
-      let data = await auth.logout()
+      const data = await auth.logout()
     } catch (err) {
       expect(err.name).toBe('LogoutFailed')
     }

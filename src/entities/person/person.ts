@@ -45,9 +45,7 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
   readonly value?: string
 }
 
-export interface PersonChannelUserRawPayload extends ChannelUserRawPayload {
-
-}
+export type PersonChannelUserRawPayload = ChannelUserRawPayload
 
 export interface PersonRawPayload extends EntityRawPayload {
   readonly created_at?: string
@@ -113,10 +111,10 @@ export interface PersonPayload {
 }
 
 export interface PersonAnalyticsSnapshotResponse {
-  customer_lifetime_value: {
+  customer_lifetime_value: Array<{
     overall_net_value: number
     currency: string
-  }[]
+  }>
   latest_orders: Order[]
   mean_polarity: number
   mean_nps_score: number
@@ -155,27 +153,27 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public phonenumbers?: PersonPayload['phonenumbers']
   public channelUsers?: PersonPayload['channelUsers']
 
-  constructor(options: PersonOptions) {
+  constructor (options: PersonOptions) {
     super()
     this.universe = options.universe
     this.endpoint = 'api/v0/people'
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: PersonRawPayload): Person {
+  protected deserialize (rawPayload: PersonRawPayload): Person {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted || false
-    this.active = rawPayload.active || true
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
     this.firstName = rawPayload.first_name
     this.middleName = rawPayload.middle_name
     this.lastName = rawPayload.last_name
@@ -211,17 +209,17 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     return this
   }
 
-  public static create(payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person {
+  public static create (payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person {
     return new Person({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize(): PersonRawPayload {
+  public serialize (): PersonRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted || false,
-      active: this.active || true,
+      deleted: this.deleted ?? false,
+      active: this.active ?? true,
       first_name: this.firstName,
       middle_name: this.middleName,
       last_name: this.lastName,
@@ -238,7 +236,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     }
   }
 
-  public async init(): Promise<Person | undefined> {
+  public async init (): Promise<Person | undefined> {
     try {
       await this.fetch({
         query: {
@@ -256,11 +254,11 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     }
   }
 
-  public analytics(): object {
+  public analytics (): object {
     return {
       snapshot: async (): Promise<PersonAnalyticsSnapshotResponse | undefined> => {
         try {
-          const response = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/analytics/snapshot`)
+          const response = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/analytics/snapshot`)
 
           return {
             customer_lifetime_value: response.data.data[0].customer_lifetime_value,
@@ -291,7 +289,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
    * person.carts.create(cart)
    * ```
    */
-  public get carts(): IPersonCarts {
+  public get carts (): IPersonCarts {
     return {
       fromJson: (payloads: CartRawPayload[]): Cart[] => {
         return payloads.map((item) => (Cart.create(item, this.universe, this.http)))
@@ -303,9 +301,9 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
         try {
           const opts = {
             method: 'GET',
-            url: `${this.universe.universeBase}/${People.endpoint}/${this.id}/carts`,
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/carts`,
             params: {
-              ...(options && options.query ? options.query : {})
+              ...(options?.query ? options.query : {})
             }
           }
           const res = await this.http.getClient()(opts)
@@ -326,7 +324,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
         try {
           const opts = {
             method: 'POST',
-            url: `${this.universe.universeBase}/${People.endpoint}/${this.id}/carts`,
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/carts`,
             data: cart
           }
           const res = await this.http.getClient()(opts)
@@ -343,6 +341,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class People {
   public static endpoint: string = 'api/v0/people'
 }
@@ -366,18 +365,18 @@ export class Address {
   public deleted?: boolean
   public active?: boolean
 
-  constructor(options: AddressOptions) {
+  constructor (options: AddressOptions) {
     this.universe = options.universe
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: PersonAddressRawPayload): Address {
+  protected deserialize (rawPayload: PersonAddressRawPayload): Address {
     this.id = rawPayload.id
     this.lines = rawPayload.lines
     this.locality = rawPayload.locality
@@ -394,15 +393,15 @@ export class Address {
     return this
   }
 
-  public static create(payload: PersonAddressRawPayload, universe: Universe, http: Universe['http']): Address {
+  public static create (payload: PersonAddressRawPayload, universe: Universe, http: Universe['http']): Address {
     return new Address({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public static createUninitialized(payload: PersonAddressRawPayload, universe: Universe, http: Universe['http']): Address {
+  public static createUninitialized (payload: PersonAddressRawPayload, universe: Universe, http: Universe['http']): Address {
     return new Address({ rawPayload: payload, universe, http, initialized: false })
   }
 
-  public serialize(): PersonAddressRawPayload {
+  public serialize (): PersonAddressRawPayload {
     return {
       id: this.id,
       lines: this.lines,
@@ -435,18 +434,18 @@ export class Phonenumber {
   public deleted?: boolean
   public active?: boolean
 
-  constructor(options: PhonenumberOptions) {
+  constructor (options: PhonenumberOptions) {
     this.universe = options.universe
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: PersonPhonenumberRawPayload): Phonenumber {
+  protected deserialize (rawPayload: PersonPhonenumberRawPayload): Phonenumber {
     this.id = rawPayload.id
     this.value = rawPayload.value
     this.type = rawPayload.type
@@ -457,15 +456,15 @@ export class Phonenumber {
     return this
   }
 
-  public static create(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber {
+  public static create (payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber {
     return new Phonenumber({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public static createUninitialized(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber {
+  public static createUninitialized (payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber {
     return new Phonenumber({ rawPayload: payload, universe, http, initialized: false })
   }
 
-  public serialize(): PersonPhonenumberRawPayload {
+  public serialize (): PersonPhonenumberRawPayload {
     return {
       id: this.id,
       value: this.value,
@@ -480,7 +479,7 @@ export class Phonenumber {
 
 export class PersonInitializationError extends BaseError {
   public name = 'PersonInitializationError'
-  constructor(public message: string = 'Could not initialize person.', properties?: any) {
+  constructor (public message: string = 'Could not initialize person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonInitializationError.prototype)
   }
@@ -488,7 +487,7 @@ export class PersonInitializationError extends BaseError {
 
 export class PersonFetchRemoteError extends BaseError {
   public name = 'PersonFetchRemoteError'
-  constructor(public message: string = 'Could not get person.', properties?: any) {
+  constructor (public message: string = 'Could not get person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonFetchRemoteError.prototype)
   }
@@ -496,7 +495,7 @@ export class PersonFetchRemoteError extends BaseError {
 
 export class PeopleFetchRemoteError extends BaseError {
   public name = 'PeopleFetchRemoteError'
-  constructor(public message: string = 'Could not get people.', properties?: any) {
+  constructor (public message: string = 'Could not get people.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleFetchRemoteError.prototype)
   }
@@ -504,7 +503,7 @@ export class PeopleFetchRemoteError extends BaseError {
 
 export class PeopleAnalyticsRemoteError extends BaseError {
   public name = 'PeopleAnalyticsRemoteError'
-  constructor(public message: string = 'Could not get analytics data.', properties?: any) {
+  constructor (public message: string = 'Could not get analytics data.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleAnalyticsRemoteError.prototype)
   }

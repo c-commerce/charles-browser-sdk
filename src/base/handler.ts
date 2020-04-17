@@ -20,15 +20,15 @@ export interface CharlesBaseHandlerUriOptions {
 }
 
 export class CharlesBaseHandler {
-  private handlerOptions: CharlesBaseHandlerOptions
-  private client: Client
+  private readonly handlerOptions: CharlesBaseHandlerOptions
+  private readonly client: Client
 
-  constructor(http: Client, handlerOptions: CharlesBaseHandlerOptions) {
+  constructor (http: Client, handlerOptions: CharlesBaseHandlerOptions) {
     this.client = http
     this.handlerOptions = handlerOptions
   }
 
-  getURI(options: CharlesBaseHandlerUriOptions) {
+  getURI (options: CharlesBaseHandlerUriOptions): string {
     let queryString = ''
     if (options.query) {
       queryString = qs.stringify(options.query, { addQueryPrefix: true })

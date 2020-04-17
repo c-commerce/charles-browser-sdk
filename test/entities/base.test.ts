@@ -27,20 +27,21 @@ describe('Entities: base', () => {
 
       public endpoint: string
 
-      constructor(options: ClsOptions) {
+      constructor (options: ClsOptions) {
         super()
         this.universe = options.universe
         this.endpoint = 'api/v0/cls_endpoint'
         this.http = options.http
         this.options = options
-        this.initialized = options.initialized || false
+        this.initialized = options.initialized ?? false
 
-        if (options && options.rawPayload) {
+        if (options?.rawPayload) {
           this.deserialize(options.rawPayload)
         }
       }
 
-      protected deserialize(p: ClsRawPayload) {
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+      protected deserialize (p: ClsRawPayload) {
         this.setRawPayload(p)
 
         this.id = p.id
@@ -49,7 +50,7 @@ describe('Entities: base', () => {
         return this
       }
 
-      public serialize(): ClsRawPayload {
+      public serialize (): ClsRawPayload {
         return {
           id: this.id,
           name: this.name
@@ -62,11 +63,13 @@ describe('Entities: base', () => {
       name: undefined
     }
 
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const mockUniverse = {
       universeBase: 'https://my-business.hello-charles.com'
     } as EntityOptions['universe']
 
     const mockCallback = jest.fn((opts: object) => {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
         responseStatus: 200,
         data: {
@@ -80,8 +83,9 @@ describe('Entities: base', () => {
       } as object
     })
 
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const mockHttp = {
-      getClient() {
+      getClient () {
         return (opts: object) => {
           return mockCallback(opts)
         }
@@ -107,7 +111,7 @@ describe('Entities: base', () => {
     expect(mockCallback.mock.calls.length).toBe(1)
     expect(mockCallback.mock.calls[0][0]).toStrictEqual({
       data: [
-        { 'op': 'replace', 'path': '/name', 'value': 'new name' }
+        { op: 'replace', path: '/name', value: 'new name' }
       ],
       headers: {
         'Content-Type': 'application/json-patch+json'
@@ -148,21 +152,24 @@ describe('Entities: base', () => {
     })
 
     const postableMockCallback = jest.fn((opts: object) => {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
         responseStatus: 200,
         data: {
           data: [
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             {
               id: '5678',
               name: 'something'
-            }
+            } as object
           ]
         }
       } as object
     })
 
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const postableMockHttp = {
-      getClient() {
+      getClient () {
         return (opts: object) => {
           return postableMockCallback(opts)
         }

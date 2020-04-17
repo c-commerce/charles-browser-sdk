@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv'
+import * as errors from '../src/errors'
 
 dotenv.config()
-import * as errors from '../src/errors'
 
 describe('SDK: errors', () => {
   it('can instantiate error', () => {

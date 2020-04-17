@@ -1,10 +1,10 @@
 import * as dotenv from 'dotenv'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-dotenv.config()
 import { v0 } from '../../src/charles'
+dotenv.config()
 
-let user = {
+const user = {
   username: 'test@example.com',
   password: '12345678',
   clientAccount: 'someuuid',
@@ -12,10 +12,10 @@ let user = {
 }
 
 if (process.env.SYSTEM_TEST) {
-  user.username = process.env.SYSTEM_TEST_USERNAME || user.username
-  user.password = process.env.SYSTEM_TEST_PASSWORD || user.password
-  user.clientAccount = process.env.SYSTEM_TEST_CLIENT_ACCOUNT_ID || user.clientAccount
-  user.apiKey = process.env.SYSTEM_TEST_API_KEY || user.apiKey
+  user.username = process.env.SYSTEM_TEST_USERNAME ?? user.username
+  user.password = process.env.SYSTEM_TEST_PASSWORD ?? user.password
+  user.clientAccount = process.env.SYSTEM_TEST_CLIENT_ACCOUNT_ID ?? user.clientAccount
+  user.apiKey = process.env.SYSTEM_TEST_API_KEY ?? user.apiKey
 }
 
 describe('Auth: make auth flow', () => {
@@ -48,8 +48,9 @@ describe('Auth: make auth flow', () => {
 
     const auth = new v0.Auth(options)
 
+    // eslint-disable-next-line no-useless-catch
     try {
-      let data = await auth.authenticate()
+      const data = await auth.authenticate()
       expect(data).toBeTruthy()
       expect(typeof data.access_token === 'string').toBe(true)
       expect(typeof data.user === 'string').toBe(true)
@@ -89,8 +90,9 @@ describe('Auth: make auth flow', () => {
 
     const auth = new v0.Auth(options)
 
+    // eslint-disable-next-line no-useless-catch
     try {
-      let data = await auth.authenticate()
+      const data = await auth.authenticate()
       expect(data).toBeTruthy()
       expect(typeof data.access_token === 'string').toBe(true)
       expect(typeof data.user === 'string').toBe(true)

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import * as dotenv from 'dotenv'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-dotenv.config()
 import * as universe from '../../src/universe/index'
 import { stubUniverse } from '../util'
+dotenv.config()
 
 // const legacyId = '4564'
 
@@ -17,42 +18,42 @@ describe('v0: Me: can get me data', () => {
 
   it('Charles\'s Me is instantiable', async () => {
     mock
-      .onGet(`https://stub-universe.hello-charles.com/api/v0/me`)
+      .onGet('https://stub-universe.hello-charles.com/api/v0/me')
       .reply(function (config) {
         return [
           200,
           {
             data: {
-              'user': {
-                'sub': 'SOME_USER_ID',
-                'roles': [
+              user: {
+                sub: 'SOME_USER_ID',
+                roles: [
                   'user',
                   'organization:owner'
                 ],
-                'permissions': [
+                permissions: [
                   'user',
                   'universes:admin'
                 ],
-                'email': 'USER@hey-charles.com'
+                email: 'USER@hey-charles.com'
               },
-              'permissions': [],
-              'roles': [],
-              'staff': {
-                'id': 'SOME_STAFF_ID',
-                'created_at': '2020-04-10T19:18:01.604Z',
-                'updated_at': '2020-04-10T19:18:01.604Z',
-                'deleted': false,
-                'active': true,
-                'first_name': 'FIRSTNAME',
-                'middle_name': null,
-                'display_name': null,
-                'last_name': null,
-                'comment': null,
-                'type': null,
-                'user': 'SOME_USER_ID',
-                'permissions': [
+              permissions: [],
+              roles: [],
+              staff: {
+                id: 'SOME_STAFF_ID',
+                created_at: '2020-04-10T19:18:01.604Z',
+                updated_at: '2020-04-10T19:18:01.604Z',
+                deleted: false,
+                active: true,
+                first_name: 'FIRSTNAME',
+                middle_name: null,
+                display_name: null,
+                last_name: null,
+                comment: null,
+                type: null,
+                user: 'SOME_USER_ID',
+                permissions: [
                 ],
-                'roles': [
+                roles: [
                   'agent'
                 ]
               }
@@ -72,9 +73,9 @@ describe('v0: Me: can get me data', () => {
     expect(meData?.staff.id).toBe('SOME_STAFF_ID')
   })
 
-  it('Charles\'s return unautenticated on 401s', async () => {
+  it('Charles\'s return unautenticated on 401s', () => {
     mock
-      .onGet(`https://stub-universe.hello-charles.com/api/v0/me`)
+      .onGet('https://stub-universe.hello-charles.com/api/v0/me')
       .reply(function (config) {
         return [
           401,
@@ -89,9 +90,9 @@ describe('v0: Me: can get me data', () => {
     expect(universeStub.universe.me()).rejects.toBeInstanceOf(universe.UniverseUnauthenticatedError)
   })
 
-  it('Charles\'s return on anything else', async () => {
+  it('Charles\'s return on anything else', () => {
     mock
-      .onGet(`https://stub-universe.hello-charles.com/api/v0/me`)
+      .onGet('https://stub-universe.hello-charles.com/api/v0/me')
       .reply(function (config) {
         return [
           500,

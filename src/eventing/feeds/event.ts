@@ -13,10 +13,10 @@ export enum EventTypesEnum {
 }
 
 export type IEventType = 'resource'
-  | 'follow_up'
-  | 'person:feedback_pending'
-  | 'conversation:completed'
-  | 'agent:view'
+| 'follow_up'
+| 'person:feedback_pending'
+| 'conversation:completed'
+| 'agent:view'
 
 export enum EventResourcesTypesEnum {
   message = 'message',
@@ -49,10 +49,10 @@ export interface EventRawPayload {
     language?: {
       language?: string | null
       confidence?: number | null
-      vectors?: {
+      vectors?: Array<{
         language?: string | null
         confidence?: number | null
-      }[] | null
+      }> | null
       payload?: {
         cld3?: any
         cld2?: any
@@ -83,7 +83,7 @@ export class Event extends EventEmitter {
   protected options: EventOptions
   public initialized: boolean
 
-  private endpoint: string
+  private readonly endpoint: string
   public id?: string
   public resource?: EventPayload['resource']
   public resourceType?: EventPayload['resourceType']
@@ -97,21 +97,21 @@ export class Event extends EventEmitter {
 
   static eventTypes = EventTypesEnum
 
-  constructor(options: EventOptions) {
+  constructor (options: EventOptions) {
     super()
     this.universe = options.universe
     this.feed = options.feed
-    this.endpoint = `${this.feed.id}/events`
+    this.endpoint = `${this.feed.id as string}/events`
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  private deserialize(rawPayload: EventRawPayload): Event {
+  private deserialize (rawPayload: EventRawPayload): Event {
     // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
     // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
     if (!this.id) this.id = rawPayload.id
@@ -136,15 +136,15 @@ export class Event extends EventEmitter {
     return this
   }
 
-  public static create(payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event {
+  public static create (payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event {
     return new Event({ rawPayload: payload, universe, http, initialized: true, feed })
   }
 
-  public static createUninitialized(payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event {
+  public static createUninitialized (payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event {
     return new Event({ rawPayload: payload, universe, http, initialized: false, feed })
   }
 
-  public serialize(): EventRawPayload {
+  public serialize (): EventRawPayload {
     return {
       id: this.id,
       resource: this.resource,
@@ -159,7 +159,7 @@ export class Event extends EventEmitter {
     }
   }
 
-  public async init(): Promise<Event | undefined> {
+  public async init (): Promise<Event | undefined> {
     try {
       await this.fetch()
 
@@ -169,9 +169,9 @@ export class Event extends EventEmitter {
     }
   }
 
-  public async fetch(): Promise<Event | undefined> {
+  public async fetch (): Promise<Event | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}`)
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}`)
 
       this.deserialize(res.data.data[0] as EventRawPayload)
 
@@ -181,9 +181,9 @@ export class Event extends EventEmitter {
     }
   }
 
-  public async mark(): Promise<Event | undefined> {
+  public async mark (): Promise<Event | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/mark`)
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/mark`)
 
       this.deserialize(res.data.data[0] as EventRawPayload)
 
@@ -193,9 +193,9 @@ export class Event extends EventEmitter {
     }
   }
 
-  public async unmark(): Promise<Event | undefined> {
+  public async unmark (): Promise<Event | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/unmark`)
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/unmark`)
 
       this.deserialize(res.data.data[0] as EventRawPayload)
 
@@ -205,9 +205,9 @@ export class Event extends EventEmitter {
     }
   }
 
-  public async flag(): Promise<Event | undefined> {
+  public async flag (): Promise<Event | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/flag`)
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/flag`)
 
       this.deserialize(res.data.data[0] as EventRawPayload)
 
@@ -217,9 +217,9 @@ export class Event extends EventEmitter {
     }
   }
 
-  public async unflag(): Promise<Event | undefined> {
+  public async unflag (): Promise<Event | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id}/unflag`)
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/unflag`)
 
       this.deserialize(res.data.data[0] as EventRawPayload)
 
@@ -229,7 +229,7 @@ export class Event extends EventEmitter {
     }
   }
 
-  private handleError(err: Error): Error {
+  private handleError (err: Error): Error {
     if (this.listeners('error').length > 0) this.emit('error', err)
 
     return err
@@ -238,42 +238,42 @@ export class Event extends EventEmitter {
 
 export class EventInitializationError extends BaseError {
   public name = 'EventInitializationError'
-  constructor(public message: string = 'Could not initialize event.', properties?: any) {
+  constructor (public message: string = 'Could not initialize event.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EventFetchRemoteError extends BaseError {
   public name = 'EventFetchRemoteError'
-  constructor(public message: string = 'Could not get event.', properties?: any) {
+  constructor (public message: string = 'Could not get event.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EventMarkRemoteError extends BaseError {
   public name = 'EventMarkRemoteError'
-  constructor(public message: string = 'Could not mark event.', properties?: any) {
+  constructor (public message: string = 'Could not mark event.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EventUnmarkRemoteError extends BaseError {
   public name = 'EventUnmarkRemoteError'
-  constructor(public message: string = 'Could not unmark event.', properties?: any) {
+  constructor (public message: string = 'Could not unmark event.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EventUnarkRemoteError extends BaseError {
   public name = 'EventUnarkRemoteError'
-  constructor(public message: string = 'Could not flag event.', properties?: any) {
+  constructor (public message: string = 'Could not flag event.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EventUnflagRemoteError extends BaseError {
   public name = 'EventUnflagRemoteError'
-  constructor(public message: string = 'Could not unflag event.', properties?: any) {
+  constructor (public message: string = 'Could not unflag event.', properties?: any) {
     super(message, properties)
   }
 }

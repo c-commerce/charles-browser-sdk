@@ -2,7 +2,7 @@
 import {
   Staff,
   Staffs,
-   StaffsFetchRemoteError
+  StaffsFetchRemoteError
 } from './staff'
 
 export {

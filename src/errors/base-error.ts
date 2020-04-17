@@ -3,7 +3,7 @@ export class BaseError extends Error {
   public properties?: any
   public message: string
 
-  constructor(message: string, properties?: any) {
+  constructor (message: string, properties?: any) {
     super()
     this.message = message
 

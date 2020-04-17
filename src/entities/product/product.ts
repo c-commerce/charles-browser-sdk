@@ -199,27 +199,27 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
   public proxyConfiguration?: ProductPayload['proxy_configuration']
   public metadata?: ProductPayload['metadata']
 
-  constructor(options: ProductOptions) {
+  constructor (options: ProductOptions) {
     super()
     this.universe = options.universe
     this.endpoint = 'api/v0/products'
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: ProductRawPayload): Product {
+  protected deserialize (rawPayload: ProductRawPayload): Product {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted || false
-    this.active = rawPayload.active || true
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
     this.customId = rawPayload.custom_id
     this.name = rawPayload.name
     this.summary = rawPayload.summary
@@ -238,14 +238,14 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
     this.audiences = rawPayload.audiences
     this.keywords = rawPayload.keywords
     this.categories = rawPayload.categories
-    this.isProxy = rawPayload.is_proxy || false
+    this.isProxy = rawPayload.is_proxy ?? false
     this.proxyVendor = rawPayload.proxy_vendor
     this.type = rawPayload.type
     this.attributes = rawPayload.attributes
     this.sku = rawPayload.sku
     this.stockMinimum = rawPayload.stock_minimum
     this.stockMaximum = rawPayload.stock_maximum
-    this.stockable = rawPayload.stockable || true
+    this.stockable = rawPayload.stockable ?? true
     this.parent = rawPayload.parent
     this.seasons = rawPayload.seasons
     this.tags = rawPayload.tags
@@ -254,15 +254,15 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
     this.externalReferenceId = rawPayload.external_reference_id
     this.externalReferenceCustomId = rawPayload.external_reference_custom_id
     this.clientId = rawPayload.client_id
-    this.discountable = rawPayload.discountable || false
-    this.linkable = rawPayload.linkable || false
-    this.isService = rawPayload.is_service || false
+    this.discountable = rawPayload.discountable ?? false
+    this.linkable = rawPayload.linkable ?? false
+    this.isService = rawPayload.is_service ?? false
     this.warrantyNotice = rawPayload.warranty_notice
     this.refundPolicy = rawPayload.refund_policy
     this.disclaimer = rawPayload.disclaimer
-    this.offlineAvailable = rawPayload.offline_available || false
-    this.onlineAvailable = rawPayload.online_available || true
-    this.shippingFequired = rawPayload.shipping_required || true
+    this.offlineAvailable = rawPayload.offline_available ?? false
+    this.onlineAvailable = rawPayload.online_available ?? true
+    this.shippingFequired = rawPayload.shipping_required ?? true
     this.proxyConfiguration = rawPayload.proxy_configuration
     this.metadata = rawPayload.metadata
     this.prices = rawPayload.prices
@@ -270,17 +270,17 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
     return this
   }
 
-  public static create(payload: ProductRawPayload, universe: Universe, http: Universe['http']): Product {
+  public static create (payload: ProductRawPayload, universe: Universe, http: Universe['http']): Product {
     return new Product({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize(): ProductRawPayload {
+  public serialize (): ProductRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted || false,
-      active: this.active || true,
+      deleted: this.deleted ?? false,
+      active: this.active ?? true,
       custom_id: this.customId,
       name: this.name,
       summary: this.summary,
@@ -299,14 +299,14 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
       audiences: this.audiences,
       keywords: this.keywords,
       categories: this.categories,
-      is_proxy: this.isProxy || false,
+      is_proxy: this.isProxy ?? false,
       proxy_vendor: this.proxyVendor,
       type: this.type,
       attributes: this.attributes,
       sku: this.sku,
       stock_minimum: this.stockMinimum,
       stock_maximum: this.stockMaximum,
-      stockable: this.stockable || true,
+      stockable: this.stockable ?? true,
       parent: this.parent,
       seasons: this.seasons,
       tags: this.tags,
@@ -315,22 +315,22 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
       external_reference_id: this.externalReferenceId,
       external_reference_custom_id: this.externalReferenceCustomId,
       client_id: this.clientId,
-      discountable: this.discountable || false,
-      linkable: this.linkable || false,
-      is_service: this.isService || false,
+      discountable: this.discountable ?? false,
+      linkable: this.linkable ?? false,
+      is_service: this.isService ?? false,
       warranty_notice: this.warrantyNotice,
       refund_policy: this.refundPolicy,
       disclaimer: this.disclaimer,
-      offline_available: this.offlineAvailable || false,
-      online_available: this.onlineAvailable || true,
-      shipping_required: this.shippingFequired || true,
+      offline_available: this.offlineAvailable ?? false,
+      online_available: this.onlineAvailable ?? true,
+      shipping_required: this.shippingFequired ?? true,
       proxy_configuration: this.proxyConfiguration,
       metadata: this.metadata,
       prices: this.prices
     }
   }
 
-  public async init(): Promise<Product | undefined> {
+  public async init (): Promise<Product | undefined> {
     try {
       await this.fetch()
 
@@ -341,27 +341,28 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Products {
   public static endpoint: string = 'api/v0/products'
 }
 
 export class ProductInitializationError extends BaseError {
   public name = 'ProductInitializationError'
-  constructor(public message: string = 'Could not initialize product.', properties?: any) {
+  constructor (public message: string = 'Could not initialize product.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class ProductFetchRemoteError extends BaseError {
   public name = 'ProductFetchRemoteError'
-  constructor(public message: string = 'Could not get product.', properties?: any) {
+  constructor (public message: string = 'Could not get product.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class ProductsFetchRemoteError extends BaseError {
   public name = 'ProductsFetchRemoteError'
-  constructor(public message: string = 'Could not get products.', properties?: any) {
+  constructor (public message: string = 'Could not get products.', properties?: any) {
     super(message, properties)
   }
 }

@@ -5,7 +5,7 @@ for (let i = 0; i < 256; i++) {
   lut[i] = (i < 16 ? '0' : '') + (i).toString(16)
 }
 
-export function v4(): string {
+export function v4 (): string {
   const d0 = Math.random() * 0xffffffff | 0
   const d1 = Math.random() * 0xffffffff | 0
   const d2 = Math.random() * 0xffffffff | 0

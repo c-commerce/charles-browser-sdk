@@ -25,11 +25,11 @@ export interface OrderItemPriceRawPayload {
   readonly custom_vat_rate: number
   readonly tax_region: string
   readonly tax_country: string
-  readonly additional_taxes: {
+  readonly additional_taxes: Array<{
     readonly id: string
     readonly rate: number
     readonly amount: number
-  }[]
+  }>
 }
 
 export interface OrderItemDiscountRawPayload {
@@ -85,13 +85,9 @@ export interface OrderAdress {
   readonly country?: string
 }
 
-export interface OrderShippingAddress extends OrderAdress {
+export type OrderShippingAddress = OrderAdress
 
-}
-
-export interface OrderBillingAddress extends OrderAdress {
-
-}
+export type OrderBillingAddress = OrderAdress
 
 export interface OrderContact {
   readonly email?: string
@@ -193,17 +189,17 @@ export class OrderItem {
   public externalReferenceId?: OrderItemPayload['externalReferenceId']
   public externalReferenceCustomId?: OrderItemPayload['externalReferenceCustomId']
 
-  constructor(options: OrderItemOptions) {
+  constructor (options: OrderItemOptions) {
     this.universe = options.universe
     this.http = options.http
     this.options = options
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: OrderItemRawPayload): OrderItem {
+  protected deserialize (rawPayload: OrderItemRawPayload): OrderItem {
     this.qty = rawPayload.qty
     this.sku = rawPayload.sku
     this.name = rawPayload.name
@@ -221,11 +217,11 @@ export class OrderItem {
     return this
   }
 
-  public static create(payload: OrderItemRawPayload, universe: Universe, http: Universe['http']): OrderItem {
+  public static create (payload: OrderItemRawPayload, universe: Universe, http: Universe['http']): OrderItem {
     return new OrderItem({ rawPayload: payload, universe, http })
   }
 
-  public serialize(): OrderItemRawPayload {
+  public serialize (): OrderItemRawPayload {
     return {
       qty: this.qty,
       sku: this.sku,
@@ -289,28 +285,28 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
   public status?: OrderPayload['status']
   public proxyPayload?: OrderPayload['proxyPayload']
 
-  constructor(options: OrderOptions) {
+  constructor (options: OrderOptions) {
     super()
     this.universe = options.universe
     this.endpoint = 'api/v0/orders'
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: OrderRawPayload): Order {
+  protected deserialize (rawPayload: OrderRawPayload): Order {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted || false
-    this.active = rawPayload.active || true
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
     this.name = rawPayload.name
     this.customId = rawPayload.custom_id
-    this.isProxy = rawPayload.is_proxy || false
+    this.isProxy = rawPayload.is_proxy ?? false
     this.proxyVendor = rawPayload.proxy_vendor
     this.type = rawPayload.type
     this.externalReferenceId = rawPayload.external_reference_id
@@ -343,12 +339,12 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
     return this
   }
 
-  public static create(payload: OrderRawPayload, universe: Universe, http: Universe['http']): Order {
+  public static create (payload: OrderRawPayload, universe: Universe, http: Universe['http']): Order {
     return new Order({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize(): OrderRawPayload {
-    let items = undefined
+  public serialize (): OrderRawPayload {
+    let items
     if (Array.isArray(this.items)) {
       items = this.items.map((item) => (item.serialize()))
     }
@@ -357,8 +353,8 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted || false,
-      active: this.active || true,
+      deleted: this.deleted ?? false,
+      active: this.active ?? true,
       name: this.name,
       custom_id: this.customId,
       is_proxy: this.isProxy,
@@ -388,7 +384,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
     }
   }
 
-  public async init(): Promise<Order | undefined> {
+  public async init (): Promise<Order | undefined> {
     try {
       await this.fetch()
 
@@ -399,27 +395,28 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Orders {
   public static endpoint: string = 'api/v0/orders'
 }
 
 export class OrderInitializationError extends BaseError {
   public name = 'OrderInitializationError'
-  constructor(public message: string = 'Could not initialize order.', properties?: any) {
+  constructor (public message: string = 'Could not initialize order.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class OrderFetchRemoteError extends BaseError {
   public name = 'OrderFetchRemoteError'
-  constructor(public message: string = 'Could not get order.', properties?: any) {
+  constructor (public message: string = 'Could not get order.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class OrdersFetchRemoteError extends BaseError {
   public name = 'OrdersFetchRemoteError'
-  constructor(public message: string = 'Could not get orders.', properties?: any) {
+  constructor (public message: string = 'Could not get orders.', properties?: any) {
     super(message, properties)
   }
 }

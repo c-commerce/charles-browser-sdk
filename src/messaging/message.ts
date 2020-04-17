@@ -51,7 +51,7 @@ export interface MessageRawPayload {
         method: 'POST' | string
         uri: 'string'
       }
-    },
+    }
     reply_to_feed?: {
       deadline: string | null
       type: 'http' | string | null
@@ -60,7 +60,7 @@ export interface MessageRawPayload {
         uri: 'string'
       }
     }
-  },
+  }
   readonly person?: PersonRawPayload['id']
   readonly feed?: FeedRawPayload['id']
 }
@@ -89,9 +89,7 @@ export interface MessagePayload {
   readonly feed?: Feed
 }
 
-export interface Message extends MessagePayload {
-
-}
+// export type Message = MessagePayload
 
 export class Message extends EventEmitter {
   protected universe: Universe
@@ -120,13 +118,13 @@ export class Message extends EventEmitter {
   public readonly person?: Person
   public readonly feed?: Feed
 
-  constructor(options: MessageOptions) {
+  constructor (options: MessageOptions) {
     super()
     this.universe = options.universe
     this.http = options.http
     this.options = options
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.id = options.rawPayload.id
       this.sourceType = options.rawPayload.source_type
       this.sourceApi = options.rawPayload.source_api
@@ -151,6 +149,7 @@ export class Message extends EventEmitter {
       if (options.feed) {
         this.feed = options.feed
       } else if (options.rawPayload.feed) {
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
         this.feed = {
           id: options.rawPayload.feed
         } as Feed
@@ -160,11 +159,11 @@ export class Message extends EventEmitter {
     }
   }
 
-  public static deserialize(payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message {
+  public static deserialize (payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message {
     return new Message({ rawPayload: payload, universe, http, feed })
   }
 
-  public serialize(): MessageRawPayload {
+  public serialize (): MessageRawPayload {
     return {
       id: this.id,
       source_type: this.sourceType,
@@ -190,7 +189,7 @@ export class Message extends EventEmitter {
     }
   }
 
-  public reply(contentOptions: MessageReplyContentOptions): MessageReply {
+  public reply (contentOptions: MessageReplyContentOptions): MessageReply {
     return new MessageReply({
       message: this,
       http: this.http,
@@ -202,7 +201,7 @@ export class Message extends EventEmitter {
     })
   }
 
-  public replyFeed(contentOptions: MessageReplyContentOptions): MessageFeedReply {
+  public replyFeed (contentOptions: MessageReplyContentOptions): MessageFeedReply {
     return new MessageFeedReply({
       message: this,
       http: this.http,
@@ -214,7 +213,7 @@ export class Message extends EventEmitter {
     })
   }
 
-  private handleError(err: Error) {
+  private handleError (err: Error): void {
     if (this.listeners('error').length > 0) this.emit('error', err)
   }
 }
@@ -231,18 +230,17 @@ export interface MessageReplyOptions extends ReplyOptions {
   rawAssets?: FormData
 }
 
-export interface ReplyResponse extends MessageRawPayload {
-
-}
+export type ReplyResponse = MessageRawPayload
 
 export class Reply extends Message {
-  constructor(options: ReplyOptions) {
-    super(options)
-  }
+  // constructor (options: ReplyOptions) {
+  //   super(options)
+  // }
 
-  protected async prepareSendWithAssets(payload: FormData): Promise<Asset[] | undefined> {
+  protected async prepareSendWithAssets (payload: FormData): Promise<Asset[] | undefined> {
+    // eslint-disable-next-line no-useless-catch
     try {
-      const assetsHandler = new Assets({
+      const assetsHandler: Assets = new Assets({
         http: this.options.http,
         universe: this.options.universe
       })
@@ -257,29 +255,30 @@ export class Reply extends Message {
 }
 
 export class MessageReply extends Reply {
-  private message: Message
-  private rawAssets?: FormData
+  private readonly message: Message
+  private readonly rawAssets?: FormData
 
-  constructor(options: MessageReplyOptions) {
+  constructor (options: MessageReplyOptions) {
     super(options)
 
     this.message = options.message
     this.rawAssets = options.rawAssets
   }
 
-  public async send(): Promise<Event | ReplyResponse | undefined> {
+  public async send (): Promise<Event | ReplyResponse | undefined> {
     try {
       let additonalAttachments
       if (this.rawAssets) {
         const assets = await this.prepareSendWithAssets(this.rawAssets)
         if (Array.isArray(assets)) {
-          additonalAttachments = assets.map((item: Asset) => {
+          additonalAttachments = assets.map((item: Asset): MessageRawPayloadAttachment => {
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             return {
               // TODO: move this to mime type, when the API catches up
               type: 'image',
               payload: item.uri
             } as MessageRawPayloadAttachment
-          }) as MessageRawPayloadAttachment[]
+          })
         }
       }
 
@@ -296,7 +295,7 @@ export class MessageReply extends Reply {
         this.content.attachments = attachments
       }
 
-      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_message?.options.uri}`, {
+      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_message?.options.uri as string}`, {
         content: {
           ...this.content
         }
@@ -314,29 +313,30 @@ export class MessageReply extends Reply {
 }
 
 export class MessageFeedReply extends Reply {
-  private message: Message
-  private rawAssets?: FormData
+  private readonly message: Message
+  private readonly rawAssets?: FormData
 
-  constructor(options: MessageReplyOptions) {
+  constructor (options: MessageReplyOptions) {
     super(options)
 
     this.message = options.message
     this.rawAssets = options.rawAssets
   }
 
-  public async send(): Promise<ReplyResponse | undefined> {
+  public async send (): Promise<ReplyResponse | undefined> {
     try {
       let additonalAttachments
       if (this.rawAssets) {
         const assets = await this.prepareSendWithAssets(this.rawAssets)
         if (Array.isArray(assets)) {
-          additonalAttachments = assets.map((item: Asset) => {
+          additonalAttachments = assets.map((item: Asset): MessageRawPayloadAttachment => {
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             return {
               // TODO: move this to mime type, when the API catches up
               type: 'image',
               payload: item.uri
             } as MessageRawPayloadAttachment
-          }) as MessageRawPayloadAttachment[]
+          })
         }
       }
 
@@ -353,7 +353,7 @@ export class MessageFeedReply extends Reply {
         this.content.attachments = attachments
       }
 
-      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_feed?.options.uri}`, {
+      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_feed?.options.uri as string}`, {
         content: {
           ...this.content
         }
@@ -367,7 +367,7 @@ export class MessageFeedReply extends Reply {
 
 export class MessagesReplyError extends BaseError {
   public name = 'MessagesReplyError'
-  constructor(
+  constructor (
     public message: string = 'Could not send reply unexpectedly.',
     properties?: any
   ) {

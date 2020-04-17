@@ -73,25 +73,25 @@ export class Discount extends Entity<DiscountPayload, DiscountRawPayload> {
   public name?: DiscountPayload['name']
   public i18n?: DiscountPayload['i18n']
 
-  constructor(options: DiscountOptions) {
+  constructor (options: DiscountOptions) {
     super()
     this.universe = options.universe
     this.endpoint = 'api/v0/discounts'
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
 
-  protected deserialize(rawPayload: DiscountRawPayload): Discount {
+  protected deserialize (rawPayload: DiscountRawPayload): Discount {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted || false
-    this.active = rawPayload.active || true
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
     this.type = rawPayload.type
     this.value = rawPayload.value
     this.name = rawPayload.name
@@ -100,17 +100,17 @@ export class Discount extends Entity<DiscountPayload, DiscountRawPayload> {
     return this
   }
 
-  public static create(payload: DiscountRawPayload, universe: Universe, http: Universe['http']): Discount {
+  public static create (payload: DiscountRawPayload, universe: Universe, http: Universe['http']): Discount {
     return new Discount({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize(): DiscountRawPayload {
+  public serialize (): DiscountRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted || false,
-      active: this.active || true,
+      deleted: this.deleted ?? false,
+      active: this.active ?? true,
       type: this.type,
       value: this.value,
       name: this.name,
@@ -118,7 +118,7 @@ export class Discount extends Entity<DiscountPayload, DiscountRawPayload> {
     }
   }
 
-  public async init(): Promise<Discount | undefined> {
+  public async init (): Promise<Discount | undefined> {
     try {
       await this.fetch()
 
@@ -129,27 +129,28 @@ export class Discount extends Entity<DiscountPayload, DiscountRawPayload> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Discounts {
   public static endpoint: string = 'api/v0/discounts'
 }
 
 export class DiscountInitializationError extends BaseError {
   public name = 'DiscountInitializationError'
-  constructor(public message: string = 'Could not initialize discount.', properties?: any) {
+  constructor (public message: string = 'Could not initialize discount.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class DiscountFetchRemoteError extends BaseError {
   public name = 'DiscountFetchRemoteError'
-  constructor(public message: string = 'Could not get discount.', properties?: any) {
+  constructor (public message: string = 'Could not get discount.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class DiscountsFetchRemoteError extends BaseError {
   public name = 'DiscountsFetchRemoteError'
-  constructor(public message: string = 'Could not get discounts.', properties?: any) {
+  constructor (public message: string = 'Could not get discounts.', properties?: any) {
     super(message, properties)
   }
 }

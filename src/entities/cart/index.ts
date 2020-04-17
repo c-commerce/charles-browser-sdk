@@ -2,7 +2,7 @@
 import {
   Cart,
   Carts,
-   CartsFetchRemoteError
+  CartsFetchRemoteError
 } from './cart'
 
 export {

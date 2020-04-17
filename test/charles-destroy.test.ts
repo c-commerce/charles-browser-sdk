@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import * as dotenv from 'dotenv'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-dotenv.config()
 import charles, { CharlesClient, v0 } from '../src/charles'
 import { Client } from '../src/client'
 import { Auth } from '../src/v0'
 import { LocalStorageMock } from './util'
+dotenv.config()
 
-let user = {
+const user = {
   username: 'test@example.com',
   password: '12345678',
   clientAccount: 'someuuid',
@@ -15,10 +16,10 @@ let user = {
 }
 
 if (process.env.SYSTEM_TEST) {
-  user.username = process.env.SYSTEM_TEST_USERNAME || user.username
-  user.password = process.env.SYSTEM_TEST_PASSWORD || user.password
-  user.clientAccount = process.env.SYSTEM_TEST_CLIENT_ACCOUNT_ID || user.clientAccount
-  user.apiKey = process.env.SYSTEM_TEST_API_KEY || user.apiKey
+  user.username = process.env.SYSTEM_TEST_USERNAME ?? user.username
+  user.password = process.env.SYSTEM_TEST_PASSWORD ?? user.password
+  user.clientAccount = process.env.SYSTEM_TEST_CLIENT_ACCOUNT_ID ?? user.clientAccount
+  user.apiKey = process.env.SYSTEM_TEST_API_KEY ?? user.apiKey
 }
 
 describe('SDK: can destroy SDK', () => {
@@ -67,8 +68,9 @@ describe('SDK: can destroy SDK', () => {
       })
     }
 
+    // eslint-disable-next-line no-useless-catch
     try {
-      let { access_token, user } = await charles.auth.loginUsername(options)
+      const { access_token, user } = await charles.auth.loginUsername(options)
 
       localStorage.setItem('token', 'mockToken')
       localStorage.setItem('user', 'mockUser')
@@ -89,7 +91,7 @@ describe('SDK: can destroy SDK', () => {
 
     const clientInstance = Client.getInstance({})
 
-    expect(clientInstance.getClient().defaults.headers.common['Authorization']).toBeUndefined()
+    expect(clientInstance.getClient().defaults.headers.common.Authorization).toBeUndefined()
 
     expect(charles.auth).toBeDefined()
     expect(charles.options).toBeUndefined()
@@ -105,7 +107,7 @@ describe('SDK: can destroy SDK', () => {
     })
 
     expect(charles.auth.accessToken).toBe('mockToken')
-    expect(clientInstance.getClient().defaults.headers.common['Authorization']).toBe(
+    expect(clientInstance.getClient().defaults.headers.common.Authorization).toBe(
       'Bearer mockToken'
     )
     expect(charles.auth.authenticated).toBe(true)
