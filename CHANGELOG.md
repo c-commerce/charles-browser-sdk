@@ -1,3 +1,10 @@
+## [2.45.3](https://github.com/c-commerce/charles-browser-sdk/compare/v2.45.2...v2.45.3) (2020-04-17)
+
+
+### Bug Fixes
+
+* use correct linting setup ([3421e30](https://github.com/c-commerce/charles-browser-sdk/commit/3421e3078d724f09b7ee4cf940a9b02fbc529150))
+
 ## [2.45.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.45.1...v2.45.2) (2020-04-16)
 
 
