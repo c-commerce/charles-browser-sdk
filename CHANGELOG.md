@@ -1,3 +1,15 @@
+# [2.46.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.45.3...v2.46.0) (2020-04-18)
+
+
+### Bug Fixes
+
+* **entities:** add back missing stream ([4c2b117](https://github.com/c-commerce/charles-browser-sdk/commit/4c2b117703d89b0f7e4d069a7a4c04f1692b5e57))
+
+
+### Features
+
+* **feeds:** add streaming feeds ([af43c6a](https://github.com/c-commerce/charles-browser-sdk/commit/af43c6ae0af4d42c74f36e6fe75b624d9c74f654))
+
 ## [2.45.3](https://github.com/c-commerce/charles-browser-sdk/compare/v2.45.2...v2.45.3) (2020-04-17)
 
 
