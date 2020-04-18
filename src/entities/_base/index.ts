@@ -1,4 +1,6 @@
 import { EventEmitter } from 'events'
+import { Readable, pipeline } from 'readable-stream'
+import { ndjsonStream } from './helpers'
 import { diff, jsonPatchPathConverter } from 'just-diff'
 import qs from 'qs'
 import { Universe } from '../../universe'
@@ -252,5 +254,76 @@ export class EntityFetchError extends BaseError {
   public name = 'EntityFetchError'
   constructor (public message: string = 'Could fetch resource unexpectedly.', properties?: any) {
     super(message, properties)
+  }
+}
+
+export interface EntitiesListFetchQuery {
+  [key: string]: any
+}
+
+export interface EntitiesListFetchOptions {
+  raw?: boolean
+  query?: EntitiesListFetchQuery
+}
+
+export abstract class EntitiesList<Entity, RawPayload> extends Readable {
+  protected abstract universe: Universe
+  protected abstract http: Universe['http']
+  // [key: string]: any
+  public abstract endpoint: string
+
+  constructor () {
+    super({ objectMode: true })
+  }
+
+  public _read (): void {
+
+  }
+
+  protected abstract parseItem (payload: RawPayload): Entity
+
+  static pipeline = pipeline
+
+  public abstract getStream(options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>>
+
+  protected async _getStream (options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>> {
+    const uri = `${this.universe?.universeBase}/${this.endpoint}/${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`
+    const response = await fetch(uri, {
+      headers: {
+        ...this.http.getDefaultHeaders(),
+        Accept: 'application/x-ndjson'
+      }
+    })
+
+    if (!response.body) {
+      const err = new TypeError('unexpected stream response')
+      this.emit('error', err)
+      throw err
+    }
+
+    const stream = ndjsonStream(response.body)
+
+    const reader = stream.getReader()
+    let read: Function
+
+    reader.read().then(read = (result: any) => {
+      if (result.done) {
+        this.push(null)
+        return
+      }
+
+      this.push(this.parseItem(result.value))
+
+      reader.read()
+      // @ts-ignore
+        .then(read)
+        .catch((err: Error) => {
+          this.emit('error', err)
+        })
+    }).catch((err: Error) => {
+      this.emit('error', err)
+    })
+
+    return this
   }
 }

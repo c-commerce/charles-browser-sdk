@@ -29,7 +29,7 @@
     "build:docs": "typedoc --out docs --target es6 --hideGenerator  --excludeExternals --excludeNotExported --excludeProtected --categorizeByGroup true --defaultCategory \"Misc.\" --theme minimal --mode file src",
     "build:storybooks:prepare": "(cd examples/vue && npm i && cd -)",
     "build:storybooks": "(cd examples/vue && npm run build-storybook && cd -)",
-    "build:bundle": "tsc --module commonjs",
+    "build:bundle": "tsc --module commonjs -p tsconfig.release.json",
     "build": "npm run clean && npm run build:bundle",
     "clean": "rimraf dist docs",
     "test": "jest --coverage",

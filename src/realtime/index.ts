@@ -1,4 +1,4 @@
-import { connect, MqttClient, Packet, ClientSubscribeCallback } from 'mqtt'
+import { connect, MqttClient, Packet, ClientSubscribeCallback, PacketCallback } from 'mqtt'
 import events from 'events'
 import * as uuid from '../helpers/uuid'
 import { BaseError } from '../errors'
@@ -219,7 +219,7 @@ export class RealtimeClient extends events.EventEmitter {
   }
 
   public unsubscribe (topic: string | string[], cb?: Function): RealtimeClient {
-    this.getClient().unsubscribe(topic, cb ?? undefined)
+    this.getClient().unsubscribe(topic, cb as PacketCallback ?? undefined)
     return this
   }
 

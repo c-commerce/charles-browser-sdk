@@ -104,6 +104,7 @@ export interface UniverseFeeds {
   fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>
   fromJson: (feeds: FeedRawPayload[]) => Feed[]
   toJson: (feeds: Feed[]) => FeedRawPayload[]
+  stream: (options?: UniverseFetchOptions) => Promise<Feeds>
 }
 
 export interface IUniverseCarts {
@@ -478,6 +479,17 @@ export class Universe extends Readable {
         } catch (err) {
           throw new FeedsFetchRemoteError(undefined, { error: err })
         }
+      },
+      stream: async (options?: UniverseFetchOptions): Promise<Feeds> => {
+        const inst = new Feeds({
+          universe: this,
+          http: this.http,
+          mqtt: this.mqtt
+        })
+
+        const ret = await inst.getStream(options)
+
+        return ret
       }
     }
   }

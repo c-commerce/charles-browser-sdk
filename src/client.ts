@@ -25,12 +25,14 @@ const defaultHeaders = {
  * Since this class is a singleton we are destroying state internally through `.clearInstance()`.
  */
 export class Client {
+  private readonly options: ClientOptions
   private static instance: Client
   private readonly axiosInstance: AxiosInstance
   private responseInterceptorIds: number[] = []
   private requestInterceptorIds: number[] = []
 
   private constructor (options: ClientOptions) {
+    this.options = options
     this.axiosInstance = axios.create({
       // baseURL: options.base || 'https://api.hello-charles.com',
       timeout: options.timeout ?? 10000,
@@ -39,6 +41,13 @@ export class Client {
         ...defaultHeaders
       }
     })
+  }
+
+  public getDefaultHeaders (): object {
+    return {
+      ...this.options.headers,
+      ...defaultHeaders
+    }
   }
 
   static getInstance (options: ClientOptions): Client {

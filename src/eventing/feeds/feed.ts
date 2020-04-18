@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events'
 import typeOf from 'just-typeof'
-import { Universe } from '../../universe'
+import { Universe, UniverseFetchOptions } from '../../universe'
 import universeTopics from '../../universe/topics'
 import * as realtime from '../../realtime'
 import { BaseError } from '../../errors'
@@ -11,6 +11,7 @@ import {
 import { Asset, Assets } from '../../entities/asset'
 import { Person, PersonRawPayload } from '../../entities/person'
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event'
+import { EntitiesList } from '../../entities/_base'
 
 export interface FeedOptions {
   universe: Universe
@@ -334,10 +335,34 @@ export class Feed extends EventEmitter {
     return err
   }
 }
+export interface FeedsOptions {
+  universe: Universe
+  http: Universe['http']
+  mqtt: Universe['mqtt']
+}
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export class Feeds {
+export class Feeds extends EntitiesList<Feed, FeedRawPayload> {
   public static endpoint: string = 'api/v0/feeds'
+  public endpoint: string = Feeds.endpoint
+  protected universe: Universe
+  protected http: Universe['http']
+  private readonly mqtt?: Universe['mqtt']
+
+  constructor (options: FeedsOptions) {
+    super()
+    this.universe = options.universe
+    this.http = options.http
+    this.mqtt = options.mqtt
+  }
+
+  protected parseItem (payload: FeedRawPayload): Feed {
+    return Feed.create(payload, this.universe, this.http, this.mqtt ?? null)
+  }
+
+  public async getStream (options?: UniverseFetchOptions): Promise<Feeds> {
+    // TODO: research why getStream result is not assignable
+    return (await this._getStream(options)) as Feeds
+  }
 }
 
 export type FeedReplyContentOptions = MessageReplyContentOptions
