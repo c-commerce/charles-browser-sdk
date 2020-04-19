@@ -1,6 +1,10 @@
 import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+export declare type ProductFetchEmbedOption = 'options' | 'children';
+export interface ProductFetchOptions {
+    embed?: ProductFetchEmbedOption | ProductFetchEmbedOption[];
+}
 export interface ProductOptions extends EntityOptions {
     rawPayload?: ProductRawPayload;
 }

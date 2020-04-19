@@ -1,3 +1,10 @@
+# [2.47.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.46.0...v2.47.0) (2020-04-19)
+
+
+### Features
+
+* **Products:** Allow setting products fetch options (embed) ([51a05bb](https://github.com/c-commerce/charles-browser-sdk/commit/51a05bba141a6d3113cfb784dcfb8af0a6f4d24c))
+
 # [2.46.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.45.3...v2.46.0) (2020-04-18)
 
 

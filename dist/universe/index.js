@@ -448,23 +448,31 @@ var Universe = (function (_super) {
             });
         });
     };
-    Universe.prototype.products = function () {
+    Universe.prototype.products = function (options) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var res, resources, err_7;
+            var opts, res, resources, err_7;
             var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universeBase + "/" + product.Products.endpoint)];
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universeBase + "/" + product.Products.endpoint,
+                            params: {
+                                embed: (_a = options === null || options === void 0 ? void 0 : options.embed) !== null && _a !== void 0 ? _a : 'options'
+                            }
+                        };
+                        return [4, this.http.getClient()(opts)];
                     case 1:
-                        res = _a.sent();
+                        res = _b.sent();
                         resources = res.data.data;
                         return [2, resources.map(function (resource) {
                                 return product.Product.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_7 = _a.sent();
+                        err_7 = _b.sent();
                         throw new product.ProductsFetchRemoteError(undefined, { error: err_7 });
                     case 3: return [2];
                 }
