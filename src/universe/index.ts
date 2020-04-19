@@ -466,6 +466,7 @@ export class Universe extends Readable {
               ]
             }
           }
+
           const res = await this.http.getClient()(opts)
           const feeds = res.data.data as FeedRawPayload[]
 
@@ -533,9 +534,16 @@ export class Universe extends Readable {
     }
   }
 
-  public async products (): Promise<product.Product[] | undefined> {
+  public async products (options?: product.ProductFetchOptions): Promise<product.Product[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${product.Products.endpoint}`)
+      const opts = {
+        method: 'GET',
+        url: `${this.universeBase}/${product.Products.endpoint}`,
+        params: {
+          embed: options?.embed ?? 'options'
+        }
+      }
+      const res = await this.http.getClient()(opts)
       const resources = res.data.data as product.ProductRawPayload[]
 
       return resources.map((resource: product.ProductRawPayload) => {
