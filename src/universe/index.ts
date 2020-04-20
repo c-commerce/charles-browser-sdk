@@ -15,6 +15,7 @@ import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
 import * as channelUser from '../entities/person/channel-user'
 import * as email from '../entities/person/email'
+
 import * as product from '../entities/product/product'
 import * as ticket from '../entities/ticket/ticket'
 import * as cart from '../entities/cart/cart'
