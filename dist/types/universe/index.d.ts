@@ -146,7 +146,7 @@ export declare class Universe extends Readable {
     staffs(): Promise<staff.Staff[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
     people(): Promise<person.Person[] | undefined>;
-    products(): Promise<product.Product[] | undefined>;
+    products(options?: product.ProductFetchOptions): Promise<product.Product[] | undefined>;
     tickets(): Promise<ticket.Ticket[] | undefined>;
     get carts(): IUniverseCarts;
     orders(): Promise<order.Order[] | undefined>;

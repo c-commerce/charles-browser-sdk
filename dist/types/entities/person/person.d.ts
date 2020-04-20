@@ -3,6 +3,7 @@ import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Order } from '../../entities/order/order';
 import { ChannelUser, ChannelUserRawPayload } from './channel-user';
+import { Email, EmailRawPayload } from './email';
 export interface PersonOptions extends EntityOptions {
     rawPayload?: PersonRawPayload;
 }
@@ -36,6 +37,7 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
     readonly value?: string;
 }
 export declare type PersonChannelUserRawPayload = ChannelUserRawPayload;
+export declare type PersonEmailRawPayload = EmailRawPayload;
 export interface PersonRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
@@ -45,7 +47,6 @@ export interface PersonRawPayload extends EntityRawPayload {
     readonly middle_name?: string;
     readonly last_name?: string;
     readonly name?: string;
-    readonly email?: string;
     readonly avatar?: string;
     readonly date_of_birth?: string;
     readonly gender?: string;
@@ -65,6 +66,7 @@ export interface PersonRawPayload extends EntityRawPayload {
             };
         };
     };
+    readonly emails?: PersonEmailRawPayload[];
     readonly addresses?: PersonAddressRawPayload[];
     readonly phonenumbers?: PersonPhonenumberRawPayload[];
     readonly channel_users?: PersonChannelUserRawPayload[];
@@ -85,7 +87,7 @@ export interface PersonPayload {
     readonly middleName?: PersonRawPayload['middle_name'];
     readonly lastName?: PersonRawPayload['last_name'];
     readonly name?: PersonRawPayload['name'];
-    readonly email?: PersonRawPayload['email'];
+    readonly emails?: Email[];
     readonly avatar?: PersonRawPayload['avatar'];
     readonly dateOfBirth?: PersonRawPayload['date_of_birth'];
     readonly gender?: PersonRawPayload['gender'];
@@ -120,7 +122,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     middleName?: PersonPayload['middleName'];
     lastName?: PersonPayload['lastName'];
     name?: PersonPayload['name'];
-    email?: PersonPayload['email'];
+    emails?: PersonPayload['emails'];
     avatar?: PersonPayload['avatar'];
     dateOfBirth?: PersonPayload['dateOfBirth'];
     gender?: PersonPayload['gender'];
@@ -139,7 +141,8 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     get carts(): IPersonCarts;
 }
 export declare class People {
-    static endpoint: string;
+    endpoint: string;
+    static endpoint: any;
 }
 export declare class Address {
     protected universe: Universe;
