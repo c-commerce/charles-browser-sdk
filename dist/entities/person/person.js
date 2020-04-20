@@ -66,6 +66,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var channel_user_1 = require("./channel-user");
+var email_1 = require("./email");
 var cart_1 = require("../cart/cart");
 var Person = (function (_super) {
     __extends(Person, _super);
@@ -95,32 +96,50 @@ var Person = (function (_super) {
         this.middleName = rawPayload.middle_name;
         this.lastName = rawPayload.last_name;
         this.name = rawPayload.name;
-        this.email = rawPayload.email;
         this.avatar = rawPayload.avatar;
         this.dateOfBirth = rawPayload.date_of_birth;
         this.gender = rawPayload.gender;
         this.comment = rawPayload.comment;
         this.measurements = rawPayload.measurements;
+        this.emails = [];
+        if (rawPayload.emails && this.initialized) {
+            this.emails = rawPayload.emails.map(function (i) { return email_1.Email.create(i, _this.universe, _this.http); });
+        }
+        else if (rawPayload.emails && !this.initialized) {
+            this.emails = rawPayload.emails.map(function (i) {
+                return email_1.Email.createUninitialized(i, _this.universe, _this.http);
+            });
+        }
         this.addresses = [];
         if (rawPayload.addresses && this.initialized) {
-            this.addresses = rawPayload.addresses.map(function (i) { return (Address.create(i, _this.universe, _this.http)); });
+            this.addresses = rawPayload.addresses.map(function (i) { return Address.create(i, _this.universe, _this.http); });
         }
         else if (rawPayload.addresses && !this.initialized) {
-            this.addresses = rawPayload.addresses.map(function (i) { return (Address.createUninitialized(i, _this.universe, _this.http)); });
+            this.addresses = rawPayload.addresses.map(function (i) {
+                return Address.createUninitialized(i, _this.universe, _this.http);
+            });
         }
         this.phonenumbers = [];
         if (rawPayload.phonenumbers && this.initialized) {
-            this.phonenumbers = rawPayload.phonenumbers.map(function (i) { return (Phonenumber.create(i, _this.universe, _this.http)); });
+            this.phonenumbers = rawPayload.phonenumbers.map(function (i) {
+                return Phonenumber.create(i, _this.universe, _this.http);
+            });
         }
         else if (rawPayload.phonenumbers && !this.initialized) {
-            this.phonenumbers = rawPayload.phonenumbers.map(function (i) { return (Phonenumber.createUninitialized(i, _this.universe, _this.http)); });
+            this.phonenumbers = rawPayload.phonenumbers.map(function (i) {
+                return Phonenumber.createUninitialized(i, _this.universe, _this.http);
+            });
         }
         this.channelUsers = [];
         if (rawPayload.channel_users && this.initialized) {
-            this.channelUsers = rawPayload.channel_users.map(function (i) { return (channel_user_1.ChannelUser.create(i, _this.universe, _this.http)); });
+            this.channelUsers = rawPayload.channel_users.map(function (i) {
+                return channel_user_1.ChannelUser.create(i, _this.universe, _this.http);
+            });
         }
         else if (rawPayload.channel_users && !this.initialized) {
-            this.channelUsers = rawPayload.channel_users.map(function (i) { return (channel_user_1.ChannelUser.createUninitialized(i, _this.universe, _this.http)); });
+            this.channelUsers = rawPayload.channel_users.map(function (i) {
+                return channel_user_1.ChannelUser.createUninitialized(i, _this.universe, _this.http);
+            });
         }
         return this;
     };
@@ -139,15 +158,21 @@ var Person = (function (_super) {
             middle_name: this.middleName,
             last_name: this.lastName,
             name: this.name,
-            email: this.email,
             avatar: this.avatar,
             date_of_birth: this.dateOfBirth,
             gender: this.gender,
             comment: this.comment,
             measurements: this.measurements,
-            addresses: Array.isArray(this.addresses) ? this.addresses.map(function (item) { return (item.serialize()); }) : undefined,
-            phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map(function (item) { return (item.serialize()); }) : undefined,
-            channel_users: Array.isArray(this.channelUsers) ? this.channelUsers.map(function (item) { return (item.serialize()); }) : undefined
+            emails: Array.isArray(this.emails) ? this.emails.map(function (item) { return item.serialize(); }) : undefined,
+            addresses: Array.isArray(this.addresses)
+                ? this.addresses.map(function (item) { return item.serialize(); })
+                : undefined,
+            phonenumbers: Array.isArray(this.phonenumbers)
+                ? this.phonenumbers.map(function (item) { return item.serialize(); })
+                : undefined,
+            channel_users: Array.isArray(this.channelUsers)
+                ? this.channelUsers.map(function (item) { return item.serialize(); })
+                : undefined
         };
     };
     Person.prototype.init = function () {
@@ -159,11 +184,7 @@ var Person = (function (_super) {
                         _a.trys.push([0, 2, , 3]);
                         return [4, this.fetch({
                                 query: {
-                                    embed: [
-                                        'channel_users',
-                                        'phonenumbers',
-                                        'addresses'
-                                    ]
+                                    embed: ['channel_users', 'phonenumbers', 'addresses', 'emails']
                                 }
                             })];
                     case 1:
@@ -186,7 +207,9 @@ var Person = (function (_super) {
                     switch (_a.label) {
                         case 0:
                             _a.trys.push([0, 2, , 3]);
-                            return [4, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/analytics/snapshot")];
+                            return [4, this.http
+                                    .getClient()
+                                    .get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/analytics/snapshot")];
                         case 1:
                             response = _a.sent();
                             return [2, {
@@ -209,10 +232,10 @@ var Person = (function (_super) {
             var _this = this;
             return {
                 fromJson: function (payloads) {
-                    return payloads.map(function (item) { return (cart_1.Cart.create(item, _this.universe, _this.http)); });
+                    return payloads.map(function (item) { return cart_1.Cart.create(item, _this.universe, _this.http); });
                 },
                 toJson: function (feeds) {
-                    return feeds.map(function (item) { return (item.serialize()); });
+                    return feeds.map(function (item) { return item.serialize(); });
                 },
                 fetch: function (options) { return __awaiter(_this, void 0, void 0, function () {
                     var opts, res, feeds, err_3;
@@ -279,8 +302,8 @@ var Person = (function (_super) {
 exports.Person = Person;
 var People = (function () {
     function People() {
+        this.endpoint = 'api/v0/people';
     }
-    People.endpoint = 'api/v0/people';
     return People;
 }());
 exports.People = People;

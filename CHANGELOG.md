@@ -1,3 +1,10 @@
+# [2.48.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.47.0...v2.48.0) (2020-04-20)
+
+
+### Features
+
+* **Person:** Add emails ([dceb380](https://github.com/c-commerce/charles-browser-sdk/commit/dceb380dc9e58d1ebd81ca6f5aa46ab79cf2a8e8))
+
 # [2.47.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.46.0...v2.47.0) (2020-04-19)
 
 
