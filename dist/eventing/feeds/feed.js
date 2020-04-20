@@ -131,6 +131,12 @@ var Feed = (function (_super) {
         else if (!rawPayload.top_latest_events && !Array.isArray(this.topLatestEvents)) {
             this.topLatestEvents = undefined;
         }
+        if (Array.isArray(rawPayload.top_latest_messages)) {
+            this.topLatestMessages = rawPayload.top_latest_messages.map(function (item) { return (event_1.Event.create(item, _this, _this.universe, _this.http)); });
+        }
+        else if (!rawPayload.top_latest_messages && !Array.isArray(this.topLatestMessages)) {
+            this.topLatestMessages = undefined;
+        }
         return this;
     };
     Feed.create = function (payload, universe, http, mqtt) {
@@ -155,7 +161,8 @@ var Feed = (function (_super) {
             latest_activity_at: this.latestActivityAt ? this.latestActivityAt.toISOString() : undefined,
             deleted: this.deleted,
             active: this.active,
-            top_latest_events: Array.isArray(this.topLatestEvents) ? this.topLatestEvents.map(function (item) { return (item.serialize()); }) : undefined
+            top_latest_events: Array.isArray(this.topLatestEvents) ? this.topLatestEvents.map(function (item) { return (item.serialize()); }) : undefined,
+            top_latest_messages: Array.isArray(this.topLatestMessages) ? this.topLatestMessages.map(function (item) { return (item.serialize()); }) : undefined
         };
     };
     Feed.prototype.reply = function (contentOptions) {

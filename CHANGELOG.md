@@ -1,3 +1,10 @@
+# [2.50.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.49.1...v2.50.0) (2020-04-20)
+
+
+### Features
+
+* **Feed:** Embed feed's topLatestMessages by default, handle&expose topLatestMessages in feed ([c743757](https://github.com/c-commerce/charles-browser-sdk/commit/c7437573e1bc58e789c15fcd28699487251a0d93))
+
 ## [2.49.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.49.0...v2.49.1) (2020-04-20)
 
 

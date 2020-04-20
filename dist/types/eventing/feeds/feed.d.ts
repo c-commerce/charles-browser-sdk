@@ -25,6 +25,7 @@ export interface FeedRawPayload {
     readonly latest_activity_at?: string;
     readonly updated_at?: string;
     readonly top_latest_events?: EventRawPayload[];
+    readonly top_latest_messages?: EventRawPayload[];
 }
 export declare type FeedlatestEventsRawPayload = EventRawPayload[];
 export declare type FeedEventsRawPayload = EventRawPayload[];
@@ -39,6 +40,7 @@ export interface FeedPayload {
     readonly deleted?: boolean;
     readonly active?: boolean;
     readonly topLatestEvents?: Event[];
+    readonly topLatestMessages?: Event[];
 }
 export interface FeedEventKV {
     eventId: Event['id'] | string;
@@ -67,6 +69,7 @@ export declare class Feed extends EventEmitter {
     deleted?: boolean;
     active?: boolean;
     topLatestEvents?: FeedPayload['topLatestEvents'];
+    topLatestMessages?: FeedPayload['topLatestMessages'];
     constructor(options: FeedOptions);
     private deserialize;
     static create(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed;
