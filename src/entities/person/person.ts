@@ -1,11 +1,9 @@
-
-import Entity, {
-  EntityOptions, EntityRawPayload, EntityFetchOptions
-} from '../_base'
+import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Order } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
+import { Email, EmailRawPayload, EmailCreateRemoteError, EmailsFetchRemoteError } from './email'
 import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } from '../cart/cart'
 
 export interface PersonOptions extends EntityOptions {
@@ -47,6 +45,8 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
 
 export type PersonChannelUserRawPayload = ChannelUserRawPayload
 
+export type PersonEmailRawPayload = EmailRawPayload
+
 export interface PersonRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
@@ -56,7 +56,6 @@ export interface PersonRawPayload extends EntityRawPayload {
   readonly middle_name?: string
   readonly last_name?: string
   readonly name?: string
-  readonly email?: string
   readonly avatar?: string
   readonly date_of_birth?: string
   readonly gender?: string
@@ -76,6 +75,7 @@ export interface PersonRawPayload extends EntityRawPayload {
       }
     }
   }
+  readonly emails?: PersonEmailRawPayload[]
   readonly addresses?: PersonAddressRawPayload[]
   readonly phonenumbers?: PersonPhonenumberRawPayload[]
   readonly channel_users?: PersonChannelUserRawPayload[]
@@ -98,7 +98,7 @@ export interface PersonPayload {
   readonly middleName?: PersonRawPayload['middle_name']
   readonly lastName?: PersonRawPayload['last_name']
   readonly name?: PersonRawPayload['name']
-  readonly email?: PersonRawPayload['email']
+  readonly emails?: Email[]
   readonly avatar?: PersonRawPayload['avatar']
   readonly dateOfBirth?: PersonRawPayload['date_of_birth']
   readonly gender?: PersonRawPayload['gender']
@@ -126,32 +126,32 @@ export interface PersonAnalyticsSnapshotResponse {
  * @category Entity
  */
 export class Person extends Entity<PersonPayload, PersonRawPayload> {
-  protected universe: Universe
-  protected http: Universe['http']
-  protected options: PersonOptions
-  public initialized: boolean
+  protected universe: Universe;
+  protected http: Universe['http'];
+  protected options: PersonOptions;
+  public initialized: boolean;
 
-  public endpoint: string
+  public endpoint: string;
 
-  public id?: PersonPayload['id']
-  public createdAt?: PersonPayload['createdAt']
-  public updatedAt?: PersonPayload['updatedAt']
-  public deleted?: PersonPayload['deleted']
-  public active?: PersonPayload['active']
-  public firstName?: PersonPayload['firstName']
-  public middleName?: PersonPayload['middleName']
-  public lastName?: PersonPayload['lastName']
-  public name?: PersonPayload['name']
-  public email?: PersonPayload['email']
-  public avatar?: PersonPayload['avatar']
-  public dateOfBirth?: PersonPayload['dateOfBirth']
-  public gender?: PersonPayload['gender']
-  public comment?: PersonPayload['comment']
-  public measurements?: PersonPayload['measurements']
-  public tags?: PersonPayload['tags']
-  public addresses?: PersonPayload['addresses']
-  public phonenumbers?: PersonPayload['phonenumbers']
-  public channelUsers?: PersonPayload['channelUsers']
+  public id?: PersonPayload['id'];
+  public createdAt?: PersonPayload['createdAt'];
+  public updatedAt?: PersonPayload['updatedAt'];
+  public deleted?: PersonPayload['deleted'];
+  public active?: PersonPayload['active'];
+  public firstName?: PersonPayload['firstName'];
+  public middleName?: PersonPayload['middleName'];
+  public lastName?: PersonPayload['lastName'];
+  public name?: PersonPayload['name'];
+  public emails?: PersonPayload['emails'];
+  public avatar?: PersonPayload['avatar'];
+  public dateOfBirth?: PersonPayload['dateOfBirth'];
+  public gender?: PersonPayload['gender'];
+  public comment?: PersonPayload['comment'];
+  public measurements?: PersonPayload['measurements'];
+  public tags?: PersonPayload['tags'];
+  public addresses?: PersonPayload['addresses'];
+  public phonenumbers?: PersonPayload['phonenumbers'];
+  public channelUsers?: PersonPayload['channelUsers'];
 
   constructor (options: PersonOptions) {
     super()
@@ -178,38 +178,60 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this.middleName = rawPayload.middle_name
     this.lastName = rawPayload.last_name
     this.name = rawPayload.name
-    this.email = rawPayload.email
     this.avatar = rawPayload.avatar
     this.dateOfBirth = rawPayload.date_of_birth
     this.gender = rawPayload.gender
     this.comment = rawPayload.comment
     this.measurements = rawPayload.measurements
 
+    this.emails = []
+    if (rawPayload.emails && this.initialized) {
+      this.emails = rawPayload.emails.map(i => Email.create(i, this.universe, this.http))
+    } else if (rawPayload.emails && !this.initialized) {
+      this.emails = rawPayload.emails.map(i =>
+        Email.createUninitialized(i, this.universe, this.http)
+      )
+    }
+
     this.addresses = []
     if (rawPayload.addresses && this.initialized) {
-      this.addresses = rawPayload.addresses.map((i) => (Address.create(i, this.universe, this.http)))
+      this.addresses = rawPayload.addresses.map(i => Address.create(i, this.universe, this.http))
     } else if (rawPayload.addresses && !this.initialized) {
-      this.addresses = rawPayload.addresses.map((i) => (Address.createUninitialized(i, this.universe, this.http)))
+      this.addresses = rawPayload.addresses.map(i =>
+        Address.createUninitialized(i, this.universe, this.http)
+      )
     }
 
     this.phonenumbers = []
     if (rawPayload.phonenumbers && this.initialized) {
-      this.phonenumbers = rawPayload.phonenumbers.map((i) => (Phonenumber.create(i, this.universe, this.http)))
+      this.phonenumbers = rawPayload.phonenumbers.map(i =>
+        Phonenumber.create(i, this.universe, this.http)
+      )
     } else if (rawPayload.phonenumbers && !this.initialized) {
-      this.phonenumbers = rawPayload.phonenumbers.map((i) => (Phonenumber.createUninitialized(i, this.universe, this.http)))
+      this.phonenumbers = rawPayload.phonenumbers.map(i =>
+        Phonenumber.createUninitialized(i, this.universe, this.http)
+      )
     }
 
     this.channelUsers = []
     if (rawPayload.channel_users && this.initialized) {
-      this.channelUsers = rawPayload.channel_users.map((i) => (ChannelUser.create(i, this.universe, this.http)))
+      this.channelUsers = rawPayload.channel_users.map(i =>
+        ChannelUser.create(i, this.universe, this.http)
+      )
     } else if (rawPayload.channel_users && !this.initialized) {
-      this.channelUsers = rawPayload.channel_users.map((i) => (ChannelUser.createUninitialized(i, this.universe, this.http)))
+      this.channelUsers = rawPayload.channel_users.map(i =>
+        ChannelUser.createUninitialized(i, this.universe, this.http)
+      )
     }
 
     return this
   }
 
-  public static create (payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person {
+  public static create (
+    payload: PersonRawPayload,
+    universe: Universe,
+    http: Universe['http']
+  ): Person {
     return new Person({ rawPayload: payload, universe, http, initialized: true })
   }
 
@@ -224,15 +246,21 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       middle_name: this.middleName,
       last_name: this.lastName,
       name: this.name,
-      email: this.email,
       avatar: this.avatar,
       date_of_birth: this.dateOfBirth,
       gender: this.gender,
       comment: this.comment,
       measurements: this.measurements,
-      addresses: Array.isArray(this.addresses) ? this.addresses.map((item) => (item.serialize())) : undefined,
-      phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map((item) => (item.serialize())) : undefined,
-      channel_users: Array.isArray(this.channelUsers) ? this.channelUsers.map((item) => (item.serialize())) : undefined
+      emails: Array.isArray(this.emails) ? this.emails.map(item => item.serialize()) : undefined,
+      addresses: Array.isArray(this.addresses)
+        ? this.addresses.map(item => item.serialize())
+        : undefined,
+      phonenumbers: Array.isArray(this.phonenumbers)
+        ? this.phonenumbers.map(item => item.serialize())
+        : undefined,
+      channel_users: Array.isArray(this.channelUsers)
+        ? this.channelUsers.map(item => item.serialize())
+        : undefined
     }
   }
 
@@ -240,11 +268,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     try {
       await this.fetch({
         query: {
-          embed: [
-            'channel_users',
-            'phonenumbers',
-            'addresses'
-          ]
+          embed: ['channel_users', 'phonenumbers', 'addresses', 'emails']
         }
       })
 
@@ -258,7 +282,9 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     return {
       snapshot: async (): Promise<PersonAnalyticsSnapshotResponse | undefined> => {
         try {
-          const response = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/analytics/snapshot`)
+          const response = await this.http
+            .getClient()
+            .get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/analytics/snapshot`)
 
           return {
             customer_lifetime_value: response.data.data[0].customer_lifetime_value,
@@ -292,16 +318,18 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public get carts (): IPersonCarts {
     return {
       fromJson: (payloads: CartRawPayload[]): Cart[] => {
-        return payloads.map((item) => (Cart.create(item, this.universe, this.http)))
+        return payloads.map(item => Cart.create(item, this.universe, this.http))
       },
       toJson: (feeds: Cart[]): CartRawPayload[] => {
-        return feeds.map((item) => (item.serialize()))
+        return feeds.map(item => item.serialize())
       },
-      fetch: async (options?: EntityFetchOptions): Promise<Cart[] | CartRawPayload[] | undefined> => {
+      fetch: async (
+        options?: EntityFetchOptions
+      ): Promise<Cart[] | CartRawPayload[] | undefined> => {
         try {
           const opts = {
             method: 'GET',
-            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/carts`,
+            url: `${this.universe.universeBase}/${People.endpoint as string}/${this.id as string}/carts`,
             params: {
               ...(options?.query ? options.query : {})
             }
@@ -324,7 +352,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
         try {
           const opts = {
             method: 'POST',
-            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/carts`,
+            url: `${this.universe.universeBase}/${People.endpoint as string}/${this.id as string}/carts`,
             data: cart
           }
           const res = await this.http.getClient()(opts)
@@ -341,29 +369,29 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class People {
-  public static endpoint: string = 'api/v0/people'
+  public endpoint: string = 'api/v0/people';
+  static endpoint: any
 }
 
 export class Address {
-  protected universe: Universe
-  protected http: Universe['http']
-  protected options: AddressOptions
-  public initialized: boolean
+  protected universe: Universe;
+  protected http: Universe['http'];
+  protected options: AddressOptions;
+  public initialized: boolean;
 
-  public id?: string
-  public lines?: string[]
-  public locality?: string
-  public country?: string
-  public region?: string
-  public postalCode?: string
-  public type?: string
-  public createdAt?: Date | null
-  public updatedAt?: Date | null
-  public comment?: string
-  public deleted?: boolean
-  public active?: boolean
+  public id?: string;
+  public lines?: string[];
+  public locality?: string;
+  public country?: string;
+  public region?: string;
+  public postalCode?: string;
+  public type?: string;
+  public createdAt?: Date | null;
+  public updatedAt?: Date | null;
+  public comment?: string;
+  public deleted?: boolean;
+  public active?: boolean;
 
   constructor (options: AddressOptions) {
     this.universe = options.universe
@@ -393,11 +421,19 @@ export class Address {
     return this
   }
 
-  public static create (payload: PersonAddressRawPayload, universe: Universe, http: Universe['http']): Address {
+  public static create (
+    payload: PersonAddressRawPayload,
+    universe: Universe,
+    http: Universe['http']
+  ): Address {
     return new Address({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public static createUninitialized (payload: PersonAddressRawPayload, universe: Universe, http: Universe['http']): Address {
+  public static createUninitialized (
+    payload: PersonAddressRawPayload,
+    universe: Universe,
+    http: Universe['http']
+  ): Address {
     return new Address({ rawPayload: payload, universe, http, initialized: false })
   }
 
@@ -420,19 +456,19 @@ export class Address {
 }
 
 export class Phonenumber {
-  protected universe: Universe
-  protected http: Universe['http']
-  protected options: PhonenumberOptions
-  public initialized: boolean
+  protected universe: Universe;
+  protected http: Universe['http'];
+  protected options: PhonenumberOptions;
+  public initialized: boolean;
 
-  public id?: string
-  public value?: string
-  public type?: string
-  public createdAt?: Date | null
-  public updatedAt?: Date | null
-  public comment?: string
-  public deleted?: boolean
-  public active?: boolean
+  public id?: string;
+  public value?: string;
+  public type?: string;
+  public createdAt?: Date | null;
+  public updatedAt?: Date | null;
+  public comment?: string;
+  public deleted?: boolean;
+  public active?: boolean;
 
   constructor (options: PhonenumberOptions) {
     this.universe = options.universe
@@ -456,11 +492,19 @@ export class Phonenumber {
     return this
   }
 
-  public static create (payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber {
+  public static create (
+    payload: PersonPhonenumberRawPayload,
+    universe: Universe,
+    http: Universe['http']
+  ): Phonenumber {
     return new Phonenumber({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public static createUninitialized (payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber {
+  public static createUninitialized (
+    payload: PersonPhonenumberRawPayload,
+    universe: Universe,
+    http: Universe['http']
+  ): Phonenumber {
     return new Phonenumber({ rawPayload: payload, universe, http, initialized: false })
   }
 
@@ -478,7 +522,7 @@ export class Phonenumber {
 }
 
 export class PersonInitializationError extends BaseError {
-  public name = 'PersonInitializationError'
+  public name = 'PersonInitializationError';
   constructor (public message: string = 'Could not initialize person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonInitializationError.prototype)
@@ -486,7 +530,7 @@ export class PersonInitializationError extends BaseError {
 }
 
 export class PersonFetchRemoteError extends BaseError {
-  public name = 'PersonFetchRemoteError'
+  public name = 'PersonFetchRemoteError';
   constructor (public message: string = 'Could not get person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonFetchRemoteError.prototype)
@@ -494,7 +538,7 @@ export class PersonFetchRemoteError extends BaseError {
 }
 
 export class PeopleFetchRemoteError extends BaseError {
-  public name = 'PeopleFetchRemoteError'
+  public name = 'PeopleFetchRemoteError';
   constructor (public message: string = 'Could not get people.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleFetchRemoteError.prototype)
@@ -502,7 +546,7 @@ export class PeopleFetchRemoteError extends BaseError {
 }
 
 export class PeopleAnalyticsRemoteError extends BaseError {
-  public name = 'PeopleAnalyticsRemoteError'
+  public name = 'PeopleAnalyticsRemoteError';
   constructor (public message: string = 'Could not get analytics data.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleAnalyticsRemoteError.prototype)
