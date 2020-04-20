@@ -1,3 +1,10 @@
+## [2.50.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.50.0...v2.50.1) (2020-04-20)
+
+
+### Bug Fixes
+
+* **universe:** Add email factory...trigger build 🤦‍♂️ ([4a6c940](https://github.com/c-commerce/charles-browser-sdk/commit/4a6c940554225e09f823a78ca3a8eb5391089148))
+
 # [2.50.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.49.1...v2.50.0) (2020-04-20)
 
 

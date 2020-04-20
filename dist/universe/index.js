@@ -82,6 +82,7 @@ var staff = __importStar(require("../entities/staff/staff"));
 var asset = __importStar(require("../entities/asset/asset"));
 var person = __importStar(require("../entities/person/person"));
 var channelUser = __importStar(require("../entities/person/channel-user"));
+var email = __importStar(require("../entities/person/email"));
 var product = __importStar(require("../entities/product/product"));
 var ticket = __importStar(require("../entities/ticket/ticket"));
 var cart = __importStar(require("../entities/cart/cart"));
@@ -279,6 +280,9 @@ var Universe = (function (_super) {
     };
     Universe.prototype.channelUser = function (payload) {
         return channelUser.ChannelUser.create(payload, this, this.http);
+    };
+    Universe.prototype.email = function (payload) {
+        return email.Email.create(payload, this, this.http);
     };
     Universe.prototype.ticket = function (payload) {
         return ticket.Ticket.create(payload, this, this.http);
