@@ -1,10 +1,6 @@
 import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export declare type ProductFetchEmbedOption = 'options' | 'children';
-export interface ProductFetchOptions {
-    embed?: ProductFetchEmbedOption | ProductFetchEmbedOption[];
-}
 export interface ProductOptions extends EntityOptions {
     rawPayload?: ProductRawPayload;
 }
@@ -21,6 +17,12 @@ export interface ProductRawPayloadPrice {
     readonly currency?: string;
     readonly tax_country?: string;
     readonly tax_region?: string;
+}
+export interface ProductRawPayloadChild {
+    readonly id?: ProductRawPayload['id'];
+    readonly name?: ProductRawPayload['name'];
+    readonly custom_id?: ProductRawPayload['custom_id'];
+    readonly attributes?: ProductRawPayload['attributes'];
 }
 export interface ProductRawPayload extends EntityRawPayload {
     readonly created_at?: string;
@@ -75,6 +77,8 @@ export interface ProductRawPayload extends EntityRawPayload {
     readonly prices?: {
         default_prices: ProductRawPayloadPrice[];
     };
+    readonly children?: ProductRawPayloadChild[];
+    readonly options?: object[];
 }
 export interface ProductPayload {
     readonly id?: ProductRawPayload['id'];
@@ -128,6 +132,8 @@ export interface ProductPayload {
     readonly proxy_configuration?: object;
     readonly metadata?: object;
     readonly prices?: ProductRawPayload['prices'];
+    readonly children?: ProductRawPayload['children'];
+    readonly options?: ProductRawPayload['options'];
 }
 export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
     protected universe: Universe;
@@ -186,6 +192,8 @@ export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
     shippingFequired?: ProductPayload['shipping_required'];
     proxyConfiguration?: ProductPayload['proxy_configuration'];
     metadata?: ProductPayload['metadata'];
+    children?: ProductPayload['children'];
+    attributesOptions?: ProductPayload['options'];
     constructor(options: ProductOptions);
     protected deserialize(rawPayload: ProductRawPayload): Product;
     static create(payload: ProductRawPayload, universe: Universe, http: Universe['http']): Product;

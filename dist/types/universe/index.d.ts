@@ -4,6 +4,7 @@ import { Client } from '../client';
 import { Feeds, Feed, FeedRawPayload } from '../eventing/feeds/feed';
 import { BaseError } from '../errors';
 import { MessageRawPayload } from '../messaging';
+import { EntityFetchOptions } from '../entities/_base';
 import * as staff from '../entities/staff/staff';
 import * as asset from '../entities/asset/asset';
 import * as person from '../entities/person/person';
@@ -14,6 +15,7 @@ import * as cart from '../entities/cart/cart';
 import * as order from '../entities/order/order';
 import * as discount from '../entities/discount/discount';
 import * as messageTemplate from '../entities/message-template/message-template';
+import { Product, ProductRawPayload } from '../entities/product/product';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -83,6 +85,11 @@ export interface UniverseFeeds {
     toJson: (feeds: Feed[]) => FeedRawPayload[];
     stream: (options?: UniverseFetchOptions) => Promise<Feeds>;
 }
+export interface UniverseProducts {
+    fetch: (options?: EntityFetchOptions) => Promise<Product[] | ProductRawPayload[] | undefined>;
+    fromJson: (products: ProductRawPayload[]) => Product[];
+    toJson: (products: Product[]) => ProductRawPayload[];
+}
 export interface IUniverseCarts {
     fetch: (options?: UniverseFetchOptions) => Promise<cart.Cart[] | cart.CartRawPayload[] | undefined>;
     fromJson: (carts: cart.CartRawPayload[]) => cart.Cart[];
@@ -146,7 +153,7 @@ export declare class Universe extends Readable {
     staffs(): Promise<staff.Staff[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
     people(): Promise<person.Person[] | undefined>;
-    products(options?: product.ProductFetchOptions): Promise<product.Product[] | undefined>;
+    get products(): UniverseProducts;
     tickets(): Promise<ticket.Ticket[] | undefined>;
     get carts(): IUniverseCarts;
     orders(): Promise<order.Order[] | undefined>;

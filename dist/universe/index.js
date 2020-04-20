@@ -88,6 +88,7 @@ var cart = __importStar(require("../entities/cart/cart"));
 var order = __importStar(require("../entities/order/order"));
 var discount = __importStar(require("../entities/discount/discount"));
 var messageTemplate = __importStar(require("../entities/message-template/message-template"));
+var product_1 = require("../entities/product/product");
 var Universe = (function (_super) {
     __extends(Universe, _super);
     function Universe(options) {
@@ -448,37 +449,50 @@ var Universe = (function (_super) {
             });
         });
     };
-    Universe.prototype.products = function (options) {
-        var _a;
-        return __awaiter(this, void 0, void 0, function () {
-            var opts, res, resources, err_7;
+    Object.defineProperty(Universe.prototype, "products", {
+        get: function () {
             var _this = this;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _b.trys.push([0, 2, , 3]);
-                        opts = {
-                            method: 'GET',
-                            url: this.universeBase + "/" + product.Products.endpoint,
-                            params: {
-                                embed: (_a = options === null || options === void 0 ? void 0 : options.embed) !== null && _a !== void 0 ? _a : 'options'
-                            }
-                        };
-                        return [4, this.http.getClient()(opts)];
-                    case 1:
-                        res = _b.sent();
-                        resources = res.data.data;
-                        return [2, resources.map(function (resource) {
-                                return product.Product.create(resource, _this, _this.http);
-                            })];
-                    case 2:
-                        err_7 = _b.sent();
-                        throw new product.ProductsFetchRemoteError(undefined, { error: err_7 });
-                    case 3: return [2];
-                }
-            });
-        });
-    };
+            return {
+                fromJson: function (payloads) {
+                    return payloads.map(function (item) { return (product_1.Product.create(item, _this, _this.http)); });
+                },
+                toJson: function (products) {
+                    return products.map(function (item) { return (item.serialize()); });
+                },
+                fetch: function (options) { return __awaiter(_this, void 0, void 0, function () {
+                    var opts, res, resources, err_7;
+                    var _this = this;
+                    var _a, _b;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0:
+                                _c.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'GET',
+                                    url: this.universeBase + "/" + product.Products.endpoint,
+                                    params: {
+                                        embed: (_b = (_a = options === null || options === void 0 ? void 0 : options.query) === null || _a === void 0 ? void 0 : _a.embed) !== null && _b !== void 0 ? _b : 'options'
+                                    }
+                                };
+                                return [4, this.http.getClient()(opts)];
+                            case 1:
+                                res = _c.sent();
+                                resources = res.data.data;
+                                return [2, resources.map(function (resource) {
+                                        return product.Product.create(resource, _this, _this.http);
+                                    })];
+                            case 2:
+                                err_7 = _c.sent();
+                                throw new product.ProductsFetchRemoteError(undefined, { error: err_7 });
+                            case 3: return [2];
+                        }
+                    });
+                }); }
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
     Universe.prototype.tickets = function () {
         return __awaiter(this, void 0, void 0, function () {
             var res, resources, err_8;

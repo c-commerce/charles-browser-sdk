@@ -123,6 +123,8 @@ var Product = (function (_super) {
         this.proxyConfiguration = rawPayload.proxy_configuration;
         this.metadata = rawPayload.metadata;
         this.prices = rawPayload.prices;
+        this.children = rawPayload.children;
+        this.attributesOptions = rawPayload.options;
         return this;
     };
     Product.create = function (payload, universe, http) {
@@ -181,7 +183,9 @@ var Product = (function (_super) {
             shipping_required: (_k = this.shippingFequired) !== null && _k !== void 0 ? _k : true,
             proxy_configuration: this.proxyConfiguration,
             metadata: this.metadata,
-            prices: this.prices
+            prices: this.prices,
+            children: this.children,
+            options: this.attributesOptions
         };
     };
     Product.prototype.init = function () {

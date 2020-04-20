@@ -1,3 +1,10 @@
+# [2.49.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.48.0...v2.49.0) (2020-04-20)
+
+
+### Features
+
+* **Products:** implemented product's children and options ([85baafa](https://github.com/c-commerce/charles-browser-sdk/commit/85baafaba8e2bcd3d9b83d3122427e693af60ae8))
+
 # [2.48.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.47.0...v2.48.0) (2020-04-20)
 
 
