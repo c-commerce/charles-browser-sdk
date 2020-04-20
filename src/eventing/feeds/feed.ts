@@ -32,6 +32,7 @@ export interface FeedRawPayload {
   readonly latest_activity_at?: string
   readonly updated_at?: string
   readonly top_latest_events?: EventRawPayload[]
+  readonly top_latest_messages?: EventRawPayload[]
 }
 
 export type FeedlatestEventsRawPayload = EventRawPayload[]
@@ -48,6 +49,7 @@ export interface FeedPayload {
   readonly deleted?: boolean
   readonly active?: boolean
   readonly topLatestEvents?: Event[]
+  readonly topLatestMessages?: Event[]
 }
 
 export interface FeedEventKV {
@@ -87,6 +89,7 @@ export class Feed extends EventEmitter {
   public deleted?: boolean
   public active?: boolean
   public topLatestEvents?: FeedPayload['topLatestEvents']
+  public topLatestMessages?: FeedPayload['topLatestMessages']
 
   constructor (options: FeedOptions) {
     super()
@@ -138,6 +141,12 @@ export class Feed extends EventEmitter {
       this.topLatestEvents = undefined
     } // ELSE no-op, meaning we keep what we got
 
+    if (Array.isArray(rawPayload.top_latest_messages)) {
+      this.topLatestMessages = rawPayload.top_latest_messages.map((item: EventRawPayload) => (Event.create(item, this, this.universe, this.http)))
+    } else if (!rawPayload.top_latest_messages && !Array.isArray(this.topLatestMessages)) {
+      this.topLatestMessages = undefined
+    } // ELSE no-op, meaning we keep what we got
+
     return this
   }
 
@@ -165,7 +174,8 @@ export class Feed extends EventEmitter {
       latest_activity_at: this.latestActivityAt ? this.latestActivityAt.toISOString() : undefined,
       deleted: this.deleted,
       active: this.active,
-      top_latest_events: Array.isArray(this.topLatestEvents) ? this.topLatestEvents.map((item: Event) => (item.serialize())) : undefined
+      top_latest_events: Array.isArray(this.topLatestEvents) ? this.topLatestEvents.map((item: Event) => (item.serialize())) : undefined,
+      top_latest_messages: Array.isArray(this.topLatestMessages) ? this.topLatestMessages.map((item: Event) => (item.serialize())) : undefined
     }
   }
 
