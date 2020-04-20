@@ -14,6 +14,7 @@ import * as staff from '../entities/staff/staff'
 import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
 import * as channelUser from '../entities/person/channel-user'
+import * as email from '../entities/person/email'
 import * as product from '../entities/product/product'
 import * as ticket from '../entities/ticket/ticket'
 import * as cart from '../entities/cart/cart'
@@ -401,6 +402,10 @@ export class Universe extends Readable {
 
   public channelUser (payload: person.PersonChannelUserRawPayload): channelUser.ChannelUser {
     return channelUser.ChannelUser.create(payload, this, this.http)
+  }
+
+  public email (payload: person.PersonEmailRawPayload): email.Email {
+    return email.Email.create(payload, this, this.http)
   }
 
   public ticket (payload: ticket.TicketRawPayload): ticket.Ticket {
