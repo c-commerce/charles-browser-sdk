@@ -302,8 +302,8 @@ var Person = (function (_super) {
 exports.Person = Person;
 var People = (function () {
     function People() {
-        this.endpoint = 'api/v0/people';
     }
+    People.endpoint = 'api/v0/people';
     return People;
 }());
 exports.People = People;

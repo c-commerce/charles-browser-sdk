@@ -141,8 +141,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     get carts(): IPersonCarts;
 }
 export declare class People {
-    endpoint: string;
-    static endpoint: any;
+    static endpoint: string;
 }
 export declare class Address {
     protected universe: Universe;

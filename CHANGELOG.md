@@ -1,3 +1,10 @@
+## [2.49.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.49.0...v2.49.1) (2020-04-20)
+
+
+### Bug Fixes
+
+* **person/email/universe:** fix regression, remove semis ([2dc5f8f](https://github.com/c-commerce/charles-browser-sdk/commit/2dc5f8fbad6265106db3f68bd802f595138c787e))
+
 # [2.49.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.48.0...v2.49.0) (2020-04-20)
 
 
