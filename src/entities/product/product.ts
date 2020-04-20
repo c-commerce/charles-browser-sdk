@@ -3,12 +3,6 @@ import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export type ProductFetchEmbedOption = 'options' | 'children'
-
-export interface ProductFetchOptions {
-  embed?: ProductFetchEmbedOption | ProductFetchEmbedOption[]
-}
-
 export interface ProductOptions extends EntityOptions {
   rawPayload?: ProductRawPayload
 }
@@ -26,6 +20,13 @@ export interface ProductRawPayloadPrice {
   readonly currency?: string
   readonly tax_country?: string
   readonly tax_region?: string
+}
+
+export interface ProductRawPayloadChild {
+  readonly id?: ProductRawPayload['id']
+  readonly name?: ProductRawPayload['name']
+  readonly custom_id?: ProductRawPayload['custom_id']
+  readonly attributes?: ProductRawPayload['attributes']
 }
 
 export interface ProductRawPayload extends EntityRawPayload {
@@ -81,6 +82,10 @@ export interface ProductRawPayload extends EntityRawPayload {
   readonly prices?: {
     default_prices: ProductRawPayloadPrice[]
   }
+
+  /* Embeddable */
+  readonly children?: ProductRawPayloadChild[]
+  readonly options?: object[]
 }
 
 export interface ProductPayload {
@@ -135,6 +140,10 @@ export interface ProductPayload {
   readonly proxy_configuration?: object
   readonly metadata?: object
   readonly prices?: ProductRawPayload['prices']
+
+  /* Embeddable */
+  readonly children?: ProductRawPayload['children']
+  readonly options?: ProductRawPayload['options']
 }
 
 /**
@@ -205,6 +214,9 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
   public proxyConfiguration?: ProductPayload['proxy_configuration']
   public metadata?: ProductPayload['metadata']
 
+  public children?: ProductPayload['children']
+  public attributesOptions?: ProductPayload['options']
+
   constructor (options: ProductOptions) {
     super()
     this.universe = options.universe
@@ -273,6 +285,10 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
     this.metadata = rawPayload.metadata
     this.prices = rawPayload.prices
 
+    /* Embeddable */
+    this.children = rawPayload.children
+    this.attributesOptions = rawPayload.options
+
     return this
   }
 
@@ -332,7 +348,9 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
       shipping_required: this.shippingFequired ?? true,
       proxy_configuration: this.proxyConfiguration,
       metadata: this.metadata,
-      prices: this.prices
+      prices: this.prices,
+      children: this.children,
+      options: this.attributesOptions
     }
   }
 

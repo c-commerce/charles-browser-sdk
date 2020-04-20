@@ -8,6 +8,8 @@ import universeTopics from './topics'
 import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 
+import { EntityFetchOptions } from '../entities/_base'
+
 import * as staff from '../entities/staff/staff'
 import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
@@ -18,6 +20,7 @@ import * as cart from '../entities/cart/cart'
 import * as order from '../entities/order/order'
 import * as discount from '../entities/discount/discount'
 import * as messageTemplate from '../entities/message-template/message-template'
+import { Product, ProductRawPayload } from '../entities/product/product'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -105,6 +108,12 @@ export interface UniverseFeeds {
   fromJson: (feeds: FeedRawPayload[]) => Feed[]
   toJson: (feeds: Feed[]) => FeedRawPayload[]
   stream: (options?: UniverseFetchOptions) => Promise<Feeds>
+}
+
+export interface UniverseProducts {
+  fetch: (options?: EntityFetchOptions) => Promise<Product[] | ProductRawPayload[] | undefined>
+  fromJson: (products: ProductRawPayload[]) => Product[]
+  toJson: (products: Product[]) => ProductRawPayload[]
 }
 
 export interface IUniverseCarts {
@@ -534,23 +543,34 @@ export class Universe extends Readable {
     }
   }
 
-  public async products (options?: product.ProductFetchOptions): Promise<product.Product[] | undefined> {
-    try {
-      const opts = {
-        method: 'GET',
-        url: `${this.universeBase}/${product.Products.endpoint}`,
-        params: {
-          embed: options?.embed ?? 'options'
+  public get products (): UniverseProducts {
+    return {
+      fromJson: (payloads: ProductRawPayload[]): Product[] => {
+        return payloads.map((item) => (Product.create(item, this, this.http)))
+      },
+      toJson: (products: Product[]): ProductRawPayload[] => {
+        return products.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: EntityFetchOptions): Promise<product.Product[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${product.Products.endpoint}`,
+            params: {
+              // ...(options?.query ?? {}), no other options (raw etc) available for GET products atm
+              embed: options?.query?.embed ?? 'options'
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const resources = res.data.data as product.ProductRawPayload[]
+
+          return resources.map((resource: product.ProductRawPayload) => {
+            return product.Product.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new product.ProductsFetchRemoteError(undefined, { error: err })
         }
       }
-      const res = await this.http.getClient()(opts)
-      const resources = res.data.data as product.ProductRawPayload[]
-
-      return resources.map((resource: product.ProductRawPayload) => {
-        return product.Product.create(resource, this, this.http)
-      })
-    } catch (err) {
-      throw new product.ProductsFetchRemoteError(undefined, { error: err })
     }
   }
 
