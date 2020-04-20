@@ -532,7 +532,7 @@ export class Universe extends Readable {
 
   public async people (): Promise<person.Person[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${person.People.endpoint as string}`)
+      const res = await this.http.getClient().get(`${this.universeBase}/${person.People.endpoint}`)
       const resources = res.data.data as person.PersonRawPayload[]
 
       return resources.map((resource: person.PersonRawPayload) => {

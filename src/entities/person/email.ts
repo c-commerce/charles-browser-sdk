@@ -28,22 +28,21 @@ export interface EmailPayload {
 }
 
 export class Email extends Entity<EmailPayload, EmailRawPayload> {
-  protected universe: Universe;
-  protected http: Universe['http'];
-  protected options: EmailOptions;
-  public initialized: boolean;
+  protected universe: Universe
+  protected http: Universe['http']
+  protected options: EmailOptions
+  public initialized: boolean
+  public endpoint: string
 
-  public endpoint: string;
-
-  public id?: string;
-  public person?: EmailRawPayload['person'];
-  public value?: EmailRawPayload['value'];
-  public type?: string;
-  public createdAt?: Date | null;
-  public updatedAt?: Date | null;
-  public deleted?: EmailRawPayload['deleted'];
-  public active?: EmailRawPayload['active'];
-  public comment?: EmailRawPayload['comment'];
+  public id?: string
+  public person?: EmailRawPayload['person']
+  public value?: EmailRawPayload['value']
+  public type?: string
+  public createdAt?: Date | null
+  public updatedAt?: Date | null
+  public deleted?: EmailRawPayload['deleted']
+  public active?: EmailRawPayload['active']
+  public comment?: EmailRawPayload['comment']
 
   constructor (options: EmailOptions) {
     super()

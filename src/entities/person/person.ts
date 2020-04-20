@@ -3,7 +3,7 @@ import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Order } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
-import { Email, EmailRawPayload, EmailCreateRemoteError, EmailsFetchRemoteError } from './email'
+import { Email, EmailRawPayload } from './email'
 import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } from '../cart/cart'
 
 export interface PersonOptions extends EntityOptions {
@@ -126,32 +126,32 @@ export interface PersonAnalyticsSnapshotResponse {
  * @category Entity
  */
 export class Person extends Entity<PersonPayload, PersonRawPayload> {
-  protected universe: Universe;
-  protected http: Universe['http'];
-  protected options: PersonOptions;
-  public initialized: boolean;
+  protected universe: Universe
+  protected http: Universe['http']
+  protected options: PersonOptions
+  public initialized: boolean
 
-  public endpoint: string;
+  public endpoint: string
 
-  public id?: PersonPayload['id'];
-  public createdAt?: PersonPayload['createdAt'];
-  public updatedAt?: PersonPayload['updatedAt'];
-  public deleted?: PersonPayload['deleted'];
-  public active?: PersonPayload['active'];
-  public firstName?: PersonPayload['firstName'];
-  public middleName?: PersonPayload['middleName'];
-  public lastName?: PersonPayload['lastName'];
-  public name?: PersonPayload['name'];
-  public emails?: PersonPayload['emails'];
-  public avatar?: PersonPayload['avatar'];
-  public dateOfBirth?: PersonPayload['dateOfBirth'];
-  public gender?: PersonPayload['gender'];
-  public comment?: PersonPayload['comment'];
-  public measurements?: PersonPayload['measurements'];
-  public tags?: PersonPayload['tags'];
-  public addresses?: PersonPayload['addresses'];
-  public phonenumbers?: PersonPayload['phonenumbers'];
-  public channelUsers?: PersonPayload['channelUsers'];
+  public id?: PersonPayload['id']
+  public createdAt?: PersonPayload['createdAt']
+  public updatedAt?: PersonPayload['updatedAt']
+  public deleted?: PersonPayload['deleted']
+  public active?: PersonPayload['active']
+  public firstName?: PersonPayload['firstName']
+  public middleName?: PersonPayload['middleName']
+  public lastName?: PersonPayload['lastName']
+  public name?: PersonPayload['name']
+  public emails?: PersonPayload['emails']
+  public avatar?: PersonPayload['avatar']
+  public dateOfBirth?: PersonPayload['dateOfBirth']
+  public gender?: PersonPayload['gender']
+  public comment?: PersonPayload['comment']
+  public measurements?: PersonPayload['measurements']
+  public tags?: PersonPayload['tags']
+  public addresses?: PersonPayload['addresses']
+  public phonenumbers?: PersonPayload['phonenumbers']
+  public channelUsers?: PersonPayload['channelUsers']
 
   constructor (options: PersonOptions) {
     super()
@@ -329,7 +329,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
         try {
           const opts = {
             method: 'GET',
-            url: `${this.universe.universeBase}/${People.endpoint as string}/${this.id as string}/carts`,
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/carts`,
             params: {
               ...(options?.query ? options.query : {})
             }
@@ -352,7 +352,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
         try {
           const opts = {
             method: 'POST',
-            url: `${this.universe.universeBase}/${People.endpoint as string}/${this.id as string}/carts`,
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/carts`,
             data: cart
           }
           const res = await this.http.getClient()(opts)
@@ -369,29 +369,29 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class People {
-  public endpoint: string = 'api/v0/people';
-  static endpoint: any
+  public static endpoint: string = 'api/v0/people'
 }
 
 export class Address {
-  protected universe: Universe;
-  protected http: Universe['http'];
-  protected options: AddressOptions;
-  public initialized: boolean;
+  protected universe: Universe
+  protected http: Universe['http']
+  protected options: AddressOptions
+  public initialized: boolean
 
-  public id?: string;
-  public lines?: string[];
-  public locality?: string;
-  public country?: string;
-  public region?: string;
-  public postalCode?: string;
-  public type?: string;
-  public createdAt?: Date | null;
-  public updatedAt?: Date | null;
-  public comment?: string;
-  public deleted?: boolean;
-  public active?: boolean;
+  public id?: string
+  public lines?: string[]
+  public locality?: string
+  public country?: string
+  public region?: string
+  public postalCode?: string
+  public type?: string
+  public createdAt?: Date | null
+  public updatedAt?: Date | null
+  public comment?: string
+  public deleted?: boolean
+  public active?: boolean
 
   constructor (options: AddressOptions) {
     this.universe = options.universe
@@ -456,19 +456,19 @@ export class Address {
 }
 
 export class Phonenumber {
-  protected universe: Universe;
-  protected http: Universe['http'];
-  protected options: PhonenumberOptions;
-  public initialized: boolean;
+  protected universe: Universe
+  protected http: Universe['http']
+  protected options: PhonenumberOptions
+  public initialized: boolean
 
-  public id?: string;
-  public value?: string;
-  public type?: string;
-  public createdAt?: Date | null;
-  public updatedAt?: Date | null;
-  public comment?: string;
-  public deleted?: boolean;
-  public active?: boolean;
+  public id?: string
+  public value?: string
+  public type?: string
+  public createdAt?: Date | null
+  public updatedAt?: Date | null
+  public comment?: string
+  public deleted?: boolean
+  public active?: boolean
 
   constructor (options: PhonenumberOptions) {
     this.universe = options.universe
