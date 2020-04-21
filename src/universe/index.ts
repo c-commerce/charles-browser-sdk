@@ -558,7 +558,7 @@ export class Universe extends Readable {
       toJson: (products: Product[]): ProductRawPayload[] => {
         return products.map((item) => (item.serialize()))
       },
-      fetch: async (options?: EntityFetchOptions): Promise<product.Product[] | undefined> => {
+      fetch: async (options?: EntityFetchOptions): Promise<product.Product[] | ProductRawPayload[] | undefined> => {
         try {
           const opts = {
             method: 'GET',
@@ -570,6 +570,10 @@ export class Universe extends Readable {
           }
           const res = await this.http.getClient()(opts)
           const resources = res.data.data as product.ProductRawPayload[]
+
+          if (options && options.raw === true) {
+            return resources
+          }
 
           return resources.map((resource: product.ProductRawPayload) => {
             return product.Product.create(resource, this, this.http)
