@@ -483,6 +483,9 @@ var Universe = (function (_super) {
                             case 1:
                                 res = _c.sent();
                                 resources = res.data.data;
+                                if (options && options.raw === true) {
+                                    return [2, resources];
+                                }
                                 return [2, resources.map(function (resource) {
                                         return product.Product.create(resource, _this, _this.http);
                                     })];

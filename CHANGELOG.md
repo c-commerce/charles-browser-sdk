@@ -1,3 +1,10 @@
+## [2.50.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.50.1...v2.50.2) (2020-04-21)
+
+
+### Bug Fixes
+
+* **Products:** Add missing raw fetch of products ([ab3537b](https://github.com/c-commerce/charles-browser-sdk/commit/ab3537ba95f2b6d484165d826dede9bf16b79242))
+
 ## [2.50.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.50.0...v2.50.1) (2020-04-20)
 
 
