@@ -5,6 +5,7 @@ import { Order } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
 import { Email, EmailRawPayload } from './email'
 import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } from '../cart/cart'
+import omit from 'just-omit'
 
 export interface PersonOptions extends EntityOptions {
   rawPayload?: PersonRawPayload
@@ -278,6 +279,10 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     }
   }
 
+  public async patch (changePart: PersonRawPayload): Promise<Person> {
+    return await super.patch(omit(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users'])) as Person
+  }
+
   public analytics (): object {
     return {
       snapshot: async (): Promise<PersonAnalyticsSnapshotResponse | undefined> => {
@@ -366,6 +371,14 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
         }
       }
     }
+  }
+
+  public email (payload: EmailRawPayload): Email {
+    return Email.create({ ...payload, person: this.id }, this.universe, this.http)
+  }
+
+  public phonenumber (payload: PersonPhonenumberRawPayload): Phonenumber {
+    return Phonenumber.create({ ...payload, person: this.id }, this.universe, this.http)
   }
 }
 
