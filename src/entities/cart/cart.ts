@@ -39,6 +39,7 @@ export interface CartItemDiscountRawPayload {
 }
 
 export interface CartItemRawPayload {
+  readonly id?: string
   readonly qty?: number
   readonly sku?: string
   readonly name?: string
@@ -66,6 +67,7 @@ export interface CartItemRawPayload {
 }
 
 export interface CartItemPayload {
+  readonly id: string
   readonly qty?: number
   readonly sku?: string
   readonly name: string
@@ -180,6 +182,7 @@ export class CartItem {
   protected http: Universe['http']
   protected options: CartOptions
 
+  public id?: CartItemPayload['id']
   public qty?: CartItemPayload['qty']
   public sku?: CartItemPayload['sku']
   public name?: CartItemPayload['name']
@@ -212,6 +215,7 @@ export class CartItem {
   }
 
   protected deserialize (rawPayload: CartItemRawPayload): CartItem {
+    this.id = rawPayload.id
     this.qty = rawPayload.qty
     this.sku = rawPayload.sku
     this.name = rawPayload.name
@@ -242,6 +246,7 @@ export class CartItem {
 
   public serialize (): CartItemRawPayload {
     return {
+      id: this.id,
       qty: this.qty,
       sku: this.sku,
       name: this.name,
