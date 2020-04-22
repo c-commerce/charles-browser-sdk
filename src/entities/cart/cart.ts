@@ -170,6 +170,11 @@ export interface CartPayload {
   readonly proxyPayload?: CartRawPayload['proxy_payload']
 }
 
+export interface AddItemItemOptions {
+  product: string
+  qty?: number
+}
+
 export class CartItem {
   protected universe: Universe
   protected http: Universe['http']
@@ -413,6 +418,32 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
       throw this.handleError(new CartInitializationError(undefined, { error: err }))
     }
   }
+
+  public async addItems (itemsOptions: AddItemItemOptions[]): Promise<Cart> {
+    if (this.id === null || this.id === undefined) throw new TypeError('addItem requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/items`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: itemsOptions.map((itemOption: AddItemItemOptions) => ({
+          product: itemOption.product,
+          qty: itemOption.qty ?? 1
+        })),
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      this.deserialize(res.data.data[0] as CartRawPayload)
+
+      return this
+    } catch (err) {
+      throw new CartAddItemsRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -449,5 +480,13 @@ export class CartCreateRemoteError extends BaseError {
   constructor (public message: string = 'Could not create carts', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CartCreateRemoteError.prototype)
+  }
+}
+
+export class CartAddItemsRemoteError extends BaseError {
+  public name = 'CartAddItemsRemoteError'
+  constructor (public message: string = 'Could not add items to cart', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CartAddItemsRemoteError.prototype)
   }
 }
