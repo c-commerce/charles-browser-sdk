@@ -1,3 +1,10 @@
+## [2.51.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.51.0...v2.51.1) (2020-04-22)
+
+
+### Bug Fixes
+
+* **Cart:** Added id field to CartItem and it's payloads ([a26f7f9](https://github.com/c-commerce/charles-browser-sdk/commit/a26f7f943a634c0a595510c830a9c833646df07e))
+
 # [2.51.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.50.3...v2.51.0) (2020-04-22)
 
 

@@ -71,6 +71,7 @@ var CartItem = (function () {
         }
     }
     CartItem.prototype.deserialize = function (rawPayload) {
+        this.id = rawPayload.id;
         this.qty = rawPayload.qty;
         this.sku = rawPayload.sku;
         this.name = rawPayload.name;
@@ -98,6 +99,7 @@ var CartItem = (function () {
     };
     CartItem.prototype.serialize = function () {
         return {
+            id: this.id,
             qty: this.qty,
             sku: this.sku,
             name: this.name,

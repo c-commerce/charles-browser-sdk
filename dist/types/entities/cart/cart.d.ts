@@ -32,6 +32,7 @@ export interface CartItemDiscountRawPayload {
     readonly currency?: string;
 }
 export interface CartItemRawPayload {
+    readonly id?: string;
     readonly qty?: number;
     readonly sku?: string;
     readonly name?: string;
@@ -58,6 +59,7 @@ export interface CartItemRawPayload {
     readonly external_reference_custom_id?: string;
 }
 export interface CartItemPayload {
+    readonly id: string;
     readonly qty?: number;
     readonly sku?: string;
     readonly name: string;
@@ -163,6 +165,7 @@ export declare class CartItem {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: CartOptions;
+    id?: CartItemPayload['id'];
     qty?: CartItemPayload['qty'];
     sku?: CartItemPayload['sku'];
     name?: CartItemPayload['name'];
