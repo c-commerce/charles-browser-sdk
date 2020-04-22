@@ -1,3 +1,10 @@
+# [2.51.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.50.3...v2.51.0) (2020-04-22)
+
+
+### Features
+
+* **Cart:** Implemented add items to cart ([32a6fcf](https://github.com/c-commerce/charles-browser-sdk/commit/32a6fcfe3236969d04c869cb11f86652794524f7))
+
 ## [2.50.3](https://github.com/c-commerce/charles-browser-sdk/compare/v2.50.2...v2.50.3) (2020-04-22)
 
 

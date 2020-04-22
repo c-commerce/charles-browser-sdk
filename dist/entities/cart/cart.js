@@ -240,6 +240,46 @@ var Cart = (function (_super) {
             });
         });
     };
+    Cart.prototype.addItems = function (itemsOptions) {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, res, err_2;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('addItem requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/items",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: itemsOptions.map(function (itemOption) {
+                                var _a;
+                                return ({
+                                    product: itemOption.product,
+                                    qty: (_a = itemOption.qty) !== null && _a !== void 0 ? _a : 1
+                                });
+                            }),
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        res = _c.sent();
+                        this.deserialize(res.data.data[0]);
+                        return [2, this];
+                    case 3:
+                        err_2 = _c.sent();
+                        throw new CartAddItemsRemoteError(undefined, { error: err_2 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return Cart;
 }(_base_1.default));
 exports.Cart = Cart;
@@ -302,4 +342,17 @@ var CartCreateRemoteError = (function (_super) {
     return CartCreateRemoteError;
 }(errors_1.BaseError));
 exports.CartCreateRemoteError = CartCreateRemoteError;
+var CartAddItemsRemoteError = (function (_super) {
+    __extends(CartAddItemsRemoteError, _super);
+    function CartAddItemsRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not add items to cart'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CartAddItemsRemoteError';
+        Object.setPrototypeOf(_this, CartAddItemsRemoteError.prototype);
+        return _this;
+    }
+    return CartAddItemsRemoteError;
+}(errors_1.BaseError));
+exports.CartAddItemsRemoteError = CartAddItemsRemoteError;
 //# sourceMappingURL=cart.js.map

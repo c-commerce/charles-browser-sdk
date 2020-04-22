@@ -155,6 +155,10 @@ export interface CartPayload {
     readonly status?: CartRawPayload['status'];
     readonly proxyPayload?: CartRawPayload['proxy_payload'];
 }
+export interface AddItemItemOptions {
+    product: string;
+    qty?: number;
+}
 export declare class CartItem {
     protected universe: Universe;
     protected http: Universe['http'];
@@ -225,6 +229,7 @@ export declare class Cart extends Entity<CartPayload, CartRawPayload> {
     static create(payload: CartRawPayload, universe: Universe, http: Universe['http']): Cart;
     serialize(): CartRawPayload;
     init(): Promise<Cart | undefined>;
+    addItems(itemsOptions: AddItemItemOptions[]): Promise<Cart>;
 }
 export declare class Carts {
     static endpoint: string;
@@ -245,6 +250,11 @@ export declare class CartsFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class CartCreateRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CartAddItemsRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
