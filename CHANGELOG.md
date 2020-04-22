@@ -1,3 +1,10 @@
+## [2.50.3](https://github.com/c-commerce/charles-browser-sdk/compare/v2.50.2...v2.50.3) (2020-04-22)
+
+
+### Bug Fixes
+
+* **person:** added patch overwrite with omit, added email & phonenumber factory to person ([ce8c37e](https://github.com/c-commerce/charles-browser-sdk/commit/ce8c37ec9073c93eed18a35a1c7cbc4bd3e169c3))
+
 ## [2.50.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.50.1...v2.50.2) (2020-04-21)
 
 

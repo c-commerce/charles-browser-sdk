@@ -68,6 +68,7 @@ var errors_1 = require("../../errors");
 var channel_user_1 = require("./channel-user");
 var email_1 = require("./email");
 var cart_1 = require("../cart/cart");
+var just_omit_1 = __importDefault(require("just-omit"));
 var Person = (function (_super) {
     __extends(Person, _super);
     function Person(options) {
@@ -198,6 +199,16 @@ var Person = (function (_super) {
             });
         });
     };
+    Person.prototype.patch = function (changePart) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, _super.prototype.patch.call(this, just_omit_1.default(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users']))];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
     Person.prototype.analytics = function () {
         var _this = this;
         return {
@@ -297,6 +308,12 @@ var Person = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Person.prototype.email = function (payload) {
+        return email_1.Email.create(__assign(__assign({}, payload), { person: this.id }), this.universe, this.http);
+    };
+    Person.prototype.phonenumber = function (payload) {
+        return Phonenumber.create(__assign(__assign({}, payload), { person: this.id }), this.universe, this.http);
+    };
     return Person;
 }(_base_1.default));
 exports.Person = Person;

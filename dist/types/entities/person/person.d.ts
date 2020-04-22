@@ -137,8 +137,11 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     static create(payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person;
     serialize(): PersonRawPayload;
     init(): Promise<Person | undefined>;
+    patch(changePart: PersonRawPayload): Promise<Person>;
     analytics(): object;
     get carts(): IPersonCarts;
+    email(payload: EmailRawPayload): Email;
+    phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
 }
 export declare class People {
     static endpoint: string;
