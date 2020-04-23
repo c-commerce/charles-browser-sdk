@@ -255,25 +255,38 @@ var Feed = (function (_super) {
             });
         });
     };
-    Feed.prototype.fetchLatestEvents = function () {
+    Feed.prototype.fetchLatestEvents = function (options) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var res, events, err_3;
+            var opts, res, events, err_3;
             var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id + "/events/latest")];
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id + "/events/latest",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            params: __assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {})),
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
                     case 1:
-                        res = _a.sent();
+                        res = _b.sent();
                         events = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, events];
+                        }
                         events.forEach(function (eventRaw) {
                             var e = event_1.Event.create(eventRaw, _this, _this.universe, _this.http);
                             _this.eventsMap.set(e.id, e);
                         });
                         return [2, Array.from(this.eventsMap.values())];
                     case 2:
-                        err_3 = _a.sent();
+                        err_3 = _b.sent();
                         throw this.handleError(new FeedFetchLatestEventsRemoteError(undefined, { error: err_3 }));
                     case 3: return [2];
                 }

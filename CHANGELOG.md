@@ -1,3 +1,10 @@
+# [2.52.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.51.1...v2.52.0) (2020-04-23)
+
+
+### Features
+
+* **Feed:** Support for EntityFetchOptions in feed.fetchLatestEvents ([9e43408](https://github.com/c-commerce/charles-browser-sdk/commit/9e4340845d4b93bc8d275a9946d32391cb99e490))
+
 ## [2.51.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.51.0...v2.51.1) (2020-04-22)
 
 
