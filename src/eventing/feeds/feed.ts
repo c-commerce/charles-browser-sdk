@@ -11,7 +11,7 @@ import {
 import { Asset, Assets } from '../../entities/asset'
 import { Person, PersonRawPayload } from '../../entities/person'
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event'
-import { EntitiesList } from '../../entities/_base'
+import { EntitiesList, EntityFetchOptions } from '../../entities/_base'
 
 export interface FeedOptions {
   universe: Universe
@@ -272,11 +272,26 @@ export class Feed extends EventEmitter {
     }
   }
 
-  public async fetchLatestEvents (): Promise<Event[] | undefined> {
+  public async fetchLatestEvents (options?: EntityFetchOptions): Promise<Event[] | FeedlatestEventsRawPayload | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}/events/latest`)
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}/events/latest`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        params: {
+          ...(options?.query ? options.query : {})
+        },
+        responseType: 'json'
+      }
 
+      const res = await this.http?.getClient()(opts)
       const events = res.data.data as FeedlatestEventsRawPayload
+
+      if (options && options.raw === true) {
+        return events
+      }
 
       events.forEach((eventRaw: EventRawPayload) => {
         const e = Event.create(eventRaw, this, this.universe, this.http)
