@@ -54,6 +54,7 @@ export interface PersonRawPayload extends EntityRawPayload {
   readonly deleted?: boolean
   readonly active?: boolean
   readonly first_name?: string
+  readonly nickname?: string
   readonly middle_name?: string
   readonly last_name?: string
   readonly name?: string
@@ -99,6 +100,7 @@ export interface PersonPayload {
   readonly middleName?: PersonRawPayload['middle_name']
   readonly lastName?: PersonRawPayload['last_name']
   readonly name?: PersonRawPayload['name']
+  readonly nickname?: PersonRawPayload['nickname']
   readonly emails?: Email[]
   readonly avatar?: PersonRawPayload['avatar']
   readonly dateOfBirth?: PersonRawPayload['date_of_birth']
@@ -143,6 +145,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public middleName?: PersonPayload['middleName']
   public lastName?: PersonPayload['lastName']
   public name?: PersonPayload['name']
+  public nickname?: PersonPayload['nickname']
   public emails?: PersonPayload['emails']
   public avatar?: PersonPayload['avatar']
   public dateOfBirth?: PersonPayload['dateOfBirth']
@@ -179,6 +182,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this.middleName = rawPayload.middle_name
     this.lastName = rawPayload.last_name
     this.name = rawPayload.name
+    this.nickname = rawPayload.nickname
     this.avatar = rawPayload.avatar
     this.dateOfBirth = rawPayload.date_of_birth
     this.gender = rawPayload.gender
@@ -247,6 +251,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       middle_name: this.middleName,
       last_name: this.lastName,
       name: this.name,
+      nickname: this.nickname,
       avatar: this.avatar,
       date_of_birth: this.dateOfBirth,
       gender: this.gender,
