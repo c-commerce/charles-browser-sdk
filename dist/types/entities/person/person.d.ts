@@ -44,6 +44,7 @@ export interface PersonRawPayload extends EntityRawPayload {
     readonly deleted?: boolean;
     readonly active?: boolean;
     readonly first_name?: string;
+    readonly nickname?: string;
     readonly middle_name?: string;
     readonly last_name?: string;
     readonly name?: string;
@@ -52,6 +53,7 @@ export interface PersonRawPayload extends EntityRawPayload {
     readonly gender?: string;
     readonly comment?: string;
     readonly tags?: string[];
+    readonly name_preference?: string[];
     readonly measurements?: {
         body?: {
             weight: number;
@@ -87,6 +89,7 @@ export interface PersonPayload {
     readonly middleName?: PersonRawPayload['middle_name'];
     readonly lastName?: PersonRawPayload['last_name'];
     readonly name?: PersonRawPayload['name'];
+    readonly nickname?: PersonRawPayload['nickname'];
     readonly emails?: Email[];
     readonly avatar?: PersonRawPayload['avatar'];
     readonly dateOfBirth?: PersonRawPayload['date_of_birth'];
@@ -94,6 +97,7 @@ export interface PersonPayload {
     readonly comment?: PersonRawPayload['comment'];
     readonly measurements?: PersonRawPayload['measurements'];
     readonly tags?: PersonRawPayload['tags'];
+    readonly namePreference?: PersonRawPayload['name_preference'];
     readonly addresses?: Address[];
     readonly phonenumbers?: Phonenumber[];
     readonly channelUsers?: ChannelUser[];
@@ -122,6 +126,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     middleName?: PersonPayload['middleName'];
     lastName?: PersonPayload['lastName'];
     name?: PersonPayload['name'];
+    nickname?: PersonPayload['nickname'];
     emails?: PersonPayload['emails'];
     avatar?: PersonPayload['avatar'];
     dateOfBirth?: PersonPayload['dateOfBirth'];
@@ -129,6 +134,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     comment?: PersonPayload['comment'];
     measurements?: PersonPayload['measurements'];
     tags?: PersonPayload['tags'];
+    namePreference?: PersonPayload['namePreference'];
     addresses?: PersonPayload['addresses'];
     phonenumbers?: PersonPayload['phonenumbers'];
     channelUsers?: PersonPayload['channelUsers'];

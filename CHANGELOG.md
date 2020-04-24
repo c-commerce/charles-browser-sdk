@@ -1,3 +1,11 @@
+## [2.52.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.52.0...v2.52.1) (2020-04-24)
+
+
+### Bug Fixes
+
+* **person:** add namePreference ([7a4c1aa](https://github.com/c-commerce/charles-browser-sdk/commit/7a4c1aa1ed9ceb2ab5c612819de69716f85fcf22))
+* **person:** Add nickname ([ba95ae1](https://github.com/c-commerce/charles-browser-sdk/commit/ba95ae152e23811f17a30f837a29f828f08169c6))
+
 # [2.52.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.51.1...v2.52.0) (2020-04-23)
 
 

@@ -97,11 +97,14 @@ var Person = (function (_super) {
         this.middleName = rawPayload.middle_name;
         this.lastName = rawPayload.last_name;
         this.name = rawPayload.name;
+        this.nickname = rawPayload.nickname;
         this.avatar = rawPayload.avatar;
         this.dateOfBirth = rawPayload.date_of_birth;
         this.gender = rawPayload.gender;
         this.comment = rawPayload.comment;
         this.measurements = rawPayload.measurements;
+        this.tags = rawPayload.tags;
+        this.namePreference = rawPayload.name_preference;
         this.emails = [];
         if (rawPayload.emails && this.initialized) {
             this.emails = rawPayload.emails.map(function (i) { return email_1.Email.create(i, _this.universe, _this.http); });
@@ -159,11 +162,14 @@ var Person = (function (_super) {
             middle_name: this.middleName,
             last_name: this.lastName,
             name: this.name,
+            nickname: this.nickname,
             avatar: this.avatar,
             date_of_birth: this.dateOfBirth,
             gender: this.gender,
             comment: this.comment,
             measurements: this.measurements,
+            tags: this.tags,
+            name_preference: this.namePreference,
             emails: Array.isArray(this.emails) ? this.emails.map(function (item) { return item.serialize(); }) : undefined,
             addresses: Array.isArray(this.addresses)
                 ? this.addresses.map(function (item) { return item.serialize(); })
