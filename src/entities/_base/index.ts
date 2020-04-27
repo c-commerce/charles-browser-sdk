@@ -1,5 +1,9 @@
 import { EventEmitter } from 'events'
 import { Readable, pipeline } from 'readable-stream'
+import {
+  SyncHook, SyncBailHook, SyncWaterfallHook, SyncLoopHook, AsyncParallelHook,
+  AsyncParallelBailHook, AsyncSeriesHook, AsyncSeriesBailHook, AsyncSeriesWaterfallHook
+} from 'tapable'
 import { ndjsonStream } from './helpers'
 import { diff, jsonPatchPathConverter } from 'just-diff'
 import qs from 'qs'
@@ -25,7 +29,15 @@ export interface EntityFetchOptions {
   query?: EntityFetchQuery
 }
 
-export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
+export class HookableEvented extends EventEmitter {
+
+}
+
+export default abstract class Entity<Payload, RawPayload> extends HookableEvented {
+  protected hooks: {
+    [key: string]: SyncHook | SyncBailHook | SyncWaterfallHook | SyncLoopHook | AsyncParallelHook | AsyncParallelBailHook | AsyncSeriesHook | AsyncSeriesBailHook | AsyncSeriesWaterfallHook
+  }
+
   protected abstract universe: Universe
   protected abstract http: Universe['http']
 
@@ -37,10 +49,19 @@ export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
   public abstract id?: string
   public abstract endpoint: string
 
+  constructor () {
+    super()
+    this.hooks = {
+      beforeSetRawPayload: new SyncHook(['beforeSetRawPayload'])
+    }
+  }
+
   /**
    * @ignore
    */
   protected setRawPayload (p: RawPayload): Entity<Payload, RawPayload> {
+    this.hooks.beforeSetRawPayload.call(p)
+
     this._rawPayload = p
 
     return this
