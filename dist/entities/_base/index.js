@@ -65,18 +65,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
 var readable_stream_1 = require("readable-stream");
+var tapable_1 = require("tapable");
 var helpers_1 = require("./helpers");
 var just_diff_1 = require("just-diff");
 var qs_1 = __importDefault(require("qs"));
 var errors_1 = require("../../errors");
+var HookableEvented = (function (_super) {
+    __extends(HookableEvented, _super);
+    function HookableEvented() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return HookableEvented;
+}(events_1.EventEmitter));
+exports.HookableEvented = HookableEvented;
 var Entity = (function (_super) {
     __extends(Entity, _super);
     function Entity() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super.call(this) || this;
         _this._rawPayload = null;
+        _this.hooks = {
+            beforeSetRawPayload: new tapable_1.SyncHook(['beforeSetRawPayload'])
+        };
         return _this;
     }
     Entity.prototype.setRawPayload = function (p) {
+        this.hooks.beforeSetRawPayload.call(p);
         this._rawPayload = p;
         return this;
     };
@@ -291,7 +304,7 @@ var Entity = (function (_super) {
         });
     };
     return Entity;
-}(events_1.EventEmitter));
+}(HookableEvented));
 exports.default = Entity;
 var EntityPatchError = (function (_super) {
     __extends(EntityPatchError, _super);

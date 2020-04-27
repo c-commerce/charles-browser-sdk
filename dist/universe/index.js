@@ -90,6 +90,10 @@ var order = __importStar(require("../entities/order/order"));
 var discount = __importStar(require("../entities/discount/discount"));
 var messageTemplate = __importStar(require("../entities/message-template/message-template"));
 var product_1 = require("../entities/product/product");
+var productCategory = __importStar(require("../entities/product-category/product-category"));
+var productCategoryTree = __importStar(require("../entities/product-category-tree/product-category-tree"));
+var messageTemplateCategory = __importStar(require("../entities/message-template-category/message-template-category"));
+var messageTemplateCategoryTree = __importStar(require("../entities/message-template-category-tree/message-template-category-tree"));
 var Universe = (function (_super) {
     __extends(Universe, _super);
     function Universe(options) {
@@ -292,6 +296,18 @@ var Universe = (function (_super) {
     };
     Universe.prototype.messageTemplate = function (payload) {
         return messageTemplate.MessageTemplate.create(payload, this, this.http);
+    };
+    Universe.prototype.productCategory = function (payload) {
+        return productCategory.ProductCategory.create(payload, this, this.http);
+    };
+    Universe.prototype.productCategoryTree = function (payload) {
+        return productCategoryTree.ProductCategoryTree.create(payload, this, this.http);
+    };
+    Universe.prototype.messageTemplateCategory = function (payload) {
+        return messageTemplateCategory.MessageTemplateCategory.create(payload, this, this.http);
+    };
+    Universe.prototype.messageTemplateCategoryTree = function (payload) {
+        return messageTemplateCategoryTree.MessageTemplateCategoryTree.create(payload, this, this.http);
     };
     Universe.prototype.me = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -638,6 +654,98 @@ var Universe = (function (_super) {
             });
         });
     };
+    Universe.prototype.productCategories = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_13;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + productCategory.ProductCategories.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources.map(function (resource) {
+                                return productCategory.ProductCategory.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_13 = _a.sent();
+                        throw new productCategory.ProductCategoriesFetchRemoteError(undefined, { error: err_13 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Universe.prototype.productCategoryTrees = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_14;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + productCategoryTree.ProductCategoryTrees.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources.map(function (resource) {
+                                return productCategoryTree.ProductCategoryTree.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_14 = _a.sent();
+                        throw new productCategoryTree.ProductCategoryTreesFetchRemoteError(undefined, { error: err_14 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Universe.prototype.messageTemplateCategories = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_15;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + messageTemplateCategory.MessageTemplateCategories.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources.map(function (resource) {
+                                return messageTemplateCategory.MessageTemplateCategory.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_15 = _a.sent();
+                        throw new messageTemplateCategory.MessageTemplateCategoriesFetchRemoteError(undefined, { error: err_15 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Universe.prototype.messageTemplateCategoryTrees = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_16;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + messageTemplateCategoryTree.MessageTemplateCategoryTrees.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources.map(function (resource) {
+                                return messageTemplateCategoryTree.MessageTemplateCategoryTree.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_16 = _a.sent();
+                        throw new messageTemplateCategoryTree.MessageTemplateCategoryTreesFetchRemoteError(undefined, { error: err_16 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Universe.prototype.arm = function () {
         var _this = this;
         var mqtt = this.getMqttClient();
@@ -677,7 +785,7 @@ var Universe = (function (_super) {
     });
     Universe.prototype.searchEntity = function (endpoint, q) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, err_13;
+            var res, err_17;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -691,8 +799,8 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         return [2, res.data.data];
                     case 2:
-                        err_13 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_13 });
+                        err_17 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_17 });
                     case 3: return [2];
                 }
             });

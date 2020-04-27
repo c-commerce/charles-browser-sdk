@@ -1,3 +1,11 @@
+# [2.53.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.52.1...v2.53.0) (2020-04-27)
+
+
+### Features
+
+* add message and product categories ([05bdd08](https://github.com/c-commerce/charles-browser-sdk/commit/05bdd08a2feded736e322aec472cac322cd06ed4))
+* **entity:** make tapable ([539b912](https://github.com/c-commerce/charles-browser-sdk/commit/539b9121656879fe4cce8949927cf0336a9027dc))
+
 ## [2.52.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.52.0...v2.52.1) (2020-04-24)
 
 

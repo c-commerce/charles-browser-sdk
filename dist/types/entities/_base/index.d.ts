@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { EventEmitter } from 'events';
 import { Readable, pipeline } from 'readable-stream';
+import { SyncHook, SyncBailHook, SyncWaterfallHook, SyncLoopHook, AsyncParallelHook, AsyncParallelBailHook, AsyncSeriesHook, AsyncSeriesBailHook, AsyncSeriesWaterfallHook } from 'tapable';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 export interface EntityOptions {
@@ -18,12 +19,18 @@ export interface EntityFetchOptions {
     raw?: boolean;
     query?: EntityFetchQuery;
 }
-export default abstract class Entity<Payload, RawPayload> extends EventEmitter {
+export declare class HookableEvented extends EventEmitter {
+}
+export default abstract class Entity<Payload, RawPayload> extends HookableEvented {
+    protected hooks: {
+        [key: string]: SyncHook | SyncBailHook | SyncWaterfallHook | SyncLoopHook | AsyncParallelHook | AsyncParallelBailHook | AsyncSeriesHook | AsyncSeriesBailHook | AsyncSeriesWaterfallHook;
+    };
     protected abstract universe: Universe;
     protected abstract http: Universe['http'];
     protected _rawPayload?: RawPayload | null;
     abstract id?: string;
     abstract endpoint: string;
+    constructor();
     protected setRawPayload(p: RawPayload): Entity<Payload, RawPayload>;
     abstract serialize(): RawPayload;
     protected abstract deserialize(rawPayload: RawPayload): Entity<Payload, RawPayload>;
