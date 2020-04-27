@@ -23,6 +23,10 @@ import * as order from '../entities/order/order'
 import * as discount from '../entities/discount/discount'
 import * as messageTemplate from '../entities/message-template/message-template'
 import { Product, ProductRawPayload } from '../entities/product/product'
+import * as productCategory from '../entities/product-category/product-category'
+import * as productCategoryTree from '../entities/product-category-tree/product-category-tree'
+import * as messageTemplateCategory from '../entities/message-template-category/message-template-category'
+import * as messageTemplateCategoryTree from '../entities/message-template-category-tree/message-template-category-tree'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -421,6 +425,22 @@ export class Universe extends Readable {
     return messageTemplate.MessageTemplate.create(payload, this, this.http)
   }
 
+  public productCategory (payload: productCategory.ProductCategoryRawPayload): productCategory.ProductCategory {
+    return productCategory.ProductCategory.create(payload, this, this.http)
+  }
+
+  public productCategoryTree (payload: productCategoryTree.ProductCategoryTreeRawPayload): productCategoryTree.ProductCategoryTree {
+    return productCategoryTree.ProductCategoryTree.create(payload, this, this.http)
+  }
+
+  public messageTemplateCategory (payload: messageTemplateCategory.MessageTemplateCategoryRawPayload): messageTemplateCategory.MessageTemplateCategory {
+    return messageTemplateCategory.MessageTemplateCategory.create(payload, this, this.http)
+  }
+
+  public messageTemplateCategoryTree (payload: messageTemplateCategoryTree.MessageTemplateCategoryTreeRawPayload): messageTemplateCategoryTree.MessageTemplateCategoryTree {
+    return messageTemplateCategoryTree.MessageTemplateCategoryTree.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -682,6 +702,58 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new messageTemplate.MessageTemplatesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async productCategories (): Promise<productCategory.ProductCategory[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${productCategory.ProductCategories.endpoint}`)
+      const resources = res.data.data as productCategory.ProductCategoryRawPayload[]
+
+      return resources.map((resource: productCategory.ProductCategoryRawPayload) => {
+        return productCategory.ProductCategory.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new productCategory.ProductCategoriesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async productCategoryTrees (): Promise<productCategoryTree.ProductCategoryTree[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${productCategoryTree.ProductCategoryTrees.endpoint}`)
+      const resources = res.data.data as productCategoryTree.ProductCategoryTreeRawPayload[]
+
+      return resources.map((resource: productCategoryTree.ProductCategoryTreeRawPayload) => {
+        return productCategoryTree.ProductCategoryTree.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new productCategoryTree.ProductCategoryTreesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async messageTemplateCategories (): Promise<messageTemplateCategory.MessageTemplateCategory[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${messageTemplateCategory.MessageTemplateCategories.endpoint}`)
+      const resources = res.data.data as messageTemplateCategory.MessageTemplateCategoryRawPayload[]
+
+      return resources.map((resource: messageTemplateCategory.MessageTemplateCategoryRawPayload) => {
+        return messageTemplateCategory.MessageTemplateCategory.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new messageTemplateCategory.MessageTemplateCategoriesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async messageTemplateCategoryTrees (): Promise<messageTemplateCategoryTree.MessageTemplateCategoryTree[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${messageTemplateCategoryTree.MessageTemplateCategoryTrees.endpoint}`)
+      const resources = res.data.data as messageTemplateCategoryTree.MessageTemplateCategoryTreeRawPayload[]
+
+      return resources.map((resource: messageTemplateCategoryTree.MessageTemplateCategoryTreeRawPayload) => {
+        return messageTemplateCategoryTree.MessageTemplateCategoryTree.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new messageTemplateCategoryTree.MessageTemplateCategoryTreesFetchRemoteError(undefined, { error: err })
     }
   }
 

@@ -64,7 +64,7 @@ export class <%= capitalizedName %> extends Entity<<%= capitalizedName %>Payload
   }
 
   protected deserialize(rawPayload: <%= capitalizedName %>RawPayload): <%= capitalizedName %> {
-    this.setRawpayload(rawPayload)
+    this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
