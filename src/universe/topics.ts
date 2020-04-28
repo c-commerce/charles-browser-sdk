@@ -43,6 +43,16 @@ export default {
         return topic === this.template
       }
     })(),
+    feedsEvents: new (class extends TopicGenerator {
+      template: string = 'api/feeds/*/events'
+      generateTopic (): string {
+        return this.template
+      }
+
+      isTopic (topic: string): boolean {
+        return topic === this.template
+      }
+    })(),
     feedsMessages: new (class extends TopicGenerator {
       template: string = 'api/feeds/*/messages'
       generateTopic (): string {

@@ -23,6 +23,7 @@ import * as order from '../entities/order/order'
 import * as discount from '../entities/discount/discount'
 import * as messageTemplate from '../entities/message-template/message-template'
 import { Product, ProductRawPayload } from '../entities/product/product'
+import { Event, EventRawPayload } from '../eventing/feeds/event'
 import * as productCategory from '../entities/product-category/product-category'
 import * as productCategoryTree from '../entities/product-category-tree/product-category-tree'
 import * as messageTemplateCategory from '../entities/message-template-category/message-template-category'
@@ -68,6 +69,7 @@ export declare interface Universe {
   'armed' // currently unused
   | 'universe:message' // receive any message in this universe
   | 'universe:feeds:messages' // receive any message in any feed in this universe
+  | 'universe:feeds:events' // receive any event in any feed in this universe
   | 'universe:feeds' // receive notifications about feeds and their updates, also which action happened for that feed
   | string,
     cb: Function): this
@@ -173,6 +175,10 @@ export interface MeData {
  *   // your logic
  * })
  *
+ * universe.on('universe:feeds:events', (p) => {
+ *   // your logic
+ * })
+ *
  * universe.on('universe:feeds', (p) => {
  *   // your logic
  * })
@@ -263,7 +269,8 @@ export class Universe extends Readable {
       universeTopics.api.message.generateTopic(),
       universeTopics.api.feeds.generateTopic(),
       universeTopics.api.feedsActivities.generateTopic(),
-      universeTopics.api.feedsMessages.generateTopic()
+      universeTopics.api.feedsMessages.generateTopic(),
+      universeTopics.api.feedsEvents.generateTopic()
     ]
   }
 
@@ -292,6 +299,17 @@ export class Universe extends Readable {
       }
       this.emit('universe:message', { ...msg, message })
       return
+    }
+
+    if (universeTopics.api.feedsEvents.isTopic(msg.topic)) {
+      let event
+      let feed
+      if ((msg as realtime.RealtimeMessageMessage).payload.event) {
+        const feedPayload: FeedRawPayload = { id: (msg as realtime.RealtimeMessageMessage).payload.event.feed }
+        feed = Feed.create(feedPayload, this, this.http, this.mqtt)
+        event = Event.create((msg as realtime.RealtimeMessageMessage).payload.event as EventRawPayload, feed, this, this.http)
+      }
+      this.emit('universe:feeds:events', { ...msg, event, feed: feed })
     }
 
     if (universeTopics.api.feedsMessages.isTopic(msg.topic)) {
