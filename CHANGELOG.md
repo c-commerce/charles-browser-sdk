@@ -1,3 +1,10 @@
+# [2.54.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.53.0...v2.54.0) (2020-04-28)
+
+
+### Features
+
+* **Universe Events:** emit universe:feeds:events ([ece0eb5](https://github.com/c-commerce/charles-browser-sdk/commit/ece0eb56971a228734b1f8c8884d8c781bcdbf40))
+
 # [2.53.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.52.1...v2.53.0) (2020-04-27)
 
 

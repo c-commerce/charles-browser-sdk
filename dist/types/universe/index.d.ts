@@ -50,7 +50,7 @@ export interface UniverseFetchOptions {
 }
 export declare interface Universe {
     on(event: 'raw-error' | 'error', cb: (error: Error) => void): this;
-    on(event: 'armed' | 'universe:message' | 'universe:feeds:messages' | 'universe:feeds' | string, cb: Function): this;
+    on(event: 'armed' | 'universe:message' | 'universe:feeds:messages' | 'universe:feeds:events' | 'universe:feeds' | string, cb: Function): this;
 }
 export interface UnviverseSearchResultItem {
     document: object;

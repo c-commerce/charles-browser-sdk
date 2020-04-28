@@ -90,6 +90,7 @@ var order = __importStar(require("../entities/order/order"));
 var discount = __importStar(require("../entities/discount/discount"));
 var messageTemplate = __importStar(require("../entities/message-template/message-template"));
 var product_1 = require("../entities/product/product");
+var event_1 = require("../eventing/feeds/event");
 var productCategory = __importStar(require("../entities/product-category/product-category"));
 var productCategoryTree = __importStar(require("../entities/product-category-tree/product-category-tree"));
 var messageTemplateCategory = __importStar(require("../entities/message-template-category/message-template-category"));
@@ -171,7 +172,8 @@ var Universe = (function (_super) {
                 topics_1.default.api.message.generateTopic(),
                 topics_1.default.api.feeds.generateTopic(),
                 topics_1.default.api.feedsActivities.generateTopic(),
-                topics_1.default.api.feedsMessages.generateTopic()
+                topics_1.default.api.feedsMessages.generateTopic(),
+                topics_1.default.api.feedsEvents.generateTopic()
             ];
         },
         enumerable: true,
@@ -195,6 +197,16 @@ var Universe = (function (_super) {
             }
             this.emit('universe:message', __assign(__assign({}, msg), { message: message }));
             return;
+        }
+        if (topics_1.default.api.feedsEvents.isTopic(msg.topic)) {
+            var event_2;
+            var feed = void 0;
+            if (msg.payload.event) {
+                var feedPayload = { id: msg.payload.event.feed };
+                feed = feed_1.Feed.create(feedPayload, this, this.http, this.mqtt);
+                event_2 = event_1.Event.create(msg.payload.event, feed, this, this.http);
+            }
+            this.emit('universe:feeds:events', __assign(__assign({}, msg), { event: event_2, feed: feed }));
         }
         if (topics_1.default.api.feedsMessages.isTopic(msg.topic)) {
             var message = void 0;

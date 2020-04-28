@@ -18,6 +18,11 @@ declare const _default: {
             generateTopic(): string;
             isTopic(topic: string): boolean;
         };
+        feedsEvents: {
+            template: string;
+            generateTopic(): string;
+            isTopic(topic: string): boolean;
+        };
         feedsMessages: {
             template: string;
             generateTopic(): string;

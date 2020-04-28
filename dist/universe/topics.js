@@ -69,11 +69,11 @@ exports.default = {
             };
             return class_3;
         }(TopicGenerator)))(),
-        feedsMessages: new ((function (_super) {
+        feedsEvents: new ((function (_super) {
             __extends(class_4, _super);
             function class_4() {
                 var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.template = 'api/feeds/*/messages';
+                _this.template = 'api/feeds/*/events';
                 return _this;
             }
             class_4.prototype.generateTopic = function () {
@@ -84,26 +84,26 @@ exports.default = {
             };
             return class_4;
         }(TopicGenerator)))(),
-        feedMessages: new ((function (_super) {
+        feedsMessages: new ((function (_super) {
             __extends(class_5, _super);
             function class_5() {
                 var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.template = 'api/feeds/${id}/messages';
+                _this.template = 'api/feeds/*/messages';
                 return _this;
             }
-            class_5.prototype.generateTopic = function (data) {
-                return this.template.replace('${id}', data.id);
+            class_5.prototype.generateTopic = function () {
+                return this.template;
             };
-            class_5.prototype.isTopic = function (topic, data) {
-                return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic);
+            class_5.prototype.isTopic = function (topic) {
+                return topic === this.template;
             };
             return class_5;
         }(TopicGenerator)))(),
-        feedEvents: new ((function (_super) {
+        feedMessages: new ((function (_super) {
             __extends(class_6, _super);
             function class_6() {
                 var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.template = 'api/feeds/${id}/events';
+                _this.template = 'api/feeds/${id}/messages';
                 return _this;
             }
             class_6.prototype.generateTopic = function (data) {
@@ -114,21 +114,36 @@ exports.default = {
             };
             return class_6;
         }(TopicGenerator)))(),
+        feedEvents: new ((function (_super) {
+            __extends(class_7, _super);
+            function class_7() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.template = 'api/feeds/${id}/events';
+                return _this;
+            }
+            class_7.prototype.generateTopic = function (data) {
+                return this.template.replace('${id}', data.id);
+            };
+            class_7.prototype.isTopic = function (topic, data) {
+                return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic);
+            };
+            return class_7;
+        }(TopicGenerator)))(),
         clients: {
             arm: new ((function (_super) {
-                __extends(class_7, _super);
-                function class_7() {
+                __extends(class_8, _super);
+                function class_8() {
                     var _this = _super !== null && _super.apply(this, arguments) || this;
                     _this.template = 'api/clients/${clientId}/arm';
                     return _this;
                 }
-                class_7.prototype.generateTopic = function (data) {
+                class_8.prototype.generateTopic = function (data) {
                     return just_template_1.default(this.template, data);
                 };
-                class_7.prototype.isTopic = function (topic) {
+                class_8.prototype.isTopic = function (topic) {
                     return new RegExp(this.template.replace('${clientId}', '\\w+'), 'g').test(topic);
                 };
-                return class_7;
+                return class_8;
             }(TopicGenerator)))()
         }
     }
