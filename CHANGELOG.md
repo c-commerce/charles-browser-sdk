@@ -1,3 +1,10 @@
+## [2.56.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.56.0...v2.56.1) (2020-04-29)
+
+
+### Bug Fixes
+
+* add missing properties in msg tmpl ([11f72ed](https://github.com/c-commerce/charles-browser-sdk/commit/11f72ed4fb96bc6bcc9ecd720e452f89612120aa))
+
 # [2.56.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.55.0...v2.56.0) (2020-04-29)
 
 

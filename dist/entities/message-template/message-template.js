@@ -81,6 +81,8 @@ var MessageTemplate = (function (_super) {
         this.name = rawPayload.name;
         this.comment = rawPayload.comment;
         this.proxyVendor = rawPayload.proxy_vendor;
+        this.categories = rawPayload.categories;
+        this.parametersTemplate = rawPayload.parameters_template;
         this.content = rawPayload.content;
         this.configuration = rawPayload.configuration;
         this.payload = rawPayload.payload;
@@ -103,6 +105,8 @@ var MessageTemplate = (function (_super) {
             name: this.name,
             comment: this.comment,
             proxy_vendor: this.proxyVendor,
+            categories: this.categories,
+            parameters_template: this.parametersTemplate,
             content: this.content,
             configuration: this.configuration,
             payload: this.payload,

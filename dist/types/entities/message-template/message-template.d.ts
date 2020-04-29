@@ -20,6 +20,7 @@ export interface MessageTemplateRawPayload {
     readonly name?: string;
     readonly comment?: string;
     readonly proxy_vendor?: string;
+    readonly categories?: string[] | null;
     readonly content?: {
         body?: string | null;
         attachments?: MessageTemplateRawPayloadAttachment[] | null;
@@ -32,6 +33,16 @@ export interface MessageTemplateRawPayload {
     readonly configuration?: object;
     readonly payload?: object;
     readonly metadata?: object;
+    readonly parameters_template?: {
+        type?: 'list' | 'map';
+        parameters?: {
+            [key: string]: any;
+        } | Array<{
+            name: string;
+            required: boolean;
+            order_index?: number;
+        }>;
+    } | null;
 }
 export interface MessageTemplatePayload {
     readonly id?: MessageTemplateRawPayload['id'];
@@ -44,6 +55,8 @@ export interface MessageTemplatePayload {
     readonly name?: MessageTemplateRawPayload['name'];
     readonly comment?: MessageTemplateRawPayload['comment'];
     readonly proxyVendor?: MessageTemplateRawPayload['proxy_vendor'];
+    readonly categories?: MessageTemplateRawPayload['categories'];
+    readonly parametersTemplate?: MessageTemplateRawPayload['parameters_template'];
     readonly content?: MessageTemplateRawPayload['content'];
     readonly configuration?: MessageTemplateRawPayload['configuration'];
     readonly payload?: MessageTemplateRawPayload['payload'];
@@ -65,6 +78,8 @@ export declare class MessageTemplate extends Entity<MessageTemplatePayload, Mess
     name?: MessageTemplatePayload['name'];
     comment?: MessageTemplatePayload['comment'];
     proxyVendor?: MessageTemplatePayload['proxyVendor'];
+    categories?: MessageTemplatePayload['categories'];
+    parametersTemplate?: MessageTemplatePayload['parametersTemplate'];
     content?: MessageTemplatePayload['content'];
     configuration?: MessageTemplatePayload['configuration'];
     payload?: MessageTemplatePayload['payload'];

@@ -77,6 +77,11 @@ var MessageTemplateCategoryTree = (function (_super) {
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
+        this.name = rawPayload.name;
+        this.summary = rawPayload.summary;
+        this.description = rawPayload.description;
+        this.comment = rawPayload.comment;
+        this.children = rawPayload.children;
         return this;
     };
     MessageTemplateCategoryTree.create = function (payload, universe, http) {
@@ -89,7 +94,12 @@ var MessageTemplateCategoryTree = (function (_super) {
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,
-            active: (_b = this.active) !== null && _b !== void 0 ? _b : true
+            active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
+            name: this.name,
+            summary: this.summary,
+            description: this.description,
+            comment: this.comment,
+            children: this.children
         };
     };
     MessageTemplateCategoryTree.prototype.init = function () {

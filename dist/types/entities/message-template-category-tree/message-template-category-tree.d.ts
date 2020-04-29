@@ -10,6 +10,11 @@ export interface MessageTemplateCategoryTreeRawPayload {
     readonly updated_at?: string;
     readonly deleted?: boolean;
     readonly active?: boolean;
+    readonly name?: string;
+    readonly summary?: string;
+    readonly description?: string;
+    readonly comment?: string;
+    readonly children?: null | any[];
 }
 export interface MessageTemplateCategoryTreePayload {
     readonly id?: MessageTemplateCategoryTreeRawPayload['id'];
@@ -17,6 +22,11 @@ export interface MessageTemplateCategoryTreePayload {
     readonly updatedAt?: Date | null;
     readonly deleted?: MessageTemplateCategoryTreeRawPayload['deleted'];
     readonly active?: MessageTemplateCategoryTreeRawPayload['active'];
+    readonly name?: MessageTemplateCategoryTreeRawPayload['name'];
+    readonly summary?: MessageTemplateCategoryTreeRawPayload['summary'];
+    readonly description?: MessageTemplateCategoryTreeRawPayload['description'];
+    readonly comment?: MessageTemplateCategoryTreeRawPayload['comment'];
+    readonly children?: MessageTemplateCategoryTreeRawPayload['children'];
 }
 export declare class MessageTemplateCategoryTree extends Entity<MessageTemplateCategoryTreePayload, MessageTemplateCategoryTreeRawPayload> {
     protected universe: Universe;
@@ -29,6 +39,11 @@ export declare class MessageTemplateCategoryTree extends Entity<MessageTemplateC
     updatedAt?: MessageTemplateCategoryTreePayload['updatedAt'];
     deleted?: MessageTemplateCategoryTreePayload['deleted'];
     active?: MessageTemplateCategoryTreePayload['active'];
+    name?: MessageTemplateCategoryTreePayload['name'];
+    summary?: MessageTemplateCategoryTreePayload['summary'];
+    description?: MessageTemplateCategoryTreePayload['description'];
+    comment?: MessageTemplateCategoryTreePayload['comment'];
+    children?: MessageTemplateCategoryTreePayload['children'];
     constructor(options: MessageTemplateCategoryTreeOptions);
     protected deserialize(rawPayload: MessageTemplateCategoryTreeRawPayload): MessageTemplateCategoryTree;
     static create(payload: MessageTemplateCategoryTreeRawPayload, universe: Universe, http: Universe['http']): MessageTemplateCategoryTree;

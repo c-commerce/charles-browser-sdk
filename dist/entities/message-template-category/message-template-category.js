@@ -77,6 +77,11 @@ var MessageTemplateCategory = (function (_super) {
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
+        this.name = rawPayload.name;
+        this.summary = rawPayload.summary;
+        this.description = rawPayload.description;
+        this.comment = rawPayload.comment;
+        this.customId = rawPayload.custom_id;
         return this;
     };
     MessageTemplateCategory.create = function (payload, universe, http) {
@@ -89,7 +94,12 @@ var MessageTemplateCategory = (function (_super) {
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,
-            active: (_b = this.active) !== null && _b !== void 0 ? _b : true
+            active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
+            name: this.name,
+            summary: this.summary,
+            description: this.description,
+            comment: this.comment,
+            custom_id: this.customId
         };
     };
     MessageTemplateCategory.prototype.init = function () {
