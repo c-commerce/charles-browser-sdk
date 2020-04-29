@@ -11,7 +11,7 @@ import {
 import { Asset, Assets } from '../../entities/asset'
 import { Person, PersonRawPayload } from '../../entities/person'
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event'
-import { EntitiesList, EntityFetchOptions } from '../../entities/_base'
+import Entity, { EntitiesList, EntityFetchOptions } from '../../entities/_base'
 
 export interface FeedOptions {
   universe: Universe
@@ -20,6 +20,8 @@ export interface FeedOptions {
   rawPayload?: FeedRawPayload
   initialized?: boolean
 }
+
+export const FEED_ENDPOINT: string = 'api/v0/feeds'
 
 export interface FeedRawPayload {
   readonly id?: string
@@ -69,15 +71,17 @@ export declare interface Feed {
     cb: Function): this
 }
 
-export class Feed extends EventEmitter {
+export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
   protected mqtt?: Universe['mqtt']
   protected options: FeedOptions
   public initialized: boolean
 
-  public static endpoint: string = 'api/v0/feeds'
+  public endpoint: string
   private readonly eventsMap: FeedEventsMap = new Map()
+
+  protected _rawPayload?: FeedPayload | null = null
 
   public id?: string
   public participants?: FeedPayload['participants']
@@ -94,6 +98,7 @@ export class Feed extends EventEmitter {
   constructor (options: FeedOptions) {
     super()
     this.universe = options.universe
+    this.endpoint = FEED_ENDPOINT
     this.http = options.http
     this.mqtt = options.mqtt
     this.options = options
@@ -104,10 +109,12 @@ export class Feed extends EventEmitter {
     }
   }
 
-  private deserialize (rawPayload: FeedRawPayload): Feed {
+  protected deserialize (rawPayload: FeedRawPayload): Feed {
     // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
     // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
     if (!this.id) this.id = rawPayload.id
+
+    this.setRawPayload(rawPayload)
 
     this.agents = rawPayload.agents
     this.parents = rawPayload.parents
@@ -260,23 +267,11 @@ export class Feed extends EventEmitter {
     }
   }
 
-  public async fetch (): Promise<Feed | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}`)
-
-      this.deserialize(res.data.data[0] as FeedRawPayload)
-
-      return this
-    } catch (err) {
-      throw this.handleError(new FeedFetchRemoteError(undefined, { error: err }))
-    }
-  }
-
   public async fetchLatestEvents (options?: EntityFetchOptions): Promise<Event[] | FeedlatestEventsRawPayload | undefined> {
     try {
       const opts = {
         method: 'GET',
-        url: `${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}/events/latest`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/events/latest`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
@@ -306,7 +301,7 @@ export class Feed extends EventEmitter {
 
   public async fetchEvents (): Promise<Event[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}/events`)
+      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/events`)
 
       const events = res.data.data as FeedEventsRawPayload
 
@@ -325,7 +320,7 @@ export class Feed extends EventEmitter {
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe.universeBase}/${Feed.endpoint}/${this.id as string}/events`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/events`,
         data: {
           type: type,
           resource: resource ?? undefined,
@@ -352,12 +347,6 @@ export class Feed extends EventEmitter {
 
   public getEventsMap (): Feed['eventsMap'] {
     return this.eventsMap
-  }
-
-  private handleError (err: Error): Error {
-    if (this.listeners('error').length > 0) this.emit('error', err)
-
-    return err
   }
 }
 export interface FeedsOptions {
@@ -468,7 +457,7 @@ export class FeedReply {
         this.content.attachments = attachments
       }
 
-      const res = await this.http?.getClient().post(`${this.universe.universeBase}/${Feed.endpoint}/${this.feed.id as string}/reply`, {
+      const res = await this.http?.getClient().post(`${this.universe.universeBase}/${FEED_ENDPOINT}/${this.feed.id as string}/reply`, {
         content: this.content
       })
       return Event.create(res.data.data[0], this.feed, this.universe, this.http)
