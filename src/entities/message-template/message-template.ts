@@ -26,6 +26,7 @@ export interface MessageTemplateRawPayload {
   readonly name?: string
   readonly comment?: string
   readonly proxy_vendor?: string
+  readonly categories?: string[] | null
   readonly content?: {
     body?: string | null
     attachments?: MessageTemplateRawPayloadAttachment[] | null
@@ -38,6 +39,10 @@ export interface MessageTemplateRawPayload {
   readonly configuration?: object
   readonly payload?: object
   readonly metadata?: object
+  readonly parameters_template?: {
+    type?: 'list' | 'map'
+    parameters?: { [key: string]: any } | Array<{ name: string, required: boolean, order_index?: number }>
+  } | null
 }
 
 export interface MessageTemplatePayload {
@@ -51,6 +56,8 @@ export interface MessageTemplatePayload {
   readonly name?: MessageTemplateRawPayload['name']
   readonly comment?: MessageTemplateRawPayload['comment']
   readonly proxyVendor?: MessageTemplateRawPayload['proxy_vendor']
+  readonly categories?: MessageTemplateRawPayload['categories']
+  readonly parametersTemplate?: MessageTemplateRawPayload['parameters_template']
   readonly content?: MessageTemplateRawPayload['content']
   readonly configuration?: MessageTemplateRawPayload['configuration']
   readonly payload?: MessageTemplateRawPayload['payload']
@@ -79,6 +86,8 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   public name?: MessageTemplatePayload['name']
   public comment?: MessageTemplatePayload['comment']
   public proxyVendor?: MessageTemplatePayload['proxyVendor']
+  public categories?: MessageTemplatePayload['categories']
+  public parametersTemplate?: MessageTemplatePayload['parametersTemplate']
   public content?: MessageTemplatePayload['content']
   public configuration?: MessageTemplatePayload['configuration']
   public payload?: MessageTemplatePayload['payload']
@@ -108,6 +117,8 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
     this.name = rawPayload.name
     this.comment = rawPayload.comment
     this.proxyVendor = rawPayload.proxy_vendor
+    this.categories = rawPayload.categories
+    this.parametersTemplate = rawPayload.parameters_template
     this.content = rawPayload.content
     this.configuration = rawPayload.configuration
     this.payload = rawPayload.payload
@@ -132,6 +143,8 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
       name: this.name,
       comment: this.comment,
       proxy_vendor: this.proxyVendor,
+      categories: this.categories,
+      parameters_template: this.parametersTemplate,
       content: this.content,
       configuration: this.configuration,
       payload: this.payload,

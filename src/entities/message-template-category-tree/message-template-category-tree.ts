@@ -13,6 +13,12 @@ export interface MessageTemplateCategoryTreeRawPayload {
   readonly updated_at?: string
   readonly deleted?: boolean
   readonly active?: boolean
+  readonly name?: string
+  readonly summary?: string
+  readonly description?: string
+  readonly comment?: string
+  // TODO: implement recursive children definition. Currenctly there is no value in that definition
+  readonly children?: null | any[]
 }
 
 export interface MessageTemplateCategoryTreePayload {
@@ -21,6 +27,11 @@ export interface MessageTemplateCategoryTreePayload {
   readonly updatedAt?: Date | null
   readonly deleted?: MessageTemplateCategoryTreeRawPayload['deleted']
   readonly active?: MessageTemplateCategoryTreeRawPayload['active']
+  readonly name?: MessageTemplateCategoryTreeRawPayload['name']
+  readonly summary?: MessageTemplateCategoryTreeRawPayload['summary']
+  readonly description?: MessageTemplateCategoryTreeRawPayload['description']
+  readonly comment?: MessageTemplateCategoryTreeRawPayload['comment']
+  readonly children?: MessageTemplateCategoryTreeRawPayload['children']
 }
 
 /**
@@ -41,6 +52,11 @@ export class MessageTemplateCategoryTree extends Entity<MessageTemplateCategoryT
   public updatedAt?: MessageTemplateCategoryTreePayload['updatedAt']
   public deleted?: MessageTemplateCategoryTreePayload['deleted']
   public active?: MessageTemplateCategoryTreePayload['active']
+  public name?: MessageTemplateCategoryTreePayload['name']
+  public summary?: MessageTemplateCategoryTreePayload['summary']
+  public description?: MessageTemplateCategoryTreePayload['description']
+  public comment?: MessageTemplateCategoryTreePayload['comment']
+  public children?: MessageTemplateCategoryTreePayload['children']
 
   constructor (options: MessageTemplateCategoryTreeOptions) {
     super()
@@ -63,6 +79,11 @@ export class MessageTemplateCategoryTree extends Entity<MessageTemplateCategoryT
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
+    this.name = rawPayload.name
+    this.summary = rawPayload.summary
+    this.description = rawPayload.description
+    this.comment = rawPayload.comment
+    this.children = rawPayload.children
 
     return this
   }
@@ -77,7 +98,12 @@ export class MessageTemplateCategoryTree extends Entity<MessageTemplateCategoryT
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
-      active: this.active ?? true
+      active: this.active ?? true,
+      name: this.name,
+      summary: this.summary,
+      description: this.description,
+      comment: this.comment,
+      children: this.children
     }
   }
 

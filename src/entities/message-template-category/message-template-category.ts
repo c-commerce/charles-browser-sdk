@@ -13,6 +13,11 @@ export interface MessageTemplateCategoryRawPayload {
   readonly updated_at?: string
   readonly deleted?: boolean
   readonly active?: boolean
+  readonly name?: string
+  readonly summary?: string
+  readonly description?: string
+  readonly comment?: string
+  readonly custom_id?: string
 }
 
 export interface MessageTemplateCategoryPayload {
@@ -21,6 +26,11 @@ export interface MessageTemplateCategoryPayload {
   readonly updatedAt?: Date | null
   readonly deleted?: MessageTemplateCategoryRawPayload['deleted']
   readonly active?: MessageTemplateCategoryRawPayload['active']
+  readonly name?: MessageTemplateCategoryRawPayload['name']
+  readonly summary?: MessageTemplateCategoryRawPayload['summary']
+  readonly description?: MessageTemplateCategoryRawPayload['description']
+  readonly comment?: MessageTemplateCategoryRawPayload['comment']
+  readonly customId?: MessageTemplateCategoryRawPayload['custom_id']
 }
 
 /**
@@ -41,6 +51,11 @@ export class MessageTemplateCategory extends Entity<MessageTemplateCategoryPaylo
   public updatedAt?: MessageTemplateCategoryPayload['updatedAt']
   public deleted?: MessageTemplateCategoryPayload['deleted']
   public active?: MessageTemplateCategoryPayload['active']
+  public name?: MessageTemplateCategoryPayload['name']
+  public summary?: MessageTemplateCategoryPayload['summary']
+  public description?: MessageTemplateCategoryPayload['description']
+  public comment?: MessageTemplateCategoryPayload['comment']
+  public customId?: MessageTemplateCategoryPayload['customId']
 
   constructor (options: MessageTemplateCategoryOptions) {
     super()
@@ -63,6 +78,11 @@ export class MessageTemplateCategory extends Entity<MessageTemplateCategoryPaylo
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
+    this.name = rawPayload.name
+    this.summary = rawPayload.summary
+    this.description = rawPayload.description
+    this.comment = rawPayload.comment
+    this.customId = rawPayload.custom_id
 
     return this
   }
@@ -77,7 +97,12 @@ export class MessageTemplateCategory extends Entity<MessageTemplateCategoryPaylo
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
-      active: this.active ?? true
+      active: this.active ?? true,
+      name: this.name,
+      summary: this.summary,
+      description: this.description,
+      comment: this.comment,
+      custom_id: this.customId
     }
   }
 
