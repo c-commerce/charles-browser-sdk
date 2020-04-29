@@ -116,6 +116,7 @@ var Universe = (function (_super) {
     Universe.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             var res, err_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -125,6 +126,9 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         this.setInitialized(res.data.data[0]);
                         this.setMqttClient();
+                        this.getMqttClient().on('error', function (error) {
+                            _this.handleError(error);
+                        });
                         return [2, this];
                     case 2:
                         err_1 = _a.sent();

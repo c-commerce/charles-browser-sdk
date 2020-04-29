@@ -1,3 +1,10 @@
+# [2.55.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.54.0...v2.55.0) (2020-04-29)
+
+
+### Features
+
+* **Universe:** Emit mqtt errors on universe ([6a67c9b](https://github.com/c-commerce/charles-browser-sdk/commit/6a67c9b388221e7c352b9a25fb36f85a76091e44))
+
 # [2.54.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.53.0...v2.54.0) (2020-04-28)
 
 

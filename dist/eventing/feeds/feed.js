@@ -229,7 +229,7 @@ var Feed = (function (_super) {
         }
         if (topics_1.default.api.feedEvents.isTopic(msg.topic, this.serialize())) {
             var event_2;
-            if (msg.payload.message) {
+            if (msg.payload.event) {
                 event_2 = event_1.Event.create(msg.payload.event, this, this.universe, this.http);
             }
             this.emit('feed:event', __assign(__assign({}, msg), { event: event_2, feed: this }));
