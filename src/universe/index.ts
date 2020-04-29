@@ -225,6 +225,10 @@ export class Universe extends Readable {
       this.setInitialized(res.data.data[0])
       this.setMqttClient()
 
+      this.getMqttClient().on('error', (error) => {
+        this.handleError(error)
+      })
+
       return this
     } catch (err) {
       throw new UniverseInitializationError(undefined, { error: err })

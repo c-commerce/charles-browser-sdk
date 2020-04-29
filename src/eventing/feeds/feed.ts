@@ -252,7 +252,7 @@ export class Feed extends EventEmitter {
 
     if (universeTopics.api.feedEvents.isTopic(msg.topic, this.serialize())) {
       let event
-      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
+      if ((msg as realtime.RealtimeMessageMessage).payload.event) {
         event = Event.create((msg as realtime.RealtimeMessageMessage).payload.event as EventRawPayload, this, this.universe, this.http)
       }
 
