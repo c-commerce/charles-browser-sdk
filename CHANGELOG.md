@@ -1,3 +1,10 @@
+# [2.56.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.55.0...v2.56.0) (2020-04-29)
+
+
+### Features
+
+* **Feed:** Feed now inherits from Entity and implements it's required features ([42fe3b4](https://github.com/c-commerce/charles-browser-sdk/commit/42fe3b411bf74cd8d3c28f7f672951673aa64c5b))
+
 # [2.55.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.54.0...v2.55.0) (2020-04-29)
 
 

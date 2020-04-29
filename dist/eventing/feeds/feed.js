@@ -77,7 +77,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var events_1 = require("events");
 var just_typeof_1 = __importDefault(require("just-typeof"));
 var topics_1 = __importDefault(require("../../universe/topics"));
 var realtime = __importStar(require("../../realtime"));
@@ -86,14 +85,17 @@ var message_1 = require("../../messaging/message");
 var asset_1 = require("../../entities/asset");
 var person_1 = require("../../entities/person");
 var event_1 = require("./event");
-var _base_1 = require("../../entities/_base");
+var _base_1 = __importStar(require("../../entities/_base"));
+exports.FEED_ENDPOINT = 'api/v0/feeds';
 var Feed = (function (_super) {
     __extends(Feed, _super);
     function Feed(options) {
         var _a;
         var _this = _super.call(this) || this;
         _this.eventsMap = new Map();
+        _this._rawPayload = null;
         _this.universe = options.universe;
+        _this.endpoint = exports.FEED_ENDPOINT;
         _this.http = options.http;
         _this.mqtt = options.mqtt;
         _this.options = options;
@@ -107,6 +109,7 @@ var Feed = (function (_super) {
         var _this = this;
         if (!this.id)
             this.id = rawPayload.id;
+        this.setRawPayload(rawPayload);
         this.agents = rawPayload.agents;
         this.parents = rawPayload.parents;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
@@ -235,30 +238,10 @@ var Feed = (function (_super) {
             this.emit('feed:event', __assign(__assign({}, msg), { event: event_2, feed: this }));
         }
     };
-    Feed.prototype.fetch = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var res, err_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id)];
-                    case 1:
-                        res = _a.sent();
-                        this.deserialize(res.data.data[0]);
-                        return [2, this];
-                    case 2:
-                        err_2 = _a.sent();
-                        throw this.handleError(new FeedFetchRemoteError(undefined, { error: err_2 }));
-                    case 3: return [2];
-                }
-            });
-        });
-    };
     Feed.prototype.fetchLatestEvents = function (options) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var opts, res, events, err_3;
+            var opts, res, events, err_2;
             var _this = this;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -266,7 +249,7 @@ var Feed = (function (_super) {
                         _b.trys.push([0, 2, , 3]);
                         opts = {
                             method: 'GET',
-                            url: this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id + "/events/latest",
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/events/latest",
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
                             },
@@ -286,8 +269,8 @@ var Feed = (function (_super) {
                         });
                         return [2, Array.from(this.eventsMap.values())];
                     case 2:
-                        err_3 = _b.sent();
-                        throw this.handleError(new FeedFetchLatestEventsRemoteError(undefined, { error: err_3 }));
+                        err_2 = _b.sent();
+                        throw this.handleError(new FeedFetchLatestEventsRemoteError(undefined, { error: err_2 }));
                     case 3: return [2];
                 }
             });
@@ -295,13 +278,13 @@ var Feed = (function (_super) {
     };
     Feed.prototype.fetchEvents = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res, events, err_4;
+            var res, events, err_3;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id + "/events")];
+                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/events")];
                     case 1:
                         res = _a.sent();
                         events = res.data.data;
@@ -311,8 +294,8 @@ var Feed = (function (_super) {
                         });
                         return [2, Array.from(this.eventsMap.values())];
                     case 2:
-                        err_4 = _a.sent();
-                        throw this.handleError(new FeedFetchEventsRemoteError(undefined, { error: err_4 }));
+                        err_3 = _a.sent();
+                        throw this.handleError(new FeedFetchEventsRemoteError(undefined, { error: err_3 }));
                     case 3: return [2];
                 }
             });
@@ -320,14 +303,14 @@ var Feed = (function (_super) {
     };
     Feed.prototype.createFeedEvent = function (type, resource, resourceType) {
         return __awaiter(this, void 0, void 0, function () {
-            var opts, res, event_3, err_5;
+            var opts, res, event_3, err_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         opts = {
                             method: 'POST',
-                            url: this.universe.universeBase + "/" + Feed.endpoint + "/" + this.id + "/events",
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/events",
                             data: {
                                 type: type,
                                 resource: resource !== null && resource !== void 0 ? resource : undefined,
@@ -340,8 +323,8 @@ var Feed = (function (_super) {
                         event_3 = res.data.data[0];
                         return [2, event_1.Event.create(event_3, this, this.universe, this.http)];
                     case 2:
-                        err_5 = _a.sent();
-                        throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err_5 }));
+                        err_4 = _a.sent();
+                        throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err_4 }));
                     case 3: return [2];
                 }
             });
@@ -363,14 +346,8 @@ var Feed = (function (_super) {
     Feed.prototype.getEventsMap = function () {
         return this.eventsMap;
     };
-    Feed.prototype.handleError = function (err) {
-        if (this.listeners('error').length > 0)
-            this.emit('error', err);
-        return err;
-    };
-    Feed.endpoint = 'api/v0/feeds';
     return Feed;
-}(events_1.EventEmitter));
+}(_base_1.default));
 exports.Feed = Feed;
 var Feeds = (function (_super) {
     __extends(Feeds, _super);
@@ -411,7 +388,7 @@ var FeedReply = (function () {
     }
     FeedReply.prototype.prepareSendWithAssets = function (payload) {
         return __awaiter(this, void 0, void 0, function () {
-            var assetsHandler, data, err_6;
+            var assetsHandler, data, err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -425,8 +402,8 @@ var FeedReply = (function () {
                         data = _a.sent();
                         return [2, data];
                     case 2:
-                        err_6 = _a.sent();
-                        throw err_6;
+                        err_5 = _a.sent();
+                        throw err_5;
                     case 3: return [2];
                 }
             });
@@ -435,7 +412,7 @@ var FeedReply = (function () {
     FeedReply.prototype.send = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var additonalAttachments, assets, attachments, res, err_7;
+            var additonalAttachments, assets, attachments, res, err_6;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -468,15 +445,15 @@ var FeedReply = (function () {
                         if (this.content && attachments) {
                             this.content.attachments = attachments;
                         }
-                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(this.universe.universeBase + "/" + Feed.endpoint + "/" + this.feed.id + "/reply", {
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(this.universe.universeBase + "/" + exports.FEED_ENDPOINT + "/" + this.feed.id + "/reply", {
                                 content: this.content
                             }))];
                     case 3:
                         res = _b.sent();
                         return [2, event_1.Event.create(res.data.data[0], this.feed, this.universe, this.http)];
                     case 4:
-                        err_7 = _b.sent();
-                        throw new FeedReplyError(undefined, { error: err_7 });
+                        err_6 = _b.sent();
+                        throw new FeedReplyError(undefined, { error: err_6 });
                     case 5: return [2];
                 }
             });

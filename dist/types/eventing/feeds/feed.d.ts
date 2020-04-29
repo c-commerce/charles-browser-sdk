@@ -1,12 +1,10 @@
-/// <reference types="node" />
-import { EventEmitter } from 'events';
 import { Universe, UniverseFetchOptions } from '../../universe';
 import { BaseError } from '../../errors';
 import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse, ReplyOptions } from '../../messaging/message';
 import { Asset } from '../../entities/asset';
 import { Person, PersonRawPayload } from '../../entities/person';
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event';
-import { EntitiesList, EntityFetchOptions } from '../../entities/_base';
+import Entity, { EntitiesList, EntityFetchOptions } from '../../entities/_base';
 export interface FeedOptions {
     universe: Universe;
     http: Universe['http'];
@@ -14,6 +12,7 @@ export interface FeedOptions {
     rawPayload?: FeedRawPayload;
     initialized?: boolean;
 }
+export declare const FEED_ENDPOINT: string;
 export interface FeedRawPayload {
     readonly id?: string;
     readonly participants?: Array<string | PersonRawPayload>;
@@ -51,14 +50,15 @@ export declare interface Feed {
     on(event: 'raw-error' | 'error', cb: (error: Error) => void): this;
     on(event: 'feed:message' | 'feed:event' | string, cb: Function): this;
 }
-export declare class Feed extends EventEmitter {
+export declare class Feed extends Entity<FeedPayload, FeedRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected mqtt?: Universe['mqtt'];
     protected options: FeedOptions;
     initialized: boolean;
-    static endpoint: string;
+    endpoint: string;
     private readonly eventsMap;
+    protected _rawPayload?: FeedPayload | null;
     id?: string;
     participants?: FeedPayload['participants'];
     agents?: string[];
@@ -71,7 +71,7 @@ export declare class Feed extends EventEmitter {
     topLatestEvents?: FeedPayload['topLatestEvents'];
     topLatestMessages?: FeedPayload['topLatestMessages'];
     constructor(options: FeedOptions);
-    private deserialize;
+    protected deserialize(rawPayload: FeedRawPayload): Feed;
     static create(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed;
     static createUninitialized(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed;
     serialize(): FeedRawPayload;
@@ -82,14 +82,12 @@ export declare class Feed extends EventEmitter {
     private subscibeDefaults;
     private getMqttClient;
     private handleMessage;
-    fetch(): Promise<Feed | undefined>;
     fetchLatestEvents(options?: EntityFetchOptions): Promise<Event[] | FeedlatestEventsRawPayload | undefined>;
     fetchEvents(): Promise<Event[] | undefined>;
     createFeedEvent(type: IEventType, resource?: string, resourceType?: IEventResourceType): Promise<Event | undefined>;
     viewed(): Promise<Event | undefined>;
     events(): Event[];
     getEventsMap(): Feed['eventsMap'];
-    private handleError;
 }
 export interface FeedsOptions {
     universe: Universe;
