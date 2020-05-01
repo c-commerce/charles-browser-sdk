@@ -1,3 +1,10 @@
+# [2.57.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.56.1...v2.57.0) (2020-05-01)
+
+
+### Features
+
+* **person:** add address accesors ([8c4b54d](https://github.com/c-commerce/charles-browser-sdk/commit/8c4b54de4356ae2e6bb67f6df9e7c4675321577f))
+
 ## [2.56.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.56.0...v2.56.1) (2020-04-29)
 
 

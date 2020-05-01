@@ -1,4 +1,4 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../_base';
+import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Order } from '../../entities/order/order';
@@ -79,6 +79,22 @@ export interface IPersonCarts {
     toJson: Function;
     create: Function;
 }
+export interface IPersonAddresses {
+    fetch: Function;
+    fromJson: Function;
+    toJson: Function;
+    create: Function;
+}
+declare class AddressArray<T> extends Array<T> {
+    protected universe: Universe;
+    protected http: Universe['http'];
+    protected person: Person;
+    constructor(items: T[], universe: Universe, http: Universe['http'], person: Person);
+    fromJson(payloads: PersonAddressRawPayload[]): Address[];
+    toJson(items: Address[]): PersonAddressRawPayload[];
+    fetch(options?: EntityFetchOptions): Promise<Address[] | PersonAddressRawPayload[] | undefined>;
+    create(payload: PersonAddressRawPayload): Promise<Address | undefined>;
+}
 export interface PersonPayload {
     readonly id?: PersonRawPayload['id'];
     readonly createdAt?: Date | null;
@@ -135,7 +151,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     measurements?: PersonPayload['measurements'];
     tags?: PersonPayload['tags'];
     namePreference?: PersonPayload['namePreference'];
-    addresses?: PersonPayload['addresses'];
+    _addresses?: PersonPayload['addresses'];
     phonenumbers?: PersonPayload['phonenumbers'];
     channelUsers?: PersonPayload['channelUsers'];
     constructor(options: PersonOptions);
@@ -146,8 +162,11 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     patch(changePart: PersonRawPayload): Promise<Person>;
     analytics(): object;
     get carts(): IPersonCarts;
+    get addresses(): AddressArray<Address>;
+    set addresses(items: AddressArray<Address>);
     email(payload: EmailRawPayload): Email;
     phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
+    address(payload: PersonAddressRawPayload): Address;
 }
 export declare class People {
     static endpoint: string;
@@ -214,3 +233,14 @@ export declare class PeopleAnalyticsRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class AddressFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class AddressCreateRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export {};

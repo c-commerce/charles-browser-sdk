@@ -69,6 +69,83 @@ var channel_user_1 = require("./channel-user");
 var email_1 = require("./email");
 var cart_1 = require("../cart/cart");
 var just_omit_1 = __importDefault(require("just-omit"));
+var AddressArray = (function (_super) {
+    __extends(AddressArray, _super);
+    function AddressArray(items, universe, http, person) {
+        var _this = _super.apply(this, items) || this;
+        _this.universe = universe;
+        _this.http = http;
+        _this.person = person;
+        return _this;
+    }
+    AddressArray.prototype.fromJson = function (payloads) {
+        var _this = this;
+        return payloads.map(function (item) { return Address.create(item, _this.universe, _this.http); });
+    };
+    AddressArray.prototype.toJson = function (items) {
+        return items.map(function (item) { return item.serialize(); });
+    };
+    AddressArray.prototype.fetch = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, err_1;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + People.endpoint + "/" + this.person.id + "/addresses",
+                            params: __assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
+                        return [2, resources.map(function (item) {
+                                return Address.create(item, _this.universe, _this.http);
+                            })];
+                    case 2:
+                        err_1 = _a.sent();
+                        throw new AddressFetchRemoteError(undefined, { error: err_1 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    AddressArray.prototype.create = function (payload) {
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, err_2;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + People.endpoint + "/" + this.person.id + "/addresses",
+                            data: payload
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources.map(function (item) {
+                                return Address.create(item, _this.universe, _this.http);
+                            })[0]];
+                    case 2:
+                        err_2 = _a.sent();
+                        throw new AddressCreateRemoteError(undefined, { error: err_2 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    return AddressArray;
+}(Array));
 var Person = (function (_super) {
     __extends(Person, _super);
     function Person(options) {
@@ -114,12 +191,12 @@ var Person = (function (_super) {
                 return email_1.Email.createUninitialized(i, _this.universe, _this.http);
             });
         }
-        this.addresses = [];
+        this._addresses = [];
         if (rawPayload.addresses && this.initialized) {
-            this.addresses = rawPayload.addresses.map(function (i) { return Address.create(i, _this.universe, _this.http); });
+            this._addresses = rawPayload.addresses.map(function (i) { return Address.create(i, _this.universe, _this.http); });
         }
         else if (rawPayload.addresses && !this.initialized) {
-            this.addresses = rawPayload.addresses.map(function (i) {
+            this._addresses = rawPayload.addresses.map(function (i) {
                 return Address.createUninitialized(i, _this.universe, _this.http);
             });
         }
@@ -171,8 +248,8 @@ var Person = (function (_super) {
             tags: this.tags,
             name_preference: this.namePreference,
             emails: Array.isArray(this.emails) ? this.emails.map(function (item) { return item.serialize(); }) : undefined,
-            addresses: Array.isArray(this.addresses)
-                ? this.addresses.map(function (item) { return item.serialize(); })
+            addresses: Array.isArray(this._addresses)
+                ? this._addresses.map(function (item) { return item.serialize(); })
                 : undefined,
             phonenumbers: Array.isArray(this.phonenumbers)
                 ? this.phonenumbers.map(function (item) { return item.serialize(); })
@@ -184,7 +261,7 @@ var Person = (function (_super) {
     };
     Person.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var err_1;
+            var err_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -198,8 +275,8 @@ var Person = (function (_super) {
                         _a.sent();
                         return [2, this];
                     case 2:
-                        err_1 = _a.sent();
-                        throw this.handleError(new PersonInitializationError(undefined, { error: err_1 }));
+                        err_3 = _a.sent();
+                        throw this.handleError(new PersonInitializationError(undefined, { error: err_3 }));
                     case 3: return [2];
                 }
             });
@@ -219,7 +296,7 @@ var Person = (function (_super) {
         var _this = this;
         return {
             snapshot: function () { return __awaiter(_this, void 0, void 0, function () {
-                var response, err_2;
+                var response, err_4;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -236,8 +313,8 @@ var Person = (function (_super) {
                                     mean_nps_score: response.data.data[0].mean_nps_score
                                 }];
                         case 2:
-                            err_2 = _a.sent();
-                            throw new PeopleAnalyticsRemoteError(undefined, { error: err_2 });
+                            err_4 = _a.sent();
+                            throw new PeopleAnalyticsRemoteError(undefined, { error: err_4 });
                         case 3: return [2];
                     }
                 });
@@ -255,7 +332,7 @@ var Person = (function (_super) {
                     return feeds.map(function (item) { return item.serialize(); });
                 },
                 fetch: function (options) { return __awaiter(_this, void 0, void 0, function () {
-                    var opts, res, feeds, err_3;
+                    var opts, res, feeds, err_5;
                     var _this = this;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
@@ -277,14 +354,14 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })];
                             case 2:
-                                err_3 = _a.sent();
-                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_3 });
+                                err_5 = _a.sent();
+                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_5 });
                             case 3: return [2];
                         }
                     });
                 }); },
                 create: function (cart) { return __awaiter(_this, void 0, void 0, function () {
-                    var opts, res, carts, err_4;
+                    var opts, res, carts, err_6;
                     var _this = this;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
@@ -303,8 +380,8 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })[0]];
                             case 2:
-                                err_4 = _a.sent();
-                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_4 });
+                                err_6 = _a.sent();
+                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_6 });
                             case 3: return [2];
                         }
                     });
@@ -314,11 +391,26 @@ var Person = (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Person.prototype, "addresses", {
+        get: function () {
+            var _a;
+            var ret = new AddressArray((_a = this._addresses) !== null && _a !== void 0 ? _a : [], this.universe, this.http, this);
+            return ret;
+        },
+        set: function (items) {
+            this._addresses = items.map(function (item) { return (item); });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Person.prototype.email = function (payload) {
         return email_1.Email.create(__assign(__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
     Person.prototype.phonenumber = function (payload) {
         return Phonenumber.create(__assign(__assign({}, payload), { person: this.id }), this.universe, this.http);
+    };
+    Person.prototype.address = function (payload) {
+        return Address.create(__assign(__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
     return Person;
 }(_base_1.default));
@@ -474,4 +566,30 @@ var PeopleAnalyticsRemoteError = (function (_super) {
     return PeopleAnalyticsRemoteError;
 }(errors_1.BaseError));
 exports.PeopleAnalyticsRemoteError = PeopleAnalyticsRemoteError;
+var AddressFetchRemoteError = (function (_super) {
+    __extends(AddressFetchRemoteError, _super);
+    function AddressFetchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get fetch person address data.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'AddressFetchRemoteError';
+        Object.setPrototypeOf(_this, AddressFetchRemoteError.prototype);
+        return _this;
+    }
+    return AddressFetchRemoteError;
+}(errors_1.BaseError));
+exports.AddressFetchRemoteError = AddressFetchRemoteError;
+var AddressCreateRemoteError = (function (_super) {
+    __extends(AddressCreateRemoteError, _super);
+    function AddressCreateRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not create person address.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'AddressCreateRemoteError';
+        Object.setPrototypeOf(_this, AddressCreateRemoteError.prototype);
+        return _this;
+    }
+    return AddressCreateRemoteError;
+}(errors_1.BaseError));
+exports.AddressCreateRemoteError = AddressCreateRemoteError;
 //# sourceMappingURL=person.js.map
