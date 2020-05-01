@@ -91,6 +91,78 @@ export interface IPersonCarts {
   create: Function
 }
 
+export interface IPersonAddresses {
+  fetch: Function
+  fromJson: Function
+  toJson: Function
+  create: Function
+}
+
+class AddressArray<T> extends Array<T> {
+  protected universe: Universe
+  protected http: Universe['http']
+  protected person: Person
+
+  constructor (items: T[], universe: Universe, http: Universe['http'], person: Person) {
+    super(...items)
+    this.universe = universe
+    this.http = http
+    this.person = person
+  }
+
+  public fromJson (payloads: PersonAddressRawPayload[]): Address[] {
+    return payloads.map(item => Address.create(item, this.universe, this.http))
+  }
+
+  public toJson (items: Address[]): PersonAddressRawPayload[] {
+    return items.map(item => item.serialize())
+  }
+
+  public async fetch (
+    options?: EntityFetchOptions
+  ): Promise<Address[] | PersonAddressRawPayload[] | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${People.endpoint}/${this.person.id as string}/addresses`,
+        params: {
+          ...(options?.query ? options.query : {})
+        }
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data as PersonAddressRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((item: PersonAddressRawPayload) => {
+        return Address.create(item, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new AddressFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  async create (payload: PersonAddressRawPayload): Promise<Address | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${People.endpoint}/${this.person.id as string}/addresses`,
+        data: payload
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data as PersonAddressRawPayload[]
+
+      return resources.map((item: PersonAddressRawPayload) => {
+        return Address.create(item, this.universe, this.http)
+      })[0]
+    } catch (err) {
+      throw new AddressCreateRemoteError(undefined, { error: err })
+    }
+  }
+}
+
 export interface PersonPayload {
   readonly id?: PersonRawPayload['id']
   readonly createdAt?: Date | null
@@ -156,7 +228,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public measurements?: PersonPayload['measurements']
   public tags?: PersonPayload['tags']
   public namePreference?: PersonPayload['namePreference']
-  public addresses?: PersonPayload['addresses']
+  public _addresses?: PersonPayload['addresses']
   public phonenumbers?: PersonPayload['phonenumbers']
   public channelUsers?: PersonPayload['channelUsers']
 
@@ -203,11 +275,11 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       )
     }
 
-    this.addresses = []
+    this._addresses = []
     if (rawPayload.addresses && this.initialized) {
-      this.addresses = rawPayload.addresses.map(i => Address.create(i, this.universe, this.http))
+      this._addresses = rawPayload.addresses.map(i => Address.create(i, this.universe, this.http))
     } else if (rawPayload.addresses && !this.initialized) {
-      this.addresses = rawPayload.addresses.map(i =>
+      this._addresses = rawPayload.addresses.map(i =>
         Address.createUninitialized(i, this.universe, this.http)
       )
     }
@@ -265,8 +337,8 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       tags: this.tags,
       name_preference: this.namePreference,
       emails: Array.isArray(this.emails) ? this.emails.map(item => item.serialize()) : undefined,
-      addresses: Array.isArray(this.addresses)
-        ? this.addresses.map(item => item.serialize())
+      addresses: Array.isArray(this._addresses)
+        ? this._addresses.map(item => item.serialize())
         : undefined,
       phonenumbers: Array.isArray(this.phonenumbers)
         ? this.phonenumbers.map(item => item.serialize())
@@ -385,12 +457,42 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     }
   }
 
+  /**
+   * Address accessor
+   *
+   * ```js
+   * // fetch all addresses of a person
+   * await person.addresses.fetch()
+   * // fetch all feeds as raw structs with some query options
+   * await person.addresses.fetch({ raw: true })
+   * // cast a list of class instances to list of structs
+   * person.addresses.toJson([cart])
+   * // cast a list of structs to list of class instances
+   * person.addresses.fromJson([cart])
+   * // create a cart for this person
+   * person.addresses.create(cart)
+   * ```
+   */
+  get addresses (): AddressArray<Address> {
+    const ret = new AddressArray<Address>(this._addresses ?? [], this.universe, this.http, this)
+
+    return ret
+  }
+
+  set addresses (items: AddressArray<Address>) {
+    this._addresses = items.map((item: Address) => (item))
+  }
+
   public email (payload: EmailRawPayload): Email {
     return Email.create({ ...payload, person: this.id }, this.universe, this.http)
   }
 
   public phonenumber (payload: PersonPhonenumberRawPayload): Phonenumber {
     return Phonenumber.create({ ...payload, person: this.id }, this.universe, this.http)
+  }
+
+  public address (payload: PersonAddressRawPayload): Address {
+    return Address.create({ ...payload, person: this.id }, this.universe, this.http)
   }
 }
 
@@ -575,5 +677,21 @@ export class PeopleAnalyticsRemoteError extends BaseError {
   constructor (public message: string = 'Could not get analytics data.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleAnalyticsRemoteError.prototype)
+  }
+}
+
+export class AddressFetchRemoteError extends BaseError {
+  public name = 'AddressFetchRemoteError';
+  constructor (public message: string = 'Could not get fetch person address data.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, AddressFetchRemoteError.prototype)
+  }
+}
+
+export class AddressCreateRemoteError extends BaseError {
+  public name = 'AddressCreateRemoteError';
+  constructor (public message: string = 'Could not create person address.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, AddressCreateRemoteError.prototype)
   }
 }
