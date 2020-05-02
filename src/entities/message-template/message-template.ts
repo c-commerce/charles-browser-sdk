@@ -107,6 +107,8 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   }
 
   protected deserialize (rawPayload: MessageTemplateRawPayload): MessageTemplate {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
