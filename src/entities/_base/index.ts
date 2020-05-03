@@ -62,7 +62,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   protected setRawPayload (p: RawPayload): Entity<Payload, RawPayload> {
     this.hooks.beforeSetRawPayload.call(p)
 
-    this._rawPayload = p
+    this._rawPayload = JSON.parse(JSON.stringify(p))
 
     return this
   }
