@@ -10,6 +10,14 @@ import qs from 'qs'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
+export interface RawPatchItem {
+  op: 'replace' | 'add' | 'remove'
+  path: string
+  value: any
+}
+
+export type RawPatch = RawPatchItem[]
+
 export interface EntityOptions {
   universe: Universe
   http: Universe['http']
@@ -141,6 +149,44 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
         jsonPatchPathConverter
       )
 
+      const opts = {
+        method: 'PATCH',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
+        headers: {
+          'Content-Type': 'application/json-patch+json'
+        },
+        data: patch,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as RawPayload)
+
+      return this
+    } catch (err) {
+      throw new EntityPatchError(undefined, { error: err })
+    }
+  }
+
+  /**
+   * Apply a patch diff directly, for full control. This is useful if you are manipulating deep data
+   * and do not want opinionated functions, such as .patch.
+   *
+   * @param patch
+   */
+  public async applyPatch (patch: RawPatch): Promise<Entity<Payload, RawPayload>> {
+    return await this._applyPatch(patch)
+  }
+
+  /**
+   * @ignore
+   */
+  protected async _applyPatch (patch: RawPatch): Promise<Entity<Payload, RawPayload>> {
+    if (!patch) throw new TypeError('apply patch requires incoming patch to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('apply patch requires id to be set.')
+
+    try {
       const opts = {
         method: 'PATCH',
         url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
