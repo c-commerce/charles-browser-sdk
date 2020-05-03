@@ -31,6 +31,7 @@ export interface CartItemDiscountRawPayload {
     readonly amount?: number;
     readonly currency?: string;
 }
+export declare type CartDiscountRawPayload = CartItemDiscountRawPayload;
 export interface CartItemRawPayload {
     readonly id?: string;
     readonly qty?: number;
@@ -124,6 +125,7 @@ export interface CartRawPayload {
     readonly order_prompt?: string;
     readonly status?: ICartStatusType | null;
     readonly proxy_payload?: object | null;
+    readonly discounts?: CartDiscountRawPayload[] | null;
 }
 export interface CartPayload {
     readonly id?: CartRawPayload['id'];
@@ -156,6 +158,7 @@ export interface CartPayload {
     readonly orderPrompt?: CartRawPayload['order_prompt'];
     readonly status?: CartRawPayload['status'];
     readonly proxyPayload?: CartRawPayload['proxy_payload'];
+    readonly discounts?: CartRawPayload['discounts'];
 }
 export interface AddItemItemOptions {
     product: string;
@@ -227,6 +230,7 @@ export declare class Cart extends Entity<CartPayload, CartRawPayload> {
     orderPrompt?: CartPayload['orderPrompt'];
     status?: CartPayload['status'];
     proxyPayload?: CartPayload['proxyPayload'];
+    discounts?: CartPayload['discounts'];
     constructor(options: CartOptions);
     protected deserialize(rawPayload: CartRawPayload): Cart;
     static create(payload: CartRawPayload, universe: Universe, http: Universe['http']): Cart;

@@ -38,6 +38,7 @@ export interface OrderItemDiscountRawPayload {
     readonly amount?: number;
     readonly currency?: string;
 }
+export declare type OrderDiscountRawPayload = OrderItemDiscountRawPayload;
 export interface OrderItemRawPayload {
     readonly qty?: number;
     readonly sku?: string;
@@ -119,6 +120,7 @@ export interface OrderRawPayload {
     readonly order_prompt?: string;
     readonly status?: IOrderStatusType | null;
     readonly proxy_payload?: object | null;
+    readonly discounts?: OrderDiscountRawPayload[] | null;
 }
 export interface OrderPayload {
     readonly id?: OrderRawPayload['id'];
@@ -152,6 +154,7 @@ export interface OrderPayload {
     readonly orderPrompt?: OrderRawPayload['order_prompt'];
     readonly status?: OrderRawPayload['status'];
     readonly proxyPayload?: OrderRawPayload['proxy_payload'];
+    readonly discounts?: OrderRawPayload['discounts'];
 }
 export declare class OrderItem {
     protected universe: Universe;
@@ -212,6 +215,7 @@ export declare class Order extends Entity<OrderPayload, OrderRawPayload> {
     orderPrompt?: OrderPayload['orderPrompt'];
     status?: OrderPayload['status'];
     proxyPayload?: OrderPayload['proxyPayload'];
+    discounts?: OrderPayload['discounts'];
     constructor(options: OrderOptions);
     protected deserialize(rawPayload: OrderRawPayload): Order;
     static create(payload: OrderRawPayload, universe: Universe, http: Universe['http']): Order;

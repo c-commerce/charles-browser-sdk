@@ -1,3 +1,10 @@
+# [2.58.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.57.3...v2.58.0) (2020-05-03)
+
+
+### Features
+
+* **orders/carts:** expose discounts ([f7aee70](https://github.com/c-commerce/charles-browser-sdk/commit/f7aee705cc0e26b059a6275112130a881e921013))
+
 ## [2.57.3](https://github.com/c-commerce/charles-browser-sdk/compare/v2.57.2...v2.57.3) (2020-05-03)
 
 

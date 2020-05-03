@@ -157,6 +157,7 @@ var Order = (function (_super) {
         this.orderPrompt = rawPayload.order_prompt;
         this.status = rawPayload.status;
         this.proxyPayload = rawPayload.proxy_payload;
+        this.discounts = rawPayload.discounts;
         if (Array.isArray(rawPayload.items)) {
             this.items = rawPayload.items.map(function (item) { return (OrderItem.create(item, _this.universe, _this.http)); });
         }
@@ -205,7 +206,8 @@ var Order = (function (_super) {
             amount_total_shipping_gross: this.amountTotalShippingGross,
             order_prompt: this.orderPrompt,
             status: this.status,
-            proxy_payload: this.proxyPayload
+            proxy_payload: this.proxyPayload,
+            discounts: this.discounts
         };
     };
     Order.prototype.init = function () {
