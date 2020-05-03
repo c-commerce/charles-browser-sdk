@@ -453,7 +453,7 @@ var FeedReply = (function () {
                         return [2, event_1.Event.create(res.data.data[0], this.feed, this.universe, this.http)];
                     case 4:
                         err_6 = _b.sent();
-                        throw new FeedReplyError(undefined, { error: err_6 });
+                        throw new FeedReplyError(undefined, errors_1.BaseError.handleCommonProperties(err_6));
                     case 5: return [2];
                 }
             });
@@ -469,6 +469,7 @@ var FeedReplyError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'FeedReplyError';
+        Object.setPrototypeOf(_this, FeedReplyError.prototype);
         return _this;
     }
     return FeedReplyError;
@@ -481,6 +482,7 @@ var FeedInitializationError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'FeedInitializationError';
+        Object.setPrototypeOf(_this, FeedInitializationError.prototype);
         return _this;
     }
     return FeedInitializationError;
@@ -493,6 +495,7 @@ var FeedFetchRemoteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'FeedFetchRemoteError';
+        Object.setPrototypeOf(_this, FeedFetchRemoteError.prototype);
         return _this;
     }
     return FeedFetchRemoteError;
@@ -505,6 +508,7 @@ var FeedFetchLatestEventsRemoteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'FeedFetchLatestEventsRemoteError';
+        Object.setPrototypeOf(_this, FeedFetchLatestEventsRemoteError.prototype);
         return _this;
     }
     return FeedFetchLatestEventsRemoteError;
@@ -517,6 +521,7 @@ var FeedFetchEventsRemoteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'FeedFetchEventsRemoteError';
+        Object.setPrototypeOf(_this, FeedFetchEventsRemoteError.prototype);
         return _this;
     }
     return FeedFetchEventsRemoteError;
@@ -529,6 +534,7 @@ var FeedCreateEventRemoteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'FeedCreateEventRemoteError';
+        Object.setPrototypeOf(_this, FeedCreateEventRemoteError.prototype);
         return _this;
     }
     return FeedCreateEventRemoteError;
@@ -541,6 +547,7 @@ var FeedsFetchRemoteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'FeedsFetchRemoteError';
+        Object.setPrototypeOf(_this, FeedsFetchRemoteError.prototype);
         return _this;
     }
     return FeedsFetchRemoteError;

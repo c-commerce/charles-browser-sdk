@@ -1,3 +1,10 @@
+# [2.60.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.59.0...v2.60.0) (2020-05-03)
+
+
+### Features
+
+* **errors:** handle common properties + localzations ([b1ed1b5](https://github.com/c-commerce/charles-browser-sdk/commit/b1ed1b5ff799800fca93b99657937bbfe2fc5173))
+
 # [2.59.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.58.0...v2.59.0) (2020-05-03)
 
 
