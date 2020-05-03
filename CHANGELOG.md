@@ -1,3 +1,17 @@
+## [2.57.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.57.1...v2.57.2) (2020-05-03)
+
+
+### Bug Fixes
+
+* **person:** inherit from array correctly ([8d29df7](https://github.com/c-commerce/charles-browser-sdk/commit/8d29df7f3101b9874b400b8bb5835b8babb2301f))
+
+## [2.57.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.57.0...v2.57.1) (2020-05-02)
+
+
+### Bug Fixes
+
+* **MessageTemplate:** Fix rawPayload not being set ([8abcbf8](https://github.com/c-commerce/charles-browser-sdk/commit/8abcbf826b3b57a8a37639cc08714f50245b7d3a))
+
 # [2.57.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.56.1...v2.57.0) (2020-05-01)
 
 

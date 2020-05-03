@@ -76,6 +76,7 @@ var AddressArray = (function (_super) {
         _this.universe = universe;
         _this.http = http;
         _this.person = person;
+        Object.setPrototypeOf(_this, AddressArray.prototype);
         return _this;
     }
     AddressArray.prototype.fromJson = function (payloads) {

@@ -108,6 +108,7 @@ class AddressArray<T> extends Array<T> {
     this.universe = universe
     this.http = http
     this.person = person
+    Object.setPrototypeOf(this, AddressArray.prototype)
   }
 
   public fromJson (payloads: PersonAddressRawPayload[]): Address[] {
