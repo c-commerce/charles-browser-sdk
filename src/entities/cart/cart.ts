@@ -38,6 +38,8 @@ export interface CartItemDiscountRawPayload {
   readonly currency?: string
 }
 
+export type CartDiscountRawPayload = CartItemDiscountRawPayload
+
 export interface CartItemRawPayload {
   readonly id?: string
   readonly qty?: number
@@ -137,6 +139,7 @@ export interface CartRawPayload {
   readonly order_prompt?: string
   readonly status?: ICartStatusType | null
   readonly proxy_payload?: object | null
+  readonly discounts?: CartDiscountRawPayload[] | null
 }
 
 export interface CartPayload {
@@ -170,6 +173,7 @@ export interface CartPayload {
   readonly orderPrompt?: CartRawPayload['order_prompt']
   readonly status?: CartRawPayload['status']
   readonly proxyPayload?: CartRawPayload['proxy_payload']
+  readonly discounts?: CartRawPayload['discounts']
 }
 
 export interface AddItemItemOptions {
@@ -314,6 +318,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   public orderPrompt?: CartPayload['orderPrompt']
   public status?: CartPayload['status']
   public proxyPayload?: CartPayload['proxyPayload']
+  public discounts?: CartPayload['discounts']
 
   constructor (options: CartOptions) {
     super()
@@ -360,6 +365,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
     this.orderPrompt = rawPayload.order_prompt
     this.status = rawPayload.status
     this.proxyPayload = rawPayload.proxy_payload
+    this.discounts = rawPayload.discounts
 
     if (Array.isArray(rawPayload.items)) {
       this.items = rawPayload.items.map((item) => (CartItem.create(item, this.universe, this.http)))
@@ -410,7 +416,8 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
       amount_total_shipping_gross: this.amountTotalShippingGross,
       order_prompt: this.orderPrompt,
       status: this.status,
-      proxy_payload: this.proxyPayload
+      proxy_payload: this.proxyPayload,
+      discounts: this.discounts
     }
   }
 

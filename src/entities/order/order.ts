@@ -45,6 +45,8 @@ export interface OrderItemDiscountRawPayload {
   readonly currency?: string
 }
 
+export type OrderDiscountRawPayload = OrderItemDiscountRawPayload
+
 export interface OrderItemRawPayload {
   readonly qty?: number
   readonly sku?: string
@@ -134,6 +136,7 @@ export interface OrderRawPayload {
   readonly order_prompt?: string
   readonly status?: IOrderStatusType | null
   readonly proxy_payload?: object | null
+  readonly discounts?: OrderDiscountRawPayload[] | null
 }
 
 export interface OrderPayload {
@@ -168,6 +171,7 @@ export interface OrderPayload {
   readonly orderPrompt?: OrderRawPayload['order_prompt']
   readonly status?: OrderRawPayload['status']
   readonly proxyPayload?: OrderRawPayload['proxy_payload']
+  readonly discounts?: OrderRawPayload['discounts']
 }
 
 export class OrderItem {
@@ -284,6 +288,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
   public orderPrompt?: OrderPayload['orderPrompt']
   public status?: OrderPayload['status']
   public proxyPayload?: OrderPayload['proxyPayload']
+  public discounts?: OrderPayload['discounts']
 
   constructor (options: OrderOptions) {
     super()
@@ -329,6 +334,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
     this.orderPrompt = rawPayload.order_prompt
     this.status = rawPayload.status
     this.proxyPayload = rawPayload.proxy_payload
+    this.discounts = rawPayload.discounts
 
     if (Array.isArray(rawPayload.items)) {
       this.items = rawPayload.items.map((item) => (OrderItem.create(item, this.universe, this.http)))
@@ -380,7 +386,8 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
       amount_total_shipping_gross: this.amountTotalShippingGross,
       order_prompt: this.orderPrompt,
       status: this.status,
-      proxy_payload: this.proxyPayload
+      proxy_payload: this.proxyPayload,
+      discounts: this.discounts
     }
   }
 
