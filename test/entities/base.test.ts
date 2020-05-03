@@ -8,12 +8,12 @@ describe('Entities: base', () => {
 
     interface ClsRawPayload {
       id?: string
-      name?: string
+      name?: string | null
     }
 
     interface ClsPayload {
       id?: string
-      name?: string
+      name?: string | null
     }
 
     class Cls extends Entity<ClsPayload, ClsRawPayload> {
@@ -60,7 +60,7 @@ describe('Entities: base', () => {
 
     const obj = {
       id: '1234',
-      name: undefined
+      name: null
     }
 
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
@@ -104,7 +104,10 @@ describe('Entities: base', () => {
     expect(inst.patch).toBeInstanceOf(Function)
     expect(inst.post).toBeInstanceOf(Function)
     expect(inst.fetch).toBeInstanceOf(Function)
-    expect(inst.serialize()).toStrictEqual({ id: '1234', name: undefined })
+    expect(inst.serialize()).toStrictEqual({ id: '1234', name: null })
+
+    // eslint-disable-next-line dot-notation
+    expect(inst['_rawPayload']).toStrictEqual({ id: '1234', name: null })
 
     await inst.patch({ name: 'new name' })
 
