@@ -462,7 +462,7 @@ export class FeedReply {
       })
       return Event.create(res.data.data[0], this.feed, this.universe, this.http)
     } catch (err) {
-      throw new FeedReplyError(undefined, { error: err })
+      throw new FeedReplyError(undefined, BaseError.handleCommonProperties(err))
     }
   }
 }
@@ -474,6 +474,7 @@ export class FeedReplyError extends BaseError {
     properties?: any
   ) {
     super(message, properties)
+    Object.setPrototypeOf(this, FeedReplyError.prototype)
   }
 }
 
@@ -481,6 +482,7 @@ export class FeedInitializationError extends BaseError {
   public name = 'FeedInitializationError'
   constructor (public message: string = 'Could not initialize feed.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, FeedInitializationError.prototype)
   }
 }
 
@@ -488,6 +490,7 @@ export class FeedFetchRemoteError extends BaseError {
   public name = 'FeedFetchRemoteError'
   constructor (public message: string = 'Could not get feed.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, FeedFetchRemoteError.prototype)
   }
 }
 
@@ -495,6 +498,7 @@ export class FeedFetchLatestEventsRemoteError extends BaseError {
   public name = 'FeedFetchLatestEventsRemoteError'
   constructor (public message: string = 'Could not get latest feed events.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, FeedFetchLatestEventsRemoteError.prototype)
   }
 }
 
@@ -502,6 +506,7 @@ export class FeedFetchEventsRemoteError extends BaseError {
   public name = 'FeedFetchEventsRemoteError'
   constructor (public message: string = 'Could not get feed events.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, FeedFetchEventsRemoteError.prototype)
   }
 }
 
@@ -509,6 +514,7 @@ export class FeedCreateEventRemoteError extends BaseError {
   public name = 'FeedCreateEventRemoteError'
   constructor (public message: string = 'Could not create feed event.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, FeedCreateEventRemoteError.prototype)
   }
 }
 
@@ -516,5 +522,6 @@ export class FeedsFetchRemoteError extends BaseError {
   public name = 'FeedsFetchRemoteError'
   constructor (public message: string = 'Could not get feeds.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, FeedsFetchRemoteError.prototype)
   }
 }
