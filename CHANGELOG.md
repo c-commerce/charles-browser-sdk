@@ -1,3 +1,10 @@
+# [2.59.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.58.0...v2.59.0) (2020-05-03)
+
+
+### Features
+
+* **entitiy:** add apply patch ([48a54c6](https://github.com/c-commerce/charles-browser-sdk/commit/48a54c6bfe0e856ee513b9b54593a5dd3f20fdf5))
+
 # [2.58.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.57.3...v2.58.0) (2020-05-03)
 
 

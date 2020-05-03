@@ -191,6 +191,52 @@ var Entity = (function (_super) {
             });
         });
     };
+    Entity.prototype.applyPatch = function (patch) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this._applyPatch(patch)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Entity.prototype._applyPatch = function (patch) {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, response, err_3;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (!patch)
+                            throw new TypeError('apply patch requires incoming patch to be set.');
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('apply patch requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PATCH',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,
+                            headers: {
+                                'Content-Type': 'application/json-patch+json'
+                            },
+                            data: patch,
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        response = _c.sent();
+                        this.deserialize(response.data.data[0]);
+                        return [2, this];
+                    case 3:
+                        err_3 = _c.sent();
+                        throw new EntityPatchError(undefined, { error: err_3 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     Entity.prototype.post = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -204,7 +250,7 @@ var Entity = (function (_super) {
     Entity.prototype._post = function () {
         var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function () {
-            var opts, response, err_3;
+            var opts, response, err_4;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
@@ -224,8 +270,8 @@ var Entity = (function (_super) {
                         this.deserialize(response.data.data[0]);
                         return [2, this];
                     case 2:
-                        err_3 = _d.sent();
-                        throw new EntityPostError(undefined, { error: err_3 });
+                        err_4 = _d.sent();
+                        throw new EntityPostError(undefined, { error: err_4 });
                     case 3: return [2];
                 }
             });
@@ -244,7 +290,7 @@ var Entity = (function (_super) {
     Entity.prototype._delete = function () {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var opts, response, err_4;
+            var opts, response, err_5;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -268,8 +314,8 @@ var Entity = (function (_super) {
                         this.deserialize(response.data.data[0]);
                         return [2, this];
                     case 3:
-                        err_4 = _c.sent();
-                        throw new EntityPostError(undefined, { error: err_4 });
+                        err_5 = _c.sent();
+                        throw new EntityPostError(undefined, { error: err_5 });
                     case 4: return [2];
                 }
             });

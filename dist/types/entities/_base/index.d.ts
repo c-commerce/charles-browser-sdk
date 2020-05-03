@@ -4,6 +4,12 @@ import { Readable, pipeline } from 'readable-stream';
 import { SyncHook, SyncBailHook, SyncWaterfallHook, SyncLoopHook, AsyncParallelHook, AsyncParallelBailHook, AsyncSeriesHook, AsyncSeriesBailHook, AsyncSeriesWaterfallHook } from 'tapable';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+export interface RawPatchItem {
+    op: 'replace' | 'add' | 'remove';
+    path: string;
+    value: any;
+}
+export declare type RawPatch = RawPatchItem[];
 export interface EntityOptions {
     universe: Universe;
     http: Universe['http'];
@@ -39,6 +45,8 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     protected _fetch(options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>>;
     patch(changePart: RawPayload): Promise<Entity<Payload, RawPayload>>;
     protected _patch(changePart: RawPayload): Promise<Entity<Payload, RawPayload>>;
+    applyPatch(patch: RawPatch): Promise<Entity<Payload, RawPayload>>;
+    protected _applyPatch(patch: RawPatch): Promise<Entity<Payload, RawPayload>>;
     post(): Promise<Entity<Payload, RawPayload>>;
     protected _post(): Promise<Entity<Payload, RawPayload>>;
     delete(): Promise<Entity<Payload, RawPayload>>;
