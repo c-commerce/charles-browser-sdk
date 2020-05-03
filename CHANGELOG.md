@@ -1,3 +1,12 @@
+## [2.57.3](https://github.com/c-commerce/charles-browser-sdk/compare/v2.57.2...v2.57.3) (2020-05-03)
+
+
+### Bug Fixes
+
+* **entity:** cast correctly after setPayload fix ([572f282](https://github.com/c-commerce/charles-browser-sdk/commit/572f282e6f3834d06f675b457c67a164292b0dde))
+* **Entity:** DeepClone RawPayload when calling setRawPayload ([4580334](https://github.com/c-commerce/charles-browser-sdk/commit/45803344a83b9ea386219d7731cb81a41ad61b9a))
+* **Entity:** Trigger Build ([b232458](https://github.com/c-commerce/charles-browser-sdk/commit/b2324585f991166fe3a3aaca4170f610ac790d64))
+
 ## [2.57.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.57.1...v2.57.2) (2020-05-03)
 
 

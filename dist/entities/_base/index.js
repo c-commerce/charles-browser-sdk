@@ -90,7 +90,7 @@ var Entity = (function (_super) {
     }
     Entity.prototype.setRawPayload = function (p) {
         this.hooks.beforeSetRawPayload.call(p);
-        this._rawPayload = p;
+        this._rawPayload = JSON.parse(JSON.stringify(p));
         return this;
     };
     Entity.prototype.handleError = function (err) {
