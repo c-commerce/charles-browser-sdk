@@ -21,6 +21,7 @@ import * as productCategory from '../entities/product-category/product-category'
 import * as productCategoryTree from '../entities/product-category-tree/product-category-tree';
 import * as messageTemplateCategory from '../entities/message-template-category/message-template-category';
 import * as messageTemplateCategoryTree from '../entities/message-template-category-tree/message-template-category-tree';
+import * as customProperty from '../entities/custom-property/custom-property';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -158,6 +159,7 @@ export declare class Universe extends Readable {
     productCategoryTree(payload: productCategoryTree.ProductCategoryTreeRawPayload): productCategoryTree.ProductCategoryTree;
     messageTemplateCategory(payload: messageTemplateCategory.MessageTemplateCategoryRawPayload): messageTemplateCategory.MessageTemplateCategory;
     messageTemplateCategoryTree(payload: messageTemplateCategoryTree.MessageTemplateCategoryTreeRawPayload): messageTemplateCategoryTree.MessageTemplateCategoryTree;
+    customProperty(payload: customProperty.CustomPropertyRawPayload): customProperty.CustomProperty;
     me(): Promise<MeData | undefined>;
     get feeds(): UniverseFeeds;
     staffs(): Promise<staff.Staff[] | undefined>;
@@ -173,6 +175,7 @@ export declare class Universe extends Readable {
     productCategoryTrees(): Promise<productCategoryTree.ProductCategoryTree[] | undefined>;
     messageTemplateCategories(): Promise<messageTemplateCategory.MessageTemplateCategory[] | undefined>;
     messageTemplateCategoryTrees(): Promise<messageTemplateCategoryTree.MessageTemplateCategoryTree[] | undefined>;
+    customProperties(): Promise<customProperty.CustomProperty[] | undefined>;
     arm(): Universe;
     get search(): UniverseSearches;
     private searchEntity;

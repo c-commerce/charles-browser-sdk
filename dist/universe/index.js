@@ -95,6 +95,7 @@ var productCategory = __importStar(require("../entities/product-category/product
 var productCategoryTree = __importStar(require("../entities/product-category-tree/product-category-tree"));
 var messageTemplateCategory = __importStar(require("../entities/message-template-category/message-template-category"));
 var messageTemplateCategoryTree = __importStar(require("../entities/message-template-category-tree/message-template-category-tree"));
+var customProperty = __importStar(require("../entities/custom-property/custom-property"));
 var Universe = (function (_super) {
     __extends(Universe, _super);
     function Universe(options) {
@@ -324,6 +325,9 @@ var Universe = (function (_super) {
     };
     Universe.prototype.messageTemplateCategoryTree = function (payload) {
         return messageTemplateCategoryTree.MessageTemplateCategoryTree.create(payload, this, this.http);
+    };
+    Universe.prototype.customProperty = function (payload) {
+        return customProperty.CustomProperty.create(payload, this, this.http);
     };
     Universe.prototype.me = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -762,6 +766,29 @@ var Universe = (function (_super) {
             });
         });
     };
+    Universe.prototype.customProperties = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_17;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + customProperty.CustomProperties.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources.map(function (resource) {
+                                return customProperty.CustomProperty.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_17 = _a.sent();
+                        throw new customProperty.CustomPropertiesFetchRemoteError(undefined, { error: err_17 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Universe.prototype.arm = function () {
         var _this = this;
         var mqtt = this.getMqttClient();
@@ -801,7 +828,7 @@ var Universe = (function (_super) {
     });
     Universe.prototype.searchEntity = function (endpoint, q) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, err_17;
+            var res, err_18;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -815,8 +842,8 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         return [2, res.data.data];
                     case 2:
-                        err_17 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_17 });
+                        err_18 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_18 });
                     case 3: return [2];
                 }
             });
