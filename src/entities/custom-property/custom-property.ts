@@ -7,12 +7,45 @@ export interface CustomPropertyOptions extends EntityOptions {
   rawPayload?: CustomPropertyRawPayload
 }
 
+export enum CustomPropertyInputTypesEnum {
+  select = 'select',
+  radio = 'radio',
+  textinput = 'textinput',
+  textbox = 'textbox',
+  numberinput = 'numberinput',
+  date = 'date',
+  datetime = 'datetime'
+}
+
+export type ICustomPropertyInputType = CustomPropertyInputTypesEnum.select | CustomPropertyInputTypesEnum.radio | CustomPropertyInputTypesEnum.textinput | CustomPropertyInputTypesEnum.textbox | CustomPropertyInputTypesEnum.numberinput | CustomPropertyInputTypesEnum.date | CustomPropertyInputTypesEnum.datetime
+
+export enum CustomPropertyTypesEnum {
+  string = 'string',
+  number = 'number',
+  boolean = 'boolean'
+}
+export type ICustomPropertyType = CustomPropertyTypesEnum.string | CustomPropertyTypesEnum.number | CustomPropertyTypesEnum.boolean
+
 export interface CustomPropertyRawPayload {
   readonly id?: string
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
   readonly active?: boolean
+  readonly name?: string
+  readonly object?: string
+  readonly type?: ICustomPropertyType
+  readonly input?: {
+    type?: ICustomPropertyInputType
+    options?: Array<{ label: string, value: string | number } | string[] | number[]> | null
+    placeholder?: Array<{ locale?: string, value?: string | any }> | null
+    validation?: {
+      type: 'warning' | 'error'
+    } | null
+    label?: Array<{ locale?: string, value?: string | any }> | null
+  }
+  readonly description?: string
+  readonly show_in?: string[]
 }
 
 export interface CustomPropertyPayload {
@@ -21,6 +54,13 @@ export interface CustomPropertyPayload {
   readonly updatedAt?: Date | null
   readonly deleted?: CustomPropertyRawPayload['deleted']
   readonly active?: CustomPropertyRawPayload['active']
+  readonly name?: CustomPropertyRawPayload['name']
+  readonly object?: CustomPropertyRawPayload['object']
+  readonly type?: CustomPropertyRawPayload['type']
+  readonly input?: CustomPropertyRawPayload['input']
+  readonly description?: CustomPropertyRawPayload['description']
+  readonly showIn?: CustomPropertyRawPayload['show_in']
+
 }
 
 /**
@@ -41,11 +81,17 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
   public updatedAt?: CustomPropertyPayload['updatedAt']
   public deleted?: CustomPropertyPayload['deleted']
   public active?: CustomPropertyPayload['active']
+  public name?: CustomPropertyPayload['name']
+  public object?: CustomPropertyPayload['object']
+  public type?: CustomPropertyPayload['type']
+  public input?: CustomPropertyPayload['input']
+  public description?: CustomPropertyPayload['description']
+  public showIn?: CustomPropertyPayload['showIn']
 
   constructor (options: CustomPropertyOptions) {
     super()
     this.universe = options.universe
-    this.endpoint = 'api/v0/custom properties'
+    this.endpoint = 'api/v0/custom_properties'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -63,6 +109,12 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
+    this.name = rawPayload.name
+    this.object = rawPayload.object
+    this.type = rawPayload.type
+    this.input = rawPayload.input
+    this.description = rawPayload.description
+    this.showIn = rawPayload.show_in
 
     return this
   }
@@ -77,7 +129,13 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
-      active: this.active ?? true
+      active: this.active ?? true,
+      name: this.name,
+      object: this.object,
+      type: this.type,
+      input: this.input,
+      description: this.description,
+      show_in: this.showIn
     }
   }
 
@@ -94,7 +152,7 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class CustomProperties {
-  public static endpoint: string = 'api/v0/custom properties'
+  public static endpoint: string = 'api/v0/custom_properties'
 }
 
 export class CustomPropertyInitializationError extends BaseError {
