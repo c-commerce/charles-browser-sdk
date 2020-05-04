@@ -1,3 +1,10 @@
+## [2.61.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.61.0...v2.61.1) (2020-05-04)
+
+
+### Bug Fixes
+
+* **custom property:** add missing properties ([47427c4](https://github.com/c-commerce/charles-browser-sdk/commit/47427c46d0caa1c9b76312f2188cc0f96d5b8497))
+
 # [2.61.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.60.1...v2.61.0) (2020-05-04)
 
 

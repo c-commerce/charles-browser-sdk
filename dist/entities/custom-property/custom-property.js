@@ -54,13 +54,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+var CustomPropertyInputTypesEnum;
+(function (CustomPropertyInputTypesEnum) {
+    CustomPropertyInputTypesEnum["select"] = "select";
+    CustomPropertyInputTypesEnum["radio"] = "radio";
+    CustomPropertyInputTypesEnum["textinput"] = "textinput";
+    CustomPropertyInputTypesEnum["textbox"] = "textbox";
+    CustomPropertyInputTypesEnum["numberinput"] = "numberinput";
+    CustomPropertyInputTypesEnum["date"] = "date";
+    CustomPropertyInputTypesEnum["datetime"] = "datetime";
+})(CustomPropertyInputTypesEnum = exports.CustomPropertyInputTypesEnum || (exports.CustomPropertyInputTypesEnum = {}));
+var CustomPropertyTypesEnum;
+(function (CustomPropertyTypesEnum) {
+    CustomPropertyTypesEnum["string"] = "string";
+    CustomPropertyTypesEnum["number"] = "number";
+    CustomPropertyTypesEnum["boolean"] = "boolean";
+})(CustomPropertyTypesEnum = exports.CustomPropertyTypesEnum || (exports.CustomPropertyTypesEnum = {}));
 var CustomProperty = (function (_super) {
     __extends(CustomProperty, _super);
     function CustomProperty(options) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
-        _this.endpoint = 'api/v0/custom properties';
+        _this.endpoint = 'api/v0/custom_properties';
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -77,6 +93,12 @@ var CustomProperty = (function (_super) {
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
+        this.name = rawPayload.name;
+        this.object = rawPayload.object;
+        this.type = rawPayload.type;
+        this.input = rawPayload.input;
+        this.description = rawPayload.description;
+        this.showIn = rawPayload.show_in;
         return this;
     };
     CustomProperty.create = function (payload, universe, http) {
@@ -89,7 +111,13 @@ var CustomProperty = (function (_super) {
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,
-            active: (_b = this.active) !== null && _b !== void 0 ? _b : true
+            active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
+            name: this.name,
+            object: this.object,
+            type: this.type,
+            input: this.input,
+            description: this.description,
+            show_in: this.showIn
         };
     };
     CustomProperty.prototype.init = function () {
@@ -117,7 +145,7 @@ exports.CustomProperty = CustomProperty;
 var CustomProperties = (function () {
     function CustomProperties() {
     }
-    CustomProperties.endpoint = 'api/v0/custom properties';
+    CustomProperties.endpoint = 'api/v0/custom_properties';
     return CustomProperties;
 }());
 exports.CustomProperties = CustomProperties;
