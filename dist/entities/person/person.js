@@ -183,6 +183,7 @@ var Person = (function (_super) {
         this.measurements = rawPayload.measurements;
         this.tags = rawPayload.tags;
         this.namePreference = rawPayload.name_preference;
+        this.customProperties = rawPayload.custom_properties;
         this.emails = [];
         if (rawPayload.emails && this.initialized) {
             this.emails = rawPayload.emails.map(function (i) { return email_1.Email.create(i, _this.universe, _this.http); });
@@ -248,6 +249,7 @@ var Person = (function (_super) {
             measurements: this.measurements,
             tags: this.tags,
             name_preference: this.namePreference,
+            custom_properties: this.customProperties,
             emails: Array.isArray(this.emails) ? this.emails.map(function (item) { return item.serialize(); }) : undefined,
             addresses: Array.isArray(this._addresses)
                 ? this._addresses.map(function (item) { return item.serialize(); })
