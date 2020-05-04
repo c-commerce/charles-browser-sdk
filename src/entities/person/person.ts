@@ -64,6 +64,7 @@ export interface PersonRawPayload extends EntityRawPayload {
   readonly comment?: string
   readonly tags?: string[]
   readonly name_preference?: string[]
+  readonly custom_properties?: object
   readonly measurements?: {
     body?: {
       weight: number
@@ -183,6 +184,7 @@ export interface PersonPayload {
   readonly measurements?: PersonRawPayload['measurements']
   readonly tags?: PersonRawPayload['tags']
   readonly namePreference?: PersonRawPayload['name_preference']
+  readonly customProperties?: PersonRawPayload['custom_properties']
   readonly addresses?: Address[]
   readonly phonenumbers?: Phonenumber[]
   readonly channelUsers?: ChannelUser[]
@@ -229,6 +231,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public measurements?: PersonPayload['measurements']
   public tags?: PersonPayload['tags']
   public namePreference?: PersonPayload['namePreference']
+  public customProperties?: PersonPayload['customProperties']
   public _addresses?: PersonPayload['addresses']
   public phonenumbers?: PersonPayload['phonenumbers']
   public channelUsers?: PersonPayload['channelUsers']
@@ -266,6 +269,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this.measurements = rawPayload.measurements
     this.tags = rawPayload.tags
     this.namePreference = rawPayload.name_preference
+    this.customProperties = rawPayload.custom_properties
 
     this.emails = []
     if (rawPayload.emails && this.initialized) {
@@ -337,6 +341,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       measurements: this.measurements,
       tags: this.tags,
       name_preference: this.namePreference,
+      custom_properties: this.customProperties,
       emails: Array.isArray(this.emails) ? this.emails.map(item => item.serialize()) : undefined,
       addresses: Array.isArray(this._addresses)
         ? this._addresses.map(item => item.serialize())
