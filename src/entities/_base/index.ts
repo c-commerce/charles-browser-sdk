@@ -265,9 +265,10 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
         responseType: 'json'
       }
 
-      const response = await this.http?.getClient()(opts)
-
-      this.deserialize(response.data.data[0] as RawPayload)
+      await this.http?.getClient()(opts)
+      // delete routes don't respond with data yet, maybe needed in the future..
+      // const response = await this.http?.getClient()(opts)
+      // this.deserialize(response.data.data[0] as RawPayload)
 
       return this
     } catch (err) {
