@@ -290,7 +290,7 @@ var Entity = (function (_super) {
     Entity.prototype._delete = function () {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
-            var opts, response, err_5;
+            var opts, err_5;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -310,8 +310,7 @@ var Entity = (function (_super) {
                         };
                         return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
                     case 2:
-                        response = _c.sent();
-                        this.deserialize(response.data.data[0]);
+                        _c.sent();
                         return [2, this];
                     case 3:
                         err_5 = _c.sent();

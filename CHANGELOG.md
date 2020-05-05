@@ -1,3 +1,10 @@
+## [2.61.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.61.1...v2.61.2) (2020-05-05)
+
+
+### Bug Fixes
+
+* **Entity:** Remove deserialize() when deleting -> response provides no data ([124a792](https://github.com/c-commerce/charles-browser-sdk/commit/124a792da4bfcbcd8f2dce875ffc2c27088483f5))
+
 ## [2.61.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.61.0...v2.61.1) (2020-05-04)
 
 
