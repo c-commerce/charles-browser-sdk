@@ -98,7 +98,17 @@ export default {
           return new RegExp(this.template.replace('${clientId}', '\\w+'), 'g').test(topic)
         }
       })()
-    }
+    },
+    people: new (class extends TopicGenerator {
+      template: string = 'api/people'
+      generateTopic (): string {
+        return this.template
+      }
+
+      isTopic (topic: string): boolean {
+        return topic === this.template
+      }
+    })()
   }
 }
 

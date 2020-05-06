@@ -145,7 +145,22 @@ exports.default = {
                 };
                 return class_8;
             }(TopicGenerator)))()
-        }
+        },
+        people: new ((function (_super) {
+            __extends(class_9, _super);
+            function class_9() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.template = 'api/people';
+                return _this;
+            }
+            class_9.prototype.generateTopic = function () {
+                return this.template;
+            };
+            class_9.prototype.isTopic = function (topic) {
+                return topic === this.template;
+            };
+            return class_9;
+        }(TopicGenerator)))()
     }
 };
 //# sourceMappingURL=topics.js.map

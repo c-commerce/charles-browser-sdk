@@ -1,3 +1,10 @@
+# [2.63.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.62.0...v2.63.0) (2020-05-06)
+
+
+### Features
+
+* **Universe:** Emit api/people event ([34f2d9f](https://github.com/c-commerce/charles-browser-sdk/commit/34f2d9f88cfc88bdc7a7a2f4150861ee73e73a26))
+
 # [2.62.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.61.2...v2.62.0) (2020-05-06)
 
 

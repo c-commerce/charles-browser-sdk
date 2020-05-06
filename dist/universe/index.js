@@ -178,7 +178,8 @@ var Universe = (function (_super) {
                 topics_1.default.api.feeds.generateTopic(),
                 topics_1.default.api.feedsActivities.generateTopic(),
                 topics_1.default.api.feedsMessages.generateTopic(),
-                topics_1.default.api.feedsEvents.generateTopic()
+                topics_1.default.api.feedsEvents.generateTopic(),
+                topics_1.default.api.people.generateTopic()
             ];
         },
         enumerable: true,
@@ -229,6 +230,14 @@ var Universe = (function (_super) {
                 feed = feed_1.Feed.create(msg.payload.feed, this, this.http, this.mqtt);
             }
             this.emit('universe:feeds', __assign(__assign({}, msg), { feed: feed, action: msg.payload.action }));
+            return;
+        }
+        if (topics_1.default.api.people.isTopic(msg.topic)) {
+            var _person = void 0;
+            if (msg.payload.person) {
+                _person = person.Person.create(msg.payload.person, this, this.http);
+            }
+            this.emit('universe:people', __assign(__assign({}, msg), { _person: _person }));
             return;
         }
         this.emit('message', msg);

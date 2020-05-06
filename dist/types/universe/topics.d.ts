@@ -45,6 +45,11 @@ declare const _default: {
                 isTopic(topic: string): boolean;
             };
         };
+        people: {
+            template: string;
+            generateTopic(): string;
+            isTopic(topic: string): boolean;
+        };
     };
 };
 export default _default;

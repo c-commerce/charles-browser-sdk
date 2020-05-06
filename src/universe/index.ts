@@ -275,7 +275,8 @@ export class Universe extends Readable {
       universeTopics.api.feeds.generateTopic(),
       universeTopics.api.feedsActivities.generateTopic(),
       universeTopics.api.feedsMessages.generateTopic(),
-      universeTopics.api.feedsEvents.generateTopic()
+      universeTopics.api.feedsEvents.generateTopic(),
+      universeTopics.api.people.generateTopic()
     ]
   }
 
@@ -334,6 +335,15 @@ export class Universe extends Readable {
         feed = Feed.create((msg as realtime.RealtimeFeeds).payload.feed as FeedRawPayload, this, this.http, this.mqtt)
       }
       this.emit('universe:feeds', { ...msg, feed, action: (msg as realtime.RealtimeFeeds).payload.action })
+      return
+    }
+
+    if (universeTopics.api.people.isTopic(msg.topic)) {
+      let _person
+      if ((msg as realtime.RealtimePeople).payload.person) {
+        _person = person.Person.create((msg as realtime.RealtimePeople).payload.person, this, this.http)
+      }
+      this.emit('universe:people', { ...msg, _person })
       return
     }
 
