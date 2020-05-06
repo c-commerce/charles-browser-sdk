@@ -54,6 +54,15 @@ export interface RealtimeFeeds extends RealtimeMessage {
   }
 }
 
+export interface RealtimePeople extends RealtimeMessage {
+  payload: {
+    person: {
+      [key: string]: any | object | undefined | null
+    }
+    action: 'create' | 'update'
+  }
+}
+
 export interface RealtimeLastMessageReference {
   mqttClientId: RealtimeMessage['mqttClientId']
   clientId: RealtimeMessage['clientId']
