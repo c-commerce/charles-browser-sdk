@@ -11,6 +11,7 @@ import {
 import { Asset, Assets } from '../../entities/asset'
 import { Person, PersonRawPayload } from '../../entities/person'
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event'
+import { Comment, CommentRawPayload } from './comment'
 import Entity, { EntitiesList, EntityFetchOptions } from '../../entities/_base'
 
 export interface FeedOptions {
@@ -299,10 +300,20 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
     }
   }
 
-  public async fetchEvents (): Promise<Event[] | undefined> {
+  public async fetchEvents (options?: UniverseFetchOptions): Promise<Event[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/events`)
-
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/events`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        params: {
+          ...(options?.query ? options.query : {})
+        },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
       const events = res.data.data as FeedEventsRawPayload
 
       events.forEach((eventRaw: EventRawPayload) => {
@@ -332,6 +343,25 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       const event = res.data.data[0] as EventRawPayload
 
       return Event.create(event, this, this.universe, this.http)
+    } catch (err) {
+      throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async createFeedComment (content: object): Promise<Comment | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/comments`,
+        data: {
+          content
+        }
+      }
+      const res = await this.http.getClient()(opts)
+
+      const comment = res.data.data[0] as CommentRawPayload
+
+      return Comment.create(comment, this, this.universe, this.http)
     } catch (err) {
       throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err }))
     }
