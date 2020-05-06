@@ -1,3 +1,10 @@
+# [2.64.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.63.0...v2.64.0) (2020-05-06)
+
+
+### Features
+
+* **Feed:** Comment Event for feed ([c1d9011](https://github.com/c-commerce/charles-browser-sdk/commit/c1d901197f5ba4e34a18230446018f5851a26b37))
+
 # [2.63.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.62.0...v2.63.0) (2020-05-06)
 
 

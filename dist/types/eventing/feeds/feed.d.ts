@@ -4,6 +4,7 @@ import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse, Re
 import { Asset } from '../../entities/asset';
 import { Person, PersonRawPayload } from '../../entities/person';
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event';
+import { Comment } from './comment';
 import Entity, { EntitiesList, EntityFetchOptions } from '../../entities/_base';
 export interface FeedOptions {
     universe: Universe;
@@ -83,8 +84,9 @@ export declare class Feed extends Entity<FeedPayload, FeedRawPayload> {
     private getMqttClient;
     private handleMessage;
     fetchLatestEvents(options?: EntityFetchOptions): Promise<Event[] | FeedlatestEventsRawPayload | undefined>;
-    fetchEvents(): Promise<Event[] | undefined>;
+    fetchEvents(options?: UniverseFetchOptions): Promise<Event[] | undefined>;
     createFeedEvent(type: IEventType, resource?: string, resourceType?: IEventResourceType): Promise<Event | undefined>;
+    createFeedComment(content: object): Promise<Comment | undefined>;
     viewed(): Promise<Event | undefined>;
     events(): Event[];
     getEventsMap(): Feed['eventsMap'];

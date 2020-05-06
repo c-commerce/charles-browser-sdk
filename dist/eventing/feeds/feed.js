@@ -85,6 +85,7 @@ var message_1 = require("../../messaging/message");
 var asset_1 = require("../../entities/asset");
 var person_1 = require("../../entities/person");
 var event_1 = require("./event");
+var comment_1 = require("./comment");
 var _base_1 = __importStar(require("../../entities/_base"));
 exports.FEED_ENDPOINT = 'api/v0/feeds';
 var Feed = (function (_super) {
@@ -276,15 +277,24 @@ var Feed = (function (_super) {
             });
         });
     };
-    Feed.prototype.fetchEvents = function () {
+    Feed.prototype.fetchEvents = function (options) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, events, err_3;
+            var opts, res, events, err_3;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/events")];
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/events",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            params: __assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {})),
+                            responseType: 'json'
+                        };
+                        return [4, this.http.getClient()(opts)];
                     case 1:
                         res = _a.sent();
                         events = res.data.data;
@@ -325,6 +335,33 @@ var Feed = (function (_super) {
                     case 2:
                         err_4 = _a.sent();
                         throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err_4 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Feed.prototype.createFeedComment = function (content) {
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, res, comment, err_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/comments",
+                            data: {
+                                content: content
+                            }
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        res = _a.sent();
+                        comment = res.data.data[0];
+                        return [2, comment_1.Comment.create(comment, this, this.universe, this.http)];
+                    case 2:
+                        err_5 = _a.sent();
+                        throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err_5 }));
                     case 3: return [2];
                 }
             });
@@ -388,7 +425,7 @@ var FeedReply = (function () {
     }
     FeedReply.prototype.prepareSendWithAssets = function (payload) {
         return __awaiter(this, void 0, void 0, function () {
-            var assetsHandler, data, err_5;
+            var assetsHandler, data, err_6;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -402,8 +439,8 @@ var FeedReply = (function () {
                         data = _a.sent();
                         return [2, data];
                     case 2:
-                        err_5 = _a.sent();
-                        throw err_5;
+                        err_6 = _a.sent();
+                        throw err_6;
                     case 3: return [2];
                 }
             });
@@ -412,7 +449,7 @@ var FeedReply = (function () {
     FeedReply.prototype.send = function () {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
-            var additonalAttachments, assets, attachments, res, err_6;
+            var additonalAttachments, assets, attachments, res, err_7;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -452,8 +489,8 @@ var FeedReply = (function () {
                         res = _b.sent();
                         return [2, event_1.Event.create(res.data.data[0], this.feed, this.universe, this.http)];
                     case 4:
-                        err_6 = _b.sent();
-                        throw new FeedReplyError(undefined, errors_1.BaseError.handleCommonProperties(err_6));
+                        err_7 = _b.sent();
+                        throw new FeedReplyError(undefined, errors_1.BaseError.handleCommonProperties(err_7));
                     case 5: return [2];
                 }
             });
