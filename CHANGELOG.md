@@ -1,3 +1,10 @@
+# [2.62.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.61.2...v2.62.0) (2020-05-06)
+
+
+### Features
+
+* **Universe:** Add embed:participants.channel_user to getAllFeeds ([f9e8364](https://github.com/c-commerce/charles-browser-sdk/commit/f9e8364121c14521581d17e233883ed66b5fa457))
+
 ## [2.61.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.61.1...v2.61.2) (2020-05-05)
 
 

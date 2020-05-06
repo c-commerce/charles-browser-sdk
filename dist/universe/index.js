@@ -378,6 +378,7 @@ var Universe = (function (_super) {
                                     url: this.universeBase + "/" + feed_1.Feeds.endpoint,
                                     params: __assign(__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {})), { embed: (_c = (_b = options === null || options === void 0 ? void 0 : options.query) === null || _b === void 0 ? void 0 : _b.embed) !== null && _c !== void 0 ? _c : [
                                             'participants',
+                                            'participants.channel_users',
                                             'top_latest_events',
                                             'top_latest_messages'
                                         ] })
