@@ -524,6 +524,7 @@ export class Universe extends Readable {
               ...(options?.query ?? {}),
               embed: options?.query?.embed ?? [
                 'participants',
+                'participants.channel_users',
                 'top_latest_events',
                 'top_latest_messages'
               ]
