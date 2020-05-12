@@ -37,10 +37,29 @@ export interface UniverseUser {
   accessToken: string
 }
 
+/**
+ * The universe options are the base struct to steer subsequent API
+ * calls. NOTE: override the universe base e.g. in proxied contexts or local development.
+ */
 export interface UniverseOptions {
+  /**
+   * name of the univserse, namely the left most split part of a charles URL
+   * e.g. `charlest-test` in `https://charles-test.hello-charles.com`. By default
+   * the name constructs the universe URL.
+   */
   name: string
+  /**
+   * The override of the universe base URL. It overrides the above mentioned computation.
+   */
+  universeBase?: string
   http: Client
+  /**
+   * the API base of the general charles services.
+   */
   base: string
+  /**
+   * The user ID of a charles user that is available inside of an universe.
+   */
   user: UniverseUser
 }
 
@@ -210,7 +229,7 @@ export class Universe extends Readable {
     this.name = options.name
     this.user = options.user
     this.base = this.options.base ?? 'https://hello-charles.com'
-    this.universeBase = `https://${this.name}.hello-charles.com`
+    this.universeBase = options.universeBase ?? `https://${this.name}.hello-charles.com`
 
     this.status = new UniverseStatus({ universe: this })
     this.health = new UniverseHealth({ universe: this })

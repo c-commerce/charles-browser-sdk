@@ -31,9 +31,21 @@ export interface IInstanceOptions {
   [key: string]: any
 }
 
+/**
+ * The SDK can be initted with a couple of options:
+ *
+ * If your prefer to keep the universe state in a factory, making
+ * it available in multiple file. you can specify this via the `singleton` option.
+ *
+ * Also you are able to override http base routes and such
+ */
 export interface IUniverseFactoryOptions {
   singleton?: boolean
   base?: string
+  /**
+   * The universe base path, see {@link UniverseOptions interface}
+   */
+  universeBase?: UniverseOptions['universeBase']
 }
 
 export declare interface CharlesClient {
@@ -174,10 +186,11 @@ export class CharlesClient extends events.EventEmitter {
       throw new errors.UninstantiatedClient('Cannot invoke universe without instantiated http client')
     }
 
-    const opts = {
+    const opts: UniverseOptions = {
       http: this.http,
       name,
       base: options?.base ? options.base : 'https://hello-charles.com',
+      universeBase: options?.universeBase,
       user: {
         accessToken: this.auth.accessToken,
         id: this.options ? this.options.user : undefined
