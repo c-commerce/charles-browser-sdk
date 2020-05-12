@@ -127,6 +127,7 @@ var CharlesClient = (function (_super) {
             http: this.http,
             name: name,
             base: (options === null || options === void 0 ? void 0 : options.base) ? options.base : 'https://hello-charles.com',
+            universeBase: options === null || options === void 0 ? void 0 : options.universeBase,
             user: {
                 accessToken: this.auth.accessToken,
                 id: this.options ? this.options.user : undefined

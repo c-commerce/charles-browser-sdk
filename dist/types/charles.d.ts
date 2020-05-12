@@ -3,7 +3,7 @@ import events from 'events';
 import { UsernameAuth, KeyAuth, TokenAuth } from './v0/auth';
 import * as v0 from './v0';
 import { Client } from './client';
-import { Universe, UnviverseSingleton } from './universe';
+import { Universe, UnviverseSingleton, UniverseOptions } from './universe';
 export { v0 };
 export declare const defaultOptions: CharlesSDKOptions;
 export interface CharlesSDKOptions {
@@ -21,6 +21,7 @@ export interface IInstanceOptions {
 export interface IUniverseFactoryOptions {
     singleton?: boolean;
     base?: string;
+    universeBase?: UniverseOptions['universeBase'];
 }
 export declare interface CharlesClient {
     on(event: 'raw-error' | 'error', listener: (error: Error) => void): this;

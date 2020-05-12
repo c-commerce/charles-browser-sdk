@@ -1,3 +1,10 @@
+# [2.65.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.64.0...v2.65.0) (2020-05-12)
+
+
+### Features
+
+* **sdk:** make universe inittable with different base ([d6e85f3](https://github.com/c-commerce/charles-browser-sdk/commit/d6e85f3d3f6a90bd3abc70d7a4866eb6e6f98763))
+
 # [2.64.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.63.0...v2.64.0) (2020-05-06)
 
 

@@ -28,6 +28,7 @@ export interface UniverseUser {
 }
 export interface UniverseOptions {
     name: string;
+    universeBase?: string;
     http: Client;
     base: string;
     user: UniverseUser;

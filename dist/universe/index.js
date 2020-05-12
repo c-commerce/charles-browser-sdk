@@ -99,7 +99,7 @@ var customProperty = __importStar(require("../entities/custom-property/custom-pr
 var Universe = (function (_super) {
     __extends(Universe, _super);
     function Universe(options) {
-        var _a;
+        var _a, _b;
         var _this = _super.call(this) || this;
         _this.initialized = false;
         _this.payload = null;
@@ -108,7 +108,7 @@ var Universe = (function (_super) {
         _this.name = options.name;
         _this.user = options.user;
         _this.base = (_a = _this.options.base) !== null && _a !== void 0 ? _a : 'https://hello-charles.com';
-        _this.universeBase = "https://" + _this.name + ".hello-charles.com";
+        _this.universeBase = (_b = options.universeBase) !== null && _b !== void 0 ? _b : "https://" + _this.name + ".hello-charles.com";
         _this.status = new status_1.UniverseStatus({ universe: _this });
         _this.health = new status_1.UniverseHealth({ universe: _this });
         _this.http = options.http;
