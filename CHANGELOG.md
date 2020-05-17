@@ -1,3 +1,10 @@
+# [2.66.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.65.0...v2.66.0) (2020-05-17)
+
+
+### Features
+
+* add tags ([00ca2b4](https://github.com/c-commerce/charles-browser-sdk/commit/00ca2b45bc72c004534f7ada9cb5c21aab323d0d))
+
 # [2.65.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.64.0...v2.65.0) (2020-05-12)
 
 

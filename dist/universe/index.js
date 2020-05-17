@@ -96,6 +96,7 @@ var productCategoryTree = __importStar(require("../entities/product-category-tre
 var messageTemplateCategory = __importStar(require("../entities/message-template-category/message-template-category"));
 var messageTemplateCategoryTree = __importStar(require("../entities/message-template-category-tree/message-template-category-tree"));
 var customProperty = __importStar(require("../entities/custom-property/custom-property"));
+var tag = __importStar(require("../entities/tag/tag"));
 var Universe = (function (_super) {
     __extends(Universe, _super);
     function Universe(options) {
@@ -337,6 +338,9 @@ var Universe = (function (_super) {
     };
     Universe.prototype.customProperty = function (payload) {
         return customProperty.CustomProperty.create(payload, this, this.http);
+    };
+    Universe.prototype.tag = function (payload) {
+        return tag.Tag.create(payload, this, this.http);
     };
     Universe.prototype.me = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -799,6 +803,29 @@ var Universe = (function (_super) {
             });
         });
     };
+    Universe.prototype.tags = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res, resources, err_18;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + tag.Tags.endpoint)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources.map(function (resource) {
+                                return tag.Tag.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_18 = _a.sent();
+                        throw new tag.TagsFetchRemoteError(undefined, { error: err_18 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Universe.prototype.arm = function () {
         var _this = this;
         var mqtt = this.getMqttClient();
@@ -838,7 +865,7 @@ var Universe = (function (_super) {
     });
     Universe.prototype.searchEntity = function (endpoint, q) {
         return __awaiter(this, void 0, void 0, function () {
-            var res, err_18;
+            var res, err_19;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -852,8 +879,8 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         return [2, res.data.data];
                     case 2:
-                        err_18 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_18 });
+                        err_19 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_19 });
                     case 3: return [2];
                 }
             });
