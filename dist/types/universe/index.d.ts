@@ -70,6 +70,18 @@ export interface UnviversePeopleSearchResultItem extends UnviverseSearchResultIt
     };
     feeds: string[];
 }
+export interface UnviverseProductsSearchResultItem extends UnviverseSearchResultItem {
+    document: {
+        id: product.ProductRawPayload['id'];
+        created_at: product.ProductRawPayload['created_at'];
+        updated_at: product.ProductRawPayload['updated_at'];
+        name: product.ProductRawPayload['name'];
+        summary: product.ProductRawPayload['summary'];
+        description: product.ProductRawPayload['description'];
+        type: product.ProductRawPayload['type'];
+        assets_config: product.ProductRawPayload['assets_config'];
+    };
+}
 export interface UnviverseFeedsSearchResultItem extends UnviverseSearchResultItem {
     document: {
         id: MessageRawPayload['id'];
@@ -84,8 +96,9 @@ export interface UnviverseFeedsSearchResultItem extends UnviverseSearchResultIte
     person: person.PersonRawPayload;
 }
 export interface UniverseSearches {
-    people: Function;
-    feeds: Function;
+    people: (q: string) => Promise<UnviversePeopleSearchResultItem[]>;
+    feeds: (q: string) => Promise<UnviverseFeedsSearchResultItem[]>;
+    products: (q: string) => Promise<UnviverseProductsSearchResultItem[]>;
 }
 export interface UniverseFeeds {
     fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>;

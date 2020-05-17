@@ -850,6 +850,14 @@ var Universe = (function (_super) {
                         }
                     });
                 }); },
+                products: function (q) { return __awaiter(_this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4, this.searchEntity(product.Products.endpoint, q)];
+                            case 1: return [2, _a.sent()];
+                        }
+                    });
+                }); },
                 feeds: function (q) { return __awaiter(_this, void 0, void 0, function () {
                     return __generator(this, function (_a) {
                         switch (_a.label) {
