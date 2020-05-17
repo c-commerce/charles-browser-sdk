@@ -29,6 +29,7 @@ import * as productCategoryTree from '../entities/product-category-tree/product-
 import * as messageTemplateCategory from '../entities/message-template-category/message-template-category'
 import * as messageTemplateCategoryTree from '../entities/message-template-category-tree/message-template-category-tree'
 import * as customProperty from '../entities/custom-property/custom-property'
+import * as tag from '../entities/tag/tag'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -497,6 +498,10 @@ export class Universe extends Readable {
     return customProperty.CustomProperty.create(payload, this, this.http)
   }
 
+  public tag (payload: tag.TagRawPayload): tag.Tag {
+    return tag.Tag.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -824,6 +829,19 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new customProperty.CustomPropertiesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async tags (): Promise<tag.Tag[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${tag.Tags.endpoint}`)
+      const resources = res.data.data as tag.TagRawPayload[]
+
+      return resources.map((resource: tag.TagRawPayload) => {
+        return tag.Tag.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new tag.TagsFetchRemoteError(undefined, { error: err })
     }
   }
 
