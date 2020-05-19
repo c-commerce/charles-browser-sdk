@@ -607,10 +607,18 @@ export class Universe extends Readable {
     }
   }
 
-  public async staffs (): Promise<staff.Staff[] | undefined> {
+  public async staffs (options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${staff.Staffs.endpoint}`)
+      const res = await this.http.getClient().get(`${this.universeBase}/${staff.Staffs.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
       const resources = res.data.data as staff.StaffRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
 
       return resources.map((resource: staff.StaffRawPayload) => {
         return staff.Staff.create(resource, this, this.http)
@@ -660,7 +668,7 @@ export class Universe extends Readable {
             method: 'GET',
             url: `${this.universeBase}/${product.Products.endpoint}`,
             params: {
-              // ...(options?.query ?? {}), no other options (raw etc) available for GET products atm
+              ...(options?.query ?? {}),
               embed: options?.query?.embed ?? 'options'
             }
           }
@@ -781,10 +789,18 @@ export class Universe extends Readable {
     }
   }
 
-  public async productCategories (): Promise<productCategory.ProductCategory[] | undefined> {
+  public async productCategories (options?: EntityFetchOptions): Promise<productCategory.ProductCategory[] | productCategory.ProductCategoryRawPayload[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${productCategory.ProductCategories.endpoint}`)
+      const res = await this.http.getClient().get(`${this.universeBase}/${productCategory.ProductCategories.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
       const resources = res.data.data as productCategory.ProductCategoryRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
 
       return resources.map((resource: productCategory.ProductCategoryRawPayload) => {
         return productCategory.ProductCategory.create(resource, this, this.http)
@@ -794,10 +810,18 @@ export class Universe extends Readable {
     }
   }
 
-  public async productCategoryTrees (): Promise<productCategoryTree.ProductCategoryTree[] | undefined> {
+  public async productCategoryTrees (options?: EntityFetchOptions): Promise<productCategoryTree.ProductCategoryTree[] | productCategoryTree.ProductCategoryTreeRawPayload[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${productCategoryTree.ProductCategoryTrees.endpoint}`)
+      const res = await this.http.getClient().get(`${this.universeBase}/${productCategoryTree.ProductCategoryTrees.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
       const resources = res.data.data as productCategoryTree.ProductCategoryTreeRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
 
       return resources.map((resource: productCategoryTree.ProductCategoryTreeRawPayload) => {
         return productCategoryTree.ProductCategoryTree.create(resource, this, this.http)
@@ -846,10 +870,18 @@ export class Universe extends Readable {
     }
   }
 
-  public async tags (): Promise<tag.Tag[] | undefined> {
+  public async tags (options?: EntityFetchOptions): Promise<tag.Tag[] | tag.TagRawPayload[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${tag.Tags.endpoint}`)
+      const res = await this.http.getClient().get(`${this.universeBase}/${tag.Tags.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
       const resources = res.data.data as tag.TagRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
 
       return resources.map((resource: tag.TagRawPayload) => {
         return tag.Tag.create(resource, this, this.http)
