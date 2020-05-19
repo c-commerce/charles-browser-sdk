@@ -1,3 +1,10 @@
+# [2.68.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.67.0...v2.68.0) (2020-05-19)
+
+
+### Features
+
+* **universe:** expose entity fetch options in some ([650dca5](https://github.com/c-commerce/charles-browser-sdk/commit/650dca5c08540b7b178427a2d38030ed3e6eb993))
+
 # [2.67.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.66.0...v2.67.0) (2020-05-17)
 
 

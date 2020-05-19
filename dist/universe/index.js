@@ -435,23 +435,29 @@ var Universe = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Universe.prototype.staffs = function () {
+    Universe.prototype.staffs = function (options) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
             var res, resources, err_4;
             var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universeBase + "/" + staff.Staffs.endpoint)];
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + staff.Staffs.endpoint, {
+                                params: __assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                            })];
                     case 1:
-                        res = _a.sent();
+                        res = _b.sent();
                         resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
                         return [2, resources.map(function (resource) {
                                 return staff.Staff.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_4 = _a.sent();
+                        err_4 = _b.sent();
                         throw new staff.StaffsFetchRemoteError(undefined, { error: err_4 });
                     case 3: return [2];
                 }
@@ -517,21 +523,19 @@ var Universe = (function (_super) {
                 fetch: function (options) { return __awaiter(_this, void 0, void 0, function () {
                     var opts, res, resources, err_7;
                     var _this = this;
-                    var _a, _b;
-                    return __generator(this, function (_c) {
-                        switch (_c.label) {
+                    var _a, _b, _c;
+                    return __generator(this, function (_d) {
+                        switch (_d.label) {
                             case 0:
-                                _c.trys.push([0, 2, , 3]);
+                                _d.trys.push([0, 2, , 3]);
                                 opts = {
                                     method: 'GET',
                                     url: this.universeBase + "/" + product.Products.endpoint,
-                                    params: {
-                                        embed: (_b = (_a = options === null || options === void 0 ? void 0 : options.query) === null || _a === void 0 ? void 0 : _a.embed) !== null && _b !== void 0 ? _b : 'options'
-                                    }
+                                    params: __assign(__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {})), { embed: (_c = (_b = options === null || options === void 0 ? void 0 : options.query) === null || _b === void 0 ? void 0 : _b.embed) !== null && _c !== void 0 ? _c : 'options' })
                                 };
                                 return [4, this.http.getClient()(opts)];
                             case 1:
-                                res = _c.sent();
+                                res = _d.sent();
                                 resources = res.data.data;
                                 if (options && options.raw === true) {
                                     return [2, resources];
@@ -540,7 +544,7 @@ var Universe = (function (_super) {
                                         return product.Product.create(resource, _this, _this.http);
                                     })];
                             case 2:
-                                err_7 = _c.sent();
+                                err_7 = _d.sent();
                                 throw new product.ProductsFetchRemoteError(undefined, { error: err_7 });
                             case 3: return [2];
                         }
@@ -688,46 +692,58 @@ var Universe = (function (_super) {
             });
         });
     };
-    Universe.prototype.productCategories = function () {
+    Universe.prototype.productCategories = function (options) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
             var res, resources, err_13;
             var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universeBase + "/" + productCategory.ProductCategories.endpoint)];
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + productCategory.ProductCategories.endpoint, {
+                                params: __assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                            })];
                     case 1:
-                        res = _a.sent();
+                        res = _b.sent();
                         resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
                         return [2, resources.map(function (resource) {
                                 return productCategory.ProductCategory.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_13 = _a.sent();
+                        err_13 = _b.sent();
                         throw new productCategory.ProductCategoriesFetchRemoteError(undefined, { error: err_13 });
                     case 3: return [2];
                 }
             });
         });
     };
-    Universe.prototype.productCategoryTrees = function () {
+    Universe.prototype.productCategoryTrees = function (options) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
             var res, resources, err_14;
             var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universeBase + "/" + productCategoryTree.ProductCategoryTrees.endpoint)];
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + productCategoryTree.ProductCategoryTrees.endpoint, {
+                                params: __assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                            })];
                     case 1:
-                        res = _a.sent();
+                        res = _b.sent();
                         resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
                         return [2, resources.map(function (resource) {
                                 return productCategoryTree.ProductCategoryTree.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_14 = _a.sent();
+                        err_14 = _b.sent();
                         throw new productCategoryTree.ProductCategoryTreesFetchRemoteError(undefined, { error: err_14 });
                     case 3: return [2];
                 }
@@ -803,23 +819,29 @@ var Universe = (function (_super) {
             });
         });
     };
-    Universe.prototype.tags = function () {
+    Universe.prototype.tags = function (options) {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
             var res, resources, err_18;
             var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universeBase + "/" + tag.Tags.endpoint)];
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + tag.Tags.endpoint, {
+                                params: __assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                            })];
                     case 1:
-                        res = _a.sent();
+                        res = _b.sent();
                         resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
                         return [2, resources.map(function (resource) {
                                 return tag.Tag.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_18 = _a.sent();
+                        err_18 = _b.sent();
                         throw new tag.TagsFetchRemoteError(undefined, { error: err_18 });
                     case 3: return [2];
                 }

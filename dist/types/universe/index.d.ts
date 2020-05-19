@@ -178,7 +178,7 @@ export declare class Universe extends Readable {
     tag(payload: tag.TagRawPayload): tag.Tag;
     me(): Promise<MeData | undefined>;
     get feeds(): UniverseFeeds;
-    staffs(): Promise<staff.Staff[] | undefined>;
+    staffs(options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
     people(): Promise<person.Person[] | undefined>;
     get products(): UniverseProducts;
@@ -187,12 +187,12 @@ export declare class Universe extends Readable {
     orders(): Promise<order.Order[] | undefined>;
     discounts(): Promise<discount.Discount[] | undefined>;
     messageTemplates(): Promise<messageTemplate.MessageTemplate[] | undefined>;
-    productCategories(): Promise<productCategory.ProductCategory[] | undefined>;
-    productCategoryTrees(): Promise<productCategoryTree.ProductCategoryTree[] | undefined>;
+    productCategories(options?: EntityFetchOptions): Promise<productCategory.ProductCategory[] | productCategory.ProductCategoryRawPayload[] | undefined>;
+    productCategoryTrees(options?: EntityFetchOptions): Promise<productCategoryTree.ProductCategoryTree[] | productCategoryTree.ProductCategoryTreeRawPayload[] | undefined>;
     messageTemplateCategories(): Promise<messageTemplateCategory.MessageTemplateCategory[] | undefined>;
     messageTemplateCategoryTrees(): Promise<messageTemplateCategoryTree.MessageTemplateCategoryTree[] | undefined>;
     customProperties(): Promise<customProperty.CustomProperty[] | undefined>;
-    tags(): Promise<tag.Tag[] | undefined>;
+    tags(options?: EntityFetchOptions): Promise<tag.Tag[] | tag.TagRawPayload[] | undefined>;
     arm(): Universe;
     get search(): UniverseSearches;
     private searchEntity;
