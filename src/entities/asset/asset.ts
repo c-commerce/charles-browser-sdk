@@ -134,6 +134,29 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
       throw this.handleError(new AssetInitializationError(undefined, { error: err }))
     }
   }
+
+  public async upload (payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined> {
+    try {
+      const opts = {
+        timeout: 60000,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        params: {
+          ...options,
+          public: true
+        }
+      }
+
+      const res = await this.http?.getClient().post(`${this.universe?.universeBase}/${Assets.endpoint}`, payload, opts)
+      const data = res?.data.data as AssetRawPayload[]
+      return data.map((item: AssetRawPayload) => {
+        return Asset.create(item, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new AssetsPostError(undefined, { error: err })
+    }
+  }
 }
 
 export interface AssetsPostOptions {
