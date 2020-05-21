@@ -1,3 +1,10 @@
+# [2.69.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.68.0...v2.69.0) (2020-05-21)
+
+
+### Features
+
+* **Asset:** Upload Assets ([21515a1](https://github.com/c-commerce/charles-browser-sdk/commit/21515a1895c1b2014fd571bf1474f7500c8d31c1))
+
 # [2.68.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.67.0...v2.68.0) (2020-05-19)
 
 

@@ -61,6 +61,7 @@ export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
     static create(payload: AssetRawPayload, universe: Universe, http: Universe['http']): Asset;
     serialize(): AssetRawPayload;
     init(): Promise<Asset | undefined>;
+    upload(payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined>;
 }
 export interface AssetsPostOptions {
     public?: boolean;

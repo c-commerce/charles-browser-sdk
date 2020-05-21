@@ -138,16 +138,7 @@ var Asset = (function (_super) {
             });
         });
     };
-    return Asset;
-}(_base_1.default));
-exports.Asset = Asset;
-var Assets = (function () {
-    function Assets(options) {
-        this.options = options;
-        this.http = options.http;
-        this.universe = options.universe;
-    }
-    Assets.prototype.post = function (payload, options) {
+    Asset.prototype.upload = function (payload, options) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function () {
             var opts, res, data, err_2;
@@ -173,6 +164,46 @@ var Assets = (function () {
                     case 2:
                         err_2 = _c.sent();
                         throw new AssetsPostError(undefined, { error: err_2 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    return Asset;
+}(_base_1.default));
+exports.Asset = Asset;
+var Assets = (function () {
+    function Assets(options) {
+        this.options = options;
+        this.http = options.http;
+        this.universe = options.universe;
+    }
+    Assets.prototype.post = function (payload, options) {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var opts, res, data, err_3;
+            var _this = this;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        opts = {
+                            timeout: 60000,
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            },
+                            params: __assign(__assign({}, options), { public: true })
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(((_b = this.universe) === null || _b === void 0 ? void 0 : _b.universeBase) + "/" + Assets.endpoint, payload, opts))];
+                    case 1:
+                        res = _c.sent();
+                        data = res === null || res === void 0 ? void 0 : res.data.data;
+                        return [2, data.map(function (item) {
+                                return Asset.create(item, _this.universe, _this.http);
+                            })];
+                    case 2:
+                        err_3 = _c.sent();
+                        throw new AssetsPostError(undefined, { error: err_3 });
                     case 3: return [2];
                 }
             });
