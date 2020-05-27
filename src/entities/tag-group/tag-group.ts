@@ -54,7 +54,7 @@ export class TagGroup extends Entity<TagGroupPayload, TagGroupRawPayload> {
   constructor (options: TagGroupOptions) {
     super()
     this.universe = options.universe
-    this.endpoint = 'api/v0/tag groups'
+    this.endpoint = 'api/v0/tag_groups'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -109,7 +109,7 @@ export class TagGroup extends Entity<TagGroupPayload, TagGroupRawPayload> {
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class TagGroups {
-  public static endpoint: string = 'api/v0/tag groups'
+  public static endpoint: string = 'api/v0/tag_groups'
 }
 
 export class TagGroupInitializationError extends BaseError {
