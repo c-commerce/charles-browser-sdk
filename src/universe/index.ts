@@ -30,6 +30,7 @@ import * as messageTemplateCategory from '../entities/message-template-category/
 import * as messageTemplateCategoryTree from '../entities/message-template-category-tree/message-template-category-tree'
 import * as customProperty from '../entities/custom-property/custom-property'
 import * as tag from '../entities/tag/tag'
+import * as tagGroup from '../entities/tag-group/tag-group'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -516,6 +517,10 @@ export class Universe extends Readable {
     return tag.Tag.create(payload, this, this.http)
   }
 
+  public tagGroup (payload: tagGroup.TagGroupRawPayload): tagGroup.TagGroup {
+    return tagGroup.TagGroup.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -888,6 +893,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new tag.TagsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async tagGroups (options?: EntityFetchOptions): Promise<tagGroup.TagGroup[] | tagGroup.TagGroupRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${tagGroup.TagGroups.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as tagGroup.TagGroupRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: tagGroup.TagGroupRawPayload) => {
+        return tagGroup.TagGroup.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new tagGroup.TagGroupsFetchRemoteError(undefined, { error: err })
     }
   }
 

@@ -16,6 +16,7 @@ export interface TagRawPayload {
   readonly label?: string
   readonly object?: 'person' | 'feed' | 'event' | 'ticket'
   readonly description?: string | null
+  readonly tag_group?: string | null
 }
 
 export interface TagPayload {
@@ -27,6 +28,7 @@ export interface TagPayload {
   readonly label?: TagRawPayload['label']
   readonly object?: TagRawPayload['object']
   readonly description?: TagRawPayload['description']
+  readonly tagGroup?: TagRawPayload['tag_group']
 }
 
 /**
@@ -50,6 +52,7 @@ export class Tag extends Entity<TagPayload, TagRawPayload> {
   public label?: TagPayload['label']
   public object?: TagPayload['object']
   public description?: TagPayload['description']
+  public tagGroup?: TagPayload['tagGroup']
 
   constructor (options: TagOptions) {
     super()
@@ -75,6 +78,7 @@ export class Tag extends Entity<TagPayload, TagRawPayload> {
     this.label = rawPayload.label
     this.object = rawPayload.object
     this.description = rawPayload.description
+    this.tagGroup = rawPayload.tag_group
 
     return this
   }
@@ -92,7 +96,8 @@ export class Tag extends Entity<TagPayload, TagRawPayload> {
       active: this.active ?? true,
       label: this.label,
       object: this.object,
-      description: this.description
+      description: this.description,
+      tag_group: this.tagGroup
     }
   }
 
