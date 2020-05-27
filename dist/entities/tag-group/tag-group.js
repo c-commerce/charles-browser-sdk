@@ -54,13 +54,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var _base_1 = __importDefault(require("../_base"));
 var errors_1 = require("../../errors");
-var Tag = (function (_super) {
-    __extends(Tag, _super);
-    function Tag(options) {
+var TagGroup = (function (_super) {
+    __extends(TagGroup, _super);
+    function TagGroup(options) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
-        _this.endpoint = 'api/v0/tags';
+        _this.endpoint = 'api/v0/tag groups';
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -69,7 +69,7 @@ var Tag = (function (_super) {
         }
         return _this;
     }
-    Tag.prototype.deserialize = function (rawPayload) {
+    TagGroup.prototype.deserialize = function (rawPayload) {
         var _a, _b;
         this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
@@ -78,15 +78,14 @@ var Tag = (function (_super) {
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
         this.label = rawPayload.label;
-        this.object = rawPayload.object;
+        this.color = rawPayload.color;
         this.description = rawPayload.description;
-        this.tagGroup = rawPayload.tag_group;
         return this;
     };
-    Tag.create = function (payload, universe, http) {
-        return new Tag({ rawPayload: payload, universe: universe, http: http, initialized: true });
+    TagGroup.create = function (payload, universe, http) {
+        return new TagGroup({ rawPayload: payload, universe: universe, http: http, initialized: true });
     };
-    Tag.prototype.serialize = function () {
+    TagGroup.prototype.serialize = function () {
         var _a, _b;
         return {
             id: this.id,
@@ -95,12 +94,11 @@ var Tag = (function (_super) {
             deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,
             active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
             label: this.label,
-            object: this.object,
-            description: this.description,
-            tag_group: this.tagGroup
+            color: this.color,
+            description: this.description
         };
     };
-    Tag.prototype.init = function () {
+    TagGroup.prototype.init = function () {
         return __awaiter(this, void 0, void 0, function () {
             var err_1;
             return __generator(this, function (_a) {
@@ -113,59 +111,59 @@ var Tag = (function (_super) {
                         return [2, this];
                     case 2:
                         err_1 = _a.sent();
-                        throw this.handleError(new TagInitializationError(undefined, { error: err_1 }));
+                        throw this.handleError(new TagGroupInitializationError(undefined, { error: err_1 }));
                     case 3: return [2];
                 }
             });
         });
     };
-    return Tag;
+    return TagGroup;
 }(_base_1.default));
-exports.Tag = Tag;
-var Tags = (function () {
-    function Tags() {
+exports.TagGroup = TagGroup;
+var TagGroups = (function () {
+    function TagGroups() {
     }
-    Tags.endpoint = 'api/v0/tags';
-    return Tags;
+    TagGroups.endpoint = 'api/v0/tag groups';
+    return TagGroups;
 }());
-exports.Tags = Tags;
-var TagInitializationError = (function (_super) {
-    __extends(TagInitializationError, _super);
-    function TagInitializationError(message, properties) {
-        if (message === void 0) { message = 'Could not initialize tag.'; }
+exports.TagGroups = TagGroups;
+var TagGroupInitializationError = (function (_super) {
+    __extends(TagGroupInitializationError, _super);
+    function TagGroupInitializationError(message, properties) {
+        if (message === void 0) { message = 'Could not initialize tag group.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
-        _this.name = 'TagInitializationError';
-        Object.setPrototypeOf(_this, TagInitializationError.prototype);
+        _this.name = 'TagGroupInitializationError';
+        Object.setPrototypeOf(_this, TagGroupInitializationError.prototype);
         return _this;
     }
-    return TagInitializationError;
+    return TagGroupInitializationError;
 }(errors_1.BaseError));
-exports.TagInitializationError = TagInitializationError;
-var TagFetchRemoteError = (function (_super) {
-    __extends(TagFetchRemoteError, _super);
-    function TagFetchRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could not get tag.'; }
+exports.TagGroupInitializationError = TagGroupInitializationError;
+var TagGroupFetchRemoteError = (function (_super) {
+    __extends(TagGroupFetchRemoteError, _super);
+    function TagGroupFetchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get tag group.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
-        _this.name = 'TagFetchRemoteError';
-        Object.setPrototypeOf(_this, TagFetchRemoteError.prototype);
+        _this.name = 'TagGroupFetchRemoteError';
+        Object.setPrototypeOf(_this, TagGroupFetchRemoteError.prototype);
         return _this;
     }
-    return TagFetchRemoteError;
+    return TagGroupFetchRemoteError;
 }(errors_1.BaseError));
-exports.TagFetchRemoteError = TagFetchRemoteError;
-var TagsFetchRemoteError = (function (_super) {
-    __extends(TagsFetchRemoteError, _super);
-    function TagsFetchRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could not get tags.'; }
+exports.TagGroupFetchRemoteError = TagGroupFetchRemoteError;
+var TagGroupsFetchRemoteError = (function (_super) {
+    __extends(TagGroupsFetchRemoteError, _super);
+    function TagGroupsFetchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get tag groups.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
-        _this.name = 'TagsFetchRemoteError';
-        Object.setPrototypeOf(_this, TagsFetchRemoteError.prototype);
+        _this.name = 'TagGroupsFetchRemoteError';
+        Object.setPrototypeOf(_this, TagGroupsFetchRemoteError.prototype);
         return _this;
     }
-    return TagsFetchRemoteError;
+    return TagGroupsFetchRemoteError;
 }(errors_1.BaseError));
-exports.TagsFetchRemoteError = TagsFetchRemoteError;
-//# sourceMappingURL=tag.js.map
+exports.TagGroupsFetchRemoteError = TagGroupsFetchRemoteError;
+//# sourceMappingURL=tag-group.js.map

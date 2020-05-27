@@ -23,6 +23,7 @@ import * as messageTemplateCategory from '../entities/message-template-category/
 import * as messageTemplateCategoryTree from '../entities/message-template-category-tree/message-template-category-tree';
 import * as customProperty from '../entities/custom-property/custom-property';
 import * as tag from '../entities/tag/tag';
+import * as tagGroup from '../entities/tag-group/tag-group';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -176,6 +177,7 @@ export declare class Universe extends Readable {
     messageTemplateCategoryTree(payload: messageTemplateCategoryTree.MessageTemplateCategoryTreeRawPayload): messageTemplateCategoryTree.MessageTemplateCategoryTree;
     customProperty(payload: customProperty.CustomPropertyRawPayload): customProperty.CustomProperty;
     tag(payload: tag.TagRawPayload): tag.Tag;
+    tagGroup(payload: tagGroup.TagGroupRawPayload): tagGroup.TagGroup;
     me(): Promise<MeData | undefined>;
     get feeds(): UniverseFeeds;
     staffs(options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined>;
@@ -193,6 +195,7 @@ export declare class Universe extends Readable {
     messageTemplateCategoryTrees(): Promise<messageTemplateCategoryTree.MessageTemplateCategoryTree[] | undefined>;
     customProperties(): Promise<customProperty.CustomProperty[] | undefined>;
     tags(options?: EntityFetchOptions): Promise<tag.Tag[] | tag.TagRawPayload[] | undefined>;
+    tagGroups(options?: EntityFetchOptions): Promise<tagGroup.TagGroup[] | tagGroup.TagGroupRawPayload[] | undefined>;
     arm(): Universe;
     get search(): UniverseSearches;
     private searchEntity;
