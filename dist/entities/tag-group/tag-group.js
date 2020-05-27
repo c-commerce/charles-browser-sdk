@@ -60,7 +60,7 @@ var TagGroup = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
-        _this.endpoint = 'api/v0/tag groups';
+        _this.endpoint = 'api/v0/tag_groups';
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -123,7 +123,7 @@ exports.TagGroup = TagGroup;
 var TagGroups = (function () {
     function TagGroups() {
     }
-    TagGroups.endpoint = 'api/v0/tag groups';
+    TagGroups.endpoint = 'api/v0/tag_groups';
     return TagGroups;
 }());
 exports.TagGroups = TagGroups;
