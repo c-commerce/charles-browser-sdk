@@ -8,6 +8,7 @@
     "pretty": true,
     "target": "es5",
     "module": "es2015",
+    "importHelpers": true,
     "lib": [
       "es2015",
       "es2016",
