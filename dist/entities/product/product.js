@@ -1,61 +1,10 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var _base_1 = __importDefault(require("../_base"));
+var tslib_1 = require("tslib");
+var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var Product = (function (_super) {
-    __extends(Product, _super);
+    tslib_1.__extends(Product, _super);
     function Product(options) {
         var _a;
         var _this = _super.call(this) || this;
@@ -189,9 +138,9 @@ var Product = (function (_super) {
         };
     };
     Product.prototype.init = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var err_1;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
@@ -218,7 +167,7 @@ var Products = (function () {
 }());
 exports.Products = Products;
 var ProductInitializationError = (function (_super) {
-    __extends(ProductInitializationError, _super);
+    tslib_1.__extends(ProductInitializationError, _super);
     function ProductInitializationError(message, properties) {
         if (message === void 0) { message = 'Could not initialize product.'; }
         var _this = _super.call(this, message, properties) || this;
@@ -230,7 +179,7 @@ var ProductInitializationError = (function (_super) {
 }(errors_1.BaseError));
 exports.ProductInitializationError = ProductInitializationError;
 var ProductFetchRemoteError = (function (_super) {
-    __extends(ProductFetchRemoteError, _super);
+    tslib_1.__extends(ProductFetchRemoteError, _super);
     function ProductFetchRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not get product.'; }
         var _this = _super.call(this, message, properties) || this;
@@ -242,7 +191,7 @@ var ProductFetchRemoteError = (function (_super) {
 }(errors_1.BaseError));
 exports.ProductFetchRemoteError = ProductFetchRemoteError;
 var ProductsFetchRemoteError = (function (_super) {
-    __extends(ProductsFetchRemoteError, _super);
+    tslib_1.__extends(ProductsFetchRemoteError, _super);
     function ProductsFetchRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not get products.'; }
         var _this = _super.call(this, message, properties) || this;

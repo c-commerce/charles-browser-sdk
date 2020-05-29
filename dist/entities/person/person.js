@@ -1,76 +1,14 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var _base_1 = __importDefault(require("../_base"));
+var tslib_1 = require("tslib");
+var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var channel_user_1 = require("./channel-user");
 var email_1 = require("./email");
 var cart_1 = require("../cart/cart");
-var just_omit_1 = __importDefault(require("just-omit"));
+var just_omit_1 = tslib_1.__importDefault(require("just-omit"));
 var AddressArray = (function (_super) {
-    __extends(AddressArray, _super);
+    tslib_1.__extends(AddressArray, _super);
     function AddressArray(items, universe, http, person) {
         var _this = _super.apply(this, items) || this;
         _this.universe = universe;
@@ -87,17 +25,17 @@ var AddressArray = (function (_super) {
         return items.map(function (item) { return item.serialize(); });
     };
     AddressArray.prototype.fetch = function (options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, resources, err_1;
             var _this = this;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         opts = {
                             method: 'GET',
                             url: this.universe.universeBase + "/" + People.endpoint + "/" + this.person.id + "/addresses",
-                            params: __assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
+                            params: tslib_1.__assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
                         };
                         return [4, this.http.getClient()(opts)];
                     case 1:
@@ -118,10 +56,10 @@ var AddressArray = (function (_super) {
         });
     };
     AddressArray.prototype.create = function (payload) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, resources, err_2;
             var _this = this;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
@@ -148,7 +86,7 @@ var AddressArray = (function (_super) {
     return AddressArray;
 }(Array));
 var Person = (function (_super) {
-    __extends(Person, _super);
+    tslib_1.__extends(Person, _super);
     function Person(options) {
         var _a;
         var _this = _super.call(this) || this;
@@ -263,9 +201,9 @@ var Person = (function (_super) {
         };
     };
     Person.prototype.init = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var err_3;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
@@ -286,8 +224,8 @@ var Person = (function (_super) {
         });
     };
     Person.prototype.patch = function (changePart) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, _super.prototype.patch.call(this, just_omit_1.default(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users']))];
                     case 1: return [2, _a.sent()];
@@ -298,9 +236,9 @@ var Person = (function (_super) {
     Person.prototype.analytics = function () {
         var _this = this;
         return {
-            snapshot: function () { return __awaiter(_this, void 0, void 0, function () {
+            snapshot: function () { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                 var response, err_4;
-                return __generator(this, function (_a) {
+                return tslib_1.__generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
                             _a.trys.push([0, 2, , 3]);
@@ -334,17 +272,17 @@ var Person = (function (_super) {
                 toJson: function (feeds) {
                     return feeds.map(function (item) { return item.serialize(); });
                 },
-                fetch: function (options) { return __awaiter(_this, void 0, void 0, function () {
+                fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     var opts, res, feeds, err_5;
                     var _this = this;
-                    return __generator(this, function (_a) {
+                    return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
                                 _a.trys.push([0, 2, , 3]);
                                 opts = {
                                     method: 'GET',
                                     url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/carts",
-                                    params: __assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
+                                    params: tslib_1.__assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
                                 };
                                 return [4, this.http.getClient()(opts)];
                             case 1:
@@ -363,10 +301,10 @@ var Person = (function (_super) {
                         }
                     });
                 }); },
-                create: function (cart) { return __awaiter(_this, void 0, void 0, function () {
+                create: function (cart) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     var opts, res, carts, err_6;
                     var _this = this;
-                    return __generator(this, function (_a) {
+                    return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
                                 _a.trys.push([0, 2, , 3]);
@@ -407,13 +345,13 @@ var Person = (function (_super) {
         configurable: true
     });
     Person.prototype.email = function (payload) {
-        return email_1.Email.create(__assign(__assign({}, payload), { person: this.id }), this.universe, this.http);
+        return email_1.Email.create(tslib_1.__assign(tslib_1.__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
     Person.prototype.phonenumber = function (payload) {
-        return Phonenumber.create(__assign(__assign({}, payload), { person: this.id }), this.universe, this.http);
+        return Phonenumber.create(tslib_1.__assign(tslib_1.__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
     Person.prototype.address = function (payload) {
-        return Address.create(__assign(__assign({}, payload), { person: this.id }), this.universe, this.http);
+        return Address.create(tslib_1.__assign(tslib_1.__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
     return Person;
 }(_base_1.default));
@@ -518,7 +456,7 @@ var Phonenumber = (function () {
 }());
 exports.Phonenumber = Phonenumber;
 var PersonInitializationError = (function (_super) {
-    __extends(PersonInitializationError, _super);
+    tslib_1.__extends(PersonInitializationError, _super);
     function PersonInitializationError(message, properties) {
         if (message === void 0) { message = 'Could not initialize person.'; }
         var _this = _super.call(this, message, properties) || this;
@@ -531,7 +469,7 @@ var PersonInitializationError = (function (_super) {
 }(errors_1.BaseError));
 exports.PersonInitializationError = PersonInitializationError;
 var PersonFetchRemoteError = (function (_super) {
-    __extends(PersonFetchRemoteError, _super);
+    tslib_1.__extends(PersonFetchRemoteError, _super);
     function PersonFetchRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not get person.'; }
         var _this = _super.call(this, message, properties) || this;
@@ -544,7 +482,7 @@ var PersonFetchRemoteError = (function (_super) {
 }(errors_1.BaseError));
 exports.PersonFetchRemoteError = PersonFetchRemoteError;
 var PeopleFetchRemoteError = (function (_super) {
-    __extends(PeopleFetchRemoteError, _super);
+    tslib_1.__extends(PeopleFetchRemoteError, _super);
     function PeopleFetchRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not get people.'; }
         var _this = _super.call(this, message, properties) || this;
@@ -557,7 +495,7 @@ var PeopleFetchRemoteError = (function (_super) {
 }(errors_1.BaseError));
 exports.PeopleFetchRemoteError = PeopleFetchRemoteError;
 var PeopleAnalyticsRemoteError = (function (_super) {
-    __extends(PeopleAnalyticsRemoteError, _super);
+    tslib_1.__extends(PeopleAnalyticsRemoteError, _super);
     function PeopleAnalyticsRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not get analytics data.'; }
         var _this = _super.call(this, message, properties) || this;
@@ -570,7 +508,7 @@ var PeopleAnalyticsRemoteError = (function (_super) {
 }(errors_1.BaseError));
 exports.PeopleAnalyticsRemoteError = PeopleAnalyticsRemoteError;
 var AddressFetchRemoteError = (function (_super) {
-    __extends(AddressFetchRemoteError, _super);
+    tslib_1.__extends(AddressFetchRemoteError, _super);
     function AddressFetchRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not get fetch person address data.'; }
         var _this = _super.call(this, message, properties) || this;
@@ -583,7 +521,7 @@ var AddressFetchRemoteError = (function (_super) {
 }(errors_1.BaseError));
 exports.AddressFetchRemoteError = AddressFetchRemoteError;
 var AddressCreateRemoteError = (function (_super) {
-    __extends(AddressCreateRemoteError, _super);
+    tslib_1.__extends(AddressCreateRemoteError, _super);
     function AddressCreateRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not create person address.'; }
         var _this = _super.call(this, message, properties) || this;

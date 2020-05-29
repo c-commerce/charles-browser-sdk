@@ -1,25 +1,10 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var _base_1 = __importDefault(require("../_base"));
+var tslib_1 = require("tslib");
+var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var Email = (function (_super) {
-    __extends(Email, _super);
+    tslib_1.__extends(Email, _super);
     function Email(options) {
         var _a;
         var _this = _super.call(this) || this;
@@ -67,7 +52,7 @@ var Email = (function (_super) {
 }(_base_1.default));
 exports.Email = Email;
 var EmailsFetchRemoteError = (function (_super) {
-    __extends(EmailsFetchRemoteError, _super);
+    tslib_1.__extends(EmailsFetchRemoteError, _super);
     function EmailsFetchRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not get emails.'; }
         var _this = _super.call(this, message, properties) || this;
@@ -80,7 +65,7 @@ var EmailsFetchRemoteError = (function (_super) {
 }(errors_1.BaseError));
 exports.EmailsFetchRemoteError = EmailsFetchRemoteError;
 var EmailCreateRemoteError = (function (_super) {
-    __extends(EmailCreateRemoteError, _super);
+    tslib_1.__extends(EmailCreateRemoteError, _super);
     function EmailCreateRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not create email'; }
         var _this = _super.call(this, message, properties) || this;

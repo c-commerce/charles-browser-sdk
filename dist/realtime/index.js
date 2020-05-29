@@ -1,42 +1,9 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = require("tslib");
 var mqtt_1 = require("mqtt");
-var events_1 = __importDefault(require("events"));
-var uuid = __importStar(require("../helpers/uuid"));
+var events_1 = tslib_1.__importDefault(require("events"));
+var uuid = tslib_1.__importStar(require("../helpers/uuid"));
 var errors_1 = require("../errors");
 var defaultMqttOptions = {
     clean: true,
@@ -47,7 +14,7 @@ var defaultMqttOptions = {
     rejectUnauthorized: false
 };
 var RealtimeClient = (function (_super) {
-    __extends(RealtimeClient, _super);
+    tslib_1.__extends(RealtimeClient, _super);
     function RealtimeClient(options) {
         var _a;
         var _this = _super.call(this) || this;
@@ -55,9 +22,9 @@ var RealtimeClient = (function (_super) {
         _this.connected = false;
         _this.offline = false;
         _this.last = null;
-        _this.options = __assign({ messageType: 'json' }, options);
-        _this.mqttOptions = __assign(__assign({}, defaultMqttOptions), ((_a = options.mqttOptions) !== null && _a !== void 0 ? _a : {}));
-        _this.client = mqtt_1.connect(_this.options.base, __assign(__assign({}, _this.mqttOptions), { username: _this.options.username, password: _this.options.password }));
+        _this.options = tslib_1.__assign({ messageType: 'json' }, options);
+        _this.mqttOptions = tslib_1.__assign(tslib_1.__assign({}, defaultMqttOptions), ((_a = options.mqttOptions) !== null && _a !== void 0 ? _a : {}));
+        _this.client = mqtt_1.connect(_this.options.base, tslib_1.__assign(tslib_1.__assign({}, _this.mqttOptions), { username: _this.options.username, password: _this.options.password }));
         _this.initialized = true;
         _this.client.on('connect', function () {
             _this.emit('connect');
@@ -114,9 +81,9 @@ var RealtimeClient = (function (_super) {
         };
         this.last = Object.assign({}, base);
         if (this.options.messageType === 'string') {
-            return __assign(__assign({}, base), { topic: topic, attributes: {}, payloadType: 'string', payload: message.toString() });
+            return tslib_1.__assign(tslib_1.__assign({}, base), { topic: topic, attributes: {}, payloadType: 'string', payload: message.toString() });
         }
-        return __assign(__assign({}, base), { topic: topic, attributes: {}, payloadType: 'json', payload: JSON.parse(message.toString()) });
+        return tslib_1.__assign(tslib_1.__assign({}, base), { topic: topic, attributes: {}, payloadType: 'json', payload: JSON.parse(message.toString()) });
     };
     RealtimeClient.prototype.subscribe = function (topic, cb) {
         this.getClient().subscribe(topic, cb);
@@ -135,7 +102,7 @@ var RealtimeClient = (function (_super) {
 }(events_1.default.EventEmitter));
 exports.RealtimeClient = RealtimeClient;
 var UninstantiatedMqttClient = (function (_super) {
-    __extends(UninstantiatedMqttClient, _super);
+    tslib_1.__extends(UninstantiatedMqttClient, _super);
     function UninstantiatedMqttClient(message, properties) {
         if (message === void 0) { message = 'Cannot client API without instantiated MQTT client'; }
         var _this = _super.call(this, message, properties) || this;
@@ -147,7 +114,7 @@ var UninstantiatedMqttClient = (function (_super) {
 }(errors_1.BaseError));
 exports.UninstantiatedMqttClient = UninstantiatedMqttClient;
 var UninstantiatedRealtimeClient = (function (_super) {
-    __extends(UninstantiatedRealtimeClient, _super);
+    tslib_1.__extends(UninstantiatedRealtimeClient, _super);
     function UninstantiatedRealtimeClient(message, properties) {
         if (message === void 0) { message = 'Cannot initialize client API without instantiated Realtime client'; }
         var _this = _super.call(this, message, properties) || this;

@@ -1,3 +1,10 @@
+# [2.71.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.70.1...v2.71.0) (2020-05-29)
+
+
+### Features
+
+* **build:** use tslib for smaller build ([6ae6ca1](https://github.com/c-commerce/charles-browser-sdk/commit/6ae6ca1beceaaf3ce51136341d46918d5156d21b))
+
 ## [2.70.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.70.0...v2.70.1) (2020-05-27)
 
 
