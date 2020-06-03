@@ -18,6 +18,11 @@ export interface StaffRawPayload extends EntityRawPayload {
   readonly display_name?: string
   readonly comment?: string
   readonly type?: 'agent' | 'bot'
+  readonly gender?: string
+  readonly user?: string
+  readonly roles?: string[]
+  readonly permissions?: string[]
+
 }
 
 export interface StaffPayload {
@@ -31,6 +36,10 @@ export interface StaffPayload {
   readonly lastName?: StaffRawPayload['last_name']
   readonly comment?: StaffRawPayload['comment']
   readonly type?: StaffRawPayload['type']
+  readonly gender?: StaffRawPayload['gender']
+  readonly user?: StaffRawPayload['user']
+  readonly roles?: StaffRawPayload['roles']
+  readonly permissions?: StaffRawPayload['permissions']
 }
 
 /**
@@ -56,6 +65,10 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
   public lastName?: StaffRawPayload['last_name']
   public comment?: StaffRawPayload['comment']
   public type?: StaffRawPayload['type']
+  public gender?: StaffRawPayload['gender']
+  public user?: StaffRawPayload['user']
+  public roles?: StaffRawPayload['roles']
+  public permissions?: StaffRawPayload['permissions']
 
   constructor (options: StaffOptions) {
     super()
@@ -83,6 +96,10 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
     this.lastName = rawPayload.last_name
     this.comment = rawPayload.comment
     this.type = rawPayload.type
+    this.gender = rawPayload.gender
+    this.user = rawPayload.user
+    this.roles = rawPayload.roles
+    this.permissions = rawPayload.permissions
 
     return this
   }
@@ -102,7 +119,11 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
       middle_name: this.middleName,
       last_name: this.lastName,
       comment: this.comment,
-      type: this.type
+      type: this.type,
+      gender: this.gender,
+      user: this.user,
+      roles: this.roles,
+      permissions: this.permissions
     }
   }
 
