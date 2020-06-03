@@ -15,6 +15,10 @@ export interface StaffRawPayload extends EntityRawPayload {
     readonly display_name?: string;
     readonly comment?: string;
     readonly type?: 'agent' | 'bot';
+    readonly gender?: string;
+    readonly user?: string;
+    readonly roles?: string[];
+    readonly permissions?: string[];
 }
 export interface StaffPayload {
     readonly id?: StaffRawPayload['id'];
@@ -27,6 +31,10 @@ export interface StaffPayload {
     readonly lastName?: StaffRawPayload['last_name'];
     readonly comment?: StaffRawPayload['comment'];
     readonly type?: StaffRawPayload['type'];
+    readonly gender?: StaffRawPayload['gender'];
+    readonly user?: StaffRawPayload['user'];
+    readonly roles?: StaffRawPayload['roles'];
+    readonly permissions?: StaffRawPayload['permissions'];
 }
 export declare class Staff extends Entity<StaffPayload, StaffRawPayload> {
     protected universe: Universe;
@@ -44,6 +52,10 @@ export declare class Staff extends Entity<StaffPayload, StaffRawPayload> {
     lastName?: StaffRawPayload['last_name'];
     comment?: StaffRawPayload['comment'];
     type?: StaffRawPayload['type'];
+    gender?: StaffRawPayload['gender'];
+    user?: StaffRawPayload['user'];
+    roles?: StaffRawPayload['roles'];
+    permissions?: StaffRawPayload['permissions'];
     constructor(options: StaffOptions);
     protected deserialize(rawPayload: StaffRawPayload): Staff;
     static create(payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff;

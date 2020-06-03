@@ -31,6 +31,10 @@ var Staff = (function (_super) {
         this.lastName = rawPayload.last_name;
         this.comment = rawPayload.comment;
         this.type = rawPayload.type;
+        this.gender = rawPayload.gender;
+        this.user = rawPayload.user;
+        this.roles = rawPayload.roles;
+        this.permissions = rawPayload.permissions;
         return this;
     };
     Staff.create = function (payload, universe, http) {
@@ -48,7 +52,11 @@ var Staff = (function (_super) {
             middle_name: this.middleName,
             last_name: this.lastName,
             comment: this.comment,
-            type: this.type
+            type: this.type,
+            gender: this.gender,
+            user: this.user,
+            roles: this.roles,
+            permissions: this.permissions
         };
     };
     Staff.prototype.init = function () {

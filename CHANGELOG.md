@@ -1,3 +1,10 @@
+## [2.71.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.71.0...v2.71.1) (2020-06-03)
+
+
+### Bug Fixes
+
+* **Staff:** Add fields gender, user, roles & permissions ([e2b9ebd](https://github.com/c-commerce/charles-browser-sdk/commit/e2b9ebdd36a58360d971fbf4f0cf7a8ec5ddc1f0))
+
 # [2.71.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.70.1...v2.71.0) (2020-05-29)
 
 
