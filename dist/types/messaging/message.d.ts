@@ -59,6 +59,11 @@ export interface MessageRawPayload {
     };
     readonly person?: PersonRawPayload['id'];
     readonly feed?: FeedRawPayload['id'];
+    readonly author?: {
+        user?: string;
+        staff?: string;
+        person?: string;
+    } | null;
 }
 export interface MessagePayload {
     readonly id?: string;
@@ -80,6 +85,7 @@ export interface MessagePayload {
     readonly isProcessed?: string;
     readonly processedData?: string;
     readonly replyables?: MessageRawPayload['replyables'] | null;
+    readonly author?: MessageRawPayload['author'];
     readonly person?: Person;
     readonly feed?: Feed;
 }
@@ -106,6 +112,7 @@ export declare class Message extends EventEmitter {
     readonly isProcessed?: string;
     readonly processedData?: string;
     readonly replyables?: MessageRawPayload['replyables'];
+    readonly author?: MessageRawPayload['author'];
     readonly person?: Person;
     readonly feed?: Feed;
     constructor(options: MessageOptions);

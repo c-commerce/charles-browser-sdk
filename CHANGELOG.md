@@ -1,3 +1,10 @@
+# [2.72.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.71.1...v2.72.0) (2020-06-05)
+
+
+### Features
+
+* **message:** add author ([9034654](https://github.com/c-commerce/charles-browser-sdk/commit/9034654ebea68c08ca8a2f1997d11efc36a1a460))
+
 ## [2.71.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.71.0...v2.71.1) (2020-06-03)
 
 

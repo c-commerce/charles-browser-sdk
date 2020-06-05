@@ -33,6 +33,7 @@ var Message = (function (_super) {
             _this.isProcessed = options.rawPayload.is_processed;
             _this.processedData = options.rawPayload.processed_data;
             _this.replyables = options.rawPayload.replyables;
+            _this.author = options.rawPayload.author;
             _this.person = options.rawPayload.person ? person_1.Person.create({ id: options.rawPayload.person }, _this.universe, _this.http) : undefined;
             if (options.feed) {
                 _this.feed = options.feed;
@@ -72,6 +73,7 @@ var Message = (function (_super) {
             is_processed: this.isProcessed,
             processed_data: this.processedData,
             replyables: this.replyables,
+            author: this.author,
             person: this.person ? this.person.id : undefined,
             feed: this.feed ? this.feed.id : undefined
         };
