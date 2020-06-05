@@ -15,7 +15,8 @@ export interface ClientOptions {
 
 const defaultHeaders = {
   'X-Client-Type': 'Charles SDK JavaScript',
-  'X-Client-Version': environment.VERSION
+  'X-Client-Version': environment.VERSION,
+  Accept: 'application/json; charset=utf-8'
 }
 
 /**
