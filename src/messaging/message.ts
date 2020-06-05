@@ -63,6 +63,11 @@ export interface MessageRawPayload {
   }
   readonly person?: PersonRawPayload['id']
   readonly feed?: FeedRawPayload['id']
+  readonly author?: {
+    user?: string
+    staff?: string
+    person?: string
+  } | null
 }
 
 export interface MessagePayload {
@@ -85,6 +90,7 @@ export interface MessagePayload {
   readonly isProcessed?: string
   readonly processedData?: string
   readonly replyables?: MessageRawPayload['replyables'] | null
+  readonly author?: MessageRawPayload['author']
   readonly person?: Person
   readonly feed?: Feed
 }
@@ -115,6 +121,7 @@ export class Message extends EventEmitter {
   public readonly isProcessed?: string
   public readonly processedData?: string
   public readonly replyables?: MessageRawPayload['replyables']
+  public readonly author?: MessageRawPayload['author']
   public readonly person?: Person
   public readonly feed?: Feed
 
@@ -144,6 +151,7 @@ export class Message extends EventEmitter {
       this.isProcessed = options.rawPayload.is_processed
       this.processedData = options.rawPayload.processed_data
       this.replyables = options.rawPayload.replyables
+      this.author = options.rawPayload.author
       this.person = options.rawPayload.person ? Person.create({ id: options.rawPayload.person }, this.universe, this.http) : undefined
 
       if (options.feed) {
@@ -184,6 +192,7 @@ export class Message extends EventEmitter {
       is_processed: this.isProcessed,
       processed_data: this.processedData,
       replyables: this.replyables,
+      author: this.author,
       person: this.person ? this.person.id : undefined,
       feed: this.feed ? this.feed.id : undefined
     }
