@@ -32,6 +32,8 @@ import * as customProperty from '../entities/custom-property/custom-property'
 import * as tag from '../entities/tag/tag'
 import * as tagGroup from '../entities/tag-group/tag-group'
 
+import * as configuration from '../entities/configuration/configuration'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -521,6 +523,10 @@ export class Universe extends Readable {
     return tagGroup.TagGroup.create(payload, this, this.http)
   }
 
+  public configuration (payload: configuration.ConfigurationRawPayload): configuration.Configuration {
+    return configuration.Configuration.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -915,6 +921,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new tagGroup.TagGroupsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async configurations (options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${configuration.Configurations.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as configuration.ConfigurationRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: configuration.ConfigurationRawPayload) => {
+        return configuration.Configuration.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new configuration.ConfigurationsFetchRemoteError(undefined, { error: err })
     }
   }
 
