@@ -1,3 +1,10 @@
+# [2.73.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.72.0...v2.73.0) (2020-06-07)
+
+
+### Features
+
+* **configuration:** add configurations ([a3c1581](https://github.com/c-commerce/charles-browser-sdk/commit/a3c1581e99564db8d696dc09e6424b9cc95b4b15))
+
 # [2.72.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.71.1...v2.72.0) (2020-06-05)
 
 
