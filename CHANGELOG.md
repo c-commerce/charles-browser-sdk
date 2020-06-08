@@ -1,3 +1,10 @@
+## [2.73.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.73.0...v2.73.1) (2020-06-08)
+
+
+### Bug Fixes
+
+* **MessageTemplate:** Add notification flag ([49a921f](https://github.com/c-commerce/charles-browser-sdk/commit/49a921fe6d0187eb466513241e9f64d6c76953cc))
+
 # [2.73.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.72.0...v2.73.0) (2020-06-07)
 
 
