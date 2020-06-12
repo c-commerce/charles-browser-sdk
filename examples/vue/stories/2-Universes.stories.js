@@ -50,6 +50,9 @@ export const AuthAndInitialization = () => ({
     authAction: function () {
       action('auth-attempt').call(this, ...arguments)
     },
+    universeAction: function () {
+      action('universe').call(this, ...arguments)
+    },
     authSuccessAction: function () {
       this.token = [...arguments][0].access_token
 
@@ -69,6 +72,8 @@ export const AuthAndInitialization = () => ({
       })
 
       await universe.init()
+
+      this.universeAction(universe)
 
       this.localUniversePayload = universe.payload
     }

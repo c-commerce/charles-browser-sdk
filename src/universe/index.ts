@@ -78,6 +78,11 @@ export interface UniversePayload {
   createdAt: Date | null
 }
 
+export interface UniverseSelf {
+  configuration?: null | configuration.Configuration
+  name: UniverseOptions['name']
+}
+
 export interface UniverseFetchQuery {
   [key: string]: any
 }
@@ -234,6 +239,8 @@ export class Universe extends Readable {
   public payload: UniversePayload | null = null
   public user: UniverseUser
 
+  private readonly self: UniverseSelf
+
   protected http: Client
   private mqtt: realtime.RealtimeClient | null = null
   public base: string
@@ -248,6 +255,10 @@ export class Universe extends Readable {
     this.user = options.user
     this.base = this.options.base ?? 'https://hello-charles.com'
     this.universeBase = options.universeBase ?? `https://${this.name}.hello-charles.com`
+    this.self = {
+      name: this.name,
+      configuration: null
+    }
 
     this.status = new UniverseStatus({ universe: this })
     this.health = new UniverseHealth({ universe: this })
@@ -258,9 +269,11 @@ export class Universe extends Readable {
 
   public async init (): Promise<Universe | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.base}/${Universe.endpoint}/${this.name}`)
+      const unsiverseRes = await this.http.getClient().get(`${this.base}/${Universe.endpoint}/${this.name}`)
+      const unsiverseConfigurationRes = await this.fetchSelfConfiguration()
 
-      this.setInitialized(res.data.data[0])
+      this.setInitialized(unsiverseRes.data.data[0])
+      this.setSelfConfiguration(unsiverseConfigurationRes)
       this.setMqttClient()
 
       this.getMqttClient().on('error', (error) => {
@@ -292,6 +305,19 @@ export class Universe extends Readable {
     return this
   }
 
+  public getSelf (): UniverseSelf {
+    return this.self
+  }
+
+  public getSelfConfiguration (): UniverseSelf['configuration'] {
+    return this.self.configuration
+  }
+
+  private setSelfConfiguration (config: configuration.Configuration | null): Universe {
+    this.self.configuration = config
+    return this
+  }
+
   private setMqttClient (): void {
     const realtimeOpts = {
       base: `wss:${this.name}.hello-charles.com`,
@@ -320,6 +346,13 @@ export class Universe extends Readable {
   private subscibeDefaults (): void {
     this.getMqttClient()
       .subscribe(this.defaultSubscriptions)
+  }
+
+  private async fetchSelfConfiguration (): Promise<configuration.Configuration | null> {
+    const configs = await this.configurations({ query: { owner: 'self' } })
+    if (!configs || !Array.isArray(configs) || !configs.length) return null
+
+    return (configs as configuration.Configuration[]).find((item: configuration.Configuration) => (item.owner === 'self')) ?? null
   }
 
   /**
