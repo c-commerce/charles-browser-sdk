@@ -1,3 +1,11 @@
+# [2.74.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.73.1...v2.74.0) (2020-06-12)
+
+
+### Features
+
+* **client:** set default accept ([9b1fa9b](https://github.com/c-commerce/charles-browser-sdk/commit/9b1fa9b5e2b4bbb79725ce39f414ac761e654032))
+* **universe:** init with config ([3acae5a](https://github.com/c-commerce/charles-browser-sdk/commit/3acae5a949c0780cdee5e5674331ef823e43ad7f))
+
 ## [2.73.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.73.0...v2.73.1) (2020-06-08)
 
 

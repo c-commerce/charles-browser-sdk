@@ -5,7 +5,8 @@ var axios_1 = tslib_1.__importDefault(require("axios"));
 var environment_1 = require("./environment");
 var defaultHeaders = {
     'X-Client-Type': 'Charles SDK JavaScript',
-    'X-Client-Version': environment_1.environment.VERSION
+    'X-Client-Version': environment_1.environment.VERSION,
+    Accept: 'application/json; charset=utf-8'
 };
 var Client = (function () {
     function Client(options) {

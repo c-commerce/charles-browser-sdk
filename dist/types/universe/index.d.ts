@@ -46,6 +46,10 @@ export interface UniversePayload {
     updatedAt: Date | null;
     createdAt: Date | null;
 }
+export interface UniverseSelf {
+    configuration?: null | configuration.Configuration;
+    name: UniverseOptions['name'];
+}
 export interface UniverseFetchQuery {
     [key: string]: any;
 }
@@ -137,6 +141,7 @@ export declare class Universe extends Readable {
     initialized: boolean;
     payload: UniversePayload | null;
     user: UniverseUser;
+    private readonly self;
     protected http: Client;
     private mqtt;
     base: string;
@@ -146,9 +151,13 @@ export declare class Universe extends Readable {
     init(): Promise<Universe | undefined>;
     private static parsePayload;
     private setInitialized;
+    getSelf(): UniverseSelf;
+    getSelfConfiguration(): UniverseSelf['configuration'];
+    private setSelfConfiguration;
     private setMqttClient;
     private get defaultSubscriptions();
     private subscibeDefaults;
+    private fetchSelfConfiguration;
     private handleMessage;
     private getMqttClient;
     create(options: UniverseOptions): Universe;
