@@ -114,37 +114,67 @@ exports.default = {
             };
             return class_7;
         }(TopicGenerator)))(),
+        feedTyping: new ((function (_super) {
+            tslib_1.__extends(class_8, _super);
+            function class_8() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.template = 'api/feeds/${id}/typing';
+                return _this;
+            }
+            class_8.prototype.generateTopic = function (data) {
+                return this.template.replace('${id}', data.id);
+            };
+            class_8.prototype.isTopic = function (topic, data) {
+                return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic);
+            };
+            return class_8;
+        }(TopicGenerator)))(),
+        feedPresence: new ((function (_super) {
+            tslib_1.__extends(class_9, _super);
+            function class_9() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.template = 'api/feeds/${id}/presence';
+                return _this;
+            }
+            class_9.prototype.generateTopic = function (data) {
+                return this.template.replace('${id}', data.id);
+            };
+            class_9.prototype.isTopic = function (topic, data) {
+                return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic);
+            };
+            return class_9;
+        }(TopicGenerator)))(),
         clients: {
             arm: new ((function (_super) {
-                tslib_1.__extends(class_8, _super);
-                function class_8() {
+                tslib_1.__extends(class_10, _super);
+                function class_10() {
                     var _this = _super !== null && _super.apply(this, arguments) || this;
                     _this.template = 'api/clients/${clientId}/arm';
                     return _this;
                 }
-                class_8.prototype.generateTopic = function (data) {
+                class_10.prototype.generateTopic = function (data) {
                     return just_template_1.default(this.template, data);
                 };
-                class_8.prototype.isTopic = function (topic) {
+                class_10.prototype.isTopic = function (topic) {
                     return new RegExp(this.template.replace('${clientId}', '\\w+'), 'g').test(topic);
                 };
-                return class_8;
+                return class_10;
             }(TopicGenerator)))()
         },
         people: new ((function (_super) {
-            tslib_1.__extends(class_9, _super);
-            function class_9() {
+            tslib_1.__extends(class_11, _super);
+            function class_11() {
                 var _this = _super !== null && _super.apply(this, arguments) || this;
                 _this.template = 'api/people';
                 return _this;
             }
-            class_9.prototype.generateTopic = function () {
+            class_11.prototype.generateTopic = function () {
                 return this.template;
             };
-            class_9.prototype.isTopic = function (topic) {
+            class_11.prototype.isTopic = function (topic) {
                 return topic === this.template;
             };
-            return class_9;
+            return class_11;
         }(TopicGenerator)))()
     }
 };

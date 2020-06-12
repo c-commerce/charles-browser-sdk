@@ -1,3 +1,15 @@
+# [2.75.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.74.0...v2.75.0) (2020-06-12)
+
+
+### Features
+
+* **feed:** add typing and presence ([a4eed2d](https://github.com/c-commerce/charles-browser-sdk/commit/a4eed2dee2523724d65c00e72e30815ae492fce8))
+
+
+### Reverts
+
+* **universe:** do not get unnecessary config ([8898d11](https://github.com/c-commerce/charles-browser-sdk/commit/8898d1127538076d051f7f6d78b4500daab5d738))
+
 # [2.74.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.73.1...v2.74.0) (2020-06-12)
 
 

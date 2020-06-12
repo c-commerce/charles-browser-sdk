@@ -95,6 +95,13 @@ var RealtimeClient = (function (_super) {
         return this;
     };
     RealtimeClient.prototype.publish = function (topic, payload) {
+        var _this = this;
+        if (Array.isArray(topic)) {
+            topic.forEach(function (item) {
+                _this.getClient().publish(item, payload);
+            });
+            return this;
+        }
         this.getClient().publish(topic, payload);
         return this;
     };

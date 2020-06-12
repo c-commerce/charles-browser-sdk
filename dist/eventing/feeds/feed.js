@@ -127,7 +127,9 @@ var Feed = (function (_super) {
         get: function () {
             return [
                 topics_1.default.api.feedMessages.generateTopic(this.serialize()),
-                topics_1.default.api.feedEvents.generateTopic(this.serialize())
+                topics_1.default.api.feedEvents.generateTopic(this.serialize()),
+                topics_1.default.api.feedTyping.generateTopic(this.serialize()),
+                topics_1.default.api.feedPresence.generateTopic(this.serialize())
             ];
         },
         enumerable: true,
@@ -306,6 +308,26 @@ var Feed = (function (_super) {
     };
     Feed.prototype.getEventsMap = function () {
         return this.eventsMap;
+    };
+    Feed.prototype.presence = function (payload) {
+        var _a;
+        var id = this.id;
+        var topics = [
+            'api/feeds/*/presence',
+            "api/feeds/" + id + "/presence"
+        ];
+        (_a = this.mqtt) === null || _a === void 0 ? void 0 : _a.publish(topics, payload);
+        return this;
+    };
+    Feed.prototype.typing = function (payload) {
+        var _a;
+        var id = this.id;
+        var topics = [
+            'api/feeds/*/typing',
+            "api/feeds/" + id + "/typing"
+        ];
+        (_a = this.mqtt) === null || _a === void 0 ? void 0 : _a.publish(topics, payload);
+        return this;
     };
     return Feed;
 }(_base_1.default));

@@ -43,10 +43,6 @@ var Universe = (function (_super) {
         _this.user = options.user;
         _this.base = (_a = _this.options.base) !== null && _a !== void 0 ? _a : 'https://hello-charles.com';
         _this.universeBase = (_b = options.universeBase) !== null && _b !== void 0 ? _b : "https://" + _this.name + ".hello-charles.com";
-        _this.self = {
-            name: _this.name,
-            configuration: null
-        };
         _this.status = new status_1.UniverseStatus({ universe: _this });
         _this.health = new status_1.UniverseHealth({ universe: _this });
         _this.http = options.http;
@@ -54,29 +50,25 @@ var Universe = (function (_super) {
     }
     Universe.prototype.init = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var unsiverseRes, unsiverseConfigurationRes, err_1;
+            var res, err_1;
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
+                        _a.trys.push([0, 2, , 3]);
                         return [4, this.http.getClient().get(this.base + "/" + Universe.endpoint + "/" + this.name)];
                     case 1:
-                        unsiverseRes = _a.sent();
-                        return [4, this.fetchSelfConfiguration()];
-                    case 2:
-                        unsiverseConfigurationRes = _a.sent();
-                        this.setInitialized(unsiverseRes.data.data[0]);
-                        this.setSelfConfiguration(unsiverseConfigurationRes);
+                        res = _a.sent();
+                        this.setInitialized(res.data.data[0]);
                         this.setMqttClient();
                         this.getMqttClient().on('error', function (error) {
                             _this.handleError(error);
                         });
                         return [2, this];
-                    case 3:
+                    case 2:
                         err_1 = _a.sent();
                         throw new UniverseInitializationError(undefined, { error: err_1 });
-                    case 4: return [2];
+                    case 3: return [2];
                 }
             });
         });
@@ -97,16 +89,6 @@ var Universe = (function (_super) {
     Universe.prototype.setInitialized = function (payload) {
         this.payload = Universe.parsePayload(payload);
         this.initialized = true;
-        return this;
-    };
-    Universe.prototype.getSelf = function () {
-        return this.self;
-    };
-    Universe.prototype.getSelfConfiguration = function () {
-        return this.self.configuration;
-    };
-    Universe.prototype.setSelfConfiguration = function (config) {
-        this.self.configuration = config;
         return this;
     };
     Universe.prototype.setMqttClient = function () {
@@ -140,22 +122,6 @@ var Universe = (function (_super) {
     Universe.prototype.subscibeDefaults = function () {
         this.getMqttClient()
             .subscribe(this.defaultSubscriptions);
-    };
-    Universe.prototype.fetchSelfConfiguration = function () {
-        var _a;
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var configs;
-            return tslib_1.__generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4, this.configurations({ query: { owner: 'self' } })];
-                    case 1:
-                        configs = _b.sent();
-                        if (!configs || !Array.isArray(configs) || !configs.length)
-                            return [2, null];
-                        return [2, (_a = configs.find(function (item) { return (item.owner === 'self'); })) !== null && _a !== void 0 ? _a : null];
-                }
-            });
-        });
     };
     Universe.prototype.handleMessage = function (msg) {
         if (topics_1.default.api.clients.arm.isTopic(msg.topic)) {

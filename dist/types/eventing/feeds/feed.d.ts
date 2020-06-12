@@ -3,6 +3,7 @@ import { BaseError } from '../../errors';
 import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse, ReplyOptions } from '../../messaging/message';
 import { Asset } from '../../entities/asset';
 import { Person, PersonRawPayload } from '../../entities/person';
+import { StaffRawPayload } from '../../entities/staff';
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event';
 import { Comment } from './comment';
 import Entity, { EntitiesList, EntityFetchOptions } from '../../entities/_base';
@@ -47,6 +48,13 @@ export interface FeedEventKV {
     event: Event;
 }
 export declare type FeedEventsMap = Map<Event['id'], Event>;
+interface FeedEventFromAgentBase {
+    user: string;
+    staff: StaffRawPayload['id'];
+    feed: FeedRawPayload['id'];
+}
+export declare type FeedPresencePayload = FeedEventFromAgentBase;
+export declare type FeedTypingPayload = FeedEventFromAgentBase;
 export declare interface Feed {
     on(event: 'raw-error' | 'error', cb: (error: Error) => void): this;
     on(event: 'feed:message' | 'feed:event' | string, cb: Function): this;
@@ -90,6 +98,8 @@ export declare class Feed extends Entity<FeedPayload, FeedRawPayload> {
     viewed(): Promise<Event | undefined>;
     events(): Event[];
     getEventsMap(): Feed['eventsMap'];
+    presence(payload: FeedPresencePayload): Feed;
+    typing(payload: FeedTypingPayload): Feed;
 }
 export interface FeedsOptions {
     universe: Universe;
@@ -162,3 +172,4 @@ export declare class FeedsFetchRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export {};
