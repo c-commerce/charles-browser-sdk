@@ -10,6 +10,7 @@ import {
 } from '../../messaging/message'
 import { Asset, Assets } from '../../entities/asset'
 import { Person, PersonRawPayload } from '../../entities/person'
+import { StaffRawPayload } from '../../entities/staff'
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event'
 import { Comment, CommentRawPayload } from './comment'
 import Entity, { EntitiesList, EntityFetchOptions } from '../../entities/_base'
@@ -61,6 +62,15 @@ export interface FeedEventKV {
 }
 
 export type FeedEventsMap = Map<Event['id'], Event>
+
+interface FeedEventFromAgentBase {
+  user: string
+  staff: StaffRawPayload['id']
+  feed: FeedRawPayload['id']
+}
+
+export type FeedPresencePayload = FeedEventFromAgentBase;
+export type FeedTypingPayload = FeedEventFromAgentBase;
 
 export declare interface Feed {
   on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
@@ -219,7 +229,9 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   private get defaultSubscriptions (): string[] {
     return [
       universeTopics.api.feedMessages.generateTopic(this.serialize()),
-      universeTopics.api.feedEvents.generateTopic(this.serialize())
+      universeTopics.api.feedEvents.generateTopic(this.serialize()),
+      universeTopics.api.feedTyping.generateTopic(this.serialize()),
+      universeTopics.api.feedPresence.generateTopic(this.serialize())
     ]
   }
 
@@ -378,7 +390,34 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   public getEventsMap (): Feed['eventsMap'] {
     return this.eventsMap
   }
+
+  public presence (payload: FeedPresencePayload): Feed {
+    const id = this.id as string
+
+    const topics = [
+      'api/feeds/*/presence',
+      `api/feeds/${id}/presence`
+    ]
+
+    this.mqtt?.publish(topics, payload)
+
+    return this
+  }
+
+  public typing (payload: FeedTypingPayload): Feed {
+    const id = this.id as string
+
+    const topics = [
+      'api/feeds/*/typing',
+      `api/feeds/${id}/typing`
+    ]
+
+    this.mqtt?.publish(topics, payload)
+
+    return this
+  }
 }
+
 export interface FeedsOptions {
   universe: Universe
   http: Universe['http']

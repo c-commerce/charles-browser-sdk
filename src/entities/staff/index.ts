@@ -2,11 +2,13 @@
 import {
   Staff,
   Staffs,
-  StaffsFetchRemoteError
+  StaffsFetchRemoteError,
+  StaffRawPayload
 } from './staff'
 
 export {
   Staff,
   Staffs,
-  StaffsFetchRemoteError
+  StaffsFetchRemoteError,
+  StaffRawPayload
 }

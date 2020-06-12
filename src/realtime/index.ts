@@ -232,8 +232,17 @@ export class RealtimeClient extends events.EventEmitter {
     return this
   }
 
-  public publish (topic: string, payload?: any): RealtimeClient {
+  public publish (topic: string | string[], payload?: any): RealtimeClient {
+    if (Array.isArray(topic)) {
+      topic.forEach((item: string) => {
+        this.getClient().publish(item, payload)
+      })
+
+      return this
+    }
+
     this.getClient().publish(topic, payload)
+
     return this
   }
 }
