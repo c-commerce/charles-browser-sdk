@@ -1,5 +1,6 @@
 import Entity, { EntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
+import { Inventory } from '../inventory';
 import { BaseError } from '../../errors';
 export interface ProductOptions extends EntityOptions {
     rawPayload?: ProductRawPayload;
@@ -73,6 +74,7 @@ export interface ProductRawPayload extends EntityRawPayload {
     readonly online_available?: boolean;
     readonly shipping_required?: boolean;
     readonly proxy_configuration?: object;
+    readonly inventory_external_reference_id?: string | null;
     readonly metadata?: object;
     readonly prices?: {
         default_prices: ProductRawPayloadPrice[];
@@ -130,6 +132,7 @@ export interface ProductPayload {
     readonly online_available?: boolean;
     readonly shipping_required?: boolean;
     readonly proxy_configuration?: object;
+    readonly inventoryExternalReferenceId?: ProductRawPayload['inventory_external_reference_id'];
     readonly metadata?: object;
     readonly prices?: ProductRawPayload['prices'];
     readonly children?: ProductRawPayload['children'];
@@ -191,6 +194,7 @@ export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
     onlineAvailable?: ProductPayload['online_available'];
     shippingFequired?: ProductPayload['shipping_required'];
     proxyConfiguration?: ProductPayload['proxy_configuration'];
+    inventoryExternalReferenceId?: ProductPayload['inventoryExternalReferenceId'];
     metadata?: ProductPayload['metadata'];
     children?: ProductPayload['children'];
     attributesOptions?: ProductPayload['options'];
@@ -199,6 +203,7 @@ export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
     static create(payload: ProductRawPayload, universe: Universe, http: Universe['http']): Product;
     serialize(): ProductRawPayload;
     init(): Promise<Product | undefined>;
+    inventory(): Promise<Inventory[] | undefined>;
 }
 export declare class Products {
     static endpoint: string;
@@ -214,6 +219,11 @@ export declare class ProductFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class ProductsFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class ProductInventoryError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

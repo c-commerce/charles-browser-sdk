@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
+var inventory_1 = require("../inventory");
 var errors_1 = require("../../errors");
 var Product = (function (_super) {
     tslib_1.__extends(Product, _super);
@@ -70,6 +71,7 @@ var Product = (function (_super) {
         this.onlineAvailable = (_j = rawPayload.online_available) !== null && _j !== void 0 ? _j : true;
         this.shippingFequired = (_k = rawPayload.shipping_required) !== null && _k !== void 0 ? _k : true;
         this.proxyConfiguration = rawPayload.proxy_configuration;
+        this.inventoryExternalReferenceId = rawPayload.inventory_external_reference_id;
         this.metadata = rawPayload.metadata;
         this.prices = rawPayload.prices;
         this.children = rawPayload.children;
@@ -131,6 +133,7 @@ var Product = (function (_super) {
             online_available: (_j = this.onlineAvailable) !== null && _j !== void 0 ? _j : true,
             shipping_required: (_k = this.shippingFequired) !== null && _k !== void 0 ? _k : true,
             proxy_configuration: this.proxyConfiguration,
+            inventory_external_reference_id: this.inventoryExternalReferenceId,
             metadata: this.metadata,
             prices: this.prices,
             children: this.children,
@@ -151,6 +154,39 @@ var Product = (function (_super) {
                     case 2:
                         err_1 = _a.sent();
                         throw this.handleError(new ProductInitializationError(undefined, { error: err_1 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Product.prototype.inventory = function () {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, response, resources, err_2;
+            var _this = this;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/inventory",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: undefined,
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 1:
+                        response = _c.sent();
+                        resources = response.data.data;
+                        return [2, resources.map(function (resource) {
+                                return inventory_1.Inventory.create(resource, _this.universe, _this.http);
+                            })];
+                    case 2:
+                        err_2 = _c.sent();
+                        throw this.handleError(new ProductInventoryError(undefined, { error: err_2 }));
                     case 3: return [2];
                 }
             });
@@ -202,4 +238,16 @@ var ProductsFetchRemoteError = (function (_super) {
     return ProductsFetchRemoteError;
 }(errors_1.BaseError));
 exports.ProductsFetchRemoteError = ProductsFetchRemoteError;
+var ProductInventoryError = (function (_super) {
+    tslib_1.__extends(ProductInventoryError, _super);
+    function ProductInventoryError(message, properties) {
+        if (message === void 0) { message = 'Could not get product inventory.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'ProductInventoryError';
+        return _this;
+    }
+    return ProductInventoryError;
+}(errors_1.BaseError));
+exports.ProductInventoryError = ProductInventoryError;
 //# sourceMappingURL=product.js.map

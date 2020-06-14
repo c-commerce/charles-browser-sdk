@@ -1,3 +1,10 @@
+# [2.76.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.75.0...v2.76.0) (2020-06-14)
+
+
+### Features
+
+* **products:** add inventory ([a2d7b24](https://github.com/c-commerce/charles-browser-sdk/commit/a2d7b2418f8cae7a455bed761527fdb2684fddf3))
+
 # [2.75.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.74.0...v2.75.0) (2020-06-12)
 
 

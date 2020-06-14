@@ -25,6 +25,7 @@ import * as customProperty from '../entities/custom-property/custom-property';
 import * as tag from '../entities/tag/tag';
 import * as tagGroup from '../entities/tag-group/tag-group';
 import * as configuration from '../entities/configuration/configuration';
+import * as inventory from '../entities/inventory/inventory';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -180,6 +181,7 @@ export declare class Universe extends Readable {
     tag(payload: tag.TagRawPayload): tag.Tag;
     tagGroup(payload: tagGroup.TagGroupRawPayload): tagGroup.TagGroup;
     configuration(payload: configuration.ConfigurationRawPayload): configuration.Configuration;
+    inventory(payload: inventory.InventoryRawPayload): inventory.Inventory;
     me(): Promise<MeData | undefined>;
     get feeds(): UniverseFeeds;
     staffs(options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined>;
@@ -199,6 +201,7 @@ export declare class Universe extends Readable {
     tags(options?: EntityFetchOptions): Promise<tag.Tag[] | tag.TagRawPayload[] | undefined>;
     tagGroups(options?: EntityFetchOptions): Promise<tagGroup.TagGroup[] | tagGroup.TagGroupRawPayload[] | undefined>;
     configurations(options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined>;
+    inventories(options?: EntityFetchOptions): Promise<inventory.Inventory[] | inventory.InventoryRawPayload[] | undefined>;
     arm(): Universe;
     get search(): UniverseSearches;
     private searchEntity;
