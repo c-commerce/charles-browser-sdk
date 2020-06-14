@@ -1,6 +1,7 @@
 
 import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
+import { Inventory, InventoryRawPayload } from '../inventory'
 import { BaseError } from '../../errors'
 
 export interface ProductOptions extends EntityOptions {
@@ -78,6 +79,7 @@ export interface ProductRawPayload extends EntityRawPayload {
   readonly online_available?: boolean
   readonly shipping_required?: boolean
   readonly proxy_configuration?: object
+  readonly inventory_external_reference_id?: string | null
   readonly metadata?: object
   readonly prices?: {
     default_prices: ProductRawPayloadPrice[]
@@ -138,6 +140,7 @@ export interface ProductPayload {
   readonly online_available?: boolean
   readonly shipping_required?: boolean
   readonly proxy_configuration?: object
+  readonly inventoryExternalReferenceId?: ProductRawPayload['inventory_external_reference_id']
   readonly metadata?: object
   readonly prices?: ProductRawPayload['prices']
 
@@ -212,6 +215,7 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
   public onlineAvailable?: ProductPayload['online_available']
   public shippingFequired?: ProductPayload['shipping_required']
   public proxyConfiguration?: ProductPayload['proxy_configuration']
+  public inventoryExternalReferenceId?: ProductPayload['inventoryExternalReferenceId']
   public metadata?: ProductPayload['metadata']
 
   public children?: ProductPayload['children']
@@ -282,6 +286,7 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
     this.onlineAvailable = rawPayload.online_available ?? true
     this.shippingFequired = rawPayload.shipping_required ?? true
     this.proxyConfiguration = rawPayload.proxy_configuration
+    this.inventoryExternalReferenceId = rawPayload.inventory_external_reference_id
     this.metadata = rawPayload.metadata
     this.prices = rawPayload.prices
 
@@ -347,6 +352,7 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
       online_available: this.onlineAvailable ?? true,
       shipping_required: this.shippingFequired ?? true,
       proxy_configuration: this.proxyConfiguration,
+      inventory_external_reference_id: this.inventoryExternalReferenceId,
       metadata: this.metadata,
       prices: this.prices,
       children: this.children,
@@ -361,6 +367,30 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
       return this
     } catch (err) {
       throw this.handleError(new ProductInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public async inventory (): Promise<Inventory[] | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/inventory`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      const resources = response.data.data as InventoryRawPayload[]
+
+      return resources.map((resource: InventoryRawPayload) => {
+        return Inventory.create(resource, this.universe, this.http)
+      })
+    } catch (err) {
+      throw this.handleError(new ProductInventoryError(undefined, { error: err }))
     }
   }
 }
@@ -387,6 +417,13 @@ export class ProductFetchRemoteError extends BaseError {
 export class ProductsFetchRemoteError extends BaseError {
   public name = 'ProductsFetchRemoteError'
   constructor (public message: string = 'Could not get products.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class ProductInventoryError extends BaseError {
+  public name = 'ProductInventoryError'
+  constructor (public message: string = 'Could not get product inventory.', properties?: any) {
     super(message, properties)
   }
 }

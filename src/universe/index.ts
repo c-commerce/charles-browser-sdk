@@ -31,8 +31,8 @@ import * as messageTemplateCategoryTree from '../entities/message-template-categ
 import * as customProperty from '../entities/custom-property/custom-property'
 import * as tag from '../entities/tag/tag'
 import * as tagGroup from '../entities/tag-group/tag-group'
-
 import * as configuration from '../entities/configuration/configuration'
+import * as inventory from '../entities/inventory/inventory'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -527,6 +527,10 @@ export class Universe extends Readable {
     return configuration.Configuration.create(payload, this, this.http)
   }
 
+  public inventory (payload: inventory.InventoryRawPayload): inventory.Inventory {
+    return inventory.Inventory.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -943,6 +947,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new configuration.ConfigurationsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async inventories (options?: EntityFetchOptions): Promise<inventory.Inventory[] | inventory.InventoryRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${inventory.Inventories.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as inventory.InventoryRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: inventory.InventoryRawPayload) => {
+        return inventory.Inventory.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new inventory.InventoriesFetchRemoteError(undefined, { error: err })
     }
   }
 
