@@ -32,6 +32,7 @@ export interface FeedRawPayload {
   readonly parents?: string[]
   readonly active?: boolean
   readonly deleted?: boolean
+  readonly hidden?: boolean
   readonly created_at?: string
   readonly latest_activity_at?: string
   readonly updated_at?: string
@@ -51,6 +52,7 @@ export interface FeedPayload {
   readonly updatedAt?: Date | null
   readonly latestActivityAt?: Date | null
   readonly deleted?: boolean
+  readonly hidden?: boolean
   readonly active?: boolean
   readonly topLatestEvents?: Event[]
   readonly topLatestMessages?: Event[]
@@ -102,6 +104,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   public updatedAt?: Date | null
   public latestActivityAt?: Date | null
   public deleted?: boolean
+  public hidden?: boolean
   public active?: boolean
   public topLatestEvents?: FeedPayload['topLatestEvents']
   public topLatestMessages?: FeedPayload['topLatestMessages']
@@ -133,6 +136,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined
     this.deleted = rawPayload.deleted
+    this.hidden = rawPayload.hidden
     this.active = rawPayload.active
 
     if (Array.isArray(rawPayload.participants)) {
@@ -191,6 +195,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       latest_activity_at: this.latestActivityAt ? this.latestActivityAt.toISOString() : undefined,
       deleted: this.deleted,
+      hidden: this.hidden,
       active: this.active,
       top_latest_events: Array.isArray(this.topLatestEvents) ? this.topLatestEvents.map((item: Event) => (item.serialize())) : undefined,
       top_latest_messages: Array.isArray(this.topLatestMessages) ? this.topLatestMessages.map((item: Event) => (item.serialize())) : undefined
