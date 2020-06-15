@@ -1,3 +1,10 @@
+# [2.77.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.76.0...v2.77.0) (2020-06-15)
+
+
+### Features
+
+* **feed:** implement hidden ([2df6839](https://github.com/c-commerce/charles-browser-sdk/commit/2df68396cd667afe64cfd38a26b56e7119b28ccd))
+
 # [2.76.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.75.0...v2.76.0) (2020-06-14)
 
 

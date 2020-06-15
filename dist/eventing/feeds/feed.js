@@ -41,6 +41,7 @@ var Feed = (function (_super) {
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined;
         this.deleted = rawPayload.deleted;
+        this.hidden = rawPayload.hidden;
         this.active = rawPayload.active;
         if (Array.isArray(rawPayload.participants)) {
             this.participants = rawPayload.participants.map(function (item) {
@@ -88,6 +89,7 @@ var Feed = (function (_super) {
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             latest_activity_at: this.latestActivityAt ? this.latestActivityAt.toISOString() : undefined,
             deleted: this.deleted,
+            hidden: this.hidden,
             active: this.active,
             top_latest_events: Array.isArray(this.topLatestEvents) ? this.topLatestEvents.map(function (item) { return (item.serialize()); }) : undefined,
             top_latest_messages: Array.isArray(this.topLatestMessages) ? this.topLatestMessages.map(function (item) { return (item.serialize()); }) : undefined
