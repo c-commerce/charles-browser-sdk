@@ -1,3 +1,10 @@
+# [2.78.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.77.0...v2.78.0) (2020-06-16)
+
+
+### Features
+
+* **dev:** allow overriding universe base ([9473746](https://github.com/c-commerce/charles-browser-sdk/commit/94737462d48a5c9e19fe0d519f11040645c6ff25))
+
 # [2.77.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.76.0...v2.77.0) (2020-06-15)
 
 

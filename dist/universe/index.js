@@ -34,7 +34,7 @@ var inventory = tslib_1.__importStar(require("../entities/inventory/inventory"))
 var Universe = (function (_super) {
     tslib_1.__extends(Universe, _super);
     function Universe(options) {
-        var _a, _b;
+        var _a, _b, _c;
         var _this = _super.call(this) || this;
         _this.initialized = false;
         _this.payload = null;
@@ -44,6 +44,7 @@ var Universe = (function (_super) {
         _this.user = options.user;
         _this.base = (_a = _this.options.base) !== null && _a !== void 0 ? _a : 'https://hello-charles.com';
         _this.universeBase = (_b = options.universeBase) !== null && _b !== void 0 ? _b : "https://" + _this.name + ".hello-charles.com";
+        _this.mqttUniverseBase = (_c = options.mqttUniverseBase) !== null && _c !== void 0 ? _c : "wss://" + _this.name + ".hello-charles.com";
         _this.status = new status_1.UniverseStatus({ universe: _this });
         _this.health = new status_1.UniverseHealth({ universe: _this });
         _this.http = options.http;
@@ -96,7 +97,7 @@ var Universe = (function (_super) {
         var _this = this;
         var _a;
         var realtimeOpts = {
-            base: "wss:" + this.name + ".hello-charles.com",
+            base: this.mqttUniverseBase,
             username: (_a = this.user.id) !== null && _a !== void 0 ? _a : 'charles-browser-sdk',
             password: this.user.accessToken
         };

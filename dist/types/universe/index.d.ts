@@ -33,6 +33,7 @@ export interface UniverseUser {
 export interface UniverseOptions {
     name: string;
     universeBase?: string;
+    mqttUniverseBase?: string;
     http: Client;
     base: string;
     user: UniverseUser;
@@ -142,6 +143,7 @@ export declare class Universe extends Readable {
     private mqtt;
     base: string;
     universeBase: string;
+    mqttUniverseBase: string;
     private static readonly endpoint;
     constructor(options: UniverseOptions);
     init(): Promise<Universe | undefined>;
