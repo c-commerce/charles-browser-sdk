@@ -22,6 +22,7 @@ export interface IUniverseFactoryOptions {
     singleton?: boolean;
     base?: string;
     universeBase?: UniverseOptions['universeBase'];
+    mqttUniverseBase?: UniverseOptions['mqttUniverseBase'];
 }
 export declare interface CharlesClient {
     on(event: 'raw-error' | 'error', listener: (error: Error) => void): this;

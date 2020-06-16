@@ -1,3 +1,10 @@
+## [2.78.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.78.0...v2.78.1) (2020-06-16)
+
+
+### Bug Fixes
+
+* **sdk:** expose mqttUniverseBase ([e7d97d8](https://github.com/c-commerce/charles-browser-sdk/commit/e7d97d807a23a50cd6c142547fbc450080cd0fce))
+
 # [2.78.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.77.0...v2.78.0) (2020-06-16)
 
 

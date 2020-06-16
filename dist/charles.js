@@ -95,6 +95,7 @@ var CharlesClient = (function (_super) {
             name: name,
             base: (options === null || options === void 0 ? void 0 : options.base) ? options.base : 'https://hello-charles.com',
             universeBase: options === null || options === void 0 ? void 0 : options.universeBase,
+            mqttUniverseBase: options === null || options === void 0 ? void 0 : options.mqttUniverseBase,
             user: {
                 accessToken: this.auth.accessToken,
                 id: this.options ? this.options.user : undefined
