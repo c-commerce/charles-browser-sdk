@@ -33,6 +33,7 @@ import * as tag from '../entities/tag/tag'
 import * as tagGroup from '../entities/tag-group/tag-group'
 import * as configuration from '../entities/configuration/configuration'
 import * as inventory from '../entities/inventory/inventory'
+import * as integration from '../entities/integration/integration'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -538,6 +539,10 @@ export class Universe extends Readable {
     return inventory.Inventory.create(payload, this, this.http)
   }
 
+  public integration (payload: integration.IntegrationRawPayload): integration.Integration {
+    return integration.Integration.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -976,6 +981,44 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new inventory.InventoriesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async integrations (options?: EntityFetchOptions): Promise<integration.Integration[] | integration.IntegrationRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${integration.Integrations.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as integration.IntegrationRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: integration.IntegrationRawPayload) => {
+        return integration.Integration.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new integration.IntegrationsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async availableIntegrations (options?: EntityFetchOptions): Promise<integration.AvailableIntegrationRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${integration.Integrations.endpoint}/available`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as integration.AvailableIntegrationRawPayload[]
+
+      return resources
+    } catch (err) {
+      throw new integration.AvailableIntegrationsFetchRemoteError(undefined, { error: err })
     }
   }
 
