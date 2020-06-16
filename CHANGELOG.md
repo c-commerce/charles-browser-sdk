@@ -1,3 +1,10 @@
+# [2.79.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.78.1...v2.79.0) (2020-06-16)
+
+
+### Features
+
+* add integrations ([ec3edbd](https://github.com/c-commerce/charles-browser-sdk/commit/ec3edbd6cac1a68b0cc5235561323965d7c0954c))
+
 ## [2.78.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.78.0...v2.78.1) (2020-06-16)
 
 

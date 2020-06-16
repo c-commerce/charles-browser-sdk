@@ -26,6 +26,7 @@ import * as tag from '../entities/tag/tag';
 import * as tagGroup from '../entities/tag-group/tag-group';
 import * as configuration from '../entities/configuration/configuration';
 import * as inventory from '../entities/inventory/inventory';
+import * as integration from '../entities/integration/integration';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -184,6 +185,7 @@ export declare class Universe extends Readable {
     tagGroup(payload: tagGroup.TagGroupRawPayload): tagGroup.TagGroup;
     configuration(payload: configuration.ConfigurationRawPayload): configuration.Configuration;
     inventory(payload: inventory.InventoryRawPayload): inventory.Inventory;
+    integration(payload: integration.IntegrationRawPayload): integration.Integration;
     me(): Promise<MeData | undefined>;
     get feeds(): UniverseFeeds;
     staffs(options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined>;
@@ -204,6 +206,8 @@ export declare class Universe extends Readable {
     tagGroups(options?: EntityFetchOptions): Promise<tagGroup.TagGroup[] | tagGroup.TagGroupRawPayload[] | undefined>;
     configurations(options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined>;
     inventories(options?: EntityFetchOptions): Promise<inventory.Inventory[] | inventory.InventoryRawPayload[] | undefined>;
+    integrations(options?: EntityFetchOptions): Promise<integration.Integration[] | integration.IntegrationRawPayload[] | undefined>;
+    availableIntegrations(options?: EntityFetchOptions): Promise<integration.AvailableIntegrationRawPayload[] | undefined>;
     arm(): Universe;
     get search(): UniverseSearches;
     private searchEntity;
