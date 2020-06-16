@@ -56,6 +56,11 @@ export interface UniverseOptions {
    * The override of the universe base URL. It overrides the above mentioned computation.
    */
   universeBase?: string
+  /**
+   * The override of the universe base URL. It overrides the above mentioned computation.
+   */
+  mqttUniverseBase?: string
+
   http: Client
   /**
    * the API base of the general charles services.
@@ -238,6 +243,7 @@ export class Universe extends Readable {
   private mqtt: realtime.RealtimeClient | null = null
   public base: string
   public universeBase: string
+  public mqttUniverseBase: string
   private static readonly endpoint: string = 'api/v0/universes'
 
   public constructor (options: UniverseOptions) {
@@ -248,6 +254,7 @@ export class Universe extends Readable {
     this.user = options.user
     this.base = this.options.base ?? 'https://hello-charles.com'
     this.universeBase = options.universeBase ?? `https://${this.name}.hello-charles.com`
+    this.mqttUniverseBase = options.mqttUniverseBase ?? `wss://${this.name}.hello-charles.com`
 
     this.status = new UniverseStatus({ universe: this })
     this.health = new UniverseHealth({ universe: this })
@@ -294,7 +301,7 @@ export class Universe extends Readable {
 
   private setMqttClient (): void {
     const realtimeOpts = {
-      base: `wss:${this.name}.hello-charles.com`,
+      base: this.mqttUniverseBase,
       username: this.user.id ?? 'charles-browser-sdk',
       password: this.user.accessToken
     }
