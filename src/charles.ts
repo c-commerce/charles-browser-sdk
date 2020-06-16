@@ -46,6 +46,7 @@ export interface IUniverseFactoryOptions {
    * The universe base path, see {@link UniverseOptions interface}
    */
   universeBase?: UniverseOptions['universeBase']
+  mqttUniverseBase?: UniverseOptions['mqttUniverseBase']
 }
 
 export declare interface CharlesClient {
@@ -191,6 +192,7 @@ export class CharlesClient extends events.EventEmitter {
       name,
       base: options?.base ? options.base : 'https://hello-charles.com',
       universeBase: options?.universeBase,
+      mqttUniverseBase: options?.mqttUniverseBase,
       user: {
         accessToken: this.auth.accessToken,
         id: this.options ? this.options.user : undefined
