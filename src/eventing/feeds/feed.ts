@@ -215,9 +215,9 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
     })
   }
 
-  public async init (): Promise<Feed | undefined> {
+  public async init (options?: EntityFetchOptions): Promise<Feed | undefined> {
     try {
-      await this.fetch()
+      await this.fetch(options)
 
       this.mqtt?.on('message', (msg) => {
         this.handleMessage(msg)
