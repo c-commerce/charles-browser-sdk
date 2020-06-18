@@ -1,3 +1,10 @@
+## [2.79.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.0...v2.79.1) (2020-06-18)
+
+
+### Bug Fixes
+
+* **Feed:** Allow EntityFetchOptions on feed.init ([cc17387](https://github.com/c-commerce/charles-browser-sdk/commit/cc17387d41f7861270f859453481515e88ebbe18))
+
 # [2.79.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.78.1...v2.79.0) (2020-06-16)
 
 

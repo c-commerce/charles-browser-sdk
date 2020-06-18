@@ -88,7 +88,7 @@ export declare class Feed extends Entity<FeedPayload, FeedRawPayload> {
     static createUninitialized(payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed;
     serialize(): FeedRawPayload;
     reply(contentOptions: FeedReplyContentOptions): FeedReply;
-    init(): Promise<Feed | undefined>;
+    init(options?: EntityFetchOptions): Promise<Feed | undefined>;
     private get defaultSubscriptions();
     deinitialize(): void;
     private subscibeDefaults;

@@ -100,7 +100,7 @@ var Feed = (function (_super) {
                 content: contentOptions.content
             }, rawAssets: contentOptions.rawAssets }, contentOptions));
     };
-    Feed.prototype.init = function () {
+    Feed.prototype.init = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var err_1;
@@ -109,7 +109,7 @@ var Feed = (function (_super) {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 2, , 3]);
-                        return [4, this.fetch()];
+                        return [4, this.fetch(options)];
                     case 1:
                         _b.sent();
                         (_a = this.mqtt) === null || _a === void 0 ? void 0 : _a.on('message', function (msg) {
