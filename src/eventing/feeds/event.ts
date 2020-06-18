@@ -61,6 +61,7 @@ export interface EventRawPayload {
       } | null
     } | null
   } | null
+  readonly suggestions?: object | null
 }
 
 export interface EventPayload {
@@ -74,6 +75,7 @@ export interface EventPayload {
   readonly flagged?: EventRawPayload['flagged']
   readonly marked?: EventRawPayload['marked']
   readonly annotations?: EventRawPayload['annotations']
+  readonly suggestions?: EventRawPayload['suggestions']
 }
 
 export class Event extends EventEmitter {
@@ -94,6 +96,7 @@ export class Event extends EventEmitter {
   public flagged?: EventPayload['flagged']
   public marked?: EventPayload['marked']
   public annotations?: EventPayload['annotations']
+  public suggestions?: EventPayload['suggestions']
 
   static eventTypes = EventTypesEnum
 
@@ -124,6 +127,7 @@ export class Event extends EventEmitter {
     this.marked = rawPayload.marked
     this.flagged = rawPayload.flagged
     this.annotations = rawPayload.annotations
+    this.suggestions = rawPayload.suggestions
 
     // for the time being we are trying not to override existing data if the remote is not sending any
     // e.g. in special calls
@@ -155,7 +159,8 @@ export class Event extends EventEmitter {
       type: this.type,
       flagged: this.flagged,
       marked: this.marked,
-      annotations: this.annotations
+      annotations: this.annotations,
+      suggestions: this.suggestions
     }
   }
 
