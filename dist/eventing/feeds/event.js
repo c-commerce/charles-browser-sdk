@@ -46,6 +46,7 @@ var Event = (function (_super) {
         this.marked = rawPayload.marked;
         this.flagged = rawPayload.flagged;
         this.annotations = rawPayload.annotations;
+        this.suggestions = rawPayload.suggestions;
         if (this.payload && !rawPayload.payload) {
         }
         else {
@@ -70,7 +71,8 @@ var Event = (function (_super) {
             type: this.type,
             flagged: this.flagged,
             marked: this.marked,
-            annotations: this.annotations
+            annotations: this.annotations,
+            suggestions: this.suggestions
         };
     };
     Event.prototype.init = function () {

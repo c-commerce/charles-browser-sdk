@@ -1,3 +1,10 @@
+## [2.79.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.1...v2.79.2) (2020-06-18)
+
+
+### Bug Fixes
+
+* **Events:** Added suggestions ([2d8e493](https://github.com/c-commerce/charles-browser-sdk/commit/2d8e4936dd2bfbbe8576d48fa8a8037f84c24924))
+
 ## [2.79.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.0...v2.79.1) (2020-06-18)
 
 

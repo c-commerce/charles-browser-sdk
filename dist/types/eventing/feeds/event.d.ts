@@ -52,6 +52,7 @@ export interface EventRawPayload {
             } | null;
         } | null;
     } | null;
+    readonly suggestions?: object | null;
 }
 export interface EventPayload {
     readonly id?: EventRawPayload['id'];
@@ -64,6 +65,7 @@ export interface EventPayload {
     readonly flagged?: EventRawPayload['flagged'];
     readonly marked?: EventRawPayload['marked'];
     readonly annotations?: EventRawPayload['annotations'];
+    readonly suggestions?: EventRawPayload['suggestions'];
 }
 export declare class Event extends EventEmitter {
     protected universe: Universe;
@@ -82,6 +84,7 @@ export declare class Event extends EventEmitter {
     flagged?: EventPayload['flagged'];
     marked?: EventPayload['marked'];
     annotations?: EventPayload['annotations'];
+    suggestions?: EventPayload['suggestions'];
     static eventTypes: typeof EventTypesEnum;
     constructor(options: EventOptions);
     private deserialize;
