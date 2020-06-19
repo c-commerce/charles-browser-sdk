@@ -28,6 +28,12 @@ export interface RealtimeMessageMessage extends RealtimeMessage {
     event: {
       [key: string]: any | object | undefined | null
     }
+    presence: {
+      [key: string]: any | object | undefined | null
+    }
+    typing: {
+      [key: string]: any | object | undefined | null
+    }
   }
 }
 

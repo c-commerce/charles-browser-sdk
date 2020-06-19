@@ -80,6 +80,8 @@ export declare interface Feed {
     event:
     'feed:message' // receive messages in the current scope of this feed
     | 'feed:event' // receive events in the current scope of this feed
+    | 'feed:presence' // receive precence events in the current scope of this feed
+    | 'feed:typing' // receive typing events in the current scope of this feed
     | string,
     cb: Function): this
 }
@@ -282,6 +284,21 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       }
 
       this.emit('feed:event', { ...msg, event, feed: this })
+    }
+    if (universeTopics.api.feedPresence.isTopic(msg.topic, this.serialize())) {
+      let presence
+      if ((msg as realtime.RealtimeMessageMessage).payload.presence) {
+        presence = (msg as realtime.RealtimeMessageMessage).payload.presence as FeedPresencePayload
+      }
+      this.emit('feed:presence', { ...msg, presence, feed: this })
+    }
+    if (universeTopics.api.feedTyping.isTopic(msg.topic, this.serialize())) {
+      let typing
+      if ((msg as realtime.RealtimeMessageMessage).payload.typing) {
+        typing = (msg as realtime.RealtimeMessageMessage).payload.typing as FeedTypingPayload
+      }
+
+      this.emit('feed:typing', { ...msg, typing, feed: this })
     }
   }
 
