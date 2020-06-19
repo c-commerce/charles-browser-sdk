@@ -166,6 +166,20 @@ var Feed = (function (_super) {
             }
             this.emit('feed:event', tslib_1.__assign(tslib_1.__assign({}, msg), { event: event_2, feed: this }));
         }
+        if (topics_1.default.api.feedPresence.isTopic(msg.topic, this.serialize())) {
+            var presence = void 0;
+            if (msg.payload.presence) {
+                presence = msg.payload.presence;
+            }
+            this.emit('feed:presence', tslib_1.__assign(tslib_1.__assign({}, msg), { presence: presence, feed: this }));
+        }
+        if (topics_1.default.api.feedTyping.isTopic(msg.topic, this.serialize())) {
+            var typing = void 0;
+            if (msg.payload.typing) {
+                typing = msg.payload.typing;
+            }
+            this.emit('feed:typing', tslib_1.__assign(tslib_1.__assign({}, msg), { typing: typing, feed: this }));
+        }
     };
     Feed.prototype.fetchLatestEvents = function (options) {
         var _a;

@@ -1,3 +1,10 @@
+## [2.79.3](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.2...v2.79.3) (2020-06-19)
+
+
+### Bug Fixes
+
+* **Feed:** Handle incoming presence and typing events ([7dd5d67](https://github.com/c-commerce/charles-browser-sdk/commit/7dd5d67fd6efd56bac0353b4af6360b16f3e6f10))
+
 ## [2.79.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.1...v2.79.2) (2020-06-18)
 
 
