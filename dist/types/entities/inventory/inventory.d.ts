@@ -16,6 +16,7 @@ export interface InventoryRawPayload {
     readonly source_type?: string | null;
     readonly proxy_vendor?: string | null;
     readonly is_proxy?: boolean;
+    readonly qty?: number;
 }
 export interface InventoryPayload {
     readonly id?: InventoryRawPayload['id'];
@@ -29,6 +30,7 @@ export interface InventoryPayload {
     readonly sourceType?: InventoryRawPayload['source_type'];
     readonly proxyVendor?: InventoryRawPayload['proxy_vendor'];
     readonly isProxy?: InventoryRawPayload['is_proxy'];
+    readonly qty?: InventoryRawPayload['qty'];
 }
 export declare class Inventory extends Entity<InventoryPayload, InventoryRawPayload> {
     protected universe: Universe;
@@ -47,6 +49,7 @@ export declare class Inventory extends Entity<InventoryPayload, InventoryRawPayl
     sourceType?: InventoryPayload['sourceType'];
     proxyVendor?: InventoryPayload['proxyVendor'];
     isProxy?: InventoryPayload['isProxy'];
+    qty?: InventoryPayload['qty'];
     constructor(options: InventoryOptions);
     protected deserialize(rawPayload: InventoryRawPayload): Inventory;
     static create(payload: InventoryRawPayload, universe: Universe, http: Universe['http']): Inventory;

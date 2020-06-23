@@ -32,6 +32,7 @@ var Inventory = (function (_super) {
         this.sourceType = rawPayload.source_type;
         this.proxyVendor = rawPayload.proxy_vendor;
         this.isProxy = rawPayload.is_proxy;
+        this.qty = rawPayload.qty;
         return this;
     };
     Inventory.create = function (payload, universe, http) {
@@ -50,7 +51,8 @@ var Inventory = (function (_super) {
             source_api: this.sourceApi,
             source_type: this.sourceType,
             proxy_vendor: this.proxyVendor,
-            is_proxy: this.isProxy
+            is_proxy: this.isProxy,
+            qty: this.qty
         };
     };
     Inventory.prototype.init = function () {

@@ -1,3 +1,10 @@
+## [2.79.4](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.3...v2.79.4) (2020-06-23)
+
+
+### Bug Fixes
+
+* **inventory:** add qty ([234633a](https://github.com/c-commerce/charles-browser-sdk/commit/234633a121e0ee13f6f8f1bb39c2f1ea3b95b025))
+
 ## [2.79.3](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.2...v2.79.3) (2020-06-19)
 
 
