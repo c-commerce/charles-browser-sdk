@@ -19,6 +19,7 @@ export interface InventoryRawPayload {
   readonly source_type?: string | null
   readonly proxy_vendor?: string | null
   readonly is_proxy?: boolean
+  readonly qty?: number
 }
 
 export interface InventoryPayload {
@@ -33,6 +34,7 @@ export interface InventoryPayload {
   readonly sourceType?: InventoryRawPayload['source_type']
   readonly proxyVendor?: InventoryRawPayload['proxy_vendor']
   readonly isProxy?: InventoryRawPayload['is_proxy']
+  readonly qty?: InventoryRawPayload['qty']
 }
 
 /**
@@ -59,6 +61,7 @@ export class Inventory extends Entity<InventoryPayload, InventoryRawPayload> {
   public sourceType?: InventoryPayload['sourceType']
   public proxyVendor?: InventoryPayload['proxyVendor']
   public isProxy?: InventoryPayload['isProxy']
+  public qty?: InventoryPayload['qty']
 
   constructor (options: InventoryOptions) {
     super()
@@ -87,6 +90,7 @@ export class Inventory extends Entity<InventoryPayload, InventoryRawPayload> {
     this.sourceType = rawPayload.source_type
     this.proxyVendor = rawPayload.proxy_vendor
     this.isProxy = rawPayload.is_proxy
+    this.qty = rawPayload.qty
 
     return this
   }
@@ -107,7 +111,8 @@ export class Inventory extends Entity<InventoryPayload, InventoryRawPayload> {
       source_api: this.sourceApi,
       source_type: this.sourceType,
       proxy_vendor: this.proxyVendor,
-      is_proxy: this.isProxy
+      is_proxy: this.isProxy,
+      qty: this.qty
     }
   }
 
