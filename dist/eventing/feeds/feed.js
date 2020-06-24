@@ -282,7 +282,7 @@ var Feed = (function (_super) {
             });
         });
     };
-    Feed.prototype.createFeedComment = function (content) {
+    Feed.prototype.createFeedComment = function (content, author) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, comment, err_5;
             return tslib_1.__generator(this, function (_a) {
@@ -293,7 +293,8 @@ var Feed = (function (_super) {
                             method: 'POST',
                             url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/comments",
                             data: {
-                                content: content
+                                content: content,
+                                author: author
                             }
                         };
                         return [4, this.http.getClient()(opts)];

@@ -97,7 +97,7 @@ export declare class Feed extends Entity<FeedPayload, FeedRawPayload> {
     fetchLatestEvents(options?: EntityFetchOptions): Promise<Event[] | FeedlatestEventsRawPayload | undefined>;
     fetchEvents(options?: UniverseFetchOptions): Promise<Event[] | undefined>;
     createFeedEvent(type: IEventType, resource?: string, resourceType?: IEventResourceType): Promise<Event | undefined>;
-    createFeedComment(content: object): Promise<Comment | undefined>;
+    createFeedComment(content: object, author?: string): Promise<Comment | undefined>;
     viewed(): Promise<Event | undefined>;
     events(): Event[];
     getEventsMap(): Feed['eventsMap'];

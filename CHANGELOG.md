@@ -1,3 +1,10 @@
+## [2.79.5](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.4...v2.79.5) (2020-06-24)
+
+
+### Bug Fixes
+
+* **feed:** add author to create feedComment ([e330dfd](https://github.com/c-commerce/charles-browser-sdk/commit/e330dfd9ef3af947ff7a2447dc3e337385671cde))
+
 ## [2.79.4](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.3...v2.79.4) (2020-06-23)
 
 
