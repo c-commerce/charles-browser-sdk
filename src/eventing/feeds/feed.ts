@@ -382,13 +382,14 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
     }
   }
 
-  public async createFeedComment (content: object): Promise<Comment | undefined> {
+  public async createFeedComment (content: object, author?: string): Promise<Comment | undefined> {
     try {
       const opts = {
         method: 'POST',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/comments`,
         data: {
-          content
+          content,
+          author
         }
       }
       const res = await this.http.getClient()(opts)
