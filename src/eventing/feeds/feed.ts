@@ -1,4 +1,3 @@
-import { EventEmitter } from 'events'
 import typeOf from 'just-typeof'
 import { Universe, UniverseFetchOptions } from '../../universe'
 import universeTopics from '../../universe/topics'
@@ -33,6 +32,7 @@ export interface FeedRawPayload {
   readonly active?: boolean
   readonly deleted?: boolean
   readonly hidden?: boolean
+  readonly open?: boolean
   readonly created_at?: string
   readonly latest_activity_at?: string
   readonly updated_at?: string
@@ -53,6 +53,7 @@ export interface FeedPayload {
   readonly latestActivityAt?: Date | null
   readonly deleted?: boolean
   readonly hidden?: boolean
+  readonly open?: boolean
   readonly active?: boolean
   readonly topLatestEvents?: Event[]
   readonly topLatestMessages?: Event[]
@@ -107,6 +108,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   public latestActivityAt?: Date | null
   public deleted?: boolean
   public hidden?: boolean
+  public open?: boolean
   public active?: boolean
   public topLatestEvents?: FeedPayload['topLatestEvents']
   public topLatestMessages?: FeedPayload['topLatestMessages']
@@ -139,6 +141,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
     this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined
     this.deleted = rawPayload.deleted
     this.hidden = rawPayload.hidden
+    this.open = rawPayload.open
     this.active = rawPayload.active
 
     if (Array.isArray(rawPayload.participants)) {
