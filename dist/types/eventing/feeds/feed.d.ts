@@ -23,6 +23,7 @@ export interface FeedRawPayload {
     readonly active?: boolean;
     readonly deleted?: boolean;
     readonly hidden?: boolean;
+    readonly open?: boolean;
     readonly created_at?: string;
     readonly latest_activity_at?: string;
     readonly updated_at?: string;
@@ -41,6 +42,7 @@ export interface FeedPayload {
     readonly latestActivityAt?: Date | null;
     readonly deleted?: boolean;
     readonly hidden?: boolean;
+    readonly open?: boolean;
     readonly active?: boolean;
     readonly topLatestEvents?: Event[];
     readonly topLatestMessages?: Event[];
@@ -79,6 +81,7 @@ export declare class Feed extends Entity<FeedPayload, FeedRawPayload> {
     latestActivityAt?: Date | null;
     deleted?: boolean;
     hidden?: boolean;
+    open?: boolean;
     active?: boolean;
     topLatestEvents?: FeedPayload['topLatestEvents'];
     topLatestMessages?: FeedPayload['topLatestMessages'];

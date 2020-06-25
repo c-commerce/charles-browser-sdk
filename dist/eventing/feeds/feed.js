@@ -42,6 +42,7 @@ var Feed = (function (_super) {
         this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined;
         this.deleted = rawPayload.deleted;
         this.hidden = rawPayload.hidden;
+        this.open = rawPayload.open;
         this.active = rawPayload.active;
         if (Array.isArray(rawPayload.participants)) {
             this.participants = rawPayload.participants.map(function (item) {

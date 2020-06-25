@@ -1,3 +1,10 @@
+# [2.80.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.5...v2.80.0) (2020-06-25)
+
+
+### Features
+
+* **feed:** add open ([8acab07](https://github.com/c-commerce/charles-browser-sdk/commit/8acab079effbb0d23f4ba416e883fdbc6a7f56bf))
+
 ## [2.79.5](https://github.com/c-commerce/charles-browser-sdk/compare/v2.79.4...v2.79.5) (2020-06-24)
 
 
