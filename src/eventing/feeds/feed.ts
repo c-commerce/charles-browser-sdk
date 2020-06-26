@@ -33,6 +33,7 @@ export interface FeedRawPayload {
   readonly deleted?: boolean
   readonly hidden?: boolean
   readonly open?: boolean
+  readonly answered?: boolean
   readonly created_at?: string
   readonly latest_activity_at?: string
   readonly updated_at?: string
@@ -54,6 +55,7 @@ export interface FeedPayload {
   readonly deleted?: boolean
   readonly hidden?: boolean
   readonly open?: boolean
+  readonly answered?: boolean
   readonly active?: boolean
   readonly topLatestEvents?: Event[]
   readonly topLatestMessages?: Event[]
@@ -109,6 +111,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   public deleted?: boolean
   public hidden?: boolean
   public open?: boolean
+  public answered?: boolean
   public active?: boolean
   public topLatestEvents?: FeedPayload['topLatestEvents']
   public topLatestMessages?: FeedPayload['topLatestMessages']
@@ -142,6 +145,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
     this.deleted = rawPayload.deleted
     this.hidden = rawPayload.hidden
     this.open = rawPayload.open
+    this.answered = rawPayload.answered
     this.active = rawPayload.active
 
     if (Array.isArray(rawPayload.participants)) {
