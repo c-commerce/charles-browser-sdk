@@ -43,6 +43,7 @@ var Feed = (function (_super) {
         this.deleted = rawPayload.deleted;
         this.hidden = rawPayload.hidden;
         this.open = rawPayload.open;
+        this.answered = rawPayload.answered;
         this.active = rawPayload.active;
         if (Array.isArray(rawPayload.participants)) {
             this.participants = rawPayload.participants.map(function (item) {
