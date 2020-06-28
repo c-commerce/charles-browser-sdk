@@ -162,6 +162,14 @@ export interface UniverseFeeds {
   stream: (options?: UniverseFetchOptions) => Promise<Feeds>
 }
 
+export interface UniversePeople {
+  fetch: (options?: UniverseFetchOptions) => Promise<person.Person[] | person.PersonRawPayload[] | undefined>
+  fetchCount: (options?: UniverseFetchOptions) => Promise<{ count: number }>
+  fromJson: (feeds: person.PersonRawPayload[]) => person.Person[]
+  toJson: (feeds: person.Person[]) => person.PersonRawPayload[]
+  stream: (options?: UniverseFetchOptions) => Promise<person.People>
+}
+
 export interface UniverseProducts {
   fetch: (options?: EntityFetchOptions) => Promise<Product[] | ProductRawPayload[] | undefined>
   fromJson: (products: ProductRawPayload[]) => Product[]
@@ -634,6 +642,84 @@ export class Universe extends Readable {
     }
   }
 
+  /**
+   * People accessor
+   *
+   * ```js
+   * // fetch all feeds with regular defaults (as class instance list)
+   * await universe.people.fetch()
+   * // fetch all people as raw structs with some query options
+   * await universe.people.fetch({ raw: true, query: {} })
+   * // cast a list of class instances to list of structs
+   * universe.people.toJson([person])
+   * // cast a list of structs to list of class instances
+   * universe.people.fromJson([person])
+   * ```
+   */
+  public get people (): UniversePeople {
+    return {
+      fromJson: (payloads: person.PersonRawPayload[]): person.Person[] => {
+        return payloads.map((item) => (person.Person.create(item, this, this.http)))
+      },
+      toJson: (people: person.Person[]): person.PersonRawPayload[] => {
+        return people.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: UniverseFetchOptions): Promise<person.Person[] | person.PersonRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${person.People.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+          const resources = res.data.data as person.PersonRawPayload[]
+
+          if (options && options.raw === true) {
+            return resources
+          }
+
+          return resources.map((resource: person.PersonRawPayload) => {
+            return person.Person.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new person.PeopleFetchRemoteError(undefined, { error: err })
+        }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${person.People.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new person.PeopleFetchCountRemoteError(undefined, { error: err })
+        }
+      },
+      stream: async (options?: UniverseFetchOptions): Promise<person.People> => {
+        const inst = new person.People({
+          universe: this,
+          http: this.http
+        })
+
+        const ret = await inst.getStream(options)
+
+        return ret
+      }
+    }
+  }
+
   public async staffs (options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${staff.Staffs.endpoint}`, {
@@ -665,19 +751,6 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new asset.AssetsFetchRemoteError(undefined, { error: err })
-    }
-  }
-
-  public async people (): Promise<person.Person[] | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${person.People.endpoint}`)
-      const resources = res.data.data as person.PersonRawPayload[]
-
-      return resources.map((resource: person.PersonRawPayload) => {
-        return person.Person.create(resource, this, this.http)
-      })
-    } catch (err) {
-      throw new person.PeopleFetchRemoteError(undefined, { error: err })
     }
   }
 

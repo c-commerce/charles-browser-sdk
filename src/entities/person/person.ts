@@ -1,5 +1,5 @@
-import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions } from '../_base'
-import { Universe } from '../../universe'
+import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList } from '../_base'
+import { Universe, UniverseFetchOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import { Order } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
@@ -502,9 +502,30 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export class People {
+export interface PeopleOptions {
+  universe: Universe
+  http: Universe['http']
+}
+
+export class People extends EntitiesList<Person, PersonRawPayload> {
   public static endpoint: string = 'api/v0/people'
+  public endpoint: string = People.endpoint
+  protected universe: Universe
+  protected http: Universe['http']
+
+  constructor (options: PeopleOptions) {
+    super()
+    this.universe = options.universe
+    this.http = options.http
+  }
+
+  protected parseItem (payload: PersonRawPayload): Person {
+    return Person.create(payload, this.universe, this.http)
+  }
+
+  public async getStream (options?: UniverseFetchOptions): Promise<People> {
+    return (await this._getStream(options)) as People
+  }
 }
 
 export class Address {
@@ -675,6 +696,14 @@ export class PeopleFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get people.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleFetchRemoteError.prototype)
+  }
+}
+
+export class PeopleFetchCountRemoteError extends BaseError {
+  public name = 'PeopleFetchCountRemoteError';
+  constructor (public message: string = 'Could not get people count.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PeopleFetchCountRemoteError.prototype)
   }
 }
 
