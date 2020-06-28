@@ -1,3 +1,10 @@
+## [2.80.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.80.1...v2.80.2) (2020-06-28)
+
+
+### Bug Fixes
+
+* **feed:** add answered to feed.serialize() ([21f7da7](https://github.com/c-commerce/charles-browser-sdk/commit/21f7da7df7cb06c53c189632643fdbfc980838e2))
+
 ## [2.80.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.80.0...v2.80.1) (2020-06-26)
 
 

@@ -93,6 +93,7 @@ var Feed = (function (_super) {
             deleted: this.deleted,
             hidden: this.hidden,
             active: this.active,
+            answered: this.answered,
             top_latest_events: Array.isArray(this.topLatestEvents) ? this.topLatestEvents.map(function (item) { return (item.serialize()); }) : undefined,
             top_latest_messages: Array.isArray(this.topLatestMessages) ? this.topLatestMessages.map(function (item) { return (item.serialize()); }) : undefined
         };
