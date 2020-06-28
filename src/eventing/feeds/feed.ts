@@ -206,6 +206,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       deleted: this.deleted,
       hidden: this.hidden,
       active: this.active,
+      answered: this.answered,
       top_latest_events: Array.isArray(this.topLatestEvents) ? this.topLatestEvents.map((item: Event) => (item.serialize())) : undefined,
       top_latest_messages: Array.isArray(this.topLatestMessages) ? this.topLatestMessages.map((item: Event) => (item.serialize())) : undefined
     }
