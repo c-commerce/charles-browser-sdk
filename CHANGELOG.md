@@ -1,3 +1,10 @@
+# [2.81.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.80.2...v2.81.0) (2020-06-28)
+
+
+### Features
+
+* **people:** move to be accessor, add count ([c4269ec](https://github.com/c-commerce/charles-browser-sdk/commit/c4269ecb21d1fce703d8480de9eb1d53a19b2816))
+
 ## [2.80.2](https://github.com/c-commerce/charles-browser-sdk/compare/v2.80.1...v2.80.2) (2020-06-28)
 
 

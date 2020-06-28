@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = tslib_1.__importStar(require("../_base"));
 var errors_1 = require("../../errors");
 var channel_user_1 = require("./channel-user");
 var email_1 = require("./email");
@@ -356,12 +356,31 @@ var Person = (function (_super) {
     return Person;
 }(_base_1.default));
 exports.Person = Person;
-var People = (function () {
-    function People() {
+var People = (function (_super) {
+    tslib_1.__extends(People, _super);
+    function People(options) {
+        var _this = _super.call(this) || this;
+        _this.endpoint = People.endpoint;
+        _this.universe = options.universe;
+        _this.http = options.http;
+        return _this;
     }
+    People.prototype.parseItem = function (payload) {
+        return Person.create(payload, this.universe, this.http);
+    };
+    People.prototype.getStream = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this._getStream(options)];
+                    case 1: return [2, (_a.sent())];
+                }
+            });
+        });
+    };
     People.endpoint = 'api/v0/people';
     return People;
-}());
+}(_base_1.EntitiesList));
 exports.People = People;
 var Address = (function () {
     function Address(options) {
@@ -494,6 +513,19 @@ var PeopleFetchRemoteError = (function (_super) {
     return PeopleFetchRemoteError;
 }(errors_1.BaseError));
 exports.PeopleFetchRemoteError = PeopleFetchRemoteError;
+var PeopleFetchCountRemoteError = (function (_super) {
+    tslib_1.__extends(PeopleFetchCountRemoteError, _super);
+    function PeopleFetchCountRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get people count.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PeopleFetchCountRemoteError';
+        Object.setPrototypeOf(_this, PeopleFetchCountRemoteError.prototype);
+        return _this;
+    }
+    return PeopleFetchCountRemoteError;
+}(errors_1.BaseError));
+exports.PeopleFetchCountRemoteError = PeopleFetchCountRemoteError;
 var PeopleAnalyticsRemoteError = (function (_super) {
     tslib_1.__extends(PeopleAnalyticsRemoteError, _super);
     function PeopleAnalyticsRemoteError(message, properties) {

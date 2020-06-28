@@ -111,6 +111,15 @@ export interface UniverseFeeds {
     toJson: (feeds: Feed[]) => FeedRawPayload[];
     stream: (options?: UniverseFetchOptions) => Promise<Feeds>;
 }
+export interface UniversePeople {
+    fetch: (options?: UniverseFetchOptions) => Promise<person.Person[] | person.PersonRawPayload[] | undefined>;
+    fetchCount: (options?: UniverseFetchOptions) => Promise<{
+        count: number;
+    }>;
+    fromJson: (feeds: person.PersonRawPayload[]) => person.Person[];
+    toJson: (feeds: person.Person[]) => person.PersonRawPayload[];
+    stream: (options?: UniverseFetchOptions) => Promise<person.People>;
+}
 export interface UniverseProducts {
     fetch: (options?: EntityFetchOptions) => Promise<Product[] | ProductRawPayload[] | undefined>;
     fromJson: (products: ProductRawPayload[]) => Product[];
@@ -188,9 +197,9 @@ export declare class Universe extends Readable {
     integration(payload: integration.IntegrationRawPayload): integration.Integration;
     me(): Promise<MeData | undefined>;
     get feeds(): UniverseFeeds;
+    get people(): UniversePeople;
     staffs(options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
-    people(): Promise<person.Person[] | undefined>;
     get products(): UniverseProducts;
     tickets(): Promise<ticket.Ticket[] | undefined>;
     get carts(): IUniverseCarts;

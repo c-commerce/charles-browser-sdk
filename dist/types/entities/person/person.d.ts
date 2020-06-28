@@ -1,5 +1,5 @@
-import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions } from '../_base';
-import { Universe } from '../../universe';
+import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList } from '../_base';
+import { Universe, UniverseFetchOptions } from '../../universe';
 import { BaseError } from '../../errors';
 import { Order } from '../../entities/order/order';
 import { ChannelUser, ChannelUserRawPayload } from './channel-user';
@@ -171,8 +171,18 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
     address(payload: PersonAddressRawPayload): Address;
 }
-export declare class People {
+export interface PeopleOptions {
+    universe: Universe;
+    http: Universe['http'];
+}
+export declare class People extends EntitiesList<Person, PersonRawPayload> {
     static endpoint: string;
+    endpoint: string;
+    protected universe: Universe;
+    protected http: Universe['http'];
+    constructor(options: PeopleOptions);
+    protected parseItem(payload: PersonRawPayload): Person;
+    getStream(options?: UniverseFetchOptions): Promise<People>;
 }
 export declare class Address {
     protected universe: Universe;
@@ -227,6 +237,11 @@ export declare class PersonFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class PeopleFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PeopleFetchCountRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
