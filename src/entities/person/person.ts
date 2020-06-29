@@ -27,6 +27,7 @@ export interface PersonAddressRawPayload extends EntityRawPayload {
   readonly active?: boolean
   readonly type?: string
   readonly lines?: string[]
+  readonly company?: string
   readonly locality?: string
   readonly country?: string
   readonly region?: string
@@ -536,6 +537,7 @@ export class Address {
 
   public id?: string
   public lines?: string[]
+  public company?: string
   public locality?: string
   public country?: string
   public region?: string
@@ -561,6 +563,7 @@ export class Address {
   protected deserialize (rawPayload: PersonAddressRawPayload): Address {
     this.id = rawPayload.id
     this.lines = rawPayload.lines
+    this.company = rawPayload.company
     this.locality = rawPayload.locality
     this.country = rawPayload.country
     this.region = rawPayload.region
@@ -595,6 +598,7 @@ export class Address {
     return {
       id: this.id,
       lines: this.lines,
+      company: this.company,
       locality: this.locality,
       country: this.country,
       region: this.region,
