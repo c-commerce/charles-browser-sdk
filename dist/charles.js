@@ -57,12 +57,14 @@ var CharlesClient = (function (_super) {
         if (options.credentials) {
             var authOptions = {
                 credentials: options.credentials,
+                withCredentials: options.withCredentials,
                 base: this.options.base,
                 user: this.user
             };
             var clientOptions = {
                 headers: {},
-                responseInterceptors: options.responseInterceptors
+                responseInterceptors: options.responseInterceptors,
+                withCredentials: options.withCredentials
             };
             this.auth = new v0.Auth(authOptions);
             if (options.credentials.accessToken) {

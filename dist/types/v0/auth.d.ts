@@ -9,6 +9,7 @@ export declare enum AuthTypes {
 export interface AuthOptions {
     type?: AuthTypes | undefined;
     credentials?: UsernameAuth | KeyAuth | TokenAuth;
+    withCredentials?: boolean;
     base?: string | undefined;
     authBaseUrl?: string | undefined;
     user?: string;

@@ -8,6 +8,7 @@ export { v0 };
 export declare const defaultOptions: CharlesSDKOptions;
 export interface CharlesSDKOptions {
     credentials?: UsernameAuth | KeyAuth | TokenAuth | undefined;
+    withCredentials?: boolean;
     universe?: string;
     base?: string;
     user?: string;

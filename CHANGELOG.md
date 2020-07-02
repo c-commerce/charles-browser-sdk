@@ -1,3 +1,10 @@
+# [2.84.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.83.1...v2.84.0) (2020-07-02)
+
+
+### Features
+
+* make withCredentials optional ([60a582a](https://github.com/c-commerce/charles-browser-sdk/commit/60a582a41664c90a383ba0a3ee1665e4f6b468c4))
+
 ## [2.83.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.83.0...v2.83.1) (2020-07-02)
 
 

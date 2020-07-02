@@ -10,12 +10,13 @@ var defaultHeaders = {
 };
 var Client = (function () {
     function Client(options) {
-        var _a;
+        var _a, _b;
         this.responseInterceptorIds = [];
         this.requestInterceptorIds = [];
         this.options = options;
         this.axiosInstance = axios_1.default.create({
-            timeout: (_a = options.timeout) !== null && _a !== void 0 ? _a : 10000,
+            withCredentials: (_a = this.options.withCredentials) !== null && _a !== void 0 ? _a : undefined,
+            timeout: (_b = options.timeout) !== null && _b !== void 0 ? _b : 10000,
             headers: tslib_1.__assign(tslib_1.__assign({}, options.headers), defaultHeaders)
         });
     }
