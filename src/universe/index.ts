@@ -34,6 +34,7 @@ import * as tagGroup from '../entities/tag-group/tag-group'
 import * as configuration from '../entities/configuration/configuration'
 import * as inventory from '../entities/inventory/inventory'
 import * as integration from '../entities/integration/integration'
+import * as messageBroker from '../entities/message-broker/message-broker'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -549,6 +550,10 @@ export class Universe extends Readable {
 
   public integration (payload: integration.IntegrationRawPayload): integration.Integration {
     return integration.Integration.create(payload, this, this.http)
+  }
+
+  public messageBroker (payload: messageBroker.MessageBrokerRawPayload): messageBroker.MessageBroker {
+    return messageBroker.MessageBroker.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1092,6 +1097,28 @@ export class Universe extends Readable {
       return resources
     } catch (err) {
       throw new integration.AvailableIntegrationsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async messageBrokers (options?: EntityFetchOptions): Promise<messageBroker.MessageBroker[] | messageBroker.MessageBrokerRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${messageBroker.MessageBrokers.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as messageBroker.MessageBrokerRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: messageBroker.MessageBrokerRawPayload) => {
+        return messageBroker.MessageBroker.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new messageBroker.MessageBrokersFetchRemoteError(undefined, { error: err })
     }
   }
 
