@@ -1,3 +1,10 @@
+# [2.82.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.81.0...v2.82.0) (2020-07-02)
+
+
+### Features
+
+* **client:** utilise cookies ([7d6f43a](https://github.com/c-commerce/charles-browser-sdk/commit/7d6f43a96c7deaf52a86ed0d52c505df51aa45be))
+
 # [2.81.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.80.2...v2.81.0) (2020-06-28)
 
 

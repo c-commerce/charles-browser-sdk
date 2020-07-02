@@ -15,6 +15,7 @@ var Client = (function () {
         this.requestInterceptorIds = [];
         this.options = options;
         this.axiosInstance = axios_1.default.create({
+            withCredentials: true,
             timeout: (_a = options.timeout) !== null && _a !== void 0 ? _a : 10000,
             headers: tslib_1.__assign(tslib_1.__assign({}, options.headers), defaultHeaders)
         });
