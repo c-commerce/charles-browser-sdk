@@ -3,6 +3,7 @@ import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios'
 import { environment } from './environment'
 
 export interface ClientOptions {
+  withCredentials?: boolean
   base?: string
   timeout?: number
   headers?: {
@@ -35,6 +36,7 @@ export class Client {
   private constructor (options: ClientOptions) {
     this.options = options
     this.axiosInstance = axios.create({
+      withCredentials: this.options.withCredentials ?? undefined,
       // baseURL: options.base || 'https://api.hello-charles.com',
       timeout: options.timeout ?? 10000,
       headers: {
