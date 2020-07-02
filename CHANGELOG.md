@@ -1,3 +1,10 @@
+# [2.83.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.82.0...v2.83.0) (2020-07-02)
+
+
+### Features
+
+* **MessageBroker:** Add Message Broker & Message Templates Sync Mechanism ([a616db6](https://github.com/c-commerce/charles-browser-sdk/commit/a616db6f760ce102aa5c8fcede613e9577953aba))
+
 # [2.82.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.81.0...v2.82.0) (2020-07-02)
 
 

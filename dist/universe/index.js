@@ -32,6 +32,7 @@ var tagGroup = tslib_1.__importStar(require("../entities/tag-group/tag-group"));
 var configuration = tslib_1.__importStar(require("../entities/configuration/configuration"));
 var inventory = tslib_1.__importStar(require("../entities/inventory/inventory"));
 var integration = tslib_1.__importStar(require("../entities/integration/integration"));
+var messageBroker = tslib_1.__importStar(require("../entities/message-broker/message-broker"));
 var Universe = (function (_super) {
     tslib_1.__extends(Universe, _super);
     function Universe(options) {
@@ -289,6 +290,9 @@ var Universe = (function (_super) {
     };
     Universe.prototype.integration = function (payload) {
         return integration.Integration.create(payload, this, this.http);
+    };
+    Universe.prototype.messageBroker = function (payload) {
+        return messageBroker.MessageBroker.create(payload, this, this.http);
     };
     Universe.prototype.me = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -998,6 +1002,35 @@ var Universe = (function (_super) {
             });
         });
     };
+    Universe.prototype.messageBrokers = function (options) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var res, resources, err_25;
+            var _this = this;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + messageBroker.MessageBrokers.endpoint, {
+                                params: tslib_1.__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                            })];
+                    case 1:
+                        res = _b.sent();
+                        resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
+                        return [2, resources.map(function (resource) {
+                                return messageBroker.MessageBroker.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_25 = _b.sent();
+                        throw new messageBroker.MessageBrokersFetchRemoteError(undefined, { error: err_25 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Universe.prototype.arm = function () {
         var _this = this;
         var mqtt = this.getMqttClient();
@@ -1045,7 +1078,7 @@ var Universe = (function (_super) {
     });
     Universe.prototype.searchEntity = function (endpoint, q) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_25;
+            var res, err_26;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1059,8 +1092,8 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         return [2, res.data.data];
                     case 2:
-                        err_25 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_25 });
+                        err_26 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_26 });
                     case 3: return [2];
                 }
             });

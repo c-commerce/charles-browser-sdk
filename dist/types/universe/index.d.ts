@@ -27,6 +27,7 @@ import * as tagGroup from '../entities/tag-group/tag-group';
 import * as configuration from '../entities/configuration/configuration';
 import * as inventory from '../entities/inventory/inventory';
 import * as integration from '../entities/integration/integration';
+import * as messageBroker from '../entities/message-broker/message-broker';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -195,6 +196,7 @@ export declare class Universe extends Readable {
     configuration(payload: configuration.ConfigurationRawPayload): configuration.Configuration;
     inventory(payload: inventory.InventoryRawPayload): inventory.Inventory;
     integration(payload: integration.IntegrationRawPayload): integration.Integration;
+    messageBroker(payload: messageBroker.MessageBrokerRawPayload): messageBroker.MessageBroker;
     me(): Promise<MeData | undefined>;
     get feeds(): UniverseFeeds;
     get people(): UniversePeople;
@@ -217,6 +219,7 @@ export declare class Universe extends Readable {
     inventories(options?: EntityFetchOptions): Promise<inventory.Inventory[] | inventory.InventoryRawPayload[] | undefined>;
     integrations(options?: EntityFetchOptions): Promise<integration.Integration[] | integration.IntegrationRawPayload[] | undefined>;
     availableIntegrations(options?: EntityFetchOptions): Promise<integration.AvailableIntegrationRawPayload[] | undefined>;
+    messageBrokers(options?: EntityFetchOptions): Promise<messageBroker.MessageBroker[] | messageBroker.MessageBrokerRawPayload[] | undefined>;
     arm(): Universe;
     get search(): UniverseSearches;
     private searchEntity;
