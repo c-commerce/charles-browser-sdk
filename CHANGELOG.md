@@ -1,3 +1,10 @@
+## [2.83.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.83.0...v2.83.1) (2020-07-02)
+
+
+### Reverts
+
+* Revert "feat(client): utilise cookies" ([8408e4f](https://github.com/c-commerce/charles-browser-sdk/commit/8408e4f22c5a1b79ae6ec5086bd9ce6ac0143767))
+
 # [2.83.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.82.0...v2.83.0) (2020-07-02)
 
 
