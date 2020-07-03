@@ -410,7 +410,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
     }
   }
 
-  public async createFeedEvent (): Promise<Event | undefined> {
+  public async viewed (): Promise<Event | undefined> {
     return await this.createFeedEvent('agent:view')
   }
 
