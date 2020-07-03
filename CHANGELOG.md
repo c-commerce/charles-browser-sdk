@@ -1,3 +1,10 @@
+# [2.86.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.85.0...v2.86.0) (2020-07-03)
+
+
+### Features
+
+* **Storefront:** Add storefronts ([b388efb](https://github.com/c-commerce/charles-browser-sdk/commit/b388efbd479a8a98fa106ff569ff8b6817a9404c))
+
 # [2.85.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.84.0...v2.85.0) (2020-07-03)
 
 
