@@ -108,6 +108,9 @@ export interface UniverseSearches {
 }
 export interface UniverseFeeds {
     fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>;
+    fetchCount: (options?: UniverseFetchOptions) => Promise<{
+        count: number;
+    }>;
     fromJson: (feeds: FeedRawPayload[]) => Feed[];
     toJson: (feeds: Feed[]) => FeedRawPayload[];
     stream: (options?: UniverseFetchOptions) => Promise<Feeds>;

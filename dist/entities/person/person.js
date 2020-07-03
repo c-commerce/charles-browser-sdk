@@ -396,6 +396,7 @@ var Address = (function () {
     Address.prototype.deserialize = function (rawPayload) {
         this.id = rawPayload.id;
         this.lines = rawPayload.lines;
+        this.company = rawPayload.company;
         this.locality = rawPayload.locality;
         this.country = rawPayload.country;
         this.region = rawPayload.region;
@@ -418,6 +419,7 @@ var Address = (function () {
         return {
             id: this.id,
             lines: this.lines,
+            company: this.company,
             locality: this.locality,
             country: this.country,
             region: this.region,

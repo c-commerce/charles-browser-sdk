@@ -1,3 +1,16 @@
+# [2.85.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.84.0...v2.85.0) (2020-07-03)
+
+
+### Bug Fixes
+
+* **Feed:** Fixed random error (maybe merge issue) ([2ff44d5](https://github.com/c-commerce/charles-browser-sdk/commit/2ff44d5c69adc5c23fd74e13e7f2fccce591d7d7))
+
+
+### Features
+
+* **feed:** make feeds countable ([360835e](https://github.com/c-commerce/charles-browser-sdk/commit/360835e2bf11cb0ea994a95bccf23fa9786decf7))
+* **Person:** Added company to person address ([88983a7](https://github.com/c-commerce/charles-browser-sdk/commit/88983a7237a9128cff7ec4d2ed836535e7d54dd4))
+
 # [2.84.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.83.1...v2.84.0) (2020-07-02)
 
 

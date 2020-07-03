@@ -504,6 +504,19 @@ var FeedFetchRemoteError = (function (_super) {
     return FeedFetchRemoteError;
 }(errors_1.BaseError));
 exports.FeedFetchRemoteError = FeedFetchRemoteError;
+var FeedFetchCountRemoteError = (function (_super) {
+    tslib_1.__extends(FeedFetchCountRemoteError, _super);
+    function FeedFetchCountRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get feed count.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'RemoteError ';
+        Object.setPrototypeOf(_this, FeedFetchCountRemoteError.prototype);
+        return _this;
+    }
+    return FeedFetchCountRemoteError;
+}(errors_1.BaseError));
+exports.FeedFetchCountRemoteError = FeedFetchCountRemoteError;
 var FeedFetchLatestEventsRemoteError = (function (_super) {
     tslib_1.__extends(FeedFetchLatestEventsRemoteError, _super);
     function FeedFetchLatestEventsRemoteError(message, properties) {

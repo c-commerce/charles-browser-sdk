@@ -21,6 +21,7 @@ export interface PersonAddressRawPayload extends EntityRawPayload {
     readonly active?: boolean;
     readonly type?: string;
     readonly lines?: string[];
+    readonly company?: string;
     readonly locality?: string;
     readonly country?: string;
     readonly region?: string;
@@ -191,6 +192,7 @@ export declare class Address {
     initialized: boolean;
     id?: string;
     lines?: string[];
+    company?: string;
     locality?: string;
     country?: string;
     region?: string;

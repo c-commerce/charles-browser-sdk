@@ -161,6 +161,11 @@ export declare class FeedFetchRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class FeedFetchCountRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export declare class FeedFetchLatestEventsRemoteError extends BaseError {
     message: string;
     name: string;
