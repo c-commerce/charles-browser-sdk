@@ -1,7 +1,7 @@
 import { Readable } from 'readable-stream'
 import { UniverseHealth, UniverseStatus } from './status'
 import { Client } from '../client'
-import { Feeds, Feed, FeedRawPayload, FeedsFetchRemoteError } from '../eventing/feeds/feed'
+import { Feeds, Feed, FeedRawPayload, FeedsFetchRemoteError, FeedFetchCountRemoteError } from '../eventing/feeds/feed'
 import * as realtime from '../realtime'
 import { BaseError } from '../errors'
 import universeTopics from './topics'
@@ -158,6 +158,7 @@ export interface UniverseSearches {
 
 export interface UniverseFeeds {
   fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>
+  fetchCount: (options?: UniverseFetchOptions) => Promise<{ count: number }>
   fromJson: (feeds: FeedRawPayload[]) => Feed[]
   toJson: (feeds: Feed[]) => FeedRawPayload[]
   stream: (options?: UniverseFetchOptions) => Promise<Feeds>
@@ -631,6 +632,25 @@ export class Universe extends Readable {
           })
         } catch (err) {
           throw new FeedsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${Feeds.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new FeedFetchCountRemoteError(undefined, { error: err })
         }
       },
       stream: async (options?: UniverseFetchOptions): Promise<Feeds> => {

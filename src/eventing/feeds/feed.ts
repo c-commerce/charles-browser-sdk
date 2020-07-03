@@ -594,6 +594,14 @@ export class FeedFetchRemoteError extends BaseError {
   }
 }
 
+export class FeedFetchCountRemoteError extends BaseError {
+  public name = 'RemoteError ';
+  constructor (public message: string = 'Could not get feed count.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, FeedFetchCountRemoteError.prototype)
+  }
+}
+
 export class FeedFetchLatestEventsRemoteError extends BaseError {
   public name = 'FeedFetchLatestEventsRemoteError'
   constructor (public message: string = 'Could not get latest feed events.', properties?: any) {
