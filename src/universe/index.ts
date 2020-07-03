@@ -35,6 +35,7 @@ import * as configuration from '../entities/configuration/configuration'
 import * as inventory from '../entities/inventory/inventory'
 import * as integration from '../entities/integration/integration'
 import * as messageBroker from '../entities/message-broker/message-broker'
+import * as storefront from '../entities/storefront/storefront'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -555,6 +556,10 @@ export class Universe extends Readable {
 
   public messageBroker (payload: messageBroker.MessageBrokerRawPayload): messageBroker.MessageBroker {
     return messageBroker.MessageBroker.create(payload, this, this.http)
+  }
+
+  public storefront (payload: storefront.StorefrontRawPayload): storefront.Storefront {
+    return storefront.Storefront.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1139,6 +1144,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new messageBroker.MessageBrokersFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async storefronts (options?: EntityFetchOptions): Promise<storefront.Storefront[] | storefront.StorefrontRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${storefront.Storefronts.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as storefront.StorefrontRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: storefront.StorefrontRawPayload) => {
+        return storefront.Storefront.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new storefront.StorefrontsFetchRemoteError(undefined, { error: err })
     }
   }
 
