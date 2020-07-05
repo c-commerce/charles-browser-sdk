@@ -22,7 +22,9 @@ export interface StaffRawPayload extends EntityRawPayload {
   readonly user?: string
   readonly roles?: string[]
   readonly permissions?: string[]
-
+  readonly invite?: null | {
+    [key: string]: any
+  }
 }
 
 export interface StaffPayload {
@@ -40,6 +42,7 @@ export interface StaffPayload {
   readonly user?: StaffRawPayload['user']
   readonly roles?: StaffRawPayload['roles']
   readonly permissions?: StaffRawPayload['permissions']
+  readonly invite?: StaffRawPayload['invite']
 }
 
 /**
@@ -69,6 +72,7 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
   public user?: StaffRawPayload['user']
   public roles?: StaffRawPayload['roles']
   public permissions?: StaffRawPayload['permissions']
+  public invite?: StaffRawPayload['invite']
 
   constructor (options: StaffOptions) {
     super()
@@ -100,6 +104,7 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
     this.user = rawPayload.user
     this.roles = rawPayload.roles
     this.permissions = rawPayload.permissions
+    this.invite = rawPayload.invite
 
     return this
   }
@@ -123,7 +128,8 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
       gender: this.gender,
       user: this.user,
       roles: this.roles,
-      permissions: this.permissions
+      permissions: this.permissions,
+      invite: this.invite
     }
   }
 
@@ -134,6 +140,26 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
       return this
     } catch (err) {
       throw this.handleError(new StaffInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public async inviteUser (userEmail: string): Promise<Staff | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/invite`,
+        data: {
+          email: userEmail
+        }
+      }
+
+      const response = await this.http.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as StaffRawPayload)
+
+      return this
+    } catch (err) {
+      throw this.handleError(new StaffInviteError(undefined, { error: err }))
     }
   }
 }
@@ -160,6 +186,13 @@ export class StaffFetchRemoteError extends BaseError {
 export class StaffsFetchRemoteError extends BaseError {
   public name = 'StaffsFetchRemoteError'
   constructor (public message: string = 'Could not get staffs.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class StaffInviteError extends BaseError {
+  public name = 'StaffInviteError'
+  constructor (public message: string = 'Could not invite user unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
