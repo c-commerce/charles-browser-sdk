@@ -19,6 +19,9 @@ export interface StaffRawPayload extends EntityRawPayload {
     readonly user?: string;
     readonly roles?: string[];
     readonly permissions?: string[];
+    readonly invite?: null | {
+        [key: string]: any;
+    };
 }
 export interface StaffPayload {
     readonly id?: StaffRawPayload['id'];
@@ -35,6 +38,7 @@ export interface StaffPayload {
     readonly user?: StaffRawPayload['user'];
     readonly roles?: StaffRawPayload['roles'];
     readonly permissions?: StaffRawPayload['permissions'];
+    readonly invite?: StaffRawPayload['invite'];
 }
 export declare class Staff extends Entity<StaffPayload, StaffRawPayload> {
     protected universe: Universe;
@@ -56,11 +60,13 @@ export declare class Staff extends Entity<StaffPayload, StaffRawPayload> {
     user?: StaffRawPayload['user'];
     roles?: StaffRawPayload['roles'];
     permissions?: StaffRawPayload['permissions'];
+    invite?: StaffRawPayload['invite'];
     constructor(options: StaffOptions);
     protected deserialize(rawPayload: StaffRawPayload): Staff;
     static create(payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff;
     serialize(): StaffRawPayload;
     init(): Promise<Staff | undefined>;
+    inviteUser(userEmail: string): Promise<Staff | undefined>;
 }
 export declare class Staffs {
     static endpoint: string;
@@ -76,6 +82,11 @@ export declare class StaffFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class StaffsFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class StaffInviteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

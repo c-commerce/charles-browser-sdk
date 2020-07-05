@@ -35,6 +35,7 @@ var Staff = (function (_super) {
         this.user = rawPayload.user;
         this.roles = rawPayload.roles;
         this.permissions = rawPayload.permissions;
+        this.invite = rawPayload.invite;
         return this;
     };
     Staff.create = function (payload, universe, http) {
@@ -56,7 +57,8 @@ var Staff = (function (_super) {
             gender: this.gender,
             user: this.user,
             roles: this.roles,
-            permissions: this.permissions
+            permissions: this.permissions,
+            invite: this.invite
         };
     };
     Staff.prototype.init = function () {
@@ -73,6 +75,33 @@ var Staff = (function (_super) {
                     case 2:
                         err_1 = _a.sent();
                         throw this.handleError(new StaffInitializationError(undefined, { error: err_1 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Staff.prototype.inviteUser = function (userEmail) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, response, err_2;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/invite",
+                            data: {
+                                email: userEmail
+                            }
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        response = _a.sent();
+                        this.deserialize(response.data.data[0]);
+                        return [2, this];
+                    case 2:
+                        err_2 = _a.sent();
+                        throw this.handleError(new StaffInviteError(undefined, { error: err_2 }));
                     case 3: return [2];
                 }
             });
@@ -124,4 +153,16 @@ var StaffsFetchRemoteError = (function (_super) {
     return StaffsFetchRemoteError;
 }(errors_1.BaseError));
 exports.StaffsFetchRemoteError = StaffsFetchRemoteError;
+var StaffInviteError = (function (_super) {
+    tslib_1.__extends(StaffInviteError, _super);
+    function StaffInviteError(message, properties) {
+        if (message === void 0) { message = 'Could not invite user unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'StaffInviteError';
+        return _this;
+    }
+    return StaffInviteError;
+}(errors_1.BaseError));
+exports.StaffInviteError = StaffInviteError;
 //# sourceMappingURL=staff.js.map

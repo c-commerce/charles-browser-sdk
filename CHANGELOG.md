@@ -1,3 +1,10 @@
+# [2.87.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.86.0...v2.87.0) (2020-07-05)
+
+
+### Features
+
+* **staff:** add user invite ([c4f631b](https://github.com/c-commerce/charles-browser-sdk/commit/c4f631bc336e8a7649271c64385d2f7cd5319d00))
+
 # [2.86.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.85.0...v2.86.0) (2020-07-03)
 
 
