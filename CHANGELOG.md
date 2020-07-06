@@ -1,3 +1,10 @@
+## [2.87.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.87.0...v2.87.1) (2020-07-06)
+
+
+### Bug Fixes
+
+* **feed:** added open parameter to feed.serialize() ([1cb500a](https://github.com/c-commerce/charles-browser-sdk/commit/1cb500a88c137f308eafa70348a9f3fc8b2ad2d3))
+
 # [2.87.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.86.0...v2.87.0) (2020-07-05)
 
 
