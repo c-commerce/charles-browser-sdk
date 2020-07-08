@@ -178,7 +178,8 @@ export class Auth {
       const response = await axios.post(`${authData.authBaseUrl ?? this.authBaseUrl as string}/api/v0/users/auth/login`, {
         email: username,
         password: password,
-        recaptcha_token: authData.recaptcha_token,
+        recaptcha_token: authData.recaptcha_token
+      }, {
         // local override for static auth calling cases e.g. loosely initted SDKs instances
         withCredentials: authData.withCredentials ?? !!this.options.credentials
       })
