@@ -24,6 +24,7 @@ export interface UsernameAuth extends AuthBase {
     recaptcha_token?: string;
     baseUrl?: string;
     authBaseUrl?: string;
+    withCredentials?: boolean;
 }
 export interface KeyAuth extends AuthBase {
     id: string;
@@ -86,7 +87,7 @@ export declare class Auth {
     loginUsername(authData?: UsernameAuth): Promise<AuthResponse>;
     requestPasswordReset(target: PasswordResetRequest): Promise<PasswordResetRequestResponse>;
     setNewPassword(nonce: PasswordResetNonce): Promise<PasswordResetRequestResponse>;
-    protected setDefaultHeader(user: string, token: string): void;
+    protected setDefaultHeader(user: string, token: string, withCredentials?: boolean): void;
     logout(token?: string): Promise<LogoutResponse>;
     setAuthed(accessToken: string): Auth;
 }

@@ -16,7 +16,7 @@ var CharlesClient = (function (_super) {
     function CharlesClient(options) {
         var _this = _super.call(this) || this;
         _this.initialized = false;
-        _this.auth = new v0.Auth({ base: exports.defaultOptions.universe });
+        _this.auth = new v0.Auth({ base: exports.defaultOptions.universe, withCredentials: options === null || options === void 0 ? void 0 : options.withCredentials });
         if (!options)
             return _this;
         if (_this.handleOptions(options)) {
@@ -26,13 +26,16 @@ var CharlesClient = (function (_super) {
     }
     CharlesClient.prototype.init = function (options) {
         if (options === void 0) { options = exports.defaultOptions; }
+        var _a, _b;
         if (this.handleOptions(options))
             return;
+        var withCredentials = (_a = options.withCredentials) !== null && _a !== void 0 ? _a : !!((_b = this.options) === null || _b === void 0 ? void 0 : _b.withCredentials);
         var clientOptions = {
-            headers: {}
+            headers: {},
+            withCredentials: withCredentials
         };
         if (options.universe) {
-            this.auth = new v0.Auth({ base: options.universe });
+            this.auth = new v0.Auth({ base: options.universe, withCredentials: withCredentials });
         }
         if (options.responseInterceptors) {
             clientOptions.responseInterceptors = options.responseInterceptors;
@@ -52,19 +55,21 @@ var CharlesClient = (function (_super) {
         this.user = undefined;
     };
     CharlesClient.prototype.handleOptions = function (options) {
+        var _a, _b;
         this.options = options;
         this.user = this.options.user;
+        var withCredentials = (_a = options.withCredentials) !== null && _a !== void 0 ? _a : !!((_b = this.options) === null || _b === void 0 ? void 0 : _b.withCredentials);
         if (options.credentials) {
             var authOptions = {
                 credentials: options.credentials,
-                withCredentials: options.withCredentials,
                 base: this.options.base,
-                user: this.user
+                user: this.user,
+                withCredentials: withCredentials
             };
             var clientOptions = {
                 headers: {},
                 responseInterceptors: options.responseInterceptors,
-                withCredentials: options.withCredentials
+                withCredentials: withCredentials
             };
             this.auth = new v0.Auth(authOptions);
             if (options.credentials.accessToken) {

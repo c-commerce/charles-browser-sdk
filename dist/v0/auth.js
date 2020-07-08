@@ -39,7 +39,7 @@ var Auth = (function () {
             return;
         this.determineAuthType();
         if (this.options.user && this.options.type === AuthTypes.accessToken) {
-            this.setDefaultHeader(this.options.user, this.options.credentials.accessToken);
+            this.setDefaultHeader(this.options.user, this.options.credentials.accessToken, this.options.withCredentials);
         }
     }
     Auth.prototype.clearInstance = function () {
@@ -74,11 +74,11 @@ var Auth = (function () {
     };
     Auth.prototype.loginUsername = function (authData) {
         if (authData === void 0) { authData = {}; }
-        var _a;
+        var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var username, password, response, err_1, error;
-            return tslib_1.__generator(this, function (_b) {
-                switch (_b.label) {
+            var username, password, withCredentials, response, err_1, error;
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         if (this.options.credentials &&
                             this.options.credentials.username &&
@@ -93,17 +93,19 @@ var Auth = (function () {
                         else {
                             throw new errors.UninstantiatedClient();
                         }
-                        _b.label = 1;
+                        withCredentials = (_a = authData.withCredentials) !== null && _a !== void 0 ? _a : !!this.options.credentials;
+                        _d.label = 1;
                     case 1:
-                        _b.trys.push([1, 3, , 4]);
-                        return [4, axios_1.default.post(((_a = authData.authBaseUrl) !== null && _a !== void 0 ? _a : this.authBaseUrl) + "/api/v0/users/auth/login", {
+                        _d.trys.push([1, 3, , 4]);
+                        return [4, axios_1.default.post(((_b = authData.authBaseUrl) !== null && _b !== void 0 ? _b : this.authBaseUrl) + "/api/v0/users/auth/login", {
                                 email: username,
                                 password: password,
-                                recaptcha_token: authData.recaptcha_token
+                                recaptcha_token: authData.recaptcha_token,
+                                withCredentials: (_c = authData.withCredentials) !== null && _c !== void 0 ? _c : !!this.options.credentials
                             })];
                     case 2:
-                        response = _b.sent();
-                        this.setDefaultHeader(response.data.data.id, response.data.data.access_token);
+                        response = _d.sent();
+                        this.setDefaultHeader(response.data.data.id, response.data.data.access_token, withCredentials);
                         return [2, {
                                 id: response.data.data.id,
                                 access_token: response.data.data.access_token,
@@ -114,7 +116,7 @@ var Auth = (function () {
                                 roles: response.data.data.roles
                             }];
                     case 3:
-                        err_1 = _b.sent();
+                        err_1 = _d.sent();
                         error = new errors.AuthenticationFailed(undefined, {
                             error: err_1, body: err_1.response && err_1.response.data ? err_1.response.data : null
                         });
@@ -171,12 +173,13 @@ var Auth = (function () {
             });
         });
     };
-    Auth.prototype.setDefaultHeader = function (user, token) {
+    Auth.prototype.setDefaultHeader = function (user, token, withCredentials) {
         var clientOptions = {
             headers: {
                 Authorization: "Bearer " + token,
                 'X-Client-ID': user
-            }
+            },
+            withCredentials: withCredentials !== null && withCredentials !== void 0 ? withCredentials : !!this.options.credentials
         };
         this.setAuthed(token);
         this.user = user;

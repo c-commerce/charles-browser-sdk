@@ -1,3 +1,10 @@
+# [2.88.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.87.1...v2.88.0) (2020-07-08)
+
+
+### Features
+
+* force credentials in all the accessors ([1f7c7b3](https://github.com/c-commerce/charles-browser-sdk/commit/1f7c7b344bd704a747486f3a51850c0bb5290f2c))
+
 ## [2.87.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.87.0...v2.87.1) (2020-07-06)
 
 
