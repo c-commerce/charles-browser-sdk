@@ -1,3 +1,10 @@
+## [2.88.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.88.0...v2.88.1) (2020-07-08)
+
+
+### Bug Fixes
+
+* move credentials to options ([e6d9691](https://github.com/c-commerce/charles-browser-sdk/commit/e6d96913ed8292f571a2717269242521577d937c))
+
 # [2.88.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.87.1...v2.88.0) (2020-07-08)
 
 

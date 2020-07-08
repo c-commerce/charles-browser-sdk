@@ -100,7 +100,8 @@ var Auth = (function () {
                         return [4, axios_1.default.post(((_b = authData.authBaseUrl) !== null && _b !== void 0 ? _b : this.authBaseUrl) + "/api/v0/users/auth/login", {
                                 email: username,
                                 password: password,
-                                recaptcha_token: authData.recaptcha_token,
+                                recaptcha_token: authData.recaptcha_token
+                            }, {
                                 withCredentials: (_c = authData.withCredentials) !== null && _c !== void 0 ? _c : !!this.options.credentials
                             })];
                     case 2:
