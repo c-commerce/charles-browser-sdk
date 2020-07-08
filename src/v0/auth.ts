@@ -30,6 +30,7 @@ export interface UsernameAuth extends AuthBase {
   recaptcha_token?: string
   baseUrl?: string
   authBaseUrl?: string
+  withCredentials?: boolean
 }
 
 export interface KeyAuth extends AuthBase {
@@ -121,7 +122,7 @@ export class Auth {
     this.determineAuthType()
 
     if (this.options.user && this.options.type === AuthTypes.accessToken) {
-      this.setDefaultHeader(this.options.user, (this.options.credentials as TokenAuth).accessToken)
+      this.setDefaultHeader(this.options.user, (this.options.credentials as TokenAuth).accessToken, this.options.withCredentials)
     }
   }
 
@@ -171,16 +172,21 @@ export class Auth {
       throw new errors.UninstantiatedClient()
     }
 
+    const withCredentials = authData.withCredentials ?? !!this.options.credentials
+
     try {
       const response = await axios.post(`${authData.authBaseUrl ?? this.authBaseUrl as string}/api/v0/users/auth/login`, {
         email: username,
         password: password,
-        recaptcha_token: authData.recaptcha_token
+        recaptcha_token: authData.recaptcha_token,
+        // local override for static auth calling cases e.g. loosely initted SDKs instances
+        withCredentials: authData.withCredentials ?? !!this.options.credentials
       })
 
       this.setDefaultHeader(
         response.data.data.id,
-        response.data.data.access_token
+        response.data.data.access_token,
+        withCredentials
       )
 
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
@@ -233,12 +239,13 @@ export class Auth {
     }
   }
 
-  protected setDefaultHeader (user: string, token: string): void {
+  protected setDefaultHeader (user: string, token: string, withCredentials?: boolean): void {
     const clientOptions: ClientOptions = {
       headers: {
         Authorization: `Bearer ${token}`,
         'X-Client-ID': user
-      }
+      },
+      withCredentials: withCredentials ?? !!this.options.credentials
     }
 
     this.setAuthed(token)

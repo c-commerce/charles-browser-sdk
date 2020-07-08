@@ -152,7 +152,7 @@ charles.init({
       // charles.init()
       this.$emit('auth-attempt')
 
-      const response = this.authResponse = await charles.auth.loginUsername({ username: this.username, password: this.password, authBaseUrl: this.baseUrl })
+      const response = this.authResponse = await charles.auth.loginUsername({ username: this.username, password: this.password, authBaseUrl: this.baseUrl, withCredentials: true })
 
       this.$emit('auth-success', response)
     }

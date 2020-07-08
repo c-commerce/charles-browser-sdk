@@ -67,7 +67,7 @@ export class CharlesClient extends events.EventEmitter {
   constructor (options?: CharlesSDKOptions) {
     super()
 
-    this.auth = new v0.Auth({ base: defaultOptions.universe })
+    this.auth = new v0.Auth({ base: defaultOptions.universe, withCredentials: options?.withCredentials })
 
     if (!options) return
 
@@ -87,12 +87,15 @@ export class CharlesClient extends events.EventEmitter {
     // in all other cases we will instantiate clients, that need to be authenticated
     // by the caller before any API will be available
 
+    const withCredentials = options.withCredentials ?? !!this.options?.withCredentials
+
     const clientOptions: ClientOptions = {
-      headers: {}
+      headers: {},
+      withCredentials
     }
 
     if (options.universe) {
-      this.auth = new v0.Auth({ base: options.universe })
+      this.auth = new v0.Auth({ base: options.universe, withCredentials })
     }
 
     if (options.responseInterceptors) {
@@ -127,18 +130,20 @@ export class CharlesClient extends events.EventEmitter {
     // this.options.universe = this.options.universe
     this.user = this.options.user
 
+    const withCredentials = options.withCredentials ?? !!this.options?.withCredentials
+
     if (options.credentials) {
       const authOptions: AuthOptions = {
         credentials: options.credentials,
-        withCredentials: options.withCredentials,
         base: this.options.base,
-        user: this.user
+        user: this.user,
+        withCredentials
       }
 
       const clientOptions: ClientOptions = {
         headers: {},
         responseInterceptors: options.responseInterceptors,
-        withCredentials: options.withCredentials
+        withCredentials
       }
 
       this.auth = new v0.Auth(authOptions)

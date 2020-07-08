@@ -173,7 +173,8 @@ export const InitializationAndDefaultSubscriptions = () => ({
       charles.init({
         credentials: {
           accessToken: this.token
-        }
+        },
+        withCredentials: true
       })
 
       const universe = charles.universe(this.universeName, {
@@ -296,7 +297,8 @@ export const InitializationAndDefaultSubscriptionsAndReply = () => ({
       charles.init({
         credentials: {
           accessToken: this.token
-        }
+        },
+        withCredentials: true
       })
 
       const universe = charles.universe(this.universeName, {
@@ -465,7 +467,8 @@ export const FetchEntities = () => ({
       charles.init({
         credentials: {
           accessToken: this.token
-        }
+        },
+        withCredentials: true
       })
 
       const universe = charles.universe(this.universeName, {
@@ -625,7 +628,8 @@ export const Searches = () => ({
       charles.init({
         credentials: {
           accessToken: this.token
-        }
+        },
+        withCredentials: true
       })
 
       const universe = this.universe = charles.universe(this.universeName, {
