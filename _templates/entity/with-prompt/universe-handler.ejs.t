@@ -4,29 +4,37 @@ to: src/universe/index.ts
 before: hygen:handler:injection
 ---
 <%
-  pluralizedName = h.inflection.pluralize(h.inflection.humanize(name, true))
-  singularizedName = h.inflection.singularize(h.inflection.humanize(name, true))
+  pluralizedName = h.inflection.pluralize(name)
+  singularizedName = h.inflection.singularize(name)
+  singularizedHumanName = h.inflection.humanize(singularizedName, true)
+  humanPlural = h.inflection.humanize(pluralizedName)
+  titleHumanPlural = h.changeCase.title(humanPlural, true)
   capitalizedName = h.inflection.capitalize(singularizedName)
-  capitalizedPluralName = h.inflection.capitalize(pluralizedName)
+  capitalizedPluralName = h.inflection.capitalize(name)
+  camelizedName = h.inflection.camelize(name, true)
+  camelizedSingularName = h.inflection.camelize(singularizedName, true)
+  className  = h.changeCase.pascal(singularizedName, true)
+  classListName  = h.changeCase.pascal(pluralizedName, true)
+  title  = h.changeCase.title(singularizedName, true)
 %>
-  public async <%= pluralizedName %>(options?: EntityFetchOptions): Promise<<%= singularizedName %>.<%= capitalizedName %>[] | <%= singularizedName %>.<%= capitalizedName %>RawPayload[] | undefined> {
+  public async <%= camelizedName %>(options?: EntityFetchOptions): Promise<<%= camelizedSingularName %>.<%= className %>[] | <%= camelizedSingularName %>.<%= className %>RawPayload[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${<%= name %>.<%= capitalizedPluralName %>.endpoint}`, {
+      const res = await this.http.getClient().get(`${this.universeBase}/${<%= camelizedSingularName %>.<%= classListName %>.endpoint}`, {
         params: {
           ...(options?.query ?? {})
         }
       })
 
-      const resources = res.data.data as <%= singularizedName %>.<%= capitalizedName %>RawPayload[]
+      const resources = res.data.data as <%= camelizedSingularName %>.<%= className %>RawPayload[]
 
       if (options && options.raw === true) {
         return resources
       }
 
-      return resources.map((resource: <%= singularizedName %>.<%= capitalizedName %>RawPayload) => {
-        return <%= singularizedName %>.<%= capitalizedName %>.create(resource, this, this.http)
+      return resources.map((resource: <%= camelizedSingularName %>.<%= className %>RawPayload) => {
+        return <%= camelizedSingularName %>.<%= className %>.create(resource, this, this.http)
       })
     } catch (err) {
-      throw new <%= singularizedName %>.<%= capitalizedPluralName %>FetchRemoteError(undefined, { error: err })
+      throw new <%= camelizedSingularName %>.<%= classListName %>FetchRemoteError(undefined, { error: err })
     }
   }

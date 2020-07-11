@@ -4,11 +4,19 @@ to: src/universe/index.ts
 before: hygen:factory:injection
 ---
 <%
-  pluralizedName = h.inflection.pluralize(h.inflection.humanize(name, true))
-  singularizedName = h.inflection.singularize(h.inflection.humanize(name, true))
+  pluralizedName = h.inflection.pluralize(name)
+  singularizedName = h.inflection.singularize(name)
+  singularizedHumanName = h.inflection.humanize(singularizedName, true)
+  humanPlural = h.inflection.humanize(pluralizedName)
+  titleHumanPlural = h.changeCase.title(humanPlural, true)
   capitalizedName = h.inflection.capitalize(singularizedName)
-  capitalizedPluralName = h.inflection.capitalize(pluralizedName)
+  capitalizedPluralName = h.inflection.capitalize(name)
+  camelizedName = h.inflection.camelize(name, true)
+  camelizedSingularName = h.inflection.camelize(singularizedName, true)
+  className  = h.changeCase.pascal(singularizedName, true)
+  classListName  = h.changeCase.pascal(pluralizedName, true)
+  title  = h.changeCase.title(singularizedName, true)
 %>
-  public <%= singularizedName %>(payload: <%= singularizedName %>.<%= capitalizedName %>RawPayload): <%= singularizedName %>.<%= capitalizedName %> {
-    return <%= singularizedName %>.<%= capitalizedName %>.create(payload, this, this.http)
+  public <%= camelizedSingularName %>(payload: <%= camelizedSingularName %>.<%= className %>RawPayload): <%= camelizedSingularName %>.<%= className %> {
+    return <%= camelizedSingularName %>.<%= className %>.create(payload, this, this.http)
   }

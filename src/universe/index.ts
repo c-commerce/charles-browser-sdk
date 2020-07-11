@@ -36,6 +36,7 @@ import * as inventory from '../entities/inventory/inventory'
 import * as integration from '../entities/integration/integration'
 import * as messageBroker from '../entities/message-broker/message-broker'
 import * as storefront from '../entities/storefront/storefront'
+import * as shippingMethod from '../entities/shipping-method/shipping-method'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -560,6 +561,10 @@ export class Universe extends Readable {
 
   public storefront (payload: storefront.StorefrontRawPayload): storefront.Storefront {
     return storefront.Storefront.create(payload, this, this.http)
+  }
+
+  public shippingMethod (payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod {
+    return shippingMethod.ShippingMethod.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1166,6 +1171,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new storefront.StorefrontsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async shippingMethods (options?: EntityFetchOptions): Promise<shippingMethod.ShippingMethod[] | shippingMethod.ShippingMethodRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${shippingMethod.ShippingMethods.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as shippingMethod.ShippingMethodRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: shippingMethod.ShippingMethodRawPayload) => {
+        return shippingMethod.ShippingMethod.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new shippingMethod.ShippingMethodsFetchRemoteError(undefined, { error: err })
     }
   }
 

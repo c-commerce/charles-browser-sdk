@@ -6,7 +6,7 @@ module.exports = [
   {
     type: 'input',
     name: 'name',
-    message: 'What is the URI name of thew new CRUD resource? (singular)',
+    message: 'What is the URI name of thew new CRUD resource? (plural, e.g. shipping_methods)',
     validate (value, state, item, index) {
       if (value.length <= 2) {
         return 'resource should have more than 2 characters'

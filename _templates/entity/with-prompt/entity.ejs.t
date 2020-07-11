@@ -1,21 +1,29 @@
 ---
-to: "<%= 'src/entities/' + h.inflection.camelize(h.inflection.singularize(h.inflection.humanize(name, true)), true) + '/' + h.inflection.camelize(h.inflection.singularize(h.inflection.humanize(name, true)), true) + '.ts' %>"
+to: "<%= 'src/entities/' + h.inflection.dasherize(singularizedName, true) + '/' +h.inflection.dasherize(singularizedName, true) + '.ts' %>"
 ---
 <%
-  pluralizedName = h.inflection.pluralize(h.inflection.humanize(name, true))
-  singularizedName = h.inflection.singularize(h.inflection.humanize(name, true))
+  pluralizedName = h.inflection.pluralize(name)
+  singularizedName = h.inflection.singularize(name)
+  singularizedHumanName = h.inflection.humanize(singularizedName, true)
+  humanPlural = h.inflection.humanize(pluralizedName)
+  titleHumanPlural = h.changeCase.title(humanPlural, true)
   capitalizedName = h.inflection.capitalize(singularizedName)
-  capitalizedPluralName = h.inflection.capitalize(pluralizedName)
+  capitalizedPluralName = h.inflection.capitalize(name)
+  camelizedName = h.inflection.camelize(name, true)
+  camelizedSingularName = h.inflection.camelize(singularizedName, true)
+  className  = h.changeCase.pascal(singularizedName, true)
+  classListName  = h.changeCase.pascal(pluralizedName, true)
+  title  = h.changeCase.title(singularizedName, true)
 %>
 import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface <%= capitalizedName %>Options extends EntityOptions {
-  rawPayload?: <%= capitalizedName %>RawPayload
+export interface <%= className %>Options extends EntityOptions {
+  rawPayload?: <%= className %>RawPayload
 }
 
-export interface <%= capitalizedName %>RawPayload {
+export interface <%= className %>RawPayload {
   readonly id?: string
   readonly created_at?: string
   readonly updated_at?: string
@@ -23,12 +31,12 @@ export interface <%= capitalizedName %>RawPayload {
   readonly active?: boolean
 }
 
-export interface <%= capitalizedName %>Payload {
-  readonly id?: <%= capitalizedName %>RawPayload['id']
+export interface <%= className %>Payload {
+  readonly id?: <%= className %>RawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
-  readonly deleted?: <%= capitalizedName %>RawPayload['deleted']
-  readonly active?: <%= capitalizedName %>RawPayload['active']
+  readonly deleted?: <%= className %>RawPayload['deleted']
+  readonly active?: <%= className %>RawPayload['active']
 }
 
 /**
@@ -36,24 +44,24 @@ export interface <%= capitalizedName %>Payload {
  *
  * @category Entity
  */
-export class <%= capitalizedName %> extends Entity<<%= capitalizedName %>Payload, <%= capitalizedName %>RawPayload> {
+export class <%= className %> extends Entity<<%= className %>Payload, <%= className %>RawPayload> {
   protected universe: Universe
   protected http: Universe['http']
-  protected options: <%= capitalizedName %>Options
+  protected options: <%= className %>Options
   public initialized: boolean
 
   public endpoint: string
 
-  public id?: <%= capitalizedName %>Payload['id']
-  public createdAt?: <%= capitalizedName %>Payload['createdAt']
-  public updatedAt?: <%= capitalizedName %>Payload['updatedAt']
-  public deleted?: <%= capitalizedName %>Payload['deleted']
-  public active?: <%= capitalizedName %>Payload['active']
+  public id?: <%= className %>Payload['id']
+  public createdAt?: <%= className %>Payload['createdAt']
+  public updatedAt?: <%= className %>Payload['updatedAt']
+  public deleted?: <%= className %>Payload['deleted']
+  public active?: <%= className %>Payload['active']
 
-  constructor(options: <%= capitalizedName %>Options) {
+  constructor(options: <%= className %>Options) {
     super()
     this.universe = options.universe
-    this.endpoint = 'api/<%= version %>/<%= pluralizedName %>'
+    this.endpoint = 'api/<%= version %>/<%= name %>'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized || false
@@ -63,7 +71,7 @@ export class <%= capitalizedName %> extends Entity<<%= capitalizedName %>Payload
     }
   }
 
-  protected deserialize(rawPayload: <%= capitalizedName %>RawPayload): <%= capitalizedName %> {
+  protected deserialize(rawPayload: <%= className %>RawPayload): <%= className %> {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -75,11 +83,11 @@ export class <%= capitalizedName %> extends Entity<<%= capitalizedName %>Payload
     return this
   }
 
-  public static create(payload: <%= capitalizedName %>RawPayload, universe: Universe, http: Universe['http']): <%= capitalizedName %> {
-    return new <%= capitalizedName %>({ rawPayload: payload, universe, http, initialized: true })
+  public static create(payload: <%= className %>RawPayload, universe: Universe, http: Universe['http']): <%= className %> {
+    return new <%= className %>({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize(): <%= capitalizedName %>RawPayload {
+  public serialize(): <%= className %>RawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
@@ -89,41 +97,42 @@ export class <%= capitalizedName %> extends Entity<<%= capitalizedName %>Payload
     }
   }
 
-  public async init(): Promise<<%= capitalizedName %> | undefined> {
+  public async init(): Promise<<%= className %> | undefined> {
     try {
       await this.fetch()
 
       return this
     } catch (err) {
-      throw this.handleError(new <%= capitalizedName %>InitializationError(undefined, { error: err }))
+      throw this.handleError(new <%= className %>InitializationError(undefined, { error: err }))
     }
   }
 }
 
-export class <%= capitalizedPluralName %> {
-  public static endpoint: string = 'api/<%= version %>/<%= pluralizedName %>'
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+export class <%= classListName %> {
+  public static endpoint: string = 'api/<%= version %>/<%= name %>'
 }
 
-export class <%= capitalizedName %>InitializationError extends BaseError {
-  public name = '<%= capitalizedName %>InitializationError'
+export class <%= className %>InitializationError extends BaseError {
+  public name = '<%= className %>InitializationError'
   constructor(public message: string = 'Could not initialize <%= singularizedName %>.', properties?: any) {
     super(message, properties)
-    Object.setPrototypeOf(this, <%= capitalizedName %>InitializationError.prototype)
+    Object.setPrototypeOf(this, <%= className %>InitializationError.prototype)
   }
 }
 
-export class <%= capitalizedName %>FetchRemoteError extends BaseError {
-  public name = '<%= capitalizedName %>FetchRemoteError'
+export class <%= className %>FetchRemoteError extends BaseError {
+  public name = '<%= className %>FetchRemoteError'
   constructor(public message: string = 'Could not get <%= singularizedName %>.', properties?: any) {
     super(message, properties)
-    Object.setPrototypeOf(this, <%= capitalizedName %>FetchRemoteError.prototype)
+    Object.setPrototypeOf(this, <%= className %>FetchRemoteError.prototype)
   }
 }
 
-export class <%= capitalizedPluralName %>FetchRemoteError extends BaseError {
-  public name = '<%= capitalizedPluralName %>FetchRemoteError'
+export class <%= classListName %>FetchRemoteError extends BaseError {
+  public name = '<%= classListName %>FetchRemoteError'
   constructor(public message: string = 'Could not get <%= pluralizedName %>.', properties?: any) {
     super(message, properties)
-    Object.setPrototypeOf(this, <%= capitalizedPluralName %>FetchRemoteError.prototype)
+    Object.setPrototypeOf(this, <%= classListName %>FetchRemoteError.prototype)
   }
 }
