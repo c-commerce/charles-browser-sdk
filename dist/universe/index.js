@@ -34,6 +34,7 @@ var inventory = tslib_1.__importStar(require("../entities/inventory/inventory"))
 var integration = tslib_1.__importStar(require("../entities/integration/integration"));
 var messageBroker = tslib_1.__importStar(require("../entities/message-broker/message-broker"));
 var storefront = tslib_1.__importStar(require("../entities/storefront/storefront"));
+var shippingMethod = tslib_1.__importStar(require("../entities/shipping-method/shipping-method"));
 var Universe = (function (_super) {
     tslib_1.__extends(Universe, _super);
     function Universe(options) {
@@ -297,6 +298,9 @@ var Universe = (function (_super) {
     };
     Universe.prototype.storefront = function (payload) {
         return storefront.Storefront.create(payload, this, this.http);
+    };
+    Universe.prototype.shippingMethod = function (payload) {
+        return shippingMethod.ShippingMethod.create(payload, this, this.http);
     };
     Universe.prototype.me = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -1089,6 +1093,35 @@ var Universe = (function (_super) {
             });
         });
     };
+    Universe.prototype.shippingMethods = function (options) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var res, resources, err_28;
+            var _this = this;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/" + shippingMethod.ShippingMethods.endpoint, {
+                                params: tslib_1.__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                            })];
+                    case 1:
+                        res = _b.sent();
+                        resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
+                        return [2, resources.map(function (resource) {
+                                return shippingMethod.ShippingMethod.create(resource, _this, _this.http);
+                            })];
+                    case 2:
+                        err_28 = _b.sent();
+                        throw new shippingMethod.ShippingMethodsFetchRemoteError(undefined, { error: err_28 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Universe.prototype.arm = function () {
         var _this = this;
         var mqtt = this.getMqttClient();
@@ -1136,7 +1169,7 @@ var Universe = (function (_super) {
     });
     Universe.prototype.searchEntity = function (endpoint, q) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_28;
+            var res, err_29;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1150,8 +1183,8 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         return [2, res.data.data];
                     case 2:
-                        err_28 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_28 });
+                        err_29 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_29 });
                     case 3: return [2];
                 }
             });

@@ -1,3 +1,10 @@
+# [2.89.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.88.1...v2.89.0) (2020-07-11)
+
+
+### Features
+
+* **commerce:** add shipping methods ([d174738](https://github.com/c-commerce/charles-browser-sdk/commit/d174738785cd45f4c7adb242dea6fe9e4aa61493))
+
 ## [2.88.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.88.0...v2.88.1) (2020-07-08)
 
 
