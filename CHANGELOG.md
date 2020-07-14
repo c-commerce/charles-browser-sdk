@@ -1,3 +1,10 @@
+# [2.90.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.89.0...v2.90.0) (2020-07-14)
+
+
+### Features
+
+* **person:** add orders accessor ([6e6ad1f](https://github.com/c-commerce/charles-browser-sdk/commit/6e6ad1f0df9d475a58fbdb73d23a8a6ab33cf7a0))
+
 # [2.89.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.88.1...v2.89.0) (2020-07-11)
 
 

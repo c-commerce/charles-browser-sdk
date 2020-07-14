@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importStar(require("../_base"));
 var errors_1 = require("../../errors");
+var order_1 = require("../../entities/order/order");
 var channel_user_1 = require("./channel-user");
 var email_1 = require("./email");
 var cart_1 = require("../cart/cart");
@@ -262,6 +263,45 @@ var Person = (function (_super) {
             }); }
         };
     };
+    Person.prototype.orders = function (options) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, orders, ordersMap_1, err_5;
+            var _this = this;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/orders",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            params: tslib_1.__assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {})),
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 1:
+                        res = _b.sent();
+                        orders = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, orders];
+                        }
+                        ordersMap_1 = new Map();
+                        orders.forEach(function (orderRaw) {
+                            var o = order_1.Order.create(orderRaw, _this.universe, _this.http);
+                            ordersMap_1.set(o.id, o);
+                        });
+                        return [2, Array.from(ordersMap_1.values())];
+                    case 2:
+                        err_5 = _b.sent();
+                        throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err_5 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Object.defineProperty(Person.prototype, "carts", {
         get: function () {
             var _this = this;
@@ -273,7 +313,7 @@ var Person = (function (_super) {
                     return feeds.map(function (item) { return item.serialize(); });
                 },
                 fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, feeds, err_5;
+                    var opts, res, feeds, err_6;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -295,14 +335,14 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })];
                             case 2:
-                                err_5 = _a.sent();
-                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_5 });
+                                err_6 = _a.sent();
+                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_6 });
                             case 3: return [2];
                         }
                     });
                 }); },
                 create: function (cart) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, carts, err_6;
+                    var opts, res, carts, err_7;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -321,8 +361,8 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })[0]];
                             case 2:
-                                err_6 = _a.sent();
-                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_6 });
+                                err_7 = _a.sent();
+                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_7 });
                             case 3: return [2];
                         }
                     });
@@ -476,6 +516,19 @@ var Phonenumber = (function () {
     return Phonenumber;
 }());
 exports.Phonenumber = Phonenumber;
+var PersonFetchOrdersRemoteError = (function (_super) {
+    tslib_1.__extends(PersonFetchOrdersRemoteError, _super);
+    function PersonFetchOrdersRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get person orders.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PersonFetchOrdersRemoteError';
+        Object.setPrototypeOf(_this, PersonFetchOrdersRemoteError.prototype);
+        return _this;
+    }
+    return PersonFetchOrdersRemoteError;
+}(errors_1.BaseError));
+exports.PersonFetchOrdersRemoteError = PersonFetchOrdersRemoteError;
 var PersonInitializationError = (function (_super) {
     tslib_1.__extends(PersonInitializationError, _super);
     function PersonInitializationError(message, properties) {

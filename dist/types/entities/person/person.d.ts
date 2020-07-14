@@ -1,7 +1,7 @@
 import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList } from '../_base';
 import { Universe, UniverseFetchOptions } from '../../universe';
 import { BaseError } from '../../errors';
-import { Order } from '../../entities/order/order';
+import { Order, OrderRawPayload } from '../../entities/order/order';
 import { ChannelUser, ChannelUserRawPayload } from './channel-user';
 import { Email, EmailRawPayload } from './email';
 export interface PersonOptions extends EntityOptions {
@@ -165,6 +165,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     init(): Promise<Person | undefined>;
     patch(changePart: PersonRawPayload): Promise<Person>;
     analytics(): object;
+    orders(options?: EntityFetchOptions): Promise<Order[] | OrderRawPayload[] | undefined>;
     get carts(): IPersonCarts;
     get addresses(): AddressArray<Address>;
     set addresses(items: AddressArray<Address>);
@@ -227,6 +228,11 @@ export declare class Phonenumber {
     static create(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
     static createUninitialized(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
     serialize(): PersonPhonenumberRawPayload;
+}
+export declare class PersonFetchOrdersRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
 }
 export declare class PersonInitializationError extends BaseError {
     message: string;
