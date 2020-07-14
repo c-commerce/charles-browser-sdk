@@ -1,7 +1,7 @@
 import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList } from '../_base'
 import { Universe, UniverseFetchOptions } from '../../universe'
 import { BaseError } from '../../errors'
-import { Order } from '../../entities/order/order'
+import { Order, OrderRawPayload } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
 import { Email, EmailRawPayload } from './email'
 import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } from '../cart/cart'
@@ -395,6 +395,44 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     }
   }
 
+  /** Orders accessor
+   *  ```js
+   * //fetch all orders of a person
+   * await person.orders()
+   * ```
+  */
+  public async orders (options?: EntityFetchOptions): Promise<Order[] | OrderRawPayload[] | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/orders`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        params: {
+          ...(options?.query ? options.query : {})
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const orders = res.data.data as OrderRawPayload[]
+
+      if (options && options.raw === true) {
+        return orders
+      }
+      const ordersMap = new Map()
+      orders.forEach((orderRaw: OrderRawPayload) => {
+        const o = Order.create(orderRaw, this.universe, this.http)
+        ordersMap.set(o.id, o)
+      })
+
+      return Array.from(ordersMap.values())
+    } catch (err) {
+      throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err }))
+    }
+  }
+
   /**
    * Carts accessor
    *
@@ -676,6 +714,13 @@ export class Phonenumber {
       deleted: this.deleted,
       active: this.active
     }
+  }
+}
+export class PersonFetchOrdersRemoteError extends BaseError {
+  public name = 'PersonFetchOrdersRemoteError'
+  constructor (public message: string = 'Could not get person orders.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PersonFetchOrdersRemoteError.prototype)
   }
 }
 
