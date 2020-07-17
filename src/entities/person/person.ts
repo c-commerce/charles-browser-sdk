@@ -360,7 +360,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     try {
       await this.fetch({
         query: {
-          embed: ['channel_users', 'phonenumbers', 'addresses', 'emails']
+          embed: ['channel_users', 'phonenumbers', 'addresses', 'emails', 'analytics']
         }
       })
 
