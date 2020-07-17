@@ -1,3 +1,10 @@
+## [2.90.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.90.0...v2.90.1) (2020-07-17)
+
+
+### Bug Fixes
+
+* **person:** add analytics embed in init ([11108ef](https://github.com/c-commerce/charles-browser-sdk/commit/11108efd0fa1c83e51be2600ce4dd60721be5334))
+
 # [2.90.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.89.0...v2.90.0) (2020-07-14)
 
 

@@ -210,7 +210,7 @@ var Person = (function (_super) {
                         _a.trys.push([0, 2, , 3]);
                         return [4, this.fetch({
                                 query: {
-                                    embed: ['channel_users', 'phonenumbers', 'addresses', 'emails']
+                                    embed: ['channel_users', 'phonenumbers', 'addresses', 'emails', 'analytics']
                                 }
                             })];
                     case 1:
