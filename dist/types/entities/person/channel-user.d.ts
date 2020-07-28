@@ -19,6 +19,7 @@ export interface ChannelUserRawPayload extends EntityRawPayload {
     readonly payload_name?: string;
     readonly comment?: string;
     readonly payload?: object | null;
+    readonly links?: object;
 }
 export interface ChannelUserOptions extends EntityOptions {
     rawPayload?: ChannelUserRawPayload;
@@ -46,6 +47,7 @@ export declare class ChannelUser {
     payloadName?: ChannelUserRawPayload['payload_name'];
     comment?: ChannelUserRawPayload['comment'];
     payload?: ChannelUserRawPayload['payload'];
+    links?: ChannelUserRawPayload['links'];
     constructor(options: ChannelUserOptions);
     protected deserialize(rawPayload: ChannelUserRawPayload): ChannelUser;
     static create(payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser;

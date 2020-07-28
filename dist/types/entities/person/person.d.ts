@@ -121,15 +121,6 @@ export interface PersonPayload {
     readonly phonenumbers?: Phonenumber[];
     readonly channelUsers?: ChannelUser[];
 }
-export interface PersonAnalyticsSnapshotResponse {
-    customer_lifetime_value: Array<{
-        overall_net_value: number;
-        currency: string;
-    }>;
-    latest_orders: Order[];
-    mean_polarity: number;
-    mean_nps_score: number;
-}
 export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
@@ -164,7 +155,6 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     serialize(): PersonRawPayload;
     init(): Promise<Person | undefined>;
     patch(changePart: PersonRawPayload): Promise<Person>;
-    analytics(): object;
     orders(options?: EntityFetchOptions): Promise<Order[] | OrderRawPayload[] | undefined>;
     get carts(): IPersonCarts;
     get addresses(): AddressArray<Address>;
@@ -250,11 +240,6 @@ export declare class PeopleFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class PeopleFetchCountRemoteError extends BaseError {
-    message: string;
-    name: string;
-    constructor(message?: string, properties?: any);
-}
-export declare class PeopleAnalyticsRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

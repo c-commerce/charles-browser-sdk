@@ -32,6 +32,7 @@ var ChannelUser = (function () {
         this.payloadName = rawPayload.payload_name;
         this.comment = rawPayload.comment;
         this.payload = rawPayload.payload;
+        this.links = rawPayload.links;
         return this;
     };
     ChannelUser.create = function (payload, universe, http) {
@@ -57,7 +58,8 @@ var ChannelUser = (function () {
             source_api: this.sourceApi,
             payload_name: this.payloadName,
             comment: this.comment,
-            payload: this.payload
+            payload: this.payload,
+            links: this.links
         };
     };
     ChannelUser.prototype.sendMessageFromMessageTemplate = function (messageTemplate, language, parameters) {

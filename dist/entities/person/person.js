@@ -210,7 +210,7 @@ var Person = (function (_super) {
                         _a.trys.push([0, 2, , 3]);
                         return [4, this.fetch({
                                 query: {
-                                    embed: ['channel_users', 'phonenumbers', 'addresses', 'emails', 'analytics']
+                                    embed: ['channel_users', 'phonenumbers', 'addresses', 'emails']
                                 }
                             })];
                     case 1:
@@ -234,39 +234,10 @@ var Person = (function (_super) {
             });
         });
     };
-    Person.prototype.analytics = function () {
-        var _this = this;
-        return {
-            snapshot: function () { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                var response, err_4;
-                return tslib_1.__generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            _a.trys.push([0, 2, , 3]);
-                            return [4, this.http
-                                    .getClient()
-                                    .get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/analytics/snapshot")];
-                        case 1:
-                            response = _a.sent();
-                            return [2, {
-                                    customer_lifetime_value: response.data.data[0].customer_lifetime_value,
-                                    latest_orders: response.data.data[0].latest_orders,
-                                    mean_polarity: response.data.data[0].mean_polarity,
-                                    mean_nps_score: response.data.data[0].mean_nps_score
-                                }];
-                        case 2:
-                            err_4 = _a.sent();
-                            throw new PeopleAnalyticsRemoteError(undefined, { error: err_4 });
-                        case 3: return [2];
-                    }
-                });
-            }); }
-        };
-    };
     Person.prototype.orders = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, orders, ordersMap_1, err_5;
+            var opts, res, orders, ordersMap_1, err_4;
             var _this = this;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
@@ -295,8 +266,8 @@ var Person = (function (_super) {
                         });
                         return [2, Array.from(ordersMap_1.values())];
                     case 2:
-                        err_5 = _b.sent();
-                        throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err_5 }));
+                        err_4 = _b.sent();
+                        throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err_4 }));
                     case 3: return [2];
                 }
             });
@@ -313,7 +284,7 @@ var Person = (function (_super) {
                     return feeds.map(function (item) { return item.serialize(); });
                 },
                 fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, feeds, err_6;
+                    var opts, res, feeds, err_5;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -335,14 +306,14 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })];
                             case 2:
-                                err_6 = _a.sent();
-                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_6 });
+                                err_5 = _a.sent();
+                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_5 });
                             case 3: return [2];
                         }
                     });
                 }); },
                 create: function (cart) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, carts, err_7;
+                    var opts, res, carts, err_6;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -361,8 +332,8 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })[0]];
                             case 2:
-                                err_7 = _a.sent();
-                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_7 });
+                                err_6 = _a.sent();
+                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_6 });
                             case 3: return [2];
                         }
                     });
@@ -581,19 +552,6 @@ var PeopleFetchCountRemoteError = (function (_super) {
     return PeopleFetchCountRemoteError;
 }(errors_1.BaseError));
 exports.PeopleFetchCountRemoteError = PeopleFetchCountRemoteError;
-var PeopleAnalyticsRemoteError = (function (_super) {
-    tslib_1.__extends(PeopleAnalyticsRemoteError, _super);
-    function PeopleAnalyticsRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could not get analytics data.'; }
-        var _this = _super.call(this, message, properties) || this;
-        _this.message = message;
-        _this.name = 'PeopleAnalyticsRemoteError';
-        Object.setPrototypeOf(_this, PeopleAnalyticsRemoteError.prototype);
-        return _this;
-    }
-    return PeopleAnalyticsRemoteError;
-}(errors_1.BaseError));
-exports.PeopleAnalyticsRemoteError = PeopleAnalyticsRemoteError;
 var AddressFetchRemoteError = (function (_super) {
     tslib_1.__extends(AddressFetchRemoteError, _super);
     function AddressFetchRemoteError(message, properties) {
