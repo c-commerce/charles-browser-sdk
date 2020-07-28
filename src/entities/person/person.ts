@@ -3,6 +3,7 @@ import { Universe, UniverseFetchOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import { Order, OrderRawPayload } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
+import { Analytics, AnalyticsRawPayload } from './analytics'
 import { Email, EmailRawPayload } from './email'
 import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } from '../cart/cart'
 import omit from 'just-omit'
@@ -47,6 +48,8 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
 
 export type PersonChannelUserRawPayload = ChannelUserRawPayload
 
+export type PersonAnalyticsRawPayload = AnalyticsRawPayload
+
 export type PersonEmailRawPayload = EmailRawPayload
 
 export interface PersonRawPayload extends EntityRawPayload {
@@ -84,6 +87,7 @@ export interface PersonRawPayload extends EntityRawPayload {
   readonly addresses?: PersonAddressRawPayload[]
   readonly phonenumbers?: PersonPhonenumberRawPayload[]
   readonly channel_users?: PersonChannelUserRawPayload[]
+  readonly analytics?: PersonAnalyticsRawPayload
 }
 
 export interface IPersonCarts {
@@ -189,6 +193,7 @@ export interface PersonPayload {
   readonly addresses?: Address[]
   readonly phonenumbers?: Phonenumber[]
   readonly channelUsers?: ChannelUser[]
+  readonly analytics?: Analytics
 }
 
 /**
@@ -226,6 +231,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public _addresses?: PersonPayload['addresses']
   public phonenumbers?: PersonPayload['phonenumbers']
   public channelUsers?: PersonPayload['channelUsers']
+  public analytics?: PersonPayload['analytics']
 
   constructor (options: PersonOptions) {
     super()
@@ -261,6 +267,14 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this.tags = rawPayload.tags
     this.namePreference = rawPayload.name_preference
     this.customProperties = rawPayload.custom_properties
+
+    if (rawPayload.analytics && this.initialized) {
+      this.analytics = Analytics.create(rawPayload.analytics, this.universe, this.http)
+    } else if (rawPayload.analytics && !this.initialized) {
+      this.analytics = Analytics.createUninitialized(rawPayload.analytics, this.universe, this.http)
+    } else {
+      this.analytics = undefined
+    }
 
     this.emails = []
     if (rawPayload.emails && this.initialized) {
@@ -333,6 +347,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       tags: this.tags,
       name_preference: this.namePreference,
       custom_properties: this.customProperties,
+      analytics: this.analytics ? this.analytics.serialize() : undefined,
       emails: Array.isArray(this.emails) ? this.emails.map(item => item.serialize()) : undefined,
       addresses: Array.isArray(this._addresses)
         ? this._addresses.map(item => item.serialize())
@@ -350,7 +365,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     try {
       await this.fetch({
         query: {
-          embed: ['channel_users', 'phonenumbers', 'addresses', 'emails']
+          embed: ['channel_users', 'phonenumbers', 'addresses', 'emails', 'analytics']
         }
       })
 
@@ -361,7 +376,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   }
 
   public async patch (changePart: PersonRawPayload): Promise<Person> {
-    return await super.patch(omit(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users'])) as Person
+    return await super.patch(omit(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users', 'analytics'])) as Person
   }
 
   /** Orders accessor
