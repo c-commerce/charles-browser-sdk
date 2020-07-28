@@ -191,16 +191,6 @@ export interface PersonPayload {
   readonly channelUsers?: ChannelUser[]
 }
 
-export interface PersonAnalyticsSnapshotResponse {
-  customer_lifetime_value: Array<{
-    overall_net_value: number
-    currency: string
-  }>
-  latest_orders: Order[]
-  mean_polarity: number
-  mean_nps_score: number
-}
-
 /**
  * Manage people, that usually are generated from channel users.
  *
@@ -360,7 +350,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     try {
       await this.fetch({
         query: {
-          embed: ['channel_users', 'phonenumbers', 'addresses', 'emails', 'analytics']
+          embed: ['channel_users', 'phonenumbers', 'addresses', 'emails']
         }
       })
 
@@ -372,27 +362,6 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
 
   public async patch (changePart: PersonRawPayload): Promise<Person> {
     return await super.patch(omit(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users'])) as Person
-  }
-
-  public analytics (): object {
-    return {
-      snapshot: async (): Promise<PersonAnalyticsSnapshotResponse | undefined> => {
-        try {
-          const response = await this.http
-            .getClient()
-            .get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/analytics/snapshot`)
-
-          return {
-            customer_lifetime_value: response.data.data[0].customer_lifetime_value,
-            latest_orders: response.data.data[0].latest_orders,
-            mean_polarity: response.data.data[0].mean_polarity,
-            mean_nps_score: response.data.data[0].mean_nps_score
-          }
-        } catch (err) {
-          throw new PeopleAnalyticsRemoteError(undefined, { error: err })
-        }
-      }
-    }
   }
 
   /** Orders accessor
@@ -753,14 +722,6 @@ export class PeopleFetchCountRemoteError extends BaseError {
   constructor (public message: string = 'Could not get people count.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleFetchCountRemoteError.prototype)
-  }
-}
-
-export class PeopleAnalyticsRemoteError extends BaseError {
-  public name = 'PeopleAnalyticsRemoteError';
-  constructor (public message: string = 'Could not get analytics data.', properties?: any) {
-    super(message, properties)
-    Object.setPrototypeOf(this, PeopleAnalyticsRemoteError.prototype)
   }
 }
 
