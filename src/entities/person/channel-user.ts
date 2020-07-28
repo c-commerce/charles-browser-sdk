@@ -21,6 +21,7 @@ export interface ChannelUserRawPayload extends EntityRawPayload {
   readonly payload_name?: string
   readonly comment?: string
   readonly payload?: object | null
+  readonly links?: object
 }
 
 export interface ChannelUserOptions extends EntityOptions {
@@ -51,6 +52,7 @@ export class ChannelUser {
   public payloadName?: ChannelUserRawPayload['payload_name']
   public comment?: ChannelUserRawPayload['comment']
   public payload?: ChannelUserRawPayload['payload']
+  public links?: ChannelUserRawPayload['links']
 
   constructor (options: ChannelUserOptions) {
     this.universe = options.universe
@@ -80,6 +82,7 @@ export class ChannelUser {
     this.payloadName = rawPayload.payload_name
     this.comment = rawPayload.comment
     this.payload = rawPayload.payload
+    this.links = rawPayload.links
 
     return this
   }
@@ -109,7 +112,8 @@ export class ChannelUser {
       source_api: this.sourceApi,
       payload_name: this.payloadName,
       comment: this.comment,
-      payload: this.payload
+      payload: this.payload,
+      links: this.links
     }
   }
 
