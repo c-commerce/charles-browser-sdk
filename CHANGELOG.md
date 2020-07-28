@@ -1,3 +1,16 @@
+# [3.0.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.90.1...v3.0.0) (2020-07-28)
+
+
+### Bug Fixes
+
+* **channeluser:** add links property ([87f4fdb](https://github.com/c-commerce/charles-browser-sdk/commit/87f4fdb2b52fb026ba6476e7aeb90a6cab8e7ed7))
+* **person:** remove analytics snapshot support ([1adcd8d](https://github.com/c-commerce/charles-browser-sdk/commit/1adcd8dfbec95f6000d087324e6ecd0f30e00220))
+
+
+### BREAKING CHANGES
+
+* **person:** old snapshot analytics will not work anymore on person
+
 ## [2.90.1](https://github.com/c-commerce/charles-browser-sdk/compare/v2.90.0...v2.90.1) (2020-07-17)
 
 
