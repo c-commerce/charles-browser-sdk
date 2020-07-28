@@ -5,6 +5,7 @@ var _base_1 = tslib_1.__importStar(require("../_base"));
 var errors_1 = require("../../errors");
 var order_1 = require("../../entities/order/order");
 var channel_user_1 = require("./channel-user");
+var analytics_1 = require("./analytics");
 var email_1 = require("./email");
 var cart_1 = require("../cart/cart");
 var just_omit_1 = tslib_1.__importDefault(require("just-omit"));
@@ -123,6 +124,15 @@ var Person = (function (_super) {
         this.tags = rawPayload.tags;
         this.namePreference = rawPayload.name_preference;
         this.customProperties = rawPayload.custom_properties;
+        if (rawPayload.analytics && this.initialized) {
+            this.analytics = analytics_1.Analytics.create(rawPayload.analytics, this.universe, this.http);
+        }
+        else if (rawPayload.analytics && !this.initialized) {
+            this.analytics = analytics_1.Analytics.createUninitialized(rawPayload.analytics, this.universe, this.http);
+        }
+        else {
+            this.analytics = undefined;
+        }
         this.emails = [];
         if (rawPayload.emails && this.initialized) {
             this.emails = rawPayload.emails.map(function (i) { return email_1.Email.create(i, _this.universe, _this.http); });
@@ -189,6 +199,7 @@ var Person = (function (_super) {
             tags: this.tags,
             name_preference: this.namePreference,
             custom_properties: this.customProperties,
+            analytics: this.analytics ? this.analytics.serialize() : undefined,
             emails: Array.isArray(this.emails) ? this.emails.map(function (item) { return item.serialize(); }) : undefined,
             addresses: Array.isArray(this._addresses)
                 ? this._addresses.map(function (item) { return item.serialize(); })
@@ -210,7 +221,7 @@ var Person = (function (_super) {
                         _a.trys.push([0, 2, , 3]);
                         return [4, this.fetch({
                                 query: {
-                                    embed: ['channel_users', 'phonenumbers', 'addresses', 'emails']
+                                    embed: ['channel_users', 'phonenumbers', 'addresses', 'emails', 'analytics']
                                 }
                             })];
                     case 1:
@@ -228,7 +239,7 @@ var Person = (function (_super) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, _super.prototype.patch.call(this, just_omit_1.default(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users']))];
+                    case 0: return [4, _super.prototype.patch.call(this, just_omit_1.default(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users', 'analytics']))];
                     case 1: return [2, _a.sent()];
                 }
             });

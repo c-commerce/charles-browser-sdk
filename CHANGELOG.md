@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.0.0...v3.1.0) (2020-07-28)
+
+
+### Features
+
+* **person:** add new analytics embed support ([0151708](https://github.com/c-commerce/charles-browser-sdk/commit/01517080cc7fa69f46cb07e6fa772132d25ca276))
+
 # [3.0.0](https://github.com/c-commerce/charles-browser-sdk/compare/v2.90.1...v3.0.0) (2020-07-28)
 
 

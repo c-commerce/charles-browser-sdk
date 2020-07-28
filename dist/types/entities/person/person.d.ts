@@ -3,6 +3,7 @@ import { Universe, UniverseFetchOptions } from '../../universe';
 import { BaseError } from '../../errors';
 import { Order, OrderRawPayload } from '../../entities/order/order';
 import { ChannelUser, ChannelUserRawPayload } from './channel-user';
+import { Analytics, AnalyticsRawPayload } from './analytics';
 import { Email, EmailRawPayload } from './email';
 export interface PersonOptions extends EntityOptions {
     rawPayload?: PersonRawPayload;
@@ -38,6 +39,7 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
     readonly value?: string;
 }
 export declare type PersonChannelUserRawPayload = ChannelUserRawPayload;
+export declare type PersonAnalyticsRawPayload = AnalyticsRawPayload;
 export declare type PersonEmailRawPayload = EmailRawPayload;
 export interface PersonRawPayload extends EntityRawPayload {
     readonly created_at?: string;
@@ -74,6 +76,7 @@ export interface PersonRawPayload extends EntityRawPayload {
     readonly addresses?: PersonAddressRawPayload[];
     readonly phonenumbers?: PersonPhonenumberRawPayload[];
     readonly channel_users?: PersonChannelUserRawPayload[];
+    readonly analytics?: PersonAnalyticsRawPayload;
 }
 export interface IPersonCarts {
     fetch: Function;
@@ -120,6 +123,7 @@ export interface PersonPayload {
     readonly addresses?: Address[];
     readonly phonenumbers?: Phonenumber[];
     readonly channelUsers?: ChannelUser[];
+    readonly analytics?: Analytics;
 }
 export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     protected universe: Universe;
@@ -149,6 +153,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     _addresses?: PersonPayload['addresses'];
     phonenumbers?: PersonPayload['phonenumbers'];
     channelUsers?: PersonPayload['channelUsers'];
+    analytics?: PersonPayload['analytics'];
     constructor(options: PersonOptions);
     protected deserialize(rawPayload: PersonRawPayload): Person;
     static create(payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person;
