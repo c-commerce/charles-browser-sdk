@@ -130,6 +130,63 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
       throw this.handleError(new StorefrontInitializationError(undefined, { error: err }))
     }
   }
+
+  public async syncProducts (): Promise<number | undefined> {
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/sync/products`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new StorefrontSyncProductsRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async syncOrders (): Promise<number | undefined> {
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/sync/orders`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new StorefrontSyncOrdersRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async syncInventories (): Promise<number | undefined> {
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/sync/inventories`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new StorefrontSyncInventoriesRemoteError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -158,5 +215,25 @@ export class StorefrontsFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get storefronts.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, StorefrontsFetchRemoteError.prototype)
+  }
+}
+export class StorefrontSyncProductsRemoteError extends BaseError {
+  public name = 'StorefrontSyncProductsRemoteError'
+  constructor (public message: string = 'Could not sync products of storefront.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, StorefrontSyncProductsRemoteError.prototype)
+  }
+}
+export class StorefrontSyncOrdersRemoteError extends BaseError {
+  public name = 'StorefrontSyncOrdersRemoteError'
+  constructor (public message: string = 'Could not sync orders of storefront.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, StorefrontSyncOrdersRemoteError.prototype)
+  }
+} export class StorefrontSyncInventoriesRemoteError extends BaseError {
+  public name = 'StorefrontSyncInventoriesRemoteError'
+  constructor (public message: string = 'Could not sync inventories of storefront.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, StorefrontSyncInventoriesRemoteError.prototype)
   }
 }
