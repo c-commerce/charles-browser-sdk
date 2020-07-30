@@ -131,11 +131,35 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
     }
   }
 
+  public async setup (): Promise<Storefront> {
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront setup requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/setup`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      this.deserialize(res.data.data[0] as StorefrontRawPayload)
+
+      return this
+    } catch (err) {
+      throw new StorefrontSetupRemoteError(undefined, { error: err })
+    }
+  }
+
   public async syncProducts (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront setup requires id to be set.')
+
     try {
       const opts = {
         method: 'PUT',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/sync/products`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/products`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Content-Length': '0'
@@ -151,10 +175,11 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
   }
 
   public async syncOrders (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront setup requires id to be set.')
     try {
       const opts = {
         method: 'PUT',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/sync/orders`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/orders`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Content-Length': '0'
@@ -170,10 +195,11 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
   }
 
   public async syncInventories (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront setup requires id to be set.')
     try {
       const opts = {
         method: 'PUT',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/sync/inventories`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/inventories`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Content-Length': '0'
@@ -230,10 +256,18 @@ export class StorefrontSyncOrdersRemoteError extends BaseError {
     super(message, properties)
     Object.setPrototypeOf(this, StorefrontSyncOrdersRemoteError.prototype)
   }
-} export class StorefrontSyncInventoriesRemoteError extends BaseError {
+}
+export class StorefrontSyncInventoriesRemoteError extends BaseError {
   public name = 'StorefrontSyncInventoriesRemoteError'
   constructor (public message: string = 'Could not sync inventories of storefront.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, StorefrontSyncInventoriesRemoteError.prototype)
+  }
+}
+export class StorefrontSetupRemoteError extends BaseError {
+  public name = 'StorefrontSetupRemoteError'
+  constructor (public message: string = 'Could not setup storefront.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, StorefrontSetupRemoteError.prototype)
   }
 }
