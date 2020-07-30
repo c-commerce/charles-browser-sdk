@@ -121,7 +121,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
     return new MessageBroker({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public async setup (): Promise<MessageBroker> {
+  public async setup (): Promise<number> {
     if (this.id === null || this.id === undefined) throw new TypeError('messagebroker setup requires id to be set.')
 
     try {
@@ -135,9 +135,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
       }
 
       const res = await this.http?.getClient()(opts)
-      this.deserialize(res.data.data[0] as MessageBrokerRawPayload)
-
-      return this
+      return res.status
     } catch (err) {
       throw new MessageBrokerSetupRemoteError(undefined, { error: err })
     }

@@ -131,7 +131,7 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
     }
   }
 
-  public async setup (): Promise<Storefront> {
+  public async setup (): Promise<number> {
     if (this.id === null || this.id === undefined) throw new TypeError('storefront setup requires id to be set.')
 
     try {
@@ -145,9 +145,7 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
       }
 
       const res = await this.http?.getClient()(opts)
-      this.deserialize(res.data.data[0] as StorefrontRawPayload)
-
-      return this
+      return res.status
     } catch (err) {
       throw new StorefrontSetupRemoteError(undefined, { error: err })
     }
