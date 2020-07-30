@@ -57,7 +57,7 @@ export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageB
     protected deserialize(rawPayload: MessageBrokerRawPayload): MessageBroker;
     serialize(): MessageBrokerRawPayload;
     static create(payload: MessageBrokerRawPayload, universe: Universe, http: Universe['http']): MessageBroker;
-    setup(): Promise<MessageBroker>;
+    setup(): Promise<number>;
     syncMessageTemplates(): Promise<number | undefined>;
     syncMessages(): Promise<number | undefined>;
 }

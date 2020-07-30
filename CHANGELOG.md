@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.3.0...v3.3.1) (2020-07-30)
+
+
+### Bug Fixes
+
+* **global:** trigger build ([737b1d4](https://github.com/c-commerce/charles-browser-sdk/commit/737b1d4bf5d127285ee849d4e51666b283109fde))
+
 # [3.3.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.2.0...v3.3.0) (2020-07-30)
 
 

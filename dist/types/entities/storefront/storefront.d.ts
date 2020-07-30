@@ -58,7 +58,7 @@ export declare class Storefront extends Entity<StorefrontPayload, StorefrontRawP
     static create(payload: StorefrontRawPayload, universe: Universe, http: Universe['http']): Storefront;
     serialize(): StorefrontRawPayload;
     init(): Promise<Storefront | undefined>;
-    setup(): Promise<Storefront>;
+    setup(): Promise<number>;
     syncProducts(): Promise<number | undefined>;
     syncOrders(): Promise<number | undefined>;
     syncInventories(): Promise<number | undefined>;

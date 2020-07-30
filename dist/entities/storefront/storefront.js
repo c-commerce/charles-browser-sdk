@@ -99,8 +99,7 @@ var Storefront = (function (_super) {
                         return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
                     case 2:
                         res = _c.sent();
-                        this.deserialize(res.data.data[0]);
-                        return [2, this];
+                        return [2, res.status];
                     case 3:
                         err_2 = _c.sent();
                         throw new StorefrontSetupRemoteError(undefined, { error: err_2 });
