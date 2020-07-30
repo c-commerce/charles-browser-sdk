@@ -121,6 +121,28 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
     return new MessageBroker({ rawPayload: payload, universe, http, initialized: true })
   }
 
+  public async setup (): Promise<MessageBroker> {
+    if (this.id === null || this.id === undefined) throw new TypeError('messagebroker setup requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/setup`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      this.deserialize(res.data.data[0] as MessageBrokerRawPayload)
+
+      return this
+    } catch (err) {
+      throw new MessageBrokerSetupRemoteError(undefined, { error: err })
+    }
+  }
+
   public async syncMessageTemplates (): Promise<number | undefined> {
     try {
       const opts = {
@@ -137,6 +159,27 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
       return res.status
     } catch (err) {
       throw this.handleError(new MessageBrokerSyncMessageTemplatesRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async syncMessages (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('message broker setup requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/messages`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new MessageBrokerSyncMessagesRemoteError(undefined, { error: err }))
     }
   }
 }
@@ -156,5 +199,19 @@ export class MessageBrokerSyncMessageTemplatesRemoteError extends BaseError {
   constructor (public message: string = 'Could not sync message templates of broker.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageBrokerSyncMessageTemplatesRemoteError.prototype)
+  }
+}
+export class MessageBrokerSetupRemoteError extends BaseError {
+  public name = 'MessageBrokerSetupRemoteError'
+  constructor (public message: string = 'Could not setup message broker.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageBrokerSetupRemoteError.prototype)
+  }
+}
+export class MessageBrokerSyncMessagesRemoteError extends BaseError {
+  public name = 'MessageBrokerSyncMessagesRemoteError'
+  constructor (public message: string = 'Could not sync messages of message broker.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageBrokerSyncMessagesRemoteError.prototype)
   }
 }
