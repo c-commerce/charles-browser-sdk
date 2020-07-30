@@ -152,7 +152,6 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
         },
         responseType: 'json'
       }
-
       const res = await this.http?.getClient()(opts)
       return res.status
     } catch (err) {
