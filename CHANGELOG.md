@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.1.0...v3.2.0) (2020-07-30)
+
+
+### Features
+
+* **storefront:** added products, orders & inventories sync ([01ee1cd](https://github.com/c-commerce/charles-browser-sdk/commit/01ee1cd7cfe6f5eed3e52cd4c5456b7029c4628d))
+
 # [3.1.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.0.0...v3.1.0) (2020-07-28)
 
 

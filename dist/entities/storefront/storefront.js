@@ -76,6 +76,93 @@ var Storefront = (function (_super) {
             });
         });
     };
+    Storefront.prototype.syncProducts = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_2;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/products",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 1:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 2:
+                        err_2 = _b.sent();
+                        throw this.handleError(new StorefrontSyncProductsRemoteError(undefined, { error: err_2 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Storefront.prototype.syncOrders = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_3;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/orders",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 1:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 2:
+                        err_3 = _b.sent();
+                        throw this.handleError(new StorefrontSyncOrdersRemoteError(undefined, { error: err_3 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Storefront.prototype.syncInventories = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_4;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/inventories",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 1:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 2:
+                        err_4 = _b.sent();
+                        throw this.handleError(new StorefrontSyncInventoriesRemoteError(undefined, { error: err_4 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     return Storefront;
 }(_base_1.default));
 exports.Storefront = Storefront;
@@ -125,4 +212,43 @@ var StorefrontsFetchRemoteError = (function (_super) {
     return StorefrontsFetchRemoteError;
 }(errors_1.BaseError));
 exports.StorefrontsFetchRemoteError = StorefrontsFetchRemoteError;
+var StorefrontSyncProductsRemoteError = (function (_super) {
+    tslib_1.__extends(StorefrontSyncProductsRemoteError, _super);
+    function StorefrontSyncProductsRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not sync products of storefront.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'StorefrontSyncProductsRemoteError';
+        Object.setPrototypeOf(_this, StorefrontSyncProductsRemoteError.prototype);
+        return _this;
+    }
+    return StorefrontSyncProductsRemoteError;
+}(errors_1.BaseError));
+exports.StorefrontSyncProductsRemoteError = StorefrontSyncProductsRemoteError;
+var StorefrontSyncOrdersRemoteError = (function (_super) {
+    tslib_1.__extends(StorefrontSyncOrdersRemoteError, _super);
+    function StorefrontSyncOrdersRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not sync orders of storefront.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'StorefrontSyncOrdersRemoteError';
+        Object.setPrototypeOf(_this, StorefrontSyncOrdersRemoteError.prototype);
+        return _this;
+    }
+    return StorefrontSyncOrdersRemoteError;
+}(errors_1.BaseError));
+exports.StorefrontSyncOrdersRemoteError = StorefrontSyncOrdersRemoteError;
+var StorefrontSyncInventoriesRemoteError = (function (_super) {
+    tslib_1.__extends(StorefrontSyncInventoriesRemoteError, _super);
+    function StorefrontSyncInventoriesRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not sync inventories of storefront.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'StorefrontSyncInventoriesRemoteError';
+        Object.setPrototypeOf(_this, StorefrontSyncInventoriesRemoteError.prototype);
+        return _this;
+    }
+    return StorefrontSyncInventoriesRemoteError;
+}(errors_1.BaseError));
+exports.StorefrontSyncInventoriesRemoteError = StorefrontSyncInventoriesRemoteError;
 //# sourceMappingURL=storefront.js.map
