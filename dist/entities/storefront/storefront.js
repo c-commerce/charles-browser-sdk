@@ -76,14 +76,51 @@ var Storefront = (function (_super) {
             });
         });
     };
+    Storefront.prototype.setup = function () {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_2;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('storefront setup requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/setup",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        res = _c.sent();
+                        this.deserialize(res.data.data[0]);
+                        return [2, this];
+                    case 3:
+                        err_2 = _c.sent();
+                        throw new StorefrontSetupRemoteError(undefined, { error: err_2 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     Storefront.prototype.syncProducts = function () {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, err_2;
+            var opts, res, err_3;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('storefront setup requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'PUT',
                             url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/products",
@@ -94,13 +131,13 @@ var Storefront = (function (_super) {
                             responseType: 'json'
                         };
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
-                    case 1:
+                    case 2:
                         res = _b.sent();
                         return [2, res.status];
-                    case 2:
-                        err_2 = _b.sent();
-                        throw this.handleError(new StorefrontSyncProductsRemoteError(undefined, { error: err_2 }));
-                    case 3: return [2];
+                    case 3:
+                        err_3 = _b.sent();
+                        throw this.handleError(new StorefrontSyncProductsRemoteError(undefined, { error: err_3 }));
+                    case 4: return [2];
                 }
             });
         });
@@ -108,11 +145,15 @@ var Storefront = (function (_super) {
     Storefront.prototype.syncOrders = function () {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, err_3;
+            var opts, res, err_4;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('storefront setup requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'PUT',
                             url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/orders",
@@ -123,13 +164,13 @@ var Storefront = (function (_super) {
                             responseType: 'json'
                         };
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
-                    case 1:
+                    case 2:
                         res = _b.sent();
                         return [2, res.status];
-                    case 2:
-                        err_3 = _b.sent();
-                        throw this.handleError(new StorefrontSyncOrdersRemoteError(undefined, { error: err_3 }));
-                    case 3: return [2];
+                    case 3:
+                        err_4 = _b.sent();
+                        throw this.handleError(new StorefrontSyncOrdersRemoteError(undefined, { error: err_4 }));
+                    case 4: return [2];
                 }
             });
         });
@@ -137,11 +178,15 @@ var Storefront = (function (_super) {
     Storefront.prototype.syncInventories = function () {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, err_4;
+            var opts, res, err_5;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('storefront setup requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'PUT',
                             url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/inventories",
@@ -152,13 +197,13 @@ var Storefront = (function (_super) {
                             responseType: 'json'
                         };
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
-                    case 1:
+                    case 2:
                         res = _b.sent();
                         return [2, res.status];
-                    case 2:
-                        err_4 = _b.sent();
-                        throw this.handleError(new StorefrontSyncInventoriesRemoteError(undefined, { error: err_4 }));
-                    case 3: return [2];
+                    case 3:
+                        err_5 = _b.sent();
+                        throw this.handleError(new StorefrontSyncInventoriesRemoteError(undefined, { error: err_5 }));
+                    case 4: return [2];
                 }
             });
         });
@@ -251,4 +296,17 @@ var StorefrontSyncInventoriesRemoteError = (function (_super) {
     return StorefrontSyncInventoriesRemoteError;
 }(errors_1.BaseError));
 exports.StorefrontSyncInventoriesRemoteError = StorefrontSyncInventoriesRemoteError;
+var StorefrontSetupRemoteError = (function (_super) {
+    tslib_1.__extends(StorefrontSetupRemoteError, _super);
+    function StorefrontSetupRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not setup storefront.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'StorefrontSetupRemoteError';
+        Object.setPrototypeOf(_this, StorefrontSetupRemoteError.prototype);
+        return _this;
+    }
+    return StorefrontSetupRemoteError;
+}(errors_1.BaseError));
+exports.StorefrontSetupRemoteError = StorefrontSetupRemoteError;
 //# sourceMappingURL=storefront.js.map

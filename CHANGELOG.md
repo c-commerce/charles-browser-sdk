@@ -1,3 +1,15 @@
+# [3.3.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.2.0...v3.3.0) (2020-07-30)
+
+
+### Bug Fixes
+
+* **storefront:** add setup ([adc905e](https://github.com/c-commerce/charles-browser-sdk/commit/adc905e72442deab6ed8613870f990d67ea19389))
+
+
+### Features
+
+* **message brokers:** add setup & messages sync ([b6c9058](https://github.com/c-commerce/charles-browser-sdk/commit/b6c9058dae80dd2e1b022650142d452495a7f1d7))
+
 # [3.2.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.1.0...v3.2.0) (2020-07-30)
 
 

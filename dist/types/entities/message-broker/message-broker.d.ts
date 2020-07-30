@@ -57,7 +57,9 @@ export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageB
     protected deserialize(rawPayload: MessageBrokerRawPayload): MessageBroker;
     serialize(): MessageBrokerRawPayload;
     static create(payload: MessageBrokerRawPayload, universe: Universe, http: Universe['http']): MessageBroker;
+    setup(): Promise<MessageBroker>;
     syncMessageTemplates(): Promise<number | undefined>;
+    syncMessages(): Promise<number | undefined>;
 }
 export declare class MessageBrokers {
     static endpoint: string;
@@ -68,6 +70,16 @@ export declare class MessageBrokersFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class MessageBrokerSyncMessageTemplatesRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageBrokerSetupRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageBrokerSyncMessagesRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
