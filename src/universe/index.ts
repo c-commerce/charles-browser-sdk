@@ -1130,6 +1130,32 @@ export class Universe extends Readable {
     }
   }
 
+  /**
+   * Integration setup, calls vendor specific setup endpoint
+   * @param payload data needed for vendor integration setup
+   * @param setupEndpoint vendor specific endpoint
+   */
+  public async setupIntegration (payload: object, setupEndpoint: string): Promise<number | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universeBase}/${integration.Integrations.endpoint}/setup/${setupEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: {
+          payload
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw new integration.IntegrationsSetupRemoteError(undefined, { error: err })
+    }
+  }
+
   public async messageBrokers (options?: EntityFetchOptions): Promise<messageBroker.MessageBroker[] | messageBroker.MessageBrokerRawPayload[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${messageBroker.MessageBrokers.endpoint}`, {

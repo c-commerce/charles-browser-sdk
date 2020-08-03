@@ -165,3 +165,10 @@ export class AvailableIntegrationsFetchRemoteError extends BaseError {
     Object.setPrototypeOf(this, AvailableIntegrationsFetchRemoteError.prototype)
   }
 }
+export class IntegrationsSetupRemoteError extends BaseError {
+  public name = 'IntegrationsSetupRemoteError'
+  constructor (public message: string = 'Could not setup vendor integration.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, IntegrationsSetupRemoteError.prototype)
+  }
+}
