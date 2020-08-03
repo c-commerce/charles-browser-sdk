@@ -128,4 +128,17 @@ var AvailableIntegrationsFetchRemoteError = (function (_super) {
     return AvailableIntegrationsFetchRemoteError;
 }(errors_1.BaseError));
 exports.AvailableIntegrationsFetchRemoteError = AvailableIntegrationsFetchRemoteError;
+var IntegrationsSetupRemoteError = (function (_super) {
+    tslib_1.__extends(IntegrationsSetupRemoteError, _super);
+    function IntegrationsSetupRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not setup vendor integration.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'IntegrationsSetupRemoteError';
+        Object.setPrototypeOf(_this, IntegrationsSetupRemoteError.prototype);
+        return _this;
+    }
+    return IntegrationsSetupRemoteError;
+}(errors_1.BaseError));
+exports.IntegrationsSetupRemoteError = IntegrationsSetupRemoteError;
 //# sourceMappingURL=integration.js.map

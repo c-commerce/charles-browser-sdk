@@ -1035,10 +1035,41 @@ var Universe = (function (_super) {
             });
         });
     };
+    Universe.prototype.setupIntegration = function (payload, setupEndpoint) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_26;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universeBase + "/" + integration.Integrations.endpoint + "/setup/" + setupEndpoint,
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: {
+                                payload: payload
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 1:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 2:
+                        err_26 = _b.sent();
+                        throw new integration.IntegrationsSetupRemoteError(undefined, { error: err_26 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Universe.prototype.messageBrokers = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, resources, err_26;
+            var res, resources, err_27;
             var _this = this;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
@@ -1057,8 +1088,8 @@ var Universe = (function (_super) {
                                 return messageBroker.MessageBroker.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_26 = _b.sent();
-                        throw new messageBroker.MessageBrokersFetchRemoteError(undefined, { error: err_26 });
+                        err_27 = _b.sent();
+                        throw new messageBroker.MessageBrokersFetchRemoteError(undefined, { error: err_27 });
                     case 3: return [2];
                 }
             });
@@ -1067,7 +1098,7 @@ var Universe = (function (_super) {
     Universe.prototype.storefronts = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, resources, err_27;
+            var res, resources, err_28;
             var _this = this;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
@@ -1086,8 +1117,8 @@ var Universe = (function (_super) {
                                 return storefront.Storefront.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_27 = _b.sent();
-                        throw new storefront.StorefrontsFetchRemoteError(undefined, { error: err_27 });
+                        err_28 = _b.sent();
+                        throw new storefront.StorefrontsFetchRemoteError(undefined, { error: err_28 });
                     case 3: return [2];
                 }
             });
@@ -1096,7 +1127,7 @@ var Universe = (function (_super) {
     Universe.prototype.shippingMethods = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, resources, err_28;
+            var res, resources, err_29;
             var _this = this;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
@@ -1115,8 +1146,8 @@ var Universe = (function (_super) {
                                 return shippingMethod.ShippingMethod.create(resource, _this, _this.http);
                             })];
                     case 2:
-                        err_28 = _b.sent();
-                        throw new shippingMethod.ShippingMethodsFetchRemoteError(undefined, { error: err_28 });
+                        err_29 = _b.sent();
+                        throw new shippingMethod.ShippingMethodsFetchRemoteError(undefined, { error: err_29 });
                     case 3: return [2];
                 }
             });
@@ -1169,7 +1200,7 @@ var Universe = (function (_super) {
     });
     Universe.prototype.searchEntity = function (endpoint, q) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_29;
+            var res, err_30;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1183,8 +1214,8 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         return [2, res.data.data];
                     case 2:
-                        err_29 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_29 });
+                        err_30 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_30 });
                     case 3: return [2];
                 }
             });

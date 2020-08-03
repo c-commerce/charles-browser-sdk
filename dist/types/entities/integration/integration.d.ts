@@ -88,3 +88,8 @@ export declare class AvailableIntegrationsFetchRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class IntegrationsSetupRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}

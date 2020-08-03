@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.3.2...v3.4.0) (2020-08-03)
+
+
+### Features
+
+* **integrations:** add vendor specific setup of integration ([b95b29f](https://github.com/c-commerce/charles-browser-sdk/commit/b95b29f5a2385c19d284bcc219c1f7d076cd60c8))
+
 ## [3.3.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.3.1...v3.3.2) (2020-08-03)
 
 

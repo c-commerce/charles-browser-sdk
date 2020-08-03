@@ -226,6 +226,7 @@ export declare class Universe extends Readable {
     inventories(options?: EntityFetchOptions): Promise<inventory.Inventory[] | inventory.InventoryRawPayload[] | undefined>;
     integrations(options?: EntityFetchOptions): Promise<integration.Integration[] | integration.IntegrationRawPayload[] | undefined>;
     availableIntegrations(options?: EntityFetchOptions): Promise<integration.AvailableIntegrationRawPayload[] | undefined>;
+    setupIntegration(payload: object, setupEndpoint: string): Promise<number | undefined>;
     messageBrokers(options?: EntityFetchOptions): Promise<messageBroker.MessageBroker[] | messageBroker.MessageBrokerRawPayload[] | undefined>;
     storefronts(options?: EntityFetchOptions): Promise<storefront.Storefront[] | storefront.StorefrontRawPayload[] | undefined>;
     shippingMethods(options?: EntityFetchOptions): Promise<shippingMethod.ShippingMethod[] | shippingMethod.ShippingMethodRawPayload[] | undefined>;
