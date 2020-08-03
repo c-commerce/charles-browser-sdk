@@ -1,3 +1,10 @@
+## [3.3.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.3.1...v3.3.2) (2020-08-03)
+
+
+### Bug Fixes
+
+* **integration:** available integration - add setup endpoint property ([57299c8](https://github.com/c-commerce/charles-browser-sdk/commit/57299c8a3120bddee8ce6da15e8bd8a9ffd3fbef))
+
 ## [3.3.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.3.0...v3.3.1) (2020-07-30)
 
 
