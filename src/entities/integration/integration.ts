@@ -37,6 +37,7 @@ export interface AvailableIntegrationRawPayload {
       [key: string]: any
     }>
   }>
+  readonly setup_endpoint?: string
 }
 
 export interface IntegrationPayload {
