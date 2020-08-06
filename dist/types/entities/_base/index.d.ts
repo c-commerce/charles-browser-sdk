@@ -21,8 +21,14 @@ export interface EntityRawPayload {
 export interface EntityFetchQuery {
     [key: string]: any;
 }
+export interface EntityDeleteQuery {
+    [key: string]: any;
+}
 export interface EntityFetchOptions {
     raw?: boolean;
+    query?: EntityFetchQuery;
+}
+export interface EntityDeleteOptions {
     query?: EntityFetchQuery;
 }
 export declare class HookableEvented extends EventEmitter {

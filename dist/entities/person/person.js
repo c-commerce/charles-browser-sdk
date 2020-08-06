@@ -9,6 +9,7 @@ var analytics_1 = require("./analytics");
 var email_1 = require("./email");
 var cart_1 = require("../cart/cart");
 var just_omit_1 = tslib_1.__importDefault(require("just-omit"));
+var qs_1 = tslib_1.__importDefault(require("qs"));
 var AddressArray = (function (_super) {
     tslib_1.__extends(AddressArray, _super);
     function AddressArray(items, universe, http, person) {
@@ -245,10 +246,43 @@ var Person = (function (_super) {
             });
         });
     };
+    Person.prototype.delete = function (options) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, err_4;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('delete requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'DELETE',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: undefined,
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        _c.sent();
+                        return [2, this];
+                    case 3:
+                        err_4 = _c.sent();
+                        throw new PersonDeleteRemoteError(undefined, { error: err_4 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     Person.prototype.orders = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, orders, ordersMap_1, err_4;
+            var opts, res, orders, ordersMap_1, err_5;
             var _this = this;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
@@ -277,8 +311,8 @@ var Person = (function (_super) {
                         });
                         return [2, Array.from(ordersMap_1.values())];
                     case 2:
-                        err_4 = _b.sent();
-                        throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err_4 }));
+                        err_5 = _b.sent();
+                        throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err_5 }));
                     case 3: return [2];
                 }
             });
@@ -295,7 +329,7 @@ var Person = (function (_super) {
                     return feeds.map(function (item) { return item.serialize(); });
                 },
                 fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, feeds, err_5;
+                    var opts, res, feeds, err_6;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -317,14 +351,14 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })];
                             case 2:
-                                err_5 = _a.sent();
-                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_5 });
+                                err_6 = _a.sent();
+                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_6 });
                             case 3: return [2];
                         }
                     });
                 }); },
                 create: function (cart) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, carts, err_6;
+                    var opts, res, carts, err_7;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -343,8 +377,8 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })[0]];
                             case 2:
-                                err_6 = _a.sent();
-                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_6 });
+                                err_7 = _a.sent();
+                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_7 });
                             case 3: return [2];
                         }
                     });
@@ -498,6 +532,19 @@ var Phonenumber = (function () {
     return Phonenumber;
 }());
 exports.Phonenumber = Phonenumber;
+var PersonDeleteRemoteError = (function (_super) {
+    tslib_1.__extends(PersonDeleteRemoteError, _super);
+    function PersonDeleteRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not delete person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PersonDeleteRemoteError';
+        Object.setPrototypeOf(_this, PersonDeleteRemoteError.prototype);
+        return _this;
+    }
+    return PersonDeleteRemoteError;
+}(errors_1.BaseError));
+exports.PersonDeleteRemoteError = PersonDeleteRemoteError;
 var PersonFetchOrdersRemoteError = (function (_super) {
     tslib_1.__extends(PersonFetchOrdersRemoteError, _super);
     function PersonFetchOrdersRemoteError(message, properties) {

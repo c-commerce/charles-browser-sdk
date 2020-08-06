@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.4.0...v3.5.0) (2020-08-06)
+
+
+### Features
+
+* **person:** implement delete gdpr ([6565cf9](https://github.com/c-commerce/charles-browser-sdk/commit/6565cf9628aa152343b5a1245d056d5ac07021c8))
+
 # [3.4.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.3.2...v3.4.0) (2020-08-03)
 
 
