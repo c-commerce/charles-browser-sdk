@@ -1,4 +1,4 @@
-import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList } from '../_base'
+import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList, EntityDeleteOptions } from '../_base'
 import { Universe, UniverseFetchOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import { Order, OrderRawPayload } from '../../entities/order/order'
@@ -7,6 +7,7 @@ import { Analytics, AnalyticsRawPayload } from './analytics'
 import { Email, EmailRawPayload } from './email'
 import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } from '../cart/cart'
 import omit from 'just-omit'
+import qs from 'qs'
 
 export interface PersonOptions extends EntityOptions {
   rawPayload?: PersonRawPayload
@@ -379,6 +380,31 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     return await super.patch(omit(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users', 'analytics'])) as Person
   }
 
+  public async delete (options?: EntityDeleteOptions): Promise<Person> {
+    if (this.id === null || this.id === undefined) throw new TypeError('delete requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      await this.http?.getClient()(opts)
+      // delete routes don't respond with data yet, maybe needed in the future..
+      // const response = await this.http?.getClient()(opts)
+      // this.deserialize(response.data.data[0] as RawPayload)
+
+      return this
+    } catch (err) {
+      throw new PersonDeleteRemoteError(undefined, { error: err })
+    }
+  }
+
   /** Orders accessor
    *  ```js
    * //fetch all orders of a person
@@ -698,6 +724,13 @@ export class Phonenumber {
       deleted: this.deleted,
       active: this.active
     }
+  }
+}
+export class PersonDeleteRemoteError extends BaseError {
+  public name = 'PersonDeleteRemoteError'
+  constructor (public message: string = 'Could not delete person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PersonDeleteRemoteError.prototype)
   }
 }
 export class PersonFetchOrdersRemoteError extends BaseError {
