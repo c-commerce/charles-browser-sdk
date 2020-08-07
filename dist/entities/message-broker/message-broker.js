@@ -34,6 +34,7 @@ var MessageBroker = (function (_super) {
         this.integrationConfiguration = rawPayload.integration_configuration;
         this.isSetUp = rawPayload.is_set_up;
         this.metadata = rawPayload.metadata;
+        this.labels = rawPayload.labels;
         return this;
     };
     MessageBroker.prototype.serialize = function () {
@@ -50,7 +51,8 @@ var MessageBroker = (function (_super) {
             configuration: this.configuration,
             integration_configuration: this.integrationConfiguration,
             is_set_up: this.isSetUp,
-            metadata: this.metadata
+            metadata: this.metadata,
+            labels: this.labels
         };
     };
     MessageBroker.create = function (payload, universe, http) {
@@ -150,6 +152,35 @@ var MessageBroker = (function (_super) {
             });
         });
     };
+    MessageBroker.prototype.getProxyChannelInstances = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_4;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/proxy/channel_instances",
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.data.data];
+                    case 3:
+                        err_4 = _b.sent();
+                        throw this.handleError(new MessageBrokerProxyChannelInstancesRemoteError(undefined, { error: err_4 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return MessageBroker;
 }(_base_1.default));
 exports.MessageBroker = MessageBroker;
@@ -212,4 +243,17 @@ var MessageBrokerSyncMessagesRemoteError = (function (_super) {
     return MessageBrokerSyncMessagesRemoteError;
 }(errors_1.BaseError));
 exports.MessageBrokerSyncMessagesRemoteError = MessageBrokerSyncMessagesRemoteError;
+var MessageBrokerProxyChannelInstancesRemoteError = (function (_super) {
+    tslib_1.__extends(MessageBrokerProxyChannelInstancesRemoteError, _super);
+    function MessageBrokerProxyChannelInstancesRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could get proxied channel instances of a message broker.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'MessageBrokerProxyChannelInstancesRemoteError';
+        Object.setPrototypeOf(_this, MessageBrokerProxyChannelInstancesRemoteError.prototype);
+        return _this;
+    }
+    return MessageBrokerProxyChannelInstancesRemoteError;
+}(errors_1.BaseError));
+exports.MessageBrokerProxyChannelInstancesRemoteError = MessageBrokerProxyChannelInstancesRemoteError;
 //# sourceMappingURL=message-broker.js.map

@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.5.0...v3.6.0) (2020-08-07)
+
+
+### Features
+
+* **message-brokers:** add chennl fetch ([9bd0b26](https://github.com/c-commerce/charles-browser-sdk/commit/9bd0b2674f09fdd4a2a3f5a84a691a098e699c24))
+
 # [3.5.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.4.0...v3.5.0) (2020-08-06)
 
 
