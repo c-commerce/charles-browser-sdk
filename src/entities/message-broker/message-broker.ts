@@ -21,6 +21,9 @@ export interface MessageBrokerRawPayload {
   readonly integration_configuration?: string | any
   readonly is_set_up?: boolean
   readonly metadata?: object | any
+  readonly labels?: null | {
+    [key: string]: any
+  }
 }
 
 export interface MessageBrokerPayload {
@@ -37,6 +40,7 @@ export interface MessageBrokerPayload {
   readonly integrationConfiguration?: MessageBrokerRawPayload['integration_configuration']
   readonly isSetUp?: MessageBrokerRawPayload['is_set_up']
   readonly metadata?: MessageBrokerRawPayload['metadata']
+  readonly labels?: MessageBrokerRawPayload['labels']
 }
 
 /**
@@ -65,6 +69,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
   public integrationConfiguration?: MessageBrokerPayload['integrationConfiguration']
   public isSetUp?: MessageBrokerPayload['isSetUp']
   public metadata?: MessageBrokerPayload['metadata']
+  public labels?: MessageBrokerPayload['labels']
 
   constructor (options: MessageBrokerOptions) {
     super()
@@ -95,6 +100,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
     this.integrationConfiguration = rawPayload.integration_configuration
     this.isSetUp = rawPayload.is_set_up
     this.metadata = rawPayload.metadata
+    this.labels = rawPayload.labels
 
     return this
   }
@@ -113,7 +119,8 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
       configuration: this.configuration,
       integration_configuration: this.integrationConfiguration,
       is_set_up: this.isSetUp,
-      metadata: this.metadata
+      metadata: this.metadata,
+      labels: this.labels
     }
   }
 
@@ -179,11 +186,30 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
       throw this.handleError(new MessageBrokerSyncMessagesRemoteError(undefined, { error: err }))
     }
   }
+
+  public async getProxyChannelInstances (): Promise<Array<{ external_reference_id: string, name: string, [key: string]: any }> | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/proxy/channel_instances`,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data
+    } catch (err) {
+      throw this.handleError(new MessageBrokerProxyChannelInstancesRemoteError(undefined, { error: err }))
+    }
+  }
 }
+
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class MessageBrokers {
   public static endpoint: string = 'api/v0/message_brokers'
 }
+
 export class MessageBrokersFetchRemoteError extends BaseError {
   public name = 'MessageBrokersFetchRemoteError'
   constructor (public message: string = 'Could not get messageBrokers.', properties?: any) {
@@ -191,6 +217,7 @@ export class MessageBrokersFetchRemoteError extends BaseError {
     Object.setPrototypeOf(this, MessageBrokersFetchRemoteError.prototype)
   }
 }
+
 export class MessageBrokerSyncMessageTemplatesRemoteError extends BaseError {
   public name = 'MessageBrokerSyncMessageTemplatesRemoteError'
   constructor (public message: string = 'Could not sync message templates of broker.', properties?: any) {
@@ -198,6 +225,7 @@ export class MessageBrokerSyncMessageTemplatesRemoteError extends BaseError {
     Object.setPrototypeOf(this, MessageBrokerSyncMessageTemplatesRemoteError.prototype)
   }
 }
+
 export class MessageBrokerSetupRemoteError extends BaseError {
   public name = 'MessageBrokerSetupRemoteError'
   constructor (public message: string = 'Could not setup message broker.', properties?: any) {
@@ -205,10 +233,19 @@ export class MessageBrokerSetupRemoteError extends BaseError {
     Object.setPrototypeOf(this, MessageBrokerSetupRemoteError.prototype)
   }
 }
+
 export class MessageBrokerSyncMessagesRemoteError extends BaseError {
   public name = 'MessageBrokerSyncMessagesRemoteError'
   constructor (public message: string = 'Could not sync messages of message broker.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageBrokerSyncMessagesRemoteError.prototype)
+  }
+}
+
+export class MessageBrokerProxyChannelInstancesRemoteError extends BaseError {
+  public name = 'MessageBrokerProxyChannelInstancesRemoteError'
+  constructor (public message: string = 'Could get proxied channel instances of a message broker.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageBrokerProxyChannelInstancesRemoteError.prototype)
   }
 }
