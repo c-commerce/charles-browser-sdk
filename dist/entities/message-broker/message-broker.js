@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+var route_1 = require("../route");
 var MessageBroker = (function (_super) {
     tslib_1.__extends(MessageBroker, _super);
     function MessageBroker(options) {
@@ -19,7 +20,8 @@ var MessageBroker = (function (_super) {
         return _this;
     }
     MessageBroker.prototype.deserialize = function (rawPayload) {
-        var _a, _b;
+        var _this = this;
+        var _a, _b, _c, _d;
         this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
@@ -35,6 +37,11 @@ var MessageBroker = (function (_super) {
         this.isSetUp = rawPayload.is_set_up;
         this.metadata = rawPayload.metadata;
         this.labels = rawPayload.labels;
+        if (rawPayload.details) {
+            this.details = {
+                routes: Array.isArray((_c = rawPayload.details) === null || _c === void 0 ? void 0 : _c.routes) ? (_d = rawPayload.details) === null || _d === void 0 ? void 0 : _d.routes.map(function (item) { return route_1.Route.create(item, _this.universe, _this.http); }) : []
+            };
+        }
         return this;
     };
     MessageBroker.prototype.serialize = function () {

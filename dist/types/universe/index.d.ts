@@ -30,6 +30,7 @@ import * as integration from '../entities/integration/integration';
 import * as messageBroker from '../entities/message-broker/message-broker';
 import * as storefront from '../entities/storefront/storefront';
 import * as shippingMethod from '../entities/shipping-method/shipping-method';
+import * as route from '../entities/route/route';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -204,6 +205,7 @@ export declare class Universe extends Readable {
     messageBroker(payload: messageBroker.MessageBrokerRawPayload): messageBroker.MessageBroker;
     storefront(payload: storefront.StorefrontRawPayload): storefront.Storefront;
     shippingMethod(payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod;
+    route(payload: route.RouteRawPayload): route.Route;
     me(): Promise<MeData | undefined>;
     get feeds(): UniverseFeeds;
     get people(): UniversePeople;
@@ -230,6 +232,7 @@ export declare class Universe extends Readable {
     messageBrokers(options?: EntityFetchOptions): Promise<messageBroker.MessageBroker[] | messageBroker.MessageBrokerRawPayload[] | undefined>;
     storefronts(options?: EntityFetchOptions): Promise<storefront.Storefront[] | storefront.StorefrontRawPayload[] | undefined>;
     shippingMethods(options?: EntityFetchOptions): Promise<shippingMethod.ShippingMethod[] | shippingMethod.ShippingMethodRawPayload[] | undefined>;
+    routes(options?: EntityFetchOptions): Promise<route.Route[] | route.RouteRawPayload[] | undefined>;
     arm(): Universe;
     get search(): UniverseSearches;
     private searchEntity;

@@ -1,6 +1,7 @@
 import Entity, { EntityOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { Route, RouteRawPayload } from '../route';
 export interface MessageBrokerOptions extends EntityOptions {
     rawPayload?: MessageBrokerRawPayload;
 }
@@ -21,6 +22,10 @@ export interface MessageBrokerRawPayload {
     readonly labels?: null | {
         [key: string]: any;
     };
+    readonly details?: null | {
+        routes: RouteRawPayload[];
+        [key: string]: any;
+    };
 }
 export interface MessageBrokerPayload {
     readonly id?: MessageBrokerRawPayload['id'];
@@ -37,6 +42,10 @@ export interface MessageBrokerPayload {
     readonly isSetUp?: MessageBrokerRawPayload['is_set_up'];
     readonly metadata?: MessageBrokerRawPayload['metadata'];
     readonly labels?: MessageBrokerRawPayload['labels'];
+    readonly details?: null | {
+        routes: Route[];
+        [key: string]: any;
+    };
 }
 export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRawPayload> {
     protected universe: Universe;
@@ -58,6 +67,7 @@ export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageB
     isSetUp?: MessageBrokerPayload['isSetUp'];
     metadata?: MessageBrokerPayload['metadata'];
     labels?: MessageBrokerPayload['labels'];
+    details?: MessageBrokerPayload['details'];
     constructor(options: MessageBrokerOptions);
     protected deserialize(rawPayload: MessageBrokerRawPayload): MessageBroker;
     serialize(): MessageBrokerRawPayload;

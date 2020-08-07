@@ -1,3 +1,10 @@
+# [3.7.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.6.0...v3.7.0) (2020-08-07)
+
+
+### Features
+
+* add routes ([ad19d53](https://github.com/c-commerce/charles-browser-sdk/commit/ad19d5349ae56062989b87067e020130d511791f))
+
 # [3.6.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.5.0...v3.6.0) (2020-08-07)
 
 
