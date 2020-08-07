@@ -37,6 +37,7 @@ import * as integration from '../entities/integration/integration'
 import * as messageBroker from '../entities/message-broker/message-broker'
 import * as storefront from '../entities/storefront/storefront'
 import * as shippingMethod from '../entities/shipping-method/shipping-method'
+import * as route from '../entities/route/route'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -565,6 +566,10 @@ export class Universe extends Readable {
 
   public shippingMethod (payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod {
     return shippingMethod.ShippingMethod.create(payload, this, this.http)
+  }
+
+  public route (payload: route.RouteRawPayload): route.Route {
+    return route.Route.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1219,6 +1224,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new shippingMethod.ShippingMethodsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async routes (options?: EntityFetchOptions): Promise<route.Route[] | route.RouteRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${route.Routes.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as route.RouteRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: route.RouteRawPayload) => {
+        return route.Route.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new route.RoutesFetchRemoteError(undefined, { error: err })
     }
   }
 

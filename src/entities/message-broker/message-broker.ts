@@ -2,6 +2,7 @@
 import Entity, { EntityOptions, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { Route, RouteRawPayload } from '../route'
 
 export interface MessageBrokerOptions extends EntityOptions {
   rawPayload?: MessageBrokerRawPayload
@@ -24,6 +25,10 @@ export interface MessageBrokerRawPayload {
   readonly labels?: null | {
     [key: string]: any
   }
+  readonly details?: null | {
+    routes: RouteRawPayload[]
+    [key: string]: any
+  }
 }
 
 export interface MessageBrokerPayload {
@@ -41,6 +46,10 @@ export interface MessageBrokerPayload {
   readonly isSetUp?: MessageBrokerRawPayload['is_set_up']
   readonly metadata?: MessageBrokerRawPayload['metadata']
   readonly labels?: MessageBrokerRawPayload['labels']
+  readonly details?: null | {
+    routes: Route[]
+    [key: string]: any
+  }
 }
 
 /**
@@ -70,6 +79,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
   public isSetUp?: MessageBrokerPayload['isSetUp']
   public metadata?: MessageBrokerPayload['metadata']
   public labels?: MessageBrokerPayload['labels']
+  public details?: MessageBrokerPayload['details']
 
   constructor (options: MessageBrokerOptions) {
     super()
@@ -101,6 +111,12 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
     this.isSetUp = rawPayload.is_set_up
     this.metadata = rawPayload.metadata
     this.labels = rawPayload.labels
+
+    if (rawPayload.details) {
+      this.details = {
+        routes: Array.isArray(rawPayload.details?.routes) ? rawPayload.details?.routes.map((item: RouteRawPayload) => Route.create(item, this.universe, this.http)) : []
+      }
+    }
 
     return this
   }
