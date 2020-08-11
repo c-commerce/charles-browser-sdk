@@ -1,3 +1,10 @@
+# [3.8.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.7.0...v3.8.0) (2020-08-11)
+
+
+### Features
+
+* **Universe/Analytics:** Implemented analytic reports ([de4223a](https://github.com/c-commerce/charles-browser-sdk/commit/de4223af977c0c6ac1178f76e1c395bfb6aad7bd))
+
 # [3.7.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.6.0...v3.7.0) (2020-08-07)
 
 
