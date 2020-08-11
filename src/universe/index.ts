@@ -38,6 +38,11 @@ import * as messageBroker from '../entities/message-broker/message-broker'
 import * as storefront from '../entities/storefront/storefront'
 import * as shippingMethod from '../entities/shipping-method/shipping-method'
 import * as route from '../entities/route/route'
+import {
+  ANALYTICS_ENDPOINT,
+  AnalyticsFetchRemoteError,
+  AnalyticsReport
+} from '../analytics/analytics'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -157,6 +162,20 @@ export interface UniverseSearches {
   people: (q: string) => Promise<UnviversePeopleSearchResultItem[]>
   feeds: (q: string) => Promise<UnviverseFeedsSearchResultItem[]>
   products: (q: string) => Promise<UnviverseProductsSearchResultItem[]>
+}
+
+/* Analytics */
+export interface UniverseAnalyticsOptions {
+  start: string
+  timezone: string
+  end: string
+  period?: string
+}
+
+export interface UniverseAnalytics {
+  orders: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
+  revenues: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
+  xau: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
 }
 
 export interface UniverseFeeds {
@@ -594,6 +613,54 @@ export class Universe extends Readable {
       }
 
       throw new UniverseMeError(undefined, { error: err })
+    }
+  }
+
+  /* Analytics & Reports */
+  public get analytics (): UniverseAnalytics {
+    return {
+      orders: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/commerce/orders/distribution/count`,
+            params: options
+          }
+
+          const res = await this.http.getClient()(opts)
+          return res.data.data as AnalyticsReport[]
+        } catch (err) {
+          throw new AnalyticsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      revenues: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/commerce/revenues/distribution`,
+            params: options
+          }
+
+          const res = await this.http.getClient()(opts)
+          return res.data.data as AnalyticsReport[]
+        } catch (err) {
+          throw new AnalyticsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      xau: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/messages/xau/count`,
+            params: options
+          }
+
+          const res = await this.http.getClient()(opts)
+          return res.data.data as AnalyticsReport[]
+        } catch (err) {
+          throw new AnalyticsFetchRemoteError(undefined, { error: err })
+        }
+      }
     }
   }
 

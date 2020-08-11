@@ -31,6 +31,7 @@ import * as messageBroker from '../entities/message-broker/message-broker';
 import * as storefront from '../entities/storefront/storefront';
 import * as shippingMethod from '../entities/shipping-method/shipping-method';
 import * as route from '../entities/route/route';
+import { AnalyticsReport } from '../analytics/analytics';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -108,6 +109,17 @@ export interface UniverseSearches {
     people: (q: string) => Promise<UnviversePeopleSearchResultItem[]>;
     feeds: (q: string) => Promise<UnviverseFeedsSearchResultItem[]>;
     products: (q: string) => Promise<UnviverseProductsSearchResultItem[]>;
+}
+export interface UniverseAnalyticsOptions {
+    start: string;
+    timezone: string;
+    end: string;
+    period?: string;
+}
+export interface UniverseAnalytics {
+    orders: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
+    revenues: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
+    xau: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
 }
 export interface UniverseFeeds {
     fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>;
@@ -207,6 +219,7 @@ export declare class Universe extends Readable {
     shippingMethod(payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod;
     route(payload: route.RouteRawPayload): route.Route;
     me(): Promise<MeData | undefined>;
+    get analytics(): UniverseAnalytics;
     get feeds(): UniverseFeeds;
     get people(): UniversePeople;
     staffs(options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined>;
