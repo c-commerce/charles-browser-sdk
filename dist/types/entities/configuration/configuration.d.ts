@@ -4,6 +4,13 @@ import { BaseError } from '../../errors';
 export interface ConfigurationOptions extends EntityOptions {
     rawPayload?: ConfigurationRawPayload;
 }
+export interface ConfigurationOOODay {
+    all_day: boolean;
+    slots: Array<{
+        start: string;
+        end: string;
+    }>;
+}
 export interface ConfigurationRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -15,6 +22,19 @@ export interface ConfigurationRawPayload {
         settings?: object;
         api?: object;
         feedback?: object;
+        out_of_office?: {
+            active: boolean;
+            message_template: null | string;
+            times: {
+                monday: ConfigurationOOODay;
+                tuesday: ConfigurationOOODay;
+                wednesday: ConfigurationOOODay;
+                thursday: ConfigurationOOODay;
+                friday: ConfigurationOOODay;
+                saturday: ConfigurationOOODay;
+                sunday: ConfigurationOOODay;
+            };
+        };
     };
 }
 export interface ConfigurationPayload {

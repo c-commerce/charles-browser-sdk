@@ -1,3 +1,10 @@
+# [3.9.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.8.0...v3.9.0) (2020-08-17)
+
+
+### Features
+
+* **configuration:** add ooo ([4b79636](https://github.com/c-commerce/charles-browser-sdk/commit/4b796363aa23f11caa5384648d3bb8dee7b0b915))
+
 # [3.8.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.7.0...v3.8.0) (2020-08-11)
 
 
