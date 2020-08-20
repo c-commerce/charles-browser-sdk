@@ -1,3 +1,10 @@
+# [3.10.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.9.0...v3.10.0) (2020-08-20)
+
+
+### Features
+
+* **configurations:** move ooo to event routes ([8393ed0](https://github.com/c-commerce/charles-browser-sdk/commit/8393ed0dfa5a55f82e809eb351461f9328f95722))
+
 # [3.9.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.8.0...v3.9.0) (2020-08-17)
 
 

@@ -23,8 +23,7 @@ export interface ConfigurationRawPayload {
         api?: object;
         feedback?: object;
         out_of_office?: {
-            active: boolean;
-            message_template: null | string;
+            event_route: null | string;
             times: {
                 monday: ConfigurationOOODay;
                 tuesday: ConfigurationOOODay;
