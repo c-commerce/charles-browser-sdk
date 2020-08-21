@@ -5,6 +5,7 @@ import { Feeds, Feed, FeedRawPayload } from '../eventing/feeds/feed';
 import { BaseError } from '../errors';
 import { MessageRawPayload } from '../messaging';
 import { EntityFetchOptions } from '../entities/_base';
+import { AnalyticsReport } from '../analytics/analytics';
 import * as staff from '../entities/staff/staff';
 import * as asset from '../entities/asset/asset';
 import * as person from '../entities/person/person';
@@ -31,7 +32,7 @@ import * as messageBroker from '../entities/message-broker/message-broker';
 import * as storefront from '../entities/storefront/storefront';
 import * as shippingMethod from '../entities/shipping-method/shipping-method';
 import * as route from '../entities/route/route';
-import { AnalyticsReport } from '../analytics/analytics';
+import * as thing from '../entities/thing/thing';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -218,6 +219,7 @@ export declare class Universe extends Readable {
     storefront(payload: storefront.StorefrontRawPayload): storefront.Storefront;
     shippingMethod(payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod;
     route(payload: route.RouteRawPayload): route.Route;
+    thing(payload: thing.ThingRawPayload): thing.Thing;
     me(): Promise<MeData | undefined>;
     get analytics(): UniverseAnalytics;
     get feeds(): UniverseFeeds;
@@ -246,6 +248,7 @@ export declare class Universe extends Readable {
     storefronts(options?: EntityFetchOptions): Promise<storefront.Storefront[] | storefront.StorefrontRawPayload[] | undefined>;
     shippingMethods(options?: EntityFetchOptions): Promise<shippingMethod.ShippingMethod[] | shippingMethod.ShippingMethodRawPayload[] | undefined>;
     routes(options?: EntityFetchOptions): Promise<route.Route[] | route.RouteRawPayload[] | undefined>;
+    things(options?: EntityFetchOptions): Promise<thing.Thing[] | thing.ThingRawPayload[] | undefined>;
     arm(): Universe;
     get search(): UniverseSearches;
     private searchEntity;

@@ -1,3 +1,10 @@
+# [3.11.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.10.0...v3.11.0) (2020-08-21)
+
+
+### Features
+
+* add things ([b3a17a0](https://github.com/c-commerce/charles-browser-sdk/commit/b3a17a00017d2baa6b9bffbc3752a9b4caac806c))
+
 # [3.10.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.9.0...v3.10.0) (2020-08-20)
 
 
