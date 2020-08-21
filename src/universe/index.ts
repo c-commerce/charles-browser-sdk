@@ -10,12 +10,17 @@ import * as uuid from '../helpers/uuid'
 
 import { EntityFetchOptions } from '../entities/_base'
 
+import {
+  ANALYTICS_ENDPOINT,
+  AnalyticsFetchRemoteError,
+  AnalyticsReport
+} from '../analytics/analytics'
+
 import * as staff from '../entities/staff/staff'
 import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
 import * as channelUser from '../entities/person/channel-user'
 import * as email from '../entities/person/email'
-
 import * as product from '../entities/product/product'
 import * as ticket from '../entities/ticket/ticket'
 import * as cart from '../entities/cart/cart'
@@ -38,11 +43,7 @@ import * as messageBroker from '../entities/message-broker/message-broker'
 import * as storefront from '../entities/storefront/storefront'
 import * as shippingMethod from '../entities/shipping-method/shipping-method'
 import * as route from '../entities/route/route'
-import {
-  ANALYTICS_ENDPOINT,
-  AnalyticsFetchRemoteError,
-  AnalyticsReport
-} from '../analytics/analytics'
+import * as thing from '../entities/thing/thing'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -589,6 +590,10 @@ export class Universe extends Readable {
 
   public route (payload: route.RouteRawPayload): route.Route {
     return route.Route.create(payload, this, this.http)
+  }
+
+  public thing (payload: thing.ThingRawPayload): thing.Thing {
+    return thing.Thing.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1313,6 +1318,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new route.RoutesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async things (options?: EntityFetchOptions): Promise<thing.Thing[] | thing.ThingRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${thing.Things.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as thing.ThingRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: thing.ThingRawPayload) => {
+        return thing.Thing.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new thing.ThingsFetchRemoteError(undefined, { error: err })
     }
   }
 
