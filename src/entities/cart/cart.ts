@@ -92,6 +92,10 @@ export interface CartItemPayload {
   readonly externalReferenceCustomId?: string
 }
 
+export interface CartLinks {
+  external?: string
+}
+
 export interface CartAdress {
   readonly lines?: string[]
   readonly locality?: string
@@ -117,6 +121,7 @@ export interface CartRawPayload {
   readonly name?: string
   readonly custom_id?: string
   readonly items?: CartItemRawPayload[]
+  readonly links?: CartLinks
   readonly is_proxy?: boolean
   readonly proxy_vendor?: 'shopify' | string
   readonly type?: 'sale' | 'cancellation'
@@ -151,6 +156,7 @@ export interface CartPayload {
   readonly name?: CartRawPayload['name']
   readonly custom_id?: CartRawPayload['custom_id']
   readonly items?: CartItem[]
+  readonly links?: CartRawPayload['links']
   readonly isProxy?: CartRawPayload['is_proxy']
   readonly proxyVendor?: CartRawPayload['proxy_vendor']
   readonly type?: CartRawPayload['type']
@@ -296,6 +302,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   public name?: CartPayload['name']
   public customId?: CartPayload['custom_id']
   public items?: CartPayload['items']
+  public links?: CartPayload['links']
   public isProxy?: CartPayload['isProxy']
   public proxyVendor?: CartPayload['proxyVendor']
   public type?: CartPayload['type']
@@ -343,6 +350,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
     this.active = rawPayload.active ?? true
     this.name = rawPayload.name
     this.customId = rawPayload.custom_id
+    this.links = rawPayload.links
     this.isProxy = rawPayload.is_proxy ?? false
     this.proxyVendor = rawPayload.proxy_vendor
     this.type = rawPayload.type
@@ -409,6 +417,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
       metadata: this.metadata,
       custom_properies: this.customProperies,
       items,
+      links: this.links,
       shipping_fulfillment: this.shippingFulfillment,
       amount_total_gross: this.amountTotalGross,
       amount_total_net: this.amountTotalNet,
