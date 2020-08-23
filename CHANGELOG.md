@@ -1,3 +1,10 @@
+# [3.12.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.11.0...v3.12.0) (2020-08-23)
+
+
+### Features
+
+* **Cart:** added links to cart ([78f6921](https://github.com/c-commerce/charles-browser-sdk/commit/78f692170dbc77d518deff8cd3f9f76680e9b861))
+
 # [3.11.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.10.0...v3.11.0) (2020-08-21)
 
 

@@ -82,6 +82,9 @@ export interface CartItemPayload {
     readonly externalReferenceId?: string;
     readonly externalReferenceCustomId?: string;
 }
+export interface CartLinks {
+    external?: string;
+}
 export interface CartAdress {
     readonly lines?: string[];
     readonly locality?: string;
@@ -103,6 +106,7 @@ export interface CartRawPayload {
     readonly name?: string;
     readonly custom_id?: string;
     readonly items?: CartItemRawPayload[];
+    readonly links?: CartLinks;
     readonly is_proxy?: boolean;
     readonly proxy_vendor?: 'shopify' | string;
     readonly type?: 'sale' | 'cancellation';
@@ -136,6 +140,7 @@ export interface CartPayload {
     readonly name?: CartRawPayload['name'];
     readonly custom_id?: CartRawPayload['custom_id'];
     readonly items?: CartItem[];
+    readonly links?: CartRawPayload['links'];
     readonly isProxy?: CartRawPayload['is_proxy'];
     readonly proxyVendor?: CartRawPayload['proxy_vendor'];
     readonly type?: CartRawPayload['type'];
@@ -208,6 +213,7 @@ export declare class Cart extends Entity<CartPayload, CartRawPayload> {
     name?: CartPayload['name'];
     customId?: CartPayload['custom_id'];
     items?: CartPayload['items'];
+    links?: CartPayload['links'];
     isProxy?: CartPayload['isProxy'];
     proxyVendor?: CartPayload['proxyVendor'];
     type?: CartPayload['type'];

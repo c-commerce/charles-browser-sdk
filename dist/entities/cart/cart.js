@@ -100,6 +100,7 @@ var Cart = (function (_super) {
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
         this.name = rawPayload.name;
         this.customId = rawPayload.custom_id;
+        this.links = rawPayload.links;
         this.isProxy = (_c = rawPayload.is_proxy) !== null && _c !== void 0 ? _c : false;
         this.proxyVendor = rawPayload.proxy_vendor;
         this.type = rawPayload.type;
@@ -163,6 +164,7 @@ var Cart = (function (_super) {
             metadata: this.metadata,
             custom_properies: this.customProperies,
             items: items,
+            links: this.links,
             shipping_fulfillment: this.shippingFulfillment,
             amount_total_gross: this.amountTotalGross,
             amount_total_net: this.amountTotalNet,
