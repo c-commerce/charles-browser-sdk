@@ -1,3 +1,10 @@
+## [3.12.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.12.0...v3.12.1) (2020-08-24)
+
+
+### Bug Fixes
+
+* **things:** forward payload ([24a442b](https://github.com/c-commerce/charles-browser-sdk/commit/24a442bea963ff508e9f2792a013ae2c49b1cec1))
+
 # [3.12.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.11.0...v3.12.0) (2020-08-23)
 
 

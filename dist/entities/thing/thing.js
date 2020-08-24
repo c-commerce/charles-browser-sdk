@@ -78,7 +78,7 @@ var Thing = (function (_super) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, this._bind()];
+                    case 0: return [4, this._bind(payload)];
                     case 1: return [2, _a.sent()];
                 }
             });
@@ -166,7 +166,7 @@ exports.ThingsFetchRemoteError = ThingsFetchRemoteError;
 var ThingsBindRemoteError = (function (_super) {
     tslib_1.__extends(ThingsBindRemoteError, _super);
     function ThingsBindRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could not get bind thing unexpectedly.'; }
+        if (message === void 0) { message = 'Could not bind thing unexpectedly.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'ThingsBindRemoteError';
