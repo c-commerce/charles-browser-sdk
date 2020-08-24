@@ -134,7 +134,7 @@ export class Thing extends Entity<ThingPayload, ThingRawPayload> {
    * Create update a thing.
    */
   public async bind (payload?: ThingRawPayload): Promise<Thing> {
-    return await this._bind()
+    return await this._bind(payload)
   }
 
   /**
@@ -198,7 +198,7 @@ export class ThingsFetchRemoteError extends BaseError {
 
 export class ThingsBindRemoteError extends BaseError {
   public name = 'ThingsBindRemoteError'
-  constructor (public message: string = 'Could not get bind thing unexpectedly.', properties?: any) {
+  constructor (public message: string = 'Could not bind thing unexpectedly.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ThingsBindRemoteError.prototype)
   }
