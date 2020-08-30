@@ -1,4 +1,5 @@
 import { Readable } from 'readable-stream'
+import qs from 'qs'
 import { UniverseHealth, UniverseStatus } from './status'
 import { Client } from '../client'
 import { Feeds, Feed, FeedRawPayload, FeedsFetchRemoteError, FeedFetchCountRemoteError } from '../eventing/feeds/feed'
@@ -81,6 +82,13 @@ export interface UniverseOptions {
    * The user ID of a charles user that is available inside of an universe.
    */
   user: UniverseUser
+}
+
+export interface ApiRequestOptions {
+  method: string
+  path: string
+  data?: string
+  query?: string
 }
 
 export interface UniversePayload {
@@ -597,6 +605,27 @@ export class Universe extends Readable {
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
+
+  /**
+   * Make requests on unimplemented API resources
+   *
+   * @param options
+   */
+  public async apiRequest (options: ApiRequestOptions): Promise<{ [key: string]: any } | Array<{ [key: string]: any } | undefined>> {
+    const opts = {
+      method: options.method,
+      path: `${options.path}${options.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+      data: options.data ?? undefined
+    }
+
+    try {
+      const res = await this.http.getClient()(opts)
+
+      return res.data.data
+    } catch (err) {
+      throw new UniverseApiRequestError(undefined, { error: err })
+    }
+  }
 
   /**
    * Fetch the data of the current user. If you receive an instane of UniverseUnauthenticatedError
@@ -1452,5 +1481,14 @@ export class UniverseMeError extends BaseError {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseMeError.prototype)
+  }
+}
+
+export class UniverseApiRequestError extends BaseError {
+  public name = 'UniverseApiRequestError'
+  constructor (public message: string = 'Unexptected error making api request.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseApiRequestError.prototype)
   }
 }
