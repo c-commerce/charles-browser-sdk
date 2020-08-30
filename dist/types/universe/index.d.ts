@@ -45,6 +45,12 @@ export interface UniverseOptions {
     base: string;
     user: UniverseUser;
 }
+export interface ApiRequestOptions {
+    method: string;
+    path: string;
+    data?: string;
+    query?: string;
+}
 export interface UniversePayload {
     name: string;
     id: string;
@@ -220,6 +226,11 @@ export declare class Universe extends Readable {
     shippingMethod(payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod;
     route(payload: route.RouteRawPayload): route.Route;
     thing(payload: thing.ThingRawPayload): thing.Thing;
+    apiRequest(options: ApiRequestOptions): Promise<{
+        [key: string]: any;
+    } | Array<{
+        [key: string]: any;
+    } | undefined>>;
     me(): Promise<MeData | undefined>;
     get analytics(): UniverseAnalytics;
     get feeds(): UniverseFeeds;
@@ -274,6 +285,11 @@ export declare class UniverseUnauthenticatedError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class UniverseMeError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseApiRequestError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

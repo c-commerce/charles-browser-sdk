@@ -1,3 +1,10 @@
+# [3.13.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.12.1...v3.13.0) (2020-08-30)
+
+
+### Features
+
+* **universe:** allow making unimplemented api calls ([f1521b1](https://github.com/c-commerce/charles-browser-sdk/commit/f1521b1441b09d81474dd3ad8dbc8da548e59521))
+
 ## [3.12.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.12.0...v3.12.1) (2020-08-24)
 
 
