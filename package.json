@@ -3,9 +3,9 @@
   "version": "3.14.0",
   "description": "The Browser SDK for the Charles APIs.",
   "keywords": [],
-  "main": "charles.js",
-  "module": "charles.js",
-  "typings": "types/charles.d.ts",
+  "main": "dist/charles.js",
+  "module": "dist/charles.js",
+  "typings": "dist/types/charles.d.ts",
   "files": [
     "package.json",
     "package-lock.json",
@@ -41,12 +41,9 @@
     "precommit": "npm run lint && git add -A",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
-    "semantic-release:dry": "semantic-release --dry-run",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "travis-deploy-once": "travis-deploy-once",
-    "new:entity": "hygen entity with-prompt",
-    "copypkg": "cp -r package-lock.json dist/package-lock.json && cp -r package.json dist/package.json && cp -r CHANGELOG.md dist/CHANGELOG.md",
-    "publish": "npm run copypkg && cd dist && npm publish --access public"
+    "new:entity": "hygen entity with-prompt"
   },
   "config": {
     "commitizen": {
