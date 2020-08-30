@@ -1,3 +1,10 @@
+# [3.14.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.13.0...v3.14.0) (2020-08-30)
+
+
+### Features
+
+* **pkg:** move base into dist ([985f48e](https://github.com/c-commerce/charles-browser-sdk/commit/985f48eff549a5af00a88944734fcf3551634cf3))
+
 # [3.13.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.12.1...v3.13.0) (2020-08-30)
 
 
