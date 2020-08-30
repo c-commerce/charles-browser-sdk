@@ -1,3 +1,10 @@
+## [3.14.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.14.0...v3.14.1) (2020-08-30)
+
+
+### Bug Fixes
+
+* Revert "feat(pkg): move base into dist" ([070077a](https://github.com/c-commerce/charles-browser-sdk/commit/070077a4f47471c11e08f41f4f7930803f51fadc))
+
 # [3.14.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.13.0...v3.14.0) (2020-08-30)
 
 
