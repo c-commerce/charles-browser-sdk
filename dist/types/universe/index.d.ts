@@ -127,6 +127,7 @@ export interface UniverseAnalytics {
     orders: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
     revenues: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
     xau: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
+    feedOpenedClosed: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
 }
 export interface UniverseFeeds {
     fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>;

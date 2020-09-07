@@ -1,3 +1,10 @@
+# [3.15.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.14.1...v3.15.0) (2020-09-07)
+
+
+### Features
+
+* **universe/analytics:** implement convo count ([1e6ff1f](https://github.com/c-commerce/charles-browser-sdk/commit/1e6ff1f95bb36b9b56983cc12dddd41cd185871a))
+
 ## [3.14.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.14.0...v3.14.1) (2020-08-30)
 
 
