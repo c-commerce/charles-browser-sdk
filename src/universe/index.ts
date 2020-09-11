@@ -18,6 +18,7 @@ import {
 } from '../analytics/analytics'
 
 import * as staff from '../entities/staff/staff'
+import * as track from '../entities/track/track'
 import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
 import * as channelUser from '../entities/person/channel-user'
@@ -501,6 +502,10 @@ export class Universe extends Readable {
     return staff.Staff.create(payload, this, this.http)
   }
 
+  public track (payload: track.TrackRawPayload): track.Track {
+    return track.Track.create(payload, this, this.http)
+  }
+
   public asset (payload: asset.AssetRawPayload): asset.Asset {
     return asset.Asset.create(payload, this, this.http)
   }
@@ -894,6 +899,27 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new staff.StaffsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async tracks (options?: EntityFetchOptions): Promise<track.Track[] | track.TrackRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${track.Tracks.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+      const resources = res.data.data as track.TrackRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: track.TrackRawPayload) => {
+        return track.Track.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new track.TracksFetchRemoteError(undefined, { error: err })
     }
   }
 
