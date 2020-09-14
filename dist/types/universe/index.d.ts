@@ -7,6 +7,7 @@ import { MessageRawPayload } from '../messaging';
 import { EntityFetchOptions } from '../entities/_base';
 import { AnalyticsReport } from '../analytics/analytics';
 import * as staff from '../entities/staff/staff';
+import * as track from '../entities/track/track';
 import * as asset from '../entities/asset/asset';
 import * as person from '../entities/person/person';
 import * as channelUser from '../entities/person/channel-user';
@@ -201,6 +202,7 @@ export declare class Universe extends Readable {
     feed(payload: FeedRawPayload): Feed;
     product(payload: product.ProductRawPayload): product.Product;
     staff(payload: staff.StaffRawPayload): staff.Staff;
+    track(payload: track.TrackRawPayload): track.Track;
     asset(payload: asset.AssetRawPayload): asset.Asset;
     cart(payload: cart.CartRawPayload): cart.Cart;
     order(payload: order.OrderRawPayload): order.Order;
@@ -237,6 +239,7 @@ export declare class Universe extends Readable {
     get feeds(): UniverseFeeds;
     get people(): UniversePeople;
     staffs(options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined>;
+    tracks(options?: EntityFetchOptions): Promise<track.Track[] | track.TrackRawPayload[] | undefined>;
     assets(): Promise<asset.Asset[] | undefined>;
     get products(): UniverseProducts;
     tickets(): Promise<ticket.Ticket[] | undefined>;

@@ -1,3 +1,11 @@
+# [3.16.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.15.0...v3.16.0) (2020-09-14)
+
+
+### Features
+
+* **package.json:** lower jest coverage threshold and trigger build ([5a963ee](https://github.com/c-commerce/charles-browser-sdk/commit/5a963ee9f05de8f5794d700c8046d37ff512bac0))
+* **Tracks:** implemented universe tracks entity ([0c16c17](https://github.com/c-commerce/charles-browser-sdk/commit/0c16c1722096975a847deb1dc49ddec0cfeab7fa))
+
 # [3.15.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.14.1...v3.15.0) (2020-09-07)
 
 
