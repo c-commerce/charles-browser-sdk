@@ -205,6 +205,14 @@ export interface UniversePeople {
   stream: (options?: UniverseFetchOptions) => Promise<person.People>
 }
 
+export interface UniverseTracks {
+  fromJson: (payloads: track.TrackRawPayload[]) => track.Track[]
+  toJson: (feeds: track.Track[]) => track.TrackRawPayload[]
+  fetch: (options?: EntityFetchOptions) => Promise<track.Track[] | track.TrackRawPayload[] | undefined>
+  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
+  current: (options?: EntityFetchOptions) => Promise<track.Track[] | track.TrackRawPayload[] | undefined>
+}
+
 export interface UniverseProducts {
   fetch: (options?: EntityFetchOptions) => Promise<Product[] | ProductRawPayload[] | undefined>
   fromJson: (products: ProductRawPayload[]) => Product[]
@@ -902,24 +910,73 @@ export class Universe extends Readable {
     }
   }
 
-  public async tracks (options?: EntityFetchOptions): Promise<track.Track[] | track.TrackRawPayload[] | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${track.Tracks.endpoint}`, {
-        params: {
-          ...(options?.query ?? {})
+  public get tracks (): UniverseTracks {
+    return {
+      fromJson: (payloads: track.TrackRawPayload[]): track.Track[] => {
+        return payloads.map((item) => (track.Track.create(item, this, this.http)))
+      },
+      toJson: (products: track.Track[]): track.TrackRawPayload[] => {
+        return products.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: EntityFetchOptions): Promise<track.Track[] | track.TrackRawPayload[] | undefined> => {
+        try {
+          const res = await this.http.getClient().get(`${this.universeBase}/${track.Tracks.endpoint}`, {
+            params: {
+              ...(options?.query ?? {})
+            }
+          })
+          const resources = res.data.data as track.TrackRawPayload[]
+
+          if (options && options.raw === true) {
+            return resources
+          }
+
+          return resources.map((resource: track.TrackRawPayload) => {
+            return track.Track.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new track.TracksFetchRemoteError(undefined, { error: err })
         }
-      })
-      const resources = res.data.data as track.TrackRawPayload[]
+      },
+      fetchCount: async (options?: EntityFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${track.Tracks.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
 
-      if (options && options.raw === true) {
-        return resources
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new track.TracksFetchRemoteError(undefined, { error: err })
+        }
+      },
+      current: async (options?: EntityFetchOptions): Promise<track.Track[] | track.TrackRawPayload[] | undefined> => {
+        try {
+          const res = await this.http.getClient().get(`${this.universeBase}/${track.Tracks.currentEndpoint}`, {
+            params: {
+              ...(options?.query ?? {})
+            }
+          })
+          const resources = res.data.data as track.TrackRawPayload[]
+
+          if (options && options.raw === true) {
+            return resources
+          }
+
+          return resources.map((resource: track.TrackRawPayload) => {
+            return track.Track.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new track.TracksFetchRemoteError(undefined, { error: err })
+        }
       }
-
-      return resources.map((resource: track.TrackRawPayload) => {
-        return track.Track.create(resource, this, this.http)
-      })
-    } catch (err) {
-      throw new track.TracksFetchRemoteError(undefined, { error: err })
     }
   }
 

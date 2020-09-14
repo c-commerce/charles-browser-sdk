@@ -83,7 +83,7 @@ export class Track extends Entity<TrackPayload, TrackRawPayload> {
   constructor (options: TrackOptions) {
     super()
     this.universe = options.universe
-    this.endpoint = 'api/v0/universe_tracks/current'
+    this.endpoint = 'api/v0/universe_tracks'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -143,7 +143,8 @@ export class Track extends Entity<TrackPayload, TrackRawPayload> {
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Tracks {
-  public static endpoint: string = 'api/v0/universe_tracks/current'
+  public static endpoint: string = 'api/v0/universe_tracks'
+  public static currentEndpoint: string = 'api/v0/universe_tracks/current'
 }
 
 export class TrackInitializationError extends BaseError {
