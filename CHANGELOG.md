@@ -1,3 +1,10 @@
+# [3.17.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.16.0...v3.17.0) (2020-09-14)
+
+
+### Features
+
+* **Universe Tracks:** Universe tracks accessor (fetch all/current, etc) ([937491c](https://github.com/c-commerce/charles-browser-sdk/commit/937491c7dac6849f4df83794d85f330abce07659))
+
 # [3.16.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.15.0...v3.16.0) (2020-09-14)
 
 

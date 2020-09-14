@@ -9,7 +9,7 @@ var Track = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
-        _this.endpoint = 'api/v0/universe_tracks/current';
+        _this.endpoint = 'api/v0/universe_tracks';
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -76,7 +76,8 @@ exports.Track = Track;
 var Tracks = (function () {
     function Tracks() {
     }
-    Tracks.endpoint = 'api/v0/universe_tracks/current';
+    Tracks.endpoint = 'api/v0/universe_tracks';
+    Tracks.currentEndpoint = 'api/v0/universe_tracks/current';
     return Tracks;
 }());
 exports.Tracks = Tracks;

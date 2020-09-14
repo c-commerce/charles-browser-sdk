@@ -148,6 +148,15 @@ export interface UniversePeople {
     toJson: (feeds: person.Person[]) => person.PersonRawPayload[];
     stream: (options?: UniverseFetchOptions) => Promise<person.People>;
 }
+export interface UniverseTracks {
+    fromJson: (payloads: track.TrackRawPayload[]) => track.Track[];
+    toJson: (feeds: track.Track[]) => track.TrackRawPayload[];
+    fetch: (options?: EntityFetchOptions) => Promise<track.Track[] | track.TrackRawPayload[] | undefined>;
+    fetchCount: (options?: EntityFetchOptions) => Promise<{
+        count: number;
+    }>;
+    current: (options?: EntityFetchOptions) => Promise<track.Track[] | track.TrackRawPayload[] | undefined>;
+}
 export interface UniverseProducts {
     fetch: (options?: EntityFetchOptions) => Promise<Product[] | ProductRawPayload[] | undefined>;
     fromJson: (products: ProductRawPayload[]) => Product[];
@@ -239,7 +248,7 @@ export declare class Universe extends Readable {
     get feeds(): UniverseFeeds;
     get people(): UniversePeople;
     staffs(options?: EntityFetchOptions): Promise<staff.Staff[] | staff.StaffRawPayload[] | undefined>;
-    tracks(options?: EntityFetchOptions): Promise<track.Track[] | track.TrackRawPayload[] | undefined>;
+    get tracks(): UniverseTracks;
     assets(): Promise<asset.Asset[] | undefined>;
     get products(): UniverseProducts;
     tickets(): Promise<ticket.Ticket[] | undefined>;

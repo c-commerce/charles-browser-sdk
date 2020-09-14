@@ -72,6 +72,7 @@ export declare class Track extends Entity<TrackPayload, TrackRawPayload> {
 }
 export declare class Tracks {
     static endpoint: string;
+    static currentEndpoint: string;
 }
 export declare class TrackInitializationError extends BaseError {
     message: string;
