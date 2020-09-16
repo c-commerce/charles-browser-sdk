@@ -97,7 +97,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   public payload?: MessageTemplatePayload['payload']
   public metadata?: MessageTemplatePayload['metadata']
   public notification?: MessageTemplatePayload['notification']
-  public contentCategory?: MessageTemplatePayload['content_category']
+  public contentCategory?: MessageTemplatePayload['contentCategory']
 
   constructor (options: MessageTemplateOptions) {
     super()
