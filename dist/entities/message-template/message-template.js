@@ -38,6 +38,7 @@ var MessageTemplate = (function (_super) {
         this.payload = rawPayload.payload;
         this.metadata = rawPayload.metadata;
         this.notification = rawPayload.notification;
+        this.contentCategory = rawPayload.content_category;
         return this;
     };
     MessageTemplate.create = function (payload, universe, http) {
@@ -62,7 +63,8 @@ var MessageTemplate = (function (_super) {
             configuration: this.configuration,
             payload: this.payload,
             metadata: this.metadata,
-            notification: this.notification
+            notification: this.notification,
+            content_category: this.contentCategory
         };
     };
     MessageTemplate.prototype.init = function () {

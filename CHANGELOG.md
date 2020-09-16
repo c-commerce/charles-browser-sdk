@@ -1,3 +1,15 @@
+# [3.18.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.17.0...v3.18.0) (2020-09-16)
+
+
+### Bug Fixes
+
+* **message templates:** fix content category property ([1fe8696](https://github.com/c-commerce/charles-browser-sdk/commit/1fe86963973e0e1dce162ef78cabbe8ccdccf418))
+
+
+### Features
+
+* **message templates:** add content category ([db95895](https://github.com/c-commerce/charles-browser-sdk/commit/db9589599989f0a3a4aa1643719f396e8f514ae3))
+
 # [3.17.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.16.0...v3.17.0) (2020-09-14)
 
 

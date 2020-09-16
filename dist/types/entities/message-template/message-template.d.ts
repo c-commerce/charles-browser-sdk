@@ -44,6 +44,7 @@ export interface MessageTemplateRawPayload {
         }>;
     } | null;
     readonly notification?: boolean;
+    readonly content_category?: string;
 }
 export interface MessageTemplatePayload {
     readonly id?: MessageTemplateRawPayload['id'];
@@ -63,6 +64,7 @@ export interface MessageTemplatePayload {
     readonly payload?: MessageTemplateRawPayload['payload'];
     readonly metadata?: MessageTemplateRawPayload['metadata'];
     readonly notification?: MessageTemplateRawPayload['notification'];
+    readonly contentCategory?: MessageTemplateRawPayload['content_category'];
 }
 export declare class MessageTemplate extends Entity<MessageTemplatePayload, MessageTemplateRawPayload> {
     protected universe: Universe;
@@ -87,6 +89,7 @@ export declare class MessageTemplate extends Entity<MessageTemplatePayload, Mess
     payload?: MessageTemplatePayload['payload'];
     metadata?: MessageTemplatePayload['metadata'];
     notification?: MessageTemplatePayload['notification'];
+    contentCategory?: MessageTemplatePayload['contentCategory'];
     constructor(options: MessageTemplateOptions);
     protected deserialize(rawPayload: MessageTemplateRawPayload): MessageTemplate;
     static create(payload: MessageTemplateRawPayload, universe: Universe, http: Universe['http']): MessageTemplate;
