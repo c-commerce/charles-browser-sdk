@@ -44,6 +44,7 @@ export interface MessageTemplateRawPayload {
     parameters?: { [key: string]: any } | Array<{ name: string, required: boolean, order_index?: number }>
   } | null
   readonly notification?: boolean
+  readonly content_category?: string
 }
 
 export interface MessageTemplatePayload {
@@ -64,6 +65,7 @@ export interface MessageTemplatePayload {
   readonly payload?: MessageTemplateRawPayload['payload']
   readonly metadata?: MessageTemplateRawPayload['metadata']
   readonly notification?: MessageTemplateRawPayload['notification']
+  readonly contentCategory?: MessageTemplateRawPayload['content_category']
 }
 
 /**
@@ -95,6 +97,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   public payload?: MessageTemplatePayload['payload']
   public metadata?: MessageTemplatePayload['metadata']
   public notification?: MessageTemplatePayload['notification']
+  public contentCategory?: MessageTemplatePayload['content_category']
 
   constructor (options: MessageTemplateOptions) {
     super()
@@ -129,6 +132,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
     this.payload = rawPayload.payload
     this.metadata = rawPayload.metadata
     this.notification = rawPayload.notification
+    this.contentCategory = rawPayload.content_category
 
     return this
   }
@@ -155,7 +159,8 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
       configuration: this.configuration,
       payload: this.payload,
       metadata: this.metadata,
-      notification: this.notification
+      notification: this.notification,
+      content_category: this.contentCategory
     }
   }
 
