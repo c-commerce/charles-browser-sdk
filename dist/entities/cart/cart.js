@@ -124,6 +124,7 @@ var Cart = (function (_super) {
         this.status = rawPayload.status;
         this.proxyPayload = rawPayload.proxy_payload;
         this.discounts = rawPayload.discounts;
+        this.shippingMethods = rawPayload.shipping_methods;
         if (Array.isArray(rawPayload.items)) {
             this.items = rawPayload.items.map(function (item) { return (CartItem.create(item, _this.universe, _this.http)); });
         }
@@ -173,7 +174,8 @@ var Cart = (function (_super) {
             order_prompt: this.orderPrompt,
             status: this.status,
             proxy_payload: this.proxyPayload,
-            discounts: this.discounts
+            discounts: this.discounts,
+            shipping_methods: this.shippingMethods
         };
     };
     Cart.prototype.init = function () {

@@ -97,6 +97,12 @@ export declare type CartBillingAddress = CartAdress;
 export interface CartContact {
     readonly email?: string;
 }
+export interface CartShippingRawPayload {
+    readonly currency: string;
+    readonly name: string;
+    readonly amount_net?: number | null;
+    readonly amount_gross?: number | null;
+}
 export interface CartRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -130,6 +136,7 @@ export interface CartRawPayload {
     readonly status?: ICartStatusType | null;
     readonly proxy_payload?: object | null;
     readonly discounts?: CartDiscountRawPayload[] | null;
+    readonly shipping_methods?: CartShippingRawPayload[] | null;
 }
 export interface CartPayload {
     readonly id?: CartRawPayload['id'];
@@ -164,6 +171,7 @@ export interface CartPayload {
     readonly status?: CartRawPayload['status'];
     readonly proxyPayload?: CartRawPayload['proxy_payload'];
     readonly discounts?: CartRawPayload['discounts'];
+    readonly shippingMethods?: CartRawPayload['shipping_methods'];
 }
 export interface AddItemItemOptions {
     product: string;
@@ -237,6 +245,7 @@ export declare class Cart extends Entity<CartPayload, CartRawPayload> {
     status?: CartPayload['status'];
     proxyPayload?: CartPayload['proxyPayload'];
     discounts?: CartPayload['discounts'];
+    shippingMethods?: CartPayload['shippingMethods'];
     constructor(options: CartOptions);
     protected deserialize(rawPayload: CartRawPayload): Cart;
     static create(payload: CartRawPayload, universe: Universe, http: Universe['http']): Cart;
