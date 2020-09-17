@@ -1,3 +1,10 @@
+# [3.20.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.19.0...v3.20.0) (2020-09-17)
+
+
+### Features
+
+* **Cart:** better address support ([77147dc](https://github.com/c-commerce/charles-browser-sdk/commit/77147dceda629aaa9b1b860dc27be1f2820621a3))
+
 # [3.19.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.18.0...v3.19.0) (2020-09-16)
 
 

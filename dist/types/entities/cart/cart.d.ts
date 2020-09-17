@@ -86,6 +86,11 @@ export interface CartLinks {
     external?: string;
 }
 export interface CartAdress {
+    readonly company?: string;
+    readonly first_name?: string;
+    readonly last_name?: string;
+    readonly name?: string;
+    readonly phone?: string;
     readonly lines?: string[];
     readonly locality?: string;
     readonly region?: string;
