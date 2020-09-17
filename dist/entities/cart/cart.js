@@ -108,6 +108,7 @@ var Cart = (function (_super) {
         this.externalReferenceCustomId = rawPayload.external_reference_custom_id;
         this.clientId = rawPayload.client_id;
         this.person = rawPayload.person;
+        this.personExternalReferenceId = rawPayload.person_external_reference_id;
         this.note = rawPayload.note;
         this.comment = rawPayload.comment;
         this.shippingAddress = rawPayload.shipping_address;
@@ -157,6 +158,7 @@ var Cart = (function (_super) {
             external_reference_custom_id: this.externalReferenceCustomId,
             client_id: this.clientId,
             person: this.person,
+            person_external_reference_id: this.personExternalReferenceId,
             note: this.note,
             comment: this.comment,
             shipping_address: this.shippingAddress,

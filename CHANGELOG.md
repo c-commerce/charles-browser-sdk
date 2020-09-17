@@ -1,3 +1,10 @@
+# [3.22.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.21.0...v3.22.0) (2020-09-17)
+
+
+### Features
+
+* **Cart:** added personExternalReferenceId ([0606c82](https://github.com/c-commerce/charles-browser-sdk/commit/0606c82e05d4a8685ae9313d7daa8f6e095d78b6))
+
 # [3.21.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.20.0...v3.21.0) (2020-09-17)
 
 
