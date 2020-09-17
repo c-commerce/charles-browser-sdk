@@ -488,6 +488,7 @@ var Address = (function (_super) {
             id: this.id,
             first_name: this.firstName,
             last_name: this.lastName,
+            person: this.person,
             phone: this.phone,
             lines: this.lines,
             company: this.company,

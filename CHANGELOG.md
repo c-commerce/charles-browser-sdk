@@ -1,3 +1,10 @@
+## [3.22.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.22.0...v3.22.1) (2020-09-17)
+
+
+### Bug Fixes
+
+* **Person:** fixed missing person property on address.serialize ([2e06850](https://github.com/c-commerce/charles-browser-sdk/commit/2e06850b52f36428d2d99113a4ad97a74c35751f))
+
 # [3.22.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.21.0...v3.22.0) (2020-09-17)
 
 
