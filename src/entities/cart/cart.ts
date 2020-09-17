@@ -141,6 +141,7 @@ export interface CartRawPayload {
   readonly external_reference_custom_id?: string
   readonly client_id?: string
   readonly person?: string
+  readonly person_external_reference_id?: string
   readonly note?: string
   readonly comment?: string
   readonly shipping_address?: CartShippingAddress
@@ -177,6 +178,7 @@ export interface CartPayload {
   readonly externalReferenceCustomId?: CartRawPayload['external_reference_custom_id']
   readonly clientId?: CartRawPayload['client_id']
   readonly person?: CartRawPayload['person']
+  readonly personExternalReferenceId?: CartRawPayload['person_external_reference_id']
   readonly note?: CartRawPayload['note']
   readonly comment?: CartRawPayload['comment']
   readonly shippingAddress?: CartRawPayload['shipping_address']
@@ -324,6 +326,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   public externalReferenceCustomId?: CartPayload['externalReferenceCustomId']
   public clientId?: CartPayload['clientId']
   public person?: CartPayload['person']
+  public personExternalReferenceId?: CartPayload['personExternalReferenceId']
   public note?: CartPayload['note']
   public comment?: CartPayload['comment']
   public shippingAddress?: CartPayload['shippingAddress']
@@ -373,6 +376,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
     this.externalReferenceCustomId = rawPayload.external_reference_custom_id
     this.clientId = rawPayload.client_id
     this.person = rawPayload.person
+    this.personExternalReferenceId = rawPayload.person_external_reference_id
     this.note = rawPayload.note
     this.comment = rawPayload.comment
     this.shippingAddress = rawPayload.shipping_address
@@ -425,6 +429,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
       external_reference_custom_id: this.externalReferenceCustomId,
       client_id: this.clientId,
       person: this.person,
+      person_external_reference_id: this.personExternalReferenceId,
       note: this.note,
       comment: this.comment,
       shipping_address: this.shippingAddress,
