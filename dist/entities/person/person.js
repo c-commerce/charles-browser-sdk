@@ -438,19 +438,31 @@ var People = (function (_super) {
     return People;
 }(_base_1.EntitiesList));
 exports.People = People;
-var Address = (function () {
+var Address = (function (_super) {
+    tslib_1.__extends(Address, _super);
     function Address(options) {
         var _a;
-        this.universe = options.universe;
-        this.http = options.http;
-        this.options = options;
-        this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
-        if (options === null || options === void 0 ? void 0 : options.rawPayload) {
-            this.deserialize(options.rawPayload);
+        var _this = _super.call(this) || this;
+        _this.universe = options.universe;
+        _this.http = options.http;
+        _this.options = options;
+        _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
+        _this.endpoint = '';
+        if ((options === null || options === void 0 ? void 0 : options.rawPayload) && options.rawPayload.person) {
+            _this.endpoint = "api/v0/people/" + options.rawPayload.person + "/addresses";
         }
+        if (options === null || options === void 0 ? void 0 : options.rawPayload) {
+            _this.deserialize(options.rawPayload);
+        }
+        return _this;
     }
     Address.prototype.deserialize = function (rawPayload) {
+        this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
+        this.firstName = rawPayload.first_name;
+        this.lastName = rawPayload.last_name;
+        this.phone = rawPayload.phone;
+        this.person = rawPayload.person;
         this.lines = rawPayload.lines;
         this.company = rawPayload.company;
         this.locality = rawPayload.locality;
@@ -474,6 +486,9 @@ var Address = (function () {
     Address.prototype.serialize = function () {
         return {
             id: this.id,
+            first_name: this.firstName,
+            last_name: this.lastName,
+            phone: this.phone,
             lines: this.lines,
             company: this.company,
             locality: this.locality,
@@ -488,8 +503,36 @@ var Address = (function () {
             active: this.active
         };
     };
+    Address.prototype.patch = function (changePart) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.person) {
+                            throw new AddressPatchRemoteError('Address patch requires person to be set.');
+                        }
+                        return [4, this._patch(changePart)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Address.prototype.applyPatch = function (patch) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.person) {
+                            throw new AddressPatchRemoteError('Address patch requires person to be set.');
+                        }
+                        return [4, this._applyPatch(patch)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
     return Address;
-}());
+}(_base_1.default));
 exports.Address = Address;
 var Phonenumber = (function () {
     function Phonenumber(options) {
@@ -636,4 +679,17 @@ var AddressCreateRemoteError = (function (_super) {
     return AddressCreateRemoteError;
 }(errors_1.BaseError));
 exports.AddressCreateRemoteError = AddressCreateRemoteError;
+var AddressPatchRemoteError = (function (_super) {
+    tslib_1.__extends(AddressPatchRemoteError, _super);
+    function AddressPatchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not patch person address.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'AddressPatchRemoteError';
+        Object.setPrototypeOf(_this, AddressPatchRemoteError.prototype);
+        return _this;
+    }
+    return AddressPatchRemoteError;
+}(errors_1.BaseError));
+exports.AddressPatchRemoteError = AddressPatchRemoteError;
 //# sourceMappingURL=person.js.map

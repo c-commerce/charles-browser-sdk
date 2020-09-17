@@ -1,3 +1,10 @@
+# [3.21.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.20.0...v3.21.0) (2020-09-17)
+
+
+### Features
+
+* **Person Address:** Better address support ([c189fe8](https://github.com/c-commerce/charles-browser-sdk/commit/c189fe8561deef2a1d7aa6b53c39a3db6f28d460))
+
 # [3.20.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.19.0...v3.20.0) (2020-09-17)
 
 

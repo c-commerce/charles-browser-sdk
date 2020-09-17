@@ -1,4 +1,4 @@
-import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList, EntityDeleteOptions } from '../_base';
+import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList, EntityDeleteOptions, RawPatch } from '../_base';
 import { Universe, UniverseFetchOptions } from '../../universe';
 import { BaseError } from '../../errors';
 import { Order, OrderRawPayload } from '../../entities/order/order';
@@ -15,6 +15,9 @@ export interface PhonenumberOptions extends PersonOptions {
     rawPayload?: PersonPhonenumberRawPayload;
 }
 export interface PersonAddressRawPayload extends EntityRawPayload {
+    readonly first_name?: string;
+    readonly last_name?: string;
+    readonly phone?: string;
     readonly person?: string;
     readonly created_at?: string;
     readonly updated_at?: string;
@@ -28,6 +31,25 @@ export interface PersonAddressRawPayload extends EntityRawPayload {
     readonly region?: string;
     readonly comment?: string;
     readonly postal_code?: string;
+}
+export interface PersonAddressPayload {
+    readonly id?: PersonAddressRawPayload['id'];
+    readonly firstName?: PersonAddressRawPayload['first_name'];
+    readonly lastName?: PersonAddressRawPayload['last_name'];
+    readonly phone?: PersonAddressRawPayload['phone'];
+    readonly person?: PersonAddressRawPayload['person'];
+    readonly createdAt?: Date | null;
+    readonly updatedAt?: Date | null;
+    readonly deleted?: PersonAddressRawPayload['deleted'];
+    readonly active?: PersonAddressRawPayload['active'];
+    readonly type?: PersonAddressRawPayload['type'];
+    readonly lines?: PersonAddressRawPayload['lines'];
+    readonly company?: PersonAddressRawPayload['company'];
+    readonly locality?: PersonAddressRawPayload['locality'];
+    readonly country?: PersonAddressRawPayload['country'];
+    readonly region?: PersonAddressRawPayload['region'];
+    readonly comment?: PersonAddressRawPayload['comment'];
+    readonly postal_code?: PersonAddressRawPayload['postal_code'];
 }
 export interface PersonPhonenumberRawPayload extends EntityRawPayload {
     readonly person?: string;
@@ -182,12 +204,17 @@ export declare class People extends EntitiesList<Person, PersonRawPayload> {
     protected parseItem(payload: PersonRawPayload): Person;
     getStream(options?: UniverseFetchOptions): Promise<People>;
 }
-export declare class Address {
+export declare class Address extends Entity<PersonAddressPayload, PersonAddressRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: AddressOptions;
     initialized: boolean;
+    endpoint: string;
     id?: string;
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+    person?: string;
     lines?: string[];
     company?: string;
     locality?: string;
@@ -205,6 +232,8 @@ export declare class Address {
     static create(payload: PersonAddressRawPayload, universe: Universe, http: Universe['http']): Address;
     static createUninitialized(payload: PersonAddressRawPayload, universe: Universe, http: Universe['http']): Address;
     serialize(): PersonAddressRawPayload;
+    patch(changePart: PersonAddressRawPayload): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>>;
+    applyPatch(patch: RawPatch): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>>;
 }
 export declare class Phonenumber {
     protected universe: Universe;
@@ -261,6 +290,11 @@ export declare class AddressFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class AddressCreateRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class AddressPatchRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
