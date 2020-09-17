@@ -1,4 +1,11 @@
-import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList, EntityDeleteOptions } from '../_base'
+import Entity, {
+  EntityOptions,
+  EntityRawPayload,
+  EntityFetchOptions,
+  EntitiesList,
+  EntityDeleteOptions,
+  RawPatch
+} from '../_base'
 import { Universe, UniverseFetchOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import { Order, OrderRawPayload } from '../../entities/order/order'
@@ -22,6 +29,9 @@ export interface PhonenumberOptions extends PersonOptions {
 }
 
 export interface PersonAddressRawPayload extends EntityRawPayload {
+  readonly first_name?: string
+  readonly last_name?: string
+  readonly phone?: string
   readonly person?: string
   readonly created_at?: string
   readonly updated_at?: string
@@ -35,6 +45,26 @@ export interface PersonAddressRawPayload extends EntityRawPayload {
   readonly region?: string
   readonly comment?: string
   readonly postal_code?: string
+}
+
+export interface PersonAddressPayload {
+  readonly id?: PersonAddressRawPayload['id']
+  readonly firstName?: PersonAddressRawPayload['first_name']
+  readonly lastName?: PersonAddressRawPayload['last_name']
+  readonly phone?: PersonAddressRawPayload['phone']
+  readonly person?: PersonAddressRawPayload['person']
+  readonly createdAt?: Date | null
+  readonly updatedAt?: Date | null
+  readonly deleted?: PersonAddressRawPayload['deleted']
+  readonly active?: PersonAddressRawPayload['active']
+  readonly type?: PersonAddressRawPayload['type']
+  readonly lines?: PersonAddressRawPayload['lines']
+  readonly company?: PersonAddressRawPayload['company']
+  readonly locality?: PersonAddressRawPayload['locality']
+  readonly country?: PersonAddressRawPayload['country']
+  readonly region?: PersonAddressRawPayload['region']
+  readonly comment?: PersonAddressRawPayload['comment']
+  readonly postal_code?: PersonAddressRawPayload['postal_code']
 }
 
 export interface PersonPhonenumberRawPayload extends EntityRawPayload {
@@ -577,13 +607,19 @@ export class People extends EntitiesList<Person, PersonRawPayload> {
   }
 }
 
-export class Address {
+export class Address extends Entity<PersonAddressPayload, PersonAddressRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
   protected options: AddressOptions
   public initialized: boolean
 
+  public endpoint: string
+
   public id?: string
+  public firstName?: string
+  public lastName?: string
+  public phone?: string
+  public person?: string
   public lines?: string[]
   public company?: string
   public locality?: string
@@ -598,10 +634,16 @@ export class Address {
   public active?: boolean
 
   constructor (options: AddressOptions) {
+    super()
     this.universe = options.universe
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.endpoint = ''
+
+    if (options?.rawPayload && options.rawPayload.person) {
+      this.endpoint = `api/v0/people/${options.rawPayload.person}/addresses`
+    }
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -609,7 +651,13 @@ export class Address {
   }
 
   protected deserialize (rawPayload: PersonAddressRawPayload): Address {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
+    this.firstName = rawPayload.first_name
+    this.lastName = rawPayload.last_name
+    this.phone = rawPayload.phone
+    this.person = rawPayload.person
     this.lines = rawPayload.lines
     this.company = rawPayload.company
     this.locality = rawPayload.locality
@@ -645,6 +693,9 @@ export class Address {
   public serialize (): PersonAddressRawPayload {
     return {
       id: this.id,
+      first_name: this.firstName,
+      last_name: this.lastName,
+      phone: this.phone,
       lines: this.lines,
       company: this.company,
       locality: this.locality,
@@ -658,6 +709,21 @@ export class Address {
       deleted: this.deleted,
       active: this.active
     }
+  }
+
+  public async patch (changePart: PersonAddressRawPayload): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>> {
+    if (!this.person) {
+      throw new AddressPatchRemoteError('Address patch requires person to be set.')
+    }
+    // we allow implementers to override us by calling ._patch directly and e.g. handle our error differently
+    return await this._patch(changePart)
+  }
+
+  public async applyPatch (patch: RawPatch): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>> {
+    if (!this.person) {
+      throw new AddressPatchRemoteError('Address patch requires person to be set.')
+    }
+    return await this._applyPatch(patch)
   }
 }
 
@@ -786,5 +852,13 @@ export class AddressCreateRemoteError extends BaseError {
   constructor (public message: string = 'Could not create person address.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AddressCreateRemoteError.prototype)
+  }
+}
+
+export class AddressPatchRemoteError extends BaseError {
+  public name = 'AddressPatchRemoteError';
+  constructor (public message: string = 'Could not patch person address.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, AddressPatchRemoteError.prototype)
   }
 }
