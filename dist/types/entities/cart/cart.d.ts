@@ -125,6 +125,7 @@ export interface CartRawPayload {
     readonly external_reference_custom_id?: string;
     readonly client_id?: string;
     readonly person?: string;
+    readonly person_external_reference_id?: string;
     readonly note?: string;
     readonly comment?: string;
     readonly shipping_address?: CartShippingAddress;
@@ -160,6 +161,7 @@ export interface CartPayload {
     readonly externalReferenceCustomId?: CartRawPayload['external_reference_custom_id'];
     readonly clientId?: CartRawPayload['client_id'];
     readonly person?: CartRawPayload['person'];
+    readonly personExternalReferenceId?: CartRawPayload['person_external_reference_id'];
     readonly note?: CartRawPayload['note'];
     readonly comment?: CartRawPayload['comment'];
     readonly shippingAddress?: CartRawPayload['shipping_address'];
@@ -234,6 +236,7 @@ export declare class Cart extends Entity<CartPayload, CartRawPayload> {
     externalReferenceCustomId?: CartPayload['externalReferenceCustomId'];
     clientId?: CartPayload['clientId'];
     person?: CartPayload['person'];
+    personExternalReferenceId?: CartPayload['personExternalReferenceId'];
     note?: CartPayload['note'];
     comment?: CartPayload['comment'];
     shippingAddress?: CartPayload['shippingAddress'];
