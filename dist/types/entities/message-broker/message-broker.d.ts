@@ -1,4 +1,4 @@
-import Entity, { EntityOptions } from '../_base';
+import Entity, { EntityOptions, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Route, RouteRawPayload } from '../route';
@@ -26,6 +26,15 @@ export interface MessageBrokerRawPayload {
         routes: RouteRawPayload[];
         [key: string]: any;
     };
+    readonly profile?: {
+        email: string;
+        description: string;
+        about: string;
+        address: string;
+        vertical: string;
+        websites: any[];
+        logo: string;
+    } | any;
 }
 export interface MessageBrokerPayload {
     readonly id?: MessageBrokerRawPayload['id'];
@@ -46,6 +55,7 @@ export interface MessageBrokerPayload {
         routes: Route[];
         [key: string]: any;
     };
+    readonly profile?: MessageBrokerRawPayload['profile'];
 }
 export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRawPayload> {
     protected universe: Universe;
@@ -68,6 +78,7 @@ export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageB
     metadata?: MessageBrokerPayload['metadata'];
     labels?: MessageBrokerPayload['labels'];
     details?: MessageBrokerPayload['details'];
+    profile?: MessageBrokerPayload['profile'];
     constructor(options: MessageBrokerOptions);
     protected deserialize(rawPayload: MessageBrokerRawPayload): MessageBroker;
     serialize(): MessageBrokerRawPayload;
@@ -80,6 +91,8 @@ export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageB
         name: string;
         [key: string]: any;
     }> | undefined>;
+    updateProfile(payload: object): Promise<number | undefined>;
+    getProfile(options: EntityFetchOptions): Promise<object | undefined>;
 }
 export declare class MessageBrokers {
     static endpoint: string;
@@ -105,6 +118,11 @@ export declare class MessageBrokerSyncMessagesRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class MessageBrokerProxyChannelInstancesRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageBrokerUpdateProfileRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

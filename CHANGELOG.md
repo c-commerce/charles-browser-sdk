@@ -1,3 +1,10 @@
+# [3.23.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.22.1...v3.23.0) (2020-09-18)
+
+
+### Features
+
+* **message broker:** add profile, update profile, getprofile ([b6851a7](https://github.com/c-commerce/charles-browser-sdk/commit/b6851a7e3e70ada64b4d85b64877bb36f4206778))
+
 ## [3.22.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.22.0...v3.22.1) (2020-09-17)
 
 

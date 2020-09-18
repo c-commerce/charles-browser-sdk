@@ -37,6 +37,7 @@ var MessageBroker = (function (_super) {
         this.isSetUp = rawPayload.is_set_up;
         this.metadata = rawPayload.metadata;
         this.labels = rawPayload.labels;
+        this.profile = rawPayload.profile;
         if (rawPayload.details) {
             this.details = {
                 routes: Array.isArray((_c = rawPayload.details) === null || _c === void 0 ? void 0 : _c.routes) ? (_d = rawPayload.details) === null || _d === void 0 ? void 0 : _d.routes.map(function (item) { return route_1.Route.create(item, _this.universe, _this.http); }) : []
@@ -59,7 +60,8 @@ var MessageBroker = (function (_super) {
             integration_configuration: this.integrationConfiguration,
             is_set_up: this.isSetUp,
             metadata: this.metadata,
-            labels: this.labels
+            labels: this.labels,
+            profile: this.profile
         };
     };
     MessageBroker.create = function (payload, universe, http) {
@@ -188,6 +190,69 @@ var MessageBroker = (function (_super) {
             });
         });
     };
+    MessageBroker.prototype.updateProfile = function (payload) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_5;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('message broker profile update requires id to be set');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/profile",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            data: tslib_1.__assign({}, (payload !== null && payload !== void 0 ? payload : undefined)),
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_5 = _b.sent();
+                        throw this.handleError(new MessageBrokerUpdateProfileRemoteError(undefined, { error: err_5 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    MessageBroker.prototype.getProfile = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, err_6;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('message broker profile get requires id to be set');
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/profile",
+                            params: tslib_1.__assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 2:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources];
+                    case 3:
+                        err_6 = _a.sent();
+                        throw this.handleError(new MessageBrokerUpdateProfileRemoteError(undefined, { error: err_6 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return MessageBroker;
 }(_base_1.default));
 exports.MessageBroker = MessageBroker;
@@ -253,7 +318,7 @@ exports.MessageBrokerSyncMessagesRemoteError = MessageBrokerSyncMessagesRemoteEr
 var MessageBrokerProxyChannelInstancesRemoteError = (function (_super) {
     tslib_1.__extends(MessageBrokerProxyChannelInstancesRemoteError, _super);
     function MessageBrokerProxyChannelInstancesRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could get proxied channel instances of a message broker.'; }
+        if (message === void 0) { message = 'Could not get proxied channel instances of a message broker.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'MessageBrokerProxyChannelInstancesRemoteError';
@@ -263,4 +328,17 @@ var MessageBrokerProxyChannelInstancesRemoteError = (function (_super) {
     return MessageBrokerProxyChannelInstancesRemoteError;
 }(errors_1.BaseError));
 exports.MessageBrokerProxyChannelInstancesRemoteError = MessageBrokerProxyChannelInstancesRemoteError;
+var MessageBrokerUpdateProfileRemoteError = (function (_super) {
+    tslib_1.__extends(MessageBrokerUpdateProfileRemoteError, _super);
+    function MessageBrokerUpdateProfileRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not update profile of message broker'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'MessageBrokerUpdateProfileRemoteError';
+        Object.setPrototypeOf(_this, MessageBrokerUpdateProfileRemoteError.prototype);
+        return _this;
+    }
+    return MessageBrokerUpdateProfileRemoteError;
+}(errors_1.BaseError));
+exports.MessageBrokerUpdateProfileRemoteError = MessageBrokerUpdateProfileRemoteError;
 //# sourceMappingURL=message-broker.js.map
