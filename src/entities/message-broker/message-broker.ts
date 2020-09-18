@@ -3,6 +3,7 @@ import Entity, { EntityOptions, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Route, RouteRawPayload } from '../route'
+import { profile } from 'console'
 
 export interface MessageBrokerOptions extends EntityOptions {
   rawPayload?: MessageBrokerRawPayload
@@ -29,6 +30,15 @@ export interface MessageBrokerRawPayload {
     routes: RouteRawPayload[]
     [key: string]: any
   }
+  readonly profile?: {
+    email: string
+    description: string
+    about: string
+    address: string
+    vertical: string
+    websites: any[]
+    logo: string
+  } | any
 }
 
 export interface MessageBrokerPayload {
@@ -50,6 +60,7 @@ export interface MessageBrokerPayload {
     routes: Route[]
     [key: string]: any
   }
+  readonly profile?: MessageBrokerRawPayload['profile']
 }
 
 /**
@@ -80,6 +91,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
   public metadata?: MessageBrokerPayload['metadata']
   public labels?: MessageBrokerPayload['labels']
   public details?: MessageBrokerPayload['details']
+  public profile?: MessageBrokerPayload['profile']
 
   constructor (options: MessageBrokerOptions) {
     super()
@@ -111,6 +123,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
     this.isSetUp = rawPayload.is_set_up
     this.metadata = rawPayload.metadata
     this.labels = rawPayload.labels
+    this.profile = rawPayload.profile
 
     if (rawPayload.details) {
       this.details = {
@@ -136,7 +149,8 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
       integration_configuration: this.integrationConfiguration,
       is_set_up: this.isSetUp,
       metadata: this.metadata,
-      labels: this.labels
+      labels: this.labels,
+      profile: this.profile
     }
   }
 
@@ -203,6 +217,9 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
     }
   }
 
+  /**
+ * Gets all channel instances of a referenced broker. eg.: gets all slack channels
+ */
   public async getProxyChannelInstances (): Promise<Array<{ external_reference_id: string, name: string, [key: string]: any }> | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('requires id to be set.')
 
@@ -217,6 +234,57 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
       return res.data.data
     } catch (err) {
       throw this.handleError(new MessageBrokerProxyChannelInstancesRemoteError(undefined, { error: err }))
+    }
+  }
+
+  /**
+ * Updates the profile of a message broker
+ * @param payload
+ */
+  public async updateProfile (payload: object): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('message broker profile update requires id to be set')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/profile`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        data: {
+          ...(payload ?? undefined)
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new MessageBrokerUpdateProfileRemoteError(undefined, { error: err }))
+    }
+  }
+
+  /**
+ * Updates the profile of a message broker
+ * @param payload
+ */
+  public async getProfile (options: EntityFetchOptions): Promise<object | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('message broker profile get requires id to be set')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/profile`,
+        params: {
+          ...(options?.query ? options.query : {})
+        }
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data
+      return resources
+    } catch (err) {
+      throw this.handleError(new MessageBrokerUpdateProfileRemoteError(undefined, { error: err }))
     }
   }
 }
@@ -260,8 +328,15 @@ export class MessageBrokerSyncMessagesRemoteError extends BaseError {
 
 export class MessageBrokerProxyChannelInstancesRemoteError extends BaseError {
   public name = 'MessageBrokerProxyChannelInstancesRemoteError'
-  constructor (public message: string = 'Could get proxied channel instances of a message broker.', properties?: any) {
+  constructor (public message: string = 'Could not get proxied channel instances of a message broker.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageBrokerProxyChannelInstancesRemoteError.prototype)
+  }
+}
+export class MessageBrokerUpdateProfileRemoteError extends BaseError {
+  public name = 'MessageBrokerUpdateProfileRemoteError'
+  constructor (public message: string = 'Could not update profile of message broker', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageBrokerUpdateProfileRemoteError.prototype)
   }
 }
