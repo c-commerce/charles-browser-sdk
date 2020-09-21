@@ -95,6 +95,7 @@ export declare class MessageTemplate extends Entity<MessageTemplatePayload, Mess
     static create(payload: MessageTemplateRawPayload, universe: Universe, http: Universe['http']): MessageTemplate;
     serialize(): MessageTemplateRawPayload;
     init(): Promise<MessageTemplate | undefined>;
+    setup(payload: MessageTemplateRawPayload): Promise<MessageTemplate>;
 }
 export declare class MessageTemplates {
     static endpoint: string;
@@ -110,6 +111,11 @@ export declare class MessageTemplateFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class MessageTemplatesFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageBrokerSubmitRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
