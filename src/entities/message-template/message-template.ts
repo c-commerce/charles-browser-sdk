@@ -177,7 +177,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   /**
  * Submit a message template update(notification) to the respective broker
  */
-  public async setup (payload: MessageTemplateRawPayload): Promise<MessageTemplate> {
+  public async submit (payload: object): Promise<MessageTemplate> {
     try {
       const opts = {
         method: 'POST',
