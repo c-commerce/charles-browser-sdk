@@ -173,6 +173,28 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
       throw this.handleError(new MessageTemplateInitializationError(undefined, { error: err }))
     }
   }
+
+  /**
+ * Submit a message template update(notification) to the respective broker
+ */
+  public async setup (payload: MessageTemplateRawPayload): Promise<MessageTemplate> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/submit`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: payload,
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      const resource = res.data.data as MessageTemplateRawPayload
+      return MessageTemplate.create(resource, this.universe, this.http)
+    } catch (err) {
+      throw new MessageBrokerSubmitRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -197,6 +219,12 @@ export class MessageTemplateFetchRemoteError extends BaseError {
 export class MessageTemplatesFetchRemoteError extends BaseError {
   public name = 'MessageTemplatesFetchRemoteError'
   constructor (public message: string = 'Could not get messagetemplates.', properties?: any) {
+    super(message, properties)
+  }
+}
+export class MessageBrokerSubmitRemoteError extends BaseError {
+  public name = 'MessageBrokerSubmitRemoteError'
+  constructor (public message: string = 'Could not submit message template.', properties?: any) {
     super(message, properties)
   }
 }
