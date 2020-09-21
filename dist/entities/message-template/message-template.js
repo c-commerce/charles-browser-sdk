@@ -86,7 +86,7 @@ var MessageTemplate = (function (_super) {
             });
         });
     };
-    MessageTemplate.prototype.setup = function (payload) {
+    MessageTemplate.prototype.submit = function (payload) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, resource, err_2;

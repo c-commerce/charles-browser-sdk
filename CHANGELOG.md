@@ -1,3 +1,10 @@
+## [3.24.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.24.0...v3.24.1) (2020-09-21)
+
+
+### Bug Fixes
+
+* **message templates:** fix submit method ([0b26158](https://github.com/c-commerce/charles-browser-sdk/commit/0b2615806eebaebeff27bb2d8f71514cad2aff65))
+
 # [3.24.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.23.0...v3.24.0) (2020-09-21)
 
 

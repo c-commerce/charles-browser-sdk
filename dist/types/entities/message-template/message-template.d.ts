@@ -95,7 +95,7 @@ export declare class MessageTemplate extends Entity<MessageTemplatePayload, Mess
     static create(payload: MessageTemplateRawPayload, universe: Universe, http: Universe['http']): MessageTemplate;
     serialize(): MessageTemplateRawPayload;
     init(): Promise<MessageTemplate | undefined>;
-    setup(payload: MessageTemplateRawPayload): Promise<MessageTemplate>;
+    submit(payload: object): Promise<MessageTemplate>;
 }
 export declare class MessageTemplates {
     static endpoint: string;
