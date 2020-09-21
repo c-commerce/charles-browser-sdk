@@ -1,3 +1,10 @@
+# [3.24.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.23.0...v3.24.0) (2020-09-21)
+
+
+### Features
+
+* **message template:** add submit method ([c3bd455](https://github.com/c-commerce/charles-browser-sdk/commit/c3bd455b4551796602fe07aa33d5784c92bcbb14))
+
 # [3.23.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.22.1...v3.23.0) (2020-09-18)
 
 

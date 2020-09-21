@@ -86,6 +86,36 @@ var MessageTemplate = (function (_super) {
             });
         });
     };
+    MessageTemplate.prototype.setup = function (payload) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resource, err_2;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/submit",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: payload,
+                            responseType: 'json'
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        res = _b.sent();
+                        resource = res.data.data;
+                        return [2, MessageTemplate.create(resource, this.universe, this.http)];
+                    case 2:
+                        err_2 = _b.sent();
+                        throw new MessageBrokerSubmitRemoteError(undefined, { error: err_2 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     return MessageTemplate;
 }(_base_1.default));
 exports.MessageTemplate = MessageTemplate;
@@ -132,4 +162,16 @@ var MessageTemplatesFetchRemoteError = (function (_super) {
     return MessageTemplatesFetchRemoteError;
 }(errors_1.BaseError));
 exports.MessageTemplatesFetchRemoteError = MessageTemplatesFetchRemoteError;
+var MessageBrokerSubmitRemoteError = (function (_super) {
+    tslib_1.__extends(MessageBrokerSubmitRemoteError, _super);
+    function MessageBrokerSubmitRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not submit message template.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'MessageBrokerSubmitRemoteError';
+        return _this;
+    }
+    return MessageBrokerSubmitRemoteError;
+}(errors_1.BaseError));
+exports.MessageBrokerSubmitRemoteError = MessageBrokerSubmitRemoteError;
 //# sourceMappingURL=message-template.js.map
