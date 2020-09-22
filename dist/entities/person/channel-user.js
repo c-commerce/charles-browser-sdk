@@ -33,6 +33,12 @@ var ChannelUser = (function () {
         this.comment = rawPayload.comment;
         this.payload = rawPayload.payload;
         this.links = rawPayload.links;
+        this.email = rawPayload.email;
+        this.name = rawPayload.name;
+        this.firstName = rawPayload.first_name;
+        this.middleName = rawPayload.middle_name;
+        this.lastName = rawPayload.last_name;
+        this.phone = rawPayload.phone;
         return this;
     };
     ChannelUser.create = function (payload, universe, http) {
@@ -59,7 +65,13 @@ var ChannelUser = (function () {
             payload_name: this.payloadName,
             comment: this.comment,
             payload: this.payload,
-            links: this.links
+            links: this.links,
+            email: this.email,
+            name: this.name,
+            first_name: this.firstName,
+            middle_name: this.middleName,
+            last_name: this.lastName,
+            phone: this.phone
         };
     };
     ChannelUser.prototype.sendMessageFromMessageTemplate = function (messageTemplate, language, parameters) {

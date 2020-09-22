@@ -20,6 +20,12 @@ export interface ChannelUserRawPayload extends EntityRawPayload {
     readonly comment?: string;
     readonly payload?: object | null;
     readonly links?: object;
+    readonly email?: string;
+    readonly name?: string;
+    readonly first_name?: string;
+    readonly middle_name?: string;
+    readonly last_name?: string;
+    readonly phone?: string;
 }
 export interface ChannelUserOptions extends EntityOptions {
     rawPayload?: ChannelUserRawPayload;
@@ -48,6 +54,12 @@ export declare class ChannelUser {
     comment?: ChannelUserRawPayload['comment'];
     payload?: ChannelUserRawPayload['payload'];
     links?: ChannelUserRawPayload['links'];
+    email?: ChannelUserRawPayload['email'];
+    name?: ChannelUserRawPayload['name'];
+    firstName?: ChannelUserRawPayload['first_name'];
+    middleName?: ChannelUserRawPayload['middle_name'];
+    lastName?: ChannelUserRawPayload['last_name'];
+    phone?: ChannelUserRawPayload['phone'];
     constructor(options: ChannelUserOptions);
     protected deserialize(rawPayload: ChannelUserRawPayload): ChannelUser;
     static create(payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser;

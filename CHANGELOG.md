@@ -1,3 +1,10 @@
+## [3.24.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.24.2...v3.24.3) (2020-09-22)
+
+
+### Bug Fixes
+
+* **ChannelUser:** added personal user info as top level properties ([5d57584](https://github.com/c-commerce/charles-browser-sdk/commit/5d57584550b0b3b840ab4690636b4b8fe191ef55))
+
 ## [3.24.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.24.1...v3.24.2) (2020-09-22)
 
 
