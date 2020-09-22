@@ -1,3 +1,10 @@
+## [3.24.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.24.1...v3.24.2) (2020-09-22)
+
+
+### Bug Fixes
+
+* **person:** fallback virtual properties correctly ([72d4196](https://github.com/c-commerce/charles-browser-sdk/commit/72d419644397e791036f15dec662894d171b118a))
+
 ## [3.24.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.24.0...v3.24.1) (2020-09-21)
 
 

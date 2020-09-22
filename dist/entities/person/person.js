@@ -134,7 +134,6 @@ var Person = (function (_super) {
         else {
             this.analytics = undefined;
         }
-        this.emails = [];
         if (rawPayload.emails && this.initialized) {
             this.emails = rawPayload.emails.map(function (i) { return email_1.Email.create(i, _this.universe, _this.http); });
         }
@@ -143,7 +142,9 @@ var Person = (function (_super) {
                 return email_1.Email.createUninitialized(i, _this.universe, _this.http);
             });
         }
-        this._addresses = [];
+        else {
+            this.emails = undefined;
+        }
         if (rawPayload.addresses && this.initialized) {
             this._addresses = rawPayload.addresses.map(function (i) { return Address.create(i, _this.universe, _this.http); });
         }
@@ -152,7 +153,9 @@ var Person = (function (_super) {
                 return Address.createUninitialized(i, _this.universe, _this.http);
             });
         }
-        this.phonenumbers = [];
+        else {
+            this._addresses = undefined;
+        }
         if (rawPayload.phonenumbers && this.initialized) {
             this.phonenumbers = rawPayload.phonenumbers.map(function (i) {
                 return Phonenumber.create(i, _this.universe, _this.http);
@@ -163,7 +166,9 @@ var Person = (function (_super) {
                 return Phonenumber.createUninitialized(i, _this.universe, _this.http);
             });
         }
-        this.channelUsers = [];
+        else {
+            this.phonenumbers = undefined;
+        }
         if (rawPayload.channel_users && this.initialized) {
             this.channelUsers = rawPayload.channel_users.map(function (i) {
                 return channel_user_1.ChannelUser.create(i, _this.universe, _this.http);
@@ -173,6 +178,9 @@ var Person = (function (_super) {
             this.channelUsers = rawPayload.channel_users.map(function (i) {
                 return channel_user_1.ChannelUser.createUninitialized(i, _this.universe, _this.http);
             });
+        }
+        else {
+            this.channelUsers = undefined;
         }
         return this;
     };
