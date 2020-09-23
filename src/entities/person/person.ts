@@ -299,6 +299,10 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this.namePreference = rawPayload.name_preference
     this.customProperties = rawPayload.custom_properties
 
+    // in the following we are going to set virtual properties
+    // e.g. from embeds. We want make sure that their fallback is undefined
+    // as we might affect upstreeam data users.
+
     if (rawPayload.analytics && this.initialized) {
       this.analytics = Analytics.create(rawPayload.analytics, this.universe, this.http)
     } else if (rawPayload.analytics && !this.initialized) {
@@ -307,25 +311,26 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       this.analytics = undefined
     }
 
-    this.emails = []
     if (rawPayload.emails && this.initialized) {
       this.emails = rawPayload.emails.map(i => Email.create(i, this.universe, this.http))
     } else if (rawPayload.emails && !this.initialized) {
       this.emails = rawPayload.emails.map(i =>
         Email.createUninitialized(i, this.universe, this.http)
       )
+    } else {
+      this.emails = undefined
     }
 
-    this._addresses = []
     if (rawPayload.addresses && this.initialized) {
       this._addresses = rawPayload.addresses.map(i => Address.create(i, this.universe, this.http))
     } else if (rawPayload.addresses && !this.initialized) {
       this._addresses = rawPayload.addresses.map(i =>
         Address.createUninitialized(i, this.universe, this.http)
       )
+    } else {
+      this._addresses = undefined
     }
 
-    this.phonenumbers = []
     if (rawPayload.phonenumbers && this.initialized) {
       this.phonenumbers = rawPayload.phonenumbers.map(i =>
         Phonenumber.create(i, this.universe, this.http)
@@ -334,9 +339,10 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       this.phonenumbers = rawPayload.phonenumbers.map(i =>
         Phonenumber.createUninitialized(i, this.universe, this.http)
       )
+    } else {
+      this.phonenumbers = undefined
     }
 
-    this.channelUsers = []
     if (rawPayload.channel_users && this.initialized) {
       this.channelUsers = rawPayload.channel_users.map(i =>
         ChannelUser.create(i, this.universe, this.http)
@@ -345,6 +351,8 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       this.channelUsers = rawPayload.channel_users.map(i =>
         ChannelUser.createUninitialized(i, this.universe, this.http)
       )
+    } else {
+      this.channelUsers = undefined
     }
 
     return this

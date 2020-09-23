@@ -22,6 +22,12 @@ export interface ChannelUserRawPayload extends EntityRawPayload {
   readonly comment?: string
   readonly payload?: object | null
   readonly links?: object
+  readonly email?: string
+  readonly name?: string
+  readonly first_name?: string
+  readonly middle_name?: string
+  readonly last_name?: string
+  readonly phone?: string
 }
 
 export interface ChannelUserOptions extends EntityOptions {
@@ -53,6 +59,12 @@ export class ChannelUser {
   public comment?: ChannelUserRawPayload['comment']
   public payload?: ChannelUserRawPayload['payload']
   public links?: ChannelUserRawPayload['links']
+  public email?: ChannelUserRawPayload['email']
+  public name?: ChannelUserRawPayload['name']
+  public firstName?: ChannelUserRawPayload['first_name']
+  public middleName?: ChannelUserRawPayload['middle_name']
+  public lastName?: ChannelUserRawPayload['last_name']
+  public phone?: ChannelUserRawPayload['phone']
 
   constructor (options: ChannelUserOptions) {
     this.universe = options.universe
@@ -83,6 +95,12 @@ export class ChannelUser {
     this.comment = rawPayload.comment
     this.payload = rawPayload.payload
     this.links = rawPayload.links
+    this.email = rawPayload.email
+    this.name = rawPayload.name
+    this.firstName = rawPayload.first_name
+    this.middleName = rawPayload.middle_name
+    this.lastName = rawPayload.last_name
+    this.phone = rawPayload.phone
 
     return this
   }
@@ -113,7 +131,13 @@ export class ChannelUser {
       payload_name: this.payloadName,
       comment: this.comment,
       payload: this.payload,
-      links: this.links
+      links: this.links,
+      email: this.email,
+      name: this.name,
+      first_name: this.firstName,
+      middle_name: this.middleName,
+      last_name: this.lastName,
+      phone: this.phone
     }
   }
 
