@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+var qs_1 = tslib_1.__importDefault(require("qs"));
 var Asset = (function (_super) {
     tslib_1.__extends(Asset, _super);
     function Asset(options) {
@@ -118,11 +119,10 @@ var Asset = (function (_super) {
                         contentType = payload instanceof FormData ? 'multipart/form-data' : 'application/json; charset=utf-8';
                         opts = {
                             method: 'POST',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint,
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + ((options === null || options === void 0 ? void 0 : options.transform) ? qs_1.default.stringify(options.transform, { addQueryPrefix: true }) : ''),
                             headers: {
                                 'Content-Type': contentType
                             },
-                            params: tslib_1.__assign({}, options),
                             data: tslib_1.__assign({}, (payload !== null && payload !== void 0 ? payload : undefined))
                         };
                         return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
