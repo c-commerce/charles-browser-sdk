@@ -1,3 +1,10 @@
+# [3.25.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.24.3...v3.25.0) (2020-09-23)
+
+
+### Features
+
+* **asset:** add upload and transform capability ([639d2bd](https://github.com/c-commerce/charles-browser-sdk/commit/639d2bd8081119b37a28c765110b2fbddf128d06))
+
 ## [3.24.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.24.2...v3.24.3) (2020-09-22)
 
 

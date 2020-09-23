@@ -62,9 +62,11 @@ export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
     serialize(): AssetRawPayload;
     init(): Promise<Asset | undefined>;
     upload(payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined>;
+    uploadAndTransform(payload: FormData | AssetRawPayload, options?: AssetsPostOptions): Promise<Asset>;
 }
 export interface AssetsPostOptions {
     public?: boolean;
+    transform?: object;
 }
 export declare class Assets {
     protected http: Universe['http'];
@@ -90,6 +92,11 @@ export declare class AssetsFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class AssetsPostError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class AssetUploadAndTransformError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

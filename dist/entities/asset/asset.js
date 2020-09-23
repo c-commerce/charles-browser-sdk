@@ -107,6 +107,37 @@ var Asset = (function (_super) {
             });
         });
     };
+    Asset.prototype.uploadAndTransform = function (payload, options) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var contentType, opts, res, data, err_3;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        contentType = payload instanceof FormData ? 'multipart/form-data' : 'application/json; charset=utf-8';
+                        opts = {
+                            method: 'POST',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint,
+                            headers: {
+                                'Content-Type': contentType
+                            },
+                            params: tslib_1.__assign({}, options),
+                            data: tslib_1.__assign({}, (payload !== null && payload !== void 0 ? payload : undefined))
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 1:
+                        res = _c.sent();
+                        data = res === null || res === void 0 ? void 0 : res.data.data;
+                        return [2, Asset.create(data, this.universe, this.http)];
+                    case 2:
+                        err_3 = _c.sent();
+                        throw new AssetUploadAndTransformError(undefined, { error: err_3 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     return Asset;
 }(_base_1.default));
 exports.Asset = Asset;
@@ -119,7 +150,7 @@ var Assets = (function () {
     Assets.prototype.post = function (payload, options) {
         var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, data, err_3;
+            var opts, res, data, err_4;
             var _this = this;
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
@@ -140,8 +171,8 @@ var Assets = (function () {
                                 return Asset.create(item, _this.universe, _this.http);
                             })];
                     case 2:
-                        err_3 = _c.sent();
-                        throw new AssetsPostError(undefined, { error: err_3 });
+                        err_4 = _c.sent();
+                        throw new AssetsPostError(undefined, { error: err_4 });
                     case 3: return [2];
                 }
             });
@@ -199,4 +230,16 @@ var AssetsPostError = (function (_super) {
     return AssetsPostError;
 }(errors_1.BaseError));
 exports.AssetsPostError = AssetsPostError;
+var AssetUploadAndTransformError = (function (_super) {
+    tslib_1.__extends(AssetUploadAndTransformError, _super);
+    function AssetUploadAndTransformError(message, properties) {
+        if (message === void 0) { message = 'Could not upload and transform asset.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'AssetUploadAndTransformError';
+        return _this;
+    }
+    return AssetUploadAndTransformError;
+}(errors_1.BaseError));
+exports.AssetUploadAndTransformError = AssetUploadAndTransformError;
 //# sourceMappingURL=asset.js.map
