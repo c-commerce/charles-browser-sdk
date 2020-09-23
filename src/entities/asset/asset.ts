@@ -157,10 +157,37 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
       throw new AssetsPostError(undefined, { error: err })
     }
   }
+
+  public async uploadAndTransform (payload: FormData | AssetRawPayload, options?: AssetsPostOptions): Promise<Asset> {
+    try {
+      const contentType = payload instanceof FormData ? 'multipart/form-data' : 'application/json; charset=utf-8'
+
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}`,
+        headers: {
+          'Content-Type': contentType
+        },
+        params: {
+          ...options
+        },
+        data: {
+          ...(payload ?? undefined)
+        }
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const data = res?.data.data as AssetRawPayload
+      return Asset.create(data, this.universe, this.http)
+    } catch (err) {
+      throw new AssetUploadAndTransformError(undefined, { error: err })
+    }
+  }
 }
 
 export interface AssetsPostOptions {
   public?: boolean
+  transform?: object
 }
 
 export class Assets {
@@ -224,6 +251,12 @@ export class AssetsFetchRemoteError extends BaseError {
 export class AssetsPostError extends BaseError {
   public name = 'AssetsPostError'
   constructor (public message: string = 'Could not create assets.', properties?: any) {
+    super(message, properties)
+  }
+}
+export class AssetUploadAndTransformError extends BaseError {
+  public name = 'AssetUploadAndTransformError'
+  constructor (public message: string = 'Could not upload and transform asset.', properties?: any) {
     super(message, properties)
   }
 }
