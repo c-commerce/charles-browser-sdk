@@ -2,6 +2,7 @@
 import Entity, { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import qs from 'qs'
 
 export interface AssetOptions extends EntityOptions {
   rawPayload?: AssetRawPayload
@@ -164,12 +165,9 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
 
       const opts = {
         method: 'POST',
-        url: `${this.universe?.universeBase}/${this.endpoint}`,
+        url: `${this.universe?.universeBase}/${this.endpoint}${options?.transform ? qs.stringify(options.transform, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': contentType
-        },
-        params: {
-          ...options
         },
         data: {
           ...(payload ?? undefined)
