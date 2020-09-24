@@ -1,3 +1,10 @@
+## [3.25.4](https://github.com/c-commerce/charles-browser-sdk/compare/v3.25.3...v3.25.4) (2020-09-24)
+
+
+### Bug Fixes
+
+* **asset:** fix upload and transform method ([60bd373](https://github.com/c-commerce/charles-browser-sdk/commit/60bd37329cbf9d21e10ae4caea7814f1bdc3f8a3))
+
 ## [3.25.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.25.2...v3.25.3) (2020-09-24)
 
 
