@@ -167,9 +167,7 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
         headers: {
           'Content-Type': contentType
         },
-        data: {
-          payload
-        }
+        data: payload ?? undefined
       }
 
       const res = await this.http?.getClient()(opts)
