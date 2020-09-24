@@ -158,6 +158,29 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
       throw new AssetsUploadError(undefined, { error: err })
     }
   }
+
+  public async uploadAndTransform (payload: FormData | AssetRawPayload[] | string, contentType: string, options?: AssetsPostOptions): Promise<Asset[]> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${Assets.endpoint}${options?.transform ? qs.stringify(options.transform, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': contentType
+        },
+        data: {
+          payload
+        }
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const data = res?.data.data as AssetRawPayload[]
+      return data.map((item: AssetRawPayload) => {
+        return Asset.create(item, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new AssetUploadAndTransformError(undefined, { error: err })
+    }
+  }
 }
 
 export interface AssetsPostOptions {
@@ -198,29 +221,6 @@ export class Assets {
       })
     } catch (err) {
       throw new AssetsPostError(undefined, { error: err })
-    }
-  }
-
-  public async uploadAndTransform (payload: FormData | AssetRawPayload[] | string, contentType: string, options?: AssetsPostOptions): Promise<Asset[]> {
-    try {
-      const opts = {
-        method: 'POST',
-        url: `${this.universe?.universeBase}/${Assets.endpoint}${options?.transform ? qs.stringify(options.transform, { addQueryPrefix: true }) : ''}`,
-        headers: {
-          'Content-Type': contentType
-        },
-        data: {
-          payload
-        }
-      }
-
-      const res = await this.http?.getClient()(opts)
-      const data = res?.data.data as AssetRawPayload[]
-      return data.map((item: AssetRawPayload) => {
-        return Asset.create(item, this.universe, this.http)
-      })
-    } catch (err) {
-      throw new AssetUploadAndTransformError(undefined, { error: err })
     }
   }
 }
