@@ -1,3 +1,10 @@
+## [3.25.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.25.2...v3.25.3) (2020-09-24)
+
+
+### Bug Fixes
+
+* **assets:** move upload method to asset ([11ba749](https://github.com/c-commerce/charles-browser-sdk/commit/11ba7495f52cae433a64672e8953bf2efeab6051))
+
 ## [3.25.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.25.1...v3.25.2) (2020-09-24)
 
 

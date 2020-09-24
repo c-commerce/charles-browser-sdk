@@ -62,6 +62,7 @@ export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
     serialize(): AssetRawPayload;
     init(): Promise<Asset | undefined>;
     upload(payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined>;
+    uploadAndTransform(payload: FormData | AssetRawPayload[] | string, contentType: string, options?: AssetsPostOptions): Promise<Asset[]>;
 }
 export interface AssetsPostOptions {
     public?: boolean;
@@ -74,7 +75,6 @@ export declare class Assets {
     private readonly options?;
     constructor(options: AssetsOptions);
     post(payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined>;
-    uploadAndTransform(payload: FormData | AssetRawPayload[] | string, contentType: string, options?: AssetsPostOptions): Promise<Asset[]>;
 }
 export declare class AssetInitializationError extends BaseError {
     message: string;
