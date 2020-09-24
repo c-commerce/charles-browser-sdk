@@ -119,7 +119,7 @@ var Asset = (function (_super) {
                         _c.trys.push([0, 2, , 3]);
                         opts = {
                             method: 'POST',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + Assets.endpoint + ((options === null || options === void 0 ? void 0 : options.transform) ? qs_1.default.stringify(options.transform, { addQueryPrefix: true }) : ''),
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + Assets.endpoint + (options ? qs_1.default.stringify(options, { addQueryPrefix: true }) : ''),
                             headers: {
                                 'Content-Type': contentType
                             },

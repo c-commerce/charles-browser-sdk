@@ -1,3 +1,10 @@
+## [3.25.5](https://github.com/c-commerce/charles-browser-sdk/compare/v3.25.4...v3.25.5) (2020-09-24)
+
+
+### Bug Fixes
+
+* **asset:** fix param stringifying ([4e26712](https://github.com/c-commerce/charles-browser-sdk/commit/4e267129711cb2650f2d58b1b5ceed13f7231cce))
+
 ## [3.25.4](https://github.com/c-commerce/charles-browser-sdk/compare/v3.25.3...v3.25.4) (2020-09-24)
 
 
