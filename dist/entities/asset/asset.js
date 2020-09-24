@@ -123,9 +123,7 @@ var Asset = (function (_super) {
                             headers: {
                                 'Content-Type': contentType
                             },
-                            data: {
-                                payload: payload
-                            }
+                            data: payload !== null && payload !== void 0 ? payload : undefined
                         };
                         return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
                     case 1:
