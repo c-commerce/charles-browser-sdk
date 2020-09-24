@@ -102,37 +102,7 @@ var Asset = (function (_super) {
                             })];
                     case 2:
                         err_2 = _c.sent();
-                        throw new AssetsPostError(undefined, { error: err_2 });
-                    case 3: return [2];
-                }
-            });
-        });
-    };
-    Asset.prototype.uploadAndTransform = function (payload, options) {
-        var _a, _b;
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var contentType, opts, res, data, err_3;
-            return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        _c.trys.push([0, 2, , 3]);
-                        contentType = payload instanceof FormData ? 'multipart/form-data' : 'application/json; charset=utf-8';
-                        opts = {
-                            method: 'POST',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + ((options === null || options === void 0 ? void 0 : options.transform) ? qs_1.default.stringify(options.transform, { addQueryPrefix: true }) : ''),
-                            headers: {
-                                'Content-Type': contentType
-                            },
-                            data: tslib_1.__assign({}, (payload !== null && payload !== void 0 ? payload : undefined))
-                        };
-                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
-                    case 1:
-                        res = _c.sent();
-                        data = res === null || res === void 0 ? void 0 : res.data.data;
-                        return [2, Asset.create(data, this.universe, this.http)];
-                    case 2:
-                        err_3 = _c.sent();
-                        throw new AssetUploadAndTransformError(undefined, { error: err_3 });
+                        throw new AssetsUploadError(undefined, { error: err_2 });
                     case 3: return [2];
                 }
             });
@@ -150,7 +120,7 @@ var Assets = (function () {
     Assets.prototype.post = function (payload, options) {
         var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, data, err_4;
+            var opts, res, data, err_3;
             var _this = this;
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
@@ -171,8 +141,42 @@ var Assets = (function () {
                                 return Asset.create(item, _this.universe, _this.http);
                             })];
                     case 2:
+                        err_3 = _c.sent();
+                        throw new AssetsPostError(undefined, { error: err_3 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Assets.prototype.uploadAndTransform = function (payload, contentType, options) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, data, err_4;
+            var _this = this;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + Assets.endpoint + ((options === null || options === void 0 ? void 0 : options.transform) ? qs_1.default.stringify(options.transform, { addQueryPrefix: true }) : ''),
+                            headers: {
+                                'Content-Type': contentType
+                            },
+                            data: {
+                                payload: payload
+                            }
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 1:
+                        res = _c.sent();
+                        data = res === null || res === void 0 ? void 0 : res.data.data;
+                        return [2, data.map(function (item) {
+                                return Asset.create(item, _this.universe, _this.http);
+                            })];
+                    case 2:
                         err_4 = _c.sent();
-                        throw new AssetsPostError(undefined, { error: err_4 });
+                        throw new AssetUploadAndTransformError(undefined, { error: err_4 });
                     case 3: return [2];
                 }
             });
@@ -242,4 +246,16 @@ var AssetUploadAndTransformError = (function (_super) {
     return AssetUploadAndTransformError;
 }(errors_1.BaseError));
 exports.AssetUploadAndTransformError = AssetUploadAndTransformError;
+var AssetsUploadError = (function (_super) {
+    tslib_1.__extends(AssetsUploadError, _super);
+    function AssetsUploadError(message, properties) {
+        if (message === void 0) { message = 'Could not upload assets.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'AssetsUploadError';
+        return _this;
+    }
+    return AssetsUploadError;
+}(errors_1.BaseError));
+exports.AssetsUploadError = AssetsUploadError;
 //# sourceMappingURL=asset.js.map
