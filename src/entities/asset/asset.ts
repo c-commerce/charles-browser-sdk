@@ -163,7 +163,7 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe?.universeBase}/${Assets.endpoint}${options?.transform ? qs.stringify(options.transform, { addQueryPrefix: true }) : ''}`,
+        url: `${this.universe?.universeBase}/${Assets.endpoint}${options ? qs.stringify(options, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': contentType
         },
@@ -181,6 +181,10 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
   }
 }
 
+/**
+ * @property {boolean} public makes the resource available to the public if true
+ * @property {object} transform contains properties to tell how sharp lib should transform the image on upload
+ */
 export interface AssetsPostOptions {
   public?: boolean
   transform?: object
