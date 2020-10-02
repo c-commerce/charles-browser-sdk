@@ -443,6 +443,31 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     }
   }
 
+  /**
+   * Merges mergeables onto the selected person in this instance
+   * @param mergeables array of mergable person picks
+   */
+  public async merge (mergeables: Object[]): Promise<Person | PersonRawPayload> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Merge requires id to be set.')
+    try {
+      const opts = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/merge`,
+        data: { mergeables },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const person = res.data.data[0] as PersonRawPayload
+      return Person.create(person, this.universe, this.http)
+    } catch (err) {
+      throw new PersonMergeError(undefined, { error: err })
+    }
+  }
+
   /** Orders accessor
    *  ```js
    * //fetch all orders of a person
@@ -869,5 +894,12 @@ export class AddressPatchRemoteError extends BaseError {
   constructor (public message: string = 'Could not patch person address.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AddressPatchRemoteError.prototype)
+  }
+}
+export class PersonMergeError extends BaseError {
+  public name = 'PersonMergeError';
+  constructor (public message: string = 'Could not merge persons.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PersonMergeError.prototype)
   }
 }
