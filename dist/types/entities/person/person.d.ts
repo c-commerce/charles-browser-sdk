@@ -183,6 +183,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     init(): Promise<Person | undefined>;
     patch(changePart: PersonRawPayload): Promise<Person>;
     delete(options?: EntityDeleteOptions): Promise<Person>;
+    merge(mergeables: Object[]): Promise<Person | PersonRawPayload>;
     orders(options?: EntityFetchOptions): Promise<Order[] | OrderRawPayload[] | undefined>;
     get carts(): IPersonCarts;
     get addresses(): AddressArray<Address>;
@@ -295,6 +296,11 @@ export declare class AddressCreateRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class AddressPatchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PersonMergeError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
