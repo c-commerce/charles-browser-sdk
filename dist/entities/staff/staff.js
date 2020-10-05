@@ -80,7 +80,7 @@ var Staff = (function (_super) {
             });
         });
     };
-    Staff.prototype.inviteUser = function (userEmail) {
+    Staff.prototype.inviteUser = function (userEmail, userFirstName) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, response, err_2;
             return tslib_1.__generator(this, function (_a) {
@@ -91,7 +91,8 @@ var Staff = (function (_super) {
                             method: 'POST',
                             url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/invite",
                             data: {
-                                email: userEmail
+                                email: userEmail !== null && userEmail !== void 0 ? userEmail : undefined,
+                                first_name: userFirstName !== null && userFirstName !== void 0 ? userFirstName : undefined
                             }
                         };
                         return [4, this.http.getClient()(opts)];

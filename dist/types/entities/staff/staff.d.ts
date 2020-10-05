@@ -66,7 +66,7 @@ export declare class Staff extends Entity<StaffPayload, StaffRawPayload> {
     static create(payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff;
     serialize(): StaffRawPayload;
     init(): Promise<Staff | undefined>;
-    inviteUser(userEmail: string): Promise<Staff | undefined>;
+    inviteUser(userEmail: string, userFirstName: string): Promise<Staff | undefined>;
 }
 export declare class Staffs {
     static endpoint: string;

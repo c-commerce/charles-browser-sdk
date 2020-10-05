@@ -1,3 +1,10 @@
+## [3.27.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.27.0...v3.27.1) (2020-10-05)
+
+
+### Bug Fixes
+
+* **staff:** pass firstname for invite mail ([8c27d2d](https://github.com/c-commerce/charles-browser-sdk/commit/8c27d2d8c5a38f4b6a518ca7cdb16370e8cbd09e))
+
 # [3.27.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.26.0...v3.27.0) (2020-10-05)
 
 
