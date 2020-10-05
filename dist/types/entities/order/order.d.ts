@@ -88,6 +88,12 @@ export declare enum IOrderStatusEnum {
     cancelled = "cancelled"
 }
 export declare type IOrderStatusType = IOrderStatusEnum.open | IOrderStatusEnum.pending | IOrderStatusEnum.completed | IOrderStatusEnum.cancelled;
+export interface OrderTaxLineRawPayload {
+    readonly amount?: number;
+    readonly currency?: string;
+    readonly name?: string;
+    readonly rate?: number;
+}
 export interface OrderRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -121,6 +127,7 @@ export interface OrderRawPayload {
     readonly status?: IOrderStatusType | null;
     readonly proxy_payload?: object | null;
     readonly discounts?: OrderDiscountRawPayload[] | null;
+    readonly taxes_summary?: OrderTaxLineRawPayload[] | null;
 }
 export interface OrderPayload {
     readonly id?: OrderRawPayload['id'];
@@ -155,6 +162,7 @@ export interface OrderPayload {
     readonly status?: OrderRawPayload['status'];
     readonly proxyPayload?: OrderRawPayload['proxy_payload'];
     readonly discounts?: OrderRawPayload['discounts'];
+    readonly taxesSummary?: OrderRawPayload['taxes_summary'];
 }
 export declare class OrderItem {
     protected universe: Universe;
@@ -216,6 +224,7 @@ export declare class Order extends Entity<OrderPayload, OrderRawPayload> {
     status?: OrderPayload['status'];
     proxyPayload?: OrderPayload['proxyPayload'];
     discounts?: OrderPayload['discounts'];
+    taxesSummary?: OrderPayload['taxesSummary'];
     constructor(options: OrderOptions);
     protected deserialize(rawPayload: OrderRawPayload): Order;
     static create(payload: OrderRawPayload, universe: Universe, http: Universe['http']): Order;

@@ -108,6 +108,12 @@ export interface CartShippingRawPayload {
     readonly amount_net?: number | null;
     readonly amount_gross?: number | null;
 }
+export interface CartTaxLineRawPayload {
+    readonly amount?: number;
+    readonly currency?: string;
+    readonly name?: string;
+    readonly rate?: number;
+}
 export interface CartRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -143,6 +149,7 @@ export interface CartRawPayload {
     readonly proxy_payload?: object | null;
     readonly discounts?: CartDiscountRawPayload[] | null;
     readonly shipping_methods?: CartShippingRawPayload[] | null;
+    readonly taxes_summary?: CartTaxLineRawPayload[] | null;
 }
 export interface CartPayload {
     readonly id?: CartRawPayload['id'];
@@ -179,6 +186,7 @@ export interface CartPayload {
     readonly proxyPayload?: CartRawPayload['proxy_payload'];
     readonly discounts?: CartRawPayload['discounts'];
     readonly shippingMethods?: CartRawPayload['shipping_methods'];
+    readonly taxesSummary?: CartRawPayload['taxes_summary'];
 }
 export interface AddItemItemOptions {
     product: string;
@@ -254,6 +262,7 @@ export declare class Cart extends Entity<CartPayload, CartRawPayload> {
     proxyPayload?: CartPayload['proxyPayload'];
     discounts?: CartPayload['discounts'];
     shippingMethods?: CartPayload['shippingMethods'];
+    taxesSummary?: CartPayload['taxesSummary'];
     constructor(options: CartOptions);
     protected deserialize(rawPayload: CartRawPayload): Cart;
     static create(payload: CartRawPayload, universe: Universe, http: Universe['http']): Cart;

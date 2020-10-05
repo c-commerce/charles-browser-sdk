@@ -1,3 +1,10 @@
+# [3.27.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.26.0...v3.27.0) (2020-10-05)
+
+
+### Features
+
+* **Cart / Orders:** Added taxesSummary to carts and orders ([52a9d84](https://github.com/c-commerce/charles-browser-sdk/commit/52a9d840fde4715b4a6aa66edfb77bdedbe9d388))
+
 # [3.26.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.25.5...v3.26.0) (2020-10-02)
 
 
