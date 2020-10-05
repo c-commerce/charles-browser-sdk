@@ -143,13 +143,14 @@ export class Staff extends Entity<StaffPayload, StaffRawPayload> {
     }
   }
 
-  public async inviteUser (userEmail: string): Promise<Staff | undefined> {
+  public async inviteUser (userEmail: string, userFirstName: string): Promise<Staff | undefined> {
     try {
       const opts = {
         method: 'POST',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/invite`,
         data: {
-          email: userEmail
+          email: userEmail ?? undefined,
+          first_name: userFirstName ?? undefined
         }
       }
 
