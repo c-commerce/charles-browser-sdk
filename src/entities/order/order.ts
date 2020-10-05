@@ -3,6 +3,7 @@ import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { IDiscountType } from '../discount/discount'
+import {CartPayload, CartRawPayload, CartTaxLineRawPayload} from "../cart/cart";
 
 export interface OrderOptions extends EntityOptions {
   rawPayload?: OrderRawPayload
@@ -104,6 +105,13 @@ export enum IOrderStatusEnum {
 
 export type IOrderStatusType = IOrderStatusEnum.open | IOrderStatusEnum.pending | IOrderStatusEnum.completed | IOrderStatusEnum.cancelled
 
+export interface OrderTaxLineRawPayload {
+  readonly amount?: number
+  readonly currency?: string
+  readonly name?: string
+  readonly rate?: number
+}
+
 export interface OrderRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -137,6 +145,7 @@ export interface OrderRawPayload {
   readonly status?: IOrderStatusType | null
   readonly proxy_payload?: object | null
   readonly discounts?: OrderDiscountRawPayload[] | null
+  readonly taxes_summary?: OrderTaxLineRawPayload[] | null
 }
 
 export interface OrderPayload {
@@ -172,6 +181,7 @@ export interface OrderPayload {
   readonly status?: OrderRawPayload['status']
   readonly proxyPayload?: OrderRawPayload['proxy_payload']
   readonly discounts?: OrderRawPayload['discounts']
+  readonly taxesSummary?: OrderRawPayload['taxes_summary']
 }
 
 export class OrderItem {
@@ -289,6 +299,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
   public status?: OrderPayload['status']
   public proxyPayload?: OrderPayload['proxyPayload']
   public discounts?: OrderPayload['discounts']
+  public taxesSummary?: OrderPayload['taxesSummary']
 
   constructor (options: OrderOptions) {
     super()
@@ -335,6 +346,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
     this.status = rawPayload.status
     this.proxyPayload = rawPayload.proxy_payload
     this.discounts = rawPayload.discounts
+    this.taxesSummary = rawPayload.taxes_summary
 
     if (Array.isArray(rawPayload.items)) {
       this.items = rawPayload.items.map((item) => (OrderItem.create(item, this.universe, this.http)))
@@ -387,7 +399,8 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
       order_prompt: this.orderPrompt,
       status: this.status,
       proxy_payload: this.proxyPayload,
-      discounts: this.discounts
+      discounts: this.discounts,
+      taxes_summary: this.taxesSummary
     }
   }
 

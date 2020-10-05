@@ -124,6 +124,13 @@ export interface CartShippingRawPayload {
   readonly amount_gross?: number | null
 }
 
+export interface CartTaxLineRawPayload {
+  readonly amount?: number
+  readonly currency?: string
+  readonly name?: string
+  readonly rate?: number
+}
+
 export interface CartRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -159,6 +166,7 @@ export interface CartRawPayload {
   readonly proxy_payload?: object | null
   readonly discounts?: CartDiscountRawPayload[] | null
   readonly shipping_methods?: CartShippingRawPayload[] | null
+  readonly taxes_summary?: CartTaxLineRawPayload[] | null
 }
 
 export interface CartPayload {
@@ -196,6 +204,7 @@ export interface CartPayload {
   readonly proxyPayload?: CartRawPayload['proxy_payload']
   readonly discounts?: CartRawPayload['discounts']
   readonly shippingMethods?: CartRawPayload['shipping_methods']
+  readonly taxesSummary?: CartRawPayload['taxes_summary']
 }
 
 export interface AddItemItemOptions {
@@ -344,6 +353,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   public proxyPayload?: CartPayload['proxyPayload']
   public discounts?: CartPayload['discounts']
   public shippingMethods?: CartPayload['shippingMethods']
+  public taxesSummary?: CartPayload['taxesSummary']
 
   constructor (options: CartOptions) {
     super()
@@ -394,6 +404,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
     this.proxyPayload = rawPayload.proxy_payload
     this.discounts = rawPayload.discounts
     this.shippingMethods = rawPayload.shipping_methods
+    this.taxesSummary = rawPayload.taxes_summary
 
     if (Array.isArray(rawPayload.items)) {
       this.items = rawPayload.items.map((item) => (CartItem.create(item, this.universe, this.http)))
@@ -448,7 +459,8 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
       status: this.status,
       proxy_payload: this.proxyPayload,
       discounts: this.discounts,
-      shipping_methods: this.shippingMethods
+      shipping_methods: this.shippingMethods,
+      taxes_summary: this.taxesSummary
     }
   }
 

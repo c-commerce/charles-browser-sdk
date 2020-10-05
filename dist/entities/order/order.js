@@ -107,6 +107,7 @@ var Order = (function (_super) {
         this.status = rawPayload.status;
         this.proxyPayload = rawPayload.proxy_payload;
         this.discounts = rawPayload.discounts;
+        this.taxesSummary = rawPayload.taxes_summary;
         if (Array.isArray(rawPayload.items)) {
             this.items = rawPayload.items.map(function (item) { return (OrderItem.create(item, _this.universe, _this.http)); });
         }
@@ -156,7 +157,8 @@ var Order = (function (_super) {
             order_prompt: this.orderPrompt,
             status: this.status,
             proxy_payload: this.proxyPayload,
-            discounts: this.discounts
+            discounts: this.discounts,
+            taxes_summary: this.taxesSummary
         };
     };
     Order.prototype.init = function () {

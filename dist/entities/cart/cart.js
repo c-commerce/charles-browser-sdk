@@ -126,6 +126,7 @@ var Cart = (function (_super) {
         this.proxyPayload = rawPayload.proxy_payload;
         this.discounts = rawPayload.discounts;
         this.shippingMethods = rawPayload.shipping_methods;
+        this.taxesSummary = rawPayload.taxes_summary;
         if (Array.isArray(rawPayload.items)) {
             this.items = rawPayload.items.map(function (item) { return (CartItem.create(item, _this.universe, _this.http)); });
         }
@@ -177,7 +178,8 @@ var Cart = (function (_super) {
             status: this.status,
             proxy_payload: this.proxyPayload,
             discounts: this.discounts,
-            shipping_methods: this.shippingMethods
+            shipping_methods: this.shippingMethods,
+            taxes_summary: this.taxesSummary
         };
     };
     Cart.prototype.init = function () {

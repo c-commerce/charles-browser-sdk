@@ -287,10 +287,44 @@ var Person = (function (_super) {
             });
         });
     };
+    Person.prototype.merge = function (mergeables) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, person, err_5;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('Merge requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/merge",
+                            data: { mergeables: mergeables },
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        res = _c.sent();
+                        person = res.data.data[0];
+                        return [2, Person.create(person, this.universe, this.http)];
+                    case 3:
+                        err_5 = _c.sent();
+                        throw new PersonMergeError(undefined, { error: err_5 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     Person.prototype.orders = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, orders, ordersMap_1, err_5;
+            var opts, res, orders, ordersMap_1, err_6;
             var _this = this;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
@@ -319,8 +353,8 @@ var Person = (function (_super) {
                         });
                         return [2, Array.from(ordersMap_1.values())];
                     case 2:
-                        err_5 = _b.sent();
-                        throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err_5 }));
+                        err_6 = _b.sent();
+                        throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err_6 }));
                     case 3: return [2];
                 }
             });
@@ -337,7 +371,7 @@ var Person = (function (_super) {
                     return feeds.map(function (item) { return item.serialize(); });
                 },
                 fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, feeds, err_6;
+                    var opts, res, feeds, err_7;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -359,14 +393,14 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })];
                             case 2:
-                                err_6 = _a.sent();
-                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_6 });
+                                err_7 = _a.sent();
+                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_7 });
                             case 3: return [2];
                         }
                     });
                 }); },
                 create: function (cart) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, carts, err_7;
+                    var opts, res, carts, err_8;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -385,8 +419,8 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })[0]];
                             case 2:
-                                err_7 = _a.sent();
-                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_7 });
+                                err_8 = _a.sent();
+                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_8 });
                             case 3: return [2];
                         }
                     });
@@ -701,4 +735,17 @@ var AddressPatchRemoteError = (function (_super) {
     return AddressPatchRemoteError;
 }(errors_1.BaseError));
 exports.AddressPatchRemoteError = AddressPatchRemoteError;
+var PersonMergeError = (function (_super) {
+    tslib_1.__extends(PersonMergeError, _super);
+    function PersonMergeError(message, properties) {
+        if (message === void 0) { message = 'Could not merge persons.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PersonMergeError';
+        Object.setPrototypeOf(_this, PersonMergeError.prototype);
+        return _this;
+    }
+    return PersonMergeError;
+}(errors_1.BaseError));
+exports.PersonMergeError = PersonMergeError;
 //# sourceMappingURL=person.js.map
