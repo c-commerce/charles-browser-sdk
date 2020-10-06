@@ -45,6 +45,8 @@ export interface MessageTemplateRawPayload {
   } | null
   readonly notification?: boolean
   readonly content_category?: string
+  readonly status?: string
+  readonly rejection_reason?: string
 }
 
 export interface MessageTemplatePayload {
@@ -66,6 +68,8 @@ export interface MessageTemplatePayload {
   readonly metadata?: MessageTemplateRawPayload['metadata']
   readonly notification?: MessageTemplateRawPayload['notification']
   readonly contentCategory?: MessageTemplateRawPayload['content_category']
+  readonly status?: MessageTemplateRawPayload['status']
+  readonly rejectionReason?: MessageTemplateRawPayload['rejection_reason']
 }
 
 /**
@@ -98,6 +102,8 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   public metadata?: MessageTemplatePayload['metadata']
   public notification?: MessageTemplatePayload['notification']
   public contentCategory?: MessageTemplatePayload['contentCategory']
+  public status?: MessageTemplatePayload['status']
+  public rejectionReason?: MessageTemplatePayload['rejectionReason']
 
   constructor (options: MessageTemplateOptions) {
     super()
@@ -133,6 +139,8 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
     this.metadata = rawPayload.metadata
     this.notification = rawPayload.notification
     this.contentCategory = rawPayload.content_category
+    this.status = rawPayload.status
+    this.rejectionReason = rawPayload.rejection_reason
 
     return this
   }
@@ -160,7 +168,9 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
       payload: this.payload,
       metadata: this.metadata,
       notification: this.notification,
-      content_category: this.contentCategory
+      content_category: this.contentCategory,
+      status: this.status,
+      rejection_reason: this.rejectionReason
     }
   }
 
