@@ -19,15 +19,37 @@ export interface MessageTemplateRawPayload {
     readonly approved?: boolean;
     readonly name?: string;
     readonly comment?: string;
-    readonly proxy_vendor?: string;
+    readonly proxy_vendor?: 'messenger_people' | 'charles_messaging_whatsapp_t' | string | null;
     readonly categories?: string[] | null;
     readonly content?: {
         body?: string | null;
         attachments?: MessageTemplateRawPayloadAttachment[] | null;
-        i18n: Array<{
-            locale: string;
+        i18n?: Array<{
+            locale?: string;
+            status?: string;
+            rejection_reason?: string | null;
             body?: string;
+            header?: {
+                type?: 'text' | string | null;
+                payload?: string | null;
+            } | null;
+            footer?: {
+                type?: 'text' | null;
+                payload?: string;
+            } | null;
             attachments?: MessageTemplateRawPayloadAttachment[];
+            approved?: boolean;
+            quick_replies?: {
+                translate?: boolean;
+                translation_prepend?: string | null;
+                translation_append?: string | null;
+                reqlies?: Array<{
+                    type?: 'text' | string | null;
+                    payload?: string | null;
+                    text?: string;
+                    image_url?: string;
+                }>;
+            };
         }> | null;
     } | null;
     readonly configuration?: object;
@@ -38,8 +60,8 @@ export interface MessageTemplateRawPayload {
         parameters?: {
             [key: string]: any;
         } | Array<{
-            name: string;
-            required: boolean;
+            name?: string;
+            required?: boolean;
             order_index?: number;
         }>;
     } | null;

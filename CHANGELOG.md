@@ -1,3 +1,15 @@
+# [3.28.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.27.1...v3.28.0) (2020-10-06)
+
+
+### Bug Fixes
+
+* **message template:** fix i18n schema ([3e11ca1](https://github.com/c-commerce/charles-browser-sdk/commit/3e11ca162f2abcc657e04f0b9467467eee2356a5))
+
+
+### Features
+
+* **message templates:** add status and rejection reason ([12d0331](https://github.com/c-commerce/charles-browser-sdk/commit/12d0331828293c77ebcefffaad17d6f6b444715a))
+
 ## [3.27.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.27.0...v3.27.1) (2020-10-05)
 
 
