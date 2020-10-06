@@ -22,18 +22,44 @@ export interface MessageTemplateRawPayload {
   readonly deleted?: boolean
   readonly active?: boolean
   readonly is_proxy?: boolean
+  // DEPRECATED
   readonly approved?: boolean
   readonly name?: string
   readonly comment?: string
-  readonly proxy_vendor?: string
+  readonly proxy_vendor?: 'messenger_people' | 'charles_messaging_whatsapp_t' | string | null
   readonly categories?: string[] | null
   readonly content?: {
+    // DEPRECATED
     body?: string | null
+    // DEPRECATED
     attachments?: MessageTemplateRawPayloadAttachment[] | null
-    i18n: Array<{
-      locale: string
+    i18n?: Array<{
+      locale?: string
+      status?: string
+      rejection_reason?: string | null
       body?: string
+      header?: {
+        type?: 'text' | string | null
+        payload?: string | null
+      } | null
+      footer?: {
+        type?: 'text' | null
+        payload?: string
+      } | null
       attachments?: MessageTemplateRawPayloadAttachment[]
+      approved?: boolean
+      quick_replies?: {
+        translate?: boolean
+        translation_prepend?: string | null
+        translation_append?: string | null
+        reqlies?: Array<{
+          type?: 'text' | string | null
+          payload?: string | null
+          text?: string
+          image_url?: string
+
+        }>
+      }
     }> | null
   } | null
   readonly configuration?: object
@@ -41,12 +67,14 @@ export interface MessageTemplateRawPayload {
   readonly metadata?: object
   readonly parameters_template?: {
     type?: 'list' | 'map'
-    parameters?: { [key: string]: any } | Array<{ name: string, required: boolean, order_index?: number }>
+    parameters?: { [key: string]: any } | Array<{
+      name?: string
+      required?: boolean
+      order_index?: number
+    }>
   } | null
   readonly notification?: boolean
   readonly content_category?: string
-  readonly status?: string
-  readonly rejection_reason?: string
 }
 
 export interface MessageTemplatePayload {
@@ -68,8 +96,6 @@ export interface MessageTemplatePayload {
   readonly metadata?: MessageTemplateRawPayload['metadata']
   readonly notification?: MessageTemplateRawPayload['notification']
   readonly contentCategory?: MessageTemplateRawPayload['content_category']
-  readonly status?: MessageTemplateRawPayload['status']
-  readonly rejectionReason?: MessageTemplateRawPayload['rejection_reason']
 }
 
 /**
@@ -102,8 +128,6 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   public metadata?: MessageTemplatePayload['metadata']
   public notification?: MessageTemplatePayload['notification']
   public contentCategory?: MessageTemplatePayload['contentCategory']
-  public status?: MessageTemplatePayload['status']
-  public rejectionReason?: MessageTemplatePayload['rejectionReason']
 
   constructor (options: MessageTemplateOptions) {
     super()
@@ -139,8 +163,6 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
     this.metadata = rawPayload.metadata
     this.notification = rawPayload.notification
     this.contentCategory = rawPayload.content_category
-    this.status = rawPayload.status
-    this.rejectionReason = rawPayload.rejection_reason
 
     return this
   }
@@ -168,9 +190,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
       payload: this.payload,
       metadata: this.metadata,
       notification: this.notification,
-      content_category: this.contentCategory,
-      status: this.status,
-      rejection_reason: this.rejectionReason
+      content_category: this.contentCategory
     }
   }
 
