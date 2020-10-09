@@ -80,7 +80,7 @@ export default {
       }
 
       isTopic (topic: string, data: IInjectableDataObject): boolean {
-        return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic)
+        return new RegExp(this.template.replace('${id}', data.id).replace('*', '\\*'), 'g').test(topic)
       }
     })(),
     feedEvents: new (class extends TopicGenerator {

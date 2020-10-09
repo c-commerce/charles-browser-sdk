@@ -278,6 +278,17 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
    */
   private handleMessage (msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage): void {
     // NOTE: we are also receiving all other messages, but we do not emit them. This is a srtrong fan-out
+    if (universeTopics.api.feedMessagesStatus.isTopic(msg.topic, this.serialize())) {
+      let message
+      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this)
+      }
+
+      this.emit('feed:message:status', { ...msg, message, feed: this })
+      return
+    }
+    // TODO: when reviewing the .isTopic implementation, you'll see that a greedy regex is not what want, as e.g. feedMessagesStatus will otherwise be fanned out
+    // due to backwards compat we did not eagerly refactor
     if (universeTopics.api.feedMessages.isTopic(msg.topic, this.serialize())) {
       let message
       if ((msg as realtime.RealtimeMessageMessage).payload.message) {
@@ -295,15 +306,6 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       }
 
       this.emit('feed:event', { ...msg, event, feed: this })
-    }
-
-    if (universeTopics.api.feedMessagesStatus.isTopic(msg.topic, this.serialize())) {
-      let message
-      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
-        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this)
-      }
-
-      this.emit('feed:message:status', { ...msg, message, feed: this })
     }
 
     if (universeTopics.api.feedPresence.isTopic(msg.topic, this.serialize())) {
