@@ -99,11 +99,11 @@ exports.default = {
             };
             return class_6;
         }(TopicGenerator)))(),
-        feedEvents: new ((function (_super) {
+        feedMessagesStatus: new ((function (_super) {
             tslib_1.__extends(class_7, _super);
             function class_7() {
                 var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.template = 'api/feeds/${id}/events';
+                _this.template = 'api/feeds/${id}/messages/*/status';
                 return _this;
             }
             class_7.prototype.generateTopic = function (data) {
@@ -114,11 +114,11 @@ exports.default = {
             };
             return class_7;
         }(TopicGenerator)))(),
-        feedTyping: new ((function (_super) {
+        feedEvents: new ((function (_super) {
             tslib_1.__extends(class_8, _super);
             function class_8() {
                 var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.template = 'api/feeds/${id}/typing';
+                _this.template = 'api/feeds/${id}/events';
                 return _this;
             }
             class_8.prototype.generateTopic = function (data) {
@@ -129,11 +129,11 @@ exports.default = {
             };
             return class_8;
         }(TopicGenerator)))(),
-        feedPresence: new ((function (_super) {
+        feedTyping: new ((function (_super) {
             tslib_1.__extends(class_9, _super);
             function class_9() {
                 var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.template = 'api/feeds/${id}/presence';
+                _this.template = 'api/feeds/${id}/typing';
                 return _this;
             }
             class_9.prototype.generateTopic = function (data) {
@@ -144,37 +144,52 @@ exports.default = {
             };
             return class_9;
         }(TopicGenerator)))(),
+        feedPresence: new ((function (_super) {
+            tslib_1.__extends(class_10, _super);
+            function class_10() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.template = 'api/feeds/${id}/presence';
+                return _this;
+            }
+            class_10.prototype.generateTopic = function (data) {
+                return this.template.replace('${id}', data.id);
+            };
+            class_10.prototype.isTopic = function (topic, data) {
+                return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic);
+            };
+            return class_10;
+        }(TopicGenerator)))(),
         clients: {
             arm: new ((function (_super) {
-                tslib_1.__extends(class_10, _super);
-                function class_10() {
+                tslib_1.__extends(class_11, _super);
+                function class_11() {
                     var _this = _super !== null && _super.apply(this, arguments) || this;
                     _this.template = 'api/clients/${clientId}/arm';
                     return _this;
                 }
-                class_10.prototype.generateTopic = function (data) {
+                class_11.prototype.generateTopic = function (data) {
                     return just_template_1.default(this.template, data);
                 };
-                class_10.prototype.isTopic = function (topic) {
+                class_11.prototype.isTopic = function (topic) {
                     return new RegExp(this.template.replace('${clientId}', '\\w+'), 'g').test(topic);
                 };
-                return class_10;
+                return class_11;
             }(TopicGenerator)))()
         },
         people: new ((function (_super) {
-            tslib_1.__extends(class_11, _super);
-            function class_11() {
+            tslib_1.__extends(class_12, _super);
+            function class_12() {
                 var _this = _super !== null && _super.apply(this, arguments) || this;
                 _this.template = 'api/people';
                 return _this;
             }
-            class_11.prototype.generateTopic = function () {
+            class_12.prototype.generateTopic = function () {
                 return this.template;
             };
-            class_11.prototype.isTopic = function (topic) {
+            class_12.prototype.isTopic = function (topic) {
                 return topic === this.template;
             };
-            return class_11;
+            return class_12;
         }(TopicGenerator)))()
     }
 };

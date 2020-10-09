@@ -33,6 +33,11 @@ declare const _default: {
             generateTopic(data: IInjectableDataObject): string;
             isTopic(topic: string, data: IInjectableDataObject): boolean;
         };
+        feedMessagesStatus: {
+            template: string;
+            generateTopic(data: IInjectableDataObject): string;
+            isTopic(topic: string, data: IInjectableDataObject): boolean;
+        };
         feedEvents: {
             template: string;
             generateTopic(data: IInjectableDataObject): string;

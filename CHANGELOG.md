@@ -1,3 +1,10 @@
+# [3.29.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.28.0...v3.29.0) (2020-10-09)
+
+
+### Features
+
+* **feed:** expose message status change event ([b1be9ef](https://github.com/c-commerce/charles-browser-sdk/commit/b1be9ef81b51b9dbfdc02b73574d691538d09c03))
+
 # [3.28.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.27.1...v3.28.0) (2020-10-06)
 
 
