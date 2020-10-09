@@ -1,3 +1,10 @@
+## [3.29.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.29.0...v3.29.1) (2020-10-09)
+
+
+### Bug Fixes
+
+* **feed:** document msg status ([2305364](https://github.com/c-commerce/charles-browser-sdk/commit/230536480aad93cd34f138f70862a4bf19a35a58))
+
 # [3.29.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.28.0...v3.29.0) (2020-10-09)
 
 
