@@ -247,7 +247,8 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       universeTopics.api.feedMessages.generateTopic(this.serialize()),
       universeTopics.api.feedEvents.generateTopic(this.serialize()),
       universeTopics.api.feedTyping.generateTopic(this.serialize()),
-      universeTopics.api.feedPresence.generateTopic(this.serialize())
+      universeTopics.api.feedPresence.generateTopic(this.serialize()),
+      universeTopics.api.feedMessagesStatus.generateTopic(this.serialize())
     ]
   }
 
@@ -294,6 +295,16 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
 
       this.emit('feed:event', { ...msg, event, feed: this })
     }
+
+    if (universeTopics.api.feedMessagesStatus.isTopic(msg.topic, this.serialize())) {
+      let message
+      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this)
+      }
+
+      this.emit('feed:message:status', { ...msg, message, feed: this })
+    }
+
     if (universeTopics.api.feedPresence.isTopic(msg.topic, this.serialize())) {
       let presence
       if ((msg as realtime.RealtimeMessageMessage).payload.presence) {
@@ -301,6 +312,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       }
       this.emit('feed:presence', { ...msg, presence, feed: this })
     }
+
     if (universeTopics.api.feedTyping.isTopic(msg.topic, this.serialize())) {
       let typing
       if ((msg as realtime.RealtimeMessageMessage).payload.typing) {
