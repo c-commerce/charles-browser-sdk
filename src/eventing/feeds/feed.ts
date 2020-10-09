@@ -287,8 +287,8 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       this.emit('feed:message:status', { ...msg, message, feed: this })
       return
     }
-    // TODO: when reviewing the .isTopic implementation, you'll see that a greedy regex is not what want, as e.g. feedMessagesStatus will otherwise be fanned out
-    // due to backwards compat we did not eagerly refactor
+    // TODO: when reviewing the .isTopic implementation, you'll see that a greedy regex is not what we want, as e.g. feedMessagesStatus
+    // will otherwise be fanned out. Due to backwards compat we did not eagerly refactor.
     if (universeTopics.api.feedMessages.isTopic(msg.topic, this.serialize())) {
       let message
       if ((msg as realtime.RealtimeMessageMessage).payload.message) {
