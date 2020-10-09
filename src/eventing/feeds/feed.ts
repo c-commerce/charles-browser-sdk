@@ -85,6 +85,7 @@ export declare interface Feed {
     | 'feed:event' // receive events in the current scope of this feed
     | 'feed:presence' // receive precence events in the current scope of this feed
     | 'feed:typing' // receive typing events in the current scope of this feed
+    | 'feed:message:status' // receive message status change events in the current scope of this feed
     | string,
     cb: Function): this
 }
