@@ -1,3 +1,10 @@
+## [3.29.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.29.1...v3.29.2) (2020-10-09)
+
+
+### Bug Fixes
+
+* **feed/messages/status:** handle regex correctly, do not fan status out prematurely ([7202b67](https://github.com/c-commerce/charles-browser-sdk/commit/7202b6752995e220e73eba5fce7324eb105c5a34))
+
 ## [3.29.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.29.0...v3.29.1) (2020-10-09)
 
 

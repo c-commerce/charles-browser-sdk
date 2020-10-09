@@ -110,7 +110,7 @@ exports.default = {
                 return this.template.replace('${id}', data.id);
             };
             class_7.prototype.isTopic = function (topic, data) {
-                return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic);
+                return new RegExp(this.template.replace('${id}', data.id).replace('*', '\\*'), 'g').test(topic);
             };
             return class_7;
         }(TopicGenerator)))(),
