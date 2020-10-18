@@ -1,3 +1,10 @@
+# [3.30.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.29.2...v3.30.0) (2020-10-18)
+
+
+### Features
+
+* **message broker:** message sync for specific channeluser ([01d687e](https://github.com/c-commerce/charles-browser-sdk/commit/01d687e18af2af114878a52d9d25cae31fcd5f1f))
+
 ## [3.29.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.29.1...v3.29.2) (2020-10-09)
 
 
