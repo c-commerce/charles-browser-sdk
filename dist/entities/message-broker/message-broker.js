@@ -136,7 +136,7 @@ var MessageBroker = (function (_super) {
                 switch (_b.label) {
                     case 0:
                         if (this.id === null || this.id === undefined)
-                            throw new TypeError('message broker setup requires id to be set.');
+                            throw new TypeError('message broker syncMessages requires id to be set.');
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 3, , 4]);
@@ -161,10 +161,43 @@ var MessageBroker = (function (_super) {
             });
         });
     };
-    MessageBroker.prototype.getProxyChannelInstances = function () {
+    MessageBroker.prototype.syncMessagesForChannel = function (externalPersonReferenceId) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, err_4;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('message broker syncMessagesForChannel requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/messages/" + externalPersonReferenceId,
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_4 = _b.sent();
+                        throw this.handleError(new MessageBrokerSyncMessagesRemoteError(undefined, { error: err_4 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    MessageBroker.prototype.getProxyChannelInstances = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_5;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -183,8 +216,8 @@ var MessageBroker = (function (_super) {
                         res = _b.sent();
                         return [2, res.data.data];
                     case 3:
-                        err_4 = _b.sent();
-                        throw this.handleError(new MessageBrokerProxyChannelInstancesRemoteError(undefined, { error: err_4 }));
+                        err_5 = _b.sent();
+                        throw this.handleError(new MessageBrokerProxyChannelInstancesRemoteError(undefined, { error: err_5 }));
                     case 4: return [2];
                 }
             });
@@ -193,7 +226,7 @@ var MessageBroker = (function (_super) {
     MessageBroker.prototype.updateProfile = function (payload) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, err_5;
+            var opts, res, err_6;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -217,8 +250,8 @@ var MessageBroker = (function (_super) {
                         res = _b.sent();
                         return [2, res.status];
                     case 3:
-                        err_5 = _b.sent();
-                        throw this.handleError(new MessageBrokerUpdateProfileRemoteError(undefined, { error: err_5 }));
+                        err_6 = _b.sent();
+                        throw this.handleError(new MessageBrokerUpdateProfileRemoteError(undefined, { error: err_6 }));
                     case 4: return [2];
                 }
             });
@@ -226,7 +259,7 @@ var MessageBroker = (function (_super) {
     };
     MessageBroker.prototype.getProfile = function (options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, resources, err_6;
+            var opts, res, resources, err_7;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -246,8 +279,8 @@ var MessageBroker = (function (_super) {
                         resources = res.data.data;
                         return [2, resources];
                     case 3:
-                        err_6 = _a.sent();
-                        throw this.handleError(new MessageBrokerUpdateProfileRemoteError(undefined, { error: err_6 }));
+                        err_7 = _a.sent();
+                        throw this.handleError(new MessageBrokerUpdateProfileRemoteError(undefined, { error: err_7 }));
                     case 4: return [2];
                 }
             });

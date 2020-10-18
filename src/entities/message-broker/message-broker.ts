@@ -197,12 +197,33 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
   }
 
   public async syncMessages (): Promise<number | undefined> {
-    if (this.id === null || this.id === undefined) throw new TypeError('message broker setup requires id to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('message broker syncMessages requires id to be set.')
 
     try {
       const opts = {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/messages`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new MessageBrokerSyncMessagesRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async syncMessagesForChannel (externalPersonReferenceId: string | number): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('message broker syncMessagesForChannel requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/messages/${externalPersonReferenceId}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Content-Length': '0'

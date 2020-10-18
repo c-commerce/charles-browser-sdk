@@ -86,6 +86,7 @@ export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageB
     setup(): Promise<number>;
     syncMessageTemplates(): Promise<number | undefined>;
     syncMessages(): Promise<number | undefined>;
+    syncMessagesForChannel(externalPersonReferenceId: string | number): Promise<number | undefined>;
     getProxyChannelInstances(): Promise<Array<{
         external_reference_id: string;
         name: string;
