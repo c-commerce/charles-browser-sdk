@@ -1490,6 +1490,30 @@ export class Universe extends Readable {
     return this
   }
 
+  public async versions (): Promise<{ universe: string } | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/api/versions`)
+
+      return {
+        universe: res.data?.universe
+      }
+    } catch (err) {
+      throw new UniverseVersionsError(undefined, { error: err })
+    }
+  }
+
+  public async healthz (): Promise<{ message: string } | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/api/healthz`)
+
+      return {
+        message: res.data?.msg
+      }
+    } catch (err) {
+      throw new UniverseHealthzError(undefined, { error: err })
+    }
+  }
+
   /**
    * Gets executable search
    *
@@ -1588,5 +1612,23 @@ export class UniverseApiRequestError extends BaseError {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseApiRequestError.prototype)
+  }
+}
+
+export class UniverseVersionsError extends BaseError {
+  public name = 'UniverseVersionsError'
+  constructor (public message: string = 'Unexptected response making versions request.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseVersionsError.prototype)
+  }
+}
+
+export class UniverseHealthzError extends BaseError {
+  public name = 'UniverseHealthzError'
+  constructor (public message: string = 'Unexptected response making health request.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseHealthzError.prototype)
   }
 }
