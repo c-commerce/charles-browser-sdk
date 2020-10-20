@@ -274,6 +274,12 @@ export declare class Universe extends Readable {
     routes(options?: EntityFetchOptions): Promise<route.Route[] | route.RouteRawPayload[] | undefined>;
     things(options?: EntityFetchOptions): Promise<thing.Thing[] | thing.ThingRawPayload[] | undefined>;
     arm(): Universe;
+    versions(): Promise<{
+        universe: string;
+    } | undefined>;
+    healthz(): Promise<{
+        message: string;
+    } | undefined>;
     get search(): UniverseSearches;
     private searchEntity;
 }
@@ -303,6 +309,16 @@ export declare class UniverseMeError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class UniverseApiRequestError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseVersionsError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseHealthzError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

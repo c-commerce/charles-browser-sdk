@@ -1455,6 +1455,50 @@ var Universe = (function (_super) {
         });
         return this;
     };
+    Universe.prototype.versions = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var res, err_40;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/api/versions")];
+                    case 1:
+                        res = _b.sent();
+                        return [2, {
+                                universe: (_a = res.data) === null || _a === void 0 ? void 0 : _a.universe
+                            }];
+                    case 2:
+                        err_40 = _b.sent();
+                        throw new UniverseVersionsError(undefined, { error: err_40 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Universe.prototype.healthz = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var res, err_41;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/api/healthz")];
+                    case 1:
+                        res = _b.sent();
+                        return [2, {
+                                message: (_a = res.data) === null || _a === void 0 ? void 0 : _a.msg
+                            }];
+                    case 2:
+                        err_41 = _b.sent();
+                        throw new UniverseHealthzError(undefined, { error: err_41 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Object.defineProperty(Universe.prototype, "search", {
         get: function () {
             var _this = this;
@@ -1490,7 +1534,7 @@ var Universe = (function (_super) {
     });
     Universe.prototype.searchEntity = function (endpoint, q) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_40;
+            var res, err_42;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1504,8 +1548,8 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         return [2, res.data.data];
                     case 2:
-                        err_40 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_40 });
+                        err_42 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_42 });
                     case 3: return [2];
                 }
             });
@@ -1595,4 +1639,30 @@ var UniverseApiRequestError = (function (_super) {
     return UniverseApiRequestError;
 }(errors_1.BaseError));
 exports.UniverseApiRequestError = UniverseApiRequestError;
+var UniverseVersionsError = (function (_super) {
+    tslib_1.__extends(UniverseVersionsError, _super);
+    function UniverseVersionsError(message, properties) {
+        if (message === void 0) { message = 'Unexptected response making versions request.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UniverseVersionsError';
+        Object.setPrototypeOf(_this, UniverseVersionsError.prototype);
+        return _this;
+    }
+    return UniverseVersionsError;
+}(errors_1.BaseError));
+exports.UniverseVersionsError = UniverseVersionsError;
+var UniverseHealthzError = (function (_super) {
+    tslib_1.__extends(UniverseHealthzError, _super);
+    function UniverseHealthzError(message, properties) {
+        if (message === void 0) { message = 'Unexptected response making health request.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UniverseHealthzError';
+        Object.setPrototypeOf(_this, UniverseHealthzError.prototype);
+        return _this;
+    }
+    return UniverseHealthzError;
+}(errors_1.BaseError));
+exports.UniverseHealthzError = UniverseHealthzError;
 //# sourceMappingURL=index.js.map
