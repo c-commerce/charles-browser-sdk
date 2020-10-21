@@ -464,7 +464,29 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       const person = res.data.data[0] as PersonRawPayload
       return Person.create(person, this.universe, this.http)
     } catch (err) {
-      throw new PersonMergeError(undefined, { error: err })
+      throw new PersonMergeRemoteError(undefined, { error: err })
+    }
+  }
+
+  /**
+   * Gets an file url to an(optionally encoded) zip containing relevant gdpr data
+   */
+  public async getGDPRFile (options?: PersonGDPROptions): Promise<object> {
+    if (this.id === null || this.id === undefined) throw new TypeError('GDPR download requires id to be set.')
+    try {
+      const opts = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/gdpr${options ? qs.stringify(options, { addQueryPrefix: true }) : ''}`,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data[0] as object
+    } catch (err) {
+      throw new PersonGDPRGetRemoteError(undefined, { error: err })
     }
   }
 
@@ -612,6 +634,9 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public address (payload: PersonAddressRawPayload): Address {
     return Address.create({ ...payload, person: this.id }, this.universe, this.http)
   }
+}
+export interface PersonGDPROptions {
+  password?: string
 }
 
 export interface PeopleOptions {
@@ -896,10 +921,17 @@ export class AddressPatchRemoteError extends BaseError {
     Object.setPrototypeOf(this, AddressPatchRemoteError.prototype)
   }
 }
-export class PersonMergeError extends BaseError {
-  public name = 'PersonMergeError';
+export class PersonMergeRemoteError extends BaseError {
+  public name = 'PersonMergeRemoteError';
   constructor (public message: string = 'Could not merge persons.', properties?: any) {
     super(message, properties)
-    Object.setPrototypeOf(this, PersonMergeError.prototype)
+    Object.setPrototypeOf(this, PersonMergeRemoteError.prototype)
+  }
+}
+export class PersonGDPRGetRemoteError extends BaseError {
+  public name = 'PersonGDPRGetRemoteError';
+  constructor (public message: string = 'Could not get gdpr info for person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PersonGDPRGetRemoteError.prototype)
   }
 }
