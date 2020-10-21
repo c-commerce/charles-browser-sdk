@@ -315,7 +315,39 @@ var Person = (function (_super) {
                         return [2, Person.create(person, this.universe, this.http)];
                     case 3:
                         err_5 = _c.sent();
-                        throw new PersonMergeError(undefined, { error: err_5 });
+                        throw new PersonMergeRemoteError(undefined, { error: err_5 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    Person.prototype.getGDPRFile = function (options) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_6;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('GDPR download requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/gdpr" + (options ? qs_1.default.stringify(options, { addQueryPrefix: true }) : ''),
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        res = _c.sent();
+                        return [2, res.data.data[0]];
+                    case 3:
+                        err_6 = _c.sent();
+                        throw new PersonGDPRGetRemoteError(undefined, { error: err_6 });
                     case 4: return [2];
                 }
             });
@@ -324,7 +356,7 @@ var Person = (function (_super) {
     Person.prototype.orders = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, orders, ordersMap_1, err_6;
+            var opts, res, orders, ordersMap_1, err_7;
             var _this = this;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
@@ -353,8 +385,8 @@ var Person = (function (_super) {
                         });
                         return [2, Array.from(ordersMap_1.values())];
                     case 2:
-                        err_6 = _b.sent();
-                        throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err_6 }));
+                        err_7 = _b.sent();
+                        throw this.handleError(new PersonFetchOrdersRemoteError(undefined, { error: err_7 }));
                     case 3: return [2];
                 }
             });
@@ -371,7 +403,7 @@ var Person = (function (_super) {
                     return feeds.map(function (item) { return item.serialize(); });
                 },
                 fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, feeds, err_7;
+                    var opts, res, feeds, err_8;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -393,14 +425,14 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })];
                             case 2:
-                                err_7 = _a.sent();
-                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_7 });
+                                err_8 = _a.sent();
+                                throw new cart_1.CartsFetchRemoteError(undefined, { error: err_8 });
                             case 3: return [2];
                         }
                     });
                 }); },
                 create: function (cart) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, carts, err_8;
+                    var opts, res, carts, err_9;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -419,8 +451,8 @@ var Person = (function (_super) {
                                         return cart_1.Cart.create(feed, _this.universe, _this.http);
                                     })[0]];
                             case 2:
-                                err_8 = _a.sent();
-                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_8 });
+                                err_9 = _a.sent();
+                                throw new cart_1.CartCreateRemoteError(undefined, { error: err_9 });
                             case 3: return [2];
                         }
                     });
@@ -735,17 +767,30 @@ var AddressPatchRemoteError = (function (_super) {
     return AddressPatchRemoteError;
 }(errors_1.BaseError));
 exports.AddressPatchRemoteError = AddressPatchRemoteError;
-var PersonMergeError = (function (_super) {
-    tslib_1.__extends(PersonMergeError, _super);
-    function PersonMergeError(message, properties) {
+var PersonMergeRemoteError = (function (_super) {
+    tslib_1.__extends(PersonMergeRemoteError, _super);
+    function PersonMergeRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not merge persons.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
-        _this.name = 'PersonMergeError';
-        Object.setPrototypeOf(_this, PersonMergeError.prototype);
+        _this.name = 'PersonMergeRemoteError';
+        Object.setPrototypeOf(_this, PersonMergeRemoteError.prototype);
         return _this;
     }
-    return PersonMergeError;
+    return PersonMergeRemoteError;
 }(errors_1.BaseError));
-exports.PersonMergeError = PersonMergeError;
+exports.PersonMergeRemoteError = PersonMergeRemoteError;
+var PersonGDPRGetRemoteError = (function (_super) {
+    tslib_1.__extends(PersonGDPRGetRemoteError, _super);
+    function PersonGDPRGetRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get gdpr info for person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PersonGDPRGetRemoteError';
+        Object.setPrototypeOf(_this, PersonGDPRGetRemoteError.prototype);
+        return _this;
+    }
+    return PersonGDPRGetRemoteError;
+}(errors_1.BaseError));
+exports.PersonGDPRGetRemoteError = PersonGDPRGetRemoteError;
 //# sourceMappingURL=person.js.map

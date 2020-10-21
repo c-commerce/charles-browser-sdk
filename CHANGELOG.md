@@ -1,3 +1,10 @@
+# [3.32.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.31.0...v3.32.0) (2020-10-21)
+
+
+### Features
+
+* **person:** add get gdpr info ([123be67](https://github.com/c-commerce/charles-browser-sdk/commit/123be672fe9213deb7bdac0ba51fcef89d880251))
+
 # [3.31.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.30.0...v3.31.0) (2020-10-20)
 
 

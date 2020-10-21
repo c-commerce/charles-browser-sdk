@@ -184,6 +184,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     patch(changePart: PersonRawPayload): Promise<Person>;
     delete(options?: EntityDeleteOptions): Promise<Person>;
     merge(mergeables: Object[]): Promise<Person | PersonRawPayload>;
+    getGDPRFile(options?: PersonGDPROptions): Promise<object>;
     orders(options?: EntityFetchOptions): Promise<Order[] | OrderRawPayload[] | undefined>;
     get carts(): IPersonCarts;
     get addresses(): AddressArray<Address>;
@@ -191,6 +192,9 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     email(payload: EmailRawPayload): Email;
     phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
     address(payload: PersonAddressRawPayload): Address;
+}
+export interface PersonGDPROptions {
+    password?: string;
 }
 export interface PeopleOptions {
     universe: Universe;
@@ -300,7 +304,12 @@ export declare class AddressPatchRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
-export declare class PersonMergeError extends BaseError {
+export declare class PersonMergeRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PersonGDPRGetRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
