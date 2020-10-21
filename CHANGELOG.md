@@ -1,3 +1,10 @@
+# [3.31.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.30.0...v3.31.0) (2020-10-20)
+
+
+### Features
+
+* **universe:** make healthz, versions requests ([b292ad4](https://github.com/c-commerce/charles-browser-sdk/commit/b292ad4e14bd3d29ffacb9235c0ab28e6318defc))
+
 # [3.30.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.29.2...v3.30.0) (2020-10-18)
 
 
