@@ -8,7 +8,7 @@ export interface MessageTemplateOptions extends EntityOptions {
 }
 
 export interface MessageTemplateRawPayloadAttachment {
-  type: 'image' | 'document' | string
+  type: 'image' | 'document' | 'video' | 'audio' | 'asset' | string
   // NOTE: the API is capable of digesting any mime type, however both messaging platforms and UIs are not.
   // This likely means that the "group" of types that is denoted by "type" is likely what implementers are after.
   mime_type?: string
@@ -69,8 +69,9 @@ export interface MessageTemplateRawPayload {
     type?: 'list' | 'map'
     parameters?: { [key: string]: any } | Array<{
       name?: string
-      required?: boolean
+      required?: boolean | null
       order_index?: number
+      logic?: object| null
     }>
   } | null
   readonly notification?: boolean
