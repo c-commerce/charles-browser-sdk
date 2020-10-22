@@ -119,6 +119,7 @@ export interface PersonRawPayload extends EntityRawPayload {
   readonly phonenumbers?: PersonPhonenumberRawPayload[]
   readonly channel_users?: PersonChannelUserRawPayload[]
   readonly analytics?: PersonAnalyticsRawPayload
+  readonly default_address?: string | null
 }
 
 export interface IPersonCarts {
@@ -225,6 +226,7 @@ export interface PersonPayload {
   readonly phonenumbers?: Phonenumber[]
   readonly channelUsers?: ChannelUser[]
   readonly analytics?: Analytics
+  readonly defaultAddress?: PersonRawPayload['default_address']
 }
 
 /**
@@ -263,6 +265,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public phonenumbers?: PersonPayload['phonenumbers']
   public channelUsers?: PersonPayload['channelUsers']
   public analytics?: PersonPayload['analytics']
+  public defaultAddress?: PersonPayload['defaultAddress']
 
   constructor (options: PersonOptions) {
     super()
@@ -298,6 +301,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this.tags = rawPayload.tags
     this.namePreference = rawPayload.name_preference
     this.customProperties = rawPayload.custom_properties
+    this.defaultAddress = rawPayload.default_address
 
     // in the following we are going to set virtual properties
     // e.g. from embeds. We want make sure that their fallback is undefined
@@ -386,6 +390,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       tags: this.tags,
       name_preference: this.namePreference,
       custom_properties: this.customProperties,
+      default_address: this.defaultAddress,
       analytics: this.analytics ? this.analytics.serialize() : undefined,
       emails: Array.isArray(this.emails) ? this.emails.map(item => item.serialize()) : undefined,
       addresses: Array.isArray(this._addresses)
