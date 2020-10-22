@@ -1,3 +1,10 @@
+# [3.33.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.32.1...v3.33.0) (2020-10-22)
+
+
+### Features
+
+* **Person:** added default_address to person and person payloads ([199a917](https://github.com/c-commerce/charles-browser-sdk/commit/199a9178b832649d3bc30a4756f22d6356e386f4))
+
 ## [3.32.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.32.0...v3.32.1) (2020-10-22)
 
 
