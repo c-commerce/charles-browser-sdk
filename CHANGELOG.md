@@ -1,3 +1,10 @@
+## [3.32.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.32.0...v3.32.1) (2020-10-22)
+
+
+### Bug Fixes
+
+* **message templates:** add attachment types & smart variable support ([1ea8c1a](https://github.com/c-commerce/charles-browser-sdk/commit/1ea8c1ae85e6b4979bc9c3bd57b9e0f56f2250c8))
+
 # [3.32.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.31.0...v3.32.0) (2020-10-21)
 
 
