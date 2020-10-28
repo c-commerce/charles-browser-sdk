@@ -34,6 +34,7 @@ import * as storefront from '../entities/storefront/storefront';
 import * as shippingMethod from '../entities/shipping-method/shipping-method';
 import * as route from '../entities/route/route';
 import * as thing from '../entities/thing/thing';
+import * as nlu from '../entities/nlu/nlu';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -238,6 +239,7 @@ export declare class Universe extends Readable {
     shippingMethod(payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod;
     route(payload: route.RouteRawPayload): route.Route;
     thing(payload: thing.ThingRawPayload): thing.Thing;
+    nlu(payload: nlu.NluRawPayload): nlu.Nlu;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -273,6 +275,7 @@ export declare class Universe extends Readable {
     shippingMethods(options?: EntityFetchOptions): Promise<shippingMethod.ShippingMethod[] | shippingMethod.ShippingMethodRawPayload[] | undefined>;
     routes(options?: EntityFetchOptions): Promise<route.Route[] | route.RouteRawPayload[] | undefined>;
     things(options?: EntityFetchOptions): Promise<thing.Thing[] | thing.ThingRawPayload[] | undefined>;
+    nlus(options?: EntityFetchOptions): Promise<nlu.Nlu[] | nlu.NluRawPayload[] | undefined>;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
