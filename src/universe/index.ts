@@ -47,6 +47,8 @@ import * as shippingMethod from '../entities/shipping-method/shipping-method'
 import * as route from '../entities/route/route'
 import * as thing from '../entities/thing/thing'
 
+import * as nlu from '../entities/nlu/nlu'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -616,6 +618,10 @@ export class Universe extends Readable {
 
   public thing (payload: thing.ThingRawPayload): thing.Thing {
     return thing.Thing.create(payload, this, this.http)
+  }
+
+  public nlu (payload: nlu.NluRawPayload): nlu.Nlu {
+    return nlu.Nlu.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1467,6 +1473,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new thing.ThingsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async nlus (options?: EntityFetchOptions): Promise<nlu.Nlu[] | nlu.NluRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${nlu.Nlus.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as nlu.NluRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: nlu.NluRawPayload) => {
+        return nlu.Nlu.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new nlu.NlusFetchRemoteError(undefined, { error: err })
     }
   }
 
