@@ -5,7 +5,7 @@ export interface MessageTemplateOptions extends EntityOptions {
     rawPayload?: MessageTemplateRawPayload;
 }
 export interface MessageTemplateRawPayloadAttachment {
-    type: 'image' | 'document' | string;
+    type: 'image' | 'document' | 'video' | 'audio' | 'asset' | string;
     mime_type?: string;
     payload: string | null | object;
 }
@@ -61,8 +61,9 @@ export interface MessageTemplateRawPayload {
             [key: string]: any;
         } | Array<{
             name?: string;
-            required?: boolean;
+            required?: boolean | null;
             order_index?: number;
+            logic?: object | null;
         }>;
     } | null;
     readonly notification?: boolean;

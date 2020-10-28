@@ -99,6 +99,7 @@ export interface PersonRawPayload extends EntityRawPayload {
     readonly phonenumbers?: PersonPhonenumberRawPayload[];
     readonly channel_users?: PersonChannelUserRawPayload[];
     readonly analytics?: PersonAnalyticsRawPayload;
+    readonly default_address?: string | null;
 }
 export interface IPersonCarts {
     fetch: Function;
@@ -146,6 +147,7 @@ export interface PersonPayload {
     readonly phonenumbers?: Phonenumber[];
     readonly channelUsers?: ChannelUser[];
     readonly analytics?: Analytics;
+    readonly defaultAddress?: PersonRawPayload['default_address'];
 }
 export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     protected universe: Universe;
@@ -176,6 +178,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     phonenumbers?: PersonPayload['phonenumbers'];
     channelUsers?: PersonPayload['channelUsers'];
     analytics?: PersonPayload['analytics'];
+    defaultAddress?: PersonPayload['defaultAddress'];
     constructor(options: PersonOptions);
     protected deserialize(rawPayload: PersonRawPayload): Person;
     static create(payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person;
