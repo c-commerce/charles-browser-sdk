@@ -46,8 +46,8 @@ import * as storefront from '../entities/storefront/storefront'
 import * as shippingMethod from '../entities/shipping-method/shipping-method'
 import * as route from '../entities/route/route'
 import * as thing from '../entities/thing/thing'
-
 import * as nlu from '../entities/nlu/nlu'
+import * as intent from '../entities/intent/intent'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -622,6 +622,10 @@ export class Universe extends Readable {
 
   public nlu (payload: nlu.NluRawPayload): nlu.Nlu {
     return nlu.Nlu.create(payload, this, this.http)
+  }
+
+  public intent (payload: intent.IntentRawPayload): intent.Intent {
+    return intent.Intent.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1495,6 +1499,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new nlu.NlusFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async intents (options?: EntityFetchOptions): Promise<intent.Intent[] | intent.IntentRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${intent.Intents.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as intent.IntentRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: intent.IntentRawPayload) => {
+        return intent.Intent.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new intent.IntentsFetchRemoteError(undefined, { error: err })
     }
   }
 
