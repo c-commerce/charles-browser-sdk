@@ -1,3 +1,10 @@
+# [3.35.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.34.0...v3.35.0) (2020-10-29)
+
+
+### Features
+
+* add intents ([306cb07](https://github.com/c-commerce/charles-browser-sdk/commit/306cb07aa9e93b3244a07bec04ead2506da222b6))
+
 # [3.34.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.33.0...v3.34.0) (2020-10-28)
 
 
