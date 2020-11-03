@@ -1,3 +1,10 @@
+# [3.36.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.35.0...v3.36.0) (2020-11-03)
+
+
+### Features
+
+* **base:** add put, save put ([7252f4e](https://github.com/c-commerce/charles-browser-sdk/commit/7252f4ee866f11f580c7e1d0eea8f030ca0b50e4))
+
 # [3.35.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.34.0...v3.35.0) (2020-10-29)
 
 

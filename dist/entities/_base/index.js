@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
+var just_omit_1 = tslib_1.__importDefault(require("just-omit"));
 var events_1 = require("events");
 var readable_stream_1 = require("readable-stream");
 var tapable_1 = require("tapable");
@@ -215,6 +216,51 @@ var Entity = (function (_super) {
             });
         });
     };
+    Entity.prototype.put = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this._put()];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Entity.prototype._put = function () {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var part, opts, response, err_5;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('put requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        part = just_omit_1.default(this.serialize(), ['id', 'created_at', 'updated_at']);
+                        opts = {
+                            method: 'PUT',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: part,
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        response = _c.sent();
+                        this.deserialize(response.data.data[0]);
+                        return [2, this];
+                    case 3:
+                        err_5 = _c.sent();
+                        throw new EntityPutError(undefined, { error: err_5 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     Entity.prototype.delete = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             return tslib_1.__generator(this, function (_a) {
@@ -228,7 +274,7 @@ var Entity = (function (_super) {
     Entity.prototype._delete = function () {
         var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, err_5;
+            var opts, err_6;
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -251,8 +297,8 @@ var Entity = (function (_super) {
                         _c.sent();
                         return [2, this];
                     case 3:
-                        err_5 = _c.sent();
-                        throw new EntityPostError(undefined, { error: err_5 });
+                        err_6 = _c.sent();
+                        throw new EntityPostError(undefined, { error: err_6 });
                     case 4: return [2];
                 }
             });
@@ -273,15 +319,19 @@ var Entity = (function (_super) {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!(this.id && payload)) return [3, 2];
-                        return [4, this.patch(payload)];
+                        if (!(this.id && payload === undefined)) return [3, 2];
+                        return [4, this.put()];
                     case 1: return [2, _a.sent()];
                     case 2:
-                        if (!(!this.id && payload)) return [3, 4];
+                        if (!(this.id && payload)) return [3, 4];
+                        return [4, this.patch(payload)];
+                    case 3: return [2, _a.sent()];
+                    case 4:
+                        if (!(!this.id && payload)) return [3, 6];
                         this.deserialize(payload);
                         return [4, this.post()];
-                    case 3: return [2, _a.sent()];
-                    case 4: throw new TypeError('save requires a sendable payload');
+                    case 5: return [2, _a.sent()];
+                    case 6: throw new TypeError('save requires a sendable payload');
                 }
             });
         });
@@ -313,6 +363,18 @@ var EntityPostError = (function (_super) {
     return EntityPostError;
 }(errors_1.BaseError));
 exports.EntityPostError = EntityPostError;
+var EntityPutError = (function (_super) {
+    tslib_1.__extends(EntityPutError, _super);
+    function EntityPutError(message, properties) {
+        if (message === void 0) { message = 'Could not alter resource unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EntityPutError';
+        return _this;
+    }
+    return EntityPutError;
+}(errors_1.BaseError));
+exports.EntityPutError = EntityPutError;
 var EntityFetchError = (function (_super) {
     tslib_1.__extends(EntityFetchError, _super);
     function EntityFetchError(message, properties) {

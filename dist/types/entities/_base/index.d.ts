@@ -55,6 +55,8 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     protected _applyPatch(patch: RawPatch): Promise<Entity<Payload, RawPayload>>;
     post(): Promise<Entity<Payload, RawPayload>>;
     protected _post(): Promise<Entity<Payload, RawPayload>>;
+    put(): Promise<Entity<Payload, RawPayload>>;
+    protected _put(): Promise<Entity<Payload, RawPayload>>;
     delete(): Promise<Entity<Payload, RawPayload>>;
     protected _delete(): Promise<Entity<Payload, RawPayload>>;
     save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>>;
@@ -66,6 +68,11 @@ export declare class EntityPatchError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class EntityPostError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EntityPutError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
