@@ -1,3 +1,4 @@
+import omit from 'just-omit'
 import { EventEmitter } from 'events'
 import { Readable, pipeline } from 'readable-stream'
 import {
@@ -247,6 +248,44 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   }
 
   /**
+   * Replace all properties on the remote.
+   */
+  public async put (): Promise<Entity<Payload, RawPayload>> {
+    // we allow implementers to override us by calling ._put directly and e.g. handle our error differently
+    return await this._put()
+  }
+
+  /**
+   * @ignore
+   */
+  protected async _put (): Promise<Entity<Payload, RawPayload>> {
+    if (this.id === null || this.id === undefined) throw new TypeError('put requires id to be set.')
+
+    try {
+      // NOTE: there seemed to be no successful TS cast
+      // @ts-ignore
+      const part: object = omit(this.serialize(), ['id', 'created_at', 'updated_at']) as object
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: part,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as RawPayload)
+
+      return this
+    } catch (err) {
+      throw new EntityPutError(undefined, { error: err })
+    }
+  }
+
+  /**
    * Delete this object on the remote.
    */
   public async delete (): Promise<Entity<Payload, RawPayload>> {
@@ -283,7 +322,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   }
 
   /**
-   * Save a change to this local object, by either creating or patching it on the remote.
+   * Save a change to this local object, by either creating or patching it or replacing all proeprties on the remote.
    * @param payload
    */
   public async save (payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
@@ -295,6 +334,10 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
    * @ignore
    */
   protected async _save (payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
+    if (this.id && payload === undefined) {
+      return await this.put()
+    }
+
     if (this.id && payload) {
       return await this.patch(payload)
     }
@@ -319,6 +362,13 @@ export class EntityPatchError extends BaseError {
 export class EntityPostError extends BaseError {
   public name = 'EntityPostError'
   constructor (public message: string = 'Could not create resource unexpectedly.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EntityPutError extends BaseError {
+  public name = 'EntityPutError'
+  constructor (public message: string = 'Could not alter resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
