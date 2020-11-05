@@ -1,3 +1,10 @@
+## [3.36.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.2...v3.36.3) (2020-11-05)
+
+
+### Bug Fixes
+
+* **asset:** align compat key to api ([d961d93](https://github.com/c-commerce/charles-browser-sdk/commit/d961d938de8bcae69e25b81ab32c5905b0e328b1))
+
 ## [3.36.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.1...v3.36.2) (2020-11-05)
 
 
