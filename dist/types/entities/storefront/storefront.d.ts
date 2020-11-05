@@ -62,6 +62,7 @@ export declare class Storefront extends Entity<StorefrontPayload, StorefrontRawP
     syncProducts(): Promise<number | undefined>;
     syncOrders(): Promise<number | undefined>;
     syncInventories(): Promise<number | undefined>;
+    syncLocations(): Promise<number | undefined>;
 }
 export declare class Storefronts {
     static endpoint: string;
@@ -97,6 +98,11 @@ export declare class StorefrontSyncInventoriesRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class StorefrontSetupRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class StorefrontSyncLocationsRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

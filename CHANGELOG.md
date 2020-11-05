@@ -1,3 +1,10 @@
+# [3.38.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.37.0...v3.38.0) (2020-11-05)
+
+
+### Features
+
+* **storefront:** implement sync locations ([19ccfe9](https://github.com/c-commerce/charles-browser-sdk/commit/19ccfe9304c2d99846b6a37638579672cb85f668))
+
 # [3.37.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.4...v3.37.0) (2020-11-05)
 
 
