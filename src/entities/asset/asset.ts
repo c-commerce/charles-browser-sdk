@@ -188,6 +188,7 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
 export interface AssetsPostOptions {
   public?: boolean
   transform?: object
+  optimizations: Array<'whatsapp_compat' | string>
 }
 
 export class Assets {
@@ -211,8 +212,8 @@ export class Assets {
           'Content-Type': 'multipart/form-data'
         },
         params: {
-          ...options,
-          public: true
+          public: true,
+          ...options
         }
       }
 
