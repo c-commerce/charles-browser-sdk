@@ -80,20 +80,20 @@ var Asset = (function (_super) {
     Asset.prototype.upload = function (payload, options) {
         var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, data, err_2;
+            var queryOptions, opts, res, data, err_2;
             var _this = this;
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
+                        queryOptions = tslib_1.__assign({ public: true }, options);
                         opts = {
                             timeout: 60000,
                             headers: {
                                 'Content-Type': 'multipart/form-data'
-                            },
-                            params: tslib_1.__assign(tslib_1.__assign({}, options), { public: true })
+                            }
                         };
-                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(((_b = this.universe) === null || _b === void 0 ? void 0 : _b.universeBase) + "/" + Assets.endpoint, payload, opts))];
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(((_b = this.universe) === null || _b === void 0 ? void 0 : _b.universeBase) + "/" + Assets.endpoint + qs_1.default.stringify(queryOptions, { addQueryPrefix: true }), payload, opts))];
                     case 1:
                         res = _c.sent();
                         data = res === null || res === void 0 ? void 0 : res.data.data;
@@ -111,15 +111,16 @@ var Asset = (function (_super) {
     Asset.prototype.uploadAndTransform = function (payload, contentType, options) {
         var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, data, err_3;
+            var queryOptions, opts, res, data, err_3;
             var _this = this;
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
+                        queryOptions = tslib_1.__assign({ public: true }, options);
                         opts = {
                             method: 'POST',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + Assets.endpoint + (options ? qs_1.default.stringify(options, { addQueryPrefix: true }) : ''),
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + Assets.endpoint + qs_1.default.stringify(queryOptions, { addQueryPrefix: true }),
                             headers: {
                                 'Content-Type': contentType
                             },
@@ -152,20 +153,20 @@ var Assets = (function () {
     Assets.prototype.post = function (payload, options) {
         var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, data, err_4;
+            var queryOptions, opts, res, data, err_4;
             var _this = this;
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         _c.trys.push([0, 2, , 3]);
+                        queryOptions = tslib_1.__assign({ public: true }, options);
                         opts = {
                             timeout: 60000,
                             headers: {
                                 'Content-Type': 'multipart/form-data'
-                            },
-                            params: tslib_1.__assign({ public: true }, options)
+                            }
                         };
-                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(((_b = this.universe) === null || _b === void 0 ? void 0 : _b.universeBase) + "/" + Assets.endpoint, payload, opts))];
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(((_b = this.universe) === null || _b === void 0 ? void 0 : _b.universeBase) + "/" + Assets.endpoint + qs_1.default.stringify(queryOptions, { addQueryPrefix: true }), payload, opts))];
                     case 1:
                         res = _c.sent();
                         data = res === null || res === void 0 ? void 0 : res.data.data;

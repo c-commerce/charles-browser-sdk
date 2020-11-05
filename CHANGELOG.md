@@ -1,3 +1,10 @@
+## [3.36.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.1...v3.36.2) (2020-11-05)
+
+
+### Bug Fixes
+
+* **assets:** harmonize query options ([3f3e042](https://github.com/c-commerce/charles-browser-sdk/commit/3f3e042c7b2128d770d19b07abdb69d5ebbf272a))
+
 ## [3.36.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.0...v3.36.1) (2020-11-05)
 
 
