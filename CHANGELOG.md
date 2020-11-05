@@ -1,3 +1,10 @@
+## [3.36.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.0...v3.36.1) (2020-11-05)
+
+
+### Bug Fixes
+
+* **assets:** allow override of .public, add optimisations ([3d3c10f](https://github.com/c-commerce/charles-browser-sdk/commit/3d3c10fcfb86dc933aade1f3c1636f3baa12259d))
+
 # [3.36.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.35.0...v3.36.0) (2020-11-03)
 
 

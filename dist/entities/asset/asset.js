@@ -163,7 +163,7 @@ var Assets = (function () {
                             headers: {
                                 'Content-Type': 'multipart/form-data'
                             },
-                            params: tslib_1.__assign(tslib_1.__assign({}, options), { public: true })
+                            params: tslib_1.__assign({ public: true }, options)
                         };
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(((_b = this.universe) === null || _b === void 0 ? void 0 : _b.universeBase) + "/" + Assets.endpoint, payload, opts))];
                     case 1:
