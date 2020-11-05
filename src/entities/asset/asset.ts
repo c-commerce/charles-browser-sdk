@@ -138,18 +138,19 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
 
   public async upload (payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined> {
     try {
+      const queryOptions = {
+        public: true,
+        ...options
+      }
+
       const opts = {
         timeout: 60000,
         headers: {
           'Content-Type': 'multipart/form-data'
-        },
-        params: {
-          ...options,
-          public: true
         }
       }
 
-      const res = await this.http?.getClient().post(`${this.universe?.universeBase}/${Assets.endpoint}`, payload, opts)
+      const res = await this.http?.getClient().post(`${this.universe?.universeBase}/${Assets.endpoint}${qs.stringify(queryOptions, { addQueryPrefix: true })}`, payload, opts)
       const data = res?.data.data as AssetRawPayload[]
       return data.map((item: AssetRawPayload) => {
         return Asset.create(item, this.universe, this.http)
@@ -161,9 +162,14 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
 
   public async uploadAndTransform (payload: FormData | AssetRawPayload[] | string, contentType: string, options?: AssetsPostOptions): Promise<Asset[]> {
     try {
+      const queryOptions = {
+        public: true,
+        ...options
+      }
+
       const opts = {
         method: 'POST',
-        url: `${this.universe?.universeBase}/${Assets.endpoint}${options ? qs.stringify(options, { addQueryPrefix: true }) : ''}`,
+        url: `${this.universe?.universeBase}/${Assets.endpoint}${qs.stringify(queryOptions, { addQueryPrefix: true })}`,
         headers: {
           'Content-Type': contentType
         },
@@ -206,18 +212,19 @@ export class Assets {
 
   public async post (payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined> {
     try {
+      const queryOptions = {
+        public: true,
+        ...options
+      }
+
       const opts = {
         timeout: 60000,
         headers: {
           'Content-Type': 'multipart/form-data'
-        },
-        params: {
-          public: true,
-          ...options
         }
       }
 
-      const res = await this.http?.getClient().post(`${this.universe?.universeBase}/${Assets.endpoint}`, payload, opts)
+      const res = await this.http?.getClient().post(`${this.universe?.universeBase}/${Assets.endpoint}${qs.stringify(queryOptions, { addQueryPrefix: true })}`, payload, opts)
       const data = res?.data.data as AssetRawPayload[]
       return data.map((item: AssetRawPayload) => {
         return Asset.create(item, this.universe, this.http)
