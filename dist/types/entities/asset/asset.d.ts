@@ -8,6 +8,7 @@ export interface AssetsOptions {
     http: Universe['http'];
     universe: Universe;
 }
+export declare type AssetOptimizationType = 'whatsapp_video_compat' | string;
 export interface AssetRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
@@ -21,6 +22,10 @@ export interface AssetRawPayload extends EntityRawPayload {
     readonly comment?: string;
     readonly metadata?: object | null;
     readonly public?: boolean;
+    readonly optimizations?: Array<{
+        type: AssetOptimizationType;
+        payload: string;
+    }> | null;
 }
 export interface AssetPayload {
     readonly id?: AssetRawPayload['id'];
@@ -36,6 +41,7 @@ export interface AssetPayload {
     readonly comment?: string;
     readonly metadata?: object | null;
     readonly public?: boolean;
+    readonly optimizations?: AssetRawPayload['optimizations'];
 }
 export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
     protected universe: Universe;
@@ -56,6 +62,7 @@ export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
     comment?: AssetPayload['comment'];
     metadata?: AssetPayload['metadata'];
     public?: AssetPayload['public'];
+    optimizations?: AssetPayload['optimizations'];
     constructor(options: AssetOptions);
     protected deserialize(rawPayload: AssetRawPayload): Asset;
     static create(payload: AssetRawPayload, universe: Universe, http: Universe['http']): Asset;
@@ -67,7 +74,7 @@ export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
 export interface AssetsPostOptions {
     public?: boolean;
     transform?: object;
-    optimizations: Array<'whatsapp_video_compat' | string>;
+    optimizations: AssetOptimizationType[];
 }
 export declare class Assets {
     protected http: Universe['http'];

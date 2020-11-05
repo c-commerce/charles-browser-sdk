@@ -1,3 +1,10 @@
+## [3.36.4](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.3...v3.36.4) (2020-11-05)
+
+
+### Bug Fixes
+
+* **assets:** expose optim ([f51005c](https://github.com/c-commerce/charles-browser-sdk/commit/f51005c4d4ba7f1769e642062f4d94cfe6ba6cca))
+
 ## [3.36.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.2...v3.36.3) (2020-11-05)
 
 

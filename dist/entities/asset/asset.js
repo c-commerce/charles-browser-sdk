@@ -35,6 +35,7 @@ var Asset = (function (_super) {
         this.comment = rawPayload.comment;
         this.metadata = rawPayload.metadata;
         this.public = rawPayload.public;
+        this.optimizations = rawPayload.optimizations;
         return this;
     };
     Asset.create = function (payload, universe, http) {
@@ -55,7 +56,8 @@ var Asset = (function (_super) {
             original_name: this.originalName,
             comment: this.comment,
             metadata: (_c = this.metadata) !== null && _c !== void 0 ? _c : null,
-            public: (_d = this.public) !== null && _d !== void 0 ? _d : false
+            public: (_d = this.public) !== null && _d !== void 0 ? _d : false,
+            optimizations: this.optimizations
         };
     };
     Asset.prototype.init = function () {

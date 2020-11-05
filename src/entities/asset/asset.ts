@@ -13,6 +13,8 @@ export interface AssetsOptions {
   universe: Universe
 }
 
+export type AssetOptimizationType = 'whatsapp_video_compat' | string
+
 export interface AssetRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
@@ -26,6 +28,10 @@ export interface AssetRawPayload extends EntityRawPayload {
   readonly comment?: string
   readonly metadata?: object | null
   readonly public?: boolean
+  readonly optimizations?: Array<{
+    type: AssetOptimizationType
+    payload: string
+  }> | null
 }
 
 export interface AssetPayload {
@@ -42,6 +48,7 @@ export interface AssetPayload {
   readonly comment?: string
   readonly metadata?: object | null
   readonly public?: boolean
+  readonly optimizations?: AssetRawPayload['optimizations']
 }
 
 /**
@@ -70,6 +77,7 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
   public comment?: AssetPayload['comment']
   public metadata?: AssetPayload['metadata']
   public public?: AssetPayload['public']
+  public optimizations?: AssetPayload['optimizations']
 
   constructor (options: AssetOptions) {
     super()
@@ -100,6 +108,7 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
     this.comment = rawPayload.comment
     this.metadata = rawPayload.metadata
     this.public = rawPayload.public
+    this.optimizations = rawPayload.optimizations
 
     return this
   }
@@ -122,7 +131,8 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
       original_name: this.originalName,
       comment: this.comment,
       metadata: this.metadata ?? null,
-      public: this.public ?? false
+      public: this.public ?? false,
+      optimizations: this.optimizations
     }
   }
 
@@ -194,7 +204,7 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
 export interface AssetsPostOptions {
   public?: boolean
   transform?: object
-  optimizations: Array<'whatsapp_video_compat' | string>
+  optimizations: AssetOptimizationType[]
 }
 
 export class Assets {
