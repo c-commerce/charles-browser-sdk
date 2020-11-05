@@ -194,7 +194,7 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
 export interface AssetsPostOptions {
   public?: boolean
   transform?: object
-  optimizations: Array<'whatsapp_compat' | string>
+  optimizations: Array<'whatsapp_video_compat' | string>
 }
 
 export class Assets {
