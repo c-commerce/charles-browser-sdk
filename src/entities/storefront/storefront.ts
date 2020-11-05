@@ -152,7 +152,7 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
   }
 
   public async syncProducts (): Promise<number | undefined> {
-    if (this.id === null || this.id === undefined) throw new TypeError('storefront setup requires id to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront syncProducts requires id to be set.')
 
     try {
       const opts = {
@@ -173,7 +173,7 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
   }
 
   public async syncOrders (): Promise<number | undefined> {
-    if (this.id === null || this.id === undefined) throw new TypeError('storefront setup requires id to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront syncOrders requires id to be set.')
     try {
       const opts = {
         method: 'PUT',
@@ -193,7 +193,7 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
   }
 
   public async syncInventories (): Promise<number | undefined> {
-    if (this.id === null || this.id === undefined) throw new TypeError('storefront setup requires id to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront syncInventories requires id to be set.')
     try {
       const opts = {
         method: 'PUT',
@@ -209,6 +209,26 @@ export class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> 
       return res.status
     } catch (err) {
       throw this.handleError(new StorefrontSyncInventoriesRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async syncLocations (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront syncLocations requires id to be set.')
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/locations`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new StorefrontSyncLocationsRemoteError(undefined, { error: err }))
     }
   }
 }
@@ -267,5 +287,12 @@ export class StorefrontSetupRemoteError extends BaseError {
   constructor (public message: string = 'Could not setup storefront.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, StorefrontSetupRemoteError.prototype)
+  }
+}
+export class StorefrontSyncLocationsRemoteError extends BaseError {
+  public name = 'StorefrontSyncLocationsRemoteError'
+  constructor (public message: string = 'Could not sync locations of storefront.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, StorefrontSyncLocationsRemoteError.prototype)
   }
 }
