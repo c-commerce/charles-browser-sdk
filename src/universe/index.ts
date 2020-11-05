@@ -49,6 +49,8 @@ import * as thing from '../entities/thing/thing'
 import * as nlu from '../entities/nlu/nlu'
 import * as intent from '../entities/intent/intent'
 
+import * as location from '../entities/location/location'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -626,6 +628,10 @@ export class Universe extends Readable {
 
   public intent (payload: intent.IntentRawPayload): intent.Intent {
     return intent.Intent.create(payload, this, this.http)
+  }
+
+  public location (payload: location.LocationRawPayload): location.Location {
+    return location.Location.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1521,6 +1527,28 @@ export class Universe extends Readable {
       })
     } catch (err) {
       throw new intent.IntentsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async locations (options?: EntityFetchOptions): Promise<location.Location[] | location.LocationRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${location.Locations.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as location.LocationRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: location.LocationRawPayload) => {
+        return location.Location.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new location.LocationsFetchRemoteError(undefined, { error: err })
     }
   }
 
