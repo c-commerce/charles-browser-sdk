@@ -1,3 +1,10 @@
+# [3.37.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.4...v3.37.0) (2020-11-05)
+
+
+### Features
+
+* **locations:** add resource locations ([48f51ca](https://github.com/c-commerce/charles-browser-sdk/commit/48f51caed5c2e967e2d3994edc69aa94b8225b55))
+
 ## [3.36.4](https://github.com/c-commerce/charles-browser-sdk/compare/v3.36.3...v3.36.4) (2020-11-05)
 
 

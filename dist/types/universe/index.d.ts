@@ -36,6 +36,7 @@ import * as route from '../entities/route/route';
 import * as thing from '../entities/thing/thing';
 import * as nlu from '../entities/nlu/nlu';
 import * as intent from '../entities/intent/intent';
+import * as location from '../entities/location/location';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -242,6 +243,7 @@ export declare class Universe extends Readable {
     thing(payload: thing.ThingRawPayload): thing.Thing;
     nlu(payload: nlu.NluRawPayload): nlu.Nlu;
     intent(payload: intent.IntentRawPayload): intent.Intent;
+    location(payload: location.LocationRawPayload): location.Location;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -279,6 +281,7 @@ export declare class Universe extends Readable {
     things(options?: EntityFetchOptions): Promise<thing.Thing[] | thing.ThingRawPayload[] | undefined>;
     nlus(options?: EntityFetchOptions): Promise<nlu.Nlu[] | nlu.NluRawPayload[] | undefined>;
     intents(options?: EntityFetchOptions): Promise<intent.Intent[] | intent.IntentRawPayload[] | undefined>;
+    locations(options?: EntityFetchOptions): Promise<location.Location[] | location.LocationRawPayload[] | undefined>;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
