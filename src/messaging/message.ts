@@ -1,12 +1,12 @@
-import { EventEmitter } from 'events'
+import Entity, { EntityOptions, EntityRawPayload } from '../entities/_base'
 import { Universe } from '../universe'
 import { BaseError } from '../errors'
 import { Person, PersonRawPayload } from '../entities/person'
-import { Assets, Asset, AssetRawPayload, AssetsPostError } from '../entities/asset/asset'
+import { Assets, Asset } from '../entities/asset/asset'
 import { FeedRawPayload, Feed } from '../eventing/feeds'
 import { Event } from '../eventing/feeds/event'
 
-export interface MessageOptions {
+export interface MessageOptions extends EntityOptions {
   universe: Universe
   http: Universe['http']
   rawPayload?: MessageRawPayload
@@ -21,7 +21,7 @@ export interface MessageRawPayloadAttachment {
   payload: string | null | object
 }
 
-export interface MessageRawPayload {
+export interface MessageRawPayload extends EntityRawPayload {
   readonly id?: string
   readonly source_type?: string
   readonly source_api?: string
@@ -97,78 +97,95 @@ export interface MessagePayload {
 
 // export type Message = MessagePayload
 
-export class Message extends EventEmitter {
+export class Message extends Entity<MessagePayload, MessageRawPayload> {
   protected universe: Universe
   protected http: Universe['http']
   protected options: MessageOptions
+  public initialized: boolean
 
-  public readonly id?: string
-  public readonly sourceType?: string
-  public readonly sourceApi?: string
-  public readonly tz?: string
-  public readonly date?: Date | null
+  public endpoint: string
+
+  public id?: string
+  public sourceType?: string
+  public sourceApi?: string
+  public tz?: string
+  public date?: Date | null
   public contentType?: MessageRawPayload['content_type']
   public content?: MessageRawPayload['content']
-  public readonly externalReferenceId?: string
-  public readonly externalPersonReferenceId?: string
-  public readonly externalChannelReferenceId?: string
-  public readonly rawMessage?: string
-  public readonly createdAt?: Date | null
-  public readonly updatedAt?: Date | null
-  public readonly rawPayload?: string
-  public readonly broker?: string
-  public readonly deleted?: string
-  public readonly isProcessed?: string
-  public readonly processedData?: string
-  public readonly replyables?: MessageRawPayload['replyables']
-  public readonly author?: MessageRawPayload['author']
-  public readonly person?: Person
-  public readonly feed?: Feed
+  public externalReferenceId?: string
+  public externalPersonReferenceId?: string
+  public externalChannelReferenceId?: string
+  public rawMessage?: string
+  public createdAt?: Date | null
+  public updatedAt?: Date | null
+  public rawPayload?: string
+  public broker?: string
+  public deleted?: string
+  public isProcessed?: string
+  public processedData?: string
+  public replyables?: MessageRawPayload['replyables']
+  public author?: MessageRawPayload['author']
+  public person?: Person
+  public feed?: Feed
 
   constructor (options: MessageOptions) {
     super()
     this.universe = options.universe
+    this.endpoint = 'api/v0/messages'
     this.http = options.http
     this.options = options
+    this.initialized = options.initialized ?? false
 
     if (options?.rawPayload) {
-      this.id = options.rawPayload.id
-      this.sourceType = options.rawPayload.source_type
-      this.sourceApi = options.rawPayload.source_api
-      this.tz = options.rawPayload.tz
-      this.date = options.rawPayload.date ? new Date(options.rawPayload.date) : null
-      this.contentType = options.rawPayload.content_type
-      this.content = options.rawPayload.content
-      this.externalReferenceId = options.rawPayload.external_reference_id
-      this.externalPersonReferenceId = options.rawPayload.external_person_reference_id
-      this.externalChannelReferenceId = options.rawPayload.external_channel_reference_id
-      this.rawMessage = options.rawPayload.raw_message
-      this.createdAt = options.rawPayload.created_at ? new Date(options.rawPayload.created_at) : null
-      this.updatedAt = options.rawPayload.updated_at ? new Date(options.rawPayload.updated_at) : null
-      this.rawPayload = options.rawPayload.raw_payload
-      this.broker = options.rawPayload.broker
-      this.deleted = options.rawPayload.deleted
-      this.isProcessed = options.rawPayload.is_processed
-      this.processedData = options.rawPayload.processed_data
-      this.replyables = options.rawPayload.replyables
-      this.author = options.rawPayload.author
-      this.person = options.rawPayload.person ? Person.create({ id: options.rawPayload.person }, this.universe, this.http) : undefined
-
-      if (options.feed) {
-        this.feed = options.feed
-      } else if (options.rawPayload.feed) {
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-        this.feed = {
-          id: options.rawPayload.feed
-        } as Feed
-      } else {
-        this.feed = undefined
-      }
+      this.deserialize(options.rawPayload, options)
     }
   }
 
   public static deserialize (payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message {
     return new Message({ rawPayload: payload, universe, http, feed })
+  }
+
+  protected deserialize (rawPayload: MessageRawPayload, options?: MessageOptions): Message {
+    this.setRawPayload(rawPayload)
+
+    this.id = rawPayload.id
+    this.sourceType = rawPayload.source_type
+    this.sourceApi = rawPayload.source_api
+    this.tz = rawPayload.tz
+    this.date = rawPayload.date ? new Date(rawPayload.date) : null
+    this.contentType = rawPayload.content_type
+    this.content = rawPayload.content
+    this.externalReferenceId = rawPayload.external_reference_id
+    this.externalPersonReferenceId = rawPayload.external_person_reference_id
+    this.externalChannelReferenceId = rawPayload.external_channel_reference_id
+    this.rawMessage = rawPayload.raw_message
+    this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : null
+    this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : null
+    this.rawPayload = rawPayload.raw_payload
+    this.broker = rawPayload.broker
+    this.deleted = rawPayload.deleted
+    this.isProcessed = rawPayload.is_processed
+    this.processedData = rawPayload.processed_data
+    this.replyables = rawPayload.replyables
+    this.author = rawPayload.author
+    this.person = rawPayload.person ? Person.create({ id: rawPayload.person }, this.universe, this.http) : undefined
+
+    if (options?.feed) {
+      this.feed = options.feed
+    } else if (rawPayload.feed) {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      this.feed = {
+        id: rawPayload.feed
+      } as Feed
+    } else {
+      this.feed = undefined
+    }
+
+    return this
+  }
+
+  public static create (payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message {
+    return new Message({ rawPayload: payload, universe, http, initialized: true, feed })
   }
 
   public serialize (): MessageRawPayload {
@@ -222,8 +239,14 @@ export class Message extends EventEmitter {
     })
   }
 
-  private handleError (err: Error): void {
-    if (this.listeners('error').length > 0) this.emit('error', err)
+  public async init (): Promise<Message | undefined> {
+    try {
+      await this.fetch()
+
+      return this
+    } catch (err) {
+      throw this.handleError(new MessageInitializationError(undefined, { error: err }))
+    }
   }
 }
 
@@ -380,6 +403,13 @@ export class MessagesReplyError extends BaseError {
     public message: string = 'Could not send reply unexpectedly.',
     properties?: any
   ) {
+    super(message, properties)
+  }
+}
+
+export class MessageInitializationError extends BaseError {
+  public name = 'MessageInitializationError'
+  constructor (public message: string = 'Could not initialize message.', properties?: any) {
     super(message, properties)
   }
 }
