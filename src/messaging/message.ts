@@ -170,6 +170,9 @@ export class Message extends Entity<MessagePayload, MessageRawPayload> {
     this.author = rawPayload.author
     this.person = rawPayload.person ? Person.create({ id: rawPayload.person }, this.universe, this.http) : undefined
 
+    // TODO: check if this functionality is still needed or at all wanted. What
+    // we likely try to achieve is harmonizing messages from from fetches and MQTT events.
+    // However this might lead to subtle bugs, see below...
     if (options?.feed) {
       this.feed = options.feed
     } else if (rawPayload.feed) {
@@ -211,6 +214,7 @@ export class Message extends Entity<MessagePayload, MessageRawPayload> {
       replyables: this.replyables,
       author: this.author,
       person: this.person ? this.person.id : undefined,
+      // TODO: this likely seems a bug because of the above, associated comment
       feed: this.feed ? this.feed.id : undefined
     }
   }
