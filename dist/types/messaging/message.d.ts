@@ -1,12 +1,11 @@
-/// <reference types="node" />
-import { EventEmitter } from 'events';
+import Entity, { EntityOptions, EntityRawPayload } from '../entities/_base';
 import { Universe } from '../universe';
 import { BaseError } from '../errors';
 import { Person, PersonRawPayload } from '../entities/person';
 import { Asset } from '../entities/asset/asset';
 import { FeedRawPayload, Feed } from '../eventing/feeds';
 import { Event } from '../eventing/feeds/event';
-export interface MessageOptions {
+export interface MessageOptions extends EntityOptions {
     universe: Universe;
     http: Universe['http'];
     rawPayload?: MessageRawPayload;
@@ -17,7 +16,7 @@ export interface MessageRawPayloadAttachment {
     mime_type?: string;
     payload: string | null | object;
 }
-export interface MessageRawPayload {
+export interface MessageRawPayload extends EntityRawPayload {
     readonly id?: string;
     readonly source_type?: string;
     readonly source_api?: string;
@@ -89,38 +88,42 @@ export interface MessagePayload {
     readonly person?: Person;
     readonly feed?: Feed;
 }
-export declare class Message extends EventEmitter {
+export declare class Message extends Entity<MessagePayload, MessageRawPayload> {
     protected universe: Universe;
     protected http: Universe['http'];
     protected options: MessageOptions;
-    readonly id?: string;
-    readonly sourceType?: string;
-    readonly sourceApi?: string;
-    readonly tz?: string;
-    readonly date?: Date | null;
+    initialized: boolean;
+    endpoint: string;
+    id?: string;
+    sourceType?: string;
+    sourceApi?: string;
+    tz?: string;
+    date?: Date | null;
     contentType?: MessageRawPayload['content_type'];
     content?: MessageRawPayload['content'];
-    readonly externalReferenceId?: string;
-    readonly externalPersonReferenceId?: string;
-    readonly externalChannelReferenceId?: string;
-    readonly rawMessage?: string;
-    readonly createdAt?: Date | null;
-    readonly updatedAt?: Date | null;
-    readonly rawPayload?: string;
-    readonly broker?: string;
-    readonly deleted?: string;
-    readonly isProcessed?: string;
-    readonly processedData?: string;
-    readonly replyables?: MessageRawPayload['replyables'];
-    readonly author?: MessageRawPayload['author'];
-    readonly person?: Person;
-    readonly feed?: Feed;
+    externalReferenceId?: string;
+    externalPersonReferenceId?: string;
+    externalChannelReferenceId?: string;
+    rawMessage?: string;
+    createdAt?: Date | null;
+    updatedAt?: Date | null;
+    rawPayload?: string;
+    broker?: string;
+    deleted?: string;
+    isProcessed?: string;
+    processedData?: string;
+    replyables?: MessageRawPayload['replyables'];
+    author?: MessageRawPayload['author'];
+    person?: Person;
+    feed?: Feed;
     constructor(options: MessageOptions);
     static deserialize(payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message;
+    protected deserialize(rawPayload: MessageRawPayload, options?: MessageOptions): Message;
+    static create(payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message;
     serialize(): MessageRawPayload;
     reply(contentOptions: MessageReplyContentOptions): MessageReply;
     replyFeed(contentOptions: MessageReplyContentOptions): MessageFeedReply;
-    private handleError;
+    init(): Promise<Message | undefined>;
 }
 export interface MessageReplyContentOptions {
     content: MessagePayload['content'];
@@ -149,6 +152,11 @@ export declare class MessageFeedReply extends Reply {
     send(): Promise<ReplyResponse | undefined>;
 }
 export declare class MessagesReplyError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageInitializationError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

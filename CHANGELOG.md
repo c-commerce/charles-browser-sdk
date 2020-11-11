@@ -1,3 +1,10 @@
+# [3.39.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.38.0...v3.39.0) (2020-11-11)
+
+
+### Features
+
+* **message:** allow entity functionality ([bf8047c](https://github.com/c-commerce/charles-browser-sdk/commit/bf8047cbbc802334e808ed0dbcf17d670a4e7052))
+
 # [3.38.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.37.0...v3.38.0) (2020-11-05)
 
 

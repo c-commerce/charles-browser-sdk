@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
-var events_1 = require("events");
+var _base_1 = tslib_1.__importDefault(require("../entities/_base"));
 var errors_1 = require("../errors");
 var person_1 = require("../entities/person");
 var asset_1 = require("../entities/asset/asset");
@@ -9,48 +9,59 @@ var event_1 = require("../eventing/feeds/event");
 var Message = (function (_super) {
     tslib_1.__extends(Message, _super);
     function Message(options) {
+        var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.endpoint = 'api/v0/messages';
         _this.http = options.http;
         _this.options = options;
+        _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
         if (options === null || options === void 0 ? void 0 : options.rawPayload) {
-            _this.id = options.rawPayload.id;
-            _this.sourceType = options.rawPayload.source_type;
-            _this.sourceApi = options.rawPayload.source_api;
-            _this.tz = options.rawPayload.tz;
-            _this.date = options.rawPayload.date ? new Date(options.rawPayload.date) : null;
-            _this.contentType = options.rawPayload.content_type;
-            _this.content = options.rawPayload.content;
-            _this.externalReferenceId = options.rawPayload.external_reference_id;
-            _this.externalPersonReferenceId = options.rawPayload.external_person_reference_id;
-            _this.externalChannelReferenceId = options.rawPayload.external_channel_reference_id;
-            _this.rawMessage = options.rawPayload.raw_message;
-            _this.createdAt = options.rawPayload.created_at ? new Date(options.rawPayload.created_at) : null;
-            _this.updatedAt = options.rawPayload.updated_at ? new Date(options.rawPayload.updated_at) : null;
-            _this.rawPayload = options.rawPayload.raw_payload;
-            _this.broker = options.rawPayload.broker;
-            _this.deleted = options.rawPayload.deleted;
-            _this.isProcessed = options.rawPayload.is_processed;
-            _this.processedData = options.rawPayload.processed_data;
-            _this.replyables = options.rawPayload.replyables;
-            _this.author = options.rawPayload.author;
-            _this.person = options.rawPayload.person ? person_1.Person.create({ id: options.rawPayload.person }, _this.universe, _this.http) : undefined;
-            if (options.feed) {
-                _this.feed = options.feed;
-            }
-            else if (options.rawPayload.feed) {
-                _this.feed = {
-                    id: options.rawPayload.feed
-                };
-            }
-            else {
-                _this.feed = undefined;
-            }
+            _this.deserialize(options.rawPayload, options);
         }
         return _this;
     }
     Message.deserialize = function (payload, universe, http, feed) {
         return new Message({ rawPayload: payload, universe: universe, http: http, feed: feed });
+    };
+    Message.prototype.deserialize = function (rawPayload, options) {
+        this.setRawPayload(rawPayload);
+        this.id = rawPayload.id;
+        this.sourceType = rawPayload.source_type;
+        this.sourceApi = rawPayload.source_api;
+        this.tz = rawPayload.tz;
+        this.date = rawPayload.date ? new Date(rawPayload.date) : null;
+        this.contentType = rawPayload.content_type;
+        this.content = rawPayload.content;
+        this.externalReferenceId = rawPayload.external_reference_id;
+        this.externalPersonReferenceId = rawPayload.external_person_reference_id;
+        this.externalChannelReferenceId = rawPayload.external_channel_reference_id;
+        this.rawMessage = rawPayload.raw_message;
+        this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : null;
+        this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : null;
+        this.rawPayload = rawPayload.raw_payload;
+        this.broker = rawPayload.broker;
+        this.deleted = rawPayload.deleted;
+        this.isProcessed = rawPayload.is_processed;
+        this.processedData = rawPayload.processed_data;
+        this.replyables = rawPayload.replyables;
+        this.author = rawPayload.author;
+        this.person = rawPayload.person ? person_1.Person.create({ id: rawPayload.person }, this.universe, this.http) : undefined;
+        if (options === null || options === void 0 ? void 0 : options.feed) {
+            this.feed = options.feed;
+        }
+        else if (rawPayload.feed) {
+            this.feed = {
+                id: rawPayload.feed
+            };
+        }
+        else {
+            this.feed = undefined;
+        }
+        return this;
+    };
+    Message.create = function (payload, universe, http, feed) {
+        return new Message({ rawPayload: payload, universe: universe, http: http, initialized: true, feed: feed });
     };
     Message.prototype.serialize = function () {
         return {
@@ -88,12 +99,27 @@ var Message = (function (_super) {
                 content: contentOptions.content
             } }, contentOptions));
     };
-    Message.prototype.handleError = function (err) {
-        if (this.listeners('error').length > 0)
-            this.emit('error', err);
+    Message.prototype.init = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var err_1;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.fetch()];
+                    case 1:
+                        _a.sent();
+                        return [2, this];
+                    case 2:
+                        err_1 = _a.sent();
+                        throw this.handleError(new MessageInitializationError(undefined, { error: err_1 }));
+                    case 3: return [2];
+                }
+            });
+        });
     };
     return Message;
-}(events_1.EventEmitter));
+}(_base_1.default));
 exports.Message = Message;
 var Reply = (function (_super) {
     tslib_1.__extends(Reply, _super);
@@ -102,7 +128,7 @@ var Reply = (function (_super) {
     }
     Reply.prototype.prepareSendWithAssets = function (payload) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var assetsHandler, data, err_1;
+            var assetsHandler, data, err_2;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -116,8 +142,8 @@ var Reply = (function (_super) {
                         data = _a.sent();
                         return [2, data];
                     case 2:
-                        err_1 = _a.sent();
-                        throw err_1;
+                        err_2 = _a.sent();
+                        throw err_2;
                     case 3: return [2];
                 }
             });
@@ -137,7 +163,7 @@ var MessageReply = (function (_super) {
     MessageReply.prototype.send = function () {
         var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var additonalAttachments, assets, attachments, res, err_2;
+            var additonalAttachments, assets, attachments, res, err_3;
             return tslib_1.__generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
@@ -180,8 +206,8 @@ var MessageReply = (function (_super) {
                         }
                         return [2, res.data.data[0]];
                     case 4:
-                        err_2 = _d.sent();
-                        throw new MessagesReplyError(undefined, { error: err_2 });
+                        err_3 = _d.sent();
+                        throw new MessagesReplyError(undefined, { error: err_3 });
                     case 5: return [2];
                 }
             });
@@ -201,7 +227,7 @@ var MessageFeedReply = (function (_super) {
     MessageFeedReply.prototype.send = function () {
         var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var additonalAttachments, assets, attachments, res, err_3;
+            var additonalAttachments, assets, attachments, res, err_4;
             return tslib_1.__generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
@@ -241,8 +267,8 @@ var MessageFeedReply = (function (_super) {
                         res = _d.sent();
                         return [2, res.data.data[0]];
                     case 4:
-                        err_3 = _d.sent();
-                        throw new MessagesReplyError(undefined, { error: err_3 });
+                        err_4 = _d.sent();
+                        throw new MessagesReplyError(undefined, { error: err_4 });
                     case 5: return [2];
                 }
             });
@@ -263,4 +289,16 @@ var MessagesReplyError = (function (_super) {
     return MessagesReplyError;
 }(errors_1.BaseError));
 exports.MessagesReplyError = MessagesReplyError;
+var MessageInitializationError = (function (_super) {
+    tslib_1.__extends(MessageInitializationError, _super);
+    function MessageInitializationError(message, properties) {
+        if (message === void 0) { message = 'Could not initialize message.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'MessageInitializationError';
+        return _this;
+    }
+    return MessageInitializationError;
+}(errors_1.BaseError));
+exports.MessageInitializationError = MessageInitializationError;
 //# sourceMappingURL=message.js.map
