@@ -1,3 +1,10 @@
+## [3.39.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.39.0...v3.39.1) (2020-11-18)
+
+
+### Bug Fixes
+
+* **message-template:** reference replies correctly ([be80b4a](https://github.com/c-commerce/charles-browser-sdk/commit/be80b4a83d037b8bf1fe2d06f60c021c8240907e))
+
 # [3.39.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.38.0...v3.39.0) (2020-11-11)
 
 
