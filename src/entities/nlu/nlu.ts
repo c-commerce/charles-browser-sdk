@@ -150,6 +150,24 @@ export class Nlu extends Entity<NluPayload, NluRawPayload> {
       throw this.handleError(new NluInitializationError(undefined, { error: err }))
     }
   }
+
+  public async syncIntents (): Promise<number | undefined> {
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/sync/intents`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new NlusSyncIntentsRemoteError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -178,5 +196,12 @@ export class NlusFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get nlus.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NlusFetchRemoteError.prototype)
+  }
+}
+export class NlusSyncIntentsRemoteError extends BaseError {
+  public name = 'NlusSyncIntentsRemoteError'
+  constructor (public message: string = 'Could not sync intents of nlu.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NlusSyncIntentsRemoteError.prototype)
   }
 }
