@@ -43,7 +43,7 @@ export interface MessageTemplateRawPayload {
                 translate?: boolean;
                 translation_prepend?: string | null;
                 translation_append?: string | null;
-                reqlies?: Array<{
+                replies?: Array<{
                     type?: 'text' | string | null;
                     payload?: string | null;
                     text?: string;
