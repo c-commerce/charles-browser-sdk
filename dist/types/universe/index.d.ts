@@ -36,6 +36,7 @@ import * as route from '../entities/route/route';
 import * as thing from '../entities/thing/thing';
 import * as nlu from '../entities/nlu/nlu';
 import * as intent from '../entities/intent/intent';
+import * as message from '../messaging/message';
 import * as location from '../entities/location/location';
 export interface UniverseUser {
     id?: string;
@@ -244,6 +245,7 @@ export declare class Universe extends Readable {
     nlu(payload: nlu.NluRawPayload): nlu.Nlu;
     intent(payload: intent.IntentRawPayload): intent.Intent;
     location(payload: location.LocationRawPayload): location.Location;
+    message(payload: message.MessageRawPayload): message.Message;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{

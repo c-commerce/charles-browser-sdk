@@ -42,6 +42,7 @@ var route = tslib_1.__importStar(require("../entities/route/route"));
 var thing = tslib_1.__importStar(require("../entities/thing/thing"));
 var nlu = tslib_1.__importStar(require("../entities/nlu/nlu"));
 var intent = tslib_1.__importStar(require("../entities/intent/intent"));
+var message = tslib_1.__importStar(require("../messaging/message"));
 var location = tslib_1.__importStar(require("../entities/location/location"));
 var Universe = (function (_super) {
     tslib_1.__extends(Universe, _super);
@@ -145,11 +146,11 @@ var Universe = (function (_super) {
             return;
         }
         if (topics_1.default.api.message.isTopic(msg.topic)) {
-            var message = void 0;
+            var message_1;
             if (msg.payload.message) {
-                message = messaging_1.Message.deserialize(msg.payload.message, this, this.http);
+                message_1 = messaging_1.Message.deserialize(msg.payload.message, this, this.http);
             }
-            this.emit('universe:message', tslib_1.__assign(tslib_1.__assign({}, msg), { message: message }));
+            this.emit('universe:message', tslib_1.__assign(tslib_1.__assign({}, msg), { message: message_1 }));
             return;
         }
         if (topics_1.default.api.feedsEvents.isTopic(msg.topic)) {
@@ -163,13 +164,13 @@ var Universe = (function (_super) {
             this.emit('universe:feeds:events', tslib_1.__assign(tslib_1.__assign({}, msg), { event: event_2, feed: feed }));
         }
         if (topics_1.default.api.feedsMessages.isTopic(msg.topic)) {
-            var message = void 0;
+            var message_2;
             var feed = void 0;
             if (msg.payload.message) {
-                message = messaging_1.Message.deserialize(msg.payload.message, this, this.http);
+                message_2 = messaging_1.Message.deserialize(msg.payload.message, this, this.http);
                 feed = feed_1.Feed.create(msg.payload.feed, this, this.http, this.mqtt);
             }
-            this.emit('universe:feeds:messages', tslib_1.__assign(tslib_1.__assign({}, msg), { message: message, feed: feed }));
+            this.emit('universe:feeds:messages', tslib_1.__assign(tslib_1.__assign({}, msg), { message: message_2, feed: feed }));
             return;
         }
         if (topics_1.default.api.feeds.isTopic(msg.topic)) {
@@ -327,6 +328,9 @@ var Universe = (function (_super) {
     };
     Universe.prototype.location = function (payload) {
         return location.Location.create(payload, this, this.http);
+    };
+    Universe.prototype.message = function (payload) {
+        return message.Message.create(payload, this, this.http);
     };
     Universe.prototype.apiRequest = function (options) {
         var _a;

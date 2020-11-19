@@ -48,6 +48,7 @@ import * as route from '../entities/route/route'
 import * as thing from '../entities/thing/thing'
 import * as nlu from '../entities/nlu/nlu'
 import * as intent from '../entities/intent/intent'
+import * as message from '../messaging/message'
 
 import * as location from '../entities/location/location'
 
@@ -632,6 +633,10 @@ export class Universe extends Readable {
 
   public location (payload: location.LocationRawPayload): location.Location {
     return location.Location.create(payload, this, this.http)
+  }
+
+  public message (payload: message.MessageRawPayload): message.Message {
+    return message.Message.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
