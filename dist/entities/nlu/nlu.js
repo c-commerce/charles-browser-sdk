@@ -82,6 +82,35 @@ var Nlu = (function (_super) {
             });
         });
     };
+    Nlu.prototype.syncIntents = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_2;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/intents",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 1:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 2:
+                        err_2 = _b.sent();
+                        throw this.handleError(new NlusSyncIntentsRemoteError(undefined, { error: err_2 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     return Nlu;
 }(_base_1.default));
 exports.Nlu = Nlu;
@@ -131,4 +160,17 @@ var NlusFetchRemoteError = (function (_super) {
     return NlusFetchRemoteError;
 }(errors_1.BaseError));
 exports.NlusFetchRemoteError = NlusFetchRemoteError;
+var NlusSyncIntentsRemoteError = (function (_super) {
+    tslib_1.__extends(NlusSyncIntentsRemoteError, _super);
+    function NlusSyncIntentsRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not sync intents of nlu.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'NlusSyncIntentsRemoteError';
+        Object.setPrototypeOf(_this, NlusSyncIntentsRemoteError.prototype);
+        return _this;
+    }
+    return NlusSyncIntentsRemoteError;
+}(errors_1.BaseError));
+exports.NlusSyncIntentsRemoteError = NlusSyncIntentsRemoteError;
 //# sourceMappingURL=nlu.js.map

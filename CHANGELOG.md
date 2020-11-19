@@ -1,3 +1,10 @@
+# [3.40.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.39.1...v3.40.0) (2020-11-19)
+
+
+### Features
+
+* **Nlus:** implement sync intents ([4f8a661](https://github.com/c-commerce/charles-browser-sdk/commit/4f8a661b772bf6a88060b8e2070a35faf0919f4c))
+
 ## [3.39.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.39.0...v3.39.1) (2020-11-18)
 
 

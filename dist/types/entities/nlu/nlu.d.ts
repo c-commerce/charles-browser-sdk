@@ -67,6 +67,7 @@ export declare class Nlu extends Entity<NluPayload, NluRawPayload> {
     static create(payload: NluRawPayload, universe: Universe, http: Universe['http']): Nlu;
     serialize(): NluRawPayload;
     init(): Promise<Nlu | undefined>;
+    syncIntents(): Promise<number | undefined>;
 }
 export declare class Nlus {
     static endpoint: string;
@@ -82,6 +83,11 @@ export declare class NluFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class NlusFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class NlusSyncIntentsRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
