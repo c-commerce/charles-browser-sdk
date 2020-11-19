@@ -1,3 +1,10 @@
+## [3.40.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.40.0...v3.40.1) (2020-11-19)
+
+
+### Bug Fixes
+
+* **universe:** add message factory ([97a16b2](https://github.com/c-commerce/charles-browser-sdk/commit/97a16b26e746f6f963381601121fb95b2365e047))
+
 # [3.40.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.39.1...v3.40.0) (2020-11-19)
 
 
