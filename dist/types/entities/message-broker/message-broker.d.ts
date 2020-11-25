@@ -35,6 +35,7 @@ export interface MessageBrokerRawPayload {
         websites: any[];
         logo: string;
     } | any;
+    external_reference_id?: string | null;
 }
 export interface MessageBrokerPayload {
     readonly id?: MessageBrokerRawPayload['id'];
@@ -56,6 +57,7 @@ export interface MessageBrokerPayload {
         [key: string]: any;
     };
     readonly profile?: MessageBrokerRawPayload['profile'];
+    readonly externalReferenceId?: MessageBrokerRawPayload['external_reference_id'];
 }
 export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRawPayload> {
     protected universe: Universe;
@@ -79,6 +81,7 @@ export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageB
     labels?: MessageBrokerPayload['labels'];
     details?: MessageBrokerPayload['details'];
     profile?: MessageBrokerPayload['profile'];
+    externalReferenceId?: MessageBrokerPayload['externalReferenceId'];
     constructor(options: MessageBrokerOptions);
     protected deserialize(rawPayload: MessageBrokerRawPayload): MessageBroker;
     serialize(): MessageBrokerRawPayload;
