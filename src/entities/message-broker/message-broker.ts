@@ -39,6 +39,7 @@ export interface MessageBrokerRawPayload {
     websites: any[]
     logo: string
   } | any
+  external_reference_id?: string | null
 }
 
 export interface MessageBrokerPayload {
@@ -61,6 +62,7 @@ export interface MessageBrokerPayload {
     [key: string]: any
   }
   readonly profile?: MessageBrokerRawPayload['profile']
+  readonly externalReferenceId?: MessageBrokerRawPayload['external_reference_id']
 }
 
 /**
@@ -92,6 +94,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
   public labels?: MessageBrokerPayload['labels']
   public details?: MessageBrokerPayload['details']
   public profile?: MessageBrokerPayload['profile']
+  public externalReferenceId?: MessageBrokerPayload['externalReferenceId']
 
   constructor (options: MessageBrokerOptions) {
     super()
@@ -124,6 +127,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
     this.metadata = rawPayload.metadata
     this.labels = rawPayload.labels
     this.profile = rawPayload.profile
+    this.externalReferenceId = rawPayload.external_reference_id
 
     if (rawPayload.details) {
       this.details = {
@@ -150,7 +154,8 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
       is_set_up: this.isSetUp,
       metadata: this.metadata,
       labels: this.labels,
-      profile: this.profile
+      profile: this.profile,
+      external_reference_id: this.externalReferenceId
     }
   }
 
