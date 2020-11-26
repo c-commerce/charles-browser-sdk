@@ -23,6 +23,7 @@ export interface ProductCategoryRawPayload {
   readonly proxy_vendor?: string
   readonly description?: string
   readonly comment?: string
+  readonly storefront?: string
   readonly proxy_payload?: string
 }
 
@@ -42,8 +43,8 @@ export interface ProductCategoryPayload {
   readonly proxyVendor?: ProductCategoryRawPayload['proxy_vendor']
   readonly description?: ProductCategoryRawPayload['description']
   readonly comment?: ProductCategoryRawPayload['comment']
+  readonly storefront?: ProductCategoryRawPayload['storefront']
   readonly proxyPayload?: ProductCategoryRawPayload['proxy_payload']
-
 }
 
 /**
@@ -74,6 +75,7 @@ export class ProductCategory extends Entity<ProductCategoryPayload, ProductCateg
   public proxyVendor?: ProductCategoryPayload['proxyVendor']
   public description?: ProductCategoryPayload['description']
   public comment?: ProductCategoryPayload['comment']
+  public storefront?: ProductCategoryPayload['storefront']
   public proxyPayload?: ProductCategoryPayload['proxyPayload']
 
   constructor (options: ProductCategoryOptions) {
@@ -107,6 +109,7 @@ export class ProductCategory extends Entity<ProductCategoryPayload, ProductCateg
     this.proxyVendor = rawPayload.proxy_vendor
     this.description = rawPayload.description
     this.comment = rawPayload.comment
+    this.storefront = rawPayload.storefront
     this.proxyPayload = rawPayload.proxy_payload
 
     return this
@@ -133,6 +136,7 @@ export class ProductCategory extends Entity<ProductCategoryPayload, ProductCateg
       proxy_vendor: this.proxyVendor,
       description: this.description,
       comment: this.comment,
+      storefront: this.storefront,
       proxy_payload: this.proxyPayload
     }
   }
