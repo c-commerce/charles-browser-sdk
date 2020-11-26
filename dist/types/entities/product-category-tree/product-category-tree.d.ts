@@ -10,6 +10,11 @@ export interface ProductCategoryTreeRawPayload {
     readonly updated_at?: string;
     readonly deleted?: boolean;
     readonly active?: boolean;
+    readonly name?: string;
+    readonly summary?: string;
+    readonly description?: string;
+    readonly children?: any[];
+    readonly comment?: string;
 }
 export interface ProductCategoryTreePayload {
     readonly id?: ProductCategoryTreeRawPayload['id'];
@@ -17,6 +22,11 @@ export interface ProductCategoryTreePayload {
     readonly updatedAt?: Date | null;
     readonly deleted?: ProductCategoryTreeRawPayload['deleted'];
     readonly active?: ProductCategoryTreeRawPayload['active'];
+    readonly name?: ProductCategoryTreeRawPayload['name'];
+    readonly summary?: ProductCategoryTreeRawPayload['summary'];
+    readonly description?: ProductCategoryTreeRawPayload['description'];
+    readonly children?: ProductCategoryTreeRawPayload['children'];
+    readonly comment?: ProductCategoryTreeRawPayload['comment'];
 }
 export declare class ProductCategoryTree extends Entity<ProductCategoryTreePayload, ProductCategoryTreeRawPayload> {
     protected universe: Universe;
@@ -29,6 +39,11 @@ export declare class ProductCategoryTree extends Entity<ProductCategoryTreePaylo
     updatedAt?: ProductCategoryTreePayload['updatedAt'];
     deleted?: ProductCategoryTreePayload['deleted'];
     active?: ProductCategoryTreePayload['active'];
+    name?: ProductCategoryTreePayload['name'];
+    summary?: ProductCategoryTreePayload['summary'];
+    description?: ProductCategoryTreePayload['description'];
+    children?: ProductCategoryTreePayload['children'];
+    comment?: ProductCategoryTreePayload['comment'];
     constructor(options: ProductCategoryTreeOptions);
     protected deserialize(rawPayload: ProductCategoryTreeRawPayload): ProductCategoryTree;
     static create(payload: ProductCategoryTreeRawPayload, universe: Universe, http: Universe['http']): ProductCategoryTree;

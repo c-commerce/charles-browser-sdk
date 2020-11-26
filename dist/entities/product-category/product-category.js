@@ -26,6 +26,16 @@ var ProductCategory = (function (_super) {
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
+        this.isProxy = rawPayload.is_proxy;
+        this.name = rawPayload.name;
+        this.summary = rawPayload.summary;
+        this.customId = rawPayload.custom_id;
+        this.externalReferenceId = rawPayload.external_reference_id;
+        this.externalReferenceCustomId = rawPayload.external_reference_custom_id;
+        this.proxyVendor = rawPayload.proxy_vendor;
+        this.description = rawPayload.description;
+        this.comment = rawPayload.comment;
+        this.proxyPayload = rawPayload.proxy_payload;
         return this;
     };
     ProductCategory.create = function (payload, universe, http) {
@@ -38,7 +48,17 @@ var ProductCategory = (function (_super) {
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,
-            active: (_b = this.active) !== null && _b !== void 0 ? _b : true
+            active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
+            is_proxy: this.isProxy,
+            name: this.name,
+            summary: this.summary,
+            custom_id: this.customId,
+            external_reference_id: this.externalReferenceId,
+            external_reference_custom_id: this.externalReferenceCustomId,
+            proxy_vendor: this.proxyVendor,
+            description: this.description,
+            comment: this.comment,
+            proxy_payload: this.proxyPayload
         };
     };
     ProductCategory.prototype.init = function () {

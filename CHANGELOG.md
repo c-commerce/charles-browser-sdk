@@ -1,3 +1,11 @@
+## [3.41.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.41.0...v3.41.1) (2020-11-26)
+
+
+### Bug Fixes
+
+* **product categories:** add missing properties ([7d6c0cf](https://github.com/c-commerce/charles-browser-sdk/commit/7d6c0cf5a0520e2aae95a166d02a228fa12f55ef))
+* **product category trees:** add missing properties ([1ce9374](https://github.com/c-commerce/charles-browser-sdk/commit/1ce9374cdbc1f4fdb540c39c44298cea9bb49f9b))
+
 # [3.41.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.40.1...v3.41.0) (2020-11-25)
 
 

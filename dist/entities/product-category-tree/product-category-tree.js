@@ -26,6 +26,11 @@ var ProductCategoryTree = (function (_super) {
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
+        this.name = rawPayload.name;
+        this.summary = rawPayload.summary;
+        this.description = rawPayload.description;
+        this.children = rawPayload.children;
+        this.comment = rawPayload.comment;
         return this;
     };
     ProductCategoryTree.create = function (payload, universe, http) {
@@ -38,7 +43,12 @@ var ProductCategoryTree = (function (_super) {
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,
-            active: (_b = this.active) !== null && _b !== void 0 ? _b : true
+            active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
+            name: this.name,
+            summary: this.summary,
+            description: this.description,
+            children: this.children,
+            comment: this.comment
         };
     };
     ProductCategoryTree.prototype.init = function () {
