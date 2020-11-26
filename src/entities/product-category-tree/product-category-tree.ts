@@ -13,6 +13,13 @@ export interface ProductCategoryTreeRawPayload {
   readonly updated_at?: string
   readonly deleted?: boolean
   readonly active?: boolean
+
+  readonly name?: string
+  readonly summary?: string
+  readonly description?: string
+  readonly children?: any[]
+  readonly comment?: string
+
 }
 
 export interface ProductCategoryTreePayload {
@@ -21,6 +28,12 @@ export interface ProductCategoryTreePayload {
   readonly updatedAt?: Date | null
   readonly deleted?: ProductCategoryTreeRawPayload['deleted']
   readonly active?: ProductCategoryTreeRawPayload['active']
+
+  readonly name?: ProductCategoryTreeRawPayload['name']
+  readonly summary?: ProductCategoryTreeRawPayload['summary']
+  readonly description?: ProductCategoryTreeRawPayload['description']
+  readonly children?: ProductCategoryTreeRawPayload['children']
+  readonly comment?: ProductCategoryTreeRawPayload['comment']
 }
 
 /**
@@ -41,6 +54,12 @@ export class ProductCategoryTree extends Entity<ProductCategoryTreePayload, Prod
   public updatedAt?: ProductCategoryTreePayload['updatedAt']
   public deleted?: ProductCategoryTreePayload['deleted']
   public active?: ProductCategoryTreePayload['active']
+
+  public name?: ProductCategoryTreePayload['name']
+  public summary?: ProductCategoryTreePayload['summary']
+  public description?: ProductCategoryTreePayload['description']
+  public children?: ProductCategoryTreePayload['children']
+  public comment?: ProductCategoryTreePayload['comment']
 
   constructor (options: ProductCategoryTreeOptions) {
     super()
@@ -64,6 +83,12 @@ export class ProductCategoryTree extends Entity<ProductCategoryTreePayload, Prod
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
 
+    this.name = rawPayload.name
+    this.summary = rawPayload.summary
+    this.description = rawPayload.description
+    this.children = rawPayload.children
+    this.comment = rawPayload.comment
+
     return this
   }
 
@@ -77,7 +102,13 @@ export class ProductCategoryTree extends Entity<ProductCategoryTreePayload, Prod
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
-      active: this.active ?? true
+      active: this.active ?? true,
+
+      name: this.name,
+      summary: this.summary,
+      description: this.description,
+      children: this.children,
+      comment: this.comment
     }
   }
 
