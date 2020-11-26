@@ -19,6 +19,7 @@ export interface ProductCategoryTreeRawPayload {
   readonly description?: string
   readonly children?: any[]
   readonly comment?: string
+  readonly storefront?: string
 
 }
 
@@ -34,6 +35,8 @@ export interface ProductCategoryTreePayload {
   readonly description?: ProductCategoryTreeRawPayload['description']
   readonly children?: ProductCategoryTreeRawPayload['children']
   readonly comment?: ProductCategoryTreeRawPayload['comment']
+  readonly storefront?: ProductCategoryTreeRawPayload['storefront']
+
 }
 
 /**
@@ -60,6 +63,7 @@ export class ProductCategoryTree extends Entity<ProductCategoryTreePayload, Prod
   public description?: ProductCategoryTreePayload['description']
   public children?: ProductCategoryTreePayload['children']
   public comment?: ProductCategoryTreePayload['comment']
+  public storefront?: ProductCategoryTreePayload['storefront']
 
   constructor (options: ProductCategoryTreeOptions) {
     super()
@@ -88,6 +92,7 @@ export class ProductCategoryTree extends Entity<ProductCategoryTreePayload, Prod
     this.description = rawPayload.description
     this.children = rawPayload.children
     this.comment = rawPayload.comment
+    this.storefront = rawPayload.storefront
 
     return this
   }
@@ -108,7 +113,8 @@ export class ProductCategoryTree extends Entity<ProductCategoryTreePayload, Prod
       summary: this.summary,
       description: this.description,
       children: this.children,
-      comment: this.comment
+      comment: this.comment,
+      storefront: this.storefront
     }
   }
 
