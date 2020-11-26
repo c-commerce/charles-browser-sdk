@@ -1,3 +1,10 @@
+## [3.42.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.0...v3.42.1) (2020-11-26)
+
+
+### Bug Fixes
+
+* **product category trees:** add storefront ([e528be9](https://github.com/c-commerce/charles-browser-sdk/commit/e528be9030719a1c9d090809e92b6c009dd32a0f))
+
 # [3.42.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.41.1...v3.42.0) (2020-11-26)
 
 
