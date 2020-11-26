@@ -13,6 +13,17 @@ export interface ProductCategoryRawPayload {
   readonly updated_at?: string
   readonly deleted?: boolean
   readonly active?: boolean
+
+  readonly is_proxy?: boolean
+  readonly name?: string
+  readonly summary?: string
+  readonly custom_id?: string
+  readonly external_reference_id?: string
+  readonly external_reference_custom_id?: string
+  readonly proxy_vendor?: string
+  readonly description?: string
+  readonly comment?: string
+  readonly proxy_payload?: string
 }
 
 export interface ProductCategoryPayload {
@@ -21,6 +32,18 @@ export interface ProductCategoryPayload {
   readonly updatedAt?: Date | null
   readonly deleted?: ProductCategoryRawPayload['deleted']
   readonly active?: ProductCategoryRawPayload['active']
+
+  readonly isProxy?: ProductCategoryRawPayload['is_proxy']
+  readonly name?: ProductCategoryRawPayload['name']
+  readonly summary?: ProductCategoryRawPayload['summary']
+  readonly customId?: ProductCategoryRawPayload['custom_id']
+  readonly externalReferenceId?: ProductCategoryRawPayload['external_reference_id']
+  readonly externalReferenceCustomId?: ProductCategoryRawPayload['external_reference_custom_id']
+  readonly proxyVendor?: ProductCategoryRawPayload['proxy_vendor']
+  readonly description?: ProductCategoryRawPayload['description']
+  readonly comment?: ProductCategoryRawPayload['comment']
+  readonly proxyPayload?: ProductCategoryRawPayload['proxy_payload']
+
 }
 
 /**
@@ -41,6 +64,17 @@ export class ProductCategory extends Entity<ProductCategoryPayload, ProductCateg
   public updatedAt?: ProductCategoryPayload['updatedAt']
   public deleted?: ProductCategoryPayload['deleted']
   public active?: ProductCategoryPayload['active']
+
+  public isProxy?: ProductCategoryPayload['isProxy']
+  public name?: ProductCategoryPayload['name']
+  public summary?: ProductCategoryPayload['summary']
+  public customId?: ProductCategoryPayload['customId']
+  public externalReferenceId?: ProductCategoryPayload['externalReferenceId']
+  public externalReferenceCustomId?: ProductCategoryPayload['externalReferenceCustomId']
+  public proxyVendor?: ProductCategoryPayload['proxyVendor']
+  public description?: ProductCategoryPayload['description']
+  public comment?: ProductCategoryPayload['comment']
+  public proxyPayload?: ProductCategoryPayload['proxyPayload']
 
   constructor (options: ProductCategoryOptions) {
     super()
@@ -64,6 +98,17 @@ export class ProductCategory extends Entity<ProductCategoryPayload, ProductCateg
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
 
+    this.isProxy = rawPayload.is_proxy
+    this.name = rawPayload.name
+    this.summary = rawPayload.summary
+    this.customId = rawPayload.custom_id
+    this.externalReferenceId = rawPayload.external_reference_id
+    this.externalReferenceCustomId = rawPayload.external_reference_custom_id
+    this.proxyVendor = rawPayload.proxy_vendor
+    this.description = rawPayload.description
+    this.comment = rawPayload.comment
+    this.proxyPayload = rawPayload.proxy_payload
+
     return this
   }
 
@@ -77,7 +122,18 @@ export class ProductCategory extends Entity<ProductCategoryPayload, ProductCateg
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
-      active: this.active ?? true
+      active: this.active ?? true,
+
+      is_proxy: this.isProxy,
+      name: this.name,
+      summary: this.summary,
+      custom_id: this.customId,
+      external_reference_id: this.externalReferenceId,
+      external_reference_custom_id: this.externalReferenceCustomId,
+      proxy_vendor: this.proxyVendor,
+      description: this.description,
+      comment: this.comment,
+      proxy_payload: this.proxyPayload
     }
   }
 
