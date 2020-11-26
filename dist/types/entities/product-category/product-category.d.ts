@@ -19,6 +19,7 @@ export interface ProductCategoryRawPayload {
     readonly proxy_vendor?: string;
     readonly description?: string;
     readonly comment?: string;
+    readonly storefront?: string;
     readonly proxy_payload?: string;
 }
 export interface ProductCategoryPayload {
@@ -36,6 +37,7 @@ export interface ProductCategoryPayload {
     readonly proxyVendor?: ProductCategoryRawPayload['proxy_vendor'];
     readonly description?: ProductCategoryRawPayload['description'];
     readonly comment?: ProductCategoryRawPayload['comment'];
+    readonly storefront?: ProductCategoryRawPayload['storefront'];
     readonly proxyPayload?: ProductCategoryRawPayload['proxy_payload'];
 }
 export declare class ProductCategory extends Entity<ProductCategoryPayload, ProductCategoryRawPayload> {
@@ -58,6 +60,7 @@ export declare class ProductCategory extends Entity<ProductCategoryPayload, Prod
     proxyVendor?: ProductCategoryPayload['proxyVendor'];
     description?: ProductCategoryPayload['description'];
     comment?: ProductCategoryPayload['comment'];
+    storefront?: ProductCategoryPayload['storefront'];
     proxyPayload?: ProductCategoryPayload['proxyPayload'];
     constructor(options: ProductCategoryOptions);
     protected deserialize(rawPayload: ProductCategoryRawPayload): ProductCategory;

@@ -1,3 +1,11 @@
+# [3.42.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.41.1...v3.42.0) (2020-11-26)
+
+
+### Features
+
+* **product-category:** support storefront ref ([aad15e5](https://github.com/c-commerce/charles-browser-sdk/commit/aad15e591368a40aaf9a9e87c61d9ea1530b7c2f))
+* **storefront:** support product category sync ([bad2e9c](https://github.com/c-commerce/charles-browser-sdk/commit/bad2e9cd77126da29a2dbdeb77d7ca8fdf278a73))
+
 ## [3.41.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.41.0...v3.41.1) (2020-11-26)
 
 

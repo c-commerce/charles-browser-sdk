@@ -35,6 +35,7 @@ var ProductCategory = (function (_super) {
         this.proxyVendor = rawPayload.proxy_vendor;
         this.description = rawPayload.description;
         this.comment = rawPayload.comment;
+        this.storefront = rawPayload.storefront;
         this.proxyPayload = rawPayload.proxy_payload;
         return this;
     };
@@ -58,6 +59,7 @@ var ProductCategory = (function (_super) {
             proxy_vendor: this.proxyVendor,
             description: this.description,
             comment: this.comment,
+            storefront: this.storefront,
             proxy_payload: this.proxyPayload
         };
     };
