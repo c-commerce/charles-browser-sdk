@@ -38,6 +38,7 @@ var MessageBroker = (function (_super) {
         this.metadata = rawPayload.metadata;
         this.labels = rawPayload.labels;
         this.profile = rawPayload.profile;
+        this.externalReferenceId = rawPayload.external_reference_id;
         if (rawPayload.details) {
             this.details = {
                 routes: Array.isArray((_c = rawPayload.details) === null || _c === void 0 ? void 0 : _c.routes) ? (_d = rawPayload.details) === null || _d === void 0 ? void 0 : _d.routes.map(function (item) { return route_1.Route.create(item, _this.universe, _this.http); }) : []
@@ -61,7 +62,8 @@ var MessageBroker = (function (_super) {
             is_set_up: this.isSetUp,
             metadata: this.metadata,
             labels: this.labels,
-            profile: this.profile
+            profile: this.profile,
+            external_reference_id: this.externalReferenceId
         };
     };
     MessageBroker.create = function (payload, universe, http) {

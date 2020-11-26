@@ -1,3 +1,10 @@
+# [3.41.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.40.1...v3.41.0) (2020-11-25)
+
+
+### Features
+
+* **message-broker:** parse external reference id ([207d2f7](https://github.com/c-commerce/charles-browser-sdk/commit/207d2f777e793a560453185e1943fb267444b664))
+
 ## [3.40.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.40.0...v3.40.1) (2020-11-19)
 
 
