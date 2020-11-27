@@ -9,7 +9,7 @@ import universeTopics from './topics'
 import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 
-import { EntityFetchOptions } from '../entities/_base'
+import { EntityFetchOptions, EntityFetchQuery, EntityRawPayload } from '../entities/_base'
 
 import {
   ANALYTICS_ENDPOINT,
@@ -93,8 +93,8 @@ export interface UniverseOptions {
 export interface ApiRequestOptions {
   method: string
   path: string
-  data?: string
-  query?: string
+  data?: object
+  query?: EntityFetchQuery
 }
 
 export interface UniversePayload {
