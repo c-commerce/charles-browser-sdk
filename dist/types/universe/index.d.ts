@@ -4,7 +4,7 @@ import { Client } from '../client';
 import { Feeds, Feed, FeedRawPayload } from '../eventing/feeds/feed';
 import { BaseError } from '../errors';
 import { MessageRawPayload } from '../messaging';
-import { EntityFetchOptions } from '../entities/_base';
+import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base';
 import { AnalyticsReport } from '../analytics/analytics';
 import * as staff from '../entities/staff/staff';
 import * as track from '../entities/track/track';
@@ -53,8 +53,8 @@ export interface UniverseOptions {
 export interface ApiRequestOptions {
     method: string;
     path: string;
-    data?: string;
-    query?: string;
+    data?: object;
+    query?: EntityFetchQuery;
 }
 export interface UniversePayload {
     name: string;

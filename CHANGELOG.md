@@ -1,3 +1,10 @@
+## [3.42.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.1...v3.42.2) (2020-11-27)
+
+
+### Bug Fixes
+
+* **universe:** fix base apirequest class ([41b9015](https://github.com/c-commerce/charles-browser-sdk/commit/41b9015baf0b7d044c997589ac5f41db18abc7b5))
+
 ## [3.42.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.0...v3.42.1) (2020-11-26)
 
 
