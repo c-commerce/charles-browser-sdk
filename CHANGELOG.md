@@ -1,3 +1,10 @@
+## [3.42.4](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.3...v3.42.4) (2020-11-30)
+
+
+### Bug Fixes
+
+* **message-templates:** prepare location picker & carousel ([7497a57](https://github.com/c-commerce/charles-browser-sdk/commit/7497a57045a62d957a0ff00bb9551a7cd687bbf8))
+
 ## [3.42.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.2...v3.42.3) (2020-11-30)
 
 
