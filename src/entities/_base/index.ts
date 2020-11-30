@@ -317,7 +317,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
 
       return this
     } catch (err) {
-      throw new EntityPostError(undefined, { error: err })
+      throw new EntityDeleteError(undefined, { error: err })
     }
   }
 
@@ -362,6 +362,13 @@ export class EntityPatchError extends BaseError {
 export class EntityPostError extends BaseError {
   public name = 'EntityPostError'
   constructor (public message: string = 'Could not create resource unexpectedly.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EntityDeleteError extends BaseError {
+  public name = 'EntityDeleteError'
+  constructor (public message: string = 'Could not delete resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
