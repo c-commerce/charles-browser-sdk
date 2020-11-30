@@ -1,3 +1,10 @@
+## [3.42.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.2...v3.42.3) (2020-11-30)
+
+
+### Bug Fixes
+
+* **entity:** allign correct error for delete ([7379a4a](https://github.com/c-commerce/charles-browser-sdk/commit/7379a4a48ae5b1234d1a8e1d11391088fda5daad))
+
 ## [3.42.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.1...v3.42.2) (2020-11-27)
 
 

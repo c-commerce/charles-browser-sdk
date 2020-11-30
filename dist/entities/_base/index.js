@@ -298,7 +298,7 @@ var Entity = (function (_super) {
                         return [2, this];
                     case 3:
                         err_6 = _c.sent();
-                        throw new EntityPostError(undefined, { error: err_6 });
+                        throw new EntityDeleteError(undefined, { error: err_6 });
                     case 4: return [2];
                 }
             });
@@ -363,6 +363,18 @@ var EntityPostError = (function (_super) {
     return EntityPostError;
 }(errors_1.BaseError));
 exports.EntityPostError = EntityPostError;
+var EntityDeleteError = (function (_super) {
+    tslib_1.__extends(EntityDeleteError, _super);
+    function EntityDeleteError(message, properties) {
+        if (message === void 0) { message = 'Could not delete resource unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EntityDeleteError';
+        return _this;
+    }
+    return EntityDeleteError;
+}(errors_1.BaseError));
+exports.EntityDeleteError = EntityDeleteError;
 var EntityPutError = (function (_super) {
     tslib_1.__extends(EntityPutError, _super);
     function EntityPutError(message, properties) {

@@ -72,6 +72,11 @@ export declare class EntityPostError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class EntityDeleteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export declare class EntityPutError extends BaseError {
     message: string;
     name: string;
