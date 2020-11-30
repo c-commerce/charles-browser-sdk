@@ -6,13 +6,38 @@ import { BaseError } from '../../errors'
 export interface MessageTemplateOptions extends EntityOptions {
   rawPayload?: MessageTemplateRawPayload
 }
-
 export interface MessageTemplateRawPayloadAttachment {
   type: 'image' | 'document' | 'video' | 'audio' | 'asset' | string
   // NOTE: the API is capable of digesting any mime type, however both messaging platforms and UIs are not.
   // This likely means that the "group" of types that is denoted by "type" is likely what implementers are after.
   mime_type?: string
   payload: string | null | object
+}
+
+export interface MessageTemplateRawPayloadLocation {
+  type?: 'location'
+  lat?: number
+  lng?: number
+  zoom?: number
+  name?: string
+  address_string?: string
+}
+
+export interface MessageTemplateRawPayloadCarouselItemAction {
+  type?: 'button' | string
+  button_type?: 'postback' | string
+  text?: string
+  payload?: string
+}
+export interface MessageTemplateRawPayloadCarouselItem {
+  title?: string
+  sub_title?: string
+  image_url?: string
+  actions?: MessageTemplateRawPayloadCarouselItemAction[]
+}
+export interface MessageTemplateRawPayloadCarousel {
+  type?: string
+  items?: MessageTemplateRawPayloadCarouselItem[]
 }
 
 export interface MessageTemplateRawPayload {
@@ -46,7 +71,7 @@ export interface MessageTemplateRawPayload {
         type?: 'text' | null
         payload?: string
       } | null
-      attachments?: MessageTemplateRawPayloadAttachment[]
+      attachments?: MessageTemplateRawPayloadAttachment[] | MessageTemplateRawPayloadLocation[] | MessageTemplateRawPayloadCarousel[] | any
       approved?: boolean
       quick_replies?: {
         translate?: boolean
