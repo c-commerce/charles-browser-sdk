@@ -398,6 +398,7 @@ var FeedReply = (function () {
         this.http = options.http;
         this.content = options.content;
         this.rawAssets = options.rawAssets;
+        this.causes = options.causes;
     }
     FeedReply.prototype.prepareSendWithAssets = function (payload) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {

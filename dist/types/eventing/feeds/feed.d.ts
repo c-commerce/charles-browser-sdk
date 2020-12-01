@@ -133,6 +133,7 @@ export interface FeedReplyOptions extends ReplyOptions {
     http: Universe['http'];
     rawPayload?: MessageRawPayload;
     rawAssets?: FormData;
+    causes?: object[] | null;
 }
 export declare class FeedReply {
     protected feed: Feed;
@@ -142,6 +143,7 @@ export declare class FeedReply {
     content: Reply['content'];
     contentType: Reply['contentType'];
     rawAssets?: FormData;
+    causes?: object[] | null;
     constructor(options: FeedReplyOptions);
     protected prepareSendWithAssets(payload: FormData): Promise<Asset[] | undefined>;
     send(): Promise<Event | undefined>;

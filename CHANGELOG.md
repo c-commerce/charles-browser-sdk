@@ -1,3 +1,10 @@
+# [3.44.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.43.0...v3.44.0) (2020-12-01)
+
+
+### Features
+
+* **feed:** support .causes on reply ([c34270e](https://github.com/c-commerce/charles-browser-sdk/commit/c34270ef45e45dfa8f9d85866d821762d4aba2a2))
+
 # [3.43.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.4...v3.43.0) (2020-12-01)
 
 
