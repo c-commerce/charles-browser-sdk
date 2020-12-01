@@ -161,18 +161,18 @@ var MessageReply = (function (_super) {
         return _this;
     }
     MessageReply.prototype.send = function () {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var additonalAttachments, assets, attachments, res, err_3;
-            return tslib_1.__generator(this, function (_d) {
-                switch (_d.label) {
+            return tslib_1.__generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
-                        _d.trys.push([0, 4, , 5]);
+                        _e.trys.push([0, 4, , 5]);
                         additonalAttachments = void 0;
                         if (!this.rawAssets) return [3, 2];
                         return [4, this.prepareSendWithAssets(this.rawAssets)];
                     case 1:
-                        assets = _d.sent();
+                        assets = _e.sent();
                         if (Array.isArray(assets)) {
                             additonalAttachments = assets.map(function (item) {
                                 return {
@@ -181,7 +181,7 @@ var MessageReply = (function (_super) {
                                 };
                             });
                         }
-                        _d.label = 2;
+                        _e.label = 2;
                     case 2:
                         attachments = void 0;
                         if (additonalAttachments && this.content && Array.isArray(this.content.attachments)) {
@@ -197,16 +197,17 @@ var MessageReply = (function (_super) {
                             this.content.attachments = attachments;
                         }
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post("" + this.universe.universeBase + ((_c = (_b = this.message.replyables) === null || _b === void 0 ? void 0 : _b.reply_to_message) === null || _c === void 0 ? void 0 : _c.options.uri), {
-                                content: tslib_1.__assign({}, this.content)
+                                content: tslib_1.__assign({}, this.content),
+                                causes: (_d = this.causes) !== null && _d !== void 0 ? _d : undefined
                             }))];
                     case 3:
-                        res = _d.sent();
+                        res = _e.sent();
                         if (this.feed) {
                             return [2, event_1.Event.create(res.data.data[0], this.feed, this.universe, this.http)];
                         }
                         return [2, res.data.data[0]];
                     case 4:
-                        err_3 = _d.sent();
+                        err_3 = _e.sent();
                         throw new MessagesReplyError(undefined, { error: err_3 });
                     case 5: return [2];
                 }
@@ -222,21 +223,22 @@ var MessageFeedReply = (function (_super) {
         var _this = _super.call(this, options) || this;
         _this.message = options.message;
         _this.rawAssets = options.rawAssets;
+        _this.causes = options.causes;
         return _this;
     }
     MessageFeedReply.prototype.send = function () {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var additonalAttachments, assets, attachments, res, err_4;
-            return tslib_1.__generator(this, function (_d) {
-                switch (_d.label) {
+            return tslib_1.__generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
-                        _d.trys.push([0, 4, , 5]);
+                        _e.trys.push([0, 4, , 5]);
                         additonalAttachments = void 0;
                         if (!this.rawAssets) return [3, 2];
                         return [4, this.prepareSendWithAssets(this.rawAssets)];
                     case 1:
-                        assets = _d.sent();
+                        assets = _e.sent();
                         if (Array.isArray(assets)) {
                             additonalAttachments = assets.map(function (item) {
                                 return {
@@ -245,7 +247,7 @@ var MessageFeedReply = (function (_super) {
                                 };
                             });
                         }
-                        _d.label = 2;
+                        _e.label = 2;
                     case 2:
                         attachments = void 0;
                         if (additonalAttachments && this.content && Array.isArray(this.content.attachments)) {
@@ -261,13 +263,14 @@ var MessageFeedReply = (function (_super) {
                             this.content.attachments = attachments;
                         }
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post("" + this.universe.universeBase + ((_c = (_b = this.message.replyables) === null || _b === void 0 ? void 0 : _b.reply_to_feed) === null || _c === void 0 ? void 0 : _c.options.uri), {
-                                content: tslib_1.__assign({}, this.content)
+                                content: tslib_1.__assign({}, this.content),
+                                causes: (_d = this.causes) !== null && _d !== void 0 ? _d : undefined
                             }))];
                     case 3:
-                        res = _d.sent();
+                        res = _e.sent();
                         return [2, res.data.data[0]];
                     case 4:
-                        err_4 = _d.sent();
+                        err_4 = _e.sent();
                         throw new MessagesReplyError(undefined, { error: err_4 });
                     case 5: return [2];
                 }

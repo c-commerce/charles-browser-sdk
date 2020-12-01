@@ -424,18 +424,18 @@ var FeedReply = (function () {
         });
     };
     FeedReply.prototype.send = function () {
-        var _a;
+        var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var additonalAttachments, assets, attachments, res, err_7;
-            return tslib_1.__generator(this, function (_b) {
-                switch (_b.label) {
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        _b.trys.push([0, 4, , 5]);
+                        _c.trys.push([0, 4, , 5]);
                         additonalAttachments = void 0;
                         if (!this.rawAssets) return [3, 2];
                         return [4, this.prepareSendWithAssets(this.rawAssets)];
                     case 1:
-                        assets = _b.sent();
+                        assets = _c.sent();
                         if (Array.isArray(assets)) {
                             additonalAttachments = assets.map(function (item) {
                                 return {
@@ -444,7 +444,7 @@ var FeedReply = (function () {
                                 };
                             });
                         }
-                        _b.label = 2;
+                        _c.label = 2;
                     case 2:
                         attachments = void 0;
                         if (additonalAttachments && this.content && Array.isArray(this.content.attachments)) {
@@ -460,13 +460,14 @@ var FeedReply = (function () {
                             this.content.attachments = attachments;
                         }
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().post(this.universe.universeBase + "/" + exports.FEED_ENDPOINT + "/" + this.feed.id + "/reply", {
-                                content: this.content
+                                content: this.content,
+                                causes: (_b = this.causes) !== null && _b !== void 0 ? _b : undefined
                             }))];
                     case 3:
-                        res = _b.sent();
+                        res = _c.sent();
                         return [2, event_1.Event.create(res.data.data[0], this.feed, this.universe, this.http)];
                     case 4:
-                        err_7 = _b.sent();
+                        err_7 = _c.sent();
                         throw new FeedReplyError(undefined, errors_1.BaseError.handleCommonProperties(err_7));
                     case 5: return [2];
                 }

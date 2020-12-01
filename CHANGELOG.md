@@ -1,3 +1,10 @@
+## [3.44.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.44.0...v3.44.1) (2020-12-01)
+
+
+### Bug Fixes
+
+* **reply:** extend causes to callers correctly ([e55b880](https://github.com/c-commerce/charles-browser-sdk/commit/e55b8800b48384c63d1d9b33361cd05d6f204e78))
+
 # [3.44.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.43.0...v3.44.0) (2020-12-01)
 
 
