@@ -577,7 +577,8 @@ export class FeedReply {
       }
 
       const res = await this.http?.getClient().post(`${this.universe.universeBase}/${FEED_ENDPOINT}/${this.feed.id as string}/reply`, {
-        content: this.content
+        content: this.content,
+        causes: this.causes ?? undefined
       })
 
       return Event.create(res.data.data[0], this.feed, this.universe, this.http)

@@ -257,6 +257,7 @@ export class Message extends Entity<MessagePayload, MessageRawPayload> {
 export interface MessageReplyContentOptions {
   content: MessagePayload['content']
   rawAssets?: FormData
+  causes?: object[] | null
 }
 
 export interface ReplyOptions extends MessageOptions, MessageReplyContentOptions { }
@@ -293,6 +294,7 @@ export class Reply extends Message {
 export class MessageReply extends Reply {
   private readonly message: Message
   private readonly rawAssets?: FormData
+  private readonly causes?: object[] | null
 
   constructor (options: MessageReplyOptions) {
     super(options)
@@ -334,7 +336,8 @@ export class MessageReply extends Reply {
       const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_message?.options.uri as string}`, {
         content: {
           ...this.content
-        }
+        },
+        causes: this.causes ?? undefined
       })
 
       if (this.feed) {
@@ -351,12 +354,14 @@ export class MessageReply extends Reply {
 export class MessageFeedReply extends Reply {
   private readonly message: Message
   private readonly rawAssets?: FormData
+  private readonly causes?: object[] | null
 
   constructor (options: MessageReplyOptions) {
     super(options)
 
     this.message = options.message
     this.rawAssets = options.rawAssets
+    this.causes = options.causes
   }
 
   public async send (): Promise<ReplyResponse | undefined> {
@@ -392,7 +397,8 @@ export class MessageFeedReply extends Reply {
       const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_feed?.options.uri as string}`, {
         content: {
           ...this.content
-        }
+        },
+        causes: this.causes ?? undefined
       })
       return res.data.data[0] as ReplyResponse
     } catch (err) {
