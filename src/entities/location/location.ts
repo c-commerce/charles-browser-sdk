@@ -27,6 +27,7 @@ export interface LocationRawPayload {
   readonly has_inventory?: boolean
   readonly use_inventory?: boolean
   readonly is_default?: boolean
+  readonly can_sell?: boolean
   readonly addresses?: LocationAddressRawPayload[]
 }
 
@@ -46,9 +47,10 @@ export interface LocationPayload {
   readonly hasInventory?: LocationRawPayload['has_inventory']
   readonly useInventory?: LocationRawPayload['use_inventory']
   readonly isDefault?: LocationRawPayload['is_default']
+  readonly canSell?: LocationRawPayload['can_sell']
   readonly addresses?: LocationRawPayload['addresses']
-
 }
+
 export interface LocationAddressPayload {
   readonly lines?: LocationAddressRawPayload['lines']
   readonly company?: LocationAddressRawPayload['company']
@@ -59,6 +61,7 @@ export interface LocationAddressPayload {
   readonly country?: LocationAddressRawPayload['country']
   readonly type?: LocationAddressRawPayload['type']
 }
+
 export interface LocationAddressRawPayload {
   readonly lines?: string[]
   readonly company?: string
@@ -98,6 +101,7 @@ export class Location extends Entity<LocationPayload, LocationRawPayload> {
   public hasInventory?: LocationPayload['hasInventory']
   public useInventory?: LocationPayload['useInventory']
   public isDefault?: LocationPayload['isDefault']
+  public canSell?: LocationPayload['canSell']
   public addresses?: LocationPayload['addresses']
 
   constructor (options: LocationOptions) {
@@ -131,6 +135,7 @@ export class Location extends Entity<LocationPayload, LocationRawPayload> {
     this.hasInventory = rawPayload.has_inventory
     this.useInventory = rawPayload.use_inventory
     this.isDefault = rawPayload.is_default
+    this.canSell = rawPayload.can_sell
     this.addresses = rawPayload.addresses
 
     return this
@@ -157,6 +162,7 @@ export class Location extends Entity<LocationPayload, LocationRawPayload> {
       has_inventory: this.hasInventory,
       use_inventory: this.useInventory,
       is_default: this.isDefault,
+      can_sell: this.canSell,
       addresses: this.addresses
     }
   }
