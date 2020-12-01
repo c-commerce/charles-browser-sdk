@@ -35,6 +35,7 @@ var Location = (function (_super) {
         this.hasInventory = rawPayload.has_inventory;
         this.useInventory = rawPayload.use_inventory;
         this.isDefault = rawPayload.is_default;
+        this.canSell = rawPayload.can_sell;
         this.addresses = rawPayload.addresses;
         return this;
     };
@@ -58,6 +59,7 @@ var Location = (function (_super) {
             has_inventory: this.hasInventory,
             use_inventory: this.useInventory,
             is_default: this.isDefault,
+            can_sell: this.canSell,
             addresses: this.addresses
         };
     };

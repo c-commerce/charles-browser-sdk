@@ -1,3 +1,10 @@
+# [3.43.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.4...v3.43.0) (2020-12-01)
+
+
+### Features
+
+* **location:** handle can sell ([f2ee26a](https://github.com/c-commerce/charles-browser-sdk/commit/f2ee26a5ee7761d2f8376d251657acc2ccfd847c))
+
 ## [3.42.4](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.3...v3.42.4) (2020-11-30)
 
 
