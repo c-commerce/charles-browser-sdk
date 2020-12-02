@@ -1,3 +1,10 @@
+# [3.45.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.44.1...v3.45.0) (2020-12-02)
+
+
+### Features
+
+* **message-broker:** support broker notifications ([7e3e410](https://github.com/c-commerce/charles-browser-sdk/commit/7e3e410de8e2cbb53b0004eb245590114d127c4a))
+
 ## [3.44.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.44.0...v3.44.1) (2020-12-01)
 
 

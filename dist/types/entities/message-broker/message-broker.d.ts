@@ -2,6 +2,8 @@ import Entity, { EntityOptions, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Route, RouteRawPayload } from '../route';
+import * as messageTemplate from '../message-template';
+import * as event from '../../eventing/feeds/event';
 export interface MessageBrokerOptions extends EntityOptions {
     rawPayload?: MessageBrokerRawPayload;
 }
@@ -97,6 +99,7 @@ export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageB
     }> | undefined>;
     updateProfile(payload: object): Promise<number | undefined>;
     getProfile(options: EntityFetchOptions): Promise<object | undefined>;
+    sendMessageFromMessageTemplate(messageTemplate: messageTemplate.MessageTemplate, channelUserExternalReferenceId: string, language: string, parameters?: object | object[] | null): Promise<event.Event | undefined>;
 }
 export declare class MessageBrokers {
     static endpoint: string;
@@ -127,6 +130,11 @@ export declare class MessageBrokerProxyChannelInstancesRemoteError extends BaseE
     constructor(message?: string, properties?: any);
 }
 export declare class MessageBrokerUpdateProfileRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageBrokerMessageTemplateNotificationSendError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
