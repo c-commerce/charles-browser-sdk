@@ -165,6 +165,9 @@ export interface UniverseProducts {
     fetch: (options?: EntityFetchOptions) => Promise<Product[] | ProductRawPayload[] | undefined>;
     fromJson: (products: ProductRawPayload[]) => Product[];
     toJson: (products: Product[]) => ProductRawPayload[];
+    fetchCount: (options?: EntityFetchOptions) => Promise<{
+        count: number;
+    }>;
 }
 export interface IUniverseCarts {
     fetch: (options?: UniverseFetchOptions) => Promise<cart.Cart[] | cart.CartRawPayload[] | undefined>;

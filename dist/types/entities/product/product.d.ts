@@ -223,6 +223,11 @@ export declare class ProductsFetchRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class ProductsFetchCountRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export declare class ProductInventoryError extends BaseError {
     message: string;
     name: string;

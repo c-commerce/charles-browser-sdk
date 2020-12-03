@@ -1,3 +1,10 @@
+# [3.46.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.45.0...v3.46.0) (2020-12-03)
+
+
+### Features
+
+* **products:** implement fetch count ([6c16ad8](https://github.com/c-commerce/charles-browser-sdk/commit/6c16ad85a9ac93f14562669c52f11c9050ab51e4))
+
 # [3.45.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.44.1...v3.45.0) (2020-12-02)
 
 

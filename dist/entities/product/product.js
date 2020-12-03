@@ -238,6 +238,18 @@ var ProductsFetchRemoteError = (function (_super) {
     return ProductsFetchRemoteError;
 }(errors_1.BaseError));
 exports.ProductsFetchRemoteError = ProductsFetchRemoteError;
+var ProductsFetchCountRemoteError = (function (_super) {
+    tslib_1.__extends(ProductsFetchCountRemoteError, _super);
+    function ProductsFetchCountRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get products.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'ProductsFetchRemoteError';
+        return _this;
+    }
+    return ProductsFetchCountRemoteError;
+}(errors_1.BaseError));
+exports.ProductsFetchCountRemoteError = ProductsFetchCountRemoteError;
 var ProductInventoryError = (function (_super) {
     tslib_1.__extends(ProductInventoryError, _super);
     function ProductInventoryError(message, properties) {
