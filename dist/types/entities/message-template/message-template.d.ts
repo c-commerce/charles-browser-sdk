@@ -9,6 +9,30 @@ export interface MessageTemplateRawPayloadAttachment {
     mime_type?: string;
     payload: string | null | object;
 }
+export interface MessageTemplateRawPayloadLocation {
+    type?: 'location';
+    lat?: number;
+    lng?: number;
+    zoom?: number;
+    name?: string;
+    address_string?: string;
+}
+export interface MessageTemplateRawPayloadCarouselItemAction {
+    type?: 'button' | string;
+    button_type?: 'postback' | string;
+    text?: string;
+    payload?: string;
+}
+export interface MessageTemplateRawPayloadCarouselItem {
+    title?: string;
+    sub_title?: string;
+    image_url?: string;
+    actions?: MessageTemplateRawPayloadCarouselItemAction[];
+}
+export interface MessageTemplateRawPayloadCarousel {
+    type?: string;
+    items?: MessageTemplateRawPayloadCarouselItem[];
+}
 export interface MessageTemplateRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -37,7 +61,7 @@ export interface MessageTemplateRawPayload {
                 type?: 'text' | null;
                 payload?: string;
             } | null;
-            attachments?: MessageTemplateRawPayloadAttachment[];
+            attachments?: MessageTemplateRawPayloadAttachment[] | MessageTemplateRawPayloadLocation[] | MessageTemplateRawPayloadCarousel[] | any;
             approved?: boolean;
             quick_replies?: {
                 translate?: boolean;

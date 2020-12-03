@@ -420,6 +420,12 @@ export class ProductsFetchRemoteError extends BaseError {
     super(message, properties)
   }
 }
+export class ProductsFetchCountRemoteError extends BaseError {
+  public name = 'ProductsFetchRemoteError'
+  constructor (public message: string = 'Could not get products.', properties?: any) {
+    super(message, properties)
+  }
+}
 
 export class ProductInventoryError extends BaseError {
   public name = 'ProductInventoryError'

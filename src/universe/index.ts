@@ -222,6 +222,7 @@ export interface UniverseProducts {
   fetch: (options?: EntityFetchOptions) => Promise<Product[] | ProductRawPayload[] | undefined>
   fromJson: (products: ProductRawPayload[]) => Product[]
   toJson: (products: Product[]) => ProductRawPayload[]
+  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
 
 export interface IUniverseCarts {
@@ -1044,6 +1045,25 @@ export class Universe extends Readable {
           })
         } catch (err) {
           throw new product.ProductsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${product.Products.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new product.ProductsFetchCountRemoteError(undefined, { error: err })
         }
       }
     }
