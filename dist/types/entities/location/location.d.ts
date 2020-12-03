@@ -22,6 +22,7 @@ export interface LocationRawPayload {
     readonly has_inventory?: boolean;
     readonly use_inventory?: boolean;
     readonly is_default?: boolean;
+    readonly can_sell?: boolean;
     readonly addresses?: LocationAddressRawPayload[];
 }
 export interface LocationPayload {
@@ -39,6 +40,7 @@ export interface LocationPayload {
     readonly hasInventory?: LocationRawPayload['has_inventory'];
     readonly useInventory?: LocationRawPayload['use_inventory'];
     readonly isDefault?: LocationRawPayload['is_default'];
+    readonly canSell?: LocationRawPayload['can_sell'];
     readonly addresses?: LocationRawPayload['addresses'];
 }
 export interface LocationAddressPayload {
@@ -81,6 +83,7 @@ export declare class Location extends Entity<LocationPayload, LocationRawPayload
     hasInventory?: LocationPayload['hasInventory'];
     useInventory?: LocationPayload['useInventory'];
     isDefault?: LocationPayload['isDefault'];
+    canSell?: LocationPayload['canSell'];
     addresses?: LocationPayload['addresses'];
     constructor(options: LocationOptions);
     protected deserialize(rawPayload: LocationRawPayload): Location;

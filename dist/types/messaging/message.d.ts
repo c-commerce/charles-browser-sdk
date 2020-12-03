@@ -128,6 +128,7 @@ export declare class Message extends Entity<MessagePayload, MessageRawPayload> {
 export interface MessageReplyContentOptions {
     content: MessagePayload['content'];
     rawAssets?: FormData;
+    causes?: object[] | null;
 }
 export interface ReplyOptions extends MessageOptions, MessageReplyContentOptions {
 }
@@ -142,12 +143,14 @@ export declare class Reply extends Message {
 export declare class MessageReply extends Reply {
     private readonly message;
     private readonly rawAssets?;
+    private readonly causes?;
     constructor(options: MessageReplyOptions);
     send(): Promise<Event | ReplyResponse | undefined>;
 }
 export declare class MessageFeedReply extends Reply {
     private readonly message;
     private readonly rawAssets?;
+    private readonly causes?;
     constructor(options: MessageReplyOptions);
     send(): Promise<ReplyResponse | undefined>;
 }

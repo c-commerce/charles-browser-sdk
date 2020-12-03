@@ -1,3 +1,38 @@
+# [3.45.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.44.1...v3.45.0) (2020-12-02)
+
+
+### Features
+
+* **message-broker:** support broker notifications ([7e3e410](https://github.com/c-commerce/charles-browser-sdk/commit/7e3e410de8e2cbb53b0004eb245590114d127c4a))
+
+## [3.44.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.44.0...v3.44.1) (2020-12-01)
+
+
+### Bug Fixes
+
+* **reply:** extend causes to callers correctly ([e55b880](https://github.com/c-commerce/charles-browser-sdk/commit/e55b8800b48384c63d1d9b33361cd05d6f204e78))
+
+# [3.44.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.43.0...v3.44.0) (2020-12-01)
+
+
+### Features
+
+* **feed:** support .causes on reply ([c34270e](https://github.com/c-commerce/charles-browser-sdk/commit/c34270ef45e45dfa8f9d85866d821762d4aba2a2))
+
+# [3.43.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.4...v3.43.0) (2020-12-01)
+
+
+### Features
+
+* **location:** handle can sell ([f2ee26a](https://github.com/c-commerce/charles-browser-sdk/commit/f2ee26a5ee7761d2f8376d251657acc2ccfd847c))
+
+## [3.42.4](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.3...v3.42.4) (2020-11-30)
+
+
+### Bug Fixes
+
+* **message-templates:** prepare location picker & carousel ([7497a57](https://github.com/c-commerce/charles-browser-sdk/commit/7497a57045a62d957a0ff00bb9551a7cd687bbf8))
+
 ## [3.42.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.42.2...v3.42.3) (2020-11-30)
 
 

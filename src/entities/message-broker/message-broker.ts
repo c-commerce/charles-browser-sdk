@@ -3,7 +3,9 @@ import Entity, { EntityOptions, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Route, RouteRawPayload } from '../route'
-import { profile } from 'console'
+import * as messageTemplate from '../message-template'
+import * as feed from '../../eventing/feeds/feed'
+import * as event from '../../eventing/feeds/event'
 
 export interface MessageBrokerOptions extends EntityOptions {
   rawPayload?: MessageBrokerRawPayload
@@ -244,8 +246,8 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
   }
 
   /**
- * Gets all channel instances of a referenced broker. eg.: gets all slack channels
- */
+   * Gets all channel instances of a referenced broker. eg.: gets all slack channels
+   */
   public async getProxyChannelInstances (): Promise<Array<{ external_reference_id: string, name: string, [key: string]: any }> | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('requires id to be set.')
 
@@ -264,9 +266,9 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
   }
 
   /**
- * Updates the profile of a message broker
- * @param payload
- */
+   * Updates the profile of a message broker
+   * @param payload
+   */
   public async updateProfile (payload: object): Promise<number | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('message broker profile update requires id to be set')
 
@@ -292,9 +294,9 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
   }
 
   /**
- * Updates the profile of a message broker
- * @param payload
- */
+   * Updates the profile of a message broker
+   * @param payload
+   */
   public async getProfile (options: EntityFetchOptions): Promise<object | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('message broker profile get requires id to be set')
 
@@ -311,6 +313,29 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
       return resources
     } catch (err) {
       throw this.handleError(new MessageBrokerUpdateProfileRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async sendMessageFromMessageTemplate (messageTemplate: messageTemplate.MessageTemplate, channelUserExternalReferenceId: string, language: string, parameters?: object | object[] | null): Promise<event.Event | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('message broker notification requires id to be set')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/notifications/templates/${messageTemplate.id as string}`,
+        data: {
+          channel_user_external_reference_id: channelUserExternalReferenceId,
+          parameters,
+          language
+        }
+      }
+      const response = await this.http.getClient()(opts)
+
+      const _feed = feed.Feed.createUninitialized({ id: response.data.data[0].id }, this.universe, this.http, null)
+
+      return event.Event.create(response.data.data[0], _feed, this.universe, this.http)
+    } catch (err) {
+      throw new MessageBrokerMessageTemplateNotificationSendError(undefined, { error: err })
     }
   }
 }
@@ -361,8 +386,16 @@ export class MessageBrokerProxyChannelInstancesRemoteError extends BaseError {
 }
 export class MessageBrokerUpdateProfileRemoteError extends BaseError {
   public name = 'MessageBrokerUpdateProfileRemoteError'
-  constructor (public message: string = 'Could not update profile of message broker', properties?: any) {
+  constructor (public message: string = 'Could not update profile of message broker.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageBrokerUpdateProfileRemoteError.prototype)
+  }
+}
+
+export class MessageBrokerMessageTemplateNotificationSendError extends BaseError {
+  public name = 'MessageBrokerMessageTemplateNotificationSendError'
+  constructor (public message: string = 'Could not create broker notification unexpectedly.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageBrokerMessageTemplateNotificationSendError.prototype)
   }
 }

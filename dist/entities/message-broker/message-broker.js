@@ -4,6 +4,8 @@ var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var route_1 = require("../route");
+var feed = tslib_1.__importStar(require("../../eventing/feeds/feed"));
+var event = tslib_1.__importStar(require("../../eventing/feeds/event"));
 var MessageBroker = (function (_super) {
     tslib_1.__extends(MessageBroker, _super);
     function MessageBroker(options) {
@@ -288,6 +290,39 @@ var MessageBroker = (function (_super) {
             });
         });
     };
+    MessageBroker.prototype.sendMessageFromMessageTemplate = function (messageTemplate, channelUserExternalReferenceId, language, parameters) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, response, _feed, err_8;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('message broker notification requires id to be set');
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/notifications/templates/" + messageTemplate.id,
+                            data: {
+                                channel_user_external_reference_id: channelUserExternalReferenceId,
+                                parameters: parameters,
+                                language: language
+                            }
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 2:
+                        response = _a.sent();
+                        _feed = feed.Feed.createUninitialized({ id: response.data.data[0].id }, this.universe, this.http, null);
+                        return [2, event.Event.create(response.data.data[0], _feed, this.universe, this.http)];
+                    case 3:
+                        err_8 = _a.sent();
+                        throw new MessageBrokerMessageTemplateNotificationSendError(undefined, { error: err_8 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return MessageBroker;
 }(_base_1.default));
 exports.MessageBroker = MessageBroker;
@@ -366,7 +401,7 @@ exports.MessageBrokerProxyChannelInstancesRemoteError = MessageBrokerProxyChanne
 var MessageBrokerUpdateProfileRemoteError = (function (_super) {
     tslib_1.__extends(MessageBrokerUpdateProfileRemoteError, _super);
     function MessageBrokerUpdateProfileRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could not update profile of message broker'; }
+        if (message === void 0) { message = 'Could not update profile of message broker.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'MessageBrokerUpdateProfileRemoteError';
@@ -376,4 +411,17 @@ var MessageBrokerUpdateProfileRemoteError = (function (_super) {
     return MessageBrokerUpdateProfileRemoteError;
 }(errors_1.BaseError));
 exports.MessageBrokerUpdateProfileRemoteError = MessageBrokerUpdateProfileRemoteError;
+var MessageBrokerMessageTemplateNotificationSendError = (function (_super) {
+    tslib_1.__extends(MessageBrokerMessageTemplateNotificationSendError, _super);
+    function MessageBrokerMessageTemplateNotificationSendError(message, properties) {
+        if (message === void 0) { message = 'Could not create broker notification unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'MessageBrokerMessageTemplateNotificationSendError';
+        Object.setPrototypeOf(_this, MessageBrokerMessageTemplateNotificationSendError.prototype);
+        return _this;
+    }
+    return MessageBrokerMessageTemplateNotificationSendError;
+}(errors_1.BaseError));
+exports.MessageBrokerMessageTemplateNotificationSendError = MessageBrokerMessageTemplateNotificationSendError;
 //# sourceMappingURL=message-broker.js.map
