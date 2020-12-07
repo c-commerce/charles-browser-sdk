@@ -214,6 +214,18 @@ var OrderFetchRemoteError = (function (_super) {
     return OrderFetchRemoteError;
 }(errors_1.BaseError));
 exports.OrderFetchRemoteError = OrderFetchRemoteError;
+var OrdersFetchCountRemoteError = (function (_super) {
+    tslib_1.__extends(OrdersFetchCountRemoteError, _super);
+    function OrdersFetchCountRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get order count.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'OrdersFetchCountRemoteError';
+        return _this;
+    }
+    return OrdersFetchCountRemoteError;
+}(errors_1.BaseError));
+exports.OrdersFetchCountRemoteError = OrdersFetchCountRemoteError;
 var OrdersFetchRemoteError = (function (_super) {
     tslib_1.__extends(OrdersFetchRemoteError, _super);
     function OrdersFetchRemoteError(message, properties) {

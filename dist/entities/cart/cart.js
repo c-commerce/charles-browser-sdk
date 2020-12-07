@@ -290,6 +290,19 @@ var CartsFetchRemoteError = (function (_super) {
     return CartsFetchRemoteError;
 }(errors_1.BaseError));
 exports.CartsFetchRemoteError = CartsFetchRemoteError;
+var CartsFetchCountRemoteError = (function (_super) {
+    tslib_1.__extends(CartsFetchCountRemoteError, _super);
+    function CartsFetchCountRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get carts count.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CartsFetchCountRemoteError';
+        Object.setPrototypeOf(_this, CartsFetchCountRemoteError.prototype);
+        return _this;
+    }
+    return CartsFetchCountRemoteError;
+}(errors_1.BaseError));
+exports.CartsFetchCountRemoteError = CartsFetchCountRemoteError;
 var CartCreateRemoteError = (function (_super) {
     tslib_1.__extends(CartCreateRemoteError, _super);
     function CartCreateRemoteError(message, properties) {
