@@ -244,6 +244,11 @@ export declare class OrderFetchRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class OrdersFetchCountRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export declare class OrdersFetchRemoteError extends BaseError {
     message: string;
     name: string;

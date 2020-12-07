@@ -1,3 +1,10 @@
+# [3.47.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.46.0...v3.47.0) (2020-12-07)
+
+
+### Features
+
+* **universe:** added carts fetch count & orders accessor ([eae0a44](https://github.com/c-commerce/charles-browser-sdk/commit/eae0a445870a66eac438b15482505d682eb14c4b))
+
 # [3.46.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.45.0...v3.46.0) (2020-12-03)
 
 

@@ -288,6 +288,11 @@ export declare class CartsFetchRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class CartsFetchCountRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export declare class CartCreateRemoteError extends BaseError {
     message: string;
     name: string;

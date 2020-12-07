@@ -173,6 +173,17 @@ export interface IUniverseCarts {
     fetch: (options?: UniverseFetchOptions) => Promise<cart.Cart[] | cart.CartRawPayload[] | undefined>;
     fromJson: (carts: cart.CartRawPayload[]) => cart.Cart[];
     toJson: (carts: cart.Cart[]) => cart.CartRawPayload[];
+    fetchCount: (options?: EntityFetchOptions) => Promise<{
+        count: number;
+    }>;
+}
+export interface IUniverseOrders {
+    fetch: (options?: UniverseFetchOptions) => Promise<order.Order[] | order.OrderRawPayload[] | undefined>;
+    fromJson: (orders: order.OrderRawPayload[]) => order.Order[];
+    toJson: (orders: order.Order[]) => order.OrderRawPayload[];
+    fetchCount: (options?: EntityFetchOptions) => Promise<{
+        count: number;
+    }>;
 }
 export declare type UniversePermissionType = 'admin';
 export declare type UniverseRoleType = 'admin';
@@ -264,7 +275,7 @@ export declare class Universe extends Readable {
     get products(): UniverseProducts;
     tickets(): Promise<ticket.Ticket[] | undefined>;
     get carts(): IUniverseCarts;
-    orders(): Promise<order.Order[] | undefined>;
+    get orders(): IUniverseOrders;
     discounts(): Promise<discount.Discount[] | undefined>;
     messageTemplates(): Promise<messageTemplate.MessageTemplate[] | undefined>;
     productCategories(options?: EntityFetchOptions): Promise<productCategory.ProductCategory[] | productCategory.ProductCategoryRawPayload[] | undefined>;
