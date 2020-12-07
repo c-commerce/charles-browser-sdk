@@ -1,3 +1,11 @@
+## [3.47.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.47.0...v3.47.1) (2020-12-07)
+
+
+### Bug Fixes
+
+* **person:** add email & language preference ([1fff655](https://github.com/c-commerce/charles-browser-sdk/commit/1fff6557c5a778e3a198a48f4054341c08a52bb6))
+* **person:** revert email (duplicate prop) ([50c7ea9](https://github.com/c-commerce/charles-browser-sdk/commit/50c7ea9083d8880ddae18e3b2318254c763f9a44))
+
 # [3.47.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.46.0...v3.47.0) (2020-12-07)
 
 

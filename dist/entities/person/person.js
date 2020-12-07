@@ -126,6 +126,7 @@ var Person = (function (_super) {
         this.namePreference = rawPayload.name_preference;
         this.customProperties = rawPayload.custom_properties;
         this.defaultAddress = rawPayload.default_address;
+        this.languagePreference = rawPayload.language_preference;
         if (rawPayload.analytics && this.initialized) {
             this.analytics = analytics_1.Analytics.create(rawPayload.analytics, this.universe, this.http);
         }
@@ -210,6 +211,7 @@ var Person = (function (_super) {
             name_preference: this.namePreference,
             custom_properties: this.customProperties,
             default_address: this.defaultAddress,
+            language_preference: this.languagePreference,
             analytics: this.analytics ? this.analytics.serialize() : undefined,
             emails: Array.isArray(this.emails) ? this.emails.map(function (item) { return item.serialize(); }) : undefined,
             addresses: Array.isArray(this._addresses)
