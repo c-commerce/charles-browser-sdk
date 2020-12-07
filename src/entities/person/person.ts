@@ -120,6 +120,9 @@ export interface PersonRawPayload extends EntityRawPayload {
   readonly channel_users?: PersonChannelUserRawPayload[]
   readonly analytics?: PersonAnalyticsRawPayload
   readonly default_address?: string | null
+  readonly email?: string
+  readonly language_preference?: string
+
 }
 
 export interface IPersonCarts {
@@ -227,6 +230,9 @@ export interface PersonPayload {
   readonly channelUsers?: ChannelUser[]
   readonly analytics?: Analytics
   readonly defaultAddress?: PersonRawPayload['default_address']
+  readonly email?: PersonRawPayload['email']
+  readonly languagePreference?: PersonRawPayload['language_preference']
+
 }
 
 /**
@@ -266,6 +272,8 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   public channelUsers?: PersonPayload['channelUsers']
   public analytics?: PersonPayload['analytics']
   public defaultAddress?: PersonPayload['defaultAddress']
+  public email?: PersonPayload['email']
+  public languagePreference?: PersonPayload['languagePreference']
 
   constructor (options: PersonOptions) {
     super()
@@ -302,6 +310,8 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this.namePreference = rawPayload.name_preference
     this.customProperties = rawPayload.custom_properties
     this.defaultAddress = rawPayload.default_address
+    this.email = rawPayload.email
+    this.languagePreference = rawPayload.language_preference
 
     // in the following we are going to set virtual properties
     // e.g. from embeds. We want make sure that their fallback is undefined
@@ -391,6 +401,8 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       name_preference: this.namePreference,
       custom_properties: this.customProperties,
       default_address: this.defaultAddress,
+      email: this.email,
+      language_preference: this.languagePreference,
       analytics: this.analytics ? this.analytics.serialize() : undefined,
       emails: Array.isArray(this.emails) ? this.emails.map(item => item.serialize()) : undefined,
       addresses: Array.isArray(this._addresses)
