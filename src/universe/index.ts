@@ -229,6 +229,13 @@ export interface IUniverseCarts {
   fetch: (options?: UniverseFetchOptions) => Promise<cart.Cart[] | cart.CartRawPayload[] | undefined>
   fromJson: (carts: cart.CartRawPayload[]) => cart.Cart[]
   toJson: (carts: cart.Cart[]) => cart.CartRawPayload[]
+  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
+}
+export interface IUniverseOrders {
+  fetch: (options?: UniverseFetchOptions) => Promise<order.Order[] | order.OrderRawPayload[] | undefined>
+  fromJson: (orders: order.OrderRawPayload[]) => order.Order[]
+  toJson: (orders: order.Order[]) => order.OrderRawPayload[]
+  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
 
 export type UniversePermissionType =
@@ -1126,20 +1133,93 @@ export class Universe extends Readable {
         } catch (err) {
           throw new cart.CartsFetchRemoteError(undefined, { error: err })
         }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${cart.Carts.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new cart.CartsFetchCountRemoteError(undefined, { error: err })
+        }
       }
     }
   }
 
-  public async orders (): Promise<order.Order[] | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${order.Orders.endpoint}`)
-      const resources = res.data.data as order.OrderRawPayload[]
+  /**
+   * Orders accessor
+   *
+   * ```js
+   * // fetch all orders with regular defaults (as class instance list)
+   * await universe.orders.fetch()
+   * // fetch all orders as raw structs with some query options
+   * await universe.orders.fetch({ raw: true })
+   * // cast a list of class instances to list of structs
+   * universe.orders.toJson([feed])
+   * // cast a list of structs to list of class instances
+   * universe.orders.fromJson([feed])
+   * ```
+   */
+  public get orders (): IUniverseOrders {
+    return {
+      fromJson: (payloads: order.OrderRawPayload[]): order.Order[] => {
+        return payloads.map((item) => (order.Order.create(item, this, this.http)))
+      },
+      toJson: (orders: order.Order[]): order.OrderRawPayload[] => {
+        return orders.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: UniverseFetchOptions): Promise<order.Order[] | order.OrderRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${order.Orders.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const resources = res.data.data as order.OrderRawPayload[]
 
-      return resources.map((resource: order.OrderRawPayload) => {
-        return order.Order.create(resource, this, this.http)
-      })
-    } catch (err) {
-      throw new order.OrdersFetchRemoteError(undefined, { error: err })
+          if (options && options.raw === true) {
+            return resources
+          }
+
+          return resources.map((resource: order.OrderRawPayload) => {
+            return order.Order.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new order.OrdersFetchRemoteError(undefined, { error: err })
+        }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${order.Orders.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new order.OrdersFetchCountRemoteError(undefined, { error: err })
+        }
+      }
     }
   }
 

@@ -529,6 +529,13 @@ export class CartsFetchRemoteError extends BaseError {
     Object.setPrototypeOf(this, CartsFetchRemoteError.prototype)
   }
 }
+export class CartsFetchCountRemoteError extends BaseError {
+  public name = 'CartsFetchCountRemoteError'
+  constructor (public message: string = 'Could not get carts count.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CartsFetchCountRemoteError.prototype)
+  }
+}
 
 export class CartCreateRemoteError extends BaseError {
   public name = 'CartCreateRemoteError'

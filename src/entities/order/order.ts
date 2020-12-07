@@ -433,6 +433,12 @@ export class OrderFetchRemoteError extends BaseError {
     super(message, properties)
   }
 }
+export class OrdersFetchCountRemoteError extends BaseError {
+  public name = 'OrdersFetchCountRemoteError'
+  constructor (public message: string = 'Could not get order count.', properties?: any) {
+    super(message, properties)
+  }
+}
 
 export class OrdersFetchRemoteError extends BaseError {
   public name = 'OrdersFetchRemoteError'
