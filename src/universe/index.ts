@@ -49,7 +49,6 @@ import * as thing from '../entities/thing/thing'
 import * as nlu from '../entities/nlu/nlu'
 import * as intent from '../entities/intent/intent'
 import * as message from '../messaging/message'
-
 import * as location from '../entities/location/location'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -256,6 +255,11 @@ export interface MeData {
   permissions: UniversePermissionType[]
   roles: UniversePermissionType[]
   staff: staff.StaffRawPayload
+}
+
+interface BaseResourceCreateable<T, K> {
+  new(...args: any[]): T
+  create(payload: K, universe: Universe, http: Universe['http']): T
 }
 
 /**
@@ -510,6 +514,10 @@ export class Universe extends Readable {
 
   private handleError (err: Error): void {
     if (this.listeners('error').length > 0) this.emit('error', err)
+  }
+
+  private baseResourceFactory<T, K>(proto: BaseResourceCreateable<T, K>, payload: K): T {
+    return proto.create(payload, this, this.http)
   }
 
   public feed (payload: FeedRawPayload): Feed {
