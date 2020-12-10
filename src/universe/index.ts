@@ -262,6 +262,15 @@ interface BaseResourceCreateable<T, K> {
   create(payload: K, universe: Universe, http: Universe['http']): T
 }
 
+interface BaseResourceList<T> {
+  endpoint: string
+  new(...args: any[]): T
+}
+
+type BaseResourceErrorProto<E> = new(...args: any[]) => E
+
+type BaseResourceEntityFetchOptions<O> = EntityFetchOptions
+
 /**
  * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
  * or namespace for data.
@@ -1313,47 +1322,34 @@ export class Universe extends Readable {
     }
   }
 
-  public async tags (options?: EntityFetchOptions): Promise<tag.Tag[] | tag.TagRawPayload[] | undefined> {
+  private async makeBaseResourceListRequest<T, TL, K, O, E>(proto: BaseResourceCreateable<T, K>, listProto: BaseResourceList<TL>, errorProto: BaseResourceErrorProto<E>, options?: BaseResourceEntityFetchOptions<O>): Promise<T[] | K[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${tag.Tags.endpoint}`, {
+      const res = await this.http.getClient().get(`${this.universeBase}/${listProto.endpoint}`, {
         params: {
           ...(options?.query ?? {})
         }
       })
-      const resources = res.data.data as tag.TagRawPayload[]
+      const resources = res.data.data as K[]
 
       if (options && options.raw === true) {
         return resources
       }
 
-      return resources.map((resource: tag.TagRawPayload) => {
-        return tag.Tag.create(resource, this, this.http)
+      return resources.map((resource: K) => {
+        return proto.create(resource, this, this.http)
       })
     } catch (err) {
-      throw new tag.TagsFetchRemoteError(undefined, { error: err })
+      // eslint-disable-next-line @typescript-eslint/no-throw-literal,new-cap
+      throw new errorProto(undefined, { error: err })
     }
   }
 
+  public async tags (options?: EntityFetchOptions): Promise<tag.Tag[] | tag.TagRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<tag.Tag, tag.Tags, tag.TagRawPayload, EntityFetchOptions, tag.TagsFetchRemoteError>(tag.Tag, tag.Tags, tag.TagsFetchRemoteError, options)
+  }
+
   public async tagGroups (options?: EntityFetchOptions): Promise<tagGroup.TagGroup[] | tagGroup.TagGroupRawPayload[] | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${tagGroup.TagGroups.endpoint}`, {
-        params: {
-          ...(options?.query ?? {})
-        }
-      })
-
-      const resources = res.data.data as tagGroup.TagGroupRawPayload[]
-
-      if (options && options.raw === true) {
-        return resources
-      }
-
-      return resources.map((resource: tagGroup.TagGroupRawPayload) => {
-        return tagGroup.TagGroup.create(resource, this, this.http)
-      })
-    } catch (err) {
-      throw new tagGroup.TagGroupsFetchRemoteError(undefined, { error: err })
-    }
+    return await this.makeBaseResourceListRequest<tagGroup.TagGroup, tagGroup.TagGroups, tagGroup.TagGroupRawPayload, EntityFetchOptions, tagGroup.TagGroupsFetchRemoteError>(tagGroup.TagGroup, tagGroup.TagGroups, tagGroup.TagGroupsFetchRemoteError, options)
   }
 
   public async configurations (options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
