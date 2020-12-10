@@ -694,78 +694,38 @@ export class Universe extends Readable {
     }
   }
 
+  private async makeAnalyticsRequest<T, K>(endpointSlug: string, options: K): Promise<T[]> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universeBase}/${ANALYTICS_ENDPOINT}${endpointSlug}`,
+        params: options
+      }
+
+      const res = await this.http.getClient()(opts)
+      return res.data.data as T[]
+    } catch (err) {
+      throw new AnalyticsFetchRemoteError(undefined, { error: err })
+    }
+  }
+
   /* Analytics & Reports */
   public get analytics (): UniverseAnalytics {
     return {
       orders: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        try {
-          const opts = {
-            method: 'GET',
-            url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/commerce/orders/distribution/count`,
-            params: options
-          }
-
-          const res = await this.http.getClient()(opts)
-          return res.data.data as AnalyticsReport[]
-        } catch (err) {
-          throw new AnalyticsFetchRemoteError(undefined, { error: err })
-        }
+        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/commerce/orders/distribution/count', options)
       },
       revenues: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        try {
-          const opts = {
-            method: 'GET',
-            url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/commerce/revenues/distribution`,
-            params: options
-          }
-
-          const res = await this.http.getClient()(opts)
-          return res.data.data as AnalyticsReport[]
-        } catch (err) {
-          throw new AnalyticsFetchRemoteError(undefined, { error: err })
-        }
+        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/commerce/revenues/distribution', options)
       },
       xau: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        try {
-          const opts = {
-            method: 'GET',
-            url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/messages/xau/count`,
-            params: options
-          }
-
-          const res = await this.http.getClient()(opts)
-          return res.data.data as AnalyticsReport[]
-        } catch (err) {
-          throw new AnalyticsFetchRemoteError(undefined, { error: err })
-        }
+        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/messages/xau/count', options)
       },
       peopleMessagingChannelParticipationDistribution: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        try {
-          const opts = {
-            method: 'GET',
-            url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/channel_participation/distribution`,
-            params: options
-          }
-
-          const res = await this.http.getClient()(opts)
-          return res.data.data as AnalyticsReport[]
-        } catch (err) {
-          throw new AnalyticsFetchRemoteError(undefined, { error: err })
-        }
+        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/channel_participation/distribution', options)
       },
       feedOpenedClosed: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        try {
-          const opts = {
-            method: 'GET',
-            url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/feeds/open_close/distribution/count`,
-            params: options
-          }
-
-          const res = await this.http.getClient()(opts)
-          return res.data.data as AnalyticsReport[]
-        } catch (err) {
-          throw new AnalyticsFetchRemoteError(undefined, { error: err })
-        }
+        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/feeds/open_close/distribution/count', options)
       }
     }
   }
