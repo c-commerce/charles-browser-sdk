@@ -18,23 +18,5 @@ before: hygen:handler:injection
   title  = h.changeCase.title(singularizedName, true)
 %>
   public async <%= camelizedName %>(options?: EntityFetchOptions): Promise<<%= camelizedSingularName %>.<%= className %>[] | <%= camelizedSingularName %>.<%= className %>RawPayload[] | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${<%= camelizedSingularName %>.<%= classListName %>.endpoint}`, {
-        params: {
-          ...(options?.query ?? {})
-        }
-      })
-
-      const resources = res.data.data as <%= camelizedSingularName %>.<%= className %>RawPayload[]
-
-      if (options && options.raw === true) {
-        return resources
-      }
-
-      return resources.map((resource: <%= camelizedSingularName %>.<%= className %>RawPayload) => {
-        return <%= camelizedSingularName %>.<%= className %>.create(resource, this, this.http)
-      })
-    } catch (err) {
-      throw new <%= camelizedSingularName %>.<%= classListName %>FetchRemoteError(undefined, { error: err })
-    }
+    return await this.makeBaseResourceListRequest<<%= camelizedSingularName %>.<%= className %>R, <%= camelizedSingularName %>.<%= classListName %>, <%= camelizedSingularName %>.<%= className %>RawPayload, EntityFetchOptions, <%= camelizedSingularName %>.<%= classListName %>FetchRemoteError>(<%= camelizedSingularName %>.<%= className %>, <%= camelizedSingularName %>.<%= classListName %>, <%= camelizedSingularName %>.<%= classListName %>FetchRemoteError, options)
   }
