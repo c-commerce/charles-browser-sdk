@@ -1,3 +1,10 @@
+# [3.50.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.49.0...v3.50.0) (2020-12-10)
+
+
+### Features
+
+* **universe/lists:** make templated requests ([b5d16fc](https://github.com/c-commerce/charles-browser-sdk/commit/b5d16fcd02c5c118ec9cfcec5e35d4595c26c42f))
+
 # [3.49.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.48.0...v3.49.0) (2020-12-10)
 
 

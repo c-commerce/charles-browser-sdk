@@ -227,6 +227,7 @@ export declare class Universe extends Readable {
     get connected(): boolean;
     isConnected(): boolean;
     private handleError;
+    private baseResourceFactory;
     feed(payload: FeedRawPayload): Feed;
     product(payload: product.ProductRawPayload): product.Product;
     staff(payload: staff.StaffRawPayload): staff.Staff;
@@ -285,6 +286,7 @@ export declare class Universe extends Readable {
     messageTemplateCategories(): Promise<messageTemplateCategory.MessageTemplateCategory[] | undefined>;
     messageTemplateCategoryTrees(): Promise<messageTemplateCategoryTree.MessageTemplateCategoryTree[] | undefined>;
     customProperties(): Promise<customProperty.CustomProperty[] | undefined>;
+    private makeBaseResourceListRequest;
     tags(options?: EntityFetchOptions): Promise<tag.Tag[] | tag.TagRawPayload[] | undefined>;
     tagGroups(options?: EntityFetchOptions): Promise<tagGroup.TagGroup[] | tagGroup.TagGroupRawPayload[] | undefined>;
     configurations(options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined>;
