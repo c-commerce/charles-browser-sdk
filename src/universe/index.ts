@@ -192,6 +192,7 @@ export interface UniverseAnalytics {
   revenues: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   xau: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   feedOpenedClosed: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
+  peopleMessagingChannelParticipationDistribution: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
 }
 
 export interface UniverseFeeds {
@@ -729,6 +730,20 @@ export class Universe extends Readable {
           const opts = {
             method: 'GET',
             url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/messages/xau/count`,
+            params: options
+          }
+
+          const res = await this.http.getClient()(opts)
+          return res.data.data as AnalyticsReport[]
+        } catch (err) {
+          throw new AnalyticsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      peopleMessagingChannelParticipationDistribution: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${ANALYTICS_ENDPOINT}/channel_participation/distribution`,
             params: options
           }
 
