@@ -1,3 +1,10 @@
+# [3.48.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.47.1...v3.48.0) (2020-12-10)
+
+
+### Features
+
+* **universe/analytics:** suppport channel participation ([e68438e](https://github.com/c-commerce/charles-browser-sdk/commit/e68438ea5dc97fda22e899d76a55e35e94bed533))
+
 ## [3.47.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.47.0...v3.47.1) (2020-12-07)
 
 
