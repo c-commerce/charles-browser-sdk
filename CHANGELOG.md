@@ -1,3 +1,10 @@
+## [3.50.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.50.0...v3.50.1) (2020-12-10)
+
+
+### Bug Fixes
+
+* **universe/analytics:** use correct channel participation ref ([ab129d3](https://github.com/c-commerce/charles-browser-sdk/commit/ab129d3a148eb8e9fdc55b2564ac6a71e29bbb93))
+
 # [3.50.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.49.0...v3.50.0) (2020-12-10)
 
 

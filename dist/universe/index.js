@@ -443,7 +443,7 @@ var Universe = (function (_super) {
                 peopleMessagingChannelParticipationDistribution: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4, this.makeAnalyticsRequest('/channel_participation/distribution', options)];
+                            case 0: return [4, this.makeAnalyticsRequest('/people/channel_participation/distribution', options)];
                             case 1: return [2, _a.sent()];
                         }
                     });
