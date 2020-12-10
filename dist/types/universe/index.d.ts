@@ -267,6 +267,7 @@ export declare class Universe extends Readable {
         [key: string]: any;
     } | undefined>>;
     me(): Promise<MeData | undefined>;
+    private makeAnalyticsRequest;
     get analytics(): UniverseAnalytics;
     get feeds(): UniverseFeeds;
     get people(): UniversePeople;
