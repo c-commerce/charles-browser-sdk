@@ -739,7 +739,7 @@ export class Universe extends Readable {
         return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/messages/xau/count', options)
       },
       peopleMessagingChannelParticipationDistribution: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/channel_participation/distribution', options)
+        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/people/channel_participation/distribution', options)
       },
       feedOpenedClosed: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
         return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/feeds/open_close/distribution/count', options)
