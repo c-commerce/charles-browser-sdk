@@ -1,3 +1,10 @@
+# [3.52.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.51.0...v3.52.0) (2020-12-14)
+
+
+### Features
+
+* **notificationCampaigns:** add notification campaigns resource ([fdae5f8](https://github.com/c-commerce/charles-browser-sdk/commit/fdae5f8021cf775d19d8bc6c2660de4c903f912c))
+
 # [3.51.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.50.1...v3.51.0) (2020-12-14)
 
 

@@ -18,14 +18,8 @@ export interface ContactListRawPayload {
     }> | null;
     readonly type?: 'dynamic' | 'static';
     readonly author?: {
-        staff?: Array<{
-            type?: string;
-            format?: string;
-        }> | null;
-        user?: Array<{
-            type?: string;
-            format?: string;
-        }> | null;
+        staff?: string[];
+        user?: string[];
     };
 }
 export interface ContactListPayload {

@@ -39,6 +39,7 @@ import * as intent from '../entities/intent/intent';
 import * as message from '../messaging/message';
 import * as location from '../entities/location/location';
 import * as contactList from '../entities/contact-list/contact-list';
+import * as notificationCampaign from '../entities/notification-campaign/notification-campaign';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -195,6 +196,14 @@ export interface IUniverseContactLists {
         count: number;
     }>;
 }
+export interface IUniverseNotificationCampaigns {
+    fetch: (options?: UniverseFetchOptions) => Promise<notificationCampaign.NotificationCampaign[] | notificationCampaign.NotificationCampaignRawPayload[] | undefined>;
+    fromJson: (notificationCampaigns: notificationCampaign.NotificationCampaignRawPayload[]) => notificationCampaign.NotificationCampaign[];
+    toJson: (notificationCampaigns: notificationCampaign.NotificationCampaign[]) => notificationCampaign.NotificationCampaignRawPayload[];
+    fetchCount: (options?: EntityFetchOptions) => Promise<{
+        count: number;
+    }>;
+}
 export declare type UniversePermissionType = 'admin';
 export declare type UniverseRoleType = 'admin';
 export interface MeData {
@@ -272,6 +281,7 @@ export declare class Universe extends Readable {
     location(payload: location.LocationRawPayload): location.Location;
     message(payload: message.MessageRawPayload): message.Message;
     contactList(payload: contactList.ContactListRawPayload): contactList.ContactList;
+    notificationCampaign(payload: notificationCampaign.NotificationCampaignRawPayload): notificationCampaign.NotificationCampaign;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -313,6 +323,7 @@ export declare class Universe extends Readable {
     intents(options?: EntityFetchOptions): Promise<intent.Intent[] | intent.IntentRawPayload[] | undefined>;
     locations(options?: EntityFetchOptions): Promise<location.Location[] | location.LocationRawPayload[] | undefined>;
     get contactLists(): IUniverseContactLists;
+    get notificationCampaigns(): IUniverseNotificationCampaigns;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
