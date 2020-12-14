@@ -18,5 +18,5 @@ before: hygen:handler:injection
   title  = h.changeCase.title(singularizedName, true)
 %>
   public async <%= camelizedName %>(options?: EntityFetchOptions): Promise<<%= camelizedSingularName %>.<%= className %>[] | <%= camelizedSingularName %>.<%= className %>RawPayload[] | undefined> {
-    return await this.makeBaseResourceListRequest<<%= camelizedSingularName %>.<%= className %>R, <%= camelizedSingularName %>.<%= classListName %>, <%= camelizedSingularName %>.<%= className %>RawPayload, EntityFetchOptions, <%= camelizedSingularName %>.<%= classListName %>FetchRemoteError>(<%= camelizedSingularName %>.<%= className %>, <%= camelizedSingularName %>.<%= classListName %>, <%= camelizedSingularName %>.<%= classListName %>FetchRemoteError, options)
+    return await this.makeBaseResourceListRequest<<%= camelizedSingularName %>.<%= className %>, <%= camelizedSingularName %>.<%= classListName %>, <%= camelizedSingularName %>.<%= className %>RawPayload, EntityFetchOptions, <%= camelizedSingularName %>.<%= classListName %>FetchRemoteError>(<%= camelizedSingularName %>.<%= className %>, <%= camelizedSingularName %>.<%= classListName %>, <%= camelizedSingularName %>.<%= classListName %>FetchRemoteError, options)
   }

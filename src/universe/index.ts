@@ -52,6 +52,8 @@ import * as message from '../messaging/message'
 import * as location from '../entities/location/location'
 import * as contactList from '../entities/contact-list/contact-list'
 
+import * as notificationCampaign from '../entities/notification-campaign/notification-campaign'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -242,6 +244,12 @@ export interface IUniverseContactLists {
   fetch: (options?: UniverseFetchOptions) => Promise<contactList.ContactList[] | contactList.ContactListRawPayload[] | undefined>
   fromJson: (contactLists: contactList.ContactListRawPayload[]) => contactList.ContactList[]
   toJson: (contactLists: contactList.ContactList[]) => contactList.ContactListRawPayload[]
+  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
+}
+export interface IUniverseNotificationCampaigns {
+  fetch: (options?: UniverseFetchOptions) => Promise<notificationCampaign.NotificationCampaign[] | notificationCampaign.NotificationCampaignRawPayload[] | undefined>
+  fromJson: (notificationCampaigns: notificationCampaign.NotificationCampaignRawPayload[]) => notificationCampaign.NotificationCampaign[]
+  toJson: (notificationCampaigns: notificationCampaign.NotificationCampaign[]) => notificationCampaign.NotificationCampaignRawPayload[]
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
 
@@ -674,6 +682,10 @@ export class Universe extends Readable {
 
   public contactList (payload: contactList.ContactListRawPayload): contactList.ContactList {
     return contactList.ContactList.create(payload, this, this.http)
+  }
+
+  public notificationCampaign (payload: notificationCampaign.NotificationCampaignRawPayload): notificationCampaign.NotificationCampaign {
+    return notificationCampaign.NotificationCampaign.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1695,6 +1707,59 @@ export class Universe extends Readable {
           }
         } catch (err) {
           throw new contactList.ContactListsFetchCountRemoteError(undefined, { error: err })
+        }
+      }
+    }
+  }
+
+  public get notificationCampaigns (): IUniverseNotificationCampaigns {
+    return {
+      fromJson: (payloads: notificationCampaign.NotificationCampaignRawPayload[]): notificationCampaign.NotificationCampaign[] => {
+        return payloads.map((item) => (notificationCampaign.NotificationCampaign.create(item, this, this.http)))
+      },
+      toJson: (contactLists: notificationCampaign.NotificationCampaign[]): notificationCampaign.NotificationCampaignRawPayload[] => {
+        return contactLists.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: UniverseFetchOptions): Promise<notificationCampaign.NotificationCampaign[] | notificationCampaign.NotificationCampaignRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${notificationCampaign.NotificationCampaigns.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const resources = res.data.data as notificationCampaign.NotificationCampaignRawPayload[]
+
+          if (options && options.raw === true) {
+            return resources
+          }
+
+          return resources.map((resource: notificationCampaign.NotificationCampaignRawPayload) => {
+            return notificationCampaign.NotificationCampaign.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new notificationCampaign.NotificationCampaignsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${notificationCampaign.NotificationCampaigns.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new notificationCampaign.NotificationCampaignsFetchCountRemoteError(undefined, { error: err })
         }
       }
     }
