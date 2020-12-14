@@ -38,6 +38,7 @@ import * as nlu from '../entities/nlu/nlu';
 import * as intent from '../entities/intent/intent';
 import * as message from '../messaging/message';
 import * as location from '../entities/location/location';
+import * as contactList from '../entities/contact-list/contact-list';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -186,6 +187,14 @@ export interface IUniverseOrders {
         count: number;
     }>;
 }
+export interface IUniverseContactLists {
+    fetch: (options?: UniverseFetchOptions) => Promise<contactList.ContactList[] | contactList.ContactListRawPayload[] | undefined>;
+    fromJson: (contactLists: contactList.ContactListRawPayload[]) => contactList.ContactList[];
+    toJson: (contactLists: contactList.ContactList[]) => contactList.ContactListRawPayload[];
+    fetchCount: (options?: EntityFetchOptions) => Promise<{
+        count: number;
+    }>;
+}
 export declare type UniversePermissionType = 'admin';
 export declare type UniverseRoleType = 'admin';
 export interface MeData {
@@ -262,6 +271,7 @@ export declare class Universe extends Readable {
     intent(payload: intent.IntentRawPayload): intent.Intent;
     location(payload: location.LocationRawPayload): location.Location;
     message(payload: message.MessageRawPayload): message.Message;
+    contactList(payload: contactList.ContactListRawPayload): contactList.ContactList;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -302,6 +312,7 @@ export declare class Universe extends Readable {
     nlus(options?: EntityFetchOptions): Promise<nlu.Nlu[] | nlu.NluRawPayload[] | undefined>;
     intents(options?: EntityFetchOptions): Promise<intent.Intent[] | intent.IntentRawPayload[] | undefined>;
     locations(options?: EntityFetchOptions): Promise<location.Location[] | location.LocationRawPayload[] | undefined>;
+    get contactLists(): IUniverseContactLists;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
