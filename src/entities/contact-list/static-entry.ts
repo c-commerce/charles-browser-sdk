@@ -185,3 +185,10 @@ export class ContactListStaticEntryCreateRemoteError extends BaseError {
     Object.setPrototypeOf(this, ContactListStaticEntryCreateRemoteError.prototype)
   }
 }
+export class ContactListStaticEntryDeleteRemoteError extends BaseError {
+  public name = 'ContactListStaticEntryDeleteRemoteError'
+  constructor (public message: string = 'Could not delete contact list static entry.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ContactListStaticEntryDeleteRemoteError.prototype)
+  }
+}

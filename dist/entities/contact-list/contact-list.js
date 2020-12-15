@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+var static_entry_1 = require("./static-entry");
 var ContactList = (function (_super) {
     tslib_1.__extends(ContactList, _super);
     function ContactList(options) {
@@ -19,6 +20,7 @@ var ContactList = (function (_super) {
         return _this;
     }
     ContactList.prototype.deserialize = function (rawPayload) {
+        var _this = this;
         var _a, _b;
         this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
@@ -31,6 +33,17 @@ var ContactList = (function (_super) {
         this.filters = rawPayload.filters;
         this.type = rawPayload.type;
         this.author = rawPayload.author;
+        if (rawPayload.static_entries && this.initialized) {
+            this._staticEntries = rawPayload.static_entries.map(function (i) { return static_entry_1.ContactListStaticEntry.create(i, _this.universe, _this.http); });
+        }
+        else if (rawPayload.static_entries && !this.initialized) {
+            this._staticEntries = rawPayload.static_entries.map(function (i) {
+                return static_entry_1.ContactListStaticEntry.createUninitialized(i, _this.universe, _this.http);
+            });
+        }
+        else {
+            this._staticEntries = undefined;
+        }
         return this;
     };
     ContactList.create = function (payload, universe, http) {
@@ -70,6 +83,18 @@ var ContactList = (function (_super) {
             });
         });
     };
+    Object.defineProperty(ContactList.prototype, "staticEntries", {
+        get: function () {
+            var _a;
+            var sea = new StaticEntryArray((_a = this._staticEntries) !== null && _a !== void 0 ? _a : [], this.universe, this.http, this);
+            return sea;
+        },
+        set: function (items) {
+            this._staticEntries = items.map(function (item) { return (item); });
+        },
+        enumerable: true,
+        configurable: true
+    });
     return ContactList;
 }(_base_1.default));
 exports.ContactList = ContactList;
@@ -80,6 +105,84 @@ var ContactLists = (function () {
     return ContactLists;
 }());
 exports.ContactLists = ContactLists;
+var StaticEntryArray = (function (_super) {
+    tslib_1.__extends(StaticEntryArray, _super);
+    function StaticEntryArray(items, universe, http, contactList) {
+        var _this = _super.apply(this, items) || this;
+        _this.universe = universe;
+        _this.http = http;
+        _this.contactList = contactList;
+        Object.setPrototypeOf(_this, StaticEntryArray.prototype);
+        return _this;
+    }
+    StaticEntryArray.prototype.fromJson = function (payloads) {
+        var _this = this;
+        return payloads.map(function (item) { return static_entry_1.ContactListStaticEntry.create(item, _this.universe, _this.http); });
+    };
+    StaticEntryArray.prototype.toJson = function (items) {
+        return items.map(function (item) { return item.serialize(); });
+    };
+    StaticEntryArray.prototype.fetch = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, err_2;
+            var _this = this;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + ContactLists.endpoint + "/" + this.contactList.id + "/static_entries",
+                            params: tslib_1.__assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
+                        return [2, resources.map(function (item) {
+                                return static_entry_1.ContactListStaticEntry.create(item, _this.universe, _this.http);
+                            })];
+                    case 2:
+                        err_2 = _a.sent();
+                        throw new static_entry_1.ContactListStaticEntryFetchRemoteError(undefined, { error: err_2 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    StaticEntryArray.prototype.create = function (payload) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, err_3;
+            var _this = this;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + ContactLists.endpoint + "/" + this.contactList.id + "/static_entries",
+                            data: payload
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources.map(function (item) {
+                                return static_entry_1.ContactListStaticEntry.create(item, _this.universe, _this.http);
+                            })[0]];
+                    case 2:
+                        err_3 = _a.sent();
+                        throw new static_entry_1.ContactListStaticEntryCreateRemoteError(undefined, { error: err_3 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    return StaticEntryArray;
+}(Array));
 var ContactListInitializationError = (function (_super) {
     tslib_1.__extends(ContactListInitializationError, _super);
     function ContactListInitializationError(message, properties) {

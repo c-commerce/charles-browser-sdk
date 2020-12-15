@@ -1,8 +1,9 @@
 
-import Entity, { EntityOptions, EntityFetchOptions } from '../_base'
+import Entity, { EntityOptions, EntityFetchOptions, EntityDeleteOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { ContactListStaticEntry, ContactListStaticEntryPayload, ContactListStaticEntryCreateRemoteError, ContactListStaticEntryRawPayload, ContactListStaticEntryFetchRemoteError } from './static-entry'
+import { ContactListStaticEntry, ContactListStaticEntryCreateRemoteError, ContactListStaticEntryRawPayload, ContactListStaticEntryFetchRemoteError, ContactListStaticEntryDeleteRemoteError } from './static-entry'
+import qs from 'qs'
 
 export interface ContactListOptions extends EntityOptions {
   rawPayload?: ContactListRawPayload
@@ -234,6 +235,26 @@ class StaticEntryArray<T> extends Array<T> {
       })[0]
     } catch (err) {
       throw new ContactListStaticEntryCreateRemoteError(undefined, { error: err })
+    }
+  }
+
+  async delete (payload: ContactListStaticEntryRawPayload, options?: EntityDeleteOptions): Promise<number> {
+    if (payload.id === null || payload.id === undefined) throw new TypeError('delete requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe.universeBase}/${ContactLists.endpoint}/${this.contactList.id as string}/static_entries/${payload.id}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw new ContactListStaticEntryDeleteRemoteError(undefined, { error: err })
     }
   }
 }
