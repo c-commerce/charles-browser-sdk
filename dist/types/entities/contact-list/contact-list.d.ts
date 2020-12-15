@@ -1,4 +1,4 @@
-import Entity, { EntityOptions, EntityFetchOptions } from '../_base';
+import Entity, { EntityOptions, EntityFetchOptions, EntityDeleteOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { ContactListStaticEntry, ContactListStaticEntryRawPayload } from './static-entry';
@@ -74,6 +74,7 @@ declare class StaticEntryArray<T> extends Array<T> {
     toJson(items: ContactListStaticEntry[]): ContactListStaticEntryRawPayload[];
     fetch(options?: EntityFetchOptions): Promise<ContactListStaticEntry[] | ContactListStaticEntryRawPayload[] | undefined>;
     create(payload: ContactListStaticEntryRawPayload): Promise<ContactListStaticEntry | undefined>;
+    delete(payload: ContactListStaticEntryRawPayload, options?: EntityDeleteOptions): Promise<number>;
 }
 export declare class ContactListInitializationError extends BaseError {
     message: string;

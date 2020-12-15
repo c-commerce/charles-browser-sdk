@@ -4,6 +4,7 @@ var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
 var static_entry_1 = require("./static-entry");
+var qs_1 = tslib_1.__importDefault(require("qs"));
 var ContactList = (function (_super) {
     tslib_1.__extends(ContactList, _super);
     function ContactList(options) {
@@ -177,6 +178,38 @@ var StaticEntryArray = (function (_super) {
                         err_3 = _a.sent();
                         throw new static_entry_1.ContactListStaticEntryCreateRemoteError(undefined, { error: err_3 });
                     case 3: return [2];
+                }
+            });
+        });
+    };
+    StaticEntryArray.prototype.delete = function (payload, options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_4;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (payload.id === null || payload.id === undefined)
+                            throw new TypeError('delete requires id to be set.');
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'DELETE',
+                            url: this.universe.universeBase + "/" + ContactLists.endpoint + "/" + this.contactList.id + "/static_entries/" + payload.id + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: undefined,
+                            responseType: 'json'
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 2:
+                        res = _a.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_4 = _a.sent();
+                        throw new static_entry_1.ContactListStaticEntryDeleteRemoteError(undefined, { error: err_4 });
+                    case 4: return [2];
                 }
             });
         });

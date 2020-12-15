@@ -128,4 +128,17 @@ var ContactListStaticEntryCreateRemoteError = (function (_super) {
     return ContactListStaticEntryCreateRemoteError;
 }(errors_1.BaseError));
 exports.ContactListStaticEntryCreateRemoteError = ContactListStaticEntryCreateRemoteError;
+var ContactListStaticEntryDeleteRemoteError = (function (_super) {
+    tslib_1.__extends(ContactListStaticEntryDeleteRemoteError, _super);
+    function ContactListStaticEntryDeleteRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not delete contact list static entry.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'ContactListStaticEntryDeleteRemoteError';
+        Object.setPrototypeOf(_this, ContactListStaticEntryDeleteRemoteError.prototype);
+        return _this;
+    }
+    return ContactListStaticEntryDeleteRemoteError;
+}(errors_1.BaseError));
+exports.ContactListStaticEntryDeleteRemoteError = ContactListStaticEntryDeleteRemoteError;
 //# sourceMappingURL=static-entry.js.map

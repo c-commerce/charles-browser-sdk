@@ -1,3 +1,10 @@
+# [3.55.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.54.0...v3.55.0) (2020-12-15)
+
+
+### Features
+
+* **contact list static entries:** implement delete ([8881d1c](https://github.com/c-commerce/charles-browser-sdk/commit/8881d1c1766d5741d231b11301cf4f173f981ca6))
+
 # [3.54.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.53.0...v3.54.0) (2020-12-15)
 
 
