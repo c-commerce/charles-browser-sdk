@@ -328,6 +328,9 @@ export declare class Universe extends Readable {
     versions(): Promise<{
         universe: string;
     } | undefined>;
+    self(): Promise<{
+        universe: string;
+    } | undefined>;
     healthz(): Promise<{
         message: string;
     } | undefined>;
@@ -365,6 +368,11 @@ export declare class UniverseApiRequestError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class UniverseVersionsError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseSelfError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

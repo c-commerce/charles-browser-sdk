@@ -1,3 +1,10 @@
+# [3.53.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.52.0...v3.53.0) (2020-12-15)
+
+
+### Features
+
+* **universe:** implement self request ([2be6e06](https://github.com/c-commerce/charles-browser-sdk/commit/2be6e06e0c9404258800ce9b2d29c49a44052c9a))
+
 # [3.52.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.51.0...v3.52.0) (2020-12-14)
 
 
