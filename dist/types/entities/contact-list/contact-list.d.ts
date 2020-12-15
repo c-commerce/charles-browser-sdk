@@ -1,6 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import Entity, { EntityOptions, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { ContactListStaticEntry, ContactListStaticEntryRawPayload } from './static-entry';
 export interface ContactListOptions extends EntityOptions {
     rawPayload?: ContactListRawPayload;
 }
@@ -21,6 +22,7 @@ export interface ContactListRawPayload {
         staff?: string[];
         user?: string[];
     };
+    readonly static_entries?: ContactListStaticEntryRawPayload[];
 }
 export interface ContactListPayload {
     readonly id?: ContactListRawPayload['id'];
@@ -33,6 +35,7 @@ export interface ContactListPayload {
     readonly filters?: ContactListRawPayload['filters'];
     readonly type?: ContactListRawPayload['type'];
     readonly author?: ContactListRawPayload['author'];
+    readonly staticEntries?: ContactListStaticEntry[];
 }
 export declare class ContactList extends Entity<ContactListPayload, ContactListRawPayload> {
     protected universe: Universe;
@@ -50,14 +53,27 @@ export declare class ContactList extends Entity<ContactListPayload, ContactListR
     filters?: ContactListPayload['filters'];
     type?: ContactListPayload['type'];
     author?: ContactListPayload['author'];
+    _staticEntries?: ContactListPayload['staticEntries'];
     constructor(options: ContactListOptions);
     protected deserialize(rawPayload: ContactListRawPayload): ContactList;
     static create(payload: ContactListRawPayload, universe: Universe, http: Universe['http']): ContactList;
     serialize(): ContactListRawPayload;
     init(): Promise<ContactList | undefined>;
+    get staticEntries(): StaticEntryArray<ContactListStaticEntry>;
+    set staticEntries(items: StaticEntryArray<ContactListStaticEntry>);
 }
 export declare class ContactLists {
     static endpoint: string;
+}
+declare class StaticEntryArray<T> extends Array<T> {
+    protected universe: Universe;
+    protected http: Universe['http'];
+    protected contactList: ContactList;
+    constructor(items: T[], universe: Universe, http: Universe['http'], contactList: ContactList);
+    fromJson(payloads: ContactListStaticEntryRawPayload[]): ContactListStaticEntry[];
+    toJson(items: ContactListStaticEntry[]): ContactListStaticEntryRawPayload[];
+    fetch(options?: EntityFetchOptions): Promise<ContactListStaticEntry[] | ContactListStaticEntryRawPayload[] | undefined>;
+    create(payload: ContactListStaticEntryRawPayload): Promise<ContactListStaticEntry | undefined>;
 }
 export declare class ContactListInitializationError extends BaseError {
     message: string;
@@ -79,3 +95,4 @@ export declare class ContactListsFetchCountRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export {};

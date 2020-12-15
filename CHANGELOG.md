@@ -1,3 +1,10 @@
+# [3.54.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.53.0...v3.54.0) (2020-12-15)
+
+
+### Features
+
+* **contact lists:** implement contact lists & contact lists static entries ([bc021bd](https://github.com/c-commerce/charles-browser-sdk/commit/bc021bdfff0e045bc37b516ca08abcc2331b4afa))
+
 # [3.53.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.52.0...v3.53.0) (2020-12-15)
 
 
