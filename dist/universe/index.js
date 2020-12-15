@@ -1795,10 +1795,32 @@ var Universe = (function (_super) {
             });
         });
     };
-    Universe.prototype.healthz = function () {
+    Universe.prototype.self = function () {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var res, err_47;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().get(this.universeBase + "/api/self")];
+                    case 1:
+                        res = _b.sent();
+                        return [2, {
+                                universe: (_a = res.data) === null || _a === void 0 ? void 0 : _a.universe
+                            }];
+                    case 2:
+                        err_47 = _b.sent();
+                        throw new UniverseSelfError(undefined, { error: err_47 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Universe.prototype.healthz = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var res, err_48;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -1810,8 +1832,8 @@ var Universe = (function (_super) {
                                 message: (_a = res.data) === null || _a === void 0 ? void 0 : _a.msg
                             }];
                     case 2:
-                        err_47 = _b.sent();
-                        throw new UniverseHealthzError(undefined, { error: err_47 });
+                        err_48 = _b.sent();
+                        throw new UniverseHealthzError(undefined, { error: err_48 });
                     case 3: return [2];
                 }
             });
@@ -1852,7 +1874,7 @@ var Universe = (function (_super) {
     });
     Universe.prototype.searchEntity = function (endpoint, q) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_48;
+            var res, err_49;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1866,8 +1888,8 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         return [2, res.data.data];
                     case 2:
-                        err_48 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_48 });
+                        err_49 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_49 });
                     case 3: return [2];
                 }
             });
@@ -1970,6 +1992,19 @@ var UniverseVersionsError = (function (_super) {
     return UniverseVersionsError;
 }(errors_1.BaseError));
 exports.UniverseVersionsError = UniverseVersionsError;
+var UniverseSelfError = (function (_super) {
+    tslib_1.__extends(UniverseSelfError, _super);
+    function UniverseSelfError(message, properties) {
+        if (message === void 0) { message = 'Unexptected response making self request.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UniverseSelfError';
+        Object.setPrototypeOf(_this, UniverseSelfError.prototype);
+        return _this;
+    }
+    return UniverseSelfError;
+}(errors_1.BaseError));
+exports.UniverseSelfError = UniverseSelfError;
 var UniverseHealthzError = (function (_super) {
     tslib_1.__extends(UniverseHealthzError, _super);
     function UniverseHealthzError(message, properties) {
