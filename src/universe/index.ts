@@ -51,7 +51,6 @@ import * as intent from '../entities/intent/intent'
 import * as message from '../messaging/message'
 import * as location from '../entities/location/location'
 import * as contactList from '../entities/contact-list/contact-list'
-
 import * as notificationCampaign from '../entities/notification-campaign/notification-campaign'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.

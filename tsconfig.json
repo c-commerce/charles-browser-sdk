@@ -25,7 +25,13 @@
     "outDir": "dist",
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "tslib": [
+        "node_modules/tslib/tslib.d.ts"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts",

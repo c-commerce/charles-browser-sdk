@@ -1,7 +1,8 @@
 
-import Entity, { EntityOptions } from '../_base'
+import Entity, { EntityOptions, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { ContactListStaticEntry, ContactListStaticEntryPayload, ContactListStaticEntryCreateRemoteError, ContactListStaticEntryRawPayload, ContactListStaticEntryFetchRemoteError } from './static-entry'
 
 export interface ContactListOptions extends EntityOptions {
   rawPayload?: ContactListRawPayload
@@ -25,6 +26,7 @@ export interface ContactListRawPayload {
     staff?: string[]
     user?: string[]
   }
+  readonly static_entries?: ContactListStaticEntryRawPayload[]
 }
 
 export interface ContactListPayload {
@@ -39,6 +41,7 @@ export interface ContactListPayload {
   readonly filters?: ContactListRawPayload['filters']
   readonly type?: ContactListRawPayload['type']
   readonly author?: ContactListRawPayload['author']
+  readonly staticEntries?: ContactListStaticEntry[]
 }
 
 /**
@@ -65,6 +68,7 @@ export class ContactList extends Entity<ContactListPayload, ContactListRawPayloa
   public filters?: ContactListPayload['filters']
   public type?: ContactListPayload['type']
   public author?: ContactListPayload['author']
+  public _staticEntries?: ContactListPayload['staticEntries']
 
   constructor (options: ContactListOptions) {
     super()
@@ -93,6 +97,16 @@ export class ContactList extends Entity<ContactListPayload, ContactListRawPayloa
     this.filters = rawPayload.filters
     this.type = rawPayload.type
     this.author = rawPayload.author
+
+    if (rawPayload.static_entries && this.initialized) {
+      this._staticEntries = rawPayload.static_entries.map(i => ContactListStaticEntry.create(i, this.universe, this.http))
+    } else if (rawPayload.static_entries && !this.initialized) {
+      this._staticEntries = rawPayload.static_entries.map(i =>
+        ContactListStaticEntry.createUninitialized(i, this.universe, this.http)
+      )
+    } else {
+      this._staticEntries = undefined
+    }
 
     return this
   }
@@ -126,11 +140,102 @@ export class ContactList extends Entity<ContactListPayload, ContactListRawPayloa
       throw this.handleError(new ContactListInitializationError(undefined, { error: err }))
     }
   }
+
+  /**
+   * Static entry accessor
+   *
+   * ```js
+   * // fetch all static entries of a contact list
+   * await contactList.staticEntries.fetch()
+   * // fetch all static entries as raw structs with some query options
+   * await contactList.staticEntries.fetch({ raw: true })
+   * // cast a list of class instances to list of structs
+   * contactList.staticEntries.toJson([staticEntry])
+   * // cast a list of structs to list of class instances
+   * contactList.staticEntries.fromJson([staticEntry])
+   * // create a static entry for this contact list
+   * contactList.staticEntries.create(staticEntry)
+   * ```
+   */
+  get staticEntries (): StaticEntryArray<ContactListStaticEntry> {
+    const sea = new StaticEntryArray<ContactListStaticEntry>(this._staticEntries ?? [], this.universe, this.http, this)
+    return sea
+  }
+
+  set staticEntries (items: StaticEntryArray<ContactListStaticEntry>) {
+    this._staticEntries = items.map((item: ContactListStaticEntry) => (item))
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class ContactLists {
   public static endpoint: string = 'api/v0/contact_lists'
+}
+
+class StaticEntryArray<T> extends Array<T> {
+  protected universe: Universe
+  protected http: Universe['http']
+  protected contactList: ContactList
+
+  constructor (items: T[], universe: Universe, http: Universe['http'], contactList: ContactList) {
+    super(...items)
+    this.universe = universe
+    this.http = http
+    this.contactList = contactList
+    Object.setPrototypeOf(this, StaticEntryArray.prototype)
+  }
+
+  public fromJson (payloads: ContactListStaticEntryRawPayload[]): ContactListStaticEntry[] {
+    return payloads.map(item => ContactListStaticEntry.create(item, this.universe, this.http))
+  }
+
+  public toJson (items: ContactListStaticEntry[]): ContactListStaticEntryRawPayload[] {
+    return items.map(item => item.serialize())
+  }
+
+  public async fetch (
+    options?: EntityFetchOptions
+  ): Promise<ContactListStaticEntry[] | ContactListStaticEntryRawPayload[] | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${ContactLists.endpoint}/${this.contactList.id as string}/static_entries`,
+        params: {
+          ...(options?.query ? options.query : {})
+        }
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data as ContactListStaticEntryRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((item: ContactListStaticEntryRawPayload) => {
+        return ContactListStaticEntry.create(item, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new ContactListStaticEntryFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  async create (payload: ContactListStaticEntryRawPayload): Promise<ContactListStaticEntry | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${ContactLists.endpoint}/${this.contactList.id as string}/static_entries`,
+        data: payload
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data as ContactListStaticEntryRawPayload[]
+
+      return resources.map((item: ContactListStaticEntryRawPayload) => {
+        return ContactListStaticEntry.create(item, this.universe, this.http)
+      })[0]
+    } catch (err) {
+      throw new ContactListStaticEntryCreateRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 export class ContactListInitializationError extends BaseError {
