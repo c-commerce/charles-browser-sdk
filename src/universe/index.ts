@@ -1375,25 +1375,35 @@ export class Universe extends Readable {
   }
 
   public async configurations (options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${configuration.Configurations.endpoint}`, {
-        params: {
-          ...(options?.query ?? {})
-        }
-      })
+    return await this.makeBaseResourceListRequest<configuration.Configuration, configuration.Configurations, configuration.ConfigurationRawPayload, EntityFetchOptions, configuration.ConfigurationsFetchRemoteError>(configuration.Configuration, configuration.Configurations, configuration.ConfigurationsFetchRemoteError, options)
+  }
 
-      const resources = res.data.data as configuration.ConfigurationRawPayload[]
-
-      if (options && options.raw === true) {
-        return resources
-      }
-
-      return resources.map((resource: configuration.ConfigurationRawPayload) => {
-        return configuration.Configuration.create(resource, this, this.http)
-      })
-    } catch (err) {
-      throw new configuration.ConfigurationsFetchRemoteError(undefined, { error: err })
+  public async uiConfigurations ({ query: { owner = 'self' }, ...rest }: { query: { owner: string }, [key: string]: any }): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
+    const opts = {
+      query: {
+        owner,
+        field: [
+          'ui'
+        ]
+      },
+      ...rest
     }
+
+    return await this.makeBaseResourceListRequest<configuration.Configuration, configuration.Configurations, configuration.ConfigurationRawPayload, EntityFetchOptions, configuration.ConfigurationsFetchRemoteError>(configuration.Configuration, configuration.Configurations, configuration.ConfigurationsFetchRemoteError, opts)
+  }
+
+  public async dashboardConfigurations ({ query: { owner = 'self' }, ...rest }: { query: { owner: string }, [key: string]: any }): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
+    const opts = {
+      query: {
+        owner,
+        field: [
+          'dashboard'
+        ]
+      },
+      ...rest
+    }
+
+    return await this.makeBaseResourceListRequest<configuration.Configuration, configuration.Configurations, configuration.ConfigurationRawPayload, EntityFetchOptions, configuration.ConfigurationsFetchRemoteError>(configuration.Configuration, configuration.Configurations, configuration.ConfigurationsFetchRemoteError, opts)
   }
 
   public async inventories (options?: EntityFetchOptions): Promise<inventory.Inventory[] | inventory.InventoryRawPayload[] | undefined> {

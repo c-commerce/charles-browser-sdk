@@ -39,6 +39,12 @@ export interface ConfigurationRawPayload {
       }
     }
   }
+  ui?: {
+    [key: string]: any
+  }
+  dashboard?: {
+    [key: string]: any
+  }
 }
 
 export interface ConfigurationPayload {
@@ -49,6 +55,8 @@ export interface ConfigurationPayload {
   readonly active?: ConfigurationRawPayload['active']
   readonly owner?: ConfigurationRawPayload['owner']
   readonly configuration?: ConfigurationRawPayload['configuration']
+  readonly ui?: ConfigurationRawPayload['ui']
+  readonly dashboard?: ConfigurationRawPayload['dashboard']
 }
 
 /**
@@ -71,6 +79,8 @@ export class Configuration extends Entity<ConfigurationPayload, ConfigurationRaw
   public active?: ConfigurationPayload['active']
   public owner?: ConfigurationPayload['owner']
   public configuration?: ConfigurationPayload['configuration']
+  public ui?: ConfigurationPayload['ui']
+  public dashboard?: ConfigurationPayload['dashboard']
 
   constructor (options: ConfigurationOptions) {
     super()
@@ -95,6 +105,8 @@ export class Configuration extends Entity<ConfigurationPayload, ConfigurationRaw
     this.active = rawPayload.active ?? true
     this.owner = rawPayload.owner
     this.configuration = rawPayload.configuration
+    this.ui = rawPayload.ui
+    this.dashboard = rawPayload.dashboard
 
     return this
   }
@@ -111,7 +123,9 @@ export class Configuration extends Entity<ConfigurationPayload, ConfigurationRaw
       deleted: this.deleted ?? false,
       active: this.active ?? true,
       owner: this.owner,
-      configuration: this.configuration
+      configuration: this.configuration,
+      ui: this.ui,
+      dashboard: this.dashboard
     }
   }
 
