@@ -35,6 +35,12 @@ export interface ConfigurationRawPayload {
             };
         };
     };
+    ui?: {
+        [key: string]: any;
+    };
+    dashboard?: {
+        [key: string]: any;
+    };
 }
 export interface ConfigurationPayload {
     readonly id?: ConfigurationRawPayload['id'];
@@ -44,6 +50,8 @@ export interface ConfigurationPayload {
     readonly active?: ConfigurationRawPayload['active'];
     readonly owner?: ConfigurationRawPayload['owner'];
     readonly configuration?: ConfigurationRawPayload['configuration'];
+    readonly ui?: ConfigurationRawPayload['ui'];
+    readonly dashboard?: ConfigurationRawPayload['dashboard'];
 }
 export declare class Configuration extends Entity<ConfigurationPayload, ConfigurationRawPayload> {
     protected universe: Universe;
@@ -58,6 +66,8 @@ export declare class Configuration extends Entity<ConfigurationPayload, Configur
     active?: ConfigurationPayload['active'];
     owner?: ConfigurationPayload['owner'];
     configuration?: ConfigurationPayload['configuration'];
+    ui?: ConfigurationPayload['ui'];
+    dashboard?: ConfigurationPayload['dashboard'];
     constructor(options: ConfigurationOptions);
     protected deserialize(rawPayload: ConfigurationRawPayload): Configuration;
     static create(payload: ConfigurationRawPayload, universe: Universe, http: Universe['http']): Configuration;

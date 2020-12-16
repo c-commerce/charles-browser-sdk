@@ -1,3 +1,10 @@
+# [3.56.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.55.0...v3.56.0) (2020-12-16)
+
+
+### Features
+
+* **universe/configurations:** refactor remote factory, add ui config ([5a3d8ad](https://github.com/c-commerce/charles-browser-sdk/commit/5a3d8ada1b8daa8bec1003ecdfd1f0c5e111295e))
+
 # [3.55.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.54.0...v3.55.0) (2020-12-15)
 
 

@@ -28,6 +28,8 @@ var Configuration = (function (_super) {
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
         this.owner = rawPayload.owner;
         this.configuration = rawPayload.configuration;
+        this.ui = rawPayload.ui;
+        this.dashboard = rawPayload.dashboard;
         return this;
     };
     Configuration.create = function (payload, universe, http) {
@@ -42,7 +44,9 @@ var Configuration = (function (_super) {
             deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,
             active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
             owner: this.owner,
-            configuration: this.configuration
+            configuration: this.configuration,
+            ui: this.ui,
+            dashboard: this.dashboard
         };
     };
     Configuration.prototype.init = function () {

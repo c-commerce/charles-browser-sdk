@@ -310,6 +310,18 @@ export declare class Universe extends Readable {
     tags(options?: EntityFetchOptions): Promise<tag.Tag[] | tag.TagRawPayload[] | undefined>;
     tagGroups(options?: EntityFetchOptions): Promise<tagGroup.TagGroup[] | tagGroup.TagGroupRawPayload[] | undefined>;
     configurations(options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined>;
+    uiConfigurations({ query: { owner }, ...rest }: {
+        query: {
+            owner: string;
+        };
+        [key: string]: any;
+    }): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined>;
+    dashboardConfigurations({ query: { owner }, ...rest }: {
+        query: {
+            owner: string;
+        };
+        [key: string]: any;
+    }): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined>;
     inventories(options?: EntityFetchOptions): Promise<inventory.Inventory[] | inventory.InventoryRawPayload[] | undefined>;
     integrations(options?: EntityFetchOptions): Promise<integration.Integration[] | integration.IntegrationRawPayload[] | undefined>;
     availableIntegrations(options?: EntityFetchOptions): Promise<integration.AvailableIntegrationRawPayload[] | undefined>;
