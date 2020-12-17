@@ -59,6 +59,7 @@ export declare class ContactList extends Entity<ContactListPayload, ContactListR
     static create(payload: ContactListRawPayload, universe: Universe, http: Universe['http']): ContactList;
     serialize(): ContactListRawPayload;
     init(): Promise<ContactList | undefined>;
+    preview(options?: EntityFetchOptions): Promise<object[] | undefined>;
     get staticEntries(): StaticEntryArray<ContactListStaticEntry>;
     set staticEntries(items: StaticEntryArray<ContactListStaticEntry>);
 }
@@ -92,6 +93,11 @@ export declare class ContactListsFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class ContactListsFetchCountRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class ContactListPreviewRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

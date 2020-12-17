@@ -84,6 +84,34 @@ var ContactList = (function (_super) {
             });
         });
     };
+    ContactList.prototype.preview = function (options) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_2;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/preview" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 1:
+                        res = _c.sent();
+                        return [2, res.data.data];
+                    case 2:
+                        err_2 = _c.sent();
+                        throw this.handleError(new ContactListPreviewRemoteError(undefined, { error: err_2 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Object.defineProperty(ContactList.prototype, "staticEntries", {
         get: function () {
             var _a;
@@ -125,7 +153,7 @@ var StaticEntryArray = (function (_super) {
     };
     StaticEntryArray.prototype.fetch = function (options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, resources, err_2;
+            var opts, res, resources, err_3;
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
@@ -147,8 +175,8 @@ var StaticEntryArray = (function (_super) {
                                 return static_entry_1.ContactListStaticEntry.create(item, _this.universe, _this.http);
                             })];
                     case 2:
-                        err_2 = _a.sent();
-                        throw new static_entry_1.ContactListStaticEntryFetchRemoteError(undefined, { error: err_2 });
+                        err_3 = _a.sent();
+                        throw new static_entry_1.ContactListStaticEntryFetchRemoteError(undefined, { error: err_3 });
                     case 3: return [2];
                 }
             });
@@ -156,7 +184,7 @@ var StaticEntryArray = (function (_super) {
     };
     StaticEntryArray.prototype.create = function (payload) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, resources, err_3;
+            var opts, res, resources, err_4;
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
@@ -175,8 +203,8 @@ var StaticEntryArray = (function (_super) {
                                 return static_entry_1.ContactListStaticEntry.create(item, _this.universe, _this.http);
                             })[0]];
                     case 2:
-                        err_3 = _a.sent();
-                        throw new static_entry_1.ContactListStaticEntryCreateRemoteError(undefined, { error: err_3 });
+                        err_4 = _a.sent();
+                        throw new static_entry_1.ContactListStaticEntryCreateRemoteError(undefined, { error: err_4 });
                     case 3: return [2];
                 }
             });
@@ -184,7 +212,7 @@ var StaticEntryArray = (function (_super) {
     };
     StaticEntryArray.prototype.delete = function (payload, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, err_4;
+            var opts, res, err_5;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -207,8 +235,8 @@ var StaticEntryArray = (function (_super) {
                         res = _a.sent();
                         return [2, res.status];
                     case 3:
-                        err_4 = _a.sent();
-                        throw new static_entry_1.ContactListStaticEntryDeleteRemoteError(undefined, { error: err_4 });
+                        err_5 = _a.sent();
+                        throw new static_entry_1.ContactListStaticEntryDeleteRemoteError(undefined, { error: err_5 });
                     case 4: return [2];
                 }
             });
@@ -268,4 +296,17 @@ var ContactListsFetchCountRemoteError = (function (_super) {
     return ContactListsFetchCountRemoteError;
 }(errors_1.BaseError));
 exports.ContactListsFetchCountRemoteError = ContactListsFetchCountRemoteError;
+var ContactListPreviewRemoteError = (function (_super) {
+    tslib_1.__extends(ContactListPreviewRemoteError, _super);
+    function ContactListPreviewRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get preview of Contact List.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'ContactListPreviewRemoteError';
+        Object.setPrototypeOf(_this, ContactListPreviewRemoteError.prototype);
+        return _this;
+    }
+    return ContactListPreviewRemoteError;
+}(errors_1.BaseError));
+exports.ContactListPreviewRemoteError = ContactListPreviewRemoteError;
 //# sourceMappingURL=contact-list.js.map

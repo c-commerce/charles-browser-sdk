@@ -143,6 +143,30 @@ export class ContactList extends Entity<ContactListPayload, ContactListRawPayloa
   }
 
   /**
+ * Get live preview data of a dynamic contact list
+ */
+  public async preview (options?: EntityFetchOptions): Promise<object[] | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        // params: {
+        //   ...(options?.query ? options.query : {})
+        // },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data
+    } catch (err) {
+      throw this.handleError(new ContactListPreviewRemoteError(undefined, { error: err }))
+    }
+  }
+
+  /**
    * Static entry accessor
    *
    * ```js
@@ -287,5 +311,12 @@ export class ContactListsFetchCountRemoteError extends BaseError {
   constructor (public message: string = 'Could not get count of Contact Lists.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ContactListsFetchCountRemoteError.prototype)
+  }
+}
+export class ContactListPreviewRemoteError extends BaseError {
+  public name = 'ContactListPreviewRemoteError'
+  constructor (public message: string = 'Could not get preview of Contact List.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ContactListPreviewRemoteError.prototype)
   }
 }
