@@ -1,3 +1,10 @@
+# [3.57.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.56.0...v3.57.0) (2020-12-17)
+
+
+### Features
+
+* **contact lists:** add preview ([438dea1](https://github.com/c-commerce/charles-browser-sdk/commit/438dea19bec308f3d661b88d42a1018919919aa5))
+
 # [3.56.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.55.0...v3.56.0) (2020-12-16)
 
 
