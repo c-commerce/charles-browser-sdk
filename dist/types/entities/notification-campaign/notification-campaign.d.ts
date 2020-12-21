@@ -117,6 +117,8 @@ export declare class NotificationCampaign extends Entity<NotificationCampaignPay
     static create(payload: NotificationCampaignRawPayload, universe: Universe, http: Universe['http']): NotificationCampaign;
     serialize(): NotificationCampaignRawPayload;
     init(): Promise<NotificationCampaign | undefined>;
+    preflightCheck(): Promise<NotificationCampaign>;
+    preflightArm(): Promise<NotificationCampaign>;
 }
 export declare class NotificationCampaigns {
     static endpoint: string;
@@ -137,6 +139,16 @@ export declare class NotificationCampaignsFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class NotificationCampaignsFetchCountRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class NotificationCampaignPreflightError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class NotificationCampaignArmError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

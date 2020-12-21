@@ -1,3 +1,10 @@
+# [3.58.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.57.2...v3.58.0) (2020-12-21)
+
+
+### Features
+
+* **notification campaigns:** implement preflight check&arming ([e41985a](https://github.com/c-commerce/charles-browser-sdk/commit/e41985a75fc0584f36c5cea9a26c87547439bea4))
+
 ## [3.57.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.57.1...v3.57.2) (2020-12-21)
 
 

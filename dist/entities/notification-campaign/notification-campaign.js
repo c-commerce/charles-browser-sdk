@@ -92,6 +92,72 @@ var NotificationCampaign = (function (_super) {
             });
         });
     };
+    NotificationCampaign.prototype.preflightCheck = function () {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_2;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('campaign preflight check requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/preflight/check",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        res = _c.sent();
+                        this.deserialize(res.data.data[0].notification_campaign);
+                        return [2, this];
+                    case 3:
+                        err_2 = _c.sent();
+                        throw new NotificationCampaignPreflightError(undefined, { error: err_2 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    NotificationCampaign.prototype.preflightArm = function () {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_3;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('campaign preflight arm requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/preflight/arm",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        res = _c.sent();
+                        this.deserialize(res.data.data[0].notification_campaign);
+                        return [2, this];
+                    case 3:
+                        err_3 = _c.sent();
+                        throw new NotificationCampaignArmError(undefined, { error: err_3 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return NotificationCampaign;
 }(_base_1.default));
 exports.NotificationCampaign = NotificationCampaign;
@@ -154,4 +220,30 @@ var NotificationCampaignsFetchCountRemoteError = (function (_super) {
     return NotificationCampaignsFetchCountRemoteError;
 }(errors_1.BaseError));
 exports.NotificationCampaignsFetchCountRemoteError = NotificationCampaignsFetchCountRemoteError;
+var NotificationCampaignPreflightError = (function (_super) {
+    tslib_1.__extends(NotificationCampaignPreflightError, _super);
+    function NotificationCampaignPreflightError(message, properties) {
+        if (message === void 0) { message = 'Could not do preflight check on campaign.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'NotificationCampaignPreflightError';
+        Object.setPrototypeOf(_this, NotificationCampaignPreflightError.prototype);
+        return _this;
+    }
+    return NotificationCampaignPreflightError;
+}(errors_1.BaseError));
+exports.NotificationCampaignPreflightError = NotificationCampaignPreflightError;
+var NotificationCampaignArmError = (function (_super) {
+    tslib_1.__extends(NotificationCampaignArmError, _super);
+    function NotificationCampaignArmError(message, properties) {
+        if (message === void 0) { message = 'Could not preflight arm notification_campaign.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'NotificationCampaignArmError';
+        Object.setPrototypeOf(_this, NotificationCampaignArmError.prototype);
+        return _this;
+    }
+    return NotificationCampaignArmError;
+}(errors_1.BaseError));
+exports.NotificationCampaignArmError = NotificationCampaignArmError;
 //# sourceMappingURL=notification-campaign.js.map
