@@ -1,3 +1,10 @@
+## [3.57.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.57.1...v3.57.2) (2020-12-21)
+
+
+### Bug Fixes
+
+* **notification campaigns:** add default language ([e620bf5](https://github.com/c-commerce/charles-browser-sdk/commit/e620bf5bb0aeb5fd3bd88611fadc74174620ce78))
+
 ## [3.57.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.57.0...v3.57.1) (2020-12-21)
 
 
