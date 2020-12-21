@@ -73,6 +73,8 @@ export interface NotificationCampaignRawPayload {
   readonly is_armed?: boolean
   readonly is_draft?: boolean
 
+  readonly default_language?: string
+
 }
 
 export interface NotificationCampaignPayload {
@@ -97,6 +99,7 @@ export interface NotificationCampaignPayload {
   readonly publisher?: NotificationCampaignRawPayload['publisher']
   readonly isArmed?: NotificationCampaignRawPayload['is_armed']
   readonly isDraft?: NotificationCampaignRawPayload['is_draft']
+  readonly defaultLanguage?: NotificationCampaignRawPayload['default_language']
 
 }
 
@@ -134,6 +137,7 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
   public publisher?: NotificationCampaignPayload['publisher']
   public isArmed?: NotificationCampaignPayload['isArmed']
   public isDraft?: NotificationCampaignPayload['isDraft']
+  public defaultLanguage?: NotificationCampaignPayload['defaultLanguage']
 
   constructor (options: NotificationCampaignOptions) {
     super()
@@ -172,6 +176,7 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
     this.publisher = rawPayload.publisher
     this.isArmed = rawPayload.is_armed
     this.isDraft = rawPayload.is_draft
+    this.defaultLanguage = rawPayload.default_language
 
     return this
   }
@@ -202,7 +207,8 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
       author: this.author,
       publisher: this.publisher,
       is_armed: this.isArmed,
-      is_draft: this.isDraft
+      is_draft: this.isDraft,
+      default_language: this.defaultLanguage
 
     }
   }
