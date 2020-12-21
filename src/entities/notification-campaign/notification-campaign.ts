@@ -70,6 +70,9 @@ export interface NotificationCampaignRawPayload {
     user?: string[]
   }
 
+  readonly is_armed?: boolean
+  readonly is_draft?: boolean
+
 }
 
 export interface NotificationCampaignPayload {
@@ -92,6 +95,8 @@ export interface NotificationCampaignPayload {
   readonly execution?: NotificationCampaignRawPayload['execution']
   readonly author?: NotificationCampaignRawPayload['author']
   readonly publisher?: NotificationCampaignRawPayload['publisher']
+  readonly isArmed?: NotificationCampaignRawPayload['is_armed']
+  readonly isDraft?: NotificationCampaignRawPayload['is_draft']
 
 }
 
@@ -127,6 +132,8 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
   public execution?: NotificationCampaignPayload['execution']
   public author?: NotificationCampaignPayload['author']
   public publisher?: NotificationCampaignPayload['publisher']
+  public isArmed?: NotificationCampaignPayload['isArmed']
+  public isDraft?: NotificationCampaignPayload['isDraft']
 
   constructor (options: NotificationCampaignOptions) {
     super()
@@ -163,6 +170,8 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
     this.execution = rawPayload.execution
     this.author = rawPayload.author
     this.publisher = rawPayload.publisher
+    this.isArmed = rawPayload.is_armed
+    this.isDraft = rawPayload.is_draft
 
     return this
   }
@@ -191,7 +200,10 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
       schedule: this.schedule,
       execution: this.execution,
       author: this.author,
-      publisher: this.publisher
+      publisher: this.publisher,
+      is_armed: this.isArmed,
+      is_draft: this.isDraft
+
     }
   }
 
