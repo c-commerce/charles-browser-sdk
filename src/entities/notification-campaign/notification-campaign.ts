@@ -222,6 +222,48 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
       throw this.handleError(new NotificationCampaignInitializationError(undefined, { error: err }))
     }
   }
+
+  public async preflightCheck (): Promise<NotificationCampaign> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign preflight check requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/preflight/check`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      this.deserialize(res.data.data[0].notification_campaign as NotificationCampaignRawPayload)
+      return this
+    } catch (err) {
+      throw new NotificationCampaignPreflightError(undefined, { error: err })
+    }
+  }
+
+  public async preflightArm (): Promise<NotificationCampaign> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign preflight arm requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/preflight/arm`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      this.deserialize(res.data.data[0].notification_campaign as NotificationCampaignRawPayload)
+      return this
+    } catch (err) {
+      throw new NotificationCampaignArmError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -257,5 +299,19 @@ export class NotificationCampaignsFetchCountRemoteError extends BaseError {
   constructor (public message: string = 'Could not get notification_campaigns count.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignsFetchCountRemoteError.prototype)
+  }
+}
+export class NotificationCampaignPreflightError extends BaseError {
+  public name = 'NotificationCampaignPreflightError'
+  constructor (public message: string = 'Could not do preflight check on campaign.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignPreflightError.prototype)
+  }
+}
+export class NotificationCampaignArmError extends BaseError {
+  public name = 'NotificationCampaignArmError'
+  constructor (public message: string = 'Could not preflight arm notification_campaign.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignArmError.prototype)
   }
 }
