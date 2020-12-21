@@ -1,3 +1,10 @@
+## [3.57.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.57.0...v3.57.1) (2020-12-21)
+
+
+### Bug Fixes
+
+* **notification campaigns:** add isArmed & isDraft ([1c2daf6](https://github.com/c-commerce/charles-browser-sdk/commit/1c2daf6d65eaaa8bddaf707b8088e0aaab07089d))
+
 # [3.57.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.56.0...v3.57.0) (2020-12-17)
 
 

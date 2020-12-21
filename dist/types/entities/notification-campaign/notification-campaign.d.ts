@@ -58,6 +58,8 @@ export interface NotificationCampaignRawPayload {
         staff?: string[];
         user?: string[];
     };
+    readonly is_armed?: boolean;
+    readonly is_draft?: boolean;
 }
 export interface NotificationCampaignPayload {
     readonly id?: NotificationCampaignRawPayload['id'];
@@ -78,6 +80,8 @@ export interface NotificationCampaignPayload {
     readonly execution?: NotificationCampaignRawPayload['execution'];
     readonly author?: NotificationCampaignRawPayload['author'];
     readonly publisher?: NotificationCampaignRawPayload['publisher'];
+    readonly isArmed?: NotificationCampaignRawPayload['is_armed'];
+    readonly isDraft?: NotificationCampaignRawPayload['is_draft'];
 }
 export declare class NotificationCampaign extends Entity<NotificationCampaignPayload, NotificationCampaignRawPayload> {
     protected universe: Universe;
@@ -103,6 +107,8 @@ export declare class NotificationCampaign extends Entity<NotificationCampaignPay
     execution?: NotificationCampaignPayload['execution'];
     author?: NotificationCampaignPayload['author'];
     publisher?: NotificationCampaignPayload['publisher'];
+    isArmed?: NotificationCampaignPayload['isArmed'];
+    isDraft?: NotificationCampaignPayload['isDraft'];
     constructor(options: NotificationCampaignOptions);
     protected deserialize(rawPayload: NotificationCampaignRawPayload): NotificationCampaign;
     static create(payload: NotificationCampaignRawPayload, universe: Universe, http: Universe['http']): NotificationCampaign;
