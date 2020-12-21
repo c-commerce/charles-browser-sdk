@@ -41,6 +41,7 @@ var NotificationCampaign = (function (_super) {
         this.publisher = rawPayload.publisher;
         this.isArmed = rawPayload.is_armed;
         this.isDraft = rawPayload.is_draft;
+        this.defaultLanguage = rawPayload.default_language;
         return this;
     };
     NotificationCampaign.create = function (payload, universe, http) {
@@ -68,7 +69,8 @@ var NotificationCampaign = (function (_super) {
             author: this.author,
             publisher: this.publisher,
             is_armed: this.isArmed,
-            is_draft: this.isDraft
+            is_draft: this.isDraft,
+            default_language: this.defaultLanguage
         };
     };
     NotificationCampaign.prototype.init = function () {
