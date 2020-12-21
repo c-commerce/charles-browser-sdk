@@ -39,6 +39,8 @@ var NotificationCampaign = (function (_super) {
         this.execution = rawPayload.execution;
         this.author = rawPayload.author;
         this.publisher = rawPayload.publisher;
+        this.isArmed = rawPayload.is_armed;
+        this.isDraft = rawPayload.is_draft;
         return this;
     };
     NotificationCampaign.create = function (payload, universe, http) {
@@ -64,7 +66,9 @@ var NotificationCampaign = (function (_super) {
             schedule: this.schedule,
             execution: this.execution,
             author: this.author,
-            publisher: this.publisher
+            publisher: this.publisher,
+            is_armed: this.isArmed,
+            is_draft: this.isDraft
         };
     };
     NotificationCampaign.prototype.init = function () {
