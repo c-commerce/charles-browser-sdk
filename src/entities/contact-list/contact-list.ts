@@ -145,7 +145,7 @@ export class ContactList extends Entity<ContactListPayload, ContactListRawPayloa
   /**
  * Get live preview data of a dynamic contact list
  */
-  public async preview (options?: EntityFetchOptions): Promise<object[] | undefined> {
+  public async preview (options?: EntityFetchOptions): Promise<ContactListStaticEntryRawPayload[]> {
     try {
       const opts = {
         method: 'GET',
@@ -153,14 +153,18 @@ export class ContactList extends Entity<ContactListPayload, ContactListRawPayloa
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        // params: {
-        //   ...(options?.query ? options.query : {})
-        // },
         responseType: 'json'
       }
 
       const res = await this.http?.getClient()(opts)
-      return res.data.data
+      const resources = res.data.data as ContactListStaticEntryRawPayload[]
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((item: ContactListStaticEntryRawPayload) => {
+        return ContactListStaticEntry.create(item, this.universe, this.http)
+      })
     } catch (err) {
       throw this.handleError(new ContactListPreviewRemoteError(undefined, { error: err }))
     }
