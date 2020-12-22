@@ -14,6 +14,12 @@ export interface NotificationCampaignOptions extends EntityOptions {
 //   }>
 // }
 
+// todo: use real static entry payload as resource from notification campaign static entries
+export interface NotificationCampaignTestRawPayload {
+  resource?: object
+  communication_language?: string
+}
+
 export interface NotificationCampaignRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -264,6 +270,49 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
       throw new NotificationCampaignArmError(undefined, { error: err })
     }
   }
+
+  public async publish (): Promise<NotificationCampaign> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/publish`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data as NotificationCampaignRawPayload
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignPublishError(undefined, { error: err })
+    }
+  }
+
+  public async test (payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/test`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: payload
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data as NotificationCampaignRawPayload
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignTestError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -313,5 +362,19 @@ export class NotificationCampaignArmError extends BaseError {
   constructor (public message: string = 'Could not preflight arm notification_campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignArmError.prototype)
+  }
+}
+export class NotificationCampaignPublishError extends BaseError {
+  public name = 'NotificationCampaignPublishError'
+  constructor (public message: string = 'Could not publish notification_campaign.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignPublishError.prototype)
+  }
+}
+export class NotificationCampaignTestError extends BaseError {
+  public name = 'NotificationCampaignTestError'
+  constructor (public message: string = 'Could not test notification_campaign.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignTestError.prototype)
   }
 }

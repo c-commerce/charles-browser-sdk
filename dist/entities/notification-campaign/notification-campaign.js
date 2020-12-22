@@ -158,6 +158,71 @@ var NotificationCampaign = (function (_super) {
             });
         });
     };
+    NotificationCampaign.prototype.publish = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, data, err_4;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('campaign publish requires id to be set.');
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/publish",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 2:
+                        res = _a.sent();
+                        data = res.data.data;
+                        return [2, this.deserialize(data)];
+                    case 3:
+                        err_4 = _a.sent();
+                        throw new NotificationCampaignPublishError(undefined, { error: err_4 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    NotificationCampaign.prototype.test = function (payload) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, data, err_5;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('campaign publish requires id to be set.');
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/test",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json',
+                            data: payload
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 2:
+                        res = _a.sent();
+                        data = res.data.data;
+                        return [2, this.deserialize(data)];
+                    case 3:
+                        err_5 = _a.sent();
+                        throw new NotificationCampaignTestError(undefined, { error: err_5 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return NotificationCampaign;
 }(_base_1.default));
 exports.NotificationCampaign = NotificationCampaign;
@@ -246,4 +311,30 @@ var NotificationCampaignArmError = (function (_super) {
     return NotificationCampaignArmError;
 }(errors_1.BaseError));
 exports.NotificationCampaignArmError = NotificationCampaignArmError;
+var NotificationCampaignPublishError = (function (_super) {
+    tslib_1.__extends(NotificationCampaignPublishError, _super);
+    function NotificationCampaignPublishError(message, properties) {
+        if (message === void 0) { message = 'Could not publish notification_campaign.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'NotificationCampaignPublishError';
+        Object.setPrototypeOf(_this, NotificationCampaignPublishError.prototype);
+        return _this;
+    }
+    return NotificationCampaignPublishError;
+}(errors_1.BaseError));
+exports.NotificationCampaignPublishError = NotificationCampaignPublishError;
+var NotificationCampaignTestError = (function (_super) {
+    tslib_1.__extends(NotificationCampaignTestError, _super);
+    function NotificationCampaignTestError(message, properties) {
+        if (message === void 0) { message = 'Could not test notification_campaign.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'NotificationCampaignTestError';
+        Object.setPrototypeOf(_this, NotificationCampaignTestError.prototype);
+        return _this;
+    }
+    return NotificationCampaignTestError;
+}(errors_1.BaseError));
+exports.NotificationCampaignTestError = NotificationCampaignTestError;
 //# sourceMappingURL=notification-campaign.js.map

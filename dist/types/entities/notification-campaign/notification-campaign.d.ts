@@ -4,6 +4,10 @@ import { BaseError } from '../../errors';
 export interface NotificationCampaignOptions extends EntityOptions {
     rawPayload?: NotificationCampaignRawPayload;
 }
+export interface NotificationCampaignTestRawPayload {
+    resource?: object;
+    communication_language?: string;
+}
 export interface NotificationCampaignRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -119,6 +123,8 @@ export declare class NotificationCampaign extends Entity<NotificationCampaignPay
     init(): Promise<NotificationCampaign | undefined>;
     preflightCheck(): Promise<NotificationCampaign>;
     preflightArm(): Promise<NotificationCampaign>;
+    publish(): Promise<NotificationCampaign>;
+    test(payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign>;
 }
 export declare class NotificationCampaigns {
     static endpoint: string;
@@ -149,6 +155,16 @@ export declare class NotificationCampaignPreflightError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class NotificationCampaignArmError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class NotificationCampaignPublishError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class NotificationCampaignTestError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
