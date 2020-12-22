@@ -87,7 +87,8 @@ var ContactList = (function (_super) {
     ContactList.prototype.preview = function (options) {
         var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, err_2;
+            var opts, res, resources, err_2;
+            var _this = this;
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -103,7 +104,13 @@ var ContactList = (function (_super) {
                         return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
                     case 1:
                         res = _c.sent();
-                        return [2, res.data.data];
+                        resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
+                        return [2, resources.map(function (item) {
+                                return static_entry_1.ContactListStaticEntry.create(item, _this.universe, _this.http);
+                            })];
                     case 2:
                         err_2 = _c.sent();
                         throw this.handleError(new ContactListPreviewRemoteError(undefined, { error: err_2 }));

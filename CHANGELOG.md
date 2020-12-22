@@ -1,3 +1,10 @@
+## [3.59.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.59.0...v3.59.1) (2020-12-22)
+
+
+### Bug Fixes
+
+* **contact list preview:** use correct return type ([446dc4e](https://github.com/c-commerce/charles-browser-sdk/commit/446dc4e608f7ba1b9e8845024f000388957bc6d7))
+
 # [3.59.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.58.0...v3.59.0) (2020-12-22)
 
 

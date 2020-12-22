@@ -59,7 +59,7 @@ export declare class ContactList extends Entity<ContactListPayload, ContactListR
     static create(payload: ContactListRawPayload, universe: Universe, http: Universe['http']): ContactList;
     serialize(): ContactListRawPayload;
     init(): Promise<ContactList | undefined>;
-    preview(options?: EntityFetchOptions): Promise<object[] | undefined>;
+    preview(options?: EntityFetchOptions): Promise<ContactListStaticEntryRawPayload[]>;
     get staticEntries(): StaticEntryArray<ContactListStaticEntry>;
     set staticEntries(items: StaticEntryArray<ContactListStaticEntry>);
 }
