@@ -1,3 +1,10 @@
+# [3.59.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.58.0...v3.59.0) (2020-12-22)
+
+
+### Features
+
+* **notification campaigns:** add publish & test ([824bd54](https://github.com/c-commerce/charles-browser-sdk/commit/824bd54f2d0cd1f1c19cb696f8479a33ce8cafd8))
+
 # [3.58.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.57.2...v3.58.0) (2020-12-21)
 
 
