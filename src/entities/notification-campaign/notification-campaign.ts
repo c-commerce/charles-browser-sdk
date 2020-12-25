@@ -284,7 +284,7 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
         responseType: 'json'
       }
       const res = await this.http.getClient()(opts)
-      const data = res.data.data as NotificationCampaignRawPayload
+      const data = res.data.data[0] as NotificationCampaignRawPayload
 
       return this.deserialize(data)
     } catch (err) {
