@@ -180,7 +180,7 @@ var NotificationCampaign = (function (_super) {
                         return [4, this.http.getClient()(opts)];
                     case 2:
                         res = _a.sent();
-                        data = res.data.data;
+                        data = res.data.data[0];
                         return [2, this.deserialize(data)];
                     case 3:
                         err_4 = _a.sent();

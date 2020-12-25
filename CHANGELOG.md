@@ -1,3 +1,10 @@
+## [3.59.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.59.1...v3.59.2) (2020-12-25)
+
+
+### Bug Fixes
+
+* **notification_campaign:** serialise correctly in publish ([f02cf3b](https://github.com/c-commerce/charles-browser-sdk/commit/f02cf3b496db542bf0121fd48186b7fb1223117b))
+
 ## [3.59.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.59.0...v3.59.1) (2020-12-22)
 
 
