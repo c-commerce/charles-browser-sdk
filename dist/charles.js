@@ -8,6 +8,7 @@ var errors = tslib_1.__importStar(require("./errors"));
 var client_1 = require("./client");
 var environment_1 = require("./environment");
 var universe_1 = require("./universe");
+exports.Universe = universe_1.Universe;
 exports.defaultOptions = {
     universe: undefined
 };

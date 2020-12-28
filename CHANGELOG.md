@@ -1,3 +1,10 @@
+# [3.60.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.59.2...v3.60.0) (2020-12-28)
+
+
+### Features
+
+* **dev:** export universe interfaces for better type support ([2231d1f](https://github.com/c-commerce/charles-browser-sdk/commit/2231d1f13b34e6331871a806f6aa6ba073b6dd65))
+
 ## [3.59.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.59.1...v3.59.2) (2020-12-25)
 
 

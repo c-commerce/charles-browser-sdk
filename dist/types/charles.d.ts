@@ -4,7 +4,7 @@ import { UsernameAuth, KeyAuth, TokenAuth } from './v0/auth';
 import * as v0 from './v0';
 import { Client } from './client';
 import { Universe, UnviverseSingleton, UniverseOptions } from './universe';
-export { v0 };
+export { v0, Universe, UniverseOptions };
 export declare const defaultOptions: CharlesSDKOptions;
 export interface CharlesSDKOptions {
     credentials?: UsernameAuth | KeyAuth | TokenAuth | undefined;
