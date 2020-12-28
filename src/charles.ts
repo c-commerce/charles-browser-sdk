@@ -10,7 +10,11 @@ import { Client, ClientOptions } from './client'
 import { environment } from './environment'
 import { Universe, UnviverseSingleton, UniverseOptions } from './universe'
 
-export { v0 }
+export {
+  v0,
+  Universe,
+  UniverseOptions
+}
 
 export const defaultOptions: CharlesSDKOptions = {
   universe: undefined
