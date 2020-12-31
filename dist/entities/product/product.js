@@ -72,6 +72,7 @@ var Product = (function (_super) {
         this.shippingFequired = (_k = rawPayload.shipping_required) !== null && _k !== void 0 ? _k : true;
         this.proxyConfiguration = rawPayload.proxy_configuration;
         this.inventoryExternalReferenceId = rawPayload.inventory_external_reference_id;
+        this.links = rawPayload.links;
         this.metadata = rawPayload.metadata;
         this.prices = rawPayload.prices;
         this.children = rawPayload.children;
@@ -134,6 +135,7 @@ var Product = (function (_super) {
             shipping_required: (_k = this.shippingFequired) !== null && _k !== void 0 ? _k : true,
             proxy_configuration: this.proxyConfiguration,
             inventory_external_reference_id: this.inventoryExternalReferenceId,
+            links: this.links,
             metadata: this.metadata,
             prices: this.prices,
             children: this.children,

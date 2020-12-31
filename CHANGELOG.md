@@ -1,3 +1,10 @@
+## [3.61.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.61.0...v3.61.1) (2020-12-31)
+
+
+### Bug Fixes
+
+* **product:** serialize links ([93df557](https://github.com/c-commerce/charles-browser-sdk/commit/93df5572e13b882041e8b817f9b29651e4c6b997))
+
 # [3.61.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.60.0...v3.61.0) (2020-12-31)
 
 
