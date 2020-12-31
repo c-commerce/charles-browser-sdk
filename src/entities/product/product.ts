@@ -292,6 +292,7 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
     this.shippingFequired = rawPayload.shipping_required ?? true
     this.proxyConfiguration = rawPayload.proxy_configuration
     this.inventoryExternalReferenceId = rawPayload.inventory_external_reference_id
+    this.links = rawPayload.links
     this.metadata = rawPayload.metadata
     this.prices = rawPayload.prices
 
@@ -358,6 +359,7 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
       shipping_required: this.shippingFequired ?? true,
       proxy_configuration: this.proxyConfiguration,
       inventory_external_reference_id: this.inventoryExternalReferenceId,
+      links: this.links,
       metadata: this.metadata,
       prices: this.prices,
       children: this.children,
