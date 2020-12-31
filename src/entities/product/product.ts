@@ -80,6 +80,9 @@ export interface ProductRawPayload extends EntityRawPayload {
   readonly shipping_required?: boolean
   readonly proxy_configuration?: object
   readonly inventory_external_reference_id?: string | null
+  readonly links?: null | {
+    external?: string | null
+  }
   readonly metadata?: object
   readonly prices?: {
     default_prices: ProductRawPayloadPrice[]
@@ -141,6 +144,7 @@ export interface ProductPayload {
   readonly shipping_required?: boolean
   readonly proxy_configuration?: object
   readonly inventoryExternalReferenceId?: ProductRawPayload['inventory_external_reference_id']
+  readonly links?: ProductRawPayload['links']
   readonly metadata?: object
   readonly prices?: ProductRawPayload['prices']
 
@@ -216,6 +220,7 @@ export class Product extends Entity<ProductPayload, ProductRawPayload> {
   public shippingFequired?: ProductPayload['shipping_required']
   public proxyConfiguration?: ProductPayload['proxy_configuration']
   public inventoryExternalReferenceId?: ProductPayload['inventoryExternalReferenceId']
+  public links?: ProductPayload['links']
   public metadata?: ProductPayload['metadata']
 
   public children?: ProductPayload['children']
