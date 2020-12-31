@@ -1,3 +1,10 @@
+# [3.61.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.60.0...v3.61.0) (2020-12-31)
+
+
+### Features
+
+* **product:** expose links ([1373b6c](https://github.com/c-commerce/charles-browser-sdk/commit/1373b6c7ffac4bf65430f7310eb26efd87165dc2))
+
 # [3.60.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.59.2...v3.60.0) (2020-12-28)
 
 
