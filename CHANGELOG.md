@@ -1,3 +1,10 @@
+# [3.62.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.61.1...v3.62.0) (2021-01-03)
+
+
+### Features
+
+* add favorites ([d2cc54b](https://github.com/c-commerce/charles-browser-sdk/commit/d2cc54b98e85bebb252d475063f01492a08dc996))
+
 ## [3.61.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.61.0...v3.61.1) (2020-12-31)
 
 

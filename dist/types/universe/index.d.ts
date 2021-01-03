@@ -40,6 +40,7 @@ import * as message from '../messaging/message';
 import * as location from '../entities/location/location';
 import * as contactList from '../entities/contact-list/contact-list';
 import * as notificationCampaign from '../entities/notification-campaign/notification-campaign';
+import * as favorite from '../entities/favorite/favorite';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -282,6 +283,7 @@ export declare class Universe extends Readable {
     message(payload: message.MessageRawPayload): message.Message;
     contactList(payload: contactList.ContactListRawPayload): contactList.ContactList;
     notificationCampaign(payload: notificationCampaign.NotificationCampaignRawPayload): notificationCampaign.NotificationCampaign;
+    favorite(payload: favorite.FavoriteRawPayload): favorite.Favorite;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -336,6 +338,7 @@ export declare class Universe extends Readable {
     locations(options?: EntityFetchOptions): Promise<location.Location[] | location.LocationRawPayload[] | undefined>;
     get contactLists(): IUniverseContactLists;
     get notificationCampaigns(): IUniverseNotificationCampaigns;
+    favorites(options?: EntityFetchOptions): Promise<favorite.Favorite[] | favorite.FavoriteRawPayload[] | undefined>;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
