@@ -9,7 +9,7 @@ import universeTopics from './topics'
 import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 
-import { EntityFetchOptions, EntityFetchQuery, EntityRawPayload } from '../entities/_base'
+import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 
 import {
   ANALYTICS_ENDPOINT,
@@ -52,6 +52,7 @@ import * as message from '../messaging/message'
 import * as location from '../entities/location/location'
 import * as contactList from '../entities/contact-list/contact-list'
 import * as notificationCampaign from '../entities/notification-campaign/notification-campaign'
+import * as favorite from '../entities/favorite/favorite'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -685,6 +686,10 @@ export class Universe extends Readable {
 
   public notificationCampaign (payload: notificationCampaign.NotificationCampaignRawPayload): notificationCampaign.NotificationCampaign {
     return notificationCampaign.NotificationCampaign.create(payload, this, this.http)
+  }
+
+  public favorite (payload: favorite.FavoriteRawPayload): favorite.Favorite {
+    return favorite.Favorite.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1772,6 +1777,10 @@ export class Universe extends Readable {
         }
       }
     }
+  }
+
+  public async favorites (options?: EntityFetchOptions): Promise<favorite.Favorite[] | favorite.FavoriteRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<favorite.Favorite, favorite.Favorites, favorite.FavoriteRawPayload, EntityFetchOptions, favorite.FavoritesFetchRemoteError>(favorite.Favorite, favorite.Favorites, favorite.FavoritesFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.

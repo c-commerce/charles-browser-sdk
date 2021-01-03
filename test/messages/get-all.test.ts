@@ -6,8 +6,6 @@ import { v0 } from '../../src/charles'
 import { initInstance } from '../util'
 dotenv.config()
 
-const legacyId = '4564'
-
 const mock = new MockAdapter(axios)
 afterEach(() => {
   mock.reset()

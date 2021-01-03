@@ -42,7 +42,7 @@ describe('Auth: logout', () => {
     const auth = new v0.Auth(options)
 
     try {
-      const data = await auth.logout()
+      await auth.logout()
     } catch (err) {
       expect(err.name).toBe('LogoutMissingToken')
     }
@@ -126,7 +126,7 @@ describe('Auth: logout', () => {
 
     try {
       await auth.authenticate()
-      const data = await auth.logout()
+      await auth.logout()
     } catch (err) {
       expect(err.name).toBe('LogoutFailed')
     }
