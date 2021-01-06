@@ -1,3 +1,10 @@
+## [3.63.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.63.0...v3.63.1) (2021-01-06)
+
+
+### Bug Fixes
+
+* **ContactList:** revert renaming ([f420d2b](https://github.com/c-commerce/charles-browser-sdk/commit/f420d2b4623635a8dae8465f75e27e63615ede15))
+
 # [3.63.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.62.0...v3.63.0) (2021-01-06)
 
 

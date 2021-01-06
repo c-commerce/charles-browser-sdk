@@ -217,7 +217,7 @@ var StaticEntryArray = (function (_super) {
             });
         });
     };
-    StaticEntryArray.prototype.deleteStaticEntry = function (payload, options) {
+    StaticEntryArray.prototype.delete = function (payload, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, err_5;
             return tslib_1.__generator(this, function (_a) {
