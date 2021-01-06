@@ -2,7 +2,11 @@
 import Entity, { EntityOptions, EntityFetchOptions, EntityDeleteOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { ContactListStaticEntry, ContactListStaticEntryCreateRemoteError, ContactListStaticEntryRawPayload, ContactListStaticEntryFetchRemoteError, ContactListStaticEntryDeleteRemoteError } from './static-entry'
+import {
+  ContactListStaticEntry, ContactListStaticEntryCreateRemoteError,
+  ContactListStaticEntryRawPayload, ContactListStaticEntryFetchRemoteError,
+  ContactListStaticEntryDeleteRemoteError
+} from './static-entry'
 import qs from 'qs'
 
 export interface ContactListOptions extends EntityOptions {
@@ -266,7 +270,7 @@ class StaticEntryArray<T> extends Array<T> {
     }
   }
 
-  async delete (payload: ContactListStaticEntryRawPayload, options?: EntityDeleteOptions): Promise<number> {
+  async deleteStaticEntry (payload: ContactListStaticEntryRawPayload | ContactListStaticEntry, options?: EntityDeleteOptions): Promise<number> {
     if (payload.id === null || payload.id === undefined) throw new TypeError('delete requires id to be set.')
 
     try {
