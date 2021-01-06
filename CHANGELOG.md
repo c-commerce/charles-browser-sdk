@@ -1,3 +1,10 @@
+# [3.63.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.62.0...v3.63.0) (2021-01-06)
+
+
+### Features
+
+* **ContactList:** imeplement static entries bulk delete ([6baf047](https://github.com/c-commerce/charles-browser-sdk/commit/6baf0473056f57e3f49f507132e70a3010f40d4e))
+
 # [3.62.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.61.1...v3.62.0) (2021-01-03)
 
 

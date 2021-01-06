@@ -75,7 +75,8 @@ declare class StaticEntryArray<T> extends Array<T> {
     toJson(items: ContactListStaticEntry[]): ContactListStaticEntryRawPayload[];
     fetch(options?: EntityFetchOptions): Promise<ContactListStaticEntry[] | ContactListStaticEntryRawPayload[] | undefined>;
     create(payload: ContactListStaticEntryRawPayload): Promise<ContactListStaticEntry | undefined>;
-    delete(payload: ContactListStaticEntryRawPayload, options?: EntityDeleteOptions): Promise<number>;
+    deleteStaticEntry(payload: ContactListStaticEntryRawPayload | ContactListStaticEntry, options?: EntityDeleteOptions): Promise<number>;
+    deleteStaticEntriesById(ids: Array<ContactListStaticEntryRawPayload['id']>, options?: EntityDeleteOptions): Promise<number>;
 }
 export declare class ContactListInitializationError extends BaseError {
     message: string;

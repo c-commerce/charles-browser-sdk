@@ -217,7 +217,7 @@ var StaticEntryArray = (function (_super) {
             });
         });
     };
-    StaticEntryArray.prototype.delete = function (payload, options) {
+    StaticEntryArray.prototype.deleteStaticEntry = function (payload, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, err_5;
             return tslib_1.__generator(this, function (_a) {
@@ -244,6 +244,38 @@ var StaticEntryArray = (function (_super) {
                     case 3:
                         err_5 = _a.sent();
                         throw new static_entry_1.ContactListStaticEntryDeleteRemoteError(undefined, { error: err_5 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    StaticEntryArray.prototype.deleteStaticEntriesById = function (ids, options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_6;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!Array.isArray(ids) || !ids.length)
+                            throw new TypeError('deletion of static entries requires IDs to be set.');
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'DELETE',
+                            url: this.universe.universeBase + "/" + ContactLists.endpoint + "/" + this.contactList.id + "/static_entries" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: ids,
+                            responseType: 'json'
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 2:
+                        res = _a.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_6 = _a.sent();
+                        throw new static_entry_1.ContactListStaticEntryDeleteRemoteError(undefined, { error: err_6 });
                     case 4: return [2];
                 }
             });
