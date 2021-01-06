@@ -285,6 +285,26 @@ class StaticEntryArray<T> extends Array<T> {
       throw new ContactListStaticEntryDeleteRemoteError(undefined, { error: err })
     }
   }
+
+  async deleteStaticEntriesById (ids: Array<ContactListStaticEntryRawPayload['id']>, options?: EntityDeleteOptions): Promise<number> {
+    if (!Array.isArray(ids) || !ids.length) throw new TypeError('deletion of static entries requires IDs to be set.')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe.universeBase}/${ContactLists.endpoint}/${this.contactList.id as string}/static_entries${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: ids,
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw new ContactListStaticEntryDeleteRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 export class ContactListInitializationError extends BaseError {
