@@ -20,6 +20,16 @@ export interface NotificationCampaignTestRawPayload {
   communication_language?: string
 }
 
+export type NotificationCampaignStatusType =
+'draft' // user: campaign has been saved, but nothing else has been done with it. The campaign is not ready to be sent
+| 'armed' // user: the campaign is ready to be sent, all recipient are primed and ready to be targetted
+| 'paused' // user: the campaign has been paused
+| 'cancelled_by_user' // user: a user has cancelled exection of the campaign
+| 'cancelled' // user: the campaign has been cancelled
+| 'published' // user: the campaign was published and might be executing or will execute
+| 'done' // user: the campaign was published the campaign has run. This does not indicate success.
+| 'errored' // user: execution was attempted but errored immediately. Errors per target are not indicated
+
 export interface NotificationCampaignRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -40,7 +50,7 @@ export interface NotificationCampaignRawPayload {
     type?: 'list' | 'subscription'
     resource?: string
   }>
-  readonly status?: 'draft'|'publishing'|'paused'|'cancelled_by_user'|'cancelled'|'published'|'errored'
+  readonly status?: NotificationCampaignStatusType
   readonly statusses?: Array<{
     kind?: 'PausedRateLimitted'
     active?: boolean
@@ -229,6 +239,9 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
     }
   }
 
+  /**
+   * For the general behavior see NotificationCampaign#preflightArm, whereas this method does not set any state.
+   */
   public async preflightCheck (): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign preflight check requires id to be set.')
 
@@ -250,6 +263,18 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
     }
   }
 
+  /**
+   *
+   * Prepares a campaign for sending, by:
+   * - getting all the contact targets and setting them statically
+   * - deduplicating them
+   * - checking the campaign for executability
+   * - setting status
+   *
+   * If this errors we are exposing API errors messages, that indicate a problem e.g.:
+   * - insufficient campaign data
+   * - contact targets not being sufficient e.g. missing channel users
+   */
   public async preflightArm (): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign preflight arm requires id to be set.')
 
