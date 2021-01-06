@@ -270,7 +270,7 @@ class StaticEntryArray<T> extends Array<T> {
     }
   }
 
-  async deleteStaticEntry (payload: ContactListStaticEntryRawPayload | ContactListStaticEntry, options?: EntityDeleteOptions): Promise<number> {
+  async delete (payload: ContactListStaticEntryRawPayload | ContactListStaticEntry, options?: EntityDeleteOptions): Promise<number> {
     if (payload.id === null || payload.id === undefined) throw new TypeError('delete requires id to be set.')
 
     try {
