@@ -8,6 +8,7 @@ export interface NotificationCampaignTestRawPayload {
     resource?: object;
     communication_language?: string;
 }
+export declare type NotificationCampaignStatusType = 'draft' | 'armed' | 'paused' | 'cancelled_by_user' | 'cancelled' | 'published' | 'done' | 'errored';
 export interface NotificationCampaignRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -27,7 +28,7 @@ export interface NotificationCampaignRawPayload {
         type?: 'list' | 'subscription';
         resource?: string;
     }>;
-    readonly status?: 'draft' | 'publishing' | 'paused' | 'cancelled_by_user' | 'cancelled' | 'published' | 'errored';
+    readonly status?: NotificationCampaignStatusType;
     readonly statusses?: Array<{
         kind?: 'PausedRateLimitted';
         active?: boolean;

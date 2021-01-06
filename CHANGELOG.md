@@ -1,3 +1,10 @@
+# [3.64.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.63.1...v3.64.0) (2021-01-06)
+
+
+### Features
+
+* **dev/Notification/Campaign:** annotate types, remove publishing ([a4efd09](https://github.com/c-commerce/charles-browser-sdk/commit/a4efd09a779664209776cc8f37d495751c52fc2d))
+
 ## [3.63.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.63.0...v3.63.1) (2021-01-06)
 
 
