@@ -1,3 +1,10 @@
+# [3.66.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.65.0...v3.66.0) (2021-01-07)
+
+
+### Features
+
+* upgrade mqtt ([5abde3b](https://github.com/c-commerce/charles-browser-sdk/commit/5abde3ba301fc557d2a4aa10a7c1da6342d61dad))
+
 # [3.65.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.64.0...v3.65.0) (2021-01-07)
 
 
