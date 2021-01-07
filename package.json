@@ -26,7 +26,7 @@
     "prebuild": "rimraf dist",
     "build:main": "tsc -p tsconfig.release.json",
     "build:docs:all": "npm run build:docs && npm run build:storybooks",
-    "build:docs": "typedoc --out docs --target es6 --hideGenerator  --excludeExternals --excludeNotExported --excludeProtected --categorizeByGroup true --defaultCategory \"Misc.\" --theme minimal --mode file src",
+    "build:docs": "typedoc --out docs --hideGenerator  --excludeExternals --excludeProtected --categorizeByGroup true --defaultCategory \"Misc.\" --theme minimal src",
     "build:storybooks:prepare": "(cd examples/vue && npm i && cd -)",
     "build:storybooks": "(cd examples/vue && npm run build-storybook && cd -)",
     "build:bundle": "tsc --module commonjs -p tsconfig.release.json",
@@ -144,7 +144,7 @@
     "tsify": "^4.0.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^9.0.0",
-    "typedoc": "^0.17.1",
+    "typedoc": "^0.20.13",
     "typescript": "3.8.3",
     "validate-commit-msg": "^2.14.0"
   },
