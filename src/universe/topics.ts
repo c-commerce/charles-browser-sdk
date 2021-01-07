@@ -7,8 +7,8 @@ interface IInjectableDataObject {
 
 abstract class TopicGenerator {
   public abstract template: string
-  public abstract generateTopic(data?: IInjectableDataObject, ...args: any[]): string
-  public abstract isTopic(topic: string, data?: IInjectableDataObject): boolean
+  public abstract generateTopic (data?: IInjectableDataObject, ...args: any[]): string
+  public abstract isTopic (topic: string, data?: IInjectableDataObject): boolean
 }
 
 export default {

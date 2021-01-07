@@ -120,15 +120,14 @@ export interface UniverseFetchOptions {
 }
 
 export declare interface Universe {
-  on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
-  on(event:
+  on: ((event: 'raw-error' | 'error', cb: (error: Error) => void) => this) & ((event:
   'armed' // currently unused
   | 'universe:message' // receive any message in this universe
   | 'universe:feeds:messages' // receive any message in any feed in this universe
   | 'universe:feeds:events' // receive any event in any feed in this universe
   | 'universe:feeds' // receive notifications about feeds and their updates, also which action happened for that feed
   | string,
-    cb: Function): this
+    cb: Function) => this)
 }
 
 export interface UnviverseSearchResultItem {
@@ -274,7 +273,7 @@ export interface MeData {
 
 interface BaseResourceCreateable<T, K> {
   new(...args: any[]): T
-  create(payload: K, universe: Universe, http: Universe['http']): T
+  create: (payload: K, universe: Universe, http: Universe['http']) => T
 }
 
 interface BaseResourceList<T> {
@@ -284,6 +283,7 @@ interface BaseResourceList<T> {
 
 type BaseResourceErrorProto<E> = new(...args: any[]) => E
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type BaseResourceEntityFetchOptions<O> = EntityFetchOptions
 
 /**

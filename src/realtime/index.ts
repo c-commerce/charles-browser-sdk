@@ -104,9 +104,7 @@ interface RealtimeClientOptions {
 export declare type OnMessageCallback = (message: RealtimeMessage | RealtimeMessageMessage) => void
 
 export declare interface RealtimeClient {
-  on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
-  on(event: 'message', cb: OnMessageCallback): this
-  on(event: string, cb: Function): this
+  on: ((event: 'raw-error' | 'error', cb: (error: Error) => void) => this) & ((event: 'message', cb: OnMessageCallback) => this) & ((event: string, cb: Function) => this)
 }
 
 export class RealtimeClient extends events.EventEmitter {

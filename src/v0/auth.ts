@@ -202,7 +202,7 @@ export class Auth {
       } as AuthResponse
     } catch (err) {
       const error = new errors.AuthenticationFailed(undefined, {
-        error: err, body: err.response && err.response.data ? err.response.data : null
+        error: err, body: !!err.response && err.response.data ? err.response.data : null
       })
 
       throw error

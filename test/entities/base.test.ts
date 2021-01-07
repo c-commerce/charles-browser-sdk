@@ -106,7 +106,7 @@ describe('Entities: base', () => {
     expect(inst.fetch).toBeInstanceOf(Function)
     expect(inst.serialize()).toStrictEqual({ id: '1234', name: null })
 
-    // eslint-disable-next-line dot-notation
+    // eslint-disable-next-line @typescript-eslint/dot-notation
     expect(inst['_rawPayload']).toStrictEqual({ id: '1234', name: null })
 
     await inst.patch({ name: 'new name' })
