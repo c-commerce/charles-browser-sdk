@@ -12,3 +12,4 @@ compiled
 docs
 .env
 stats.html
+yarn.lock
