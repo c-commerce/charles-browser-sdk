@@ -1,3 +1,10 @@
+## [3.66.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.0...v3.66.1) (2021-01-07)
+
+
+### Bug Fixes
+
+* do not use yarn on remote ([365cdc8](https://github.com/c-commerce/charles-browser-sdk/commit/365cdc841f9e56e05ed145f6a581634962053324))
+
 # [3.66.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.65.0...v3.66.0) (2021-01-07)
 
 
