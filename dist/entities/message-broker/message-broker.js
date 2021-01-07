@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MessageBrokerMessageTemplateNotificationSendError = exports.MessageBrokerUpdateProfileRemoteError = exports.MessageBrokerProxyChannelInstancesRemoteError = exports.MessageBrokerSyncMessagesRemoteError = exports.MessageBrokerSetupRemoteError = exports.MessageBrokerSyncMessageTemplatesRemoteError = exports.MessageBrokersFetchRemoteError = exports.MessageBrokers = exports.MessageBroker = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");

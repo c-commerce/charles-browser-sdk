@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.v4 = void 0;
 var lut = [];
 for (var i = 0; i < 256; i++) {
     lut[i] = (i < 16 ? '0' : '') + (i).toString(16);

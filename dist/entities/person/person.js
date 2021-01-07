@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importStar(require("../_base"));
 var errors_1 = require("../../errors");
@@ -463,7 +464,7 @@ var Person = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Person.prototype, "addresses", {
@@ -475,7 +476,7 @@ var Person = (function (_super) {
         set: function (items) {
             this._addresses = items.map(function (item) { return (item); });
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Person.prototype.email = function (payload) {

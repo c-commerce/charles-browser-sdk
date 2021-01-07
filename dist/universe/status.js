@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UniverseStatus = exports.UniverseHealth = void 0;
 var tslib_1 = require("tslib");
 var events_1 = require("events");
 var UniverseHealth = (function (_super) {

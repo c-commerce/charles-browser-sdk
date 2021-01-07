@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UniverseHealthzError = exports.UniverseSelfError = exports.UniverseVersionsError = exports.UniverseApiRequestError = exports.UniverseMeError = exports.UniverseUnauthenticatedError = exports.UniverseSearchError = exports.UniverseInitializationError = exports.UnviverseSingleton = exports.Universe = void 0;
 var tslib_1 = require("tslib");
 var readable_stream_1 = require("readable-stream");
 var qs_1 = tslib_1.__importDefault(require("qs"));
@@ -134,7 +135,7 @@ var Universe = (function (_super) {
                 topics_1.default.api.people.generateTopic()
             ];
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Universe.prototype.subscibeDefaults = function () {
@@ -213,7 +214,7 @@ var Universe = (function (_super) {
         get: function () {
             return false;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Universe.prototype.isReady = function () {
@@ -223,7 +224,7 @@ var Universe = (function (_super) {
         get: function () {
             return false;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Universe.prototype.isConnected = function () {
@@ -470,7 +471,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Universe.prototype, "feeds", {
@@ -562,7 +563,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Universe.prototype, "people", {
@@ -648,7 +649,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Universe.prototype.staffs = function (options) {
@@ -771,7 +772,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Universe.prototype.assets = function () {
@@ -864,7 +865,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Universe.prototype.tickets = function () {
@@ -957,7 +958,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Universe.prototype, "orders", {
@@ -1027,7 +1028,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Universe.prototype.discounts = function () {
@@ -1711,7 +1712,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(Universe.prototype, "notificationCampaigns", {
@@ -1781,7 +1782,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Universe.prototype.favorites = function (options) {
@@ -1902,7 +1903,7 @@ var Universe = (function (_super) {
                 }); }
             };
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Universe.prototype.searchEntity = function (endpoint, q) {

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CharlesBaseHandler = void 0;
 var tslib_1 = require("tslib");
 var qs_1 = tslib_1.__importDefault(require("qs"));
 var CharlesBaseHandler = (function () {

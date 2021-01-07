@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseError = void 0;
 var tslib_1 = require("tslib");
 var just_safe_get_1 = tslib_1.__importDefault(require("just-safe-get"));
 var BaseError = (function (_super) {

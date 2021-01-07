@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PersonChannelUserMessageTemplateSendError = exports.ChannelUser = void 0;
 var tslib_1 = require("tslib");
 var event = tslib_1.__importStar(require("../../eventing/feeds/event"));
 var feed = tslib_1.__importStar(require("../../eventing/feeds/feed"));

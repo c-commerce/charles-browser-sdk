@@ -1,3 +1,10 @@
+## [3.66.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.2...v3.66.3) (2021-01-07)
+
+
+### Bug Fixes
+
+* renovate typescript ([7895bc0](https://github.com/c-commerce/charles-browser-sdk/commit/7895bc021ee0a64fe963f72b276e787a6e77f5de))
+
 ## [3.66.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.1...v3.66.2) (2021-01-07)
 
 

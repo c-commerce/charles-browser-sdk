@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Comment = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../../entities/_base"));
 var Comment = (function (_super) {

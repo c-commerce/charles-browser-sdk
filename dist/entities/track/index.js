@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TracksFetchRemoteError = exports.Tracks = exports.Track = void 0;
 var track_1 = require("./track");
-exports.Track = track_1.Track;
-exports.Tracks = track_1.Tracks;
-exports.TracksFetchRemoteError = track_1.TracksFetchRemoteError;
+Object.defineProperty(exports, "Track", { enumerable: true, get: function () { return track_1.Track; } });
+Object.defineProperty(exports, "Tracks", { enumerable: true, get: function () { return track_1.Tracks; } });
+Object.defineProperty(exports, "TracksFetchRemoteError", { enumerable: true, get: function () { return track_1.TracksFetchRemoteError; } });
 //# sourceMappingURL=index.js.map

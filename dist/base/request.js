@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CharlesBaseRequest = void 0;
 var CharlesBaseRequest = (function () {
     function CharlesBaseRequest(http) {
         this.client = http;

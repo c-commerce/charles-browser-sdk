@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MessageInitializationError = exports.MessagesReplyError = exports.MessageFeedReply = exports.MessageReply = exports.Reply = exports.Message = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../entities/_base"));
 var errors_1 = require("../errors");

@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.NlusFetchRemoteError = exports.Nlus = exports.Nlu = void 0;
 var nlu_1 = require("./nlu");
-exports.Nlu = nlu_1.Nlu;
-exports.Nlus = nlu_1.Nlus;
-exports.NlusFetchRemoteError = nlu_1.NlusFetchRemoteError;
+Object.defineProperty(exports, "Nlu", { enumerable: true, get: function () { return nlu_1.Nlu; } });
+Object.defineProperty(exports, "Nlus", { enumerable: true, get: function () { return nlu_1.Nlus; } });
+Object.defineProperty(exports, "NlusFetchRemoteError", { enumerable: true, get: function () { return nlu_1.NlusFetchRemoteError; } });
 //# sourceMappingURL=index.js.map

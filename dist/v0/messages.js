@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MessagesFetchFailed = exports.MessageUpdateFailed = exports.Messages = void 0;
 var tslib_1 = require("tslib");
 var base_error_1 = require("../errors/base-error");
 var base_1 = require("../base");

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StorefrontSyncProductCategoriesRemoteError = exports.StorefrontSyncLocationsRemoteError = exports.StorefrontSetupRemoteError = exports.StorefrontSyncInventoriesRemoteError = exports.StorefrontSyncOrdersRemoteError = exports.StorefrontSyncProductsRemoteError = exports.StorefrontsFetchRemoteError = exports.StorefrontFetchRemoteError = exports.StorefrontInitializationError = exports.Storefronts = exports.Storefront = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LogoutFailed = exports.LogoutMissingToken = exports.Auth = exports.isOrgAuth = exports.isTokenAuth = exports.isKeyAuth = exports.isUsernameAuth = exports.AuthTypes = void 0;
 var tslib_1 = require("tslib");
 var axios_1 = tslib_1.__importDefault(require("axios"));
 var errors = tslib_1.__importStar(require("../errors"));
@@ -73,8 +74,8 @@ var Auth = (function () {
         });
     };
     Auth.prototype.loginUsername = function (authData) {
-        if (authData === void 0) { authData = {}; }
         var _a, _b, _c;
+        if (authData === void 0) { authData = {}; }
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var username, password, withCredentials, response, err_1, error;
             return tslib_1.__generator(this, function (_d) {
@@ -119,7 +120,7 @@ var Auth = (function () {
                     case 3:
                         err_1 = _d.sent();
                         error = new errors.AuthenticationFailed(undefined, {
-                            error: err_1, body: err_1.response && err_1.response.data ? err_1.response.data : null
+                            error: err_1, body: !!err_1.response && err_1.response.data ? err_1.response.data : null
                         });
                         throw error;
                     case 4: return [2];

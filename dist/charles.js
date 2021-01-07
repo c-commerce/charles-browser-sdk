@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Charles = exports.CharlesClient = exports.defaultOptions = exports.Universe = exports.v0 = void 0;
 var tslib_1 = require("tslib");
 var events_1 = tslib_1.__importDefault(require("events"));
 var v0 = tslib_1.__importStar(require("./v0"));
@@ -8,7 +9,7 @@ var errors = tslib_1.__importStar(require("./errors"));
 var client_1 = require("./client");
 var environment_1 = require("./environment");
 var universe_1 = require("./universe");
-exports.Universe = universe_1.Universe;
+Object.defineProperty(exports, "Universe", { enumerable: true, get: function () { return universe_1.Universe; } });
 exports.defaultOptions = {
     universe: undefined
 };
@@ -26,8 +27,8 @@ var CharlesClient = (function (_super) {
         return _this;
     }
     CharlesClient.prototype.init = function (options) {
-        if (options === void 0) { options = exports.defaultOptions; }
         var _a, _b;
+        if (options === void 0) { options = exports.defaultOptions; }
         if (this.handleOptions(options))
             return;
         var withCredentials = (_a = options.withCredentials) !== null && _a !== void 0 ? _a : !!((_b = this.options) === null || _b === void 0 ? void 0 : _b.withCredentials);

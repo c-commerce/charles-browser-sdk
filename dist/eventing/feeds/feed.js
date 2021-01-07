@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FeedsFetchRemoteError = exports.FeedCreateEventRemoteError = exports.FeedFetchEventsRemoteError = exports.FeedFetchLatestEventsRemoteError = exports.FeedFetchCountRemoteError = exports.FeedFetchRemoteError = exports.FeedInitializationError = exports.FeedReplyError = exports.FeedReply = exports.Feeds = exports.Feed = exports.FEED_ENDPOINT = void 0;
 var tslib_1 = require("tslib");
 var just_typeof_1 = tslib_1.__importDefault(require("just-typeof"));
 var topics_1 = tslib_1.__importDefault(require("../../universe/topics"));
@@ -139,7 +140,7 @@ var Feed = (function (_super) {
                 topics_1.default.api.feedMessagesStatus.generateTopic(this.serialize())
             ];
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Feed.prototype.deinitialize = function () {

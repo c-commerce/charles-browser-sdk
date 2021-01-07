@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EntitiesList = exports.EntityFetchError = exports.EntityPutError = exports.EntityDeleteError = exports.EntityPostError = exports.EntityPatchError = exports.HookableEvented = void 0;
 var tslib_1 = require("tslib");
 var just_omit_1 = tslib_1.__importDefault(require("just-omit"));
 var events_1 = require("events");

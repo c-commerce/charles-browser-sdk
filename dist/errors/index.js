@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.UninstantiatedClient = exports.PasswordSetRequestFailed = exports.PasswordResetRequestFailed = exports.AuthenticationFailed = exports.BaseError = void 0;
 var tslib_1 = require("tslib");
 var base_error_1 = require("./base-error");
-exports.BaseError = base_error_1.BaseError;
+Object.defineProperty(exports, "BaseError", { enumerable: true, get: function () { return base_error_1.BaseError; } });
 var AuthenticationFailed = (function (_super) {
     tslib_1.__extends(AuthenticationFailed, _super);
     function AuthenticationFailed(message, properties) {

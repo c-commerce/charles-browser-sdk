@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ContactListPreviewRemoteError = exports.ContactListsFetchCountRemoteError = exports.ContactListsFetchRemoteError = exports.ContactListFetchRemoteError = exports.ContactListInitializationError = exports.ContactLists = exports.ContactList = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
@@ -128,7 +129,7 @@ var ContactList = (function (_super) {
         set: function (items) {
             this._staticEntries = items.map(function (item) { return (item); });
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return ContactList;
