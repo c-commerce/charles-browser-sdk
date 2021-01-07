@@ -101,10 +101,7 @@ interface RealtimeClientOptions {
   mqttOptions?: MqttOptions
 }
 
-export declare type OnMessageCallback = (message:
-RealtimeMessage
-| RealtimeMessageMessage
-) => void
+export declare type OnMessageCallback = (message: RealtimeMessage | RealtimeMessageMessage) => void
 
 export declare interface RealtimeClient {
   on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
@@ -196,8 +193,7 @@ export class RealtimeClient extends events.EventEmitter {
     throw new UninstantiatedMqttClient(undefined)
   }
 
-  private handleMessagePayload (topic: string, message: Buffer, packet: Packet):
-  RealtimeMessage | RealtimeMessageMessage {
+  private handleMessagePayload (topic: string, message: Buffer, packet: Packet): RealtimeMessage | RealtimeMessageMessage {
     const base = {
       mqttClientId: packet.messageId,
       clientId: uuid.v4(),

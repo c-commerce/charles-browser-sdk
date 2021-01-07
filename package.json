@@ -159,7 +159,7 @@
     "just-safe-get": "^2.0.0",
     "just-template": "^1.2.0",
     "just-typeof": "^2.0.0",
-    "mqtt": "^3.0.0",
+    "mqtt": "^4.2.6",
     "qs": "^6.6.0",
     "readable-stream": "^3.6.0",
     "serialize-error": "^4.1.0",
