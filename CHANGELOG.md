@@ -1,3 +1,10 @@
+## [3.66.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.1...v3.66.2) (2021-01-07)
+
+
+### Bug Fixes
+
+* upgrade typedoc ([88d6ddd](https://github.com/c-commerce/charles-browser-sdk/commit/88d6ddd41bb3126ded5b15382c2608b76c2cd6d7))
+
 ## [3.66.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.0...v3.66.1) (2021-01-07)
 
 
