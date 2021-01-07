@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios'
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, AxiosPromise } from 'axios'
 
 import { environment } from './environment'
 
@@ -20,6 +20,17 @@ const defaultHeaders = {
   Accept: 'application/json; charset=utf-8'
 }
 
+export interface HTTPClientRequestConfig extends Omit<AxiosRequestConfig, 'method' | 'responseType'> {
+  method: AxiosRequestConfig['method'] | string
+  responseType?: AxiosRequestConfig['responseType'] | string
+}
+
+export type HTTPClientPromise = AxiosPromise
+
+export interface HTTPClient extends AxiosInstance {
+  (config: HTTPClientRequestConfig): HTTPClientPromise
+}
+
 /**
  * The Charles HTTP client is an axios instance that carries the state of of Authentication
  * in - if default headers have been set - has Authorization header.
@@ -29,7 +40,7 @@ const defaultHeaders = {
 export class Client {
   private readonly options: ClientOptions
   private static instance: Client
-  private readonly axiosInstance: AxiosInstance
+  private readonly axiosInstance: HTTPClient
   private responseInterceptorIds: number[] = []
   private requestInterceptorIds: number[] = []
 
@@ -43,7 +54,7 @@ export class Client {
         ...options.headers,
         ...defaultHeaders
       }
-    })
+    }) as HTTPClient
   }
 
   public getDefaultHeaders (): object {
@@ -71,7 +82,7 @@ export class Client {
     Client.instance.clearDefaults()
   }
 
-  public getClient (): AxiosInstance {
+  public getClient (): HTTPClient {
     return Client.instance.axiosInstance
   }
 
