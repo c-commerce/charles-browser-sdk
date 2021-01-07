@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosRequestConfig, AxiosPromise } from 'axios';
 export interface ClientOptions {
     withCredentials?: boolean;
     base?: string;
@@ -10,6 +10,14 @@ export interface ClientOptions {
     responseInterceptors?: Function[];
     requestInterceptors?: Function[];
 }
+export interface HTTPClientRequestConfig extends Omit<AxiosRequestConfig, 'method' | 'responseType'> {
+    method: AxiosRequestConfig['method'] | string;
+    responseType?: AxiosRequestConfig['responseType'] | string;
+}
+export declare type HTTPClientPromise = AxiosPromise;
+export interface HTTPClient extends AxiosInstance {
+    (config: HTTPClientRequestConfig): HTTPClientPromise;
+}
 export declare class Client {
     private readonly options;
     private static instance;
@@ -20,7 +28,7 @@ export declare class Client {
     getDefaultHeaders(): object;
     static getInstance(options: ClientOptions): Client;
     static clearInstance(): void;
-    getClient(): AxiosInstance;
+    getClient(): HTTPClient;
     setDefaults(options: ClientOptions): Client;
     clearDefaults(): void;
 }

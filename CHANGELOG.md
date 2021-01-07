@@ -1,3 +1,10 @@
+# [3.65.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.64.0...v3.65.0) (2021-01-07)
+
+
+### Features
+
+* upgrade http client ([0f7628a](https://github.com/c-commerce/charles-browser-sdk/commit/0f7628a843e85e056d99dadebea3ab4cc8984843))
+
 # [3.64.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.63.1...v3.64.0) (2021-01-06)
 
 
