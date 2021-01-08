@@ -130,7 +130,7 @@
     "prismjs": "^1.15.0",
     "prompt": "^1.0.0",
     "replace-in-file": "^3.4.2",
-    "rimraf": "^2.6.2",
+    "rimraf": "^3.0.2",
     "runtypes": "^4.1.0",
     "semantic-release": "^15.9.15",
     "ts-jest": "^25.2.1",
