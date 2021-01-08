@@ -132,7 +132,7 @@
     "replace-in-file": "^3.4.2",
     "rimraf": "^3.0.2",
     "runtypes": "^4.1.0",
-    "semantic-release": "^15.9.15",
+    "semantic-release": "^17.2.3",
     "ts-jest": "^25.2.1",
     "ts-node": "^9.1.1",
     "tsify": "^4.0.1",
