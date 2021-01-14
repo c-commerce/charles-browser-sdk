@@ -16,6 +16,15 @@ module.exports = {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     'eslint-disable-next-line @typescript-eslint/no-extraneous-class': 'off',
     '@typescript-eslint/no-unused-vars': [1, { args: 'none' }],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      { "selector": "variableLike", "format": ["camelCase"], "leadingUnderscore": "allow" },
+      {
+        "selector": "variable",
+        "modifiers": ["const"],
+        "format": ["UPPER_CASE", "camelCase"]
+      }
+    ]
     // 'space-before-function-paren': [
     //   2,
     //   {

@@ -74,12 +74,11 @@ interface FeedEventFromAgentBase {
   feed: FeedRawPayload['id']
 }
 
-export type FeedPresencePayload = FeedEventFromAgentBase;
-export type FeedTypingPayload = FeedEventFromAgentBase;
+export type FeedPresencePayload = FeedEventFromAgentBase
+export type FeedTypingPayload = FeedEventFromAgentBase
 
 export declare interface Feed {
-  on(event: 'raw-error' | 'error', cb: (error: Error) => void): this
-  on(
+  on: ((event: 'raw-error' | 'error', cb: (error: Error) => void) => this) & ((
     event:
     'feed:message' // receive messages in the current scope of this feed
     | 'feed:event' // receive events in the current scope of this feed
@@ -87,7 +86,7 @@ export declare interface Feed {
     | 'feed:typing' // receive typing events in the current scope of this feed
     | 'feed:message:status' // receive message status change events in the current scope of this feed
     | string,
-    cb: Function): this
+    cb: Function) => this)
 }
 
 export class Feed extends Entity<FeedPayload, FeedRawPayload> {
@@ -616,7 +615,7 @@ export class FeedFetchRemoteError extends BaseError {
 }
 
 export class FeedFetchCountRemoteError extends BaseError {
-  public name = 'RemoteError ';
+  public name = 'RemoteError '
   constructor (public message: string = 'Could not get feed count.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, FeedFetchCountRemoteError.prototype)

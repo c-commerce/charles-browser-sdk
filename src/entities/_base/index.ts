@@ -84,8 +84,8 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Convert object to a JS struct.
    */
-  public abstract serialize(): RawPayload
-  protected abstract deserialize(rawPayload: RawPayload): Entity<Payload, RawPayload>
+  public abstract serialize (): RawPayload
+  protected abstract deserialize (rawPayload: RawPayload): Entity<Payload, RawPayload>
 
   /**
    * @ignore
@@ -263,7 +263,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
 
     try {
       // NOTE: there seemed to be no successful TS cast
-      // @ts-ignore
+      // @ts-expect-error
       const part: object = omit(this.serialize(), ['id', 'created_at', 'updated_at']) as object
       const opts = {
         method: 'PUT',
@@ -414,7 +414,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
 
   static pipeline = pipeline
 
-  public abstract getStream(options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>>
+  public abstract getStream (options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>>
 
   protected async _getStream (options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>> {
     const uri = `${this.universe?.universeBase}/${this.endpoint}/${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`
@@ -445,7 +445,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
       this.push(this.parseItem(result.value))
 
       reader.read()
-      // @ts-ignore
+      // @ts-expect-error
         .then(read)
         .catch((err: Error) => {
           this.emit('error', err)

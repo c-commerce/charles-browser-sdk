@@ -49,11 +49,11 @@ describe('v0: Messages: can get all messages', () => {
 
     const inst = await initInstance({ universe: UNIVERSE })
 
-    const Messages = inst.messages()
+    const messages = inst.messages()
 
-    expect(Messages).toBeInstanceOf(v0.Messages)
+    expect(messages).toBeInstanceOf(v0.Messages)
 
-    const { data } = await Messages.getAll()
+    const { data } = await messages.getAll()
 
     expect(Array.isArray(data)).toBe(true)
   })
@@ -89,11 +89,11 @@ describe('v0: Messages: can get all messages', () => {
 
     const inst = await initInstance({ universe: UNIVERSE })
 
-    const Messages = inst.messages()
+    const messages = inst.messages()
 
-    expect(Messages).toBeInstanceOf(v0.Messages)
+    expect(messages).toBeInstanceOf(v0.Messages)
 
-    const { data } = await Messages.getAll(queryParams)
+    const { data } = await messages.getAll(queryParams)
 
     expect(Array.isArray(data)).toBe(true)
   })
