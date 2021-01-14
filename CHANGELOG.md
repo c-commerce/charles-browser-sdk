@@ -1,3 +1,10 @@
+## [3.66.4](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.3...v3.66.4) (2021-01-14)
+
+
+### Bug Fixes
+
+* **linter:** handle versioned regressions ([36d31aa](https://github.com/c-commerce/charles-browser-sdk/commit/36d31aaa1c57eb2a4013df781adadf94c616206b))
+
 ## [3.66.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.2...v3.66.3) (2021-01-07)
 
 

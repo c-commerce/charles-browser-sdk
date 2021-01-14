@@ -26,8 +26,7 @@ export interface IUniverseFactoryOptions {
     mqttUniverseBase?: UniverseOptions['mqttUniverseBase'];
 }
 export declare interface CharlesClient {
-    on(event: 'raw-error' | 'error', listener: (error: Error) => void): this;
-    on(event: string, listener: Function): this;
+    on: ((event: 'raw-error' | 'error', listener: (error: Error) => void) => this) & ((event: string, listener: Function) => this);
 }
 export declare class CharlesClient extends events.EventEmitter {
     user?: string;
