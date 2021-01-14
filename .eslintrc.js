@@ -22,7 +22,8 @@ module.exports = {
       {
         "selector": "variable",
         "modifiers": ["const"],
-        "format": ["UPPER_CASE", "camelCase"]
+        "format": ["UPPER_CASE", "camelCase"],
+        "leadingUnderscore": "allow"
       }
     ]
     // 'space-before-function-paren': [

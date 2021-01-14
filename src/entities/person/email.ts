@@ -103,7 +103,7 @@ export class Email extends Entity<EmailPayload, EmailRawPayload> {
 }
 
 export class EmailsFetchRemoteError extends BaseError {
-  public name = 'EmailsFetchRemoteError';
+  public name = 'EmailsFetchRemoteError'
   constructor (public message: string = 'Could not get emails.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, EmailsFetchRemoteError.prototype)
@@ -111,7 +111,7 @@ export class EmailsFetchRemoteError extends BaseError {
 }
 
 export class EmailCreateRemoteError extends BaseError {
-  public name = 'EmailCreateRemoteError';
+  public name = 'EmailCreateRemoteError'
   constructor (public message: string = 'Could not create email', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, EmailCreateRemoteError.prototype)

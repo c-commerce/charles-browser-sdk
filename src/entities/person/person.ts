@@ -879,7 +879,7 @@ export class PersonFetchOrdersRemoteError extends BaseError {
 }
 
 export class PersonInitializationError extends BaseError {
-  public name = 'PersonInitializationError';
+  public name = 'PersonInitializationError'
   constructor (public message: string = 'Could not initialize person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonInitializationError.prototype)
@@ -887,7 +887,7 @@ export class PersonInitializationError extends BaseError {
 }
 
 export class PersonFetchRemoteError extends BaseError {
-  public name = 'PersonFetchRemoteError';
+  public name = 'PersonFetchRemoteError'
   constructor (public message: string = 'Could not get person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonFetchRemoteError.prototype)
@@ -895,7 +895,7 @@ export class PersonFetchRemoteError extends BaseError {
 }
 
 export class PeopleFetchRemoteError extends BaseError {
-  public name = 'PeopleFetchRemoteError';
+  public name = 'PeopleFetchRemoteError'
   constructor (public message: string = 'Could not get people.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleFetchRemoteError.prototype)
@@ -903,7 +903,7 @@ export class PeopleFetchRemoteError extends BaseError {
 }
 
 export class PeopleFetchCountRemoteError extends BaseError {
-  public name = 'PeopleFetchCountRemoteError';
+  public name = 'PeopleFetchCountRemoteError'
   constructor (public message: string = 'Could not get people count.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleFetchCountRemoteError.prototype)
@@ -911,7 +911,7 @@ export class PeopleFetchCountRemoteError extends BaseError {
 }
 
 export class AddressFetchRemoteError extends BaseError {
-  public name = 'AddressFetchRemoteError';
+  public name = 'AddressFetchRemoteError'
   constructor (public message: string = 'Could not get fetch person address data.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AddressFetchRemoteError.prototype)
@@ -919,7 +919,7 @@ export class AddressFetchRemoteError extends BaseError {
 }
 
 export class AddressCreateRemoteError extends BaseError {
-  public name = 'AddressCreateRemoteError';
+  public name = 'AddressCreateRemoteError'
   constructor (public message: string = 'Could not create person address.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AddressCreateRemoteError.prototype)
@@ -927,21 +927,21 @@ export class AddressCreateRemoteError extends BaseError {
 }
 
 export class AddressPatchRemoteError extends BaseError {
-  public name = 'AddressPatchRemoteError';
+  public name = 'AddressPatchRemoteError'
   constructor (public message: string = 'Could not patch person address.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AddressPatchRemoteError.prototype)
   }
 }
 export class PersonMergeRemoteError extends BaseError {
-  public name = 'PersonMergeRemoteError';
+  public name = 'PersonMergeRemoteError'
   constructor (public message: string = 'Could not merge persons.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonMergeRemoteError.prototype)
   }
 }
 export class PersonGDPRGetRemoteError extends BaseError {
-  public name = 'PersonGDPRGetRemoteError';
+  public name = 'PersonGDPRGetRemoteError'
   constructor (public message: string = 'Could not get gdpr info for person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonGDPRGetRemoteError.prototype)
