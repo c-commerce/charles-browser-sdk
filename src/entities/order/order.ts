@@ -3,7 +3,7 @@ import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { IDiscountType } from '../discount/discount'
-import { CartPayload, CartRawPayload, CartTaxLineRawPayload } from '../cart/cart'
+// import { CartPayload, CartRawPayload, CartTaxLineRawPayload } from '../cart/cart'
 
 export interface OrderOptions extends EntityOptions {
   rawPayload?: OrderRawPayload

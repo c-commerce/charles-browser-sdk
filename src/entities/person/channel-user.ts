@@ -1,4 +1,4 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../_base'
+import { EntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import * as messageTemplate from '../message-template/message-template'
 import * as event from '../../eventing/feeds/event'

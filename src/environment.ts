@@ -1,5 +1,5 @@
-declare function require (moduleName: string): any
+// import * as pkg from '../package.json'
 
 export const environment = {
-  VERSION: require('../package.json').version
+  VERSION: ''
 }

@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import charles, { CharlesClient } from '../src/charles'
-import { Client } from '../src/client'
+// import { Client } from '../src/client'
 import { Auth } from '../src/v0/auth'
 dotenv.config()
 

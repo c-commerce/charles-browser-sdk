@@ -3,7 +3,7 @@
 // import * as EventEmitter from 'events'
 import events from 'events'
 // import { AxiosError } from 'axios'
-import { AuthOptions, AuthTypes, UsernameAuth, KeyAuth, TokenAuth } from './v0/auth'
+import { AuthOptions, UsernameAuth, KeyAuth, TokenAuth } from './v0/auth'
 import * as v0 from './v0'
 import * as errors from './errors'
 import { Client, ClientOptions } from './client'

@@ -1,7 +1,7 @@
-import Entity, { EntityOptions, EntityRawPayload, EntitiesList, EntityFetchOptions } from '../../entities/_base'
+import Entity, { EntityOptions, EntityRawPayload } from '../../entities/_base'
 import { Universe } from '../../universe'
 import { Feed } from './feed'
-import { BaseError } from '../../errors'
+// import { BaseError } from '../../errors'
 
 export interface CommentOptions extends EntityOptions {
   rawPayload?: CommentRawPayload
