@@ -53,6 +53,8 @@ import * as location from '../entities/location/location'
 import * as contactList from '../entities/contact-list/contact-list'
 import * as notificationCampaign from '../entities/notification-campaign/notification-campaign'
 import * as favorite from '../entities/favorite/favorite'
+import * as knowledgeBase from '../entities/knowledge-base/knowledge-base'
+import * as knowledgeBaseFaqItem from '../entities/knowledge-base-faq-item/knowledge-base-faq-item'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -690,6 +692,14 @@ export class Universe extends Readable {
 
   public favorite (payload: favorite.FavoriteRawPayload): favorite.Favorite {
     return favorite.Favorite.create(payload, this, this.http)
+  }
+
+  public knowledgeBase (payload: knowledgeBase.KnowledgeBaseRawPayload): knowledgeBase.KnowledgeBase {
+    return knowledgeBase.KnowledgeBase.create(payload, this, this.http)
+  }
+
+  public knowledgeBaseFaqItem (payload: knowledgeBaseFaqItem.KnowledgeBaseFaqItemRawPayload): knowledgeBaseFaqItem.KnowledgeBaseFaqItem {
+    return knowledgeBaseFaqItem.KnowledgeBaseFaqItem.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1349,7 +1359,7 @@ export class Universe extends Readable {
     }
   }
 
-  private async makeBaseResourceListRequest<T, TL, K, O, E>(proto: BaseResourceCreateable<T, K>, listProto: BaseResourceList<TL>, errorProto: BaseResourceErrorProto<E>, options?: BaseResourceEntityFetchOptions<O>): Promise<T[] | K[] | undefined> {
+  public async makeBaseResourceListRequest<T, TL, K, O, E>(proto: BaseResourceCreateable<T, K>, listProto: BaseResourceList<TL>, errorProto: BaseResourceErrorProto<E>, options?: BaseResourceEntityFetchOptions<O>): Promise<T[] | K[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${listProto.endpoint}`, {
         params: {
@@ -1781,6 +1791,10 @@ export class Universe extends Readable {
 
   public async favorites (options?: EntityFetchOptions): Promise<favorite.Favorite[] | favorite.FavoriteRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<favorite.Favorite, favorite.Favorites, favorite.FavoriteRawPayload, EntityFetchOptions, favorite.FavoritesFetchRemoteError>(favorite.Favorite, favorite.Favorites, favorite.FavoritesFetchRemoteError, options)
+  }
+
+  public async knowledgeBases (options?: EntityFetchOptions): Promise<knowledgeBase.KnowledgeBase[] | knowledgeBase.KnowledgeBaseRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<knowledgeBase.KnowledgeBase, knowledgeBase.KnowledgeBases, knowledgeBase.KnowledgeBaseRawPayload, EntityFetchOptions, knowledgeBase.KnowledgeBasesFetchRemoteError>(knowledgeBase.KnowledgeBase, knowledgeBase.KnowledgeBases, knowledgeBase.KnowledgeBasesFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.

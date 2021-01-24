@@ -64,9 +64,9 @@ export class <%= className %> extends Entity<<%= className %>Payload, <%= classN
     this.endpoint = 'api/<%= version %>/<%= name %>'
     this.http = options.http
     this.options = options
-    this.initialized = options.initialized || false
+    this.initialized = options.initialized ?? false
 
-    if (options && options.rawPayload) {
+    if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
   }
@@ -77,8 +77,8 @@ export class <%= className %> extends Entity<<%= className %>Payload, <%= classN
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted || false
-    this.active = rawPayload.active || true
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
 
     return this
   }
@@ -92,8 +92,8 @@ export class <%= className %> extends Entity<<%= className %>Payload, <%= classN
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted || false,
-      active: this.active || true
+      deleted: this.deleted ?? false,
+      active: this.active ?? true
     }
   }
 
