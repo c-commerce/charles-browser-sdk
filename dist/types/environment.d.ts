@@ -1,3 +1,3 @@
 export declare const environment: {
-    VERSION: any;
+    VERSION: string;
 };

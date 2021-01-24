@@ -40,15 +40,16 @@ var Client = (function () {
         return Client.instance.axiosInstance;
     };
     Client.prototype.setDefaults = function (options) {
+        var _a, _b;
         Client.instance.axiosInstance.defaults.headers.common = tslib_1.__assign(tslib_1.__assign({}, this.axiosInstance.defaults.headers.common), options.headers);
         Client.instance.axiosInstance.defaults.headers = tslib_1.__assign(tslib_1.__assign({}, this.axiosInstance.defaults.headers), options.headers);
-        if (options.responseInterceptors && options.responseInterceptors.length) {
+        if ((_a = options.responseInterceptors) === null || _a === void 0 ? void 0 : _a.length) {
             this.responseInterceptorIds.forEach(function (id) { return Client.instance.axiosInstance.interceptors.response.eject(id); });
             this.responseInterceptorIds = options.responseInterceptors.map(function (interceptor) {
                 return Client.instance.axiosInstance.interceptors.response.use(undefined, interceptor);
             });
         }
-        if (options.requestInterceptors && options.requestInterceptors.length) {
+        if ((_b = options.requestInterceptors) === null || _b === void 0 ? void 0 : _b.length) {
             this.requestInterceptorIds.forEach(function (id) { return Client.instance.axiosInstance.interceptors.request.eject(id); });
             this.requestInterceptorIds = options.requestInterceptors.map(function (interceptor) {
                 return Client.instance.axiosInstance.interceptors.request.use(interceptor, undefined);

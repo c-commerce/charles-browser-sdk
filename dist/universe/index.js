@@ -48,6 +48,8 @@ var location = tslib_1.__importStar(require("../entities/location/location"));
 var contactList = tslib_1.__importStar(require("../entities/contact-list/contact-list"));
 var notificationCampaign = tslib_1.__importStar(require("../entities/notification-campaign/notification-campaign"));
 var favorite = tslib_1.__importStar(require("../entities/favorite/favorite"));
+var knowledgeBase = tslib_1.__importStar(require("../entities/knowledge-base/knowledge-base"));
+var knowledgeBaseFaqItem = tslib_1.__importStar(require("../entities/knowledge-base-faq-item/knowledge-base-faq-item"));
 var Universe = (function (_super) {
     tslib_1.__extends(Universe, _super);
     function Universe(options) {
@@ -347,6 +349,12 @@ var Universe = (function (_super) {
     };
     Universe.prototype.favorite = function (payload) {
         return favorite.Favorite.create(payload, this, this.http);
+    };
+    Universe.prototype.knowledgeBase = function (payload) {
+        return knowledgeBase.KnowledgeBase.create(payload, this, this.http);
+    };
+    Universe.prototype.knowledgeBaseFaqItem = function (payload) {
+        return knowledgeBaseFaqItem.KnowledgeBaseFaqItem.create(payload, this, this.http);
     };
     Universe.prototype.apiRequest = function (options) {
         var _a;
@@ -1790,6 +1798,16 @@ var Universe = (function (_super) {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, this.makeBaseResourceListRequest(favorite.Favorite, favorite.Favorites, favorite.FavoritesFetchRemoteError, options)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Universe.prototype.knowledgeBases = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.makeBaseResourceListRequest(knowledgeBase.KnowledgeBase, knowledgeBase.KnowledgeBases, knowledgeBase.KnowledgeBasesFetchRemoteError, options)];
                     case 1: return [2, _a.sent()];
                 }
             });

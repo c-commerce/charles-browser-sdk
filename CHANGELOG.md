@@ -1,3 +1,17 @@
+# [3.67.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.4...v3.67.0) (2021-01-24)
+
+
+### Bug Fixes
+
+* **build:** disable env test ([73e95ef](https://github.com/c-commerce/charles-browser-sdk/commit/73e95eff7582477232c4052ff696d64c3352174b))
+* more eslint chores ([aa88510](https://github.com/c-commerce/charles-browser-sdk/commit/aa88510f61d70ce014b26a52d2d6547b14a65c59))
+* more linter chores ([7895ef6](https://github.com/c-commerce/charles-browser-sdk/commit/7895ef67c2797352fa0cc6b83186f53313aa68be))
+
+
+### Features
+
+* add knowledge bases ([fc373ea](https://github.com/c-commerce/charles-browser-sdk/commit/fc373ea6b470631d6a03a23edb4bc7b85dac7cd3))
+
 ## [3.66.4](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.3...v3.66.4) (2021-01-14)
 
 

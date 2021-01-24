@@ -41,6 +41,8 @@ import * as location from '../entities/location/location';
 import * as contactList from '../entities/contact-list/contact-list';
 import * as notificationCampaign from '../entities/notification-campaign/notification-campaign';
 import * as favorite from '../entities/favorite/favorite';
+import * as knowledgeBase from '../entities/knowledge-base/knowledge-base';
+import * as knowledgeBaseFaqItem from '../entities/knowledge-base-faq-item/knowledge-base-faq-item';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -215,6 +217,16 @@ export interface MeData {
     roles: UniversePermissionType[];
     staff: staff.StaffRawPayload;
 }
+interface BaseResourceCreateable<T, K> {
+    new (...args: any[]): T;
+    create: (payload: K, universe: Universe, http: Universe['http']) => T;
+}
+interface BaseResourceList<T> {
+    endpoint: string;
+    new (...args: any[]): T;
+}
+declare type BaseResourceErrorProto<E> = new (...args: any[]) => E;
+declare type BaseResourceEntityFetchOptions<O> = EntityFetchOptions;
 export declare class Universe extends Readable {
     status: UniverseStatus;
     health: UniverseHealth;
@@ -283,6 +295,8 @@ export declare class Universe extends Readable {
     contactList(payload: contactList.ContactListRawPayload): contactList.ContactList;
     notificationCampaign(payload: notificationCampaign.NotificationCampaignRawPayload): notificationCampaign.NotificationCampaign;
     favorite(payload: favorite.FavoriteRawPayload): favorite.Favorite;
+    knowledgeBase(payload: knowledgeBase.KnowledgeBaseRawPayload): knowledgeBase.KnowledgeBase;
+    knowledgeBaseFaqItem(payload: knowledgeBaseFaqItem.KnowledgeBaseFaqItemRawPayload): knowledgeBaseFaqItem.KnowledgeBaseFaqItem;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -307,7 +321,7 @@ export declare class Universe extends Readable {
     messageTemplateCategories(): Promise<messageTemplateCategory.MessageTemplateCategory[] | undefined>;
     messageTemplateCategoryTrees(): Promise<messageTemplateCategoryTree.MessageTemplateCategoryTree[] | undefined>;
     customProperties(): Promise<customProperty.CustomProperty[] | undefined>;
-    private makeBaseResourceListRequest;
+    makeBaseResourceListRequest<T, TL, K, O, E>(proto: BaseResourceCreateable<T, K>, listProto: BaseResourceList<TL>, errorProto: BaseResourceErrorProto<E>, options?: BaseResourceEntityFetchOptions<O>): Promise<T[] | K[] | undefined>;
     tags(options?: EntityFetchOptions): Promise<tag.Tag[] | tag.TagRawPayload[] | undefined>;
     tagGroups(options?: EntityFetchOptions): Promise<tagGroup.TagGroup[] | tagGroup.TagGroupRawPayload[] | undefined>;
     configurations(options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined>;
@@ -338,6 +352,7 @@ export declare class Universe extends Readable {
     get contactLists(): IUniverseContactLists;
     get notificationCampaigns(): IUniverseNotificationCampaigns;
     favorites(options?: EntityFetchOptions): Promise<favorite.Favorite[] | favorite.FavoriteRawPayload[] | undefined>;
+    knowledgeBases(options?: EntityFetchOptions): Promise<knowledgeBase.KnowledgeBase[] | knowledgeBase.KnowledgeBaseRawPayload[] | undefined>;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
@@ -396,3 +411,4 @@ export declare class UniverseHealthzError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export {};

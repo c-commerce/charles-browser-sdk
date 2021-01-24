@@ -34,7 +34,7 @@ export declare class CharlesClient extends events.EventEmitter {
     http?: Client;
     options: CharlesSDKOptions | undefined;
     static environment: {
-        VERSION: any;
+        VERSION: string;
     };
     initialized: boolean;
     constructor(options?: CharlesSDKOptions);
