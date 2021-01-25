@@ -195,6 +195,7 @@ export interface UniverseAnalytics {
   revenues: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   xau: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   feedOpenedClosed: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
+  feedConversion: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   peopleMessagingChannelParticipationDistribution: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
 }
 
@@ -780,6 +781,9 @@ export class Universe extends Readable {
       },
       feedOpenedClosed: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
         return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/feeds/open_close/distribution/count', options)
+      },
+      feedConversion: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
+        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/feeds/conversion/counts', options)
       }
     }
   }
