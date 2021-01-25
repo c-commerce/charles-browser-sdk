@@ -137,6 +137,7 @@ export interface UniverseAnalytics {
     revenues: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
     xau: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
     feedOpenedClosed: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
+    feedConversion: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
     peopleMessagingChannelParticipationDistribution: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>;
 }
 export interface UniverseFeeds {

@@ -1,3 +1,10 @@
+# [3.68.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.67.0...v3.68.0) (2021-01-25)
+
+
+### Features
+
+* **analytics:** add feed conversion ([f3de3ab](https://github.com/c-commerce/charles-browser-sdk/commit/f3de3ab649a381d2d8816424d64366d12f5b9efd))
+
 # [3.67.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.66.4...v3.67.0) (2021-01-24)
 
 

@@ -476,6 +476,14 @@ var Universe = (function (_super) {
                             case 1: return [2, _a.sent()];
                         }
                     });
+                }); },
+                feedConversion: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    return tslib_1.__generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4, this.makeAnalyticsRequest('/feeds/conversion/counts', options)];
+                            case 1: return [2, _a.sent()];
+                        }
+                    });
                 }); }
             };
         },
