@@ -1,3 +1,10 @@
+# [3.69.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.68.0...v3.69.0) (2021-01-28)
+
+
+### Features
+
+* **Order:** add person association ([5b4809a](https://github.com/c-commerce/charles-browser-sdk/commit/5b4809a6725eefe062a02e079c6a2694f7c31b59))
+
 # [3.68.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.67.0...v3.68.0) (2021-01-25)
 
 

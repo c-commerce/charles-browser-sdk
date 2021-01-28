@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OrdersFetchRemoteError = exports.OrdersFetchCountRemoteError = exports.OrderFetchRemoteError = exports.OrderInitializationError = exports.Orders = exports.Order = exports.OrderItem = exports.IOrderStatusEnum = void 0;
+exports.OrdersAssociationRemoteError = exports.OrdersFetchRemoteError = exports.OrdersFetchCountRemoteError = exports.OrderFetchRemoteError = exports.OrderInitializationError = exports.Orders = exports.Order = exports.OrderItem = exports.IOrderStatusEnum = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
@@ -181,6 +181,42 @@ var Order = (function (_super) {
             });
         });
     };
+    Order.prototype.associatePerson = function (personId) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, response, err_2;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('association requires id to be set.');
+                        if (!personId)
+                            throw new TypeError('association requires new person to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'GET',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/person/associate/" + personId,
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: undefined,
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        response = _c.sent();
+                        this.deserialize(response.data.data[0]);
+                        return [2, this];
+                    case 3:
+                        err_2 = _c.sent();
+                        throw new OrdersAssociationRemoteError(undefined, { error: err_2 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return Order;
 }(_base_1.default));
 exports.Order = Order;
@@ -239,4 +275,16 @@ var OrdersFetchRemoteError = (function (_super) {
     return OrdersFetchRemoteError;
 }(errors_1.BaseError));
 exports.OrdersFetchRemoteError = OrdersFetchRemoteError;
+var OrdersAssociationRemoteError = (function (_super) {
+    tslib_1.__extends(OrdersAssociationRemoteError, _super);
+    function OrdersAssociationRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could associate order with person unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'OrdersAssociationRemoteError';
+        return _this;
+    }
+    return OrdersAssociationRemoteError;
+}(errors_1.BaseError));
+exports.OrdersAssociationRemoteError = OrdersAssociationRemoteError;
 //# sourceMappingURL=order.js.map

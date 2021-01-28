@@ -230,6 +230,7 @@ export declare class Order extends Entity<OrderPayload, OrderRawPayload> {
     static create(payload: OrderRawPayload, universe: Universe, http: Universe['http']): Order;
     serialize(): OrderRawPayload;
     init(): Promise<Order | undefined>;
+    associatePerson(personId: string): Promise<Order | undefined>;
 }
 export declare class Orders {
     static endpoint: string;
@@ -250,6 +251,11 @@ export declare class OrdersFetchCountRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class OrdersFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class OrdersAssociationRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
