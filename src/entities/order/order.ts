@@ -420,7 +420,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
 
     try {
       const opts = {
-        method: 'GET',
+        method: 'POST',
         url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/person/associate/${personId}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
