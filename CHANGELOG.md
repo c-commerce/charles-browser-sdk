@@ -1,3 +1,10 @@
+## [3.69.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.69.0...v3.69.1) (2021-01-28)
+
+
+### Bug Fixes
+
+* **Order/association:** use correct method ([4b73648](https://github.com/c-commerce/charles-browser-sdk/commit/4b736482ee6a004562ad66a7aa7f76fa27a71f39))
+
 # [3.69.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.68.0...v3.69.0) (2021-01-28)
 
 

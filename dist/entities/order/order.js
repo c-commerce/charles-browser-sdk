@@ -196,7 +196,7 @@ var Order = (function (_super) {
                     case 1:
                         _c.trys.push([1, 3, , 4]);
                         opts = {
-                            method: 'GET',
+                            method: 'POST',
                             url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/person/associate/" + personId,
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
