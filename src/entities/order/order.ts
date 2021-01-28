@@ -413,6 +413,31 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
       throw this.handleError(new OrderInitializationError(undefined, { error: err }))
     }
   }
+
+  public async associatePerson (personId: string): Promise<Order | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('association requires id to be set.')
+    if (!personId) throw new TypeError('association requires new person to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/person/associate/${personId}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as OrderRawPayload)
+
+      return this
+    } catch (err) {
+      throw new OrdersAssociationRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -443,6 +468,13 @@ export class OrdersFetchCountRemoteError extends BaseError {
 export class OrdersFetchRemoteError extends BaseError {
   public name = 'OrdersFetchRemoteError'
   constructor (public message: string = 'Could not get orders.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class OrdersAssociationRemoteError extends BaseError {
+  public name = 'OrdersAssociationRemoteError'
+  constructor (public message: string = 'Could associate order with person unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
