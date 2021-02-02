@@ -94,6 +94,11 @@ export interface OrderTaxLineRawPayload {
     readonly name?: string;
     readonly rate?: number;
 }
+export interface OrderShippingMethodRawPayload {
+    readonly amount_gross?: number;
+    readonly currency?: string;
+    readonly name?: string;
+}
 export interface OrderRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -129,6 +134,7 @@ export interface OrderRawPayload {
     readonly proxy_payload?: object | null;
     readonly discounts?: OrderDiscountRawPayload[] | null;
     readonly taxes_summary?: OrderTaxLineRawPayload[] | null;
+    readonly shipping_methods?: OrderShippingMethodRawPayload[] | null;
 }
 export interface OrderPayload {
     readonly id?: OrderRawPayload['id'];
@@ -165,6 +171,7 @@ export interface OrderPayload {
     readonly proxyPayload?: OrderRawPayload['proxy_payload'];
     readonly discounts?: OrderRawPayload['discounts'];
     readonly taxesSummary?: OrderRawPayload['taxes_summary'];
+    readonly shippingMethods?: OrderRawPayload['shipping_methods'];
 }
 export declare class OrderItem {
     protected universe: Universe;
@@ -228,6 +235,7 @@ export declare class Order extends Entity<OrderPayload, OrderRawPayload> {
     proxyPayload?: OrderPayload['proxyPayload'];
     discounts?: OrderPayload['discounts'];
     taxesSummary?: OrderPayload['taxesSummary'];
+    shippingMethods?: OrderPayload['shippingMethods'];
     constructor(options: OrderOptions);
     protected deserialize(rawPayload: OrderRawPayload): Order;
     static create(payload: OrderRawPayload, universe: Universe, http: Universe['http']): Order;

@@ -1,3 +1,10 @@
+# [3.71.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.70.0...v3.71.0) (2021-02-02)
+
+
+### Features
+
+* **Order:** serialize shipping methods ([978ff3e](https://github.com/c-commerce/charles-browser-sdk/commit/978ff3ee29cfa4fed373e826537e4b6d385abc65))
+
 # [3.70.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.69.1...v3.70.0) (2021-02-02)
 
 
