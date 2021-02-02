@@ -1,3 +1,10 @@
+# [3.72.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.71.0...v3.72.0) (2021-02-02)
+
+
+### Features
+
+* **Feed:** expose order event ([0c49303](https://github.com/c-commerce/charles-browser-sdk/commit/0c4930398db5fe6b24195dd67bff79f677cae892))
+
 # [3.71.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.70.0...v3.71.0) (2021-02-02)
 
 

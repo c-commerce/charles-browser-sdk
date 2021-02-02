@@ -23,6 +23,11 @@ declare const _default: {
             generateTopic(): string;
             isTopic(topic: string): boolean;
         };
+        feedsOrders: {
+            template: string;
+            generateTopic(): string;
+            isTopic(topic: string): boolean;
+        };
         feedsMessages: {
             template: string;
             generateTopic(): string;
@@ -39,6 +44,11 @@ declare const _default: {
             isTopic(topic: string, data: IInjectableDataObject): boolean;
         };
         feedEvents: {
+            template: string;
+            generateTopic(data: IInjectableDataObject): string;
+            isTopic(topic: string, data: IInjectableDataObject): boolean;
+        };
+        feedOrders: {
             template: string;
             generateTopic(data: IInjectableDataObject): string;
             isTopic(topic: string, data: IInjectableDataObject): boolean;

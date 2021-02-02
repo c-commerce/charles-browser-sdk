@@ -9,6 +9,7 @@ var errors_1 = require("../../errors");
 var message_1 = require("../../messaging/message");
 var asset_1 = require("../../entities/asset");
 var person_1 = require("../../entities/person");
+var order_1 = require("../../entities/order");
 var event_1 = require("./event");
 var comment_1 = require("./comment");
 var _base_1 = tslib_1.__importStar(require("../../entities/_base"));
@@ -137,7 +138,8 @@ var Feed = (function (_super) {
                 topics_1.default.api.feedEvents.generateTopic(this.serialize()),
                 topics_1.default.api.feedTyping.generateTopic(this.serialize()),
                 topics_1.default.api.feedPresence.generateTopic(this.serialize()),
-                topics_1.default.api.feedMessagesStatus.generateTopic(this.serialize())
+                topics_1.default.api.feedMessagesStatus.generateTopic(this.serialize()),
+                topics_1.default.api.feedOrders.generateTopic(this.serialize())
             ];
         },
         enumerable: false,
@@ -179,6 +181,13 @@ var Feed = (function (_super) {
                 event_2 = event_1.Event.create(msg.payload.event, this, this.universe, this.http);
             }
             this.emit('feed:event', tslib_1.__assign(tslib_1.__assign({}, msg), { event: event_2, feed: this }));
+        }
+        if (topics_1.default.api.feedOrders.isTopic(msg.topic, this.serialize())) {
+            var order = void 0;
+            if (msg.payload.order) {
+                order = order_1.Order.create(msg.payload.order, this.universe, this.http);
+            }
+            this.emit('feed:order', tslib_1.__assign(tslib_1.__assign({}, msg), { order: order, feed: this }));
         }
         if (topics_1.default.api.feedPresence.isTopic(msg.topic, this.serialize())) {
             var presence = void 0;
