@@ -22,7 +22,16 @@ export interface RealtimeMessage {
 
 export interface RealtimeMessageMessage extends RealtimeMessage {
   payload: {
+    person: {
+      [key: string]: any | object | undefined | null
+    }
+    channel_user: {
+      [key: string]: any | object | undefined | null
+    }
     message: {
+      [key: string]: any | object | undefined | null
+    }
+    order?: {
       [key: string]: any | object | undefined | null
     }
     event: {

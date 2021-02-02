@@ -53,6 +53,16 @@ export default {
         return topic === this.template
       }
     })(),
+    feedsOrders: new (class extends TopicGenerator {
+      template: string = 'api/feeds/*/orders'
+      generateTopic (): string {
+        return this.template
+      }
+
+      isTopic (topic: string): boolean {
+        return topic === this.template
+      }
+    })(),
     feedsMessages: new (class extends TopicGenerator {
       template: string = 'api/feeds/*/messages'
       generateTopic (): string {
@@ -85,6 +95,16 @@ export default {
     })(),
     feedEvents: new (class extends TopicGenerator {
       template: string = 'api/feeds/${id}/events'
+      generateTopic (data: IInjectableDataObject): string {
+        return this.template.replace('${id}', data.id)
+      }
+
+      isTopic (topic: string, data: IInjectableDataObject): boolean {
+        return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic)
+      }
+    })(),
+    feedOrders: new (class extends TopicGenerator {
+      template: string = 'api/feeds/${id}/orders'
       generateTopic (data: IInjectableDataObject): string {
         return this.template.replace('${id}', data.id)
       }

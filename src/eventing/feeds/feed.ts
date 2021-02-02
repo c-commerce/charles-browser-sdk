@@ -9,6 +9,7 @@ import {
 } from '../../messaging/message'
 import { Asset, Assets } from '../../entities/asset'
 import { Person, PersonRawPayload } from '../../entities/person'
+import { Order, OrderRawPayload } from '../../entities/order'
 import { StaffRawPayload } from '../../entities/staff'
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event'
 import { Comment, CommentRawPayload } from './comment'
@@ -248,7 +249,8 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       universeTopics.api.feedEvents.generateTopic(this.serialize()),
       universeTopics.api.feedTyping.generateTopic(this.serialize()),
       universeTopics.api.feedPresence.generateTopic(this.serialize()),
-      universeTopics.api.feedMessagesStatus.generateTopic(this.serialize())
+      universeTopics.api.feedMessagesStatus.generateTopic(this.serialize()),
+      universeTopics.api.feedOrders.generateTopic(this.serialize())
     ]
   }
 
@@ -305,6 +307,14 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
       }
 
       this.emit('feed:event', { ...msg, event, feed: this })
+    }
+    if (universeTopics.api.feedOrders.isTopic(msg.topic, this.serialize())) {
+      let order
+      if ((msg as realtime.RealtimeMessageMessage).payload.order) {
+        order = Order.create((msg as realtime.RealtimeMessageMessage).payload.order as OrderRawPayload, this.universe, this.http)
+      }
+
+      this.emit('feed:order', { ...msg, order, feed: this })
     }
 
     if (universeTopics.api.feedPresence.isTopic(msg.topic, this.serialize())) {
