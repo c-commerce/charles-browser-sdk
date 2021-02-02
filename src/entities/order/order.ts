@@ -141,6 +141,7 @@ export interface OrderRawPayload {
   readonly amount_total_net?: string
   readonly amount_total_tax?: string
   readonly amount_total_shipping_gross?: string
+  readonly discount_amount_total?: number
   readonly order_prompt?: string
   readonly status?: IOrderStatusType | null
   readonly proxy_payload?: object | null
@@ -177,6 +178,7 @@ export interface OrderPayload {
   readonly amountTotalNet?: OrderRawPayload['amount_total_net']
   readonly amountTotalTax?: OrderRawPayload['amount_total_tax']
   readonly amountTotalShippingGross?: OrderRawPayload['amount_total_shipping_gross']
+  readonly discountAmountTotal?: OrderRawPayload['discount_amount_total']
   readonly orderPrompt?: OrderRawPayload['order_prompt']
   readonly status?: OrderRawPayload['status']
   readonly proxyPayload?: OrderRawPayload['proxy_payload']
@@ -295,6 +297,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
   public amountTotalNet?: OrderPayload['amountTotalNet']
   public amountTotalTax?: OrderPayload['amountTotalTax']
   public amountTotalShippingGross?: OrderPayload['amountTotalShippingGross']
+  public discountAmountTotal?: OrderPayload['discountAmountTotal']
   public orderPrompt?: OrderPayload['orderPrompt']
   public status?: OrderPayload['status']
   public proxyPayload?: OrderPayload['proxyPayload']
@@ -342,6 +345,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
     this.amountTotalNet = rawPayload.amount_total_net
     this.amountTotalTax = rawPayload.amount_total_tax
     this.amountTotalShippingGross = rawPayload.amount_total_shipping_gross
+    this.discountAmountTotal = rawPayload.discount_amount_total
     this.orderPrompt = rawPayload.order_prompt
     this.status = rawPayload.status
     this.proxyPayload = rawPayload.proxy_payload
@@ -396,6 +400,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
       amount_total_net: this.amountTotalNet,
       amount_total_tax: this.amountTotalTax,
       amount_total_shipping_gross: this.amountTotalShippingGross,
+      discount_amount_total: this.discountAmountTotal,
       order_prompt: this.orderPrompt,
       status: this.status,
       proxy_payload: this.proxyPayload,
