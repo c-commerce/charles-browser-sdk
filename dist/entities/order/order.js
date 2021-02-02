@@ -104,6 +104,7 @@ var Order = (function (_super) {
         this.amountTotalNet = rawPayload.amount_total_net;
         this.amountTotalTax = rawPayload.amount_total_tax;
         this.amountTotalShippingGross = rawPayload.amount_total_shipping_gross;
+        this.discountAmountTotal = rawPayload.discount_amount_total;
         this.orderPrompt = rawPayload.order_prompt;
         this.status = rawPayload.status;
         this.proxyPayload = rawPayload.proxy_payload;
@@ -155,6 +156,7 @@ var Order = (function (_super) {
             amount_total_net: this.amountTotalNet,
             amount_total_tax: this.amountTotalTax,
             amount_total_shipping_gross: this.amountTotalShippingGross,
+            discount_amount_total: this.discountAmountTotal,
             order_prompt: this.orderPrompt,
             status: this.status,
             proxy_payload: this.proxyPayload,

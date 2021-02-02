@@ -123,6 +123,7 @@ export interface OrderRawPayload {
     readonly amount_total_net?: string;
     readonly amount_total_tax?: string;
     readonly amount_total_shipping_gross?: string;
+    readonly discount_amount_total?: number;
     readonly order_prompt?: string;
     readonly status?: IOrderStatusType | null;
     readonly proxy_payload?: object | null;
@@ -158,6 +159,7 @@ export interface OrderPayload {
     readonly amountTotalNet?: OrderRawPayload['amount_total_net'];
     readonly amountTotalTax?: OrderRawPayload['amount_total_tax'];
     readonly amountTotalShippingGross?: OrderRawPayload['amount_total_shipping_gross'];
+    readonly discountAmountTotal?: OrderRawPayload['discount_amount_total'];
     readonly orderPrompt?: OrderRawPayload['order_prompt'];
     readonly status?: OrderRawPayload['status'];
     readonly proxyPayload?: OrderRawPayload['proxy_payload'];
@@ -220,6 +222,7 @@ export declare class Order extends Entity<OrderPayload, OrderRawPayload> {
     amountTotalNet?: OrderPayload['amountTotalNet'];
     amountTotalTax?: OrderPayload['amountTotalTax'];
     amountTotalShippingGross?: OrderPayload['amountTotalShippingGross'];
+    discountAmountTotal?: OrderPayload['discountAmountTotal'];
     orderPrompt?: OrderPayload['orderPrompt'];
     status?: OrderPayload['status'];
     proxyPayload?: OrderPayload['proxyPayload'];

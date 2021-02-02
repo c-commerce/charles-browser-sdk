@@ -1,3 +1,10 @@
+# [3.70.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.69.1...v3.70.0) (2021-02-02)
+
+
+### Features
+
+* **Order:** serialize discount amount ([b376103](https://github.com/c-commerce/charles-browser-sdk/commit/b376103823c43c4eaf44cbe02fe108ba711d5422))
+
 ## [3.69.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.69.0...v3.69.1) (2021-01-28)
 
 
