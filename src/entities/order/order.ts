@@ -112,6 +112,12 @@ export interface OrderTaxLineRawPayload {
   readonly rate?: number
 }
 
+export interface OrderShippingMethodRawPayload {
+  readonly amount_gross?: number
+  readonly currency?: string
+  readonly name?: string
+}
+
 export interface OrderRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -147,6 +153,7 @@ export interface OrderRawPayload {
   readonly proxy_payload?: object | null
   readonly discounts?: OrderDiscountRawPayload[] | null
   readonly taxes_summary?: OrderTaxLineRawPayload[] | null
+  readonly shipping_methods?: OrderShippingMethodRawPayload[] | null
 }
 
 export interface OrderPayload {
@@ -184,6 +191,7 @@ export interface OrderPayload {
   readonly proxyPayload?: OrderRawPayload['proxy_payload']
   readonly discounts?: OrderRawPayload['discounts']
   readonly taxesSummary?: OrderRawPayload['taxes_summary']
+  readonly shippingMethods?: OrderRawPayload['shipping_methods']
 }
 
 export class OrderItem {
@@ -303,6 +311,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
   public proxyPayload?: OrderPayload['proxyPayload']
   public discounts?: OrderPayload['discounts']
   public taxesSummary?: OrderPayload['taxesSummary']
+  public shippingMethods?: OrderPayload['shippingMethods']
 
   constructor (options: OrderOptions) {
     super()
@@ -351,6 +360,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
     this.proxyPayload = rawPayload.proxy_payload
     this.discounts = rawPayload.discounts
     this.taxesSummary = rawPayload.taxes_summary
+    this.shippingMethods = rawPayload.shipping_methods
 
     if (Array.isArray(rawPayload.items)) {
       this.items = rawPayload.items.map((item) => (OrderItem.create(item, this.universe, this.http)))
@@ -405,7 +415,8 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
       status: this.status,
       proxy_payload: this.proxyPayload,
       discounts: this.discounts,
-      taxes_summary: this.taxesSummary
+      taxes_summary: this.taxesSummary,
+      shipping_methods: this.shippingMethods
     }
   }
 
