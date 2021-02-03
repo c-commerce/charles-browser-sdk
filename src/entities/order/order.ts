@@ -494,3 +494,9 @@ export class OrdersAssociationRemoteError extends BaseError {
     super(message, properties)
   }
 }
+export class OrderExportRemoteError extends BaseError {
+  public name = 'OrderExportRemoteError'
+  constructor (public message: string = 'Could not export orders.', properties?: any) {
+    super(message, properties)
+  }
+}

@@ -947,3 +947,10 @@ export class PersonGDPRGetRemoteError extends BaseError {
     Object.setPrototypeOf(this, PersonGDPRGetRemoteError.prototype)
   }
 }
+export class PeopleExportRemoteError extends BaseError {
+  public name = 'PeopleExportRemoteError'
+  constructor (public message: string = 'Could not export people.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PeopleExportRemoteError.prototype)
+  }
+}
