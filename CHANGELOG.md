@@ -1,3 +1,10 @@
+## [3.73.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.73.0...v3.73.1) (2021-02-03)
+
+
+### Bug Fixes
+
+* **deps:** pin axios for security compliance, catch up ([b3e6545](https://github.com/c-commerce/charles-browser-sdk/commit/b3e6545b5c5fa8afbe6627182e4151401c05d397))
+
 # [3.73.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.72.0...v3.73.0) (2021-02-03)
 
 
