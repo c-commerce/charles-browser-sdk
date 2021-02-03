@@ -42,6 +42,12 @@ export interface NotificationCampaignRawPayload {
   readonly is_published?: boolean
   readonly published_at?: string
   readonly message_template?: string
+  readonly message_template_parameters?: Array<{
+    name?: string
+    order_index?: number
+    value?: string
+    logic?: object| null
+  }>
   readonly includes?: Array<{
     type?: 'list' | 'subscription'
     resource?: string
@@ -105,6 +111,7 @@ export interface NotificationCampaignPayload {
   readonly isPublished?: NotificationCampaignRawPayload['is_published']
   readonly publishedAt?: NotificationCampaignRawPayload['published_at']
   readonly messageTemplate?: NotificationCampaignRawPayload['message_template']
+  readonly messageTemplateParameters?: NotificationCampaignRawPayload['message_template_parameters']
   readonly includes?: NotificationCampaignRawPayload['includes']
   readonly excludes?: NotificationCampaignRawPayload['excludes']
   readonly status?: NotificationCampaignRawPayload['status']
@@ -143,6 +150,7 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
   public isPublished?: NotificationCampaignPayload['isPublished']
   public publishedAt?: NotificationCampaignPayload['publishedAt']
   public messageTemplate?: NotificationCampaignPayload['messageTemplate']
+  public messageTemplateParameters?: NotificationCampaignPayload['messageTemplateParameters']
   public includes?: NotificationCampaignPayload['includes']
   public excludes?: NotificationCampaignPayload['excludes']
   public status?: NotificationCampaignPayload['status']
@@ -182,6 +190,7 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
     this.isPublished = rawPayload.is_published
     this.publishedAt = rawPayload.published_at
     this.messageTemplate = rawPayload.message_template
+    this.messageTemplateParameters = rawPayload.message_template_parameters
     this.includes = rawPayload.includes
     this.excludes = rawPayload.excludes
     this.status = rawPayload.status
@@ -214,6 +223,7 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
       is_published: this.isPublished,
       published_at: this.publishedAt,
       message_template: this.messageTemplate,
+      message_template_parameters: this.messageTemplateParameters,
       includes: this.includes,
       excludes: this.excludes,
       status: this.status,
