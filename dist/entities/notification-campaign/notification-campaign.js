@@ -32,6 +32,7 @@ var NotificationCampaign = (function (_super) {
         this.isPublished = rawPayload.is_published;
         this.publishedAt = rawPayload.published_at;
         this.messageTemplate = rawPayload.message_template;
+        this.messageTemplateParameters = rawPayload.message_template_parameters;
         this.includes = rawPayload.includes;
         this.excludes = rawPayload.excludes;
         this.status = rawPayload.status;
@@ -61,6 +62,7 @@ var NotificationCampaign = (function (_super) {
             is_published: this.isPublished,
             published_at: this.publishedAt,
             message_template: this.messageTemplate,
+            message_template_parameters: this.messageTemplateParameters,
             includes: this.includes,
             excludes: this.excludes,
             status: this.status,

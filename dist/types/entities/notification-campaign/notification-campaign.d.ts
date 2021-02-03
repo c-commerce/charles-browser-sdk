@@ -20,6 +20,12 @@ export interface NotificationCampaignRawPayload {
     readonly is_published?: boolean;
     readonly published_at?: string;
     readonly message_template?: string;
+    readonly message_template_parameters?: Array<{
+        name?: string;
+        order_index?: number;
+        value?: string;
+        logic?: object | null;
+    }>;
     readonly includes?: Array<{
         type?: 'list' | 'subscription';
         resource?: string;
@@ -78,6 +84,7 @@ export interface NotificationCampaignPayload {
     readonly isPublished?: NotificationCampaignRawPayload['is_published'];
     readonly publishedAt?: NotificationCampaignRawPayload['published_at'];
     readonly messageTemplate?: NotificationCampaignRawPayload['message_template'];
+    readonly messageTemplateParameters?: NotificationCampaignRawPayload['message_template_parameters'];
     readonly includes?: NotificationCampaignRawPayload['includes'];
     readonly excludes?: NotificationCampaignRawPayload['excludes'];
     readonly status?: NotificationCampaignRawPayload['status'];
@@ -106,6 +113,7 @@ export declare class NotificationCampaign extends Entity<NotificationCampaignPay
     isPublished?: NotificationCampaignPayload['isPublished'];
     publishedAt?: NotificationCampaignPayload['publishedAt'];
     messageTemplate?: NotificationCampaignPayload['messageTemplate'];
+    messageTemplateParameters?: NotificationCampaignPayload['messageTemplateParameters'];
     includes?: NotificationCampaignPayload['includes'];
     excludes?: NotificationCampaignPayload['excludes'];
     status?: NotificationCampaignPayload['status'];

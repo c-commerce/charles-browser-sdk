@@ -1,3 +1,10 @@
+# [3.73.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.72.0...v3.73.0) (2021-02-03)
+
+
+### Features
+
+* **Notification Campaign:** added message_template_parameters to notification campaigns ([b499d8e](https://github.com/c-commerce/charles-browser-sdk/commit/b499d8efd55fb7917209748b05a31fc83f419af3))
+
 # [3.72.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.71.0...v3.72.0) (2021-02-02)
 
 
