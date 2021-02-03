@@ -271,3 +271,8 @@ export declare class OrdersAssociationRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class OrderExportRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}

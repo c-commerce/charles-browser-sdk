@@ -320,4 +320,9 @@ export declare class PersonGDPRGetRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class PeopleExportRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export {};

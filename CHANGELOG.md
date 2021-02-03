@@ -1,3 +1,10 @@
+# [3.74.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.73.1...v3.74.0) (2021-02-03)
+
+
+### Features
+
+* **contacts, orders:** implement export handlers ([c359e12](https://github.com/c-commerce/charles-browser-sdk/commit/c359e1219b300b201094f275bd2bdb3f2d98a7d6))
+
 ## [3.73.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.73.0...v3.73.1) (2021-02-03)
 
 

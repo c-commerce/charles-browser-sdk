@@ -78,6 +78,9 @@ export interface UniverseFetchOptions {
     raw?: boolean;
     query?: UniverseFetchQuery;
 }
+export interface UniverseExportOptions {
+    query?: UniverseFetchQuery;
+}
 export declare interface Universe {
     on: ((event: 'raw-error' | 'error', cb: (error: Error) => void) => this) & ((event: 'armed' | 'universe:message' | 'universe:feeds:messages' | 'universe:feeds:events' | 'universe:feeds' | string, cb: Function) => this);
 }
@@ -157,6 +160,7 @@ export interface UniversePeople {
     fromJson: (feeds: person.PersonRawPayload[]) => person.Person[];
     toJson: (feeds: person.Person[]) => person.PersonRawPayload[];
     stream: (options?: UniverseFetchOptions) => Promise<person.People>;
+    export: (options?: UniverseExportOptions) => Promise<Blob>;
 }
 export interface UniverseTracks {
     fromJson: (payloads: track.TrackRawPayload[]) => track.Track[];
@@ -190,6 +194,7 @@ export interface IUniverseOrders {
     fetchCount: (options?: EntityFetchOptions) => Promise<{
         count: number;
     }>;
+    export: (options?: UniverseExportOptions) => Promise<Blob>;
 }
 export interface IUniverseContactLists {
     fetch: (options?: UniverseFetchOptions) => Promise<contactList.ContactList[] | contactList.ContactListRawPayload[] | undefined>;

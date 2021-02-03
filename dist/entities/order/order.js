@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OrdersAssociationRemoteError = exports.OrdersFetchRemoteError = exports.OrdersFetchCountRemoteError = exports.OrderFetchRemoteError = exports.OrderInitializationError = exports.Orders = exports.Order = exports.OrderItem = exports.IOrderStatusEnum = void 0;
+exports.OrderExportRemoteError = exports.OrdersAssociationRemoteError = exports.OrdersFetchRemoteError = exports.OrdersFetchCountRemoteError = exports.OrderFetchRemoteError = exports.OrderInitializationError = exports.Orders = exports.Order = exports.OrderItem = exports.IOrderStatusEnum = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
@@ -291,4 +291,16 @@ var OrdersAssociationRemoteError = (function (_super) {
     return OrdersAssociationRemoteError;
 }(errors_1.BaseError));
 exports.OrdersAssociationRemoteError = OrdersAssociationRemoteError;
+var OrderExportRemoteError = (function (_super) {
+    tslib_1.__extends(OrderExportRemoteError, _super);
+    function OrderExportRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not export orders.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'OrderExportRemoteError';
+        return _this;
+    }
+    return OrderExportRemoteError;
+}(errors_1.BaseError));
+exports.OrderExportRemoteError = OrderExportRemoteError;
 //# sourceMappingURL=order.js.map
