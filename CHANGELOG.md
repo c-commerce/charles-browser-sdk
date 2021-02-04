@@ -1,3 +1,10 @@
+## [3.74.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.74.0...v3.74.1) (2021-02-04)
+
+
+### Bug Fixes
+
+* **entity list:** handle export ([e46052d](https://github.com/c-commerce/charles-browser-sdk/commit/e46052d8afd42f29c831fdb6bfbb11a034c0a6ce))
+
 # [3.74.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.73.1...v3.74.0) (2021-02-03)
 
 

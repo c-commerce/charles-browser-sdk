@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderExportRemoteError = exports.OrdersAssociationRemoteError = exports.OrdersFetchRemoteError = exports.OrdersFetchCountRemoteError = exports.OrderFetchRemoteError = exports.OrderInitializationError = exports.Orders = exports.Order = exports.OrderItem = exports.IOrderStatusEnum = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = tslib_1.__importStar(require("../_base"));
 var errors_1 = require("../../errors");
 var IOrderStatusEnum;
 (function (IOrderStatusEnum) {
@@ -224,12 +224,41 @@ var Order = (function (_super) {
     return Order;
 }(_base_1.default));
 exports.Order = Order;
-var Orders = (function () {
-    function Orders() {
+var Orders = (function (_super) {
+    tslib_1.__extends(Orders, _super);
+    function Orders(options) {
+        var _this = _super.call(this) || this;
+        _this.endpoint = Orders.endpoint;
+        _this.universe = options.universe;
+        _this.http = options.http;
+        return _this;
     }
+    Orders.prototype.parseItem = function (payload) {
+        return Order.create(payload, this.universe, this.http);
+    };
+    Orders.prototype.getStream = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this._getStream(options)];
+                    case 1: return [2, (_a.sent())];
+                }
+            });
+        });
+    };
+    Orders.prototype.exportCsv = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this._exportCsv(options)];
+                    case 1: return [2, (_a.sent())];
+                }
+            });
+        });
+    };
     Orders.endpoint = 'api/v0/orders';
     return Orders;
-}());
+}(_base_1.EntitiesList));
 exports.Orders = Orders;
 var OrderInitializationError = (function (_super) {
     tslib_1.__extends(OrderInitializationError, _super);

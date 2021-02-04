@@ -90,9 +90,15 @@ export declare class EntityFetchError extends BaseError {
 export interface EntitiesListFetchQuery {
     [key: string]: any;
 }
+export interface EntitiesListExportCsvQuery {
+    [key: string]: any;
+}
 export interface EntitiesListFetchOptions {
     raw?: boolean;
     query?: EntitiesListFetchQuery;
+}
+export interface EntitiesListExportCsvOptions {
+    query?: EntitiesListExportCsvQuery;
 }
 export declare abstract class EntitiesList<Entity, RawPayload> extends Readable {
     protected abstract universe: Universe;
@@ -104,4 +110,6 @@ export declare abstract class EntitiesList<Entity, RawPayload> extends Readable 
     static pipeline: typeof pipeline;
     abstract getStream(options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>>;
     protected _getStream(options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>>;
+    abstract exportCsv(options?: EntitiesListExportCsvOptions): Promise<Blob>;
+    protected _exportCsv(options?: EntitiesListExportCsvOptions): Promise<Blob>;
 }

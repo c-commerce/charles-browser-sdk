@@ -1,4 +1,4 @@
-import { Universe, UniverseFetchOptions } from '../../universe';
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe';
 import { BaseError } from '../../errors';
 import { Reply, MessageRawPayload, MessageReplyContentOptions, ReplyResponse, ReplyOptions } from '../../messaging/message';
 import { Asset } from '../../entities/asset';
@@ -123,6 +123,7 @@ export declare class Feeds extends EntitiesList<Feed, FeedRawPayload> {
     constructor(options: FeedsOptions);
     protected parseItem(payload: FeedRawPayload): Feed;
     getStream(options?: UniverseFetchOptions): Promise<Feeds>;
+    exportCsv(options?: UniverseExportCsvOptions): Promise<Blob>;
 }
 export declare type FeedReplyContentOptions = MessageReplyContentOptions;
 export declare type FeedReplyResponse = ReplyResponse;

@@ -513,6 +513,16 @@ var People = (function (_super) {
             });
         });
     };
+    People.prototype.exportCsv = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this._exportCsv(options)];
+                    case 1: return [2, (_a.sent())];
+                }
+            });
+        });
+    };
     People.endpoint = 'api/v0/people';
     return People;
 }(_base_1.EntitiesList));

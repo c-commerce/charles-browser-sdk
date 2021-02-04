@@ -1,5 +1,5 @@
-import Entity, { EntityOptions } from '../_base';
-import { Universe } from '../../universe';
+import Entity, { EntityOptions, EntitiesList } from '../_base';
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe';
 import { BaseError } from '../../errors';
 import { IDiscountType } from '../discount/discount';
 export interface OrderOptions extends EntityOptions {
@@ -243,8 +243,19 @@ export declare class Order extends Entity<OrderPayload, OrderRawPayload> {
     init(): Promise<Order | undefined>;
     associatePerson(personId: string): Promise<Order | undefined>;
 }
-export declare class Orders {
+export interface OrdersOptions {
+    universe: Universe;
+    http: Universe['http'];
+}
+export declare class Orders extends EntitiesList<Order, OrderRawPayload> {
     static endpoint: string;
+    endpoint: string;
+    protected universe: Universe;
+    protected http: Universe['http'];
+    constructor(options: OrdersOptions);
+    protected parseItem(payload: OrderRawPayload): Order;
+    getStream(options?: UniverseFetchOptions): Promise<Orders>;
+    exportCsv(options?: UniverseExportCsvOptions): Promise<Blob>;
 }
 export declare class OrderInitializationError extends BaseError {
     message: string;

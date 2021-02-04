@@ -1,5 +1,5 @@
 import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList, EntityDeleteOptions, RawPatch } from '../_base';
-import { Universe, UniverseFetchOptions } from '../../universe';
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe';
 import { BaseError } from '../../errors';
 import { Order, OrderRawPayload } from '../../entities/order/order';
 import { ChannelUser, ChannelUserRawPayload } from './channel-user';
@@ -214,6 +214,7 @@ export declare class People extends EntitiesList<Person, PersonRawPayload> {
     constructor(options: PeopleOptions);
     protected parseItem(payload: PersonRawPayload): Person;
     getStream(options?: UniverseFetchOptions): Promise<People>;
+    exportCsv(options?: UniverseExportCsvOptions): Promise<Blob>;
 }
 export declare class Address extends Entity<PersonAddressPayload, PersonAddressRawPayload> {
     protected universe: Universe;
