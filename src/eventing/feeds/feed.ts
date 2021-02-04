@@ -27,6 +27,7 @@ export const FEED_ENDPOINT: string = 'api/v0/feeds'
 
 export interface FeedRawPayload {
   readonly id?: string
+  readonly kind?: 'Contact' | 'Universe' | string | null
   readonly participants?: Array<string | PersonRawPayload>
   readonly agents?: string[]
   readonly parents?: string[]
@@ -47,6 +48,7 @@ export type FeedEventsRawPayload = EventRawPayload[]
 
 export interface FeedPayload {
   readonly id?: string
+  readonly kind?: FeedRawPayload['kind']
   readonly participants?: Array<string | Person>
   readonly agents?: string[]
   readonly parents?: string[]
@@ -103,6 +105,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   protected _rawPayload?: FeedPayload | null = null
 
   public id?: string
+  public kind?: FeedPayload['kind']
   public participants?: FeedPayload['participants']
   public agents?: string[]
   public parents?: string[]
@@ -139,6 +142,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
     this.setRawPayload(rawPayload)
 
     this.agents = rawPayload.agents
+    this.kind = rawPayload.kind
     this.parents = rawPayload.parents
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -193,6 +197,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   public serialize (): FeedRawPayload {
     return {
       id: this.id,
+      kind: this.kind,
       participants: Array.isArray(this.participants) ? this.participants.map((item: Person | string) => {
         if (typeOf(item) === 'object') {
           return (item as Person).serialize()
