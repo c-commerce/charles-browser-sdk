@@ -6,7 +6,7 @@ import Entity, {
   EntityDeleteOptions,
   RawPatch
 } from '../_base'
-import { Universe, UniverseFetchOptions } from '../../universe'
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import { Order, OrderRawPayload } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
@@ -674,6 +674,10 @@ export class People extends EntitiesList<Person, PersonRawPayload> {
 
   public async getStream (options?: UniverseFetchOptions): Promise<People> {
     return (await this._getStream(options)) as People
+  }
+
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
+    return (await this._exportCsv(options))
   }
 }
 

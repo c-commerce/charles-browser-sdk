@@ -1,6 +1,6 @@
 
-import Entity, { EntityOptions } from '../_base'
-import { Universe } from '../../universe'
+import Entity, { EntityOptions, EntitiesList } from '../_base'
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import { IDiscountType } from '../discount/discount'
 // import { CartPayload, CartRawPayload, CartTaxLineRawPayload } from '../cart/cart'
@@ -455,10 +455,34 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
     }
   }
 }
-
+export interface OrdersOptions {
+  universe: Universe
+  http: Universe['http']
+}
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export class Orders {
+export class Orders extends EntitiesList<Order, OrderRawPayload> {
   public static endpoint: string = 'api/v0/orders'
+  public endpoint: string = Orders.endpoint
+  protected universe: Universe
+  protected http: Universe['http']
+
+  constructor (options: OrdersOptions) {
+    super()
+    this.universe = options.universe
+    this.http = options.http
+  }
+
+  protected parseItem (payload: OrderRawPayload): Order {
+    return Order.create(payload, this.universe, this.http)
+  }
+
+  public async getStream (options?: UniverseFetchOptions): Promise<Orders> {
+    return (await this._getStream(options)) as Orders
+  }
+
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
+    return (await this._exportCsv(options))
+  }
 }
 
 export class OrderInitializationError extends BaseError {

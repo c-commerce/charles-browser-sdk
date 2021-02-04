@@ -390,10 +390,16 @@ export class EntityFetchError extends BaseError {
 export interface EntitiesListFetchQuery {
   [key: string]: any
 }
+export interface EntitiesListExportCsvQuery {
+  [key: string]: any
+}
 
 export interface EntitiesListFetchOptions {
   raw?: boolean
   query?: EntitiesListFetchQuery
+}
+export interface EntitiesListExportCsvOptions {
+  query?: EntitiesListExportCsvQuery
 }
 
 export abstract class EntitiesList<Entity, RawPayload> extends Readable {
@@ -455,5 +461,25 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
     })
 
     return this
+  }
+
+  public abstract exportCsv (options?: EntitiesListExportCsvOptions): Promise<Blob>
+
+  protected async _exportCsv (options?: EntitiesListExportCsvOptions): Promise<Blob> {
+    const opts = {
+      method: 'GET',
+      url: `${this.universe?.universeBase}/${this.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+      headers: {
+        Accept: 'text/csv'
+      },
+      responseType: 'blob'
+    }
+
+    return await this.http?.getClient()(opts)
+      .then(res => res.data)
+      .catch(err => {
+        this.emit('error', err)
+        return undefined
+      })
   }
 }

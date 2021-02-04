@@ -1,5 +1,5 @@
 import typeOf from 'just-typeof'
-import { Universe, UniverseFetchOptions } from '../../universe'
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import universeTopics from '../../universe/topics'
 import * as realtime from '../../realtime'
 import { BaseError } from '../../errors'
@@ -501,6 +501,10 @@ export class Feeds extends EntitiesList<Feed, FeedRawPayload> {
   public async getStream (options?: UniverseFetchOptions): Promise<Feeds> {
     // TODO: research why getStream result is not assignable
     return (await this._getStream(options)) as Feeds
+  }
+
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
+    return (await this._exportCsv(options))
   }
 }
 

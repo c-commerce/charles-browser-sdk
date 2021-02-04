@@ -120,7 +120,7 @@ export interface UniverseFetchOptions {
   raw?: boolean
   query?: UniverseFetchQuery
 }
-export interface UniverseExportOptions {
+export interface UniverseExportCsvOptions {
   query?: UniverseFetchQuery
 }
 
@@ -216,7 +216,7 @@ export interface UniversePeople {
   fromJson: (feeds: person.PersonRawPayload[]) => person.Person[]
   toJson: (feeds: person.Person[]) => person.PersonRawPayload[]
   stream: (options?: UniverseFetchOptions) => Promise<person.People>
-  export: (options?: UniverseExportOptions) => Promise<Blob>
+  export: (options?: UniverseExportCsvOptions) => Promise<Blob>
 }
 
 export interface UniverseTracks {
@@ -245,7 +245,7 @@ export interface IUniverseOrders {
   fromJson: (orders: order.OrderRawPayload[]) => order.Order[]
   toJson: (orders: order.Order[]) => order.OrderRawPayload[]
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
-  export: (options?: UniverseExportOptions) => Promise<Blob>
+  export: (options?: UniverseExportCsvOptions) => Promise<Blob>
 }
 export interface IUniverseContactLists {
   fetch: (options?: UniverseFetchOptions) => Promise<contactList.ContactList[] | contactList.ContactListRawPayload[] | undefined>
@@ -953,24 +953,15 @@ export class Universe extends Readable {
 
         return ret
       },
-      export: async (options?: UniverseExportOptions): Promise<Blob> => {
-        try {
-          const opts = {
-            method: 'GET',
-            url: `${this.universeBase}/${person.People.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
-            headers: {
-              Accept: 'text/csv'
-            },
-            data: undefined,
-            responseType: 'blob'
-          }
+      export: async (options?: UniverseExportCsvOptions): Promise<Blob> => {
+        const inst = new person.People({
+          universe: this,
+          http: this.http
+        })
 
-          const response = await this.http?.getClient()(opts)
+        const ret = await inst.exportCsv(options)
 
-          return response.data
-        } catch (err) {
-          throw new person.PeopleExportRemoteError(undefined, { error: err })
-        }
+        return ret
       }
     }
   }
@@ -1277,24 +1268,15 @@ export class Universe extends Readable {
           throw new order.OrdersFetchCountRemoteError(undefined, { error: err })
         }
       },
-      export: async (options?: UniverseExportOptions): Promise<Blob> => {
-        try {
-          const opts = {
-            method: 'GET',
-            url: `${this.universeBase}/${order.Orders.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
-            headers: {
-              Accept: 'text/csv'
-            },
-            data: undefined,
-            responseType: 'blob'
-          }
+      export: async (options?: UniverseExportCsvOptions): Promise<Blob> => {
+        const inst = new order.Orders({
+          universe: this,
+          http: this.http
+        })
 
-          const response = await this.http?.getClient()(opts)
+        const ret = await inst.exportCsv(options)
 
-          return response.data
-        } catch (err) {
-          throw new order.OrderExportRemoteError(undefined, { error: err })
-        }
+        return ret
       }
     }
   }
