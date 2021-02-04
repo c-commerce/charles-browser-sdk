@@ -17,6 +17,7 @@ export interface FeedOptions {
 export declare const FEED_ENDPOINT: string;
 export interface FeedRawPayload {
     readonly id?: string;
+    readonly kind?: 'Contact' | 'Universe' | string | null;
     readonly participants?: Array<string | PersonRawPayload>;
     readonly agents?: string[];
     readonly parents?: string[];
@@ -35,6 +36,7 @@ export declare type FeedlatestEventsRawPayload = EventRawPayload[];
 export declare type FeedEventsRawPayload = EventRawPayload[];
 export interface FeedPayload {
     readonly id?: string;
+    readonly kind?: FeedRawPayload['kind'];
     readonly participants?: Array<string | Person>;
     readonly agents?: string[];
     readonly parents?: string[];
@@ -74,6 +76,7 @@ export declare class Feed extends Entity<FeedPayload, FeedRawPayload> {
     private readonly eventsMap;
     protected _rawPayload?: FeedPayload | null;
     id?: string;
+    kind?: FeedPayload['kind'];
     participants?: FeedPayload['participants'];
     agents?: string[];
     parents?: string[];

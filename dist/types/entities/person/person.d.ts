@@ -68,6 +68,7 @@ export interface PersonRawPayload extends EntityRawPayload {
     readonly updated_at?: string;
     readonly deleted?: boolean;
     readonly active?: boolean;
+    readonly kind?: 'Contact' | 'Universe' | string | null;
     readonly first_name?: string;
     readonly nickname?: string;
     readonly middle_name?: string;
@@ -130,6 +131,7 @@ export interface PersonPayload {
     readonly updatedAt?: Date | null;
     readonly deleted?: boolean;
     readonly active?: boolean;
+    readonly kind?: PersonRawPayload['kind'];
     readonly firstName?: PersonRawPayload['first_name'];
     readonly middleName?: PersonRawPayload['middle_name'];
     readonly lastName?: PersonRawPayload['last_name'];
@@ -162,6 +164,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     updatedAt?: PersonPayload['updatedAt'];
     deleted?: PersonPayload['deleted'];
     active?: PersonPayload['active'];
+    kind?: PersonPayload['kind'];
     firstName?: PersonPayload['firstName'];
     middleName?: PersonPayload['middleName'];
     lastName?: PersonPayload['lastName'];

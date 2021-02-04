@@ -38,6 +38,7 @@ var Feed = (function (_super) {
             this.id = rawPayload.id;
         this.setRawPayload(rawPayload);
         this.agents = rawPayload.agents;
+        this.kind = rawPayload.kind;
         this.parents = rawPayload.parents;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
@@ -81,6 +82,7 @@ var Feed = (function (_super) {
     Feed.prototype.serialize = function () {
         return {
             id: this.id,
+            kind: this.kind,
             participants: Array.isArray(this.participants) ? this.participants.map(function (item) {
                 if (just_typeof_1.default(item) === 'object') {
                     return item.serialize();

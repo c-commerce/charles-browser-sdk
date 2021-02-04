@@ -1,3 +1,10 @@
+# [3.75.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.74.1...v3.75.0) (2021-02-04)
+
+
+### Features
+
+* **Feed + Person:** serialise .kind ([c58020e](https://github.com/c-commerce/charles-browser-sdk/commit/c58020ee094ab678270075a9cc9cd46bb1995466))
+
 ## [3.74.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.74.0...v3.74.1) (2021-02-04)
 
 
