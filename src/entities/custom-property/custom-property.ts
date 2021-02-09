@@ -11,10 +11,13 @@ export enum CustomPropertyInputTypesEnum {
   select = 'select',
   radio = 'radio',
   textinput = 'textinput',
-  textbox = 'textbox',
   numberinput = 'numberinput',
+  numberwithunitinput = 'numberwithunitinput',
+  currencyinput = 'currencyinput',
+  textbox = 'textbox',
   date = 'date',
-  datetime = 'datetime'
+  datetime = 'datetime',
+  daterange = 'daterange'
 }
 
 export type ICustomPropertyInputType = CustomPropertyInputTypesEnum.select | CustomPropertyInputTypesEnum.radio | CustomPropertyInputTypesEnum.textinput | CustomPropertyInputTypesEnum.textbox | CustomPropertyInputTypesEnum.numberinput | CustomPropertyInputTypesEnum.date | CustomPropertyInputTypesEnum.datetime
@@ -22,7 +25,8 @@ export type ICustomPropertyInputType = CustomPropertyInputTypesEnum.select | Cus
 export enum CustomPropertyTypesEnum {
   string = 'string',
   number = 'number',
-  boolean = 'boolean'
+  boolean = 'boolean',
+  object = 'object'
 }
 export type ICustomPropertyType = CustomPropertyTypesEnum.string | CustomPropertyTypesEnum.number | CustomPropertyTypesEnum.boolean
 
@@ -38,14 +42,18 @@ export interface CustomPropertyRawPayload {
   readonly input?: {
     type?: ICustomPropertyInputType
     options?: Array<{ label: string, value: string | number } | string[] | number[]> | null
+    unit?: string
     placeholder?: Array<{ locale?: string, value?: string | any }> | null
     validation?: {
       type: 'warning' | 'error'
     } | null
     label?: Array<{ locale?: string, value?: string | any }> | null
+    description?: Array<{ locale?: string, value?: string | any }> | null
   }
   readonly description?: string
   readonly show_in?: string[]
+  readonly icon?: string
+  readonly order_index?: number | null
 }
 
 export interface CustomPropertyPayload {
@@ -60,6 +68,8 @@ export interface CustomPropertyPayload {
   readonly input?: CustomPropertyRawPayload['input']
   readonly description?: CustomPropertyRawPayload['description']
   readonly showIn?: CustomPropertyRawPayload['show_in']
+  readonly icon?: CustomPropertyRawPayload['icon']
+  readonly orderIndex?: CustomPropertyRawPayload['order_index']
 
 }
 
@@ -87,6 +97,8 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
   public input?: CustomPropertyPayload['input']
   public description?: CustomPropertyPayload['description']
   public showIn?: CustomPropertyPayload['showIn']
+  public icon?: CustomPropertyPayload['icon']
+  public orderIndex?: CustomPropertyPayload['orderIndex']
 
   constructor (options: CustomPropertyOptions) {
     super()
@@ -115,6 +127,8 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
     this.input = rawPayload.input
     this.description = rawPayload.description
     this.showIn = rawPayload.show_in
+    this.icon = rawPayload.icon
+    this.orderIndex = rawPayload.order_index
 
     return this
   }
@@ -135,7 +149,9 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
       type: this.type,
       input: this.input,
       description: this.description,
-      show_in: this.showIn
+      show_in: this.showIn,
+      icon: this.icon,
+      order_index: this.orderIndex
     }
   }
 
