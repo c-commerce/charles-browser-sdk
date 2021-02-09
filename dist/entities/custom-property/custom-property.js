@@ -9,16 +9,20 @@ var CustomPropertyInputTypesEnum;
     CustomPropertyInputTypesEnum["select"] = "select";
     CustomPropertyInputTypesEnum["radio"] = "radio";
     CustomPropertyInputTypesEnum["textinput"] = "textinput";
-    CustomPropertyInputTypesEnum["textbox"] = "textbox";
     CustomPropertyInputTypesEnum["numberinput"] = "numberinput";
+    CustomPropertyInputTypesEnum["numberwithunitinput"] = "numberwithunitinput";
+    CustomPropertyInputTypesEnum["currencyinput"] = "currencyinput";
+    CustomPropertyInputTypesEnum["textbox"] = "textbox";
     CustomPropertyInputTypesEnum["date"] = "date";
     CustomPropertyInputTypesEnum["datetime"] = "datetime";
+    CustomPropertyInputTypesEnum["daterange"] = "daterange";
 })(CustomPropertyInputTypesEnum = exports.CustomPropertyInputTypesEnum || (exports.CustomPropertyInputTypesEnum = {}));
 var CustomPropertyTypesEnum;
 (function (CustomPropertyTypesEnum) {
     CustomPropertyTypesEnum["string"] = "string";
     CustomPropertyTypesEnum["number"] = "number";
     CustomPropertyTypesEnum["boolean"] = "boolean";
+    CustomPropertyTypesEnum["object"] = "object";
 })(CustomPropertyTypesEnum = exports.CustomPropertyTypesEnum || (exports.CustomPropertyTypesEnum = {}));
 var CustomProperty = (function (_super) {
     tslib_1.__extends(CustomProperty, _super);
@@ -49,6 +53,8 @@ var CustomProperty = (function (_super) {
         this.input = rawPayload.input;
         this.description = rawPayload.description;
         this.showIn = rawPayload.show_in;
+        this.icon = rawPayload.icon;
+        this.orderIndex = rawPayload.order_index;
         return this;
     };
     CustomProperty.create = function (payload, universe, http) {
@@ -67,7 +73,9 @@ var CustomProperty = (function (_super) {
             type: this.type,
             input: this.input,
             description: this.description,
-            show_in: this.showIn
+            show_in: this.showIn,
+            icon: this.icon,
+            order_index: this.orderIndex
         };
     };
     CustomProperty.prototype.init = function () {

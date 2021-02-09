@@ -453,22 +453,18 @@ var EntitiesList = (function (_super) {
             var opts;
             var _this = this;
             return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        opts = {
-                            method: 'GET',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
-                            headers: {
-                                Accept: 'text/csv'
-                            },
-                            responseType: 'blob'
-                        };
-                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts).then(function (res) { return res.data; }).catch(function (err) {
-                                _this.emit('error', err);
-                                return undefined;
-                            }))];
-                    case 1: return [2, _c.sent()];
-                }
+                opts = {
+                    method: 'GET',
+                    url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                    headers: {
+                        Accept: 'text/csv'
+                    },
+                    responseType: 'blob'
+                };
+                return [2, (_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts).then(function (res) { return res.data; }).catch(function (err) {
+                        _this.emit('error', err);
+                        return undefined;
+                    })];
             });
         });
     };

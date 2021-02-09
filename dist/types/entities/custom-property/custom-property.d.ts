@@ -8,16 +8,20 @@ export declare enum CustomPropertyInputTypesEnum {
     select = "select",
     radio = "radio",
     textinput = "textinput",
-    textbox = "textbox",
     numberinput = "numberinput",
+    numberwithunitinput = "numberwithunitinput",
+    currencyinput = "currencyinput",
+    textbox = "textbox",
     date = "date",
-    datetime = "datetime"
+    datetime = "datetime",
+    daterange = "daterange"
 }
 export declare type ICustomPropertyInputType = CustomPropertyInputTypesEnum.select | CustomPropertyInputTypesEnum.radio | CustomPropertyInputTypesEnum.textinput | CustomPropertyInputTypesEnum.textbox | CustomPropertyInputTypesEnum.numberinput | CustomPropertyInputTypesEnum.date | CustomPropertyInputTypesEnum.datetime;
 export declare enum CustomPropertyTypesEnum {
     string = "string",
     number = "number",
-    boolean = "boolean"
+    boolean = "boolean",
+    object = "object"
 }
 export declare type ICustomPropertyType = CustomPropertyTypesEnum.string | CustomPropertyTypesEnum.number | CustomPropertyTypesEnum.boolean;
 export interface CustomPropertyRawPayload {
@@ -35,6 +39,7 @@ export interface CustomPropertyRawPayload {
             label: string;
             value: string | number;
         } | string[] | number[]> | null;
+        unit?: string;
         placeholder?: Array<{
             locale?: string;
             value?: string | any;
@@ -46,9 +51,15 @@ export interface CustomPropertyRawPayload {
             locale?: string;
             value?: string | any;
         }> | null;
+        description?: Array<{
+            locale?: string;
+            value?: string | any;
+        }> | null;
     };
     readonly description?: string;
     readonly show_in?: string[];
+    readonly icon?: string;
+    readonly order_index?: number | null;
 }
 export interface CustomPropertyPayload {
     readonly id?: CustomPropertyRawPayload['id'];
@@ -62,6 +73,8 @@ export interface CustomPropertyPayload {
     readonly input?: CustomPropertyRawPayload['input'];
     readonly description?: CustomPropertyRawPayload['description'];
     readonly showIn?: CustomPropertyRawPayload['show_in'];
+    readonly icon?: CustomPropertyRawPayload['icon'];
+    readonly orderIndex?: CustomPropertyRawPayload['order_index'];
 }
 export declare class CustomProperty extends Entity<CustomPropertyPayload, CustomPropertyRawPayload> {
     protected universe: Universe;
@@ -80,6 +93,8 @@ export declare class CustomProperty extends Entity<CustomPropertyPayload, Custom
     input?: CustomPropertyPayload['input'];
     description?: CustomPropertyPayload['description'];
     showIn?: CustomPropertyPayload['showIn'];
+    icon?: CustomPropertyPayload['icon'];
+    orderIndex?: CustomPropertyPayload['orderIndex'];
     constructor(options: CustomPropertyOptions);
     protected deserialize(rawPayload: CustomPropertyRawPayload): CustomProperty;
     static create(payload: CustomPropertyRawPayload, universe: Universe, http: Universe['http']): CustomProperty;
