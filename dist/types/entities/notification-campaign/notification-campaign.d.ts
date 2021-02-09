@@ -72,6 +72,10 @@ export interface NotificationCampaignRawPayload {
     readonly is_armed?: boolean;
     readonly is_draft?: boolean;
     readonly default_language?: string;
+    readonly analytics?: {
+        static_entries_count?: number | null;
+        [key: string]: any;
+    };
 }
 export interface NotificationCampaignPayload {
     readonly id?: NotificationCampaignRawPayload['id'];
@@ -96,6 +100,7 @@ export interface NotificationCampaignPayload {
     readonly isArmed?: NotificationCampaignRawPayload['is_armed'];
     readonly isDraft?: NotificationCampaignRawPayload['is_draft'];
     readonly defaultLanguage?: NotificationCampaignRawPayload['default_language'];
+    readonly analytics?: NotificationCampaignRawPayload['analytics'];
 }
 export declare class NotificationCampaign extends Entity<NotificationCampaignPayload, NotificationCampaignRawPayload> {
     protected universe: Universe;
@@ -125,6 +130,7 @@ export declare class NotificationCampaign extends Entity<NotificationCampaignPay
     isArmed?: NotificationCampaignPayload['isArmed'];
     isDraft?: NotificationCampaignPayload['isDraft'];
     defaultLanguage?: NotificationCampaignPayload['defaultLanguage'];
+    analytics?: NotificationCampaignPayload['analytics'];
     constructor(options: NotificationCampaignOptions);
     protected deserialize(rawPayload: NotificationCampaignRawPayload): NotificationCampaign;
     static create(payload: NotificationCampaignRawPayload, universe: Universe, http: Universe['http']): NotificationCampaign;

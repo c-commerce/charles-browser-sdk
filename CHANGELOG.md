@@ -1,3 +1,10 @@
+# [3.76.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.75.0...v3.76.0) (2021-02-09)
+
+
+### Features
+
+* **NotificationCampaign:** serialize analytics ([ea53f4c](https://github.com/c-commerce/charles-browser-sdk/commit/ea53f4c22d139b89b5ffbd21bd0bfb6aa4f7a5b5))
+
 # [3.75.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.74.1...v3.75.0) (2021-02-04)
 
 
