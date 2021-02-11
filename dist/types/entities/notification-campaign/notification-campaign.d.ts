@@ -62,13 +62,14 @@ export interface NotificationCampaignRawPayload {
         };
     };
     readonly author?: {
-        staff?: string[];
-        user?: string[];
+        staff?: string[] | string;
+        user?: string[] | string;
     };
     readonly publisher?: {
-        staff?: string[];
-        user?: string[];
+        staff?: string[] | string;
+        user?: string[] | string;
     };
+    readonly message_author?: string;
     readonly is_armed?: boolean;
     readonly is_draft?: boolean;
     readonly default_language?: string;
@@ -101,6 +102,7 @@ export interface NotificationCampaignPayload {
     readonly isDraft?: NotificationCampaignRawPayload['is_draft'];
     readonly defaultLanguage?: NotificationCampaignRawPayload['default_language'];
     readonly analytics?: NotificationCampaignRawPayload['analytics'];
+    readonly messageAuthor?: NotificationCampaignRawPayload['message_author'];
 }
 export declare class NotificationCampaign extends Entity<NotificationCampaignPayload, NotificationCampaignRawPayload> {
     protected universe: Universe;
@@ -131,6 +133,7 @@ export declare class NotificationCampaign extends Entity<NotificationCampaignPay
     isDraft?: NotificationCampaignPayload['isDraft'];
     defaultLanguage?: NotificationCampaignPayload['defaultLanguage'];
     analytics?: NotificationCampaignPayload['analytics'];
+    messageAuthor?: NotificationCampaignPayload['messageAuthor'];
     constructor(options: NotificationCampaignOptions);
     protected deserialize(rawPayload: NotificationCampaignRawPayload): NotificationCampaign;
     static create(payload: NotificationCampaignRawPayload, universe: Universe, http: Universe['http']): NotificationCampaign;

@@ -1,3 +1,10 @@
+## [3.76.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.76.1...v3.76.2) (2021-02-11)
+
+
+### Bug Fixes
+
+* **notification campaigns:** add message author ([35163cb](https://github.com/c-commerce/charles-browser-sdk/commit/35163cb1e80cf858a66822a7cb780c0d308872a3))
+
 ## [3.76.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.76.0...v3.76.1) (2021-02-09)
 
 
