@@ -134,7 +134,7 @@ var Person = (function (_super) {
         else if (rawPayload.analytics && !this.initialized) {
             this.analytics = analytics_1.Analytics.createUninitialized(rawPayload.analytics, this.universe, this.http);
         }
-        else {
+        else if (!this.analytics) {
             this.analytics = undefined;
         }
         if (rawPayload.emails && this.initialized) {
@@ -145,7 +145,7 @@ var Person = (function (_super) {
                 return email_1.Email.createUninitialized(i, _this.universe, _this.http);
             });
         }
-        else {
+        else if (!this.emails) {
             this.emails = undefined;
         }
         if (rawPayload.addresses && this.initialized) {
@@ -156,7 +156,7 @@ var Person = (function (_super) {
                 return Address.createUninitialized(i, _this.universe, _this.http);
             });
         }
-        else {
+        else if (!this._addresses) {
             this._addresses = undefined;
         }
         if (rawPayload.phonenumbers && this.initialized) {
@@ -169,7 +169,7 @@ var Person = (function (_super) {
                 return Phonenumber.createUninitialized(i, _this.universe, _this.http);
             });
         }
-        else {
+        else if (!this.phonenumbers) {
             this.phonenumbers = undefined;
         }
         if (rawPayload.channel_users && this.initialized) {
@@ -182,7 +182,7 @@ var Person = (function (_super) {
                 return channel_user_1.ChannelUser.createUninitialized(i, _this.universe, _this.http);
             });
         }
-        else {
+        else if (!this.channelUsers) {
             this.channelUsers = undefined;
         }
         return this;

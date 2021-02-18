@@ -1,3 +1,10 @@
+## [3.76.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.76.2...v3.76.3) (2021-02-18)
+
+
+### Bug Fixes
+
+* **person:** do not overwrite embed data when deserializing from patch ([c41b5fc](https://github.com/c-commerce/charles-browser-sdk/commit/c41b5fc64ac2b1aa1a85c0ecc618ad25d4056141))
+
 ## [3.76.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.76.1...v3.76.2) (2021-02-11)
 
 
