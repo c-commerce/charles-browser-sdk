@@ -316,11 +316,14 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     // e.g. from embeds. We want make sure that their fallback is undefined
     // as we might affect upstreeam data users.
 
+    // Update 18.02.2021: We only overwrite virtual properties with undefined if their previous state was null or undefined
+    // (that way we can keep embed data across patching)
+
     if (rawPayload.analytics && this.initialized) {
       this.analytics = Analytics.create(rawPayload.analytics, this.universe, this.http)
     } else if (rawPayload.analytics && !this.initialized) {
       this.analytics = Analytics.createUninitialized(rawPayload.analytics, this.universe, this.http)
-    } else {
+    } else if (!this.analytics) {
       this.analytics = undefined
     }
 
@@ -330,7 +333,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       this.emails = rawPayload.emails.map(i =>
         Email.createUninitialized(i, this.universe, this.http)
       )
-    } else {
+    } else if (!this.emails) {
       this.emails = undefined
     }
 
@@ -340,7 +343,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       this._addresses = rawPayload.addresses.map(i =>
         Address.createUninitialized(i, this.universe, this.http)
       )
-    } else {
+    } else if (!this._addresses) {
       this._addresses = undefined
     }
 
@@ -352,7 +355,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       this.phonenumbers = rawPayload.phonenumbers.map(i =>
         Phonenumber.createUninitialized(i, this.universe, this.http)
       )
-    } else {
+    } else if (!this.phonenumbers) {
       this.phonenumbers = undefined
     }
 
@@ -364,7 +367,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       this.channelUsers = rawPayload.channel_users.map(i =>
         ChannelUser.createUninitialized(i, this.universe, this.http)
       )
-    } else {
+    } else if (!this.channelUsers) {
       this.channelUsers = undefined
     }
 
