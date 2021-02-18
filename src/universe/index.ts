@@ -55,6 +55,7 @@ import * as notificationCampaign from '../entities/notification-campaign/notific
 import * as favorite from '../entities/favorite/favorite'
 import * as knowledgeBase from '../entities/knowledge-base/knowledge-base'
 import * as knowledgeBaseFaqItem from '../entities/knowledge-base-faq-item/knowledge-base-faq-item'
+import * as crm from '../entities/crm/crm'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -706,6 +707,10 @@ export class Universe extends Readable {
 
   public knowledgeBaseFaqItem (payload: knowledgeBaseFaqItem.KnowledgeBaseFaqItemRawPayload): knowledgeBaseFaqItem.KnowledgeBaseFaqItem {
     return knowledgeBaseFaqItem.KnowledgeBaseFaqItem.create(payload, this, this.http)
+  }
+
+  public crm (payload: crm.CRMRawPayload): crm.CRM {
+    return crm.CRM.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1824,6 +1829,10 @@ export class Universe extends Readable {
 
   public async knowledgeBases (options?: EntityFetchOptions): Promise<knowledgeBase.KnowledgeBase[] | knowledgeBase.KnowledgeBaseRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<knowledgeBase.KnowledgeBase, knowledgeBase.KnowledgeBases, knowledgeBase.KnowledgeBaseRawPayload, EntityFetchOptions, knowledgeBase.KnowledgeBasesFetchRemoteError>(knowledgeBase.KnowledgeBase, knowledgeBase.KnowledgeBases, knowledgeBase.KnowledgeBasesFetchRemoteError, options)
+  }
+
+  public async crms (options?: EntityFetchOptions): Promise<crm.CRM[] | crm.CRMRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<crm.CRM, crm.CRMs, crm.CRMRawPayload, EntityFetchOptions, crm.CRMsFetchRemoteError>(crm.CRM, crm.CRMs, crm.CRMsFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
