@@ -1,3 +1,10 @@
+# [3.77.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.76.3...v3.77.0) (2021-02-18)
+
+
+### Features
+
+* add CRMs, pipedrive ([ab53b51](https://github.com/c-commerce/charles-browser-sdk/commit/ab53b519f421dfd681a2ed045d006a32b86bfbf8))
+
 ## [3.76.3](https://github.com/c-commerce/charles-browser-sdk/compare/v3.76.2...v3.76.3) (2021-02-18)
 
 

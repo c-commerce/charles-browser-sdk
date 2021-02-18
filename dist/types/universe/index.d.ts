@@ -43,6 +43,7 @@ import * as notificationCampaign from '../entities/notification-campaign/notific
 import * as favorite from '../entities/favorite/favorite';
 import * as knowledgeBase from '../entities/knowledge-base/knowledge-base';
 import * as knowledgeBaseFaqItem from '../entities/knowledge-base-faq-item/knowledge-base-faq-item';
+import * as crm from '../entities/crm/crm';
 export interface UniverseUser {
     id?: string;
     accessToken: string;
@@ -303,6 +304,7 @@ export declare class Universe extends Readable {
     favorite(payload: favorite.FavoriteRawPayload): favorite.Favorite;
     knowledgeBase(payload: knowledgeBase.KnowledgeBaseRawPayload): knowledgeBase.KnowledgeBase;
     knowledgeBaseFaqItem(payload: knowledgeBaseFaqItem.KnowledgeBaseFaqItemRawPayload): knowledgeBaseFaqItem.KnowledgeBaseFaqItem;
+    crm(payload: crm.CRMRawPayload): crm.CRM;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -359,6 +361,7 @@ export declare class Universe extends Readable {
     get notificationCampaigns(): IUniverseNotificationCampaigns;
     favorites(options?: EntityFetchOptions): Promise<favorite.Favorite[] | favorite.FavoriteRawPayload[] | undefined>;
     knowledgeBases(options?: EntityFetchOptions): Promise<knowledgeBase.KnowledgeBase[] | knowledgeBase.KnowledgeBaseRawPayload[] | undefined>;
+    crms(options?: EntityFetchOptions): Promise<crm.CRM[] | crm.CRMRawPayload[] | undefined>;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
