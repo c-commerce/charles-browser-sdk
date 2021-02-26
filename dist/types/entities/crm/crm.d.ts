@@ -61,6 +61,7 @@ export declare class CRM extends Entity<CRMPayload, CRMRawPayload> {
     static create(payload: CRMRawPayload, universe: Universe, http: Universe['http']): CRM;
     serialize(): CRMRawPayload;
     init(): Promise<CRM | undefined>;
+    syncCustomProperties(): Promise<number | undefined>;
 }
 export declare class CRMs {
     static endpoint: string;
@@ -76,6 +77,11 @@ export declare class CRMFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class CRMsFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSyncCustomPropertiesRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

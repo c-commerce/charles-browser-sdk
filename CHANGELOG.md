@@ -1,3 +1,10 @@
+# [3.78.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.77.0...v3.78.0) (2021-02-26)
+
+
+### Features
+
+* **crm:** implement sync custom properties ([7502508](https://github.com/c-commerce/charles-browser-sdk/commit/7502508273a71ffe60ac627c6759b6fcfafe46a5))
+
 # [3.77.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.76.3...v3.77.0) (2021-02-18)
 
 
