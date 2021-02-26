@@ -135,6 +135,27 @@ export class CRM extends Entity<CRMPayload, CRMRawPayload> {
       throw this.handleError(new CRMInitializationError(undefined, { error: err }))
     }
   }
+
+  public async syncCustomProperties (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM syncCustomProperties requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/custom_properties`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new CRMSyncCustomPropertiesRemoteError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -163,5 +184,12 @@ export class CRMsFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get crms.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CRMsFetchRemoteError.prototype)
+  }
+}
+export class CRMSyncCustomPropertiesRemoteError extends BaseError {
+  public name = 'CRMSyncCustomPropertiesRemoteError'
+  constructor (public message: string = 'Could not start sync of crms\' custom properties.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CRMSyncCustomPropertiesRemoteError.prototype)
   }
 }
