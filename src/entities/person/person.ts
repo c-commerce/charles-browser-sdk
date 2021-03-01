@@ -641,6 +641,24 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this._addresses = items.map((item: Address) => (item))
   }
 
+  async saveEmail (payload: EmailRawPayload): Promise<Email | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/emails`,
+        data: payload
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data as EmailRawPayload[]
+
+      return resources.map((item: EmailRawPayload) => {
+        return Email.create(item, this.universe, this.http)
+      })[0]
+    } catch (err) {
+      throw new EmailSaveRemoteError(undefined, { error: err })
+    }
+  }
+
   public email (payload: EmailRawPayload): Email {
     return Email.create({ ...payload, person: this.id }, this.universe, this.http)
   }
@@ -962,5 +980,12 @@ export class PeopleExportRemoteError extends BaseError {
   constructor (public message: string = 'Could not export people.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PeopleExportRemoteError.prototype)
+  }
+}
+export class EmailSaveRemoteError extends BaseError {
+  public name = 'EmailSaveRemoteError'
+  constructor (public message: string = 'Could not save email for person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, EmailSaveRemoteError.prototype)
   }
 }
