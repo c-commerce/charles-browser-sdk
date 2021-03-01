@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
+exports.EmailSaveRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importStar(require("../_base"));
 var errors_1 = require("../../errors");
@@ -479,6 +479,34 @@ var Person = (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Person.prototype.saveEmail = function (payload) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, err_10;
+            var _this = this;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/emails",
+                            data: payload
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        res = _a.sent();
+                        resources = res.data.data;
+                        return [2, resources.map(function (item) {
+                                return email_1.Email.create(item, _this.universe, _this.http);
+                            })[0]];
+                    case 2:
+                        err_10 = _a.sent();
+                        throw new EmailSaveRemoteError(undefined, { error: err_10 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Person.prototype.email = function (payload) {
         return email_1.Email.create(tslib_1.__assign(tslib_1.__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
@@ -821,4 +849,17 @@ var PeopleExportRemoteError = (function (_super) {
     return PeopleExportRemoteError;
 }(errors_1.BaseError));
 exports.PeopleExportRemoteError = PeopleExportRemoteError;
+var EmailSaveRemoteError = (function (_super) {
+    tslib_1.__extends(EmailSaveRemoteError, _super);
+    function EmailSaveRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not save email for person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EmailSaveRemoteError';
+        Object.setPrototypeOf(_this, EmailSaveRemoteError.prototype);
+        return _this;
+    }
+    return EmailSaveRemoteError;
+}(errors_1.BaseError));
+exports.EmailSaveRemoteError = EmailSaveRemoteError;
 //# sourceMappingURL=person.js.map
