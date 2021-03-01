@@ -649,13 +649,36 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
         data: payload
       }
       const res = await this.http.getClient()(opts)
-      const resources = res.data.data as EmailRawPayload[]
+      const email = res.data.data[0] as EmailRawPayload
 
-      return resources.map((item: EmailRawPayload) => {
-        return Email.create(item, this.universe, this.http)
-      })[0]
+      return Email.create(email, this.universe, this.http)
     } catch (err) {
-      throw new EmailSaveRemoteError(undefined, { error: err })
+      throw new PersonEmailPostRemoteError(undefined, { error: err })
+    }
+  }
+
+  async applyPatchEmail (patch: RawPatch, emailId: string): Promise<Entity<Email, EmailRawPayload>> {
+    if (!patch) throw new TypeError('apply patch email requires incoming patch to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('apply patch email requires id of person to be set.')
+    if (emailId === null || emailId === undefined) throw new TypeError('apply patch email requires id of email to be set.')
+
+    try {
+      const opts = {
+        method: 'PATCH',
+        url: `${this.universe.universeBase}/${People.endpoint}/${this.id}/emails/${emailId}`,
+        headers: {
+          'Content-Type': 'application/json-patch+json'
+        },
+        data: patch,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const email = res.data.data[0] as EmailRawPayload
+
+      return Email.create(email, this.universe, this.http)
+    } catch (err) {
+      throw new PersonEmailApplyPatchError(undefined, { error: err })
     }
   }
 
@@ -982,10 +1005,17 @@ export class PeopleExportRemoteError extends BaseError {
     Object.setPrototypeOf(this, PeopleExportRemoteError.prototype)
   }
 }
-export class EmailSaveRemoteError extends BaseError {
-  public name = 'EmailSaveRemoteError'
+export class PersonEmailPostRemoteError extends BaseError {
+  public name = 'PersonEmailPostRemoteError'
   constructor (public message: string = 'Could not save email for person.', properties?: any) {
     super(message, properties)
-    Object.setPrototypeOf(this, EmailSaveRemoteError.prototype)
+    Object.setPrototypeOf(this, PersonEmailPostRemoteError.prototype)
+  }
+}
+export class PersonEmailApplyPatchError extends BaseError {
+  public name = 'PersonEmailApplyPatchError'
+  constructor (public message: string = 'Could not apply patch on email for person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PersonEmailApplyPatchError.prototype)
   }
 }
