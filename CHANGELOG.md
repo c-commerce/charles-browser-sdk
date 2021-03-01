@@ -1,3 +1,10 @@
+## [3.78.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.78.0...v3.78.1) (2021-03-01)
+
+
+### Bug Fixes
+
+* **person(email):** imeplement save email ([77d25b3](https://github.com/c-commerce/charles-browser-sdk/commit/77d25b39acbe97f4f2df9d472f3d7f8459f580db))
+
 # [3.78.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.77.0...v3.78.0) (2021-02-26)
 
 

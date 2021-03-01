@@ -198,6 +198,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     get carts(): IPersonCarts;
     get addresses(): AddressArray<Address>;
     set addresses(items: AddressArray<Address>);
+    saveEmail(payload: EmailRawPayload): Promise<Email | undefined>;
     email(payload: EmailRawPayload): Email;
     phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
     address(payload: PersonAddressRawPayload): Address;
@@ -325,6 +326,11 @@ export declare class PersonGDPRGetRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class PeopleExportRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EmailSaveRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
