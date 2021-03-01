@@ -1,3 +1,10 @@
+## [3.78.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.78.1...v3.78.2) (2021-03-01)
+
+
+### Bug Fixes
+
+* **person email:** implement patch ([b42a076](https://github.com/c-commerce/charles-browser-sdk/commit/b42a07637fb8e614bddb95a07e7054c15c7f1939))
+
 ## [3.78.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.78.0...v3.78.1) (2021-03-01)
 
 

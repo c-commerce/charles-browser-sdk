@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EmailSaveRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
+exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importStar(require("../_base"));
 var errors_1 = require("../../errors");
@@ -481,8 +481,7 @@ var Person = (function (_super) {
     });
     Person.prototype.saveEmail = function (payload) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, resources, err_10;
-            var _this = this;
+            var opts, res, email, err_10;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -495,14 +494,50 @@ var Person = (function (_super) {
                         return [4, this.http.getClient()(opts)];
                     case 1:
                         res = _a.sent();
-                        resources = res.data.data;
-                        return [2, resources.map(function (item) {
-                                return email_1.Email.create(item, _this.universe, _this.http);
-                            })[0]];
+                        email = res.data.data[0];
+                        return [2, email_1.Email.create(email, this.universe, this.http)];
                     case 2:
                         err_10 = _a.sent();
-                        throw new EmailSaveRemoteError(undefined, { error: err_10 });
+                        throw new PersonEmailPostRemoteError(undefined, { error: err_10 });
                     case 3: return [2];
+                }
+            });
+        });
+    };
+    Person.prototype.applyPatchEmail = function (patch, emailId) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, email, err_11;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!patch)
+                            throw new TypeError('apply patch email requires incoming patch to be set.');
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('apply patch email requires id of person to be set.');
+                        if (emailId === null || emailId === undefined)
+                            throw new TypeError('apply patch email requires id of email to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PATCH',
+                            url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/emails/" + emailId,
+                            headers: {
+                                'Content-Type': 'application/json-patch+json'
+                            },
+                            data: patch,
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        email = res.data.data[0];
+                        return [2, email_1.Email.create(email, this.universe, this.http)];
+                    case 3:
+                        err_11 = _b.sent();
+                        throw new PersonEmailApplyPatchError(undefined, { error: err_11 });
+                    case 4: return [2];
                 }
             });
         });
@@ -849,17 +884,30 @@ var PeopleExportRemoteError = (function (_super) {
     return PeopleExportRemoteError;
 }(errors_1.BaseError));
 exports.PeopleExportRemoteError = PeopleExportRemoteError;
-var EmailSaveRemoteError = (function (_super) {
-    tslib_1.__extends(EmailSaveRemoteError, _super);
-    function EmailSaveRemoteError(message, properties) {
+var PersonEmailPostRemoteError = (function (_super) {
+    tslib_1.__extends(PersonEmailPostRemoteError, _super);
+    function PersonEmailPostRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not save email for person.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
-        _this.name = 'EmailSaveRemoteError';
-        Object.setPrototypeOf(_this, EmailSaveRemoteError.prototype);
+        _this.name = 'PersonEmailPostRemoteError';
+        Object.setPrototypeOf(_this, PersonEmailPostRemoteError.prototype);
         return _this;
     }
-    return EmailSaveRemoteError;
+    return PersonEmailPostRemoteError;
 }(errors_1.BaseError));
-exports.EmailSaveRemoteError = EmailSaveRemoteError;
+exports.PersonEmailPostRemoteError = PersonEmailPostRemoteError;
+var PersonEmailApplyPatchError = (function (_super) {
+    tslib_1.__extends(PersonEmailApplyPatchError, _super);
+    function PersonEmailApplyPatchError(message, properties) {
+        if (message === void 0) { message = 'Could not apply patch on email for person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PersonEmailApplyPatchError';
+        Object.setPrototypeOf(_this, PersonEmailApplyPatchError.prototype);
+        return _this;
+    }
+    return PersonEmailApplyPatchError;
+}(errors_1.BaseError));
+exports.PersonEmailApplyPatchError = PersonEmailApplyPatchError;
 //# sourceMappingURL=person.js.map
