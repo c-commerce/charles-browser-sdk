@@ -1,3 +1,10 @@
+# [3.79.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.78.2...v3.79.0) (2021-03-02)
+
+
+### Features
+
+* **Event:** serialize context ([5a3c43b](https://github.com/c-commerce/charles-browser-sdk/commit/5a3c43b218e26aa28f4be87b620bbb368ab17c0c))
+
 ## [3.78.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.78.1...v3.78.2) (2021-03-01)
 
 
