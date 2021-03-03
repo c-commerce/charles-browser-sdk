@@ -1,6 +1,7 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../_base'
+import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, RawPatch } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import omit from 'just-omit'
 
 export interface EmailRawPayload extends EntityRawPayload {
   readonly person?: string
@@ -47,10 +48,14 @@ export class Email extends Entity<EmailPayload, EmailRawPayload> {
   constructor (options: EmailOptions) {
     super()
     this.universe = options.universe
-    this.endpoint = 'api/v0/emails'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.endpoint = ''
+
+    if (options?.rawPayload && options.rawPayload.person) {
+      this.endpoint = `api/v0/people/${options.rawPayload.person}/emails`
+    }
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -100,6 +105,34 @@ export class Email extends Entity<EmailPayload, EmailRawPayload> {
       value: this.value
     }
   }
+
+  public async patch (changePart: EmailRawPayload): Promise<Entity<EmailPayload, EmailRawPayload>> {
+    if (!this.person) {
+      throw new EmailPatchRemoteError('Email patch requires person to be set.')
+    }
+    return await this._patch(omit(changePart, ['person']))
+  }
+
+  public async applyPatch (patch: RawPatch): Promise<Entity<EmailPayload, EmailRawPayload>> {
+    if (!this.person) {
+      throw new EmailApplyPatchRemoteError('Email apply patch requires person to be set.')
+    }
+    return await this._applyPatch(patch)
+  }
+
+  public async save (payload: EmailRawPayload): Promise<Entity<EmailPayload, EmailRawPayload>> {
+    if (!this.person) {
+      throw new EmailSaveRemoteError('Email save requires person to be set.')
+    }
+    return await this._save(omit(payload, ['person']))
+  }
+
+  public async delete (): Promise<Entity<EmailPayload, EmailRawPayload>> {
+    if (!this.person) {
+      throw new EmailPatchRemoteError('Email delete requires person to be set.')
+    }
+    return await this._delete()
+  }
 }
 
 export class EmailsFetchRemoteError extends BaseError {
@@ -115,5 +148,33 @@ export class EmailCreateRemoteError extends BaseError {
   constructor (public message: string = 'Could not create email', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, EmailCreateRemoteError.prototype)
+  }
+}
+export class EmailFetchRemoteError extends BaseError {
+  public name = 'EmailFetchRemoteError'
+  constructor (public message: string = 'Could not fetch emails', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, EmailFetchRemoteError.prototype)
+  }
+}
+export class EmailPatchRemoteError extends BaseError {
+  public name = 'EmailPatchRemoteError'
+  constructor (public message: string = 'Could not patch email', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, EmailPatchRemoteError.prototype)
+  }
+}
+export class EmailApplyPatchRemoteError extends BaseError {
+  public name = 'EmailApplyPatchRemoteError'
+  constructor (public message: string = 'Could not apply patch to email', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, EmailApplyPatchRemoteError.prototype)
+  }
+}
+export class EmailSaveRemoteError extends BaseError {
+  public name = 'EmailSaveRemoteError'
+  constructor (public message: string = 'Could not save email', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, EmailSaveRemoteError.prototype)
   }
 }

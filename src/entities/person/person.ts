@@ -11,7 +11,7 @@ import { BaseError } from '../../errors'
 import { Order, OrderRawPayload } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
 import { Analytics, AnalyticsRawPayload } from './analytics'
-import { Email, EmailRawPayload } from './email'
+import { Email, EmailRawPayload, EmailsFetchRemoteError } from './email'
 import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } from '../cart/cart'
 import omit from 'just-omit'
 import qs from 'qs'
@@ -570,9 +570,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       toJson: (feeds: Cart[]): CartRawPayload[] => {
         return feeds.map(item => item.serialize())
       },
-      fetch: async (
-        options?: EntityFetchOptions
-      ): Promise<Cart[] | CartRawPayload[] | undefined> => {
+      fetch: async (options?: EntityFetchOptions): Promise<Cart[] | CartRawPayload[] | undefined> => {
         try {
           const opts = {
             method: 'GET',
@@ -641,65 +639,27 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     this._addresses = items.map((item: Address) => (item))
   }
 
-  async saveEmail (payload: EmailRawPayload): Promise<Email | undefined> {
+  public async getEmails (options?: EntityFetchOptions): Promise<Email[] | EmailRawPayload[]> {
     try {
       const opts = {
-        method: 'POST',
+        method: 'GET',
         url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/emails`,
-        data: payload
+        params: {
+          ...(options?.query ? options.query : {})
+        }
       }
       const res = await this.http.getClient()(opts)
-      const email = res.data.data[0] as EmailRawPayload
+      const emails = res.data.data as EmailRawPayload[]
 
-      return Email.create(email, this.universe, this.http)
-    } catch (err) {
-      throw new PersonEmailPostRemoteError(undefined, { error: err })
-    }
-  }
-
-  async applyPatchEmail (patch: RawPatch, emailId: string): Promise<Entity<Email, EmailRawPayload>> {
-    if (!patch) throw new TypeError('apply patch email requires incoming patch to be set.')
-    if (this.id === null || this.id === undefined) throw new TypeError('apply patch email requires id of person to be set.')
-    if (emailId === null || emailId === undefined) throw new TypeError('apply patch email requires id of email to be set.')
-
-    try {
-      const opts = {
-        method: 'PATCH',
-        url: `${this.universe.universeBase}/${People.endpoint}/${this.id}/emails/${emailId}`,
-        headers: {
-          'Content-Type': 'application/json-patch+json'
-        },
-        data: patch,
-        responseType: 'json'
+      if (options && options.raw === true) {
+        return emails
       }
 
-      const res = await this.http?.getClient()(opts)
-      const email = res.data.data[0] as EmailRawPayload
-
-      return Email.create(email, this.universe, this.http)
+      return emails.map((email: EmailRawPayload) => {
+        return Email.create(email, this.universe, this.http)
+      })
     } catch (err) {
-      throw new PersonEmailApplyPatchError(undefined, { error: err })
-    }
-  }
-
-  async deleteEmail (emailId: string): Promise<Person> {
-    if (this.id === null || this.id === undefined) throw new TypeError('delete email requires id of person to be set.')
-    if (emailId === null || emailId === undefined) throw new TypeError('delete email requires id of email to be set.')
-
-    try {
-      const opts = {
-        method: 'DELETE',
-        url: `${this.universe.universeBase}/${People.endpoint}/${this.id}/emails/${emailId}`,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        responseType: 'json'
-      }
-
-      await this.http?.getClient()(opts)
-      return this
-    } catch (err) {
-      throw new PersonEmailDeleteError(undefined, { error: err })
+      throw new EmailsFetchRemoteError(undefined, { error: err })
     }
   }
 

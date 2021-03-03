@@ -475,7 +475,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
       responseType: 'blob'
     }
 
-    return this.http?.getClient()(opts)
+    return await this.http?.getClient()(opts)
       .then((res: { data: any }) => res.data)
       .catch((err: any) => {
         this.emit('error', err)
