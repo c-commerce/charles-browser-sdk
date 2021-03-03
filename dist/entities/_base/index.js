@@ -10,6 +10,7 @@ var helpers_1 = require("./helpers");
 var just_diff_1 = require("just-diff");
 var qs_1 = tslib_1.__importDefault(require("qs"));
 var errors_1 = require("../../errors");
+var entity_1 = require("../../helpers/entity");
 var HookableEvented = (function (_super) {
     tslib_1.__extends(HookableEvented, _super);
     function HookableEvented() {
@@ -32,6 +33,9 @@ var Entity = (function (_super) {
         this.hooks.beforeSetRawPayload.call(p);
         this._rawPayload = JSON.parse(JSON.stringify(p));
         return this;
+    };
+    Entity.isEntity = function (object) {
+        return entity_1.isEntity(object);
     };
     Entity.prototype.handleError = function (err) {
         if (this.listeners('error').length > 0)

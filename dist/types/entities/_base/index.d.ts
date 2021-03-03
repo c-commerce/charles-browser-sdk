@@ -44,6 +44,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     abstract endpoint: string;
     constructor();
     protected setRawPayload(p: RawPayload): Entity<Payload, RawPayload>;
+    static isEntity(object: any): Boolean;
     abstract serialize(): RawPayload;
     protected abstract deserialize(rawPayload: RawPayload): Entity<Payload, RawPayload>;
     protected handleError(err: Error): Error;

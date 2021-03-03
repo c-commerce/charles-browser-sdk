@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
+exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importStar(require("../_base"));
 var errors_1 = require("../../errors");
@@ -542,6 +542,40 @@ var Person = (function (_super) {
             });
         });
     };
+    Person.prototype.deleteEmail = function (emailId) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, err_12;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('delete email requires id of person to be set.');
+                        if (emailId === null || emailId === undefined)
+                            throw new TypeError('delete email requires id of email to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'DELETE',
+                            url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/emails/" + emailId,
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        _b.sent();
+                        return [2, this];
+                    case 3:
+                        err_12 = _b.sent();
+                        throw new PersonEmailDeleteError(undefined, { error: err_12 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     Person.prototype.email = function (payload) {
         return email_1.Email.create(tslib_1.__assign(tslib_1.__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
@@ -910,4 +944,17 @@ var PersonEmailApplyPatchError = (function (_super) {
     return PersonEmailApplyPatchError;
 }(errors_1.BaseError));
 exports.PersonEmailApplyPatchError = PersonEmailApplyPatchError;
+var PersonEmailDeleteError = (function (_super) {
+    tslib_1.__extends(PersonEmailDeleteError, _super);
+    function PersonEmailDeleteError(message, properties) {
+        if (message === void 0) { message = 'Could not delete email for person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PersonEmailDeleteError';
+        Object.setPrototypeOf(_this, PersonEmailDeleteError.prototype);
+        return _this;
+    }
+    return PersonEmailDeleteError;
+}(errors_1.BaseError));
+exports.PersonEmailDeleteError = PersonEmailDeleteError;
 //# sourceMappingURL=person.js.map

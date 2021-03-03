@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Charles = exports.CharlesClient = exports.defaultOptions = exports.Universe = exports.v0 = void 0;
+exports.Charles = exports.CharlesClient = exports.defaultOptions = exports.isEntity = exports.Universe = exports.v0 = void 0;
 var tslib_1 = require("tslib");
 var events_1 = tslib_1.__importDefault(require("events"));
 var v0 = tslib_1.__importStar(require("./v0"));
@@ -10,6 +10,8 @@ var client_1 = require("./client");
 var environment_1 = require("./environment");
 var universe_1 = require("./universe");
 Object.defineProperty(exports, "Universe", { enumerable: true, get: function () { return universe_1.Universe; } });
+var entity_1 = require("./helpers/entity");
+Object.defineProperty(exports, "isEntity", { enumerable: true, get: function () { return entity_1.isEntity; } });
 exports.defaultOptions = {
     universe: undefined
 };

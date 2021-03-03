@@ -9,11 +9,15 @@ import * as errors from './errors'
 import { Client, ClientOptions } from './client'
 import { environment } from './environment'
 import { Universe, UnviverseSingleton, UniverseOptions } from './universe'
+import { isEntity } from './helpers/entity'
 
 export {
   v0,
   Universe,
-  UniverseOptions
+  UniverseOptions,
+
+  // Export helper functions
+  isEntity
 }
 
 export const defaultOptions: CharlesSDKOptions = {
