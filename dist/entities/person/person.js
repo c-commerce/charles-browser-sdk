@@ -479,99 +479,33 @@ var Person = (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Person.prototype.saveEmail = function (payload) {
+    Person.prototype.getEmails = function (options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, email, err_10;
+            var opts, res, emails, err_10;
+            var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
                         opts = {
-                            method: 'POST',
+                            method: 'GET',
                             url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/emails",
-                            data: payload
+                            params: tslib_1.__assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
                         };
                         return [4, this.http.getClient()(opts)];
                     case 1:
                         res = _a.sent();
-                        email = res.data.data[0];
-                        return [2, email_1.Email.create(email, this.universe, this.http)];
+                        emails = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, emails];
+                        }
+                        return [2, emails.map(function (email) {
+                                return email_1.Email.create(email, _this.universe, _this.http);
+                            })];
                     case 2:
                         err_10 = _a.sent();
-                        throw new PersonEmailPostRemoteError(undefined, { error: err_10 });
+                        throw new email_1.EmailsFetchRemoteError(undefined, { error: err_10 });
                     case 3: return [2];
-                }
-            });
-        });
-    };
-    Person.prototype.applyPatchEmail = function (patch, emailId) {
-        var _a;
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, email, err_11;
-            return tslib_1.__generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        if (!patch)
-                            throw new TypeError('apply patch email requires incoming patch to be set.');
-                        if (this.id === null || this.id === undefined)
-                            throw new TypeError('apply patch email requires id of person to be set.');
-                        if (emailId === null || emailId === undefined)
-                            throw new TypeError('apply patch email requires id of email to be set.');
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 3, , 4]);
-                        opts = {
-                            method: 'PATCH',
-                            url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/emails/" + emailId,
-                            headers: {
-                                'Content-Type': 'application/json-patch+json'
-                            },
-                            data: patch,
-                            responseType: 'json'
-                        };
-                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
-                    case 2:
-                        res = _b.sent();
-                        email = res.data.data[0];
-                        return [2, email_1.Email.create(email, this.universe, this.http)];
-                    case 3:
-                        err_11 = _b.sent();
-                        throw new PersonEmailApplyPatchError(undefined, { error: err_11 });
-                    case 4: return [2];
-                }
-            });
-        });
-    };
-    Person.prototype.deleteEmail = function (emailId) {
-        var _a;
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, err_12;
-            return tslib_1.__generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        if (this.id === null || this.id === undefined)
-                            throw new TypeError('delete email requires id of person to be set.');
-                        if (emailId === null || emailId === undefined)
-                            throw new TypeError('delete email requires id of email to be set.');
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 3, , 4]);
-                        opts = {
-                            method: 'DELETE',
-                            url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/emails/" + emailId,
-                            headers: {
-                                'Content-Type': 'application/json; charset=utf-8'
-                            },
-                            responseType: 'json'
-                        };
-                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
-                    case 2:
-                        _b.sent();
-                        return [2, this];
-                    case 3:
-                        err_12 = _b.sent();
-                        throw new PersonEmailDeleteError(undefined, { error: err_12 });
-                    case 4: return [2];
                 }
             });
         });

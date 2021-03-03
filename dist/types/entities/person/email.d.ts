@@ -1,4 +1,4 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../_base';
+import Entity, { EntityOptions, EntityRawPayload, RawPatch } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 export interface EmailRawPayload extends EntityRawPayload {
@@ -43,6 +43,10 @@ export declare class Email extends Entity<EmailPayload, EmailRawPayload> {
     static create(payload: EmailRawPayload, universe: Universe, http: Universe['http']): Email;
     static createUninitialized(payload: EmailRawPayload, universe: Universe, http: Universe['http']): Email;
     serialize(): EmailRawPayload;
+    patch(changePart: EmailRawPayload): Promise<Entity<EmailPayload, EmailRawPayload>>;
+    applyPatch(patch: RawPatch): Promise<Entity<EmailPayload, EmailRawPayload>>;
+    save(payload: EmailRawPayload): Promise<Entity<EmailPayload, EmailRawPayload>>;
+    delete(): Promise<Entity<EmailPayload, EmailRawPayload>>;
 }
 export declare class EmailsFetchRemoteError extends BaseError {
     message: string;
@@ -50,6 +54,26 @@ export declare class EmailsFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class EmailCreateRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EmailFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EmailPatchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EmailApplyPatchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EmailSaveRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

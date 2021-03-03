@@ -1,3 +1,10 @@
+## [3.80.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.80.0...v3.80.1) (2021-03-03)
+
+
+### Bug Fixes
+
+* **person emails:** enahnce emails ([55a2f82](https://github.com/c-commerce/charles-browser-sdk/commit/55a2f821c1c4407f09760069046eb61117e1e6ca))
+
 # [3.80.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.79.1...v3.80.0) (2021-03-03)
 
 

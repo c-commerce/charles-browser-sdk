@@ -198,9 +198,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     get carts(): IPersonCarts;
     get addresses(): AddressArray<Address>;
     set addresses(items: AddressArray<Address>);
-    saveEmail(payload: EmailRawPayload): Promise<Email | undefined>;
-    applyPatchEmail(patch: RawPatch, emailId: string): Promise<Entity<Email, EmailRawPayload>>;
-    deleteEmail(emailId: string): Promise<Person>;
+    getEmails(options?: EntityFetchOptions): Promise<Email[] | EmailRawPayload[]>;
     email(payload: EmailRawPayload): Email;
     phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
     address(payload: PersonAddressRawPayload): Address;
