@@ -10,6 +10,7 @@ import { diff, jsonPatchPathConverter } from 'just-diff'
 import qs from 'qs'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { isEntity } from '../../helpers/entity'
 
 export interface RawPatchItem {
   op: 'replace' | 'add' | 'remove'
@@ -79,6 +80,10 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     this._rawPayload = JSON.parse(JSON.stringify(p))
 
     return this
+  }
+
+  public static isEntity (object: any): Boolean {
+    return isEntity(object)
   }
 
   /**
