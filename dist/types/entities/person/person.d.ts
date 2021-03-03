@@ -200,6 +200,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     set addresses(items: AddressArray<Address>);
     saveEmail(payload: EmailRawPayload): Promise<Email | undefined>;
     applyPatchEmail(patch: RawPatch, emailId: string): Promise<Entity<Email, EmailRawPayload>>;
+    deleteEmail(emailId: string): Promise<Person>;
     email(payload: EmailRawPayload): Email;
     phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
     address(payload: PersonAddressRawPayload): Address;
@@ -337,6 +338,11 @@ export declare class PersonEmailPostRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class PersonEmailApplyPatchError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PersonEmailDeleteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
