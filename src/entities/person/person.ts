@@ -682,6 +682,27 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
     }
   }
 
+  async deleteEmail (emailId: string): Promise<Person> {
+    if (this.id === null || this.id === undefined) throw new TypeError('delete email requires id of person to be set.')
+    if (emailId === null || emailId === undefined) throw new TypeError('delete email requires id of email to be set.')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe.universeBase}/${People.endpoint}/${this.id}/emails/${emailId}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      await this.http?.getClient()(opts)
+      return this
+    } catch (err) {
+      throw new PersonEmailDeleteError(undefined, { error: err })
+    }
+  }
+
   public email (payload: EmailRawPayload): Email {
     return Email.create({ ...payload, person: this.id }, this.universe, this.http)
   }
@@ -1017,5 +1038,12 @@ export class PersonEmailApplyPatchError extends BaseError {
   constructor (public message: string = 'Could not apply patch on email for person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonEmailApplyPatchError.prototype)
+  }
+}
+export class PersonEmailDeleteError extends BaseError {
+  public name = 'PersonEmailDeleteError'
+  constructor (public message: string = 'Could not delete email for person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PersonEmailDeleteError.prototype)
   }
 }
