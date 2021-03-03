@@ -1,1 +1,1 @@
-export declare function isEntity(object: Object): Boolean;
+export declare function isEntity(object: any): Boolean;

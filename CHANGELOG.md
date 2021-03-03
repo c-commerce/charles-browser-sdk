@@ -1,3 +1,10 @@
+# [3.80.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.79.1...v3.80.0) (2021-03-03)
+
+
+### Features
+
+* **Helper / Entity:** added entity check and test ([e8e72be](https://github.com/c-commerce/charles-browser-sdk/commit/e8e72beacdc230588c250fc480b89bc7013433ff))
+
 ## [3.79.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.79.0...v3.79.1) (2021-03-03)
 
 
