@@ -261,7 +261,8 @@ export declare class Universe extends Readable {
     constructor(options: UniverseOptions);
     init(): Promise<Universe | undefined>;
     static get errors(): {
-        [key: string]: new () => BaseError;
+        UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError;
+        UniverseMeError: new () => UniverseMeError;
     };
     private static parsePayload;
     private setInitialized;

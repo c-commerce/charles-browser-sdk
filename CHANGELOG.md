@@ -1,3 +1,10 @@
+## [3.81.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.81.0...v3.81.1) (2021-03-04)
+
+
+### Bug Fixes
+
+* **universe:** make errors interface statically documented ([f77ed3b](https://github.com/c-commerce/charles-browser-sdk/commit/f77ed3b0c10ae019716eb9f0c1b65ce198d01fdd))
+
 # [3.81.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.80.1...v3.81.0) (2021-03-04)
 
 
