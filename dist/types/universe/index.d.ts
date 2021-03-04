@@ -213,6 +213,16 @@ export interface IUniverseNotificationCampaigns {
         count: number;
     }>;
 }
+export declare class UniverseUnauthenticatedError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseMeError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export declare type UniversePermissionType = 'admin';
 export declare type UniverseRoleType = 'admin';
 export interface MeData {
@@ -250,6 +260,9 @@ export declare class Universe extends Readable {
     private static readonly endpoint;
     constructor(options: UniverseOptions);
     init(): Promise<Universe | undefined>;
+    static get errors(): {
+        [key: string]: new () => BaseError;
+    };
     private static parsePayload;
     private setInitialized;
     private setMqttClient;
@@ -386,16 +399,6 @@ export declare class UniverseInitializationError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class UniverseSearchError extends BaseError {
-    message: string;
-    name: string;
-    constructor(message?: string, properties?: any);
-}
-export declare class UniverseUnauthenticatedError extends BaseError {
-    message: string;
-    name: string;
-    constructor(message?: string, properties?: any);
-}
-export declare class UniverseMeError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

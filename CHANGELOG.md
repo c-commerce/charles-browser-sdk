@@ -1,3 +1,10 @@
+# [3.81.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.80.1...v3.81.0) (2021-03-04)
+
+
+### Features
+
+* **universe:** make me errors statically available ([ac926aa](https://github.com/c-commerce/charles-browser-sdk/commit/ac926aad0bc140569767b384bfca18351ed6f9dd))
+
 ## [3.80.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.80.0...v3.80.1) (2021-03-03)
 
 

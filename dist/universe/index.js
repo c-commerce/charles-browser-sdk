@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UniverseHealthzError = exports.UniverseSelfError = exports.UniverseVersionsError = exports.UniverseApiRequestError = exports.UniverseMeError = exports.UniverseUnauthenticatedError = exports.UniverseSearchError = exports.UniverseInitializationError = exports.UnviverseSingleton = exports.Universe = void 0;
+exports.UniverseHealthzError = exports.UniverseSelfError = exports.UniverseVersionsError = exports.UniverseApiRequestError = exports.UniverseSearchError = exports.UniverseInitializationError = exports.UnviverseSingleton = exports.Universe = exports.UniverseMeError = exports.UniverseUnauthenticatedError = void 0;
 var tslib_1 = require("tslib");
 var readable_stream_1 = require("readable-stream");
 var qs_1 = tslib_1.__importDefault(require("qs"));
@@ -51,6 +51,32 @@ var favorite = tslib_1.__importStar(require("../entities/favorite/favorite"));
 var knowledgeBase = tslib_1.__importStar(require("../entities/knowledge-base/knowledge-base"));
 var knowledgeBaseFaqItem = tslib_1.__importStar(require("../entities/knowledge-base-faq-item/knowledge-base-faq-item"));
 var crm = tslib_1.__importStar(require("../entities/crm/crm"));
+var UniverseUnauthenticatedError = (function (_super) {
+    tslib_1.__extends(UniverseUnauthenticatedError, _super);
+    function UniverseUnauthenticatedError(message, properties) {
+        if (message === void 0) { message = 'Invalid or expired session.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UniverseUnauthenticatedError';
+        Object.setPrototypeOf(_this, UniverseUnauthenticatedError.prototype);
+        return _this;
+    }
+    return UniverseUnauthenticatedError;
+}(errors_1.BaseError));
+exports.UniverseUnauthenticatedError = UniverseUnauthenticatedError;
+var UniverseMeError = (function (_super) {
+    tslib_1.__extends(UniverseMeError, _super);
+    function UniverseMeError(message, properties) {
+        if (message === void 0) { message = 'Unexptected error fetching me data'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UniverseMeError';
+        Object.setPrototypeOf(_this, UniverseMeError.prototype);
+        return _this;
+    }
+    return UniverseMeError;
+}(errors_1.BaseError));
+exports.UniverseMeError = UniverseMeError;
 var Universe = (function (_super) {
     tslib_1.__extends(Universe, _super);
     function Universe(options) {
@@ -95,6 +121,16 @@ var Universe = (function (_super) {
             });
         });
     };
+    Object.defineProperty(Universe, "errors", {
+        get: function () {
+            return {
+                UniverseUnauthenticatedError: UniverseUnauthenticatedError,
+                UniverseMeError: UniverseMeError
+            };
+        },
+        enumerable: false,
+        configurable: true
+    });
     Universe.parsePayload = function (payload) {
         var _a, _b;
         return {
@@ -2046,32 +2082,6 @@ var UniverseSearchError = (function (_super) {
     return UniverseSearchError;
 }(errors_1.BaseError));
 exports.UniverseSearchError = UniverseSearchError;
-var UniverseUnauthenticatedError = (function (_super) {
-    tslib_1.__extends(UniverseUnauthenticatedError, _super);
-    function UniverseUnauthenticatedError(message, properties) {
-        if (message === void 0) { message = 'Invalid or expired session.'; }
-        var _this = _super.call(this, message, properties) || this;
-        _this.message = message;
-        _this.name = 'UniverseUnauthenticatedError';
-        Object.setPrototypeOf(_this, UniverseUnauthenticatedError.prototype);
-        return _this;
-    }
-    return UniverseUnauthenticatedError;
-}(errors_1.BaseError));
-exports.UniverseUnauthenticatedError = UniverseUnauthenticatedError;
-var UniverseMeError = (function (_super) {
-    tslib_1.__extends(UniverseMeError, _super);
-    function UniverseMeError(message, properties) {
-        if (message === void 0) { message = 'Unexptected error fetching me data'; }
-        var _this = _super.call(this, message, properties) || this;
-        _this.message = message;
-        _this.name = 'UniverseMeError';
-        Object.setPrototypeOf(_this, UniverseMeError.prototype);
-        return _this;
-    }
-    return UniverseMeError;
-}(errors_1.BaseError));
-exports.UniverseMeError = UniverseMeError;
 var UniverseApiRequestError = (function (_super) {
     tslib_1.__extends(UniverseApiRequestError, _super);
     function UniverseApiRequestError(message, properties) {
