@@ -261,6 +261,24 @@ export interface IUniverseNotificationCampaigns {
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
 
+export class UniverseUnauthenticatedError extends BaseError {
+  public name = 'UniverseUnauthenticatedError'
+  constructor (public message: string = 'Invalid or expired session.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseUnauthenticatedError.prototype)
+  }
+}
+
+export class UniverseMeError extends BaseError {
+  public name = 'UniverseMeError'
+  constructor (public message: string = 'Unexptected error fetching me data', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseMeError.prototype)
+  }
+}
+
 export type UniversePermissionType =
   | 'admin'
 
@@ -380,6 +398,13 @@ export class Universe extends Readable {
       return this
     } catch (err) {
       throw new UniverseInitializationError(undefined, { error: err })
+    }
+  }
+
+  public static get errors (): { [key: string]: new () => BaseError } {
+    return {
+      UniverseUnauthenticatedError,
+      UniverseMeError
     }
   }
 
@@ -1962,24 +1987,6 @@ export class UniverseSearchError extends BaseError {
   public name = 'UniverseSearchError'
   constructor (public message: string = 'Could not fulfill search unexpectedly.', properties?: any) {
     super(message, properties)
-  }
-}
-
-export class UniverseUnauthenticatedError extends BaseError {
-  public name = 'UniverseUnauthenticatedError'
-  constructor (public message: string = 'Invalid or expired session.', properties?: any) {
-    super(message, properties)
-
-    Object.setPrototypeOf(this, UniverseUnauthenticatedError.prototype)
-  }
-}
-
-export class UniverseMeError extends BaseError {
-  public name = 'UniverseMeError'
-  constructor (public message: string = 'Unexptected error fetching me data', properties?: any) {
-    super(message, properties)
-
-    Object.setPrototypeOf(this, UniverseMeError.prototype)
   }
 }
 
