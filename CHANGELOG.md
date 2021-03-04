@@ -1,3 +1,10 @@
+# [3.82.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.81.1...v3.82.0) (2021-03-04)
+
+
+### Features
+
+* **universe:** set cached me data ([d93b550](https://github.com/c-commerce/charles-browser-sdk/commit/d93b5505ecb086b2817f04f062314e114f624322))
+
 ## [3.81.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.81.0...v3.81.1) (2021-03-04)
 
 

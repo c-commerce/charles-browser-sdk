@@ -229,6 +229,7 @@ export interface MeData {
     user: {
         email: string;
         sub: string;
+        authenticated: boolean;
     };
     permissions: UniversePermissionType[];
     roles: UniversePermissionType[];
@@ -258,6 +259,7 @@ export declare class Universe extends Readable {
     universeBase: string;
     mqttUniverseBase: string;
     private static readonly endpoint;
+    private _cachedMeData?;
     constructor(options: UniverseOptions);
     init(): Promise<Universe | undefined>;
     static get errors(): {
@@ -324,6 +326,10 @@ export declare class Universe extends Readable {
     } | Array<{
         [key: string]: any;
     } | undefined>>;
+    private setCachedMeData;
+    get authData(): {
+        me?: MeData;
+    };
     me(): Promise<MeData | undefined>;
     private makeAnalyticsRequest;
     get analytics(): UniverseAnalytics;

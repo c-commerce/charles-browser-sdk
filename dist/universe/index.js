@@ -423,6 +423,24 @@ var Universe = (function (_super) {
             });
         });
     };
+    Universe.prototype.setCachedMeData = function (data) {
+        if (!data) {
+            this._cachedMeData = undefined;
+        }
+        else {
+            this._cachedMeData = Object.assign({}, data);
+        }
+        return this;
+    };
+    Object.defineProperty(Universe.prototype, "authData", {
+        get: function () {
+            return {
+                me: this._cachedMeData
+            };
+        },
+        enumerable: false,
+        configurable: true
+    });
     Universe.prototype.me = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, response, err_3;
@@ -437,6 +455,7 @@ var Universe = (function (_super) {
                         return [4, this.http.getClient()(opts)];
                     case 1:
                         response = _a.sent();
+                        this.setCachedMeData(response.data.data);
                         return [2, response.data.data];
                     case 2:
                         err_3 = _a.sent();
