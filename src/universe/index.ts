@@ -292,6 +292,7 @@ export interface MeData {
      * user id
      */
     sub: string
+    authenticated: boolean
   }
   permissions: UniversePermissionType[]
   roles: UniversePermissionType[]
@@ -366,6 +367,7 @@ export class Universe extends Readable {
   public universeBase: string
   public mqttUniverseBase: string
   private static readonly endpoint: string = 'api/v0/universes'
+  private _cachedMeData?: MeData
 
   public constructor (options: UniverseOptions) {
     super()
@@ -764,6 +766,22 @@ export class Universe extends Readable {
     }
   }
 
+  private setCachedMeData (data?: MeData | null): Universe {
+    if (!data) {
+      this._cachedMeData = undefined
+    } else {
+      this._cachedMeData = Object.assign({}, data)
+    }
+
+    return this
+  }
+
+  public get authData (): { me?: MeData } {
+    return {
+      me: this._cachedMeData
+    }
+  }
+
   /**
    * Fetch the data of the current user. If you receive an instane of UniverseUnauthenticatedError
    * you should logout the current session and create a new one.
@@ -776,6 +794,8 @@ export class Universe extends Readable {
       }
 
       const response = await this.http.getClient()(opts)
+
+      this.setCachedMeData(response.data.data)
 
       return response.data.data
     } catch (err) {
