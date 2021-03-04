@@ -401,7 +401,10 @@ export class Universe extends Readable {
     }
   }
 
-  public static get errors (): { [key: string]: new () => BaseError } {
+  public static get errors (): {
+    UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError
+    UniverseMeError: new () => UniverseMeError
+  } {
     return {
       UniverseUnauthenticatedError,
       UniverseMeError
