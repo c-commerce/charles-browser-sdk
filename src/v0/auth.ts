@@ -7,7 +7,8 @@ export enum AuthTypes {
   key,
   accessToken,
   org,
-  support
+  support,
+  cookie,
 }
 
 export interface AuthOptions {
@@ -117,12 +118,14 @@ export class Auth {
     this.options.base = this.options.base ?? 'https://hello-charles.com'
     this.authBaseUrl = this.options.authBaseUrl ?? 'https://hello-charles.com'
 
-    if (!this.options.credentials) return
+    if (!this.options.credentials && options.withCredentials !== true) return
 
     this.determineAuthType()
 
     if (this.options.user && this.options.type === AuthTypes.accessToken) {
       this.setDefaultHeader(this.options.user, (this.options.credentials as TokenAuth).accessToken, this.options.withCredentials)
+    } else if (options.withCredentials) {
+      this.setDefaultHeader(undefined, undefined, options.withCredentials)
     }
   }
 
@@ -139,6 +142,11 @@ export class Auth {
   }
 
   protected determineAuthType (): void {
+    if (!this.options.credentials && this.options.withCredentials) {
+      this.options.type = AuthTypes.cookie
+      return
+    }
+
     if (isUsernameAuth(this.options.credentials)) this.options.type = AuthTypes.username
     if (isKeyAuth(this.options.credentials)) this.options.type = AuthTypes.key
     if (isTokenAuth(this.options.credentials)) this.options.type = AuthTypes.accessToken
@@ -240,16 +248,20 @@ export class Auth {
     }
   }
 
-  protected setDefaultHeader (user: string, token?: string, withCredentials?: boolean): void {
+  protected setDefaultHeader (user?: string, token?: string, withCredentials?: boolean): void {
     const clientOptions: ClientOptions = {
       headers: {
-        'X-Client-ID': user
+
       },
       withCredentials: withCredentials ?? !!this.options.credentials
     }
 
     if (token && clientOptions?.headers) {
       clientOptions.headers.Authorization = `Bearer ${token}`
+    }
+
+    if (user && clientOptions?.headers) {
+      clientOptions.headers['X-Client-ID'] = user
     }
 
     this.setAuthed(token, withCredentials)
