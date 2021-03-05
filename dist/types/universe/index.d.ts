@@ -223,6 +223,10 @@ export declare class UniverseMeError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export interface UniverseErrors {
+    UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError;
+    UniverseMeError: new () => UniverseMeError;
+}
 export declare type UniversePermissionType = 'admin';
 export declare type UniverseRoleType = 'admin';
 export interface MeData {
@@ -262,10 +266,8 @@ export declare class Universe extends Readable {
     private _cachedMeData?;
     constructor(options: UniverseOptions);
     init(): Promise<Universe | undefined>;
-    static get errors(): {
-        UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError;
-        UniverseMeError: new () => UniverseMeError;
-    };
+    static get errors(): UniverseErrors;
+    get errors(): UniverseErrors;
     private static parsePayload;
     private setInitialized;
     private setMqttClient;

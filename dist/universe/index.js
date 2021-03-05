@@ -131,6 +131,13 @@ var Universe = (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Universe.prototype, "errors", {
+        get: function () {
+            return Universe.errors;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Universe.parsePayload = function (payload) {
         var _a, _b;
         return {

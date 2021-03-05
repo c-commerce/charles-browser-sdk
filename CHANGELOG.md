@@ -1,3 +1,10 @@
+# [3.83.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.82.0...v3.83.0) (2021-03-05)
+
+
+### Features
+
+* **Universe:** expose errors on instance ([821c03e](https://github.com/c-commerce/charles-browser-sdk/commit/821c03e8a148c3b7e89b8af1089363df280feb94))
+
 # [3.82.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.81.1...v3.82.0) (2021-03-04)
 
 
