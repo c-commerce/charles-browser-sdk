@@ -239,11 +239,13 @@ export class Charles extends CharlesClient {
     this.on('raw-error', (err: Error) => {
       if (this.listeners('error').length > 0) this.emit('error', err)
     })
+
+    Charles.instance = this
   }
 
   static getInstance (options: CharlesSDKOptions): Charles {
     if (!Charles.instance) {
-      Charles.instance = new Charles(options)
+      return new Charles(options)
     }
 
     return Charles.instance
