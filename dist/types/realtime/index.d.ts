@@ -87,7 +87,7 @@ interface RealtimeClientOptions {
     base: string;
     messageType?: IMessagePayloadTypes;
     username: string;
-    password: string;
+    password?: string;
     mqttOptions?: MqttOptions;
 }
 export declare type OnMessageCallback = (message: RealtimeMessage | RealtimeMessageMessage) => void;

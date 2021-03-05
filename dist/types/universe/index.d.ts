@@ -46,7 +46,7 @@ import * as knowledgeBaseFaqItem from '../entities/knowledge-base-faq-item/knowl
 import * as crm from '../entities/crm/crm';
 export interface UniverseUser {
     id?: string;
-    accessToken: string;
+    accessToken?: string;
 }
 export interface UniverseOptions {
     name: string;

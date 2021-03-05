@@ -101,7 +101,7 @@ var CharlesClient = (function (_super) {
         return new type(tslib_1.__assign({ user: this.auth.user, universe: this.options.universe }, maybeOptions), this.http);
     };
     CharlesClient.prototype.universe = function (name, options) {
-        if (!this.http || !this.auth.accessToken) {
+        if (!this.http || !this.auth || !this.auth.authenticated) {
             throw new errors.UninstantiatedClient('Cannot invoke universe without instantiated http client');
         }
         var opts = {

@@ -1,3 +1,10 @@
+# [3.87.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.86.0...v3.87.0) (2021-03-05)
+
+
+### Features
+
+* **Charles+UniverseFactory:** do not require access token ([7b5f19a](https://github.com/c-commerce/charles-browser-sdk/commit/7b5f19ac5152a48dd4a41d8d3beec0280b494b26))
+
 # [3.86.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.85.0...v3.86.0) (2021-03-05)
 
 
