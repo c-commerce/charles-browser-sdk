@@ -1,3 +1,10 @@
+# [3.84.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.83.0...v3.84.0) (2021-03-05)
+
+
+### Features
+
+* **Charles:** make instance overridable from constructor ([3bbda10](https://github.com/c-commerce/charles-browser-sdk/commit/3bbda10a1ba41bb946d3a2f06f573fe84b65dbad))
+
 # [3.83.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.82.0...v3.83.0) (2021-03-05)
 
 

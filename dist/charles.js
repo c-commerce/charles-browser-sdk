@@ -132,11 +132,12 @@ var Charles = (function (_super) {
             if (_this.listeners('error').length > 0)
                 _this.emit('error', err);
         });
+        Charles.instance = _this;
         return _this;
     }
     Charles.getInstance = function (options) {
         if (!Charles.instance) {
-            Charles.instance = new Charles(options);
+            return new Charles(options);
         }
         return Charles.instance;
     };
