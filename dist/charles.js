@@ -82,6 +82,9 @@ var CharlesClient = (function (_super) {
             if (options.credentials.accessToken && clientOptions.headers) {
                 clientOptions.headers.Authorization = "Bearer " + options.credentials.accessToken;
             }
+            if (withCredentials) {
+                this.auth.setAuthed(undefined, withCredentials);
+            }
             this.http = client_1.Client.getInstance(clientOptions).setDefaults(clientOptions);
             return true;
         }

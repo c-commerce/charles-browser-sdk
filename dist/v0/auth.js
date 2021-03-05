@@ -178,12 +178,14 @@ var Auth = (function () {
     Auth.prototype.setDefaultHeader = function (user, token, withCredentials) {
         var clientOptions = {
             headers: {
-                Authorization: "Bearer " + token,
                 'X-Client-ID': user
             },
             withCredentials: withCredentials !== null && withCredentials !== void 0 ? withCredentials : !!this.options.credentials
         };
-        this.setAuthed(token);
+        if (token && (clientOptions === null || clientOptions === void 0 ? void 0 : clientOptions.headers)) {
+            clientOptions.headers.Authorization = "Bearer " + token;
+        }
+        this.setAuthed(token, withCredentials);
         this.user = user;
         client_1.Client.getInstance(clientOptions).setDefaults(clientOptions);
     };
@@ -217,11 +219,16 @@ var Auth = (function () {
             });
         });
     };
-    Auth.prototype.setAuthed = function (accessToken) {
-        if (!accessToken)
+    Auth.prototype.setAuthed = function (accessToken, withCredentials) {
+        if (!accessToken && withCredentials !== true)
             throw new TypeError('setting authed requires access token');
-        this.accessToken = accessToken;
-        this.authenticated = true;
+        if (accessToken) {
+            this.accessToken = accessToken;
+            this.authenticated = true;
+        }
+        else if (withCredentials === true) {
+            this.authenticated = true;
+        }
         return this;
     };
     return Auth;

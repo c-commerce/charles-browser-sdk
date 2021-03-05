@@ -1,3 +1,10 @@
+# [3.85.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.84.0...v3.85.0) (2021-03-05)
+
+
+### Features
+
+* **CharlesClient:** set authed when cookie auth ([46ab5c0](https://github.com/c-commerce/charles-browser-sdk/commit/46ab5c0720b217f54311fcdd8ac7c44727f5b0f7))
+
 # [3.84.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.83.0...v3.84.0) (2021-03-05)
 
 
