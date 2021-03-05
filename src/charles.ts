@@ -162,6 +162,10 @@ export class CharlesClient extends events.EventEmitter {
         clientOptions.headers.Authorization = `Bearer ${(options.credentials as TokenAuth).accessToken}`
       }
 
+      if (withCredentials) {
+        this.auth.setAuthed(undefined, withCredentials)
+      }
+
       this.http = Client.getInstance(clientOptions).setDefaults(clientOptions)
       return true
     }

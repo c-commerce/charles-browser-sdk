@@ -240,16 +240,19 @@ export class Auth {
     }
   }
 
-  protected setDefaultHeader (user: string, token: string, withCredentials?: boolean): void {
+  protected setDefaultHeader (user: string, token?: string, withCredentials?: boolean): void {
     const clientOptions: ClientOptions = {
       headers: {
-        Authorization: `Bearer ${token}`,
         'X-Client-ID': user
       },
       withCredentials: withCredentials ?? !!this.options.credentials
     }
 
-    this.setAuthed(token)
+    if (token && clientOptions?.headers) {
+      clientOptions.headers.Authorization = `Bearer ${token}`
+    }
+
+    this.setAuthed(token, withCredentials)
     this.user = user
 
     Client.getInstance(clientOptions).setDefaults(clientOptions)
@@ -276,10 +279,16 @@ export class Auth {
     }
   }
 
-  public setAuthed (accessToken: string): Auth {
-    if (!accessToken) throw new TypeError('setting authed requires access token')
-    this.accessToken = accessToken
-    this.authenticated = true
+  public setAuthed (accessToken?: string, withCredentials?: boolean): Auth {
+    if (!accessToken && withCredentials !== true) throw new TypeError('setting authed requires access token')
+
+    if (accessToken) {
+      this.accessToken = accessToken
+      this.authenticated = true
+    } else if (withCredentials === true) {
+      this.authenticated = true
+    }
+
     return this
   }
 }
