@@ -1,3 +1,10 @@
+# [3.86.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.85.0...v3.86.0) (2021-03-05)
+
+
+### Features
+
+* **Auth:** set cookie auth on withCredentials ([dd0cc59](https://github.com/c-commerce/charles-browser-sdk/commit/dd0cc5973c538bda2bfaa052fa72acc624191e4f))
+
 # [3.85.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.84.0...v3.85.0) (2021-03-05)
 
 

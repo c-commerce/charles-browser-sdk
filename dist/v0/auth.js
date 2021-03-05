@@ -12,6 +12,7 @@ var AuthTypes;
     AuthTypes[AuthTypes["accessToken"] = 3] = "accessToken";
     AuthTypes[AuthTypes["org"] = 4] = "org";
     AuthTypes[AuthTypes["support"] = 5] = "support";
+    AuthTypes[AuthTypes["cookie"] = 6] = "cookie";
 })(AuthTypes = exports.AuthTypes || (exports.AuthTypes = {}));
 function isUsernameAuth(object) {
     return 'password' in object;
@@ -36,11 +37,14 @@ var Auth = (function () {
         this.options = options;
         this.options.base = (_a = this.options.base) !== null && _a !== void 0 ? _a : 'https://hello-charles.com';
         this.authBaseUrl = (_b = this.options.authBaseUrl) !== null && _b !== void 0 ? _b : 'https://hello-charles.com';
-        if (!this.options.credentials)
+        if (!this.options.credentials && options.withCredentials !== true)
             return;
         this.determineAuthType();
         if (this.options.user && this.options.type === AuthTypes.accessToken) {
             this.setDefaultHeader(this.options.user, this.options.credentials.accessToken, this.options.withCredentials);
+        }
+        else if (options.withCredentials) {
+            this.setDefaultHeader(undefined, undefined, options.withCredentials);
         }
     }
     Auth.prototype.clearInstance = function () {
@@ -51,6 +55,10 @@ var Auth = (function () {
         this.options.type = undefined;
     };
     Auth.prototype.determineAuthType = function () {
+        if (!this.options.credentials && this.options.withCredentials) {
+            this.options.type = AuthTypes.cookie;
+            return;
+        }
         if (isUsernameAuth(this.options.credentials))
             this.options.type = AuthTypes.username;
         if (isKeyAuth(this.options.credentials))
@@ -177,13 +185,14 @@ var Auth = (function () {
     };
     Auth.prototype.setDefaultHeader = function (user, token, withCredentials) {
         var clientOptions = {
-            headers: {
-                'X-Client-ID': user
-            },
+            headers: {},
             withCredentials: withCredentials !== null && withCredentials !== void 0 ? withCredentials : !!this.options.credentials
         };
         if (token && (clientOptions === null || clientOptions === void 0 ? void 0 : clientOptions.headers)) {
             clientOptions.headers.Authorization = "Bearer " + token;
+        }
+        if (user && (clientOptions === null || clientOptions === void 0 ? void 0 : clientOptions.headers)) {
+            clientOptions.headers['X-Client-ID'] = user;
         }
         this.setAuthed(token, withCredentials);
         this.user = user;

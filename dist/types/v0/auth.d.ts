@@ -4,7 +4,8 @@ export declare enum AuthTypes {
     key = 2,
     accessToken = 3,
     org = 4,
-    support = 5
+    support = 5,
+    cookie = 6
 }
 export interface AuthOptions {
     type?: AuthTypes | undefined;
@@ -87,7 +88,7 @@ export declare class Auth {
     loginUsername(authData?: UsernameAuth): Promise<AuthResponse>;
     requestPasswordReset(target: PasswordResetRequest): Promise<PasswordResetRequestResponse>;
     setNewPassword(nonce: PasswordResetNonce): Promise<PasswordResetRequestResponse>;
-    protected setDefaultHeader(user: string, token?: string, withCredentials?: boolean): void;
+    protected setDefaultHeader(user?: string, token?: string, withCredentials?: boolean): void;
     logout(token?: string): Promise<LogoutResponse>;
     setAuthed(accessToken?: string, withCredentials?: boolean): Auth;
 }
