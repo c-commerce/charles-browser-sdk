@@ -61,7 +61,7 @@ import * as crm from '../entities/crm/crm'
 
 export interface UniverseUser {
   id?: string
-  accessToken: string
+  accessToken?: string
 }
 
 /**

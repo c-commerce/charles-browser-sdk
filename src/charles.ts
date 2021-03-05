@@ -202,7 +202,7 @@ export class CharlesClient extends events.EventEmitter {
    * Create a reference to a universe via singleton or instance
    */
   universe (name: string, options?: IUniverseFactoryOptions): Universe | UnviverseSingleton {
-    if (!this.http || !this.auth.accessToken) {
+    if (!this.http || !this.auth || !this.auth.authenticated) {
       throw new errors.UninstantiatedClient('Cannot invoke universe without instantiated http client')
     }
 

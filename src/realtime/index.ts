@@ -106,7 +106,7 @@ interface RealtimeClientOptions {
   base: string
   messageType?: IMessagePayloadTypes
   username: string
-  password: string
+  password?: string
   mqttOptions?: MqttOptions
 }
 
