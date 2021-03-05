@@ -279,6 +279,11 @@ export class UniverseMeError extends BaseError {
   }
 }
 
+export interface UniverseErrors {
+  UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError
+  UniverseMeError: new () => UniverseMeError
+}
+
 export type UniversePermissionType =
   | 'admin'
 
@@ -403,14 +408,15 @@ export class Universe extends Readable {
     }
   }
 
-  public static get errors (): {
-    UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError
-    UniverseMeError: new () => UniverseMeError
-  } {
+  public static get errors (): UniverseErrors {
     return {
       UniverseUnauthenticatedError,
       UniverseMeError
     }
+  }
+
+  public get errors (): UniverseErrors {
+    return Universe.errors
   }
 
   private static parsePayload (payload: any): UniversePayload {
