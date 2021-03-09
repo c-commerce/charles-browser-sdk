@@ -74,6 +74,11 @@ export interface TokenAuth {
   accessToken: string
 }
 
+export interface LogoutOptions {
+  authBaseUrl?: string
+  withCredentials?: boolean
+}
+
 export function isUsernameAuth (object: any): object is UsernameAuth {
   return 'password' in object
 }
@@ -268,7 +273,7 @@ export class Auth {
     Client.getInstance(clientOptions).setDefaults(clientOptions)
   }
 
-  public async logout (token?: string): Promise<LogoutResponse> {
+  public async logout (options?: LogoutOptions, token?: string): Promise<LogoutResponse> {
     const withCredentials = !!this.options.withCredentials
 
     if (!withCredentials && (!token && !this.accessToken)) {
@@ -286,7 +291,7 @@ export class Auth {
         opts.headers.Authorization = `Bearer ${token ?? this.accessToken as string}`
       }
 
-      const { data } = await axios.post(`${this.authBaseUrl as string}/api/v0/users/auth/logout`, opts)
+      const { data } = await axios.post(`${options?.authBaseUrl ?? this.authBaseUrl as string}/api/v0/users/auth/logout`, opts)
 
       return {
         msg: data.msg
