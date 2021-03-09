@@ -198,7 +198,6 @@ export class Auth {
         withCredentials
       )
 
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
         id: response.data.data.id,
         access_token: response.data.data.access_token,
@@ -207,7 +206,7 @@ export class Auth {
         name: response.data.data.name,
         permissions: response.data.data.permissions || [],
         roles: response.data.data.roles
-      } as AuthResponse
+      }
     } catch (err) {
       const error = new errors.AuthenticationFailed(undefined, {
         error: err, body: !!err.response && err.response.data ? err.response.data : null
@@ -239,10 +238,9 @@ export class Auth {
         password_reset_id: nonce.password_reset_id
       })
 
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
         msg: data.msg
-      } as PasswordResetRequestResponse
+      }
     } catch (err) {
       throw new errors.PasswordSetRequestFailed(undefined, { error: err })
     }
@@ -290,10 +288,9 @@ export class Auth {
 
       const { data } = await axios.post(`${this.authBaseUrl as string}/api/v0/users/auth/logout`, opts)
 
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
         msg: data.msg
-      } as LogoutResponse
+      }
     } catch (err) {
       throw new LogoutFailed(undefined, { error: err })
     }
