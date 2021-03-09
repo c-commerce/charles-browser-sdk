@@ -274,7 +274,7 @@ export class Auth {
   }
 
   public async logout (options?: LogoutOptions, token?: string): Promise<LogoutResponse> {
-    const withCredentials = !!this.options.withCredentials
+    const withCredentials = options?.withCredentials ?? !!this.options.withCredentials
 
     if (!withCredentials && (!token && !this.accessToken)) {
       throw new LogoutMissingToken()
@@ -282,16 +282,19 @@ export class Auth {
 
     try {
       const opts: AxiosRequestConfig = {
+        method: 'POST',
+        url: `${options?.authBaseUrl ?? this.authBaseUrl as string}/api/v0/users/auth/logout`,
         headers: {
 
-        }
+        },
+        withCredentials
       }
 
-      if (!withCredentials) {
+      if (!withCredentials && (token ?? this.accessToken)) {
         opts.headers.Authorization = `Bearer ${token ?? this.accessToken as string}`
       }
 
-      const { data } = await axios.post(`${options?.authBaseUrl ?? this.authBaseUrl as string}/api/v0/users/auth/logout`, opts)
+      const { data } = await axios(opts)
 
       return {
         msg: data.msg
