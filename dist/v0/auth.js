@@ -82,12 +82,12 @@ var Auth = (function () {
         });
     };
     Auth.prototype.loginUsername = function (authData) {
-        var _a, _b, _c;
+        var _a, _b;
         if (authData === void 0) { authData = {}; }
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var username, password, withCredentials, response, err_1, error;
-            return tslib_1.__generator(this, function (_d) {
-                switch (_d.label) {
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         if (this.options.credentials &&
                             this.options.credentials.username &&
@@ -103,18 +103,18 @@ var Auth = (function () {
                             throw new errors.UninstantiatedClient();
                         }
                         withCredentials = (_a = authData.withCredentials) !== null && _a !== void 0 ? _a : !!this.options.credentials;
-                        _d.label = 1;
+                        _c.label = 1;
                     case 1:
-                        _d.trys.push([1, 3, , 4]);
+                        _c.trys.push([1, 3, , 4]);
                         return [4, axios_1.default.post(((_b = authData.authBaseUrl) !== null && _b !== void 0 ? _b : this.authBaseUrl) + "/api/v0/users/auth/login", {
                                 email: username,
                                 password: password,
                                 recaptcha_token: authData.recaptcha_token
                             }, {
-                                withCredentials: (_c = authData.withCredentials) !== null && _c !== void 0 ? _c : !!this.options.credentials
+                                withCredentials: withCredentials
                             })];
                     case 2:
-                        response = _d.sent();
+                        response = _c.sent();
                         this.setDefaultHeader(response.data.data.id, response.data.data.access_token, withCredentials);
                         return [2, {
                                 id: response.data.data.id,
@@ -126,7 +126,7 @@ var Auth = (function () {
                                 roles: response.data.data.roles
                             }];
                     case 3:
-                        err_1 = _d.sent();
+                        err_1 = _c.sent();
                         error = new errors.AuthenticationFailed(undefined, {
                             error: err_1, body: !!err_1.response && err_1.response.data ? err_1.response.data : null
                         });
@@ -200,21 +200,24 @@ var Auth = (function () {
     };
     Auth.prototype.logout = function (token) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var data, err_4;
+            var withCredentials, opts, data, err_4;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!token && !this.accessToken) {
+                        withCredentials = !!this.options.withCredentials;
+                        if (!withCredentials && (!token && !this.accessToken)) {
                             throw new LogoutMissingToken();
                         }
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        return [4, axios_1.default.get(this.authBaseUrl + "/api/v0/users/auth/logout", {
-                                headers: {
-                                    Authorization: "Bearer " + (token !== null && token !== void 0 ? token : this.accessToken)
-                                }
-                            })];
+                        opts = {
+                            headers: {}
+                        };
+                        if (!withCredentials) {
+                            opts.headers.Authorization = "Bearer " + (token !== null && token !== void 0 ? token : this.accessToken);
+                        }
+                        return [4, axios_1.default.post(this.authBaseUrl + "/api/v0/users/auth/logout", opts)];
                     case 2:
                         data = (_a.sent()).data;
                         return [2, {

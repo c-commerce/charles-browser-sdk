@@ -1,3 +1,11 @@
+## [3.87.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.87.0...v3.87.1) (2021-03-09)
+
+
+### Bug Fixes
+
+* **Auth:** handle token logout ([a9a2363](https://github.com/c-commerce/charles-browser-sdk/commit/a9a23632c40f015e3ed0af08d09a6a1ba5634e4c))
+* **Auth:** handle withCredentials correctly, assert http in test correctly ([c32302c](https://github.com/c-commerce/charles-browser-sdk/commit/c32302cdc25965b9db9b81cdc37ec8ba036f2545))
+
 # [3.87.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.86.0...v3.87.0) (2021-03-05)
 
 
