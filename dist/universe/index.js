@@ -2011,26 +2011,26 @@ var Universe = (function (_super) {
         get: function () {
             var _this = this;
             return {
-                people: function (q) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                people: function (q, query) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4, this.searchEntity(person.People.endpoint, q)];
+                            case 0: return [4, this.searchEntity(person.People.endpoint, q, query)];
                             case 1: return [2, _a.sent()];
                         }
                     });
                 }); },
-                products: function (q) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                products: function (q, query) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4, this.searchEntity(product.Products.endpoint, q)];
+                            case 0: return [4, this.searchEntity(product.Products.endpoint, q, query)];
                             case 1: return [2, _a.sent()];
                         }
                     });
                 }); },
-                feeds: function (q) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                feeds: function (q, query) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4, this.searchEntity(feed_1.Feeds.endpoint, q)];
+                            case 0: return [4, this.searchEntity(feed_1.Feeds.endpoint, q, query)];
                             case 1: return [2, _a.sent()];
                         }
                     });
@@ -2040,18 +2040,14 @@ var Universe = (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Universe.prototype.searchEntity = function (endpoint, q) {
+    Universe.prototype.searchEntity = function (endpoint, q, query) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var res, err_48;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universeBase + "/" + endpoint + "/search", {
-                                params: {
-                                    q: q
-                                }
-                            })];
+                        return [4, this.http.getClient().get(this.universeBase + "/" + endpoint + "/search" + qs_1.default.stringify(tslib_1.__assign({ q: q }, (query !== null && query !== void 0 ? query : {})), { addQueryPrefix: true }))];
                     case 1:
                         res = _a.sent();
                         return [2, res.data.data];

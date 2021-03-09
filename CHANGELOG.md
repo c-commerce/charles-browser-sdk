@@ -1,3 +1,10 @@
+# [3.89.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.88.1...v3.89.0) (2021-03-09)
+
+
+### Features
+
+* **UniverseSearch:** allow additonal queries ([62b663a](https://github.com/c-commerce/charles-browser-sdk/commit/62b663ab2c5c2466ea9d3976e7a4ffd38940104b))
+
 ## [3.88.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.88.0...v3.88.1) (2021-03-09)
 
 
