@@ -199,33 +199,36 @@ var Auth = (function () {
         client_1.Client.getInstance(clientOptions).setDefaults(clientOptions);
     };
     Auth.prototype.logout = function (options, token) {
-        var _a;
+        var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var withCredentials, opts, data, err_4;
-            return tslib_1.__generator(this, function (_b) {
-                switch (_b.label) {
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        withCredentials = !!this.options.withCredentials;
+                        withCredentials = (_a = options === null || options === void 0 ? void 0 : options.withCredentials) !== null && _a !== void 0 ? _a : !!this.options.withCredentials;
                         if (!withCredentials && (!token && !this.accessToken)) {
                             throw new LogoutMissingToken();
                         }
-                        _b.label = 1;
+                        _c.label = 1;
                     case 1:
-                        _b.trys.push([1, 3, , 4]);
+                        _c.trys.push([1, 3, , 4]);
                         opts = {
-                            headers: {}
+                            method: 'POST',
+                            url: ((_b = options === null || options === void 0 ? void 0 : options.authBaseUrl) !== null && _b !== void 0 ? _b : this.authBaseUrl) + "/api/v0/users/auth/logout",
+                            headers: {},
+                            withCredentials: withCredentials
                         };
-                        if (!withCredentials) {
+                        if (!withCredentials && (token !== null && token !== void 0 ? token : this.accessToken)) {
                             opts.headers.Authorization = "Bearer " + (token !== null && token !== void 0 ? token : this.accessToken);
                         }
-                        return [4, axios_1.default.post(((_a = options === null || options === void 0 ? void 0 : options.authBaseUrl) !== null && _a !== void 0 ? _a : this.authBaseUrl) + "/api/v0/users/auth/logout", opts)];
+                        return [4, axios_1.default(opts)];
                     case 2:
-                        data = (_b.sent()).data;
+                        data = (_c.sent()).data;
                         return [2, {
                                 msg: data.msg
                             }];
                     case 3:
-                        err_4 = _b.sent();
+                        err_4 = _c.sent();
                         throw new LogoutFailed(undefined, { error: err_4 });
                     case 4: return [2];
                 }

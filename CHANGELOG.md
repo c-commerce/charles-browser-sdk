@@ -1,3 +1,10 @@
+## [3.88.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.88.0...v3.88.1) (2021-03-09)
+
+
+### Bug Fixes
+
+* **Auth.logout:** use correct options signature, set credentials ([b95b7e5](https://github.com/c-commerce/charles-browser-sdk/commit/b95b7e59544fe6ab9c65ae4037b5861c36f58039))
+
 # [3.88.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.87.1...v3.88.0) (2021-03-09)
 
 
