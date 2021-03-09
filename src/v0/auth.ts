@@ -269,7 +269,7 @@ export class Auth {
   }
 
   public async logout (token?: string): Promise<LogoutResponse> {
-    const withCredentials = !!this.options.credentials
+    const withCredentials = !!this.options.withCredentials
 
     if (!withCredentials && (!token && !this.accessToken)) {
       throw new LogoutMissingToken()

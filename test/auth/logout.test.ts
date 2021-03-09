@@ -30,11 +30,12 @@ describe('Auth: logout', () => {
         username: user.username,
         password: user.password
       },
-      base: process.env.CHARLES_BASE
+      base: process.env.CHARLES_BASE,
+      withCredentials: false
     }
 
     if (process.env.SYSTEM_TEST !== 'true') {
-      mock.onGet('https://hello-charles.com/api/v0/users/auth/logout').reply(function (config) {
+      mock.onPost('https://hello-charles.com/api/v0/users/auth/logout').reply(function (config) {
         return [500]
       })
     }
@@ -71,7 +72,7 @@ describe('Auth: logout', () => {
         ]
       })
 
-      mock.onGet('https://hello-charles.com/api/v0/users/auth/logout').reply(function (config) {
+      mock.onPost('https://hello-charles.com/api/v0/users/auth/logout').reply(function (config) {
         return [
           200,
           {
