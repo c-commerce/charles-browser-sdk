@@ -1953,14 +1953,14 @@ export class Universe extends Readable {
    */
   public get search (): UniverseSearches {
     return {
-      people: async (q: string): Promise<UnviversePeopleSearchResultItem[]> => {
-        return await this.searchEntity<UnviversePeopleSearchResultItem[]>(person.People.endpoint, q)
+      people: async (q: string, query?: { [key: string]: any }): Promise<UnviversePeopleSearchResultItem[]> => {
+        return await this.searchEntity<UnviversePeopleSearchResultItem[]>(person.People.endpoint, q, query)
       },
-      products: async (q: string): Promise<UnviverseProductsSearchResultItem[]> => {
-        return await this.searchEntity<UnviverseProductsSearchResultItem[]>(product.Products.endpoint, q)
+      products: async (q: string, query?: { [key: string]: any }): Promise<UnviverseProductsSearchResultItem[]> => {
+        return await this.searchEntity<UnviverseProductsSearchResultItem[]>(product.Products.endpoint, q, query)
       },
-      feeds: async (q: string): Promise<UnviverseFeedsSearchResultItem[]> => {
-        return await this.searchEntity<UnviverseFeedsSearchResultItem[]>(Feeds.endpoint, q)
+      feeds: async (q: string, query?: { [key: string]: any }): Promise<UnviverseFeedsSearchResultItem[]> => {
+        return await this.searchEntity<UnviverseFeedsSearchResultItem[]>(Feeds.endpoint, q, query)
       }
     }
   }
@@ -1971,13 +1971,12 @@ export class Universe extends Readable {
    * @param endpoint
    * @param q
    */
-  private async searchEntity<T>(endpoint: string, q: string): Promise<T> {
+  private async searchEntity<T>(endpoint: string, q: string, query?: { [key: string]: any }): Promise<T> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${endpoint}/search`, {
-        params: {
-          q
-        }
-      })
+      const res = await this.http.getClient().get(`${this.universeBase}/${endpoint}/search${qs.stringify({
+        q,
+        ...(query ?? {})
+      }, { addQueryPrefix: true })}`)
       return res.data.data
     } catch (err) {
       throw new UniverseSearchError(undefined, { error: err })
