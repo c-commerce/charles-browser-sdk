@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import * as errors from '../errors'
 import { Client, ClientOptions } from '../client'
 
@@ -189,7 +189,7 @@ export class Auth {
         recaptcha_token: authData.recaptcha_token
       }, {
         // local override for static auth calling cases e.g. loosely initted SDKs instances
-        withCredentials: authData.withCredentials ?? !!this.options.credentials
+        withCredentials: withCredentials
       })
 
       this.setDefaultHeader(
@@ -271,16 +271,24 @@ export class Auth {
   }
 
   public async logout (token?: string): Promise<LogoutResponse> {
-    if (!token && !this.accessToken) {
+    const withCredentials = !!this.options.credentials
+
+    if (!withCredentials && (!token && !this.accessToken)) {
       throw new LogoutMissingToken()
     }
 
     try {
-      const { data } = await axios.get(`${this.authBaseUrl as string}/api/v0/users/auth/logout`, {
+      const opts: AxiosRequestConfig = {
         headers: {
-          Authorization: `Bearer ${token ?? this.accessToken as string}`
+
         }
-      })
+      }
+
+      if (!withCredentials) {
+        opts.headers.Authorization = `Bearer ${token ?? this.accessToken as string}`
+      }
+
+      const { data } = await axios.post(`${this.authBaseUrl as string}/api/v0/users/auth/logout`, opts)
 
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       return {
