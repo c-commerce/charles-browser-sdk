@@ -198,33 +198,34 @@ var Auth = (function () {
         this.user = user;
         client_1.Client.getInstance(clientOptions).setDefaults(clientOptions);
     };
-    Auth.prototype.logout = function (token) {
+    Auth.prototype.logout = function (options, token) {
+        var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var withCredentials, opts, data, err_4;
-            return tslib_1.__generator(this, function (_a) {
-                switch (_a.label) {
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
                         withCredentials = !!this.options.withCredentials;
                         if (!withCredentials && (!token && !this.accessToken)) {
                             throw new LogoutMissingToken();
                         }
-                        _a.label = 1;
+                        _b.label = 1;
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
+                        _b.trys.push([1, 3, , 4]);
                         opts = {
                             headers: {}
                         };
                         if (!withCredentials) {
                             opts.headers.Authorization = "Bearer " + (token !== null && token !== void 0 ? token : this.accessToken);
                         }
-                        return [4, axios_1.default.post(this.authBaseUrl + "/api/v0/users/auth/logout", opts)];
+                        return [4, axios_1.default.post(((_a = options === null || options === void 0 ? void 0 : options.authBaseUrl) !== null && _a !== void 0 ? _a : this.authBaseUrl) + "/api/v0/users/auth/logout", opts)];
                     case 2:
-                        data = (_a.sent()).data;
+                        data = (_b.sent()).data;
                         return [2, {
                                 msg: data.msg
                             }];
                     case 3:
-                        err_4 = _a.sent();
+                        err_4 = _b.sent();
                         throw new LogoutFailed(undefined, { error: err_4 });
                     case 4: return [2];
                 }

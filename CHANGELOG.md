@@ -1,3 +1,10 @@
+# [3.88.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.87.1...v3.88.0) (2021-03-09)
+
+
+### Features
+
+* **Auth.logout:** allow overriding authBaseUrl ([f8d079c](https://github.com/c-commerce/charles-browser-sdk/commit/f8d079c4919816006516607fc6974085ac54430b))
+
 ## [3.87.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.87.0...v3.87.1) (2021-03-09)
 
 

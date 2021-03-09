@@ -60,6 +60,10 @@ export interface LogoutResponse {
 export interface TokenAuth {
     accessToken: string;
 }
+export interface LogoutOptions {
+    authBaseUrl?: string;
+    withCredentials?: boolean;
+}
 export declare function isUsernameAuth(object: any): object is UsernameAuth;
 export declare function isKeyAuth(object: any): object is KeyAuth;
 export declare function isTokenAuth(object: any): object is KeyAuth;
@@ -89,7 +93,7 @@ export declare class Auth {
     requestPasswordReset(target: PasswordResetRequest): Promise<PasswordResetRequestResponse>;
     setNewPassword(nonce: PasswordResetNonce): Promise<PasswordResetRequestResponse>;
     protected setDefaultHeader(user?: string, token?: string, withCredentials?: boolean): void;
-    logout(token?: string): Promise<LogoutResponse>;
+    logout(options?: LogoutOptions, token?: string): Promise<LogoutResponse>;
     setAuthed(accessToken?: string, withCredentials?: boolean): Auth;
 }
 export declare class LogoutMissingToken extends errors.BaseError {
