@@ -805,7 +805,7 @@ export class Universe extends Readable {
 
       return response.data.data
     } catch (err) {
-      if (err.response.status === 401) {
+      if (err?.response?.status === 401) {
         throw new UniverseUnauthenticatedError(undefined, { error: err })
       }
 
