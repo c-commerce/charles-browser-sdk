@@ -1,3 +1,10 @@
+## [3.89.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.89.0...v3.89.1) (2021-03-10)
+
+
+### Bug Fixes
+
+* **me:** handle response property availability ([e6ee865](https://github.com/c-commerce/charles-browser-sdk/commit/e6ee865b0adff4bf1887e00f1e00703eb76b6738))
+
 # [3.89.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.88.1...v3.89.0) (2021-03-09)
 
 

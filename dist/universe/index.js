@@ -449,24 +449,25 @@ var Universe = (function (_super) {
         configurable: true
     });
     Universe.prototype.me = function () {
+        var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, response, err_3;
-            return tslib_1.__generator(this, function (_a) {
-                switch (_a.label) {
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
+                        _b.trys.push([0, 2, , 3]);
                         opts = {
                             method: 'GET',
                             url: this.universeBase + "/api/v0/me"
                         };
                         return [4, this.http.getClient()(opts)];
                     case 1:
-                        response = _a.sent();
+                        response = _b.sent();
                         this.setCachedMeData(response.data.data);
                         return [2, response.data.data];
                     case 2:
-                        err_3 = _a.sent();
-                        if (err_3.response.status === 401) {
+                        err_3 = _b.sent();
+                        if (((_a = err_3 === null || err_3 === void 0 ? void 0 : err_3.response) === null || _a === void 0 ? void 0 : _a.status) === 401) {
                             throw new UniverseUnauthenticatedError(undefined, { error: err_3 });
                         }
                         throw new UniverseMeError(undefined, { error: err_3 });
