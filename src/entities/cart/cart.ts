@@ -134,6 +134,7 @@ export interface CartTaxLineRawPayload {
 export interface CartRawPayload {
   readonly id?: string
   readonly created_at?: string
+  readonly currency?: string
   readonly updated_at?: string
   readonly deleted?: boolean
   readonly active?: boolean
@@ -171,6 +172,7 @@ export interface CartRawPayload {
 
 export interface CartPayload {
   readonly id?: CartRawPayload['id']
+  readonly currency?: CartRawPayload['currency']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
   readonly deleted?: boolean
@@ -320,6 +322,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   public endpoint: string
 
   public id?: CartPayload['id']
+  public currency?: CartPayload['currency']
   public createdAt?: CartPayload['createdAt']
   public updatedAt?: CartPayload['updatedAt']
   public deleted?: CartPayload['deleted']
@@ -372,6 +375,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
+    this.currency = rawPayload.currency
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.deleted = rawPayload.deleted ?? false
@@ -427,6 +431,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
 
     return {
       id: this.id,
+      currency: this.currency,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
