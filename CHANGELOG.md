@@ -1,3 +1,10 @@
+# [3.90.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.89.1...v3.90.0) (2021-03-10)
+
+
+### Features
+
+* **Cart:** Exponse currency ([1785800](https://github.com/c-commerce/charles-browser-sdk/commit/17858001a6e137d2f4cb48e8a59857a615ce020d))
+
 ## [3.89.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.89.0...v3.89.1) (2021-03-10)
 
 

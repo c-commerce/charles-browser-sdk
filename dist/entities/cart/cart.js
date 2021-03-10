@@ -95,6 +95,7 @@ var Cart = (function (_super) {
         var _a, _b, _c;
         this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
+        this.currency = rawPayload.currency;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
@@ -147,6 +148,7 @@ var Cart = (function (_super) {
         }
         return {
             id: this.id,
+            currency: this.currency,
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,

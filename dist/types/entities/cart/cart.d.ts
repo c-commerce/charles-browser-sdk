@@ -117,6 +117,7 @@ export interface CartTaxLineRawPayload {
 export interface CartRawPayload {
     readonly id?: string;
     readonly created_at?: string;
+    readonly currency?: string;
     readonly updated_at?: string;
     readonly deleted?: boolean;
     readonly active?: boolean;
@@ -153,6 +154,7 @@ export interface CartRawPayload {
 }
 export interface CartPayload {
     readonly id?: CartRawPayload['id'];
+    readonly currency?: CartRawPayload['currency'];
     readonly createdAt?: Date | null;
     readonly updatedAt?: Date | null;
     readonly deleted?: boolean;
@@ -229,6 +231,7 @@ export declare class Cart extends Entity<CartPayload, CartRawPayload> {
     initialized: boolean;
     endpoint: string;
     id?: CartPayload['id'];
+    currency?: CartPayload['currency'];
     createdAt?: CartPayload['createdAt'];
     updatedAt?: CartPayload['updatedAt'];
     deleted?: CartPayload['deleted'];
