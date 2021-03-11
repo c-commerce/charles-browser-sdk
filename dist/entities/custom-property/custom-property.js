@@ -55,6 +55,10 @@ var CustomProperty = (function (_super) {
         this.showIn = rawPayload.show_in;
         this.icon = rawPayload.icon;
         this.orderIndex = rawPayload.order_index;
+        this.proxyVendor = rawPayload.proxy_vendor;
+        this.isProxy = rawPayload.is_proxy;
+        this.externalReferenceId = rawPayload.external_reference_id;
+        this.externalLabel = rawPayload.external_label;
         return this;
     };
     CustomProperty.create = function (payload, universe, http) {
@@ -75,7 +79,11 @@ var CustomProperty = (function (_super) {
             description: this.description,
             show_in: this.showIn,
             icon: this.icon,
-            order_index: this.orderIndex
+            order_index: this.orderIndex,
+            proxy_vendor: this.proxyVendor,
+            is_proxy: this.isProxy,
+            external_reference_id: this.externalReferenceId,
+            external_label: this.externalLabel
         };
     };
     CustomProperty.prototype.init = function () {

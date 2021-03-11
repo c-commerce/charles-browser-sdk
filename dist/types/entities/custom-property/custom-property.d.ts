@@ -60,6 +60,10 @@ export interface CustomPropertyRawPayload {
     readonly show_in?: string[];
     readonly icon?: string;
     readonly order_index?: number | null;
+    readonly proxy_vendor?: string | any;
+    readonly is_proxy?: boolean | null;
+    readonly external_reference_id?: string | null;
+    readonly external_label?: object | null;
 }
 export interface CustomPropertyPayload {
     readonly id?: CustomPropertyRawPayload['id'];
@@ -75,6 +79,10 @@ export interface CustomPropertyPayload {
     readonly showIn?: CustomPropertyRawPayload['show_in'];
     readonly icon?: CustomPropertyRawPayload['icon'];
     readonly orderIndex?: CustomPropertyRawPayload['order_index'];
+    readonly proxyVendor?: CustomPropertyRawPayload['proxy_vendor'];
+    readonly isProxy?: CustomPropertyRawPayload['is_proxy'];
+    readonly externalReferenceId?: CustomPropertyRawPayload['external_reference_id'];
+    readonly externalLabel?: CustomPropertyRawPayload['external_label'];
 }
 export declare class CustomProperty extends Entity<CustomPropertyPayload, CustomPropertyRawPayload> {
     protected universe: Universe;
@@ -95,6 +103,10 @@ export declare class CustomProperty extends Entity<CustomPropertyPayload, Custom
     showIn?: CustomPropertyPayload['showIn'];
     icon?: CustomPropertyPayload['icon'];
     orderIndex?: CustomPropertyPayload['orderIndex'];
+    proxyVendor?: CustomPropertyPayload['proxyVendor'];
+    isProxy?: CustomPropertyPayload['isProxy'];
+    externalReferenceId?: CustomPropertyPayload['externalReferenceId'];
+    externalLabel?: CustomPropertyPayload['externalLabel'];
     constructor(options: CustomPropertyOptions);
     protected deserialize(rawPayload: CustomPropertyRawPayload): CustomProperty;
     static create(payload: CustomPropertyRawPayload, universe: Universe, http: Universe['http']): CustomProperty;

@@ -1,3 +1,10 @@
+## [3.90.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.90.0...v3.90.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* **custom properties:** add proxy vendor, is proxy, external ref id ([7c68312](https://github.com/c-commerce/charles-browser-sdk/commit/7c6831218fd61419c99311154f36c4a0e1f3b7a4))
+
 # [3.90.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.89.1...v3.90.0) (2021-03-10)
 
 
