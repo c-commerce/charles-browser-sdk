@@ -54,6 +54,11 @@ export interface CustomPropertyRawPayload {
   readonly show_in?: string[]
   readonly icon?: string
   readonly order_index?: number | null
+  readonly proxy_vendor?: string | any
+  readonly is_proxy?: boolean | null
+  readonly external_reference_id?: string | null
+  readonly external_label?: object | null
+
 }
 
 export interface CustomPropertyPayload {
@@ -71,6 +76,10 @@ export interface CustomPropertyPayload {
   readonly icon?: CustomPropertyRawPayload['icon']
   readonly orderIndex?: CustomPropertyRawPayload['order_index']
 
+  readonly proxyVendor?: CustomPropertyRawPayload['proxy_vendor']
+  readonly isProxy?: CustomPropertyRawPayload['is_proxy']
+  readonly externalReferenceId?: CustomPropertyRawPayload['external_reference_id']
+  readonly externalLabel?: CustomPropertyRawPayload['external_label']
 }
 
 /**
@@ -99,6 +108,10 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
   public showIn?: CustomPropertyPayload['showIn']
   public icon?: CustomPropertyPayload['icon']
   public orderIndex?: CustomPropertyPayload['orderIndex']
+  public proxyVendor?: CustomPropertyPayload['proxyVendor']
+  public isProxy?: CustomPropertyPayload['isProxy']
+  public externalReferenceId?: CustomPropertyPayload['externalReferenceId']
+  public externalLabel?: CustomPropertyPayload['externalLabel']
 
   constructor (options: CustomPropertyOptions) {
     super()
@@ -129,6 +142,10 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
     this.showIn = rawPayload.show_in
     this.icon = rawPayload.icon
     this.orderIndex = rawPayload.order_index
+    this.proxyVendor = rawPayload.proxy_vendor
+    this.isProxy = rawPayload.is_proxy
+    this.externalReferenceId = rawPayload.external_reference_id
+    this.externalLabel = rawPayload.external_label
 
     return this
   }
@@ -151,7 +168,11 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
       description: this.description,
       show_in: this.showIn,
       icon: this.icon,
-      order_index: this.orderIndex
+      order_index: this.orderIndex,
+      proxy_vendor: this.proxyVendor,
+      is_proxy: this.isProxy,
+      external_reference_id: this.externalReferenceId,
+      external_label: this.externalLabel
     }
   }
 
