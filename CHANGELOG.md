@@ -1,3 +1,10 @@
+# [3.91.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.90.2...v3.91.0) (2021-03-14)
+
+
+### Features
+
+* **Feed:** allow public default message subscription ([1be19cd](https://github.com/c-commerce/charles-browser-sdk/commit/1be19cdcbab2e435b19ac1e5709887cd3d38289c))
+
 ## [3.90.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.90.1...v3.90.2) (2021-03-14)
 
 

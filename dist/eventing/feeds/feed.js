@@ -109,29 +109,33 @@ var Feed = (function (_super) {
             }, rawAssets: contentOptions.rawAssets }, contentOptions));
     };
     Feed.prototype.init = function (options) {
-        var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var err_1;
-            var _this = this;
-            return tslib_1.__generator(this, function (_b) {
-                switch (_b.label) {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        _b.trys.push([0, 2, , 3]);
+                        _a.trys.push([0, 2, , 3]);
                         return [4, this.fetch(options)];
                     case 1:
-                        _b.sent();
-                        (_a = this.mqtt) === null || _a === void 0 ? void 0 : _a.on('message', function (msg) {
-                            _this.handleMessage(msg);
-                        });
-                        this.subscibeDefaults();
+                        _a.sent();
+                        this.setupDefaultMessageListeners();
                         return [2, this];
                     case 2:
-                        err_1 = _b.sent();
+                        err_1 = _a.sent();
                         throw this.handleError(new FeedInitializationError(undefined, { error: err_1 }));
                     case 3: return [2];
                 }
             });
         });
+    };
+    Feed.prototype.setupDefaultMessageListeners = function () {
+        var _this = this;
+        var _a;
+        (_a = this.mqtt) === null || _a === void 0 ? void 0 : _a.on('message', function (msg) {
+            _this.handleMessage(msg);
+        });
+        this.subscibeDefaults();
+        return this;
     };
     Object.defineProperty(Feed.prototype, "defaultSubscriptions", {
         get: function () {

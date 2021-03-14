@@ -97,6 +97,7 @@ export declare class Feed extends Entity<FeedPayload, FeedRawPayload> {
     serialize(): FeedRawPayload;
     reply(contentOptions: FeedReplyContentOptions): FeedReply;
     init(options?: EntityFetchOptions): Promise<Feed | undefined>;
+    setupDefaultMessageListeners(): Feed;
     private get defaultSubscriptions();
     deinitialize(): void;
     private subscibeDefaults;
