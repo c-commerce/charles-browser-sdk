@@ -232,6 +232,11 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
     })
   }
 
+  /**
+   * fetches the feed and initializes the topic listeners. Only call this
+   * when you want to do this in one go.
+   * @param options
+   */
   public async init (options?: EntityFetchOptions): Promise<Feed | undefined> {
     try {
       await this.fetch(options)
