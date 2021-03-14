@@ -1,3 +1,10 @@
+## [3.90.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.90.1...v3.90.2) (2021-03-14)
+
+
+### Bug Fixes
+
+* **docs/Feed:** clarify init ([0b8c24f](https://github.com/c-commerce/charles-browser-sdk/commit/0b8c24febe91d32de08c504490b4b3fa83dc6a0d))
+
 ## [3.90.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.90.0...v3.90.1) (2021-03-11)
 
 
