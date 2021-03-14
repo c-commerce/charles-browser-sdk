@@ -235,22 +235,30 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   /**
    * fetches the feed and initializes the topic listeners. Only call this
    * when you want to do this in one go.
+   *
+   * Else, call {@link Feed.fetch} and {@link Feed.setupDefaultMessageListeners} separately.
    * @param options
    */
   public async init (options?: EntityFetchOptions): Promise<Feed | undefined> {
     try {
       await this.fetch(options)
 
-      this.mqtt?.on('message', (msg) => {
-        this.handleMessage(msg)
-      })
-
-      this.subscibeDefaults()
+      this.setupDefaultMessageListeners()
 
       return this
     } catch (err) {
       throw this.handleError(new FeedInitializationError(undefined, { error: err }))
     }
+  }
+
+  public setupDefaultMessageListeners (): Feed {
+    this.mqtt?.on('message', (msg) => {
+      this.handleMessage(msg)
+    })
+
+    this.subscibeDefaults()
+
+    return this
   }
 
   private get defaultSubscriptions (): string[] {
