@@ -1,3 +1,10 @@
+# [3.93.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.92.0...v3.93.0) (2021-03-18)
+
+
+### Features
+
+* **crm:** sync pipelines ([e701924](https://github.com/c-commerce/charles-browser-sdk/commit/e701924af3766ab7237694f4256ae07361395230))
+
 # [3.92.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.91.0...v3.92.0) (2021-03-18)
 
 
