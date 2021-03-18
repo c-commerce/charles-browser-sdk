@@ -1,3 +1,10 @@
+# [3.92.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.91.0...v3.92.0) (2021-03-18)
+
+
+### Features
+
+* **CRM:** sync deals ([4645dc4](https://github.com/c-commerce/charles-browser-sdk/commit/4645dc45cde715ab14d8a5961d35faa6106b3923))
+
 # [3.91.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.90.2...v3.91.0) (2021-03-14)
 
 

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CRMSyncCustomPropertiesRemoteError = exports.CRMsFetchRemoteError = exports.CRMFetchRemoteError = exports.CRMInitializationError = exports.CRMs = exports.CRM = void 0;
+exports.CRMSyncDealsRemoteError = exports.CRMSyncCustomPropertiesRemoteError = exports.CRMsFetchRemoteError = exports.CRMFetchRemoteError = exports.CRMInitializationError = exports.CRMs = exports.CRM = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
@@ -112,6 +112,39 @@ var CRM = (function (_super) {
             });
         });
     };
+    CRM.prototype.syncDeals = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_3;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('CRM syncDeals requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/deals",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_3 = _b.sent();
+                        throw this.handleError(new CRMSyncDealsRemoteError(undefined, { error: err_3 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return CRM;
 }(_base_1.default));
 exports.CRM = CRM;
@@ -174,4 +207,17 @@ var CRMSyncCustomPropertiesRemoteError = (function (_super) {
     return CRMSyncCustomPropertiesRemoteError;
 }(errors_1.BaseError));
 exports.CRMSyncCustomPropertiesRemoteError = CRMSyncCustomPropertiesRemoteError;
+var CRMSyncDealsRemoteError = (function (_super) {
+    tslib_1.__extends(CRMSyncDealsRemoteError, _super);
+    function CRMSyncDealsRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not start sync of crm deals.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CRMSyncDealsRemoteError';
+        Object.setPrototypeOf(_this, CRMSyncDealsRemoteError.prototype);
+        return _this;
+    }
+    return CRMSyncDealsRemoteError;
+}(errors_1.BaseError));
+exports.CRMSyncDealsRemoteError = CRMSyncDealsRemoteError;
 //# sourceMappingURL=crm.js.map
