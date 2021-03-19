@@ -1,3 +1,10 @@
+## [3.95.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.95.0...v3.95.1) (2021-03-19)
+
+
+### Bug Fixes
+
+* **deal:** add missing properties ([8455359](https://github.com/c-commerce/charles-browser-sdk/commit/845535967f782112e016471a897635779ae36bce))
+
 # [3.95.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.94.0...v3.95.0) (2021-03-19)
 
 

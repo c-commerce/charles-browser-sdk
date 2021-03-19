@@ -32,6 +32,28 @@ var Deal = (function (_super) {
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
         this.person = rawPayload.person;
+        this.name = rawPayload.name;
+        this.uri = rawPayload.uri;
+        this.proxyVendor = rawPayload.proxy_vendor;
+        this.kind = rawPayload.kind;
+        this.externalReferenceId = rawPayload.external_reference_id;
+        this.channelUser = rawPayload.channel_user;
+        this.stageExternalReferenceId = rawPayload.stage_external_reference_id;
+        this.crm = rawPayload.crm;
+        this.currency = rawPayload.currency;
+        this.value = rawPayload.value;
+        this.status = rawPayload.status;
+        this.probability = rawPayload.probability;
+        this.date = rawPayload.date;
+        this.nextActivityAt = rawPayload.next_activity_at;
+        this.closedAt = rawPayload.closed_at;
+        this.wonAt = rawPayload.won_at;
+        this.lostAt = rawPayload.lost_at;
+        this.expectedClosingAt = rawPayload.expected_closing_at;
+        this.pipelineExternalReferenceId = rawPayload.pipeline_external_reference_id;
+        this.author = rawPayload.author;
+        this.owner = rawPayload.owner;
+        this.proxyPayload = rawPayload.proxy_payload;
         if (rawPayload.stage && this.initialized) {
             this.stage = crm_1.PipelineStage.create(rawPayload.stage, this.universe, this.http);
         }
@@ -65,7 +87,29 @@ var Deal = (function (_super) {
             active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
             pipeline: this.pipeline,
             stage: this.stage,
-            person: this.person
+            person: this.person,
+            name: this.name,
+            uri: this.uri,
+            proxy_vendor: this.proxyVendor,
+            kind: this.kind,
+            external_reference_id: this.externalReferenceId,
+            channel_user: this.channelUser,
+            stage_external_reference_id: this.stageExternalReferenceId,
+            crm: this.crm,
+            currency: this.currency,
+            value: this.value,
+            status: this.status,
+            probability: this.probability,
+            date: this.date,
+            next_activity_at: this.nextActivityAt,
+            closed_at: this.closedAt,
+            won_at: this.wonAt,
+            lost_at: this.lostAt,
+            expected_closing_at: this.expectedClosingAt,
+            pipeline_external_reference_id: this.pipelineExternalReferenceId,
+            author: this.author,
+            owner: this.owner,
+            proxy_payload: this.proxyPayload
         };
     };
     Deal.prototype.init = function () {
