@@ -2,7 +2,7 @@
 import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { Pipeline, PipelineStage } from '../crm'
+import { CRM, Pipeline, PipelineStage } from '../crm'
 
 export interface DealOptions extends EntityOptions {
   rawPayload?: DealRawPayload
@@ -18,6 +18,28 @@ export interface DealRawPayload {
   readonly pipeline?: Pipeline
   readonly stage?: PipelineStage
   readonly person?: string
+  readonly name?: string
+  readonly uri?: string
+  readonly proxy_vendor?: string
+  readonly kind?: string
+  readonly external_reference_id?: string
+  readonly channel_user?: string
+  readonly stage_external_reference_id?: string
+  readonly crm?: string
+  readonly currency?: string
+  readonly value?: number | string
+  readonly status?: string
+  readonly probability?: string
+  readonly date?: string
+  readonly next_activity_at?: string
+  readonly closed_at?: string
+  readonly won_at?: string
+  readonly lost_at?: string
+  readonly expected_closing_at?: string
+  readonly pipeline_external_reference_id?: string
+  readonly author?: object | string
+  readonly owner?: object | string
+  readonly proxy_payload?: object
 
 }
 
@@ -31,6 +53,28 @@ export interface DealPayload {
   readonly pipeline?: DealRawPayload['pipeline']
   readonly stage?: DealRawPayload['stage']
   readonly person?: DealRawPayload['person']
+  readonly name?: DealRawPayload['name']
+  readonly uri?: DealRawPayload['uri']
+  readonly proxyVendor?: DealRawPayload['proxy_vendor']
+  readonly kind?: DealRawPayload['kind']
+  readonly externalReferenceId?: DealRawPayload['external_reference_id']
+  readonly channelUser?: DealRawPayload['channel_user']
+  readonly stageExternalReferenceId?: DealRawPayload['stage_external_reference_id']
+  readonly crm?: DealRawPayload['crm']
+  readonly currency?: DealRawPayload['currency']
+  readonly value?: DealRawPayload['value']
+  readonly status?: DealRawPayload['status']
+  readonly probability?: DealRawPayload['probability']
+  readonly date?: DealRawPayload['date']
+  readonly nextActivityAt?: DealRawPayload['next_activity_at']
+  readonly closedAt?: DealRawPayload['closed_at']
+  readonly wonAt?: DealRawPayload['won_at']
+  readonly lostAt?: DealRawPayload['lost_at']
+  readonly expectedClosingAt?: DealRawPayload['expected_closing_at']
+  readonly pipelineExternalReferenceId?: DealRawPayload['pipeline_external_reference_id']
+  readonly author?: DealRawPayload['author']
+  readonly owner?: DealRawPayload['owner']
+  readonly proxyPayload?: DealRawPayload['proxy_payload']
 }
 
 /**
@@ -55,6 +99,28 @@ export class Deal extends Entity<DealPayload, DealRawPayload> {
   public pipeline?: DealPayload['pipeline']
   public stage?: DealPayload['stage']
   public person?: DealPayload['person']
+  public name?: DealPayload['name']
+  public uri?: DealPayload['uri']
+  public proxyVendor?: DealPayload['proxyVendor']
+  public kind?: DealPayload['kind']
+  public externalReferenceId?: DealPayload['externalReferenceId']
+  public channelUser?: DealPayload['channelUser']
+  public stageExternalReferenceId?: DealPayload['stageExternalReferenceId']
+  public crm?: DealPayload['crm']
+  public currency?: DealPayload['currency']
+  public value?: DealPayload['value']
+  public status?: DealPayload['status']
+  public probability?: DealPayload['probability']
+  public date?: DealPayload['date']
+  public nextActivityAt?: DealPayload['nextActivityAt']
+  public closedAt?: DealPayload['closedAt']
+  public wonAt?: DealPayload['wonAt']
+  public lostAt?: DealPayload['lostAt']
+  public expectedClosingAt?: DealPayload['expectedClosingAt']
+  public pipelineExternalReferenceId?: DealPayload['pipelineExternalReferenceId']
+  public author?: DealPayload['author']
+  public owner?: DealPayload['owner']
+  public proxyPayload?: DealPayload['proxyPayload']
 
   constructor (options: DealOptions) {
     super()
@@ -83,6 +149,28 @@ export class Deal extends Entity<DealPayload, DealRawPayload> {
     this.active = rawPayload.active ?? true
 
     this.person = rawPayload.person
+    this.name = rawPayload.name
+    this.uri = rawPayload.uri
+    this.proxyVendor = rawPayload.proxy_vendor
+    this.kind = rawPayload.kind
+    this.externalReferenceId = rawPayload.external_reference_id
+    this.channelUser = rawPayload.channel_user
+    this.stageExternalReferenceId = rawPayload.stage_external_reference_id
+    this.crm = rawPayload.crm
+    this.currency = rawPayload.currency
+    this.value = rawPayload.value
+    this.status = rawPayload.status
+    this.probability = rawPayload.probability
+    this.date = rawPayload.date
+    this.nextActivityAt = rawPayload.next_activity_at
+    this.closedAt = rawPayload.closed_at
+    this.wonAt = rawPayload.won_at
+    this.lostAt = rawPayload.lost_at
+    this.expectedClosingAt = rawPayload.expected_closing_at
+    this.pipelineExternalReferenceId = rawPayload.pipeline_external_reference_id
+    this.author = rawPayload.author
+    this.owner = rawPayload.owner
+    this.proxyPayload = rawPayload.proxy_payload
 
     if (rawPayload.stage && this.initialized) {
       this.stage = PipelineStage.create(rawPayload.stage, this.universe, this.http)
@@ -117,7 +205,29 @@ export class Deal extends Entity<DealPayload, DealRawPayload> {
 
       pipeline: this.pipeline,
       stage: this.stage,
-      person: this.person
+      person: this.person,
+      name: this.name,
+      uri: this.uri,
+      proxy_vendor: this.proxyVendor,
+      kind: this.kind,
+      external_reference_id: this.externalReferenceId,
+      channel_user: this.channelUser,
+      stage_external_reference_id: this.stageExternalReferenceId,
+      crm: this.crm,
+      currency: this.currency,
+      value: this.value,
+      status: this.status,
+      probability: this.probability,
+      date: this.date,
+      next_activity_at: this.nextActivityAt,
+      closed_at: this.closedAt,
+      won_at: this.wonAt,
+      lost_at: this.lostAt,
+      expected_closing_at: this.expectedClosingAt,
+      pipeline_external_reference_id: this.pipelineExternalReferenceId,
+      author: this.author,
+      owner: this.owner,
+      proxy_payload: this.proxyPayload
     }
   }
 
