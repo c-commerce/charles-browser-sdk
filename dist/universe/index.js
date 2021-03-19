@@ -51,6 +51,7 @@ var favorite = tslib_1.__importStar(require("../entities/favorite/favorite"));
 var knowledgeBase = tslib_1.__importStar(require("../entities/knowledge-base/knowledge-base"));
 var knowledgeBaseFaqItem = tslib_1.__importStar(require("../entities/knowledge-base-faq-item/knowledge-base-faq-item"));
 var crm = tslib_1.__importStar(require("../entities/crm/crm"));
+var deal = tslib_1.__importStar(require("../entities/deal/deal"));
 var UniverseUnauthenticatedError = (function (_super) {
     tslib_1.__extends(UniverseUnauthenticatedError, _super);
     function UniverseUnauthenticatedError(message, properties) {
@@ -402,6 +403,9 @@ var Universe = (function (_super) {
     };
     Universe.prototype.crm = function (payload) {
         return crm.CRM.create(payload, this, this.http);
+    };
+    Universe.prototype.deal = function (payload) {
+        return deal.Deal.create(payload, this, this.http);
     };
     Universe.prototype.apiRequest = function (options) {
         var _a;
@@ -1925,6 +1929,16 @@ var Universe = (function (_super) {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, this.makeBaseResourceListRequest(crm.CRM, crm.CRMs, crm.CRMsFetchRemoteError, options)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Universe.prototype.deals = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.makeBaseResourceListRequest(deal.Deal, deal.Deals, deal.DealsFetchRemoteError, options)];
                     case 1: return [2, _a.sent()];
                 }
             });

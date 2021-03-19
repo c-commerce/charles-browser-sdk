@@ -1,3 +1,10 @@
+# [3.94.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.93.0...v3.94.0) (2021-03-19)
+
+
+### Features
+
+* **deals:** add resource ([9e6f00e](https://github.com/c-commerce/charles-browser-sdk/commit/9e6f00e2a38dcea430cb45c0a85560eaa9fec8e8))
+
 # [3.93.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.92.0...v3.93.0) (2021-03-18)
 
 
