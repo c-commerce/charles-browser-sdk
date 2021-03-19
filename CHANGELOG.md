@@ -1,3 +1,10 @@
+## [3.95.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.95.1...v3.95.2) (2021-03-19)
+
+
+### Bug Fixes
+
+* **pipeline:** deserialize stages properly ([af92bb9](https://github.com/c-commerce/charles-browser-sdk/commit/af92bb938e362970d84a0a39e2f9dc6b08d7ceac))
+
 ## [3.95.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.95.0...v3.95.1) (2021-03-19)
 
 

@@ -4,6 +4,7 @@ exports.PipelinesFetchRemoteError = exports.PipelineFetchRemoteError = exports.P
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+var pipeline_stage_1 = require("./pipeline-stage");
 var Pipeline = (function (_super) {
     tslib_1.__extends(Pipeline, _super);
     function Pipeline(options) {
@@ -23,6 +24,7 @@ var Pipeline = (function (_super) {
         return _this;
     }
     Pipeline.prototype.deserialize = function (rawPayload) {
+        var _this = this;
         var _a, _b;
         this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
@@ -34,9 +36,21 @@ var Pipeline = (function (_super) {
         this.externalReferenceId = rawPayload.external_reference_id;
         this.kind = rawPayload.kind;
         this.crm = rawPayload.crm;
-        this.stages = rawPayload.stages;
         this.proxyVendor = rawPayload.proxy_vendor;
         this.proxyPayload = rawPayload.proxy_payload;
+        if (rawPayload.stages && this.initialized) {
+            this.stages = rawPayload.stages.map(function (i) {
+                return pipeline_stage_1.PipelineStage.create(i, _this.universe, _this.http);
+            });
+        }
+        else if (rawPayload.stages && !this.initialized) {
+            this.stages = rawPayload.stages.map(function (i) {
+                return pipeline_stage_1.PipelineStage.createUninitialized(i, _this.universe, _this.http);
+            });
+        }
+        else if (!this.stages) {
+            this.stages = undefined;
+        }
         return this;
     };
     Pipeline.create = function (payload, universe, http) {
