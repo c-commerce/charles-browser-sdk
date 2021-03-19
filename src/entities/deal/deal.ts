@@ -2,6 +2,7 @@
 import Entity, { EntityOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { Pipeline, PipelineStage } from '../crm'
 
 export interface DealOptions extends EntityOptions {
   rawPayload?: DealRawPayload
@@ -14,8 +15,8 @@ export interface DealRawPayload {
   readonly deleted?: boolean
   readonly active?: boolean
 
-  readonly pipeline?: string
-  readonly stage?: string
+  readonly pipeline?: Pipeline
+  readonly stage?: PipelineStage
   readonly person?: string
 
 }
@@ -63,6 +64,10 @@ export class Deal extends Entity<DealPayload, DealRawPayload> {
     this.options = options
     this.initialized = options.initialized ?? false
 
+    if (options?.rawPayload && options.rawPayload.person) {
+      this.endpoint = `api/v0/people/${options.rawPayload.person}/deals`
+    }
+
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
     }
@@ -77,9 +82,23 @@ export class Deal extends Entity<DealPayload, DealRawPayload> {
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
 
-    this.pipeline = rawPayload.pipeline
-    this.stage = rawPayload.stage
     this.person = rawPayload.person
+
+    if (rawPayload.stage && this.initialized) {
+      this.stage = PipelineStage.create(rawPayload.stage, this.universe, this.http)
+    } else if (rawPayload.stage && !this.initialized) {
+      this.stage = PipelineStage.createUninitialized(rawPayload.stage, this.universe, this.http)
+    } else if (!this.stage) {
+      this.stage = undefined
+    }
+
+    if (rawPayload.pipeline && this.initialized) {
+      this.pipeline = Pipeline.create(rawPayload.pipeline, this.universe, this.http)
+    } else if (rawPayload.pipeline && !this.initialized) {
+      this.pipeline = Pipeline.createUninitialized(rawPayload.pipeline, this.universe, this.http)
+    } else if (!this.pipeline) {
+      this.pipeline = undefined
+    }
 
     return this
   }

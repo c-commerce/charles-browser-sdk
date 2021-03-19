@@ -56,8 +56,10 @@ import * as favorite from '../entities/favorite/favorite'
 import * as knowledgeBase from '../entities/knowledge-base/knowledge-base'
 import * as knowledgeBaseFaqItem from '../entities/knowledge-base-faq-item/knowledge-base-faq-item'
 import * as crm from '../entities/crm/crm'
-
 import * as deal from '../entities/deal/deal'
+import * as pipeline from '../entities/crm/pipeline'
+import * as pipelineStage from '../entities/crm/pipeline-stage'
+import * as dealEvent from '../entities/deal/deal-event'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -753,6 +755,18 @@ export class Universe extends Readable {
 
   public deal (payload: deal.DealRawPayload): deal.Deal {
     return deal.Deal.create(payload, this, this.http)
+  }
+
+  public pipeline (payload: pipeline.PipelineRawPayload): pipeline.Pipeline {
+    return pipeline.Pipeline.create(payload, this, this.http)
+  }
+
+  public pipelineStage (payload: pipelineStage.PipelineStageRawPayload): pipelineStage.PipelineStage {
+    return pipelineStage.PipelineStage.create(payload, this, this.http)
+  }
+
+  public dealEvent (payload: dealEvent.DealEventRawPayload): dealEvent.DealEvent {
+    return dealEvent.DealEvent.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.

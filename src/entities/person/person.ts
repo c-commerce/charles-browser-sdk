@@ -15,6 +15,7 @@ import { Email, EmailRawPayload, EmailsFetchRemoteError } from './email'
 import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } from '../cart/cart'
 import omit from 'just-omit'
 import qs from 'qs'
+import { Deal, DealRawPayload } from '../deal/deal'
 
 export interface PersonOptions extends EntityOptions {
   rawPayload?: PersonRawPayload
@@ -126,6 +127,12 @@ export interface PersonRawPayload extends EntityRawPayload {
 }
 
 export interface IPersonCarts {
+  fetch: Function
+  fromJson: Function
+  toJson: Function
+  create: Function
+}
+export interface IPersonDeals {
   fetch: Function
   fromJson: Function
   toJson: Function
@@ -552,7 +559,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
    * ```js
    * // fetch all carts of a person
    * await person.carts.fetch()
-   * // fetch all feeds as raw structs with some query options
+   * // fetch all carts as raw structs with some query options
    * await person.carts.fetch({ raw: true })
    * // cast a list of class instances to list of structs
    * person.carts.toJson([cart])
@@ -567,8 +574,8 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
       fromJson: (payloads: CartRawPayload[]): Cart[] => {
         return payloads.map(item => Cart.create(item, this.universe, this.http))
       },
-      toJson: (feeds: Cart[]): CartRawPayload[] => {
-        return feeds.map(item => item.serialize())
+      toJson: (payloads: Cart[]): CartRawPayload[] => {
+        return payloads.map(item => item.serialize())
       },
       fetch: async (options?: EntityFetchOptions): Promise<Cart[] | CartRawPayload[] | undefined> => {
         try {
@@ -580,14 +587,14 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
             }
           }
           const res = await this.http.getClient()(opts)
-          const feeds = res.data.data as CartRawPayload[]
+          const carts = res.data.data as CartRawPayload[]
 
           if (options && options.raw === true) {
-            return feeds
+            return carts
           }
 
-          return feeds.map((feed: CartRawPayload) => {
-            return Cart.create(feed, this.universe, this.http)
+          return carts.map((cart: CartRawPayload) => {
+            return Cart.create(cart, this.universe, this.http)
           })
         } catch (err) {
           throw new CartsFetchRemoteError(undefined, { error: err })
@@ -603,8 +610,8 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
           const res = await this.http.getClient()(opts)
           const carts = res.data.data as CartRawPayload[]
 
-          return carts.map((feed: CartRawPayload) => {
-            return Cart.create(feed, this.universe, this.http)
+          return carts.map((cart: CartRawPayload) => {
+            return Cart.create(cart, this.universe, this.http)
           })[0]
         } catch (err) {
           throw new CartCreateRemoteError(undefined, { error: err })
@@ -614,20 +621,74 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   }
 
   /**
-   * Address accessor
+   * Deals accessor
    *
    * ```js
-   * // fetch all addresses of a person
-   * await person.addresses.fetch()
-   * // fetch all feeds as raw structs with some query options
-   * await person.addresses.fetch({ raw: true })
+   * // fetch all deals of a person
+   * await person.deals.fetch()
+   * // fetch all deals as raw structs with some query options
+   * await person.deals.fetch({ raw: true })
    * // cast a list of class instances to list of structs
-   * person.addresses.toJson([cart])
+   * person.deals.toJson([deal])
    * // cast a list of structs to list of class instances
-   * person.addresses.fromJson([cart])
-   * // create a cart for this person
-   * person.addresses.create(cart)
+   * person.deals.fromJson([deal])
+   * // create a deal for this person
+   * person.deals.create(deal)
    * ```
+   */
+  public get deals (): IPersonDeals {
+    return {
+      fromJson: (payloads: DealRawPayload[]): Deal[] => {
+        return payloads.map(item => Deal.create(item, this.universe, this.http))
+      },
+      toJson: (payloads: Deal[]): DealRawPayload[] => {
+        return payloads.map(item => item.serialize())
+      },
+      fetch: async (options?: EntityFetchOptions): Promise<Deal[] | DealRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/deals`,
+            params: {
+              ...(options?.query ? options.query : {})
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const deals = res.data.data as DealRawPayload[]
+
+          if (options && options.raw === true) {
+            return deals
+          }
+
+          return deals.map((deal: DealRawPayload) => {
+            return Deal.create(deal, this.universe, this.http)
+          })
+        } catch (err) {
+          throw new DealsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      create: async (deal: DealRawPayload): Promise<Deal | undefined> => {
+        try {
+          const opts = {
+            method: 'POST',
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/deals`,
+            data: deal
+          }
+          const res = await this.http.getClient()(opts)
+          const deals = res.data.data as DealRawPayload[]
+
+          return deals.map((deal: DealRawPayload) => {
+            return Deal.create(deal, this.universe, this.http)
+          })[0]
+        } catch (err) {
+          throw new DealCreateRemoteError(undefined, { error: err })
+        }
+      }
+    }
+  }
+
+  /**
+   * Address accessor
    */
   get addresses (): AddressArray<Address> {
     const ret = new AddressArray<Address>(this._addresses ?? [], this.universe, this.http, this)
@@ -1005,5 +1066,19 @@ export class PersonEmailDeleteError extends BaseError {
   constructor (public message: string = 'Could not delete email for person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonEmailDeleteError.prototype)
+  }
+}
+export class DealsFetchRemoteError extends BaseError {
+  public name = 'DealsFetchRemoteError'
+  constructor (public message: string = 'Could not fetch deals for person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, DealsFetchRemoteError.prototype)
+  }
+}
+export class DealCreateRemoteError extends BaseError {
+  public name = 'DealCreateRemoteError'
+  constructor (public message: string = 'Could not create deal for person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, DealCreateRemoteError.prototype)
   }
 }
