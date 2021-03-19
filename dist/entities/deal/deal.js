@@ -4,6 +4,7 @@ exports.DealsFetchRemoteError = exports.DealFetchRemoteError = exports.DealIniti
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+var crm_1 = require("../crm");
 var Deal = (function (_super) {
     tslib_1.__extends(Deal, _super);
     function Deal(options) {
@@ -14,6 +15,9 @@ var Deal = (function (_super) {
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
+        if ((options === null || options === void 0 ? void 0 : options.rawPayload) && options.rawPayload.person) {
+            _this.endpoint = "api/v0/people/" + options.rawPayload.person + "/deals";
+        }
         if (options === null || options === void 0 ? void 0 : options.rawPayload) {
             _this.deserialize(options.rawPayload);
         }
@@ -27,9 +31,25 @@ var Deal = (function (_super) {
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
-        this.pipeline = rawPayload.pipeline;
-        this.stage = rawPayload.stage;
         this.person = rawPayload.person;
+        if (rawPayload.stage && this.initialized) {
+            this.stage = crm_1.PipelineStage.create(rawPayload.stage, this.universe, this.http);
+        }
+        else if (rawPayload.stage && !this.initialized) {
+            this.stage = crm_1.PipelineStage.createUninitialized(rawPayload.stage, this.universe, this.http);
+        }
+        else if (!this.stage) {
+            this.stage = undefined;
+        }
+        if (rawPayload.pipeline && this.initialized) {
+            this.pipeline = crm_1.Pipeline.create(rawPayload.pipeline, this.universe, this.http);
+        }
+        else if (rawPayload.pipeline && !this.initialized) {
+            this.pipeline = crm_1.Pipeline.createUninitialized(rawPayload.pipeline, this.universe, this.http);
+        }
+        else if (!this.pipeline) {
+            this.pipeline = undefined;
+        }
         return this;
     };
     Deal.create = function (payload, universe, http) {

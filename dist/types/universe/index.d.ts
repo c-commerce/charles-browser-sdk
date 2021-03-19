@@ -45,6 +45,9 @@ import * as knowledgeBase from '../entities/knowledge-base/knowledge-base';
 import * as knowledgeBaseFaqItem from '../entities/knowledge-base-faq-item/knowledge-base-faq-item';
 import * as crm from '../entities/crm/crm';
 import * as deal from '../entities/deal/deal';
+import * as pipeline from '../entities/crm/pipeline';
+import * as pipelineStage from '../entities/crm/pipeline-stage';
+import * as dealEvent from '../entities/deal/deal-event';
 export interface UniverseUser {
     id?: string;
     accessToken?: string;
@@ -325,6 +328,9 @@ export declare class Universe extends Readable {
     knowledgeBaseFaqItem(payload: knowledgeBaseFaqItem.KnowledgeBaseFaqItemRawPayload): knowledgeBaseFaqItem.KnowledgeBaseFaqItem;
     crm(payload: crm.CRMRawPayload): crm.CRM;
     deal(payload: deal.DealRawPayload): deal.Deal;
+    pipeline(payload: pipeline.PipelineRawPayload): pipeline.Pipeline;
+    pipelineStage(payload: pipelineStage.PipelineStageRawPayload): pipelineStage.PipelineStage;
+    dealEvent(payload: dealEvent.DealEventRawPayload): dealEvent.DealEvent;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{

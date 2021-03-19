@@ -1,6 +1,7 @@
 import Entity, { EntityOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { Pipeline, PipelineStage } from '../crm';
 export interface DealOptions extends EntityOptions {
     rawPayload?: DealRawPayload;
 }
@@ -10,8 +11,8 @@ export interface DealRawPayload {
     readonly updated_at?: string;
     readonly deleted?: boolean;
     readonly active?: boolean;
-    readonly pipeline?: string;
-    readonly stage?: string;
+    readonly pipeline?: Pipeline;
+    readonly stage?: PipelineStage;
     readonly person?: string;
 }
 export interface DealPayload {

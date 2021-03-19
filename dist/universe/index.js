@@ -52,6 +52,9 @@ var knowledgeBase = tslib_1.__importStar(require("../entities/knowledge-base/kno
 var knowledgeBaseFaqItem = tslib_1.__importStar(require("../entities/knowledge-base-faq-item/knowledge-base-faq-item"));
 var crm = tslib_1.__importStar(require("../entities/crm/crm"));
 var deal = tslib_1.__importStar(require("../entities/deal/deal"));
+var pipeline = tslib_1.__importStar(require("../entities/crm/pipeline"));
+var pipelineStage = tslib_1.__importStar(require("../entities/crm/pipeline-stage"));
+var dealEvent = tslib_1.__importStar(require("../entities/deal/deal-event"));
 var UniverseUnauthenticatedError = (function (_super) {
     tslib_1.__extends(UniverseUnauthenticatedError, _super);
     function UniverseUnauthenticatedError(message, properties) {
@@ -406,6 +409,15 @@ var Universe = (function (_super) {
     };
     Universe.prototype.deal = function (payload) {
         return deal.Deal.create(payload, this, this.http);
+    };
+    Universe.prototype.pipeline = function (payload) {
+        return pipeline.Pipeline.create(payload, this, this.http);
+    };
+    Universe.prototype.pipelineStage = function (payload) {
+        return pipelineStage.PipelineStage.create(payload, this, this.http);
+    };
+    Universe.prototype.dealEvent = function (payload) {
+        return dealEvent.DealEvent.create(payload, this, this.http);
     };
     Universe.prototype.apiRequest = function (options) {
         var _a;

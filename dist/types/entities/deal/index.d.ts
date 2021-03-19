@@ -1,2 +1,3 @@
 import { Deal, Deals, DealsFetchRemoteError } from './deal';
-export { Deal, Deals, DealsFetchRemoteError };
+import { DealEvent, DealEventFetchRemoteError } from './deal-event';
+export { Deal, Deals, DealsFetchRemoteError, DealEvent, DealEventFetchRemoteError };

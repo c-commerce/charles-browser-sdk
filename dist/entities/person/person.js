@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
+exports.DealCreateRemoteError = exports.DealsFetchRemoteError = exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importStar(require("../_base"));
 var errors_1 = require("../../errors");
@@ -11,6 +11,7 @@ var email_1 = require("./email");
 var cart_1 = require("../cart/cart");
 var just_omit_1 = tslib_1.__importDefault(require("just-omit"));
 var qs_1 = tslib_1.__importDefault(require("qs"));
+var deal_1 = require("../deal/deal");
 var AddressArray = (function (_super) {
     tslib_1.__extends(AddressArray, _super);
     function AddressArray(items, universe, http, person) {
@@ -404,11 +405,11 @@ var Person = (function (_super) {
                 fromJson: function (payloads) {
                     return payloads.map(function (item) { return cart_1.Cart.create(item, _this.universe, _this.http); });
                 },
-                toJson: function (feeds) {
-                    return feeds.map(function (item) { return item.serialize(); });
+                toJson: function (payloads) {
+                    return payloads.map(function (item) { return item.serialize(); });
                 },
                 fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, feeds, err_8;
+                    var opts, res, carts, err_8;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -422,12 +423,12 @@ var Person = (function (_super) {
                                 return [4, this.http.getClient()(opts)];
                             case 1:
                                 res = _a.sent();
-                                feeds = res.data.data;
+                                carts = res.data.data;
                                 if (options && options.raw === true) {
-                                    return [2, feeds];
+                                    return [2, carts];
                                 }
-                                return [2, feeds.map(function (feed) {
-                                        return cart_1.Cart.create(feed, _this.universe, _this.http);
+                                return [2, carts.map(function (cart) {
+                                        return cart_1.Cart.create(cart, _this.universe, _this.http);
                                     })];
                             case 2:
                                 err_8 = _a.sent();
@@ -452,12 +453,82 @@ var Person = (function (_super) {
                             case 1:
                                 res = _a.sent();
                                 carts = res.data.data;
-                                return [2, carts.map(function (feed) {
-                                        return cart_1.Cart.create(feed, _this.universe, _this.http);
+                                return [2, carts.map(function (cart) {
+                                        return cart_1.Cart.create(cart, _this.universe, _this.http);
                                     })[0]];
                             case 2:
                                 err_9 = _a.sent();
                                 throw new cart_1.CartCreateRemoteError(undefined, { error: err_9 });
+                            case 3: return [2];
+                        }
+                    });
+                }); }
+            };
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Person.prototype, "deals", {
+        get: function () {
+            var _this = this;
+            return {
+                fromJson: function (payloads) {
+                    return payloads.map(function (item) { return deal_1.Deal.create(item, _this.universe, _this.http); });
+                },
+                toJson: function (payloads) {
+                    return payloads.map(function (item) { return item.serialize(); });
+                },
+                fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    var opts, res, deals, err_10;
+                    var _this = this;
+                    return tslib_1.__generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'GET',
+                                    url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/deals",
+                                    params: tslib_1.__assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
+                                };
+                                return [4, this.http.getClient()(opts)];
+                            case 1:
+                                res = _a.sent();
+                                deals = res.data.data;
+                                if (options && options.raw === true) {
+                                    return [2, deals];
+                                }
+                                return [2, deals.map(function (deal) {
+                                        return deal_1.Deal.create(deal, _this.universe, _this.http);
+                                    })];
+                            case 2:
+                                err_10 = _a.sent();
+                                throw new DealsFetchRemoteError(undefined, { error: err_10 });
+                            case 3: return [2];
+                        }
+                    });
+                }); },
+                create: function (deal) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    var opts, res, deals, err_11;
+                    var _this = this;
+                    return tslib_1.__generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'POST',
+                                    url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/deals",
+                                    data: deal
+                                };
+                                return [4, this.http.getClient()(opts)];
+                            case 1:
+                                res = _a.sent();
+                                deals = res.data.data;
+                                return [2, deals.map(function (deal) {
+                                        return deal_1.Deal.create(deal, _this.universe, _this.http);
+                                    })[0]];
+                            case 2:
+                                err_11 = _a.sent();
+                                throw new DealCreateRemoteError(undefined, { error: err_11 });
                             case 3: return [2];
                         }
                     });
@@ -481,7 +552,7 @@ var Person = (function (_super) {
     });
     Person.prototype.getEmails = function (options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, emails, err_10;
+            var opts, res, emails, err_12;
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
@@ -503,8 +574,8 @@ var Person = (function (_super) {
                                 return email_1.Email.create(email, _this.universe, _this.http);
                             })];
                     case 2:
-                        err_10 = _a.sent();
-                        throw new email_1.EmailsFetchRemoteError(undefined, { error: err_10 });
+                        err_12 = _a.sent();
+                        throw new email_1.EmailsFetchRemoteError(undefined, { error: err_12 });
                     case 3: return [2];
                 }
             });
@@ -891,4 +962,30 @@ var PersonEmailDeleteError = (function (_super) {
     return PersonEmailDeleteError;
 }(errors_1.BaseError));
 exports.PersonEmailDeleteError = PersonEmailDeleteError;
+var DealsFetchRemoteError = (function (_super) {
+    tslib_1.__extends(DealsFetchRemoteError, _super);
+    function DealsFetchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not fetch deals for person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'DealsFetchRemoteError';
+        Object.setPrototypeOf(_this, DealsFetchRemoteError.prototype);
+        return _this;
+    }
+    return DealsFetchRemoteError;
+}(errors_1.BaseError));
+exports.DealsFetchRemoteError = DealsFetchRemoteError;
+var DealCreateRemoteError = (function (_super) {
+    tslib_1.__extends(DealCreateRemoteError, _super);
+    function DealCreateRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not create deal for person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'DealCreateRemoteError';
+        Object.setPrototypeOf(_this, DealCreateRemoteError.prototype);
+        return _this;
+    }
+    return DealCreateRemoteError;
+}(errors_1.BaseError));
+exports.DealCreateRemoteError = DealCreateRemoteError;
 //# sourceMappingURL=person.js.map

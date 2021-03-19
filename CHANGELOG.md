@@ -1,3 +1,10 @@
+# [3.95.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.94.0...v3.95.0) (2021-03-19)
+
+
+### Features
+
+* **crm pipelines, stages, deal events:** added resources, implemented person deals accessor ([2ad60f1](https://github.com/c-commerce/charles-browser-sdk/commit/2ad60f11ee2f8d6f586aafb964264a789a8069d7))
+
 # [3.94.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.93.0...v3.94.0) (2021-03-19)
 
 

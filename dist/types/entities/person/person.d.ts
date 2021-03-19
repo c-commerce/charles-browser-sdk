@@ -109,6 +109,12 @@ export interface IPersonCarts {
     toJson: Function;
     create: Function;
 }
+export interface IPersonDeals {
+    fetch: Function;
+    fromJson: Function;
+    toJson: Function;
+    create: Function;
+}
 export interface IPersonAddresses {
     fetch: Function;
     fromJson: Function;
@@ -196,6 +202,7 @@ export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
     getGDPRFile(options?: PersonGDPROptions): Promise<object>;
     orders(options?: EntityFetchOptions): Promise<Order[] | OrderRawPayload[] | undefined>;
     get carts(): IPersonCarts;
+    get deals(): IPersonDeals;
     get addresses(): AddressArray<Address>;
     set addresses(items: AddressArray<Address>);
     getEmails(options?: EntityFetchOptions): Promise<Email[] | EmailRawPayload[]>;
@@ -341,6 +348,16 @@ export declare class PersonEmailApplyPatchError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class PersonEmailDeleteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class DealsFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class DealCreateRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
