@@ -44,6 +44,7 @@ import * as favorite from '../entities/favorite/favorite';
 import * as knowledgeBase from '../entities/knowledge-base/knowledge-base';
 import * as knowledgeBaseFaqItem from '../entities/knowledge-base-faq-item/knowledge-base-faq-item';
 import * as crm from '../entities/crm/crm';
+import * as deal from '../entities/deal/deal';
 export interface UniverseUser {
     id?: string;
     accessToken?: string;
@@ -323,6 +324,7 @@ export declare class Universe extends Readable {
     knowledgeBase(payload: knowledgeBase.KnowledgeBaseRawPayload): knowledgeBase.KnowledgeBase;
     knowledgeBaseFaqItem(payload: knowledgeBaseFaqItem.KnowledgeBaseFaqItemRawPayload): knowledgeBaseFaqItem.KnowledgeBaseFaqItem;
     crm(payload: crm.CRMRawPayload): crm.CRM;
+    deal(payload: deal.DealRawPayload): deal.Deal;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -384,6 +386,7 @@ export declare class Universe extends Readable {
     favorites(options?: EntityFetchOptions): Promise<favorite.Favorite[] | favorite.FavoriteRawPayload[] | undefined>;
     knowledgeBases(options?: EntityFetchOptions): Promise<knowledgeBase.KnowledgeBase[] | knowledgeBase.KnowledgeBaseRawPayload[] | undefined>;
     crms(options?: EntityFetchOptions): Promise<crm.CRM[] | crm.CRMRawPayload[] | undefined>;
+    deals(options?: EntityFetchOptions): Promise<deal.Deal[] | deal.DealRawPayload[] | undefined>;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
