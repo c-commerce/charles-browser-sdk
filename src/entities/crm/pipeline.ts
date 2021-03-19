@@ -95,9 +95,20 @@ export class Pipeline extends Entity<PipelinePayload, PipelineRawPayload> {
     this.externalReferenceId = rawPayload.external_reference_id
     this.kind = rawPayload.kind
     this.crm = rawPayload.crm
-    this.stages = rawPayload.stages
     this.proxyVendor = rawPayload.proxy_vendor
     this.proxyPayload = rawPayload.proxy_payload
+
+    if (rawPayload.stages && this.initialized) {
+      this.stages = rawPayload.stages.map(i =>
+        PipelineStage.create(i, this.universe, this.http)
+      )
+    } else if (rawPayload.stages && !this.initialized) {
+      this.stages = rawPayload.stages.map(i =>
+        PipelineStage.createUninitialized(i, this.universe, this.http)
+      )
+    } else if (!this.stages) {
+      this.stages = undefined
+    }
 
     return this
   }
