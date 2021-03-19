@@ -57,6 +57,8 @@ import * as knowledgeBase from '../entities/knowledge-base/knowledge-base'
 import * as knowledgeBaseFaqItem from '../entities/knowledge-base-faq-item/knowledge-base-faq-item'
 import * as crm from '../entities/crm/crm'
 
+import * as deal from '../entities/deal/deal'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -747,6 +749,10 @@ export class Universe extends Readable {
 
   public crm (payload: crm.CRMRawPayload): crm.CRM {
     return crm.CRM.create(payload, this, this.http)
+  }
+
+  public deal (payload: deal.DealRawPayload): deal.Deal {
+    return deal.Deal.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1887,6 +1893,10 @@ export class Universe extends Readable {
 
   public async crms (options?: EntityFetchOptions): Promise<crm.CRM[] | crm.CRMRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<crm.CRM, crm.CRMs, crm.CRMRawPayload, EntityFetchOptions, crm.CRMsFetchRemoteError>(crm.CRM, crm.CRMs, crm.CRMsFetchRemoteError, options)
+  }
+
+  public async deals (options?: EntityFetchOptions): Promise<deal.Deal[] | deal.DealRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<deal.Deal, deal.Deals, deal.DealRawPayload, EntityFetchOptions, deal.DealsFetchRemoteError>(deal.Deal, deal.Deals, deal.DealsFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
