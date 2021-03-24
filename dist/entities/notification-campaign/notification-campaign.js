@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NotificationCampaignTestError = exports.NotificationCampaignPublishError = exports.NotificationCampaignArmError = exports.NotificationCampaignPreflightError = exports.NotificationCampaignsFetchCountRemoteError = exports.NotificationCampaignsFetchRemoteError = exports.NotificationCampaignFetchRemoteError = exports.NotificationCampaignInitializationError = exports.NotificationCampaigns = exports.NotificationCampaign = void 0;
+exports.NotificationCampaignGetFeedEventsError = exports.NotificationCampaignTestError = exports.NotificationCampaignPublishError = exports.NotificationCampaignArmError = exports.NotificationCampaignPreflightError = exports.NotificationCampaignsFetchCountRemoteError = exports.NotificationCampaignsFetchRemoteError = exports.NotificationCampaignFetchRemoteError = exports.NotificationCampaignInitializationError = exports.NotificationCampaigns = exports.NotificationCampaign = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
+var event_1 = require("../../eventing/feeds/event");
+var qs_1 = tslib_1.__importDefault(require("qs"));
+var feed_1 = require("../../eventing/feeds/feed");
 var NotificationCampaign = (function (_super) {
     tslib_1.__extends(NotificationCampaign, _super);
     function NotificationCampaign(options) {
@@ -229,6 +232,46 @@ var NotificationCampaign = (function (_super) {
             });
         });
     };
+    NotificationCampaign.prototype.getFeedEvents = function (options) {
+        var _a, _b, _c;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, _feed_1, err_6;
+            var _this = this;
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('notification campaign getFeedEvents requires id to be set.');
+                        _d.label = 1;
+                    case 1:
+                        _d.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'GET',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/feed_events" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        res = _d.sent();
+                        resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
+                        _feed_1 = feed_1.Feed.createUninitialized({ id: (_c = resources === null || resources === void 0 ? void 0 : resources[0]) === null || _c === void 0 ? void 0 : _c.feed }, this.universe, this.http, null);
+                        return [2, resources.map(function (item) {
+                                return event_1.Event.create(item, _feed_1, _this.universe, _this.http);
+                            })];
+                    case 3:
+                        err_6 = _d.sent();
+                        throw new NotificationCampaignGetFeedEventsError(undefined, { error: err_6 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return NotificationCampaign;
 }(_base_1.default));
 exports.NotificationCampaign = NotificationCampaign;
@@ -343,4 +386,17 @@ var NotificationCampaignTestError = (function (_super) {
     return NotificationCampaignTestError;
 }(errors_1.BaseError));
 exports.NotificationCampaignTestError = NotificationCampaignTestError;
+var NotificationCampaignGetFeedEventsError = (function (_super) {
+    tslib_1.__extends(NotificationCampaignGetFeedEventsError, _super);
+    function NotificationCampaignGetFeedEventsError(message, properties) {
+        if (message === void 0) { message = 'Could not get notification_campaign feed events'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'NotificationCampaignGetFeedEventsError';
+        Object.setPrototypeOf(_this, NotificationCampaignGetFeedEventsError.prototype);
+        return _this;
+    }
+    return NotificationCampaignGetFeedEventsError;
+}(errors_1.BaseError));
+exports.NotificationCampaignGetFeedEventsError = NotificationCampaignGetFeedEventsError;
 //# sourceMappingURL=notification-campaign.js.map

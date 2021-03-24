@@ -1,3 +1,10 @@
+# [3.97.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.96.0...v3.97.0) (2021-03-24)
+
+
+### Features
+
+* **notification campaign:** fetch feed events ([56d1806](https://github.com/c-commerce/charles-browser-sdk/commit/56d1806ac6f3c0a90f9d5f6280bff90ab5e066f7))
+
 # [3.96.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.95.2...v3.96.0) (2021-03-24)
 
 

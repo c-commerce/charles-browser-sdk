@@ -25,8 +25,8 @@ var Event = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
-        _this.feed = options.feed;
-        _this.endpoint = _this.feed.id + "/events";
+        _this._feed = options.feed;
+        _this.endpoint = _this._feed.id + "/events";
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -49,6 +49,7 @@ var Event = (function (_super) {
         this.annotations = rawPayload.annotations;
         this.suggestions = rawPayload.suggestions;
         this.context = rawPayload.context;
+        this.feed = rawPayload.feed;
         if (this.payload && !rawPayload.payload) {
         }
         else {
@@ -75,7 +76,8 @@ var Event = (function (_super) {
             marked: this.marked,
             annotations: this.annotations,
             suggestions: this.suggestions,
-            context: this.context
+            context: this.context,
+            feed: this.feed
         };
     };
     Event.prototype.init = function () {

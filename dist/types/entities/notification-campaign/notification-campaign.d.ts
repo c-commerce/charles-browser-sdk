@@ -1,6 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import Entity, { EntityOptions, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { EventRawPayload } from '../../eventing/feeds/event';
 export interface NotificationCampaignOptions extends EntityOptions {
     rawPayload?: NotificationCampaignRawPayload;
 }
@@ -143,6 +144,7 @@ export declare class NotificationCampaign extends Entity<NotificationCampaignPay
     preflightArm(): Promise<NotificationCampaign>;
     publish(): Promise<NotificationCampaign>;
     test(payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign>;
+    getFeedEvents(options?: EntityFetchOptions): Promise<EventRawPayload[]>;
 }
 export declare class NotificationCampaigns {
     static endpoint: string;
@@ -183,6 +185,11 @@ export declare class NotificationCampaignPublishError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class NotificationCampaignTestError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class NotificationCampaignGetFeedEventsError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
