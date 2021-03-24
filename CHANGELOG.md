@@ -1,3 +1,10 @@
+# [3.96.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.95.2...v3.96.0) (2021-03-24)
+
+
+### Features
+
+* **CRM:** add setup and channel users sync ([96e3e97](https://github.com/c-commerce/charles-browser-sdk/commit/96e3e97180f2fb9bde44c888cb297fd2a725713b))
+
 ## [3.95.2](https://github.com/c-commerce/charles-browser-sdk/compare/v3.95.1...v3.95.2) (2021-03-19)
 
 

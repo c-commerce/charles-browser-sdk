@@ -63,7 +63,9 @@ export declare class CRM extends Entity<CRMPayload, CRMRawPayload> {
     init(): Promise<CRM | undefined>;
     syncCustomProperties(): Promise<number | undefined>;
     syncDeals(): Promise<number | undefined>;
+    syncChannelUsers(): Promise<number | undefined>;
     syncPipelines(): Promise<number | undefined>;
+    setup(): Promise<number | undefined>;
 }
 export declare class CRMs {
     static endpoint: string;
@@ -94,6 +96,16 @@ export declare class CRMSyncDealsRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class CRMSyncPipelinesRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSyncChannelUsersRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSetupRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
