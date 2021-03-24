@@ -1,7 +1,10 @@
 
-import Entity, { EntityOptions } from '../_base'
+import Entity, { EntityOptions, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { Event, EventRawPayload } from '../../eventing/feeds/event'
+import qs from 'qs'
+import { Feed } from '../../eventing/feeds/feed'
 
 export interface NotificationCampaignOptions extends EntityOptions {
   rawPayload?: NotificationCampaignRawPayload
@@ -358,6 +361,38 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
       throw new NotificationCampaignTestError(undefined, { error: err })
     }
   }
+
+  /**
+ * Fetches campaign feed events
+ */
+  public async getFeedEvents (options?: EntityFetchOptions): Promise<EventRawPayload[]> {
+    if (this.id === null || this.id === undefined) throw new TypeError('notification campaign getFeedEvents requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/feed_events${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const resources = res.data.data as EventRawPayload[]
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      const _feed = Feed.createUninitialized({ id: resources?.[0]?.feed }, this.universe, this.http, null)
+
+      return resources.map((item: EventRawPayload) => {
+        return Event.create(item, _feed, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new NotificationCampaignGetFeedEventsError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -421,5 +456,12 @@ export class NotificationCampaignTestError extends BaseError {
   constructor (public message: string = 'Could not test notification_campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignTestError.prototype)
+  }
+}
+export class NotificationCampaignGetFeedEventsError extends BaseError {
+  public name = 'NotificationCampaignGetFeedEventsError'
+  constructor (public message: string = 'Could not get notification_campaign feed events', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignGetFeedEventsError.prototype)
   }
 }

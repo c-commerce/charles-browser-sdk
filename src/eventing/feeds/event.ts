@@ -63,6 +63,7 @@ export interface EventRawPayload {
   } | null
   readonly suggestions?: object | null
   readonly context?: string | object | null
+  readonly feed?: string
 }
 
 export interface EventPayload {
@@ -78,11 +79,12 @@ export interface EventPayload {
   readonly annotations?: EventRawPayload['annotations']
   readonly suggestions?: EventRawPayload['suggestions']
   readonly context?: EventRawPayload['context']
+  readonly feed?: EventRawPayload['feed']
 }
 
 export class Event extends EventEmitter {
   protected universe: Universe
-  protected feed: Feed
+  protected _feed: Feed
   protected http: Universe['http']
   protected options: EventOptions
   public initialized: boolean
@@ -100,14 +102,15 @@ export class Event extends EventEmitter {
   public annotations?: EventPayload['annotations']
   public suggestions?: EventPayload['suggestions']
   public context?: EventPayload['context']
+  public feed?: EventPayload['feed']
 
   static eventTypes = EventTypesEnum
 
   constructor (options: EventOptions) {
     super()
     this.universe = options.universe
-    this.feed = options.feed
-    this.endpoint = `${this.feed.id as string}/events`
+    this._feed = options.feed
+    this.endpoint = `${this._feed.id as string}/events`
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -132,6 +135,9 @@ export class Event extends EventEmitter {
     this.annotations = rawPayload.annotations
     this.suggestions = rawPayload.suggestions
     this.context = rawPayload.context
+
+    // we will store the feed id on this property, in case an event is initialized without a feed context
+    this.feed = rawPayload.feed
 
     // for the time being we are trying not to override existing data if the remote is not sending any
     // e.g. in special calls
@@ -165,7 +171,8 @@ export class Event extends EventEmitter {
       marked: this.marked,
       annotations: this.annotations,
       suggestions: this.suggestions,
-      context: this.context
+      context: this.context,
+      feed: this.feed
     }
   }
 
