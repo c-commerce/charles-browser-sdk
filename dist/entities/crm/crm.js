@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CRMSyncPipelinesRemoteError = exports.CRMSyncDealsRemoteError = exports.CRMSyncCustomPropertiesRemoteError = exports.CRMsFetchRemoteError = exports.CRMFetchRemoteError = exports.CRMInitializationError = exports.CRMs = exports.CRM = void 0;
+exports.CRMSetupRemoteError = exports.CRMSyncChannelUsersRemoteError = exports.CRMSyncPipelinesRemoteError = exports.CRMSyncDealsRemoteError = exports.CRMSyncCustomPropertiesRemoteError = exports.CRMsFetchRemoteError = exports.CRMFetchRemoteError = exports.CRMInitializationError = exports.CRMs = exports.CRM = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
@@ -145,10 +145,43 @@ var CRM = (function (_super) {
             });
         });
     };
-    CRM.prototype.syncPipelines = function () {
+    CRM.prototype.syncChannelUsers = function () {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, err_4;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('CRM syncChannelUsers requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/channel_users",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_4 = _b.sent();
+                        throw this.handleError(new CRMSyncChannelUsersRemoteError(undefined, { error: err_4 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    CRM.prototype.syncPipelines = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_5;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -171,8 +204,41 @@ var CRM = (function (_super) {
                         res = _b.sent();
                         return [2, res.status];
                     case 3:
-                        err_4 = _b.sent();
-                        throw this.handleError(new CRMSyncPipelinesRemoteError(undefined, { error: err_4 }));
+                        err_5 = _b.sent();
+                        throw this.handleError(new CRMSyncPipelinesRemoteError(undefined, { error: err_5 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    CRM.prototype.setup = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_6;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('CRM setup requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/setup",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_6 = _b.sent();
+                        throw this.handleError(new CRMSetupRemoteError(undefined, { error: err_6 }));
                     case 4: return [2];
                 }
             });
@@ -266,4 +332,30 @@ var CRMSyncPipelinesRemoteError = (function (_super) {
     return CRMSyncPipelinesRemoteError;
 }(errors_1.BaseError));
 exports.CRMSyncPipelinesRemoteError = CRMSyncPipelinesRemoteError;
+var CRMSyncChannelUsersRemoteError = (function (_super) {
+    tslib_1.__extends(CRMSyncChannelUsersRemoteError, _super);
+    function CRMSyncChannelUsersRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not start sync of crm chanel users.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CRMSyncChannelUsersRemoteError';
+        Object.setPrototypeOf(_this, CRMSyncChannelUsersRemoteError.prototype);
+        return _this;
+    }
+    return CRMSyncChannelUsersRemoteError;
+}(errors_1.BaseError));
+exports.CRMSyncChannelUsersRemoteError = CRMSyncChannelUsersRemoteError;
+var CRMSetupRemoteError = (function (_super) {
+    tslib_1.__extends(CRMSetupRemoteError, _super);
+    function CRMSetupRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not start setup of crm.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CRMSetupRemoteError';
+        Object.setPrototypeOf(_this, CRMSetupRemoteError.prototype);
+        return _this;
+    }
+    return CRMSetupRemoteError;
+}(errors_1.BaseError));
+exports.CRMSetupRemoteError = CRMSetupRemoteError;
 //# sourceMappingURL=crm.js.map
