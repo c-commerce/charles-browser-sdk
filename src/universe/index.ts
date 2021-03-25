@@ -264,6 +264,12 @@ export interface IUniverseNotificationCampaigns {
   toJson: (notificationCampaigns: notificationCampaign.NotificationCampaign[]) => notificationCampaign.NotificationCampaignRawPayload[]
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
+export interface IUniverseDeals {
+  fetch: (options?: UniverseFetchOptions) => Promise<deal.Deal[] | deal.DealRawPayload[] | undefined>
+  fromJson: (deals: deal.DealRawPayload[]) => deal.Deal[]
+  toJson: (deals: deal.Deal[]) => deal.DealRawPayload[]
+  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
+}
 
 export class UniverseUnauthenticatedError extends BaseError {
   public name = 'UniverseUnauthenticatedError'
@@ -1909,8 +1915,61 @@ export class Universe extends Readable {
     return await this.makeBaseResourceListRequest<crm.CRM, crm.CRMs, crm.CRMRawPayload, EntityFetchOptions, crm.CRMsFetchRemoteError>(crm.CRM, crm.CRMs, crm.CRMsFetchRemoteError, options)
   }
 
-  public async deals (options?: EntityFetchOptions): Promise<deal.Deal[] | deal.DealRawPayload[] | undefined> {
-    return await this.makeBaseResourceListRequest<deal.Deal, deal.Deals, deal.DealRawPayload, EntityFetchOptions, deal.DealsFetchRemoteError>(deal.Deal, deal.Deals, deal.DealsFetchRemoteError, options)
+  // public async deals (options?: EntityFetchOptions): Promise<deal.Deal[] | deal.DealRawPayload[] | undefined> {
+  //   return await this.makeBaseResourceListRequest<deal.Deal, deal.Deals, deal.DealRawPayload, EntityFetchOptions, deal.DealsFetchRemoteError>(deal.Deal, deal.Deals, deal.DealsFetchRemoteError, options)
+  // }
+
+  public get deals (): IUniverseDeals {
+    return {
+      fromJson: (payloads: deal.DealRawPayload[]): deal.Deal[] => {
+        return payloads.map((item) => (deal.Deal.create(item, this, this.http)))
+      },
+      toJson: (payloads: deal.Deal[]): deal.DealRawPayload[] => {
+        return payloads.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: UniverseFetchOptions): Promise<deal.Deal[] | deal.DealRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${deal.Deals.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const resources = res.data.data as deal.DealRawPayload[]
+
+          if (options && options.raw === true) {
+            return resources
+          }
+
+          return resources.map((resource: deal.DealRawPayload) => {
+            return deal.Deal.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new deal.DealsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${deal.Deals.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new deal.DealsFetchCountRemoteError(undefined, { error: err })
+        }
+      }
+    }
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.

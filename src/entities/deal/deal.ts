@@ -270,3 +270,10 @@ export class DealsFetchRemoteError extends BaseError {
     Object.setPrototypeOf(this, DealsFetchRemoteError.prototype)
   }
 }
+export class DealsFetchCountRemoteError extends BaseError {
+  public name = 'DealsFetchCountRemoteError'
+  constructor (public message: string = 'Could not get deals count.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, DealsFetchCountRemoteError.prototype)
+  }
+}
