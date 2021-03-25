@@ -129,3 +129,8 @@ export declare class DealsFetchRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class DealsFetchCountRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}

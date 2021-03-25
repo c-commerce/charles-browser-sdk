@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DealsFetchRemoteError = exports.DealFetchRemoteError = exports.DealInitializationError = exports.Deals = exports.Deal = void 0;
+exports.DealsFetchCountRemoteError = exports.DealsFetchRemoteError = exports.DealFetchRemoteError = exports.DealInitializationError = exports.Deals = exports.Deal = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = tslib_1.__importDefault(require("../_base"));
 var errors_1 = require("../../errors");
@@ -180,4 +180,17 @@ var DealsFetchRemoteError = (function (_super) {
     return DealsFetchRemoteError;
 }(errors_1.BaseError));
 exports.DealsFetchRemoteError = DealsFetchRemoteError;
+var DealsFetchCountRemoteError = (function (_super) {
+    tslib_1.__extends(DealsFetchCountRemoteError, _super);
+    function DealsFetchCountRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get deals count.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'DealsFetchCountRemoteError';
+        Object.setPrototypeOf(_this, DealsFetchCountRemoteError.prototype);
+        return _this;
+    }
+    return DealsFetchCountRemoteError;
+}(errors_1.BaseError));
+exports.DealsFetchCountRemoteError = DealsFetchCountRemoteError;
 //# sourceMappingURL=deal.js.map

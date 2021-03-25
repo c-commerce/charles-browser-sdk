@@ -217,6 +217,14 @@ export interface IUniverseNotificationCampaigns {
         count: number;
     }>;
 }
+export interface IUniverseDeals {
+    fetch: (options?: UniverseFetchOptions) => Promise<deal.Deal[] | deal.DealRawPayload[] | undefined>;
+    fromJson: (deals: deal.DealRawPayload[]) => deal.Deal[];
+    toJson: (deals: deal.Deal[]) => deal.DealRawPayload[];
+    fetchCount: (options?: EntityFetchOptions) => Promise<{
+        count: number;
+    }>;
+}
 export declare class UniverseUnauthenticatedError extends BaseError {
     message: string;
     name: string;
@@ -392,7 +400,7 @@ export declare class Universe extends Readable {
     favorites(options?: EntityFetchOptions): Promise<favorite.Favorite[] | favorite.FavoriteRawPayload[] | undefined>;
     knowledgeBases(options?: EntityFetchOptions): Promise<knowledgeBase.KnowledgeBase[] | knowledgeBase.KnowledgeBaseRawPayload[] | undefined>;
     crms(options?: EntityFetchOptions): Promise<crm.CRM[] | crm.CRMRawPayload[] | undefined>;
-    deals(options?: EntityFetchOptions): Promise<deal.Deal[] | deal.DealRawPayload[] | undefined>;
+    get deals(): IUniverseDeals;
     arm(): Universe;
     versions(): Promise<{
         universe: string;

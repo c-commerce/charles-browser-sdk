@@ -1946,16 +1946,76 @@ var Universe = (function (_super) {
             });
         });
     };
-    Universe.prototype.deals = function (options) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            return tslib_1.__generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4, this.makeBaseResourceListRequest(deal.Deal, deal.Deals, deal.DealsFetchRemoteError, options)];
-                    case 1: return [2, _a.sent()];
-                }
-            });
-        });
-    };
+    Object.defineProperty(Universe.prototype, "deals", {
+        get: function () {
+            var _this = this;
+            return {
+                fromJson: function (payloads) {
+                    return payloads.map(function (item) { return (deal.Deal.create(item, _this, _this.http)); });
+                },
+                toJson: function (payloads) {
+                    return payloads.map(function (item) { return (item.serialize()); });
+                },
+                fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    var opts, res, resources, err_45;
+                    var _this = this;
+                    var _a;
+                    return tslib_1.__generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                _b.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'GET',
+                                    url: this.universeBase + "/" + deal.Deals.endpoint,
+                                    params: tslib_1.__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                                };
+                                return [4, this.http.getClient()(opts)];
+                            case 1:
+                                res = _b.sent();
+                                resources = res.data.data;
+                                if (options && options.raw === true) {
+                                    return [2, resources];
+                                }
+                                return [2, resources.map(function (resource) {
+                                        return deal.Deal.create(resource, _this, _this.http);
+                                    })];
+                            case 2:
+                                err_45 = _b.sent();
+                                throw new deal.DealsFetchRemoteError(undefined, { error: err_45 });
+                            case 3: return [2];
+                        }
+                    });
+                }); },
+                fetchCount: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    var opts, res, err_46;
+                    var _a;
+                    return tslib_1.__generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0:
+                                _b.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'HEAD',
+                                    url: this.universeBase + "/" + deal.Deals.endpoint,
+                                    params: tslib_1.__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                                };
+                                return [4, this.http.getClient()(opts)];
+                            case 1:
+                                res = _b.sent();
+                                return [2, {
+                                        count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+                                    }];
+                            case 2:
+                                err_46 = _b.sent();
+                                throw new deal.DealsFetchCountRemoteError(undefined, { error: err_46 });
+                            case 3: return [2];
+                        }
+                    });
+                }); }
+            };
+        },
+        enumerable: false,
+        configurable: true
+    });
     Universe.prototype.arm = function () {
         var _this = this;
         var mqtt = this.getMqttClient();
@@ -1971,7 +2031,7 @@ var Universe = (function (_super) {
     Universe.prototype.versions = function () {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_45;
+            var res, err_47;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -1983,8 +2043,8 @@ var Universe = (function (_super) {
                                 universe: (_a = res.data) === null || _a === void 0 ? void 0 : _a.universe
                             }];
                     case 2:
-                        err_45 = _b.sent();
-                        throw new UniverseVersionsError(undefined, { error: err_45 });
+                        err_47 = _b.sent();
+                        throw new UniverseVersionsError(undefined, { error: err_47 });
                     case 3: return [2];
                 }
             });
@@ -1993,7 +2053,7 @@ var Universe = (function (_super) {
     Universe.prototype.self = function () {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_46;
+            var res, err_48;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -2005,8 +2065,8 @@ var Universe = (function (_super) {
                                 universe: (_a = res.data) === null || _a === void 0 ? void 0 : _a.universe
                             }];
                     case 2:
-                        err_46 = _b.sent();
-                        throw new UniverseSelfError(undefined, { error: err_46 });
+                        err_48 = _b.sent();
+                        throw new UniverseSelfError(undefined, { error: err_48 });
                     case 3: return [2];
                 }
             });
@@ -2015,7 +2075,7 @@ var Universe = (function (_super) {
     Universe.prototype.healthz = function () {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_47;
+            var res, err_49;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -2027,8 +2087,8 @@ var Universe = (function (_super) {
                                 message: (_a = res.data) === null || _a === void 0 ? void 0 : _a.msg
                             }];
                     case 2:
-                        err_47 = _b.sent();
-                        throw new UniverseHealthzError(undefined, { error: err_47 });
+                        err_49 = _b.sent();
+                        throw new UniverseHealthzError(undefined, { error: err_49 });
                     case 3: return [2];
                 }
             });
@@ -2069,7 +2129,7 @@ var Universe = (function (_super) {
     });
     Universe.prototype.searchEntity = function (endpoint, q, query) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_48;
+            var res, err_50;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -2079,8 +2139,8 @@ var Universe = (function (_super) {
                         res = _a.sent();
                         return [2, res.data.data];
                     case 2:
-                        err_48 = _a.sent();
-                        throw new UniverseSearchError(undefined, { error: err_48 });
+                        err_50 = _a.sent();
+                        throw new UniverseSearchError(undefined, { error: err_50 });
                     case 3: return [2];
                 }
             });

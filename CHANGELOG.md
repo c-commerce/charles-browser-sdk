@@ -1,3 +1,10 @@
+# [3.98.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.97.0...v3.98.0) (2021-03-25)
+
+
+### Features
+
+* **universe deals:** implement fetch & head handler ([e7814da](https://github.com/c-commerce/charles-browser-sdk/commit/e7814da1168e08cd03dd30923ce88b8ce7befdb2))
+
 # [3.97.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.96.0...v3.97.0) (2021-03-24)
 
 
