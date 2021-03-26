@@ -27,7 +27,7 @@ export interface DealRawPayload {
   readonly stage_external_reference_id?: string
   readonly crm?: string
   readonly currency?: string
-  readonly value?: number | string
+  readonly value?: object
   readonly status?: string
   readonly probability?: string
   readonly date?: string
@@ -40,7 +40,7 @@ export interface DealRawPayload {
   readonly author?: object | string
   readonly owner?: object | string
   readonly proxy_payload?: object
-
+  readonly links?: object
 }
 
 export interface DealPayload {
@@ -75,6 +75,7 @@ export interface DealPayload {
   readonly author?: DealRawPayload['author']
   readonly owner?: DealRawPayload['owner']
   readonly proxyPayload?: DealRawPayload['proxy_payload']
+  readonly links?: DealRawPayload['links']
 }
 
 /**
@@ -121,6 +122,7 @@ export class Deal extends Entity<DealPayload, DealRawPayload> {
   public author?: DealPayload['author']
   public owner?: DealPayload['owner']
   public proxyPayload?: DealPayload['proxyPayload']
+  public links?: DealPayload['links']
 
   constructor (options: DealOptions) {
     super()
@@ -171,6 +173,7 @@ export class Deal extends Entity<DealPayload, DealRawPayload> {
     this.author = rawPayload.author
     this.owner = rawPayload.owner
     this.proxyPayload = rawPayload.proxy_payload
+    this.links = rawPayload.links
 
     if (rawPayload.stage && this.initialized) {
       this.stage = PipelineStage.create(rawPayload.stage, this.universe, this.http)
@@ -227,7 +230,8 @@ export class Deal extends Entity<DealPayload, DealRawPayload> {
       pipeline_external_reference_id: this.pipelineExternalReferenceId,
       author: this.author,
       owner: this.owner,
-      proxy_payload: this.proxyPayload
+      proxy_payload: this.proxyPayload,
+      links: this.links
     }
   }
 
