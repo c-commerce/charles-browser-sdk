@@ -23,7 +23,7 @@ export interface DealRawPayload {
     readonly stage_external_reference_id?: string;
     readonly crm?: string;
     readonly currency?: string;
-    readonly value?: number | string;
+    readonly value?: object;
     readonly status?: string;
     readonly probability?: string;
     readonly date?: string;
@@ -36,6 +36,7 @@ export interface DealRawPayload {
     readonly author?: object | string;
     readonly owner?: object | string;
     readonly proxy_payload?: object;
+    readonly links?: object;
 }
 export interface DealPayload {
     readonly id?: DealRawPayload['id'];
@@ -68,6 +69,7 @@ export interface DealPayload {
     readonly author?: DealRawPayload['author'];
     readonly owner?: DealRawPayload['owner'];
     readonly proxyPayload?: DealRawPayload['proxy_payload'];
+    readonly links?: DealRawPayload['links'];
 }
 export declare class Deal extends Entity<DealPayload, DealRawPayload> {
     protected universe: Universe;
@@ -105,6 +107,7 @@ export declare class Deal extends Entity<DealPayload, DealRawPayload> {
     author?: DealPayload['author'];
     owner?: DealPayload['owner'];
     proxyPayload?: DealPayload['proxyPayload'];
+    links?: DealPayload['links'];
     constructor(options: DealOptions);
     protected deserialize(rawPayload: DealRawPayload): Deal;
     static create(payload: DealRawPayload, universe: Universe, http: Universe['http']): Deal;

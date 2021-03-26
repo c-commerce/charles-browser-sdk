@@ -54,6 +54,7 @@ var Deal = (function (_super) {
         this.author = rawPayload.author;
         this.owner = rawPayload.owner;
         this.proxyPayload = rawPayload.proxy_payload;
+        this.links = rawPayload.links;
         if (rawPayload.stage && this.initialized) {
             this.stage = crm_1.PipelineStage.create(rawPayload.stage, this.universe, this.http);
         }
@@ -109,7 +110,8 @@ var Deal = (function (_super) {
             pipeline_external_reference_id: this.pipelineExternalReferenceId,
             author: this.author,
             owner: this.owner,
-            proxy_payload: this.proxyPayload
+            proxy_payload: this.proxyPayload,
+            links: this.links
         };
     };
     Deal.prototype.init = function () {

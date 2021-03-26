@@ -1,3 +1,10 @@
+## [3.98.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.98.0...v3.98.1) (2021-03-26)
+
+
+### Bug Fixes
+
+* **deals:** add links, fix value type ([4311ea9](https://github.com/c-commerce/charles-browser-sdk/commit/4311ea9c4419b61670c47c66c0e83ca9d1f8c2f6))
+
 # [3.98.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.97.0...v3.98.0) (2021-03-25)
 
 
