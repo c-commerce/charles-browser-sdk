@@ -15,11 +15,11 @@ to: "<%= 'src/entities/' + h.inflection.dasherize(singularizedName, true) + '/' 
   classListName  = h.changeCase.pascal(pluralizedName, true)
   title  = h.changeCase.title(singularizedName, true)
 %>
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface <%= className %>Options extends EntityOptions {
+export interface <%= className %>Options extends UniverseEntityOptions {
   rawPayload?: <%= className %>RawPayload
 }
 
@@ -44,8 +44,9 @@ export interface <%= className %>Payload {
  *
  * @category Entity
  */
-export class <%= className %> extends Entity<<%= className %>Payload, <%= className %>RawPayload> {
+export class <%= className %> extends UniverseEntity<<%= className %>Payload, <%= className %>RawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: <%= className %>Options
   public initialized: boolean
@@ -61,6 +62,7 @@ export class <%= className %> extends Entity<<%= className %>Payload, <%= classN
   constructor(options: <%= className %>Options) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/<%= version %>/<%= name %>'
     this.http = options.http
     this.options = options

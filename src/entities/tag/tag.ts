@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface TagOptions extends EntityOptions {
+export interface TagOptions extends UniverseEntityOptions {
   rawPayload?: TagRawPayload
 }
 
@@ -36,8 +36,9 @@ export interface TagPayload {
  *
  * @category Entity
  */
-export class Tag extends Entity<TagPayload, TagRawPayload> {
+export class Tag extends UniverseEntity<TagPayload, TagRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: TagOptions
   public initialized: boolean
@@ -57,6 +58,7 @@ export class Tag extends Entity<TagPayload, TagRawPayload> {
   constructor (options: TagOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/tags'
     this.http = options.http
     this.options = options

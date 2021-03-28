@@ -14,6 +14,11 @@ export abstract class APICarrier extends Readable {
   public injectables: APICarrierInjectables
 
   constructor (options: APICarrierOptions) {
+
+    console.log('=============')
+    console.log(options)
+    console.log('=============')
+
     super()
     this.injectables = options.injectables
   }

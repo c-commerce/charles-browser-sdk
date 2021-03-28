@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface DealEventOptions extends EntityOptions {
+export interface DealEventOptions extends UniverseEntityOptions {
   rawPayload?: DealEventRawPayload
 }
 
@@ -42,8 +42,9 @@ export interface DealEventPayload {
  *
  * @category Entity
  */
-export class DealEvent extends Entity<DealEventPayload, DealEventRawPayload> {
+export class DealEvent extends UniverseEntity<DealEventPayload, DealEventRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: DealEventOptions
   public initialized: boolean
@@ -66,6 +67,7 @@ export class DealEvent extends Entity<DealEventPayload, DealEventRawPayload> {
   constructor (options: DealEventOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false

@@ -84,6 +84,7 @@ export interface EventPayload {
 
 export class Event extends EventEmitter {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected _feed: Feed
   protected http: Universe['http']
   protected options: EventOptions
@@ -109,6 +110,7 @@ export class Event extends EventEmitter {
   constructor (options: EventOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this._feed = options.feed
     this.endpoint = `${this._feed.id as string}/events`
     this.http = options.http

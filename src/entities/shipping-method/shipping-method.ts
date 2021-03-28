@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface ShippingMethodOptions extends EntityOptions {
+export interface ShippingMethodOptions extends UniverseEntityOptions {
   rawPayload?: ShippingMethodRawPayload
 }
 
@@ -43,8 +43,9 @@ export interface ShippingMethodPayload {
  *
  * @category Entity
  */
-export class ShippingMethod extends Entity<ShippingMethodPayload, ShippingMethodRawPayload> {
+export class ShippingMethod extends UniverseEntity<ShippingMethodPayload, ShippingMethodRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: ShippingMethodOptions
   public initialized: boolean
@@ -63,6 +64,7 @@ export class ShippingMethod extends Entity<ShippingMethodPayload, ShippingMethod
   constructor (options: ShippingMethodOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/shipping_methods'
     this.http = options.http
     this.options = options

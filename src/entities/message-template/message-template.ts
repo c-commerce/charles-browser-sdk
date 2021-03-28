@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface MessageTemplateOptions extends EntityOptions {
+export interface MessageTemplateOptions extends UniverseEntityOptions {
   rawPayload?: MessageTemplateRawPayload
 }
 export interface MessageTemplateRawPayloadAttachment {
@@ -128,8 +128,9 @@ export interface MessageTemplatePayload {
  *
  * @category Entity
  */
-export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTemplateRawPayload> {
+export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, MessageTemplateRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: MessageTemplateOptions
   public initialized: boolean
@@ -157,6 +158,7 @@ export class MessageTemplate extends Entity<MessageTemplatePayload, MessageTempl
   constructor (options: MessageTemplateOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/message_templates'
     this.http = options.http
     this.options = options

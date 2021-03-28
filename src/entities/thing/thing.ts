@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface ThingOptions extends EntityOptions {
+export interface ThingOptions extends UniverseEntityOptions {
   rawPayload?: ThingRawPayload
 }
 
@@ -46,8 +46,9 @@ export interface ThingPayload {
  *
  * @category Entity
  */
-export class Thing extends Entity<ThingPayload, ThingRawPayload> {
+export class Thing extends UniverseEntity<ThingPayload, ThingRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: ThingOptions
   public initialized: boolean
@@ -70,6 +71,7 @@ export class Thing extends Entity<ThingPayload, ThingRawPayload> {
   constructor (options: ThingOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/things'
     this.http = options.http
     this.options = options

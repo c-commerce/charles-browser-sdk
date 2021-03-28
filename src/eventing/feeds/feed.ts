@@ -13,7 +13,7 @@ import { Order, OrderRawPayload } from '../../entities/order'
 import { StaffRawPayload } from '../../entities/staff'
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event'
 import { Comment, CommentRawPayload } from './comment'
-import Entity, { EntitiesList, EntityFetchOptions } from '../../entities/_base'
+import { UniverseEntity, EntitiesList, EntityFetchOptions } from '../../entities/_base'
 
 export interface FeedOptions {
   universe: Universe
@@ -92,8 +92,9 @@ export declare interface Feed {
     cb: Function) => this)
 }
 
-export class Feed extends Entity<FeedPayload, FeedRawPayload> {
+export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected mqtt?: Universe['mqtt']
   protected options: FeedOptions
@@ -123,6 +124,7 @@ export class Feed extends Entity<FeedPayload, FeedRawPayload> {
   constructor (options: FeedOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = FEED_ENDPOINT
     this.http = options.http
     this.mqtt = options.mqtt
@@ -502,12 +504,14 @@ export class Feeds extends EntitiesList<Feed, FeedRawPayload> {
   public static endpoint: string = 'api/v0/feeds'
   public endpoint: string = Feeds.endpoint
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   private readonly mqtt?: Universe['mqtt']
 
   constructor (options: FeedsOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
     this.mqtt = options.mqtt
   }

@@ -1,5 +1,5 @@
 
-import Entity, { EntityOptions, EntityFetchOptions } from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Route, RouteRawPayload } from '../route'
@@ -7,7 +7,7 @@ import * as messageTemplate from '../message-template'
 import * as feed from '../../eventing/feeds/feed'
 import * as event from '../../eventing/feeds/event'
 
-export interface MessageBrokerOptions extends EntityOptions {
+export interface MessageBrokerOptions extends UniverseEntityOptions {
   rawPayload?: MessageBrokerRawPayload
 }
 
@@ -72,8 +72,9 @@ export interface MessageBrokerPayload {
  *
  * @category Entity
  */
-export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRawPayload> {
+export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageBrokerRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: MessageBrokerOptions
   public initialized: boolean
@@ -101,6 +102,7 @@ export class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRaw
   constructor (options: MessageBrokerOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/message_brokers'
     this.http = options.http
     this.options = options

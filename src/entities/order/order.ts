@@ -1,15 +1,15 @@
 
-import Entity, { EntityOptions, EntitiesList } from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntitiesList } from '../_base'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import { IDiscountType } from '../discount/discount'
 // import { CartPayload, CartRawPayload, CartTaxLineRawPayload } from '../cart/cart'
 
-export interface OrderOptions extends EntityOptions {
+export interface OrderOptions extends UniverseEntityOptions {
   rawPayload?: OrderRawPayload
 }
 
-export interface OrderItemOptions extends EntityOptions {
+export interface OrderItemOptions extends UniverseEntityOptions {
   rawPayload?: OrderItemRawPayload
 }
 
@@ -196,6 +196,7 @@ export interface OrderPayload {
 
 export class OrderItem {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: OrderOptions
 
@@ -215,6 +216,7 @@ export class OrderItem {
 
   constructor (options: OrderItemOptions) {
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
     this.options = options
 
@@ -269,8 +271,9 @@ export class OrderItem {
  *
  * @category CommerceEntity
  */
-export class Order extends Entity<OrderPayload, OrderRawPayload> {
+export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: OrderOptions
   public initialized: boolean
@@ -316,6 +319,7 @@ export class Order extends Entity<OrderPayload, OrderRawPayload> {
   constructor (options: OrderOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/orders'
     this.http = options.http
     this.options = options
@@ -464,11 +468,13 @@ export class Orders extends EntitiesList<Order, OrderRawPayload> {
   public static endpoint: string = 'api/v0/orders'
   public endpoint: string = Orders.endpoint
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
 
   constructor (options: OrdersOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
   }
 

@@ -1,10 +1,10 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { ContactLists } from './contact-list'
 
-export interface StaticEntryOptions extends EntityOptions {
+export interface StaticEntryOptions extends UniverseEntityOptions {
   rawPayload?: ContactListStaticEntryRawPayload
 }
 
@@ -60,8 +60,9 @@ export interface ContactListStaticEntryPayload {
  *
  * @category Entity
  */
-export class ContactListStaticEntry extends Entity<ContactListStaticEntryPayload, ContactListStaticEntryRawPayload> {
+export class ContactListStaticEntry extends UniverseEntity<ContactListStaticEntryPayload, ContactListStaticEntryRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: StaticEntryOptions
   public initialized: boolean
@@ -82,6 +83,7 @@ export class ContactListStaticEntry extends Entity<ContactListStaticEntryPayload
   constructor (options: StaticEntryOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = ''
     this.http = options.http
     this.options = options

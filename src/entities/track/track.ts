@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions, EntityRawPayload } from '../_base'
+import{ UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface TrackOptions extends EntityOptions {
+export interface TrackOptions extends UniverseEntityOptions {
   rawPayload?: TrackRawPayload
 }
 
@@ -61,8 +61,9 @@ export interface TrackPayload {
  *
  * @category Entity
  */
-export class Track extends Entity<TrackPayload, TrackRawPayload> {
+export class Track extends UniverseEntity<TrackPayload, TrackRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: TrackOptions
   public initialized: boolean
@@ -83,6 +84,7 @@ export class Track extends Entity<TrackPayload, TrackRawPayload> {
   constructor (options: TrackOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/universe_tracks'
     this.http = options.http
     this.options = options

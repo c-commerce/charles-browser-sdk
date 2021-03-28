@@ -1,12 +1,12 @@
 
-import Entity, { EntityOptions, EntityFetchOptions } from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
 import qs from 'qs'
 import { Feed } from '../../eventing/feeds/feed'
 
-export interface NotificationCampaignOptions extends EntityOptions {
+export interface NotificationCampaignOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignRawPayload
 }
 
@@ -140,8 +140,9 @@ export interface NotificationCampaignPayload {
  *
  * @category Entity
  */
-export class NotificationCampaign extends Entity<NotificationCampaignPayload, NotificationCampaignRawPayload> {
+export class NotificationCampaign extends UniverseEntity<NotificationCampaignPayload, NotificationCampaignRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: NotificationCampaignOptions
   public initialized: boolean
@@ -177,6 +178,7 @@ export class NotificationCampaign extends Entity<NotificationCampaignPayload, No
   constructor (options: NotificationCampaignOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/notification_campaigns'
     this.http = options.http
     this.options = options

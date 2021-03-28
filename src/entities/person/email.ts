@@ -1,4 +1,4 @@
-import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, RawPatch } from '../_base'
+import Entity, { UniverseEntity, UniverseEntityOptions, EntityRawPayload, EntityFetchOptions, RawPatch } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import omit from 'just-omit'
@@ -14,7 +14,7 @@ export interface EmailRawPayload extends EntityRawPayload {
   readonly comment?: string
 }
 
-export interface EmailOptions extends EntityOptions {
+export interface EmailOptions extends UniverseEntityOptions {
   rawPayload?: EmailRawPayload
 }
 
@@ -28,8 +28,9 @@ export interface EmailPayload {
   readonly value?: EmailRawPayload['value']
 }
 
-export class Email extends Entity<EmailPayload, EmailRawPayload> {
+export class Email extends UniverseEntity<EmailPayload, EmailRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: EmailOptions
   public initialized: boolean
@@ -48,6 +49,7 @@ export class Email extends Entity<EmailPayload, EmailRawPayload> {
   constructor (options: EmailOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false

@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface ProductCategoryTreeOptions extends EntityOptions {
+export interface ProductCategoryTreeOptions extends UniverseEntityOptions {
   rawPayload?: ProductCategoryTreeRawPayload
 }
 
@@ -44,8 +44,9 @@ export interface ProductCategoryTreePayload {
  *
  * @category Entity
  */
-export class ProductCategoryTree extends Entity<ProductCategoryTreePayload, ProductCategoryTreeRawPayload> {
+export class ProductCategoryTree extends UniverseEntity<ProductCategoryTreePayload, ProductCategoryTreeRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: ProductCategoryTreeOptions
   public initialized: boolean
@@ -68,6 +69,7 @@ export class ProductCategoryTree extends Entity<ProductCategoryTreePayload, Prod
   constructor (options: ProductCategoryTreeOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/product_category_trees'
     this.http = options.http
     this.options = options

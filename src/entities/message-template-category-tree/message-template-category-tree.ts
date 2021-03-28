@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface MessageTemplateCategoryTreeOptions extends EntityOptions {
+export interface MessageTemplateCategoryTreeOptions extends UniverseEntityOptions {
   rawPayload?: MessageTemplateCategoryTreeRawPayload
 }
 
@@ -39,8 +39,9 @@ export interface MessageTemplateCategoryTreePayload {
  *
  * @category Entity
  */
-export class MessageTemplateCategoryTree extends Entity<MessageTemplateCategoryTreePayload, MessageTemplateCategoryTreeRawPayload> {
+export class MessageTemplateCategoryTree extends UniverseEntity<MessageTemplateCategoryTreePayload, MessageTemplateCategoryTreeRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: MessageTemplateCategoryTreeOptions
   public initialized: boolean
@@ -61,6 +62,7 @@ export class MessageTemplateCategoryTree extends Entity<MessageTemplateCategoryT
   constructor (options: MessageTemplateCategoryTreeOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/message_template_category_trees'
     this.http = options.http
     this.options = options

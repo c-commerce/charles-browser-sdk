@@ -1,13 +1,13 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface LocationOptions extends EntityOptions {
+export interface LocationOptions extends UniverseEntityOptions {
   rawPayload?: LocationRawPayload
 }
 
-export interface LocationAddressOptions extends EntityOptions {
+export interface LocationAddressOptions extends UniverseEntityOptions {
   rawPayload?: LocationAddressRawPayload
 }
 
@@ -78,8 +78,9 @@ export interface LocationAddressRawPayload {
  *
  * @category Entity
  */
-export class Location extends Entity<LocationPayload, LocationRawPayload> {
+export class Location extends UniverseEntity<LocationPayload, LocationRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: LocationOptions
   public initialized: boolean
@@ -107,6 +108,7 @@ export class Location extends Entity<LocationPayload, LocationRawPayload> {
   constructor (options: LocationOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/locations'
     this.http = options.http
     this.options = options

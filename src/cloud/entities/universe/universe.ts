@@ -2,7 +2,7 @@
 import Entity, { EntityOptions } from '../../../entities/_base'
 import { BaseError } from '../../../errors'
 
-export interface CloudUniverseOptions extends EntityOptions {
+export interface CloudUniverseOptions extends UniverseEntityOptions {
   rawPayload?: CloudUniverseRawPayload
 }
 
@@ -29,8 +29,9 @@ export interface CloudUniversePayload {
  *
  * @category Entity
  */
-export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRawPayload> {
+export class CloudUniverse extends UniverseEntity<CloudUniversePayload, CloudUniverseRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: CloudUniverseOptions
   public initialized: boolean
@@ -50,6 +51,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   constructor (options: CloudUniverseOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/CloudUniverses'
     this.http = options.http
     this.options = options

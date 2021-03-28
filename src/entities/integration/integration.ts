@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface IntegrationOptions extends EntityOptions {
+export interface IntegrationOptions extends UniverseEntityOptions {
   rawPayload?: IntegrationRawPayload
 }
 
@@ -56,8 +56,9 @@ export interface IntegrationPayload {
  *
  * @category Entity
  */
-export class Integration extends Entity<IntegrationPayload, IntegrationRawPayload> {
+export class Integration extends UniverseEntity<IntegrationPayload, IntegrationRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: IntegrationOptions
   public initialized: boolean
@@ -76,6 +77,7 @@ export class Integration extends Entity<IntegrationPayload, IntegrationRawPayloa
   constructor (options: IntegrationOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/integrations'
     this.http = options.http
     this.options = options

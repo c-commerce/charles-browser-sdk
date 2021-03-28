@@ -1,6 +1,6 @@
 import charles, { isEntity } from '../src/charles'
 import { Product } from '../src/entities/product'
-import { EntityOptions } from '../src/entities/_base'
+import { UniverseEntityOptions } from '../src/entities/_base'
 
 charles.init({
   universe: 'https://staging-api.hello-charles.com'
@@ -9,7 +9,7 @@ charles.init({
 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 const mockUniverse = {
   universeBase: 'https://my-business.hello-charles.com'
-} as EntityOptions['universe']
+} as UniverseEntityOptions['universe']
 
 const mockCallback = jest.fn((opts: object) => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
@@ -33,7 +33,7 @@ const mockHttp = {
       return mockCallback(opts)
     }
   }
-} as EntityOptions['http']
+} as UniverseEntityOptions['http']
 
 describe('SDK util: util functions work as expected', () => {
   it('isEntity can check for entity', () => {

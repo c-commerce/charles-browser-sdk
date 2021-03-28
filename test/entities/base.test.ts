@@ -1,8 +1,8 @@
-import Entity, { EntityOptions } from '../../src/entities/_base'
+import { UniverseEntity, UniverseEntityOptions } from '../../src/entities/_base'
 
 describe('Entities: base', () => {
   it('can instantiate and prepare data correctly', async () => {
-    interface ClsOptions extends EntityOptions {
+    interface ClsOptions extends UniverseEntityOptions {
       rawPayload: ClsRawPayload
     }
 
@@ -16,12 +16,13 @@ describe('Entities: base', () => {
       name?: string | null
     }
 
-    class Cls extends Entity<ClsPayload, ClsRawPayload> {
+    class Cls extends UniverseEntity<ClsPayload, ClsRawPayload> {
       public id?: ClsPayload['id']
       public name?: ClsPayload['name']
 
-      protected universe: EntityOptions['universe']
-      protected http: EntityOptions['http']
+      protected universe: UniverseEntityOptions['universe']
+      protected apiCarrier: UniverseEntityOptions['universe']
+      protected http: UniverseEntityOptions['http']
       protected options: ClsOptions
       public initialized: boolean
 
@@ -30,6 +31,7 @@ describe('Entities: base', () => {
       constructor (options: ClsOptions) {
         super()
         this.universe = options.universe
+        this.apiCarrier = options.universe
         this.endpoint = 'api/v0/cls_endpoint'
         this.http = options.http
         this.options = options
@@ -65,8 +67,11 @@ describe('Entities: base', () => {
 
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const mockUniverse = {
-      universeBase: 'https://my-business.hello-charles.com'
-    } as EntityOptions['universe']
+      universeBase: 'https://my-business.hello-charles.com',
+      injectables: {
+        base: 'https://my-business.hello-charles.com'
+      }
+    } as UniverseEntityOptions['universe']
 
     const mockCallback = jest.fn((opts: object) => {
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
@@ -90,7 +95,7 @@ describe('Entities: base', () => {
           return mockCallback(opts)
         }
       }
-    } as EntityOptions['http']
+    } as UniverseEntityOptions['http']
 
     const inst = new Cls({
       rawPayload: obj,
@@ -177,7 +182,7 @@ describe('Entities: base', () => {
           return postableMockCallback(opts)
         }
       }
-    } as EntityOptions['http']
+    } as UniverseEntityOptions['http']
 
     const instPostable = new Cls({
       rawPayload: {

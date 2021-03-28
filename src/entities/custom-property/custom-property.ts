@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface CustomPropertyOptions extends EntityOptions {
+export interface CustomPropertyOptions extends UniverseEntityOptions {
   rawPayload?: CustomPropertyRawPayload
 }
 
@@ -87,8 +87,9 @@ export interface CustomPropertyPayload {
  *
  * @category Entity
  */
-export class CustomProperty extends Entity<CustomPropertyPayload, CustomPropertyRawPayload> {
+export class CustomProperty extends UniverseEntity<CustomPropertyPayload, CustomPropertyRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: CustomPropertyOptions
   public initialized: boolean
@@ -116,6 +117,7 @@ export class CustomProperty extends Entity<CustomPropertyPayload, CustomProperty
   constructor (options: CustomPropertyOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/custom_properties'
     this.http = options.http
     this.options = options

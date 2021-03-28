@@ -1,5 +1,6 @@
 import Entity, {
-  EntityOptions,
+  UniverseEntity,
+  UniverseEntityOptions,
   EntityRawPayload,
   EntityFetchOptions,
   EntitiesList,
@@ -17,7 +18,7 @@ import omit from 'just-omit'
 import qs from 'qs'
 import { Deal, DealRawPayload } from '../deal/deal'
 
-export interface PersonOptions extends EntityOptions {
+export interface PersonOptions extends UniverseEntityOptions {
   rawPayload?: PersonRawPayload
 }
 
@@ -148,12 +149,14 @@ export interface IPersonAddresses {
 
 class AddressArray<T> extends Array<T> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected person: Person
 
   constructor (items: T[], universe: Universe, http: Universe['http'], person: Person) {
     super(...items)
     this.universe = universe
+    this.apiCarrier = universe
     this.http = http
     this.person = person
     Object.setPrototypeOf(this, AddressArray.prototype)
@@ -247,8 +250,9 @@ export interface PersonPayload {
  *
  * @category Entity
  */
-export class Person extends Entity<PersonPayload, PersonRawPayload> {
+export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: PersonOptions
   public initialized: boolean
@@ -285,6 +289,7 @@ export class Person extends Entity<PersonPayload, PersonRawPayload> {
   constructor (options: PersonOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/people'
     this.http = options.http
     this.options = options
@@ -749,11 +754,13 @@ export class People extends EntitiesList<Person, PersonRawPayload> {
   public static endpoint: string = 'api/v0/people'
   public endpoint: string = People.endpoint
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
 
   constructor (options: PeopleOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
   }
 
@@ -770,8 +777,9 @@ export class People extends EntitiesList<Person, PersonRawPayload> {
   }
 }
 
-export class Address extends Entity<PersonAddressPayload, PersonAddressRawPayload> {
+export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: AddressOptions
   public initialized: boolean
@@ -799,6 +807,7 @@ export class Address extends Entity<PersonAddressPayload, PersonAddressRawPayloa
   constructor (options: AddressOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -893,6 +902,7 @@ export class Address extends Entity<PersonAddressPayload, PersonAddressRawPayloa
 
 export class Phonenumber {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: PhonenumberOptions
   public initialized: boolean
@@ -908,6 +918,7 @@ export class Phonenumber {
 
   constructor (options: PhonenumberOptions) {
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false

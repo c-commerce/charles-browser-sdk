@@ -1,4 +1,4 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../entities/_base'
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../entities/_base'
 import { Universe } from '../universe'
 import { BaseError } from '../errors'
 import { Person, PersonRawPayload } from '../entities/person'
@@ -6,7 +6,7 @@ import { Assets, Asset } from '../entities/asset/asset'
 import { FeedRawPayload, Feed } from '../eventing/feeds'
 import { Event } from '../eventing/feeds/event'
 
-export interface MessageOptions extends EntityOptions {
+export interface MessageOptions extends UniverseEntityOptions {
   universe: Universe
   http: Universe['http']
   rawPayload?: MessageRawPayload
@@ -97,8 +97,9 @@ export interface MessagePayload {
 
 // export type Message = MessagePayload
 
-export class Message extends Entity<MessagePayload, MessageRawPayload> {
+export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: MessageOptions
   public initialized: boolean
@@ -131,6 +132,7 @@ export class Message extends Entity<MessagePayload, MessageRawPayload> {
   constructor (options: MessageOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/messages'
     this.http = options.http
     this.options = options

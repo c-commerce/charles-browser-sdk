@@ -1,10 +1,10 @@
 
-import Entity, { EntityOptions, EntityRawPayload } from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import qs from 'qs'
 
-export interface AssetOptions extends EntityOptions {
+export interface AssetOptions extends UniverseEntityOptions {
   rawPayload?: AssetRawPayload
 }
 
@@ -56,8 +56,9 @@ export interface AssetPayload {
  *
  * @category Entity
  */
-export class Asset extends Entity<AssetPayload, AssetRawPayload> {
+export class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: AssetOptions
   public initialized: boolean
@@ -82,6 +83,7 @@ export class Asset extends Entity<AssetPayload, AssetRawPayload> {
   constructor (options: AssetOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/assets'
     this.http = options.http
     this.options = options
@@ -210,6 +212,7 @@ export interface AssetsPostOptions {
 export class Assets {
   protected http: Universe['http']
   protected universe: Universe
+  protected apiCarrier: Universe
   public static endpoint: string = 'api/v0/assets'
 
   private readonly options?: AssetsOptions
@@ -218,6 +221,7 @@ export class Assets {
     this.options = options
     this.http = options.http
     this.universe = options.universe
+    this.apiCarrier = options.universe
   }
 
   public async post (payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined> {

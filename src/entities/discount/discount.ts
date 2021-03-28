@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface DiscountOptions extends EntityOptions {
+export interface DiscountOptions extends UniverseEntityOptions {
   rawPayload?: DiscountRawPayload
 }
 
@@ -55,8 +55,9 @@ export interface DiscountPayload {
  *
  * @category Entity
  */
-export class Discount extends Entity<DiscountPayload, DiscountRawPayload> {
+export class Discount extends UniverseEntity<DiscountPayload, DiscountRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: DiscountOptions
   public initialized: boolean
@@ -76,6 +77,7 @@ export class Discount extends Entity<DiscountPayload, DiscountRawPayload> {
   constructor (options: DiscountOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/discounts'
     this.http = options.http
     this.options = options

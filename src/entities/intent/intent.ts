@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface IntentOptions extends EntityOptions {
+export interface IntentOptions extends UniverseEntityOptions {
   rawPayload?: IntentRawPayload
 }
 
@@ -52,8 +52,9 @@ export interface IntentPayload {
  *
  * @category Entity
  */
-export class Intent extends Entity<IntentPayload, IntentRawPayload> {
+export class Intent extends UniverseEntity<IntentPayload, IntentRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: IntentOptions
   public initialized: boolean
@@ -81,6 +82,7 @@ export class Intent extends Entity<IntentPayload, IntentRawPayload> {
   constructor (options: IntentOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/intents'
     this.http = options.http
     this.options = options

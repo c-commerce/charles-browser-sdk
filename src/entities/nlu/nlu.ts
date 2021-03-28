@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface NluOptions extends EntityOptions {
+export interface NluOptions extends UniverseEntityOptions {
   rawPayload?: NluRawPayload
 }
 
@@ -52,8 +52,9 @@ export interface NluPayload {
  *
  * @category Entity
  */
-export class Nlu extends Entity<NluPayload, NluRawPayload> {
+export class Nlu extends UniverseEntity<NluPayload, NluRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: NluOptions
   public initialized: boolean
@@ -81,6 +82,7 @@ export class Nlu extends Entity<NluPayload, NluRawPayload> {
   constructor (options: NluOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/nlus'
     this.http = options.http
     this.options = options

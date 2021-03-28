@@ -1,5 +1,5 @@
 
-import Entity, { EntityOptions, EntityFetchOptions, EntityDeleteOptions } from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityDeleteOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import {
@@ -9,7 +9,7 @@ import {
 } from './static-entry'
 import qs from 'qs'
 
-export interface ContactListOptions extends EntityOptions {
+export interface ContactListOptions extends UniverseEntityOptions {
   rawPayload?: ContactListRawPayload
 }
 
@@ -54,8 +54,9 @@ export interface ContactListPayload {
  *
  * @category Entity
  */
-export class ContactList extends Entity<ContactListPayload, ContactListRawPayload> {
+export class ContactList extends UniverseEntity<ContactListPayload, ContactListRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: ContactListOptions
   public initialized: boolean
@@ -78,6 +79,7 @@ export class ContactList extends Entity<ContactListPayload, ContactListRawPayloa
   constructor (options: ContactListOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/contact_lists'
     this.http = options.http
     this.options = options
@@ -207,12 +209,14 @@ export class ContactLists {
 
 class StaticEntryArray<T> extends Array<T> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected contactList: ContactList
 
   constructor (items: T[], universe: Universe, http: Universe['http'], contactList: ContactList) {
     super(...items)
     this.universe = universe
+    this.apiCarrier = universe
     this.http = http
     this.contactList = contactList
     Object.setPrototypeOf(this, StaticEntryArray.prototype)

@@ -1,14 +1,14 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { IDiscountType } from '../discount/discount'
 
-export interface CartOptions extends EntityOptions {
+export interface CartOptions extends UniverseEntityOptions {
   rawPayload?: CartRawPayload
 }
 
-export interface CartItemOptions extends EntityOptions {
+export interface CartItemOptions extends UniverseEntityOptions {
   rawPayload?: CartItemRawPayload
 }
 
@@ -216,6 +216,7 @@ export interface AddItemItemOptions {
 
 export class CartItem {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: CartOptions
 
@@ -243,6 +244,7 @@ export class CartItem {
 
   constructor (options: CartItemOptions) {
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
     this.options = options
 
@@ -313,8 +315,9 @@ export class CartItem {
  *
  * @category CommerceEntity
  */
-export class Cart extends Entity<CartPayload, CartRawPayload> {
+export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: CartOptions
   public initialized: boolean
@@ -361,6 +364,7 @@ export class Cart extends Entity<CartPayload, CartRawPayload> {
   constructor (options: CartOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/carts'
     this.http = options.http
     this.options = options

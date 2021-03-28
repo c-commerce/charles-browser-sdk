@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface KnowledgeBaseFaqItemOptions extends EntityOptions {
+export interface KnowledgeBaseFaqItemOptions extends UniverseEntityOptions {
   rawPayload?: KnowledgeBaseFaqItemRawPayload
 }
 
@@ -42,8 +42,9 @@ export interface KnowledgeBaseFaqItemPayload {
  *
  * @category Entity
  */
-export class KnowledgeBaseFaqItem extends Entity<KnowledgeBaseFaqItemPayload, KnowledgeBaseFaqItemRawPayload> {
+export class KnowledgeBaseFaqItem extends UniverseEntity<KnowledgeBaseFaqItemPayload, KnowledgeBaseFaqItemRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: KnowledgeBaseFaqItemOptions
   public initialized: boolean
@@ -65,6 +66,7 @@ export class KnowledgeBaseFaqItem extends Entity<KnowledgeBaseFaqItemPayload, Kn
   constructor (options: KnowledgeBaseFaqItemOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/knowledge_base_faq_items'
     this.http = options.http
     this.options = options

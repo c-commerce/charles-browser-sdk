@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface RouteOptions extends EntityOptions {
+export interface RouteOptions extends UniverseEntityOptions {
   rawPayload?: RouteRawPayload
 }
 
@@ -44,8 +44,9 @@ export interface RoutePayload {
  *
  * @category Entity
  */
-export class Route extends Entity<RoutePayload, RouteRawPayload> {
+export class Route extends UniverseEntity<RoutePayload, RouteRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: RouteOptions
   public initialized: boolean
@@ -68,6 +69,7 @@ export class Route extends Entity<RoutePayload, RouteRawPayload> {
   constructor (options: RouteOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/routes'
     this.http = options.http
     this.options = options

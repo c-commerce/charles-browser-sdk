@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface CRMOptions extends EntityOptions {
+export interface CRMOptions extends UniverseEntityOptions {
   rawPayload?: CRMRawPayload
 }
 
@@ -46,8 +46,9 @@ export interface CRMPayload {
  *
  * @category Entity
  */
-export class CRM extends Entity<CRMPayload, CRMRawPayload> {
+export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: CRMOptions
   public initialized: boolean
@@ -72,6 +73,7 @@ export class CRM extends Entity<CRMPayload, CRMRawPayload> {
   constructor (options: CRMOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/crms'
     this.http = options.http
     this.options = options

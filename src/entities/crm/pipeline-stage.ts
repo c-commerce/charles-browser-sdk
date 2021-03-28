@@ -1,9 +1,9 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
-export interface PipelineStageOptions extends EntityOptions {
+export interface PipelineStageOptions extends UniverseEntityOptions {
   rawPayload?: PipelineStageRawPayload
 }
 
@@ -46,8 +46,9 @@ export interface PipelineStagePayload {
  *
  * @category Entity
  */
-export class PipelineStage extends Entity<PipelineStagePayload, PipelineStageRawPayload> {
+export class PipelineStage extends UniverseEntity<PipelineStagePayload, PipelineStageRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: PipelineStageOptions
   public initialized: boolean
@@ -72,6 +73,7 @@ export class PipelineStage extends Entity<PipelineStagePayload, PipelineStageRaw
   constructor (options: PipelineStageOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
