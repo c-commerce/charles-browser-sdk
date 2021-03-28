@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface IntegrationOptions extends EntityOptions {
+export interface IntegrationOptions extends UniverseEntityOptions {
     rawPayload?: IntegrationRawPayload;
 }
 export interface IntegrationRawPayload {
@@ -45,8 +45,9 @@ export interface IntegrationPayload {
     readonly type?: IntegrationRawPayload['type'];
     readonly payload?: IntegrationRawPayload['payload'];
 }
-export declare class Integration extends Entity<IntegrationPayload, IntegrationRawPayload> {
+export declare class Integration extends UniverseEntity<IntegrationPayload, IntegrationRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: IntegrationOptions;
     initialized: boolean;

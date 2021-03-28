@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface RouteOptions extends EntityOptions {
+export interface RouteOptions extends UniverseEntityOptions {
     rawPayload?: RouteRawPayload;
 }
 export interface RouteRawPayload {
@@ -34,8 +34,9 @@ export interface RoutePayload {
     readonly kind?: RouteRawPayload['kind'];
     readonly labels?: RouteRawPayload['labels'];
 }
-export declare class Route extends Entity<RoutePayload, RouteRawPayload> {
+export declare class Route extends UniverseEntity<RoutePayload, RouteRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: RouteOptions;
     initialized: boolean;

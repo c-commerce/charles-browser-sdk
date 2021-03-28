@@ -1,8 +1,8 @@
-import Entity, { EntityOptions, EntityFetchOptions } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { EventRawPayload } from '../../eventing/feeds/event';
-export interface NotificationCampaignOptions extends EntityOptions {
+export interface NotificationCampaignOptions extends UniverseEntityOptions {
     rawPayload?: NotificationCampaignRawPayload;
 }
 export interface NotificationCampaignTestRawPayload {
@@ -105,8 +105,9 @@ export interface NotificationCampaignPayload {
     readonly analytics?: NotificationCampaignRawPayload['analytics'];
     readonly messageAuthor?: NotificationCampaignRawPayload['message_author'];
 }
-export declare class NotificationCampaign extends Entity<NotificationCampaignPayload, NotificationCampaignRawPayload> {
+export declare class NotificationCampaign extends UniverseEntity<NotificationCampaignPayload, NotificationCampaignRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: NotificationCampaignOptions;
     initialized: boolean;

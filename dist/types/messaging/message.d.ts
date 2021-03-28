@@ -1,11 +1,11 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../entities/_base';
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../entities/_base';
 import { Universe } from '../universe';
 import { BaseError } from '../errors';
 import { Person, PersonRawPayload } from '../entities/person';
 import { Asset } from '../entities/asset/asset';
 import { FeedRawPayload, Feed } from '../eventing/feeds';
 import { Event } from '../eventing/feeds/event';
-export interface MessageOptions extends EntityOptions {
+export interface MessageOptions extends UniverseEntityOptions {
     universe: Universe;
     http: Universe['http'];
     rawPayload?: MessageRawPayload;
@@ -88,8 +88,9 @@ export interface MessagePayload {
     readonly person?: Person;
     readonly feed?: Feed;
 }
-export declare class Message extends Entity<MessagePayload, MessageRawPayload> {
+export declare class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: MessageOptions;
     initialized: boolean;

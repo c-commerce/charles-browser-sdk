@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface ThingOptions extends EntityOptions {
+export interface ThingOptions extends UniverseEntityOptions {
     rawPayload?: ThingRawPayload;
 }
 export interface ThingRawPayload {
@@ -36,8 +36,9 @@ export interface ThingPayload {
     readonly autoDisconnect?: ThingRawPayload['auto_disconnect'];
     readonly lastActivityAt?: Date | null;
 }
-export declare class Thing extends Entity<ThingPayload, ThingRawPayload> {
+export declare class Thing extends UniverseEntity<ThingPayload, ThingRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: ThingOptions;
     initialized: boolean;

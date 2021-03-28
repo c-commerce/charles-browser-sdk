@@ -2,13 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Comment = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../../entities/_base"));
+var _base_1 = require("../../entities/_base");
 var Comment = (function (_super) {
     tslib_1.__extends(Comment, _super);
     function Comment(options) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.feed = options.feed;
         _this.endpoint = _this.feed.id + "/comments";
         _this.http = options.http;
@@ -45,6 +46,6 @@ var Comment = (function (_super) {
         };
     };
     return Comment;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Comment = Comment;
 //# sourceMappingURL=comment.js.map

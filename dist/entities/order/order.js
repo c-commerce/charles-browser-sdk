@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderExportRemoteError = exports.OrdersAssociationRemoteError = exports.OrdersFetchRemoteError = exports.OrdersFetchCountRemoteError = exports.OrderFetchRemoteError = exports.OrderInitializationError = exports.Orders = exports.Order = exports.OrderItem = exports.IOrderStatusEnum = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importStar(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var IOrderStatusEnum;
 (function (IOrderStatusEnum) {
@@ -14,6 +14,7 @@ var IOrderStatusEnum;
 var OrderItem = (function () {
     function OrderItem(options) {
         this.universe = options.universe;
+        this.apiCarrier = options.universe;
         this.http = options.http;
         this.options = options;
         if (options === null || options === void 0 ? void 0 : options.rawPayload) {
@@ -65,6 +66,7 @@ var Order = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/orders';
         _this.http = options.http;
         _this.options = options;
@@ -222,7 +224,7 @@ var Order = (function (_super) {
         });
     };
     return Order;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Order = Order;
 var Orders = (function (_super) {
     tslib_1.__extends(Orders, _super);
@@ -230,6 +232,7 @@ var Orders = (function (_super) {
         var _this = _super.call(this) || this;
         _this.endpoint = Orders.endpoint;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.http = options.http;
         return _this;
     }

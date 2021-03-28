@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessagesFetchFailed = exports.MessageUpdateFailed = exports.Messages = void 0;
 var tslib_1 = require("tslib");
 var base_error_1 = require("../errors/base-error");
-var base_1 = require("../base");
+var index_1 = require("../base/index");
 var Messages = (function (_super) {
     tslib_1.__extends(Messages, _super);
     function Messages(options, http) {
@@ -85,7 +85,7 @@ var Messages = (function (_super) {
     };
     Messages.baseEndpoint = '/api/v0/messages';
     return Messages;
-}(base_1.CharlesBaseHandler));
+}(index_1.CharlesBaseHandler));
 exports.Messages = Messages;
 var MessageUpdateFailed = (function (_super) {
     tslib_1.__extends(MessageUpdateFailed, _super);

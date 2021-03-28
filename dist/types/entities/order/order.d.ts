@@ -1,11 +1,11 @@
-import Entity, { EntityOptions, EntitiesList } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntitiesList } from '../_base';
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe';
 import { BaseError } from '../../errors';
 import { IDiscountType } from '../discount/discount';
-export interface OrderOptions extends EntityOptions {
+export interface OrderOptions extends UniverseEntityOptions {
     rawPayload?: OrderRawPayload;
 }
-export interface OrderItemOptions extends EntityOptions {
+export interface OrderItemOptions extends UniverseEntityOptions {
     rawPayload?: OrderItemRawPayload;
 }
 export interface OrderAmount {
@@ -175,6 +175,7 @@ export interface OrderPayload {
 }
 export declare class OrderItem {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: OrderOptions;
     qty?: OrderItemPayload['qty'];
@@ -195,8 +196,9 @@ export declare class OrderItem {
     static create(payload: OrderItemRawPayload, universe: Universe, http: Universe['http']): OrderItem;
     serialize(): OrderItemRawPayload;
 }
-export declare class Order extends Entity<OrderPayload, OrderRawPayload> {
+export declare class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: OrderOptions;
     initialized: boolean;
@@ -251,6 +253,7 @@ export declare class Orders extends EntitiesList<Order, OrderRawPayload> {
     static endpoint: string;
     endpoint: string;
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     constructor(options: OrdersOptions);
     protected parseItem(payload: OrderRawPayload): Order;

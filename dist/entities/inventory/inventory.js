@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InventoriesFetchRemoteError = exports.InventoryFetchRemoteError = exports.InventoryInitializationError = exports.Inventories = exports.Inventory = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var Inventory = (function (_super) {
     tslib_1.__extends(Inventory, _super);
@@ -10,6 +10,7 @@ var Inventory = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/inventories';
         _this.http = options.http;
         _this.options = options;
@@ -76,7 +77,7 @@ var Inventory = (function (_super) {
         });
     };
     return Inventory;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Inventory = Inventory;
 var Inventories = (function () {
     function Inventories() {

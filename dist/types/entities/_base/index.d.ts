@@ -2,6 +2,7 @@
 import { EventEmitter } from 'events';
 import { Readable, pipeline } from 'readable-stream';
 import { SyncHook, SyncBailHook, SyncWaterfallHook, SyncLoopHook, AsyncParallelHook, AsyncParallelBailHook, AsyncSeriesHook, AsyncSeriesBailHook, AsyncSeriesWaterfallHook } from 'tapable';
+import { APICarrier } from '../../base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 export interface RawPatchItem {
@@ -11,9 +12,12 @@ export interface RawPatchItem {
 }
 export declare type RawPatch = RawPatchItem[];
 export interface EntityOptions {
-    universe: Universe;
-    http: Universe['http'];
+    carrier: APICarrier;
+    http: APICarrier['http'];
     initialized?: boolean;
+}
+export interface UniverseEntityOptions extends Omit<EntityOptions, 'carrier'> {
+    universe: Universe;
 }
 export interface EntityRawPayload {
     readonly id?: string;
@@ -37,8 +41,8 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     protected hooks: {
         [key: string]: SyncHook | SyncBailHook | SyncWaterfallHook | SyncLoopHook | AsyncParallelHook | AsyncParallelBailHook | AsyncSeriesHook | AsyncSeriesBailHook | AsyncSeriesWaterfallHook;
     };
-    protected abstract universe: Universe;
-    protected abstract http: Universe['http'];
+    protected abstract apiCarrier: APICarrier;
+    protected abstract http: APICarrier['http'];
     protected _rawPayload?: RawPayload | null;
     abstract id?: string;
     abstract endpoint: string;
@@ -62,6 +66,9 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     protected _delete(): Promise<Entity<Payload, RawPayload>>;
     save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>>;
     protected _save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>>;
+}
+export declare abstract class UniverseEntity<Payload, RawPayload> extends Entity<Payload, RawPayload> {
+    protected abstract universe: Universe;
 }
 export declare class EntityPatchError extends BaseError {
     message: string;
@@ -102,8 +109,8 @@ export interface EntitiesListExportCsvOptions {
     query?: EntitiesListExportCsvQuery;
 }
 export declare abstract class EntitiesList<Entity, RawPayload> extends Readable {
-    protected abstract universe: Universe;
-    protected abstract http: Universe['http'];
+    protected abstract apiCarrier: APICarrier;
+    protected abstract http: APICarrier['http'];
     abstract endpoint: string;
     constructor();
     _read(): void;

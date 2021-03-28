@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface TagOptions extends EntityOptions {
+export interface TagOptions extends UniverseEntityOptions {
     rawPayload?: TagRawPayload;
 }
 export interface TagRawPayload {
@@ -26,8 +26,9 @@ export interface TagPayload {
     readonly description?: TagRawPayload['description'];
     readonly tagGroup?: TagRawPayload['tag_group'];
 }
-export declare class Tag extends Entity<TagPayload, TagRawPayload> {
+export declare class Tag extends UniverseEntity<TagPayload, TagRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: TagOptions;
     initialized: boolean;

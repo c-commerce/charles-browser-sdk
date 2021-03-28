@@ -1,4 +1,4 @@
-import Entity, { EntityOptions, EntityRawPayload, RawPatch } from '../_base';
+import Entity, { UniverseEntity, UniverseEntityOptions, EntityRawPayload, RawPatch } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 export interface EmailRawPayload extends EntityRawPayload {
@@ -11,7 +11,7 @@ export interface EmailRawPayload extends EntityRawPayload {
     readonly value?: string;
     readonly comment?: string;
 }
-export interface EmailOptions extends EntityOptions {
+export interface EmailOptions extends UniverseEntityOptions {
     rawPayload?: EmailRawPayload;
 }
 export interface EmailPayload {
@@ -23,8 +23,9 @@ export interface EmailPayload {
     readonly comment?: EmailRawPayload['comment'];
     readonly value?: EmailRawPayload['value'];
 }
-export declare class Email extends Entity<EmailPayload, EmailRawPayload> {
+export declare class Email extends UniverseEntity<EmailPayload, EmailRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: EmailOptions;
     initialized: boolean;

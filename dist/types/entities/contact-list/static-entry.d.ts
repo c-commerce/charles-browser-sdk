@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface StaticEntryOptions extends EntityOptions {
+export interface StaticEntryOptions extends UniverseEntityOptions {
     rawPayload?: ContactListStaticEntryRawPayload;
 }
 export interface ContactListStaticEntryRawPayload {
@@ -46,8 +46,9 @@ export interface ContactListStaticEntryPayload {
     readonly resource?: ContactListStaticEntryRawPayload['resource'];
     readonly originResource?: ContactListStaticEntryRawPayload['origin_resource'];
 }
-export declare class ContactListStaticEntry extends Entity<ContactListStaticEntryPayload, ContactListStaticEntryRawPayload> {
+export declare class ContactListStaticEntry extends UniverseEntity<ContactListStaticEntryPayload, ContactListStaticEntryRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: StaticEntryOptions;
     initialized: boolean;

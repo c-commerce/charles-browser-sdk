@@ -1,7 +1,7 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface TicketOptions extends EntityOptions {
+export interface TicketOptions extends UniverseEntityOptions {
     rawPayload?: TicketRawPayload;
 }
 export interface TicketRawPayload extends EntityRawPayload {
@@ -45,8 +45,9 @@ export interface TicketPayload {
     readonly tags?: string[];
     readonly linked?: TicketRawPayload['linked'];
 }
-export declare class Ticket extends Entity<TicketPayload, TicketRawPayload> {
+export declare class Ticket extends UniverseEntity<TicketPayload, TicketRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: TicketOptions;
     initialized: boolean;

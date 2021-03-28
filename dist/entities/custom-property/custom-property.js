@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomPropertiesFetchRemoteError = exports.CustomPropertyFetchRemoteError = exports.CustomPropertyInitializationError = exports.CustomProperties = exports.CustomProperty = exports.CustomPropertyTypesEnum = exports.CustomPropertyInputTypesEnum = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var CustomPropertyInputTypesEnum;
 (function (CustomPropertyInputTypesEnum) {
@@ -30,6 +30,7 @@ var CustomProperty = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/custom_properties';
         _this.http = options.http;
         _this.options = options;
@@ -106,7 +107,7 @@ var CustomProperty = (function (_super) {
         });
     };
     return CustomProperty;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.CustomProperty = CustomProperty;
 var CustomProperties = (function () {
     function CustomProperties() {

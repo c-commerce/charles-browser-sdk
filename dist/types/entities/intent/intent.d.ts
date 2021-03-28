@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface IntentOptions extends EntityOptions {
+export interface IntentOptions extends UniverseEntityOptions {
     rawPayload?: IntentRawPayload;
 }
 export interface IntentRawPayload {
@@ -48,8 +48,9 @@ export interface IntentPayload {
     readonly effect?: IntentRawPayload['effect'];
     readonly payload?: IntentRawPayload['payload'];
 }
-export declare class Intent extends Entity<IntentPayload, IntentRawPayload> {
+export declare class Intent extends UniverseEntity<IntentPayload, IntentRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: IntentOptions;
     initialized: boolean;

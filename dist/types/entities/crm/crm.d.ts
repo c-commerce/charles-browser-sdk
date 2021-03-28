@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface CRMOptions extends EntityOptions {
+export interface CRMOptions extends UniverseEntityOptions {
     rawPayload?: CRMRawPayload;
 }
 export interface CRMRawPayload {
@@ -36,8 +36,9 @@ export interface CRMPayload {
     readonly metadata?: CRMRawPayload['metadata'];
     readonly labels?: CRMRawPayload['labels'];
 }
-export declare class CRM extends Entity<CRMPayload, CRMRawPayload> {
+export declare class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: CRMOptions;
     initialized: boolean;

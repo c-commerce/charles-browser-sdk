@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface DealEventOptions extends EntityOptions {
+export interface DealEventOptions extends UniverseEntityOptions {
     rawPayload?: DealEventRawPayload;
 }
 export interface DealEventRawPayload {
@@ -30,8 +30,9 @@ export interface DealEventPayload {
     readonly author?: DealEventRawPayload['author'];
     readonly proxyPayload?: DealEventRawPayload['proxy_payload'];
 }
-export declare class DealEvent extends Entity<DealEventPayload, DealEventRawPayload> {
+export declare class DealEvent extends UniverseEntity<DealEventPayload, DealEventRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: DealEventOptions;
     initialized: boolean;

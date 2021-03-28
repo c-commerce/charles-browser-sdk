@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StorefrontSyncProductCategoriesRemoteError = exports.StorefrontSyncLocationsRemoteError = exports.StorefrontSetupRemoteError = exports.StorefrontSyncInventoriesRemoteError = exports.StorefrontSyncOrdersRemoteError = exports.StorefrontSyncProductsRemoteError = exports.StorefrontsFetchRemoteError = exports.StorefrontFetchRemoteError = exports.StorefrontInitializationError = exports.Storefronts = exports.Storefront = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var Storefront = (function (_super) {
     tslib_1.__extends(Storefront, _super);
@@ -10,6 +10,7 @@ var Storefront = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/storefronts';
         _this.http = options.http;
         _this.options = options;
@@ -275,7 +276,7 @@ var Storefront = (function (_super) {
         });
     };
     return Storefront;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Storefront = Storefront;
 var Storefronts = (function () {
     function Storefronts() {

@@ -4,6 +4,7 @@ import { UsernameAuth, KeyAuth, TokenAuth } from './v0/auth';
 import * as v0 from './v0';
 import { Client } from './client';
 import { Universe, UnviverseSingleton, UniverseOptions } from './universe';
+import { Cloud, CloudSingleton } from './cloud/index';
 import { isEntity } from './helpers/entity';
 export { v0, Universe, UniverseOptions, isEntity };
 export declare const defaultOptions: CharlesSDKOptions;
@@ -26,6 +27,10 @@ export interface IUniverseFactoryOptions {
     universeBase?: UniverseOptions['universeBase'];
     mqttUniverseBase?: UniverseOptions['mqttUniverseBase'];
 }
+export interface ICloudFactoryOptions {
+    singleton?: boolean;
+    base?: string;
+}
 export declare interface CharlesClient {
     on: ((event: 'raw-error' | 'error', listener: (error: Error) => void) => this) & ((event: string, listener: Function) => this);
 }
@@ -44,6 +49,7 @@ export declare class CharlesClient extends events.EventEmitter {
     private handleOptions;
     private generateAuthenticatedInstance;
     universe(name: string, options?: IUniverseFactoryOptions): Universe | UnviverseSingleton;
+    cloud(options?: ICloudFactoryOptions): Cloud | CloudSingleton;
     messages(): v0.Messages;
 }
 export declare class Charles extends CharlesClient {

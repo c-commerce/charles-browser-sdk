@@ -1,11 +1,11 @@
-import Entity, { EntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList, EntityDeleteOptions, RawPatch } from '../_base';
+import Entity, { UniverseEntity, UniverseEntityOptions, EntityRawPayload, EntityFetchOptions, EntitiesList, EntityDeleteOptions, RawPatch } from '../_base';
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe';
 import { BaseError } from '../../errors';
 import { Order, OrderRawPayload } from '../../entities/order/order';
 import { ChannelUser, ChannelUserRawPayload } from './channel-user';
 import { Analytics, AnalyticsRawPayload } from './analytics';
 import { Email, EmailRawPayload } from './email';
-export interface PersonOptions extends EntityOptions {
+export interface PersonOptions extends UniverseEntityOptions {
     rawPayload?: PersonRawPayload;
 }
 export interface AddressOptions extends PersonOptions {
@@ -123,6 +123,7 @@ export interface IPersonAddresses {
 }
 declare class AddressArray<T> extends Array<T> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected person: Person;
     constructor(items: T[], universe: Universe, http: Universe['http'], person: Person);
@@ -159,8 +160,9 @@ export interface PersonPayload {
     readonly defaultAddress?: PersonRawPayload['default_address'];
     readonly languagePreference?: PersonRawPayload['language_preference'];
 }
-export declare class Person extends Entity<PersonPayload, PersonRawPayload> {
+export declare class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: PersonOptions;
     initialized: boolean;
@@ -221,14 +223,16 @@ export declare class People extends EntitiesList<Person, PersonRawPayload> {
     static endpoint: string;
     endpoint: string;
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     constructor(options: PeopleOptions);
     protected parseItem(payload: PersonRawPayload): Person;
     getStream(options?: UniverseFetchOptions): Promise<People>;
     exportCsv(options?: UniverseExportCsvOptions): Promise<Blob>;
 }
-export declare class Address extends Entity<PersonAddressPayload, PersonAddressRawPayload> {
+export declare class Address extends UniverseEntity<PersonAddressPayload, PersonAddressRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: AddressOptions;
     initialized: boolean;
@@ -260,6 +264,7 @@ export declare class Address extends Entity<PersonAddressPayload, PersonAddressR
 }
 export declare class Phonenumber {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: PhonenumberOptions;
     initialized: boolean;

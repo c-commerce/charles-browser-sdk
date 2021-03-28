@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmailSaveRemoteError = exports.EmailApplyPatchRemoteError = exports.EmailPatchRemoteError = exports.EmailFetchRemoteError = exports.EmailCreateRemoteError = exports.EmailsFetchRemoteError = exports.Email = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var just_omit_1 = tslib_1.__importDefault(require("just-omit"));
 var Email = (function (_super) {
@@ -11,6 +11,7 @@ var Email = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -110,7 +111,7 @@ var Email = (function (_super) {
         });
     };
     return Email;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Email = Email;
 var EmailsFetchRemoteError = (function (_super) {
     tslib_1.__extends(EmailsFetchRemoteError, _super);

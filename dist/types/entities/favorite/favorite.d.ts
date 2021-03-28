@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface FavoriteOptions extends EntityOptions {
+export interface FavoriteOptions extends UniverseEntityOptions {
     rawPayload?: FavoriteRawPayload;
 }
 export interface FavoriteRawPayload {
@@ -34,8 +34,9 @@ export interface FavoritePayload {
     readonly pages?: FavoriteRawPayload['pages'];
     readonly items?: FavoriteRawPayload['items'];
 }
-export declare class Favorite extends Entity<FavoritePayload, FavoriteRawPayload> {
+export declare class Favorite extends UniverseEntity<FavoritePayload, FavoriteRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: FavoriteOptions;
     initialized: boolean;

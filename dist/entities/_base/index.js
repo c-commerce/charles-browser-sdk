@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EntitiesList = exports.EntityFetchError = exports.EntityPutError = exports.EntityDeleteError = exports.EntityPostError = exports.EntityPatchError = exports.HookableEvented = void 0;
+exports.EntitiesList = exports.EntityFetchError = exports.EntityPutError = exports.EntityDeleteError = exports.EntityPostError = exports.EntityPatchError = exports.UniverseEntity = exports.HookableEvented = void 0;
 var tslib_1 = require("tslib");
 var just_omit_1 = tslib_1.__importDefault(require("just-omit"));
 var events_1 = require("events");
@@ -53,33 +53,33 @@ var Entity = (function (_super) {
         });
     };
     Entity.prototype._fetch = function (options) {
-        var _a, _b;
+        var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, response, err_1;
-            return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         if (this.id === null || this.id === undefined)
                             throw new TypeError('fetch requires id to be set.');
-                        _c.label = 1;
+                        _d.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
+                        _d.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'GET',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
                             },
                             data: undefined,
                             responseType: 'json'
                         };
-                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
                     case 2:
-                        response = _c.sent();
+                        response = _d.sent();
                         this.deserialize(response.data.data[0]);
                         return [2, this];
                     case 3:
-                        err_1 = _c.sent();
+                        err_1 = _d.sent();
                         throw new EntityFetchError(undefined, { error: err_1 });
                     case 4: return [2];
                 }
@@ -97,11 +97,11 @@ var Entity = (function (_super) {
         });
     };
     Entity.prototype._patch = function (changePart) {
-        var _a, _b;
+        var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var patch, opts, response, err_2;
-            return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         if (this._rawPayload === null || this._rawPayload === undefined)
                             throw new TypeError('patch requires raw payload to be set.');
@@ -109,26 +109,26 @@ var Entity = (function (_super) {
                             throw new TypeError('patch requires incoming object to be set.');
                         if (this.id === null || this.id === undefined)
                             throw new TypeError('patch requires id to be set.');
-                        _c.label = 1;
+                        _d.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
+                        _d.trys.push([1, 3, , 4]);
                         patch = just_diff_1.diff(this._rawPayload, tslib_1.__assign(tslib_1.__assign({}, this._rawPayload), changePart), just_diff_1.jsonPatchPathConverter);
                         opts = {
                             method: 'PATCH',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id,
                             headers: {
                                 'Content-Type': 'application/json-patch+json'
                             },
                             data: patch,
                             responseType: 'json'
                         };
-                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
                     case 2:
-                        response = _c.sent();
+                        response = _d.sent();
                         this.deserialize(response.data.data[0]);
                         return [2, this];
                     case 3:
-                        err_2 = _c.sent();
+                        err_2 = _d.sent();
                         throw new EntityPatchError(undefined, { error: err_2 });
                     case 4: return [2];
                 }
@@ -146,35 +146,35 @@ var Entity = (function (_super) {
         });
     };
     Entity.prototype._applyPatch = function (patch) {
-        var _a, _b;
+        var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, response, err_3;
-            return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         if (!patch)
                             throw new TypeError('apply patch requires incoming patch to be set.');
                         if (this.id === null || this.id === undefined)
                             throw new TypeError('apply patch requires id to be set.');
-                        _c.label = 1;
+                        _d.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
+                        _d.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'PATCH',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id,
                             headers: {
                                 'Content-Type': 'application/json-patch+json'
                             },
                             data: patch,
                             responseType: 'json'
                         };
-                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
                     case 2:
-                        response = _c.sent();
+                        response = _d.sent();
                         this.deserialize(response.data.data[0]);
                         return [2, this];
                     case 3:
-                        err_3 = _c.sent();
+                        err_3 = _d.sent();
                         throw new EntityPatchError(undefined, { error: err_3 });
                     case 4: return [2];
                 }
@@ -192,29 +192,29 @@ var Entity = (function (_super) {
         });
     };
     Entity.prototype._post = function () {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, response, err_4;
-            return tslib_1.__generator(this, function (_d) {
-                switch (_d.label) {
+            return tslib_1.__generator(this, function (_e) {
+                switch (_e.label) {
                     case 0:
-                        _d.trys.push([0, 2, , 3]);
+                        _e.trys.push([0, 2, , 3]);
                         opts = {
                             method: 'POST',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint,
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint,
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
                             },
-                            data: (_b = this._rawPayload) !== null && _b !== void 0 ? _b : undefined,
+                            data: (_c = this._rawPayload) !== null && _c !== void 0 ? _c : undefined,
                             responseType: 'json'
                         };
-                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
+                        return [4, ((_d = this.http) === null || _d === void 0 ? void 0 : _d.getClient()(opts))];
                     case 1:
-                        response = _d.sent();
+                        response = _e.sent();
                         this.deserialize(response.data.data[0]);
                         return [2, this];
                     case 2:
-                        err_4 = _d.sent();
+                        err_4 = _e.sent();
                         throw new EntityPostError(undefined, { error: err_4 });
                     case 3: return [2];
                 }
@@ -232,34 +232,34 @@ var Entity = (function (_super) {
         });
     };
     Entity.prototype._put = function () {
-        var _a, _b;
+        var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var part, opts, response, err_5;
-            return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         if (this.id === null || this.id === undefined)
                             throw new TypeError('put requires id to be set.');
-                        _c.label = 1;
+                        _d.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
+                        _d.trys.push([1, 3, , 4]);
                         part = just_omit_1.default(this.serialize(), ['id', 'created_at', 'updated_at']);
                         opts = {
                             method: 'PUT',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id,
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
                             },
                             data: part,
                             responseType: 'json'
                         };
-                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
                     case 2:
-                        response = _c.sent();
+                        response = _d.sent();
                         this.deserialize(response.data.data[0]);
                         return [2, this];
                     case 3:
-                        err_5 = _c.sent();
+                        err_5 = _d.sent();
                         throw new EntityPutError(undefined, { error: err_5 });
                     case 4: return [2];
                 }
@@ -277,32 +277,32 @@ var Entity = (function (_super) {
         });
     };
     Entity.prototype._delete = function () {
-        var _a, _b;
+        var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, err_6;
-            return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         if (this.id === null || this.id === undefined)
                             throw new TypeError('delete requires id to be set.');
-                        _c.label = 1;
+                        _d.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
+                        _d.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'DELETE',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id,
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id,
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
                             },
                             data: undefined,
                             responseType: 'json'
                         };
-                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
                     case 2:
-                        _c.sent();
+                        _d.sent();
                         return [2, this];
                     case 3:
-                        err_6 = _c.sent();
+                        err_6 = _d.sent();
                         throw new EntityDeleteError(undefined, { error: err_6 });
                     case 4: return [2];
                 }
@@ -344,6 +344,14 @@ var Entity = (function (_super) {
     return Entity;
 }(HookableEvented));
 exports.default = Entity;
+var UniverseEntity = (function (_super) {
+    tslib_1.__extends(UniverseEntity, _super);
+    function UniverseEntity() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return UniverseEntity;
+}(Entity));
+exports.UniverseEntity = UniverseEntity;
 var EntityPatchError = (function (_super) {
     tslib_1.__extends(EntityPatchError, _super);
     function EntityPatchError(message, properties) {
@@ -412,19 +420,19 @@ var EntitiesList = (function (_super) {
     EntitiesList.prototype._read = function () {
     };
     EntitiesList.prototype._getStream = function (options) {
-        var _a;
+        var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var uri, response, err, stream, reader, read;
             var _this = this;
-            return tslib_1.__generator(this, function (_b) {
-                switch (_b.label) {
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        uri = ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : '');
+                        uri = ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : '');
                         return [4, fetch(uri, {
                                 headers: tslib_1.__assign(tslib_1.__assign({}, this.http.getDefaultHeaders()), { Accept: 'application/x-ndjson' })
                             })];
                     case 1:
-                        response = _b.sent();
+                        response = _c.sent();
                         if (!response.body) {
                             err = new TypeError('unexpected stream response');
                             this.emit('error', err);
@@ -452,26 +460,26 @@ var EntitiesList = (function (_super) {
         });
     };
     EntitiesList.prototype._exportCsv = function (options) {
-        var _a, _b;
+        var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts;
             var _this = this;
-            return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         opts = {
                             method: 'GET',
-                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
                             headers: {
                                 Accept: 'text/csv'
                             },
                             responseType: 'blob'
                         };
-                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts).then(function (res) { return res.data; }).catch(function (err) {
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts).then(function (res) { return res.data; }).catch(function (err) {
                                 _this.emit('error', err);
                                 return undefined;
                             }))];
-                    case 1: return [2, _c.sent()];
+                    case 1: return [2, _d.sent()];
                 }
             });
         });

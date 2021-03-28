@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CartAddItemsRemoteError = exports.CartCreateRemoteError = exports.CartsFetchCountRemoteError = exports.CartsFetchRemoteError = exports.CartFetchRemoteError = exports.CartInitializationError = exports.Carts = exports.Cart = exports.CartItem = exports.ICartStatusEnum = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var ICartStatusEnum;
 (function (ICartStatusEnum) {
@@ -14,6 +14,7 @@ var ICartStatusEnum;
 var CartItem = (function () {
     function CartItem(options) {
         this.universe = options.universe;
+        this.apiCarrier = options.universe;
         this.http = options.http;
         this.options = options;
         if (options === null || options === void 0 ? void 0 : options.rawPayload) {
@@ -81,6 +82,7 @@ var Cart = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/carts';
         _this.http = options.http;
         _this.options = options;
@@ -245,7 +247,7 @@ var Cart = (function (_super) {
         });
     };
     return Cart;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Cart = Cart;
 var Carts = (function () {
     function Carts() {

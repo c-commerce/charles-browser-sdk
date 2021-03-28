@@ -1,8 +1,8 @@
-import Entity, { EntityOptions, EntityFetchOptions, EntityDeleteOptions } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityDeleteOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { ContactListStaticEntry, ContactListStaticEntryRawPayload } from './static-entry';
-export interface ContactListOptions extends EntityOptions {
+export interface ContactListOptions extends UniverseEntityOptions {
     rawPayload?: ContactListRawPayload;
 }
 export interface ContactListRawPayload {
@@ -37,8 +37,9 @@ export interface ContactListPayload {
     readonly author?: ContactListRawPayload['author'];
     readonly staticEntries?: ContactListStaticEntry[];
 }
-export declare class ContactList extends Entity<ContactListPayload, ContactListRawPayload> {
+export declare class ContactList extends UniverseEntity<ContactListPayload, ContactListRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: ContactListOptions;
     initialized: boolean;
@@ -68,6 +69,7 @@ export declare class ContactLists {
 }
 declare class StaticEntryArray<T> extends Array<T> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected contactList: ContactList;
     constructor(items: T[], universe: Universe, http: Universe['http'], contactList: ContactList);

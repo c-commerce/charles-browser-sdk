@@ -1,7 +1,7 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface TrackOptions extends EntityOptions {
+export interface TrackOptions extends UniverseEntityOptions {
     rawPayload?: TrackRawPayload;
 }
 export interface TrackMilestoneDataRawPayload {
@@ -48,8 +48,9 @@ export interface TrackPayload {
     readonly assignee?: TrackRawPayload['assignee'];
     readonly milestones?: TrackRawPayload['milestones'];
 }
-export declare class Track extends Entity<TrackPayload, TrackRawPayload> {
+export declare class Track extends UniverseEntity<TrackPayload, TrackRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: TrackOptions;
     initialized: boolean;

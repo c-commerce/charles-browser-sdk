@@ -1,6 +1,6 @@
 import { Client } from '../client';
 import { BaseError } from '../errors/base-error';
-import { CharlesBaseHandler } from '../base';
+import { CharlesBaseHandler } from '../base/index';
 export interface MessagesOptions {
     user?: string;
     base?: string;

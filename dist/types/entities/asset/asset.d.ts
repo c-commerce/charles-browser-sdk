@@ -1,7 +1,7 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface AssetOptions extends EntityOptions {
+export interface AssetOptions extends UniverseEntityOptions {
     rawPayload?: AssetRawPayload;
 }
 export interface AssetsOptions {
@@ -43,8 +43,9 @@ export interface AssetPayload {
     readonly public?: boolean;
     readonly optimizations?: AssetRawPayload['optimizations'];
 }
-export declare class Asset extends Entity<AssetPayload, AssetRawPayload> {
+export declare class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: AssetOptions;
     initialized: boolean;
@@ -79,6 +80,7 @@ export interface AssetsPostOptions {
 export declare class Assets {
     protected http: Universe['http'];
     protected universe: Universe;
+    protected apiCarrier: Universe;
     static endpoint: string;
     private readonly options?;
     constructor(options: AssetsOptions);

@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface CustomPropertyOptions extends EntityOptions {
+export interface CustomPropertyOptions extends UniverseEntityOptions {
     rawPayload?: CustomPropertyRawPayload;
 }
 export declare enum CustomPropertyInputTypesEnum {
@@ -84,8 +84,9 @@ export interface CustomPropertyPayload {
     readonly externalReferenceId?: CustomPropertyRawPayload['external_reference_id'];
     readonly externalLabel?: CustomPropertyRawPayload['external_label'];
 }
-export declare class CustomProperty extends Entity<CustomPropertyPayload, CustomPropertyRawPayload> {
+export declare class CustomProperty extends UniverseEntity<CustomPropertyPayload, CustomPropertyRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: CustomPropertyOptions;
     initialized: boolean;

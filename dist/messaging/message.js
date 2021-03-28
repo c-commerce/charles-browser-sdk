@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageInitializationError = exports.MessagesReplyError = exports.MessageFeedReply = exports.MessageReply = exports.Reply = exports.Message = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../entities/_base"));
+var _base_1 = require("../entities/_base");
 var errors_1 = require("../errors");
 var person_1 = require("../entities/person");
 var asset_1 = require("../entities/asset/asset");
@@ -13,6 +13,7 @@ var Message = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/messages';
         _this.http = options.http;
         _this.options = options;
@@ -120,7 +121,7 @@ var Message = (function (_super) {
         });
     };
     return Message;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Message = Message;
 var Reply = (function (_super) {
     tslib_1.__extends(Reply, _super);

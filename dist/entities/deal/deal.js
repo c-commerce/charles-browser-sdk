@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DealsFetchCountRemoteError = exports.DealsFetchRemoteError = exports.DealFetchRemoteError = exports.DealInitializationError = exports.Deals = exports.Deal = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var crm_1 = require("../crm");
 var Deal = (function (_super) {
@@ -11,6 +11,7 @@ var Deal = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/deals';
         _this.http = options.http;
         _this.options = options;
@@ -134,7 +135,7 @@ var Deal = (function (_super) {
         });
     };
     return Deal;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Deal = Deal;
 var Deals = (function () {
     function Deals() {

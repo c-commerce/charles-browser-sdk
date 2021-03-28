@@ -25,6 +25,7 @@ var Event = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this._feed = options.feed;
         _this.endpoint = _this._feed.id + "/events";
         _this.http = options.http;

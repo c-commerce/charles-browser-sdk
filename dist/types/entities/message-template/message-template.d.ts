@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface MessageTemplateOptions extends EntityOptions {
+export interface MessageTemplateOptions extends UniverseEntityOptions {
     rawPayload?: MessageTemplateRawPayload;
 }
 export interface MessageTemplateRawPayloadAttachment {
@@ -113,8 +113,9 @@ export interface MessageTemplatePayload {
     readonly notification?: MessageTemplateRawPayload['notification'];
     readonly contentCategory?: MessageTemplateRawPayload['content_category'];
 }
-export declare class MessageTemplate extends Entity<MessageTemplatePayload, MessageTemplateRawPayload> {
+export declare class MessageTemplate extends UniverseEntity<MessageTemplatePayload, MessageTemplateRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: MessageTemplateOptions;
     initialized: boolean;

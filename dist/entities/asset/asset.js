@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AssetsUploadError = exports.AssetUploadAndTransformError = exports.AssetsPostError = exports.AssetsFetchRemoteError = exports.AssetFetchRemoteError = exports.AssetInitializationError = exports.Assets = exports.Asset = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var qs_1 = tslib_1.__importDefault(require("qs"));
 var Asset = (function (_super) {
@@ -11,6 +11,7 @@ var Asset = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/assets';
         _this.http = options.http;
         _this.options = options;
@@ -145,13 +146,14 @@ var Asset = (function (_super) {
         });
     };
     return Asset;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Asset = Asset;
 var Assets = (function () {
     function Assets(options) {
         this.options = options;
         this.http = options.http;
         this.universe = options.universe;
+        this.apiCarrier = options.universe;
     }
     Assets.prototype.post = function (payload, options) {
         var _a, _b;

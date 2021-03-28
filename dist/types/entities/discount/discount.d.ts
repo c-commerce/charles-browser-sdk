@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface DiscountOptions extends EntityOptions {
+export interface DiscountOptions extends UniverseEntityOptions {
     rawPayload?: DiscountRawPayload;
 }
 export declare enum DiscountTypesEnum {
@@ -41,8 +41,9 @@ export interface DiscountPayload {
     readonly name?: DiscountRawPayload['name'];
     readonly i18n?: DiscountRawPayload['i18n'];
 }
-export declare class Discount extends Entity<DiscountPayload, DiscountRawPayload> {
+export declare class Discount extends UniverseEntity<DiscountPayload, DiscountRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: DiscountOptions;
     initialized: boolean;

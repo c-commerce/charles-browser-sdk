@@ -1,10 +1,10 @@
-import Entity, { EntityOptions, EntityFetchOptions } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Route, RouteRawPayload } from '../route';
 import * as messageTemplate from '../message-template';
 import * as event from '../../eventing/feeds/event';
-export interface MessageBrokerOptions extends EntityOptions {
+export interface MessageBrokerOptions extends UniverseEntityOptions {
     rawPayload?: MessageBrokerRawPayload;
 }
 export interface MessageBrokerRawPayload {
@@ -61,8 +61,9 @@ export interface MessageBrokerPayload {
     readonly profile?: MessageBrokerRawPayload['profile'];
     readonly externalReferenceId?: MessageBrokerRawPayload['external_reference_id'];
 }
-export declare class MessageBroker extends Entity<MessageBrokerPayload, MessageBrokerRawPayload> {
+export declare class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageBrokerRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: MessageBrokerOptions;
     initialized: boolean;

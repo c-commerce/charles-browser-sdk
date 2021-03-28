@@ -1,6 +1,6 @@
-import { Readable } from 'readable-stream';
 import { UniverseHealth, UniverseStatus } from './status';
 import { Client } from '../client';
+import { APICarrier } from '../base';
 import { Feeds, Feed, FeedRawPayload } from '../eventing/feeds/feed';
 import { BaseError } from '../errors';
 import { MessageRawPayload } from '../messaging';
@@ -261,7 +261,7 @@ interface BaseResourceList<T> {
 }
 declare type BaseResourceErrorProto<E> = new (...args: any[]) => E;
 declare type BaseResourceEntityFetchOptions<O> = EntityFetchOptions;
-export declare class Universe extends Readable {
+export declare class Universe extends APICarrier {
     status: UniverseStatus;
     health: UniverseHealth;
     options: UniverseOptions;

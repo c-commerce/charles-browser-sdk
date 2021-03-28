@@ -1,4 +1,4 @@
-import { EntityOptions, EntityRawPayload } from '../_base';
+import { UniverseEntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import * as messageTemplate from '../message-template/message-template';
 import * as event from '../../eventing/feeds/event';
@@ -27,11 +27,12 @@ export interface ChannelUserRawPayload extends EntityRawPayload {
     readonly last_name?: string;
     readonly phone?: string;
 }
-export interface ChannelUserOptions extends EntityOptions {
+export interface ChannelUserOptions extends UniverseEntityOptions {
     rawPayload?: ChannelUserRawPayload;
 }
 export declare class ChannelUser {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: ChannelUserOptions;
     initialized: boolean;

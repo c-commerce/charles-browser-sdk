@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface MessageTemplateCategoryOptions extends EntityOptions {
+export interface MessageTemplateCategoryOptions extends UniverseEntityOptions {
     rawPayload?: MessageTemplateCategoryRawPayload;
 }
 export interface MessageTemplateCategoryRawPayload {
@@ -28,8 +28,9 @@ export interface MessageTemplateCategoryPayload {
     readonly comment?: MessageTemplateCategoryRawPayload['comment'];
     readonly customId?: MessageTemplateCategoryRawPayload['custom_id'];
 }
-export declare class MessageTemplateCategory extends Entity<MessageTemplateCategoryPayload, MessageTemplateCategoryRawPayload> {
+export declare class MessageTemplateCategory extends UniverseEntity<MessageTemplateCategoryPayload, MessageTemplateCategoryRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: MessageTemplateCategoryOptions;
     initialized: boolean;

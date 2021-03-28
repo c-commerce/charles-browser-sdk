@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface NluOptions extends EntityOptions {
+export interface NluOptions extends UniverseEntityOptions {
     rawPayload?: NluRawPayload;
 }
 export interface NluRawPayload {
@@ -40,8 +40,9 @@ export interface NluPayload {
     readonly payload?: NluRawPayload['payload'];
     readonly links?: NluRawPayload['links'];
 }
-export declare class Nlu extends Entity<NluPayload, NluRawPayload> {
+export declare class Nlu extends UniverseEntity<NluPayload, NluRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: NluOptions;
     initialized: boolean;

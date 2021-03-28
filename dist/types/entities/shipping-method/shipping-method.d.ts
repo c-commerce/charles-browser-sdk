@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface ShippingMethodOptions extends EntityOptions {
+export interface ShippingMethodOptions extends UniverseEntityOptions {
     rawPayload?: ShippingMethodRawPayload;
 }
 export interface ShippingMethodRawPayload {
@@ -33,8 +33,9 @@ export interface ShippingMethodPayload {
     readonly description?: ShippingMethodRawPayload['description'];
     readonly zoneRates?: ShippingMethodRawPayload['zone_rates'];
 }
-export declare class ShippingMethod extends Entity<ShippingMethodPayload, ShippingMethodRawPayload> {
+export declare class ShippingMethod extends UniverseEntity<ShippingMethodPayload, ShippingMethodRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: ShippingMethodOptions;
     initialized: boolean;

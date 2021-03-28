@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface ConfigurationOptions extends EntityOptions {
+export interface ConfigurationOptions extends UniverseEntityOptions {
     rawPayload?: ConfigurationRawPayload;
 }
 export interface ConfigurationOOODay {
@@ -53,8 +53,9 @@ export interface ConfigurationPayload {
     readonly ui?: ConfigurationRawPayload['ui'];
     readonly dashboard?: ConfigurationRawPayload['dashboard'];
 }
-export declare class Configuration extends Entity<ConfigurationPayload, ConfigurationRawPayload> {
+export declare class Configuration extends UniverseEntity<ConfigurationPayload, ConfigurationRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: ConfigurationOptions;
     initialized: boolean;

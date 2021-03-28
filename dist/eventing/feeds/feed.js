@@ -12,7 +12,7 @@ var person_1 = require("../../entities/person");
 var order_1 = require("../../entities/order");
 var event_1 = require("./event");
 var comment_1 = require("./comment");
-var _base_1 = tslib_1.__importStar(require("../../entities/_base"));
+var _base_1 = require("../../entities/_base");
 exports.FEED_ENDPOINT = 'api/v0/feeds';
 var Feed = (function (_super) {
     tslib_1.__extends(Feed, _super);
@@ -22,6 +22,7 @@ var Feed = (function (_super) {
         _this.eventsMap = new Map();
         _this._rawPayload = null;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = exports.FEED_ENDPOINT;
         _this.http = options.http;
         _this.mqtt = options.mqtt;
@@ -376,7 +377,7 @@ var Feed = (function (_super) {
         return this;
     };
     return Feed;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Feed = Feed;
 var Feeds = (function (_super) {
     tslib_1.__extends(Feeds, _super);
@@ -384,6 +385,7 @@ var Feeds = (function (_super) {
         var _this = _super.call(this) || this;
         _this.endpoint = Feeds.endpoint;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.http = options.http;
         _this.mqtt = options.mqtt;
         return _this;

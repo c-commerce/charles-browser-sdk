@@ -1,3 +1,23 @@
+# [4.0.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.98.1...v4.0.0) (2021-03-28)
+
+
+### Bug Fixes
+
+* **charles:** expose cloud correctly ([8c2f2c3](https://github.com/c-commerce/charles-browser-sdk/commit/8c2f2c3c8f105eaf50348457ac59c349aed4441e))
+
+
+### Features
+
+* move all handlers to UniverseEntity ([19d348f](https://github.com/c-commerce/charles-browser-sdk/commit/19d348fbec3388c68f79cece695df4ba695c0465))
+* move to universe entities ([9ae9576](https://github.com/c-commerce/charles-browser-sdk/commit/9ae9576bf74e93f7fed5082974a6471aed25eab7))
+
+
+### BREAKING CHANGES
+
+* **charles:** We have refactored our entity class to support more api carriers than Universe.
+This is potentially breaking behaviour but should not have any caller impact. It merely tries to
+expose a new factory .cloud() on the SDK.
+
 ## [3.98.1](https://github.com/c-commerce/charles-browser-sdk/compare/v3.98.0...v3.98.1) (2021-03-26)
 
 

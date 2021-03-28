@@ -1,8 +1,8 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Pipeline, PipelineStage } from '../crm';
-export interface DealOptions extends EntityOptions {
+export interface DealOptions extends UniverseEntityOptions {
     rawPayload?: DealRawPayload;
 }
 export interface DealRawPayload {
@@ -71,8 +71,9 @@ export interface DealPayload {
     readonly proxyPayload?: DealRawPayload['proxy_payload'];
     readonly links?: DealRawPayload['links'];
 }
-export declare class Deal extends Entity<DealPayload, DealRawPayload> {
+export declare class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: DealOptions;
     initialized: boolean;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotificationCampaignGetFeedEventsError = exports.NotificationCampaignTestError = exports.NotificationCampaignPublishError = exports.NotificationCampaignArmError = exports.NotificationCampaignPreflightError = exports.NotificationCampaignsFetchCountRemoteError = exports.NotificationCampaignsFetchRemoteError = exports.NotificationCampaignFetchRemoteError = exports.NotificationCampaignInitializationError = exports.NotificationCampaigns = exports.NotificationCampaign = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var event_1 = require("../../eventing/feeds/event");
 var qs_1 = tslib_1.__importDefault(require("qs"));
@@ -13,6 +13,7 @@ var NotificationCampaign = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/notification_campaigns';
         _this.http = options.http;
         _this.options = options;
@@ -273,7 +274,7 @@ var NotificationCampaign = (function (_super) {
         });
     };
     return NotificationCampaign;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.NotificationCampaign = NotificationCampaign;
 var NotificationCampaigns = (function () {
     function NotificationCampaigns() {

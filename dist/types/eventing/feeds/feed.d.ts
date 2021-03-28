@@ -6,7 +6,7 @@ import { Person, PersonRawPayload } from '../../entities/person';
 import { StaffRawPayload } from '../../entities/staff';
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event';
 import { Comment } from './comment';
-import Entity, { EntitiesList, EntityFetchOptions } from '../../entities/_base';
+import { UniverseEntity, EntitiesList, EntityFetchOptions } from '../../entities/_base';
 export interface FeedOptions {
     universe: Universe;
     http: Universe['http'];
@@ -66,8 +66,9 @@ export declare type FeedTypingPayload = FeedEventFromAgentBase;
 export declare interface Feed {
     on: ((event: 'raw-error' | 'error', cb: (error: Error) => void) => this) & ((event: 'feed:message' | 'feed:event' | 'feed:presence' | 'feed:typing' | 'feed:message:status' | string, cb: Function) => this);
 }
-export declare class Feed extends Entity<FeedPayload, FeedRawPayload> {
+export declare class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected mqtt?: Universe['mqtt'];
     protected options: FeedOptions;
@@ -122,6 +123,7 @@ export declare class Feeds extends EntitiesList<Feed, FeedRawPayload> {
     static endpoint: string;
     endpoint: string;
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     private readonly mqtt?;
     constructor(options: FeedsOptions);

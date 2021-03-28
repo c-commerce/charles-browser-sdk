@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PipelineStagesFetchRemoteError = exports.PipelineStageFetchRemoteError = exports.PipelineStageInitializationError = exports.PipelineStage = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var PipelineStage = (function (_super) {
     tslib_1.__extends(PipelineStage, _super);
@@ -10,6 +10,7 @@ var PipelineStage = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -84,7 +85,7 @@ var PipelineStage = (function (_super) {
         });
     };
     return PipelineStage;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.PipelineStage = PipelineStage;
 var PipelineStageInitializationError = (function (_super) {
     tslib_1.__extends(PipelineStageInitializationError, _super);

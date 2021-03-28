@@ -1,10 +1,10 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface LocationOptions extends EntityOptions {
+export interface LocationOptions extends UniverseEntityOptions {
     rawPayload?: LocationRawPayload;
 }
-export interface LocationAddressOptions extends EntityOptions {
+export interface LocationAddressOptions extends UniverseEntityOptions {
     rawPayload?: LocationAddressRawPayload;
 }
 export interface LocationRawPayload {
@@ -63,8 +63,9 @@ export interface LocationAddressRawPayload {
     readonly country?: string;
     readonly type?: 'delivery' | 'billing' | 'generic' | string;
 }
-export declare class Location extends Entity<LocationPayload, LocationRawPayload> {
+export declare class Location extends UniverseEntity<LocationPayload, LocationRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: LocationOptions;
     initialized: boolean;

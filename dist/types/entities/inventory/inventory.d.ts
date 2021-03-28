@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface InventoryOptions extends EntityOptions {
+export interface InventoryOptions extends UniverseEntityOptions {
     rawPayload?: InventoryRawPayload;
 }
 export interface InventoryRawPayload {
@@ -32,8 +32,9 @@ export interface InventoryPayload {
     readonly isProxy?: InventoryRawPayload['is_proxy'];
     readonly qty?: InventoryRawPayload['qty'];
 }
-export declare class Inventory extends Entity<InventoryPayload, InventoryRawPayload> {
+export declare class Inventory extends UniverseEntity<InventoryPayload, InventoryRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: InventoryOptions;
     initialized: boolean;

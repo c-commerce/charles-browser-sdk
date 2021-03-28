@@ -1,7 +1,7 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface StaffOptions extends EntityOptions {
+export interface StaffOptions extends UniverseEntityOptions {
     rawPayload?: StaffRawPayload;
 }
 export interface StaffRawPayload extends EntityRawPayload {
@@ -40,8 +40,9 @@ export interface StaffPayload {
     readonly permissions?: StaffRawPayload['permissions'];
     readonly invite?: StaffRawPayload['invite'];
 }
-export declare class Staff extends Entity<StaffPayload, StaffRawPayload> {
+export declare class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: StaffOptions;
     initialized: boolean;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TagGroupsFetchRemoteError = exports.TagGroupFetchRemoteError = exports.TagGroupInitializationError = exports.TagGroups = exports.TagGroup = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var TagGroup = (function (_super) {
     tslib_1.__extends(TagGroup, _super);
@@ -10,6 +10,7 @@ var TagGroup = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/tag_groups';
         _this.http = options.http;
         _this.options = options;
@@ -68,7 +69,7 @@ var TagGroup = (function (_super) {
         });
     };
     return TagGroup;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.TagGroup = TagGroup;
 var TagGroups = (function () {
     function TagGroups() {

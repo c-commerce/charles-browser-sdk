@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductCategoriesFetchRemoteError = exports.ProductCategoryFetchRemoteError = exports.ProductCategoryInitializationError = exports.ProductCategories = exports.ProductCategory = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var ProductCategory = (function (_super) {
     tslib_1.__extends(ProductCategory, _super);
@@ -10,6 +10,7 @@ var ProductCategory = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/product_categories';
         _this.http = options.http;
         _this.options = options;
@@ -84,7 +85,7 @@ var ProductCategory = (function (_super) {
         });
     };
     return ProductCategory;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.ProductCategory = ProductCategory;
 var ProductCategories = (function () {
     function ProductCategories() {

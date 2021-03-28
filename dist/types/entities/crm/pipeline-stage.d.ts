@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface PipelineStageOptions extends EntityOptions {
+export interface PipelineStageOptions extends UniverseEntityOptions {
     rawPayload?: PipelineStageRawPayload;
 }
 export interface PipelineStageRawPayload {
@@ -34,8 +34,9 @@ export interface PipelineStagePayload {
     readonly proxyVendor?: PipelineStageRawPayload['proxy_vendor'];
     readonly proxyPayload?: PipelineStageRawPayload['proxy_payload'];
 }
-export declare class PipelineStage extends Entity<PipelineStagePayload, PipelineStageRawPayload> {
+export declare class PipelineStage extends UniverseEntity<PipelineStagePayload, PipelineStageRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: PipelineStageOptions;
     initialized: boolean;

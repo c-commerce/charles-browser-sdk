@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface StorefrontOptions extends EntityOptions {
+export interface StorefrontOptions extends UniverseEntityOptions {
     rawPayload?: StorefrontRawPayload;
 }
 export interface StorefrontRawPayload {
@@ -34,8 +34,9 @@ export interface StorefrontPayload {
     readonly isSetUp?: StorefrontRawPayload['is_set_up'];
     readonly metadata?: StorefrontRawPayload['metadata'];
 }
-export declare class Storefront extends Entity<StorefrontPayload, StorefrontRawPayload> {
+export declare class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: StorefrontOptions;
     initialized: boolean;

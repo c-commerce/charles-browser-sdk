@@ -1,8 +1,8 @@
-import Entity, { EntityOptions, EntityFetchOptions } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import * as knowledgeBaseFaqItem from '../knowledge-base-faq-item/knowledge-base-faq-item';
-export interface KnowledgeBaseOptions extends EntityOptions {
+export interface KnowledgeBaseOptions extends UniverseEntityOptions {
     rawPayload?: KnowledgeBaseRawPayload;
 }
 export interface KnowledgeBaseRawPayload {
@@ -45,8 +45,9 @@ export interface KnowledgeBasePayload {
     readonly proxyVendor?: KnowledgeBaseRawPayload['proxy_vendor'];
     readonly proxyPayload?: KnowledgeBaseRawPayload['proxy_payload'];
 }
-export declare class KnowledgeBase extends Entity<KnowledgeBasePayload, KnowledgeBaseRawPayload> {
+export declare class KnowledgeBase extends UniverseEntity<KnowledgeBasePayload, KnowledgeBaseRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: KnowledgeBaseOptions;
     initialized: boolean;

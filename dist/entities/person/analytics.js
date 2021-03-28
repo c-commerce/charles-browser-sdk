@@ -5,6 +5,7 @@ var Analytics = (function () {
     function Analytics(options) {
         var _a;
         this.universe = options.universe;
+        this.apiCarrier = options.universe;
         this.http = options.http;
         this.options = options;
         this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;

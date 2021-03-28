@@ -10,6 +10,7 @@ var client_1 = require("./client");
 var environment_1 = require("./environment");
 var universe_1 = require("./universe");
 Object.defineProperty(exports, "Universe", { enumerable: true, get: function () { return universe_1.Universe; } });
+var index_1 = require("./cloud/index");
 var entity_1 = require("./helpers/entity");
 Object.defineProperty(exports, "isEntity", { enumerable: true, get: function () { return entity_1.isEntity; } });
 exports.defaultOptions = {
@@ -119,6 +120,23 @@ var CharlesClient = (function (_super) {
             return universe_1.UnviverseSingleton.getInstance(opts);
         }
         return new universe_1.Universe(opts);
+    };
+    CharlesClient.prototype.cloud = function (options) {
+        if (!this.http || !this.auth || !this.auth.authenticated) {
+            throw new errors.UninstantiatedClient('Cannot invoke universe without instantiated http client');
+        }
+        var opts = {
+            http: this.http,
+            cloudBase: (options === null || options === void 0 ? void 0 : options.base) ? options.base : 'https://staging-3.hello-charles.com',
+            user: {
+                accessToken: this.auth.accessToken,
+                id: this.options ? this.options.user : undefined
+            }
+        };
+        if (options && options.singleton === true) {
+            return index_1.CloudSingleton.getInstance(opts);
+        }
+        return new index_1.Cloud(opts);
     };
     CharlesClient.prototype.messages = function () {
         return this.generateAuthenticatedInstance(v0.Messages);

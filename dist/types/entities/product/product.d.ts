@@ -1,8 +1,8 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../_base';
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { Inventory } from '../inventory';
 import { BaseError } from '../../errors';
-export interface ProductOptions extends EntityOptions {
+export interface ProductOptions extends UniverseEntityOptions {
     rawPayload?: ProductRawPayload;
 }
 export interface ProductRawPayloadPrice {
@@ -142,8 +142,9 @@ export interface ProductPayload {
     readonly children?: ProductRawPayload['children'];
     readonly options?: ProductRawPayload['options'];
 }
-export declare class Product extends Entity<ProductPayload, ProductRawPayload> {
+export declare class Product extends UniverseEntity<ProductPayload, ProductRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: ProductOptions;
     initialized: boolean;

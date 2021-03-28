@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface KnowledgeBaseFaqItemOptions extends EntityOptions {
+export interface KnowledgeBaseFaqItemOptions extends UniverseEntityOptions {
     rawPayload?: KnowledgeBaseFaqItemRawPayload;
 }
 export interface KnowledgeBaseFaqItemRawPayload {
@@ -32,8 +32,9 @@ export interface KnowledgeBaseFaqItemPayload {
     readonly isProxy?: KnowledgeBaseFaqItemRawPayload['is_proxy'];
     readonly proxyPayload?: KnowledgeBaseFaqItemRawPayload['proxy_payload'];
 }
-export declare class KnowledgeBaseFaqItem extends Entity<KnowledgeBaseFaqItemPayload, KnowledgeBaseFaqItemRawPayload> {
+export declare class KnowledgeBaseFaqItem extends UniverseEntity<KnowledgeBaseFaqItemPayload, KnowledgeBaseFaqItemRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: KnowledgeBaseFaqItemOptions;
     initialized: boolean;

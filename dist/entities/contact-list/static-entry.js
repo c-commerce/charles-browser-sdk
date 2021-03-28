@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContactListStaticEntryDeleteRemoteError = exports.ContactListStaticEntryCreateRemoteError = exports.ContactListStaticEntriesFetchRemoteError = exports.ContactListStaticEntryFetchRemoteError = exports.ContactListStaticEntryInitializationError = exports.ContactListStaticEntry = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var contact_list_1 = require("./contact-list");
 var ContactListStaticEntry = (function (_super) {
@@ -11,6 +11,7 @@ var ContactListStaticEntry = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = '';
         _this.http = options.http;
         _this.options = options;
@@ -75,7 +76,7 @@ var ContactListStaticEntry = (function (_super) {
         return new ContactListStaticEntry({ rawPayload: payload, universe: universe, http: http, initialized: false });
     };
     return ContactListStaticEntry;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.ContactListStaticEntry = ContactListStaticEntry;
 var ContactListStaticEntryInitializationError = (function (_super) {
     tslib_1.__extends(ContactListStaticEntryInitializationError, _super);

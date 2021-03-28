@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DealCreateRemoteError = exports.DealsFetchRemoteError = exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importStar(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var order_1 = require("../../entities/order/order");
 var channel_user_1 = require("./channel-user");
@@ -17,6 +17,7 @@ var AddressArray = (function (_super) {
     function AddressArray(items, universe, http, person) {
         var _this = _super.apply(this, items) || this;
         _this.universe = universe;
+        _this.apiCarrier = universe;
         _this.http = http;
         _this.person = person;
         Object.setPrototypeOf(_this, AddressArray.prototype);
@@ -96,6 +97,7 @@ var Person = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/people';
         _this.http = options.http;
         _this.options = options;
@@ -591,7 +593,7 @@ var Person = (function (_super) {
         return Address.create(tslib_1.__assign(tslib_1.__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
     return Person;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Person = Person;
 var People = (function (_super) {
     tslib_1.__extends(People, _super);
@@ -599,6 +601,7 @@ var People = (function (_super) {
         var _this = _super.call(this) || this;
         _this.endpoint = People.endpoint;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.http = options.http;
         return _this;
     }
@@ -635,6 +638,7 @@ var Address = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -724,12 +728,13 @@ var Address = (function (_super) {
         });
     };
     return Address;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Address = Address;
 var Phonenumber = (function () {
     function Phonenumber(options) {
         var _a;
         this.universe = options.universe;
+        this.apiCarrier = options.universe;
         this.http = options.http;
         this.options = options;
         this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;

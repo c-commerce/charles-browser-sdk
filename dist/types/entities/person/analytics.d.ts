@@ -1,6 +1,6 @@
-import { EntityOptions } from '../_base';
+import { UniverseEntityOptions } from '../_base';
 import { Universe } from '../../universe';
-export interface AnalyticsOptions extends EntityOptions {
+export interface AnalyticsOptions extends UniverseEntityOptions {
     rawPayload?: AnalyticsRawPayload;
 }
 export interface AnalyticsRawPayload {
@@ -15,6 +15,7 @@ export interface AnalyticsRawPayload {
 }
 export declare class Analytics {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: AnalyticsOptions;
     initialized: boolean;

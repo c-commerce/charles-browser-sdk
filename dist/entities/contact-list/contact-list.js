@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContactListPreviewRemoteError = exports.ContactListsFetchCountRemoteError = exports.ContactListsFetchRemoteError = exports.ContactListFetchRemoteError = exports.ContactListInitializationError = exports.ContactLists = exports.ContactList = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var static_entry_1 = require("./static-entry");
 var qs_1 = tslib_1.__importDefault(require("qs"));
@@ -12,6 +12,7 @@ var ContactList = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/contact_lists';
         _this.http = options.http;
         _this.options = options;
@@ -133,7 +134,7 @@ var ContactList = (function (_super) {
         configurable: true
     });
     return ContactList;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.ContactList = ContactList;
 var ContactLists = (function () {
     function ContactLists() {
@@ -147,6 +148,7 @@ var StaticEntryArray = (function (_super) {
     function StaticEntryArray(items, universe, http, contactList) {
         var _this = _super.apply(this, items) || this;
         _this.universe = universe;
+        _this.apiCarrier = universe;
         _this.http = http;
         _this.contactList = contactList;
         Object.setPrototypeOf(_this, StaticEntryArray.prototype);

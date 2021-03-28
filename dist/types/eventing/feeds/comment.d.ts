@@ -1,7 +1,7 @@
-import Entity, { EntityOptions, EntityRawPayload } from '../../entities/_base';
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../../entities/_base';
 import { Universe } from '../../universe';
 import { Feed } from './feed';
-export interface CommentOptions extends EntityOptions {
+export interface CommentOptions extends UniverseEntityOptions {
     rawPayload?: CommentRawPayload;
     feed: Feed;
     universe: Universe;
@@ -23,8 +23,9 @@ export interface CommentPayload {
     readonly active?: boolean;
     readonly content?: CommentRawPayload['content'];
 }
-export declare class Comment extends Entity<CommentPayload, CommentRawPayload> {
+export declare class Comment extends UniverseEntity<CommentPayload, CommentRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected feed: Feed;
     protected http: Universe['http'];
     initialized: boolean;

@@ -1,7 +1,7 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-export interface ProductCategoryOptions extends EntityOptions {
+export interface ProductCategoryOptions extends UniverseEntityOptions {
     rawPayload?: ProductCategoryRawPayload;
 }
 export interface ProductCategoryRawPayload {
@@ -40,8 +40,9 @@ export interface ProductCategoryPayload {
     readonly storefront?: ProductCategoryRawPayload['storefront'];
     readonly proxyPayload?: ProductCategoryRawPayload['proxy_payload'];
 }
-export declare class ProductCategory extends Entity<ProductCategoryPayload, ProductCategoryRawPayload> {
+export declare class ProductCategory extends UniverseEntity<ProductCategoryPayload, ProductCategoryRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: ProductCategoryOptions;
     initialized: boolean;

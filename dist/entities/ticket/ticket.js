@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TicketsFetchRemoteError = exports.TicketFetchRemoteError = exports.TicketInitializationError = exports.Tickets = exports.Ticket = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var Ticket = (function (_super) {
     tslib_1.__extends(Ticket, _super);
@@ -10,6 +10,7 @@ var Ticket = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/tickets';
         _this.http = options.http;
         _this.options = options;
@@ -90,7 +91,7 @@ var Ticket = (function (_super) {
         });
     };
     return Ticket;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Ticket = Ticket;
 var Tickets = (function () {
     function Tickets() {

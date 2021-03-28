@@ -1,11 +1,11 @@
-import Entity, { EntityOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { IDiscountType } from '../discount/discount';
-export interface CartOptions extends EntityOptions {
+export interface CartOptions extends UniverseEntityOptions {
     rawPayload?: CartRawPayload;
 }
-export interface CartItemOptions extends EntityOptions {
+export interface CartItemOptions extends UniverseEntityOptions {
     rawPayload?: CartItemRawPayload;
 }
 export interface CartAmount {
@@ -196,6 +196,7 @@ export interface AddItemItemOptions {
 }
 export declare class CartItem {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: CartOptions;
     id?: CartItemPayload['id'];
@@ -224,8 +225,9 @@ export declare class CartItem {
     static create(payload: CartItemRawPayload, universe: Universe, http: Universe['http']): CartItem;
     serialize(): CartItemRawPayload;
 }
-export declare class Cart extends Entity<CartPayload, CartRawPayload> {
+export declare class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected http: Universe['http'];
     protected options: CartOptions;
     initialized: boolean;

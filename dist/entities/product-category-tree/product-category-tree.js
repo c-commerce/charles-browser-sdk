@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductCategoryTreesFetchRemoteError = exports.ProductCategoryTreeFetchRemoteError = exports.ProductCategoryTreeInitializationError = exports.ProductCategoryTrees = exports.ProductCategoryTree = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var ProductCategoryTree = (function (_super) {
     tslib_1.__extends(ProductCategoryTree, _super);
@@ -10,6 +10,7 @@ var ProductCategoryTree = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/product_category_trees';
         _this.http = options.http;
         _this.options = options;
@@ -74,7 +75,7 @@ var ProductCategoryTree = (function (_super) {
         });
     };
     return ProductCategoryTree;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.ProductCategoryTree = ProductCategoryTree;
 var ProductCategoryTrees = (function () {
     function ProductCategoryTrees() {

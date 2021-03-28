@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UniverseHealthzError = exports.UniverseSelfError = exports.UniverseVersionsError = exports.UniverseApiRequestError = exports.UniverseSearchError = exports.UniverseInitializationError = exports.UnviverseSingleton = exports.Universe = exports.UniverseMeError = exports.UniverseUnauthenticatedError = void 0;
 var tslib_1 = require("tslib");
-var readable_stream_1 = require("readable-stream");
 var qs_1 = tslib_1.__importDefault(require("qs"));
 var status_1 = require("./status");
+var base_1 = require("../base");
 var feed_1 = require("../eventing/feeds/feed");
 var realtime = tslib_1.__importStar(require("../realtime"));
 var errors_1 = require("../errors");
@@ -84,17 +84,21 @@ exports.UniverseMeError = UniverseMeError;
 var Universe = (function (_super) {
     tslib_1.__extends(Universe, _super);
     function Universe(options) {
-        var _a, _b, _c;
-        var _this = _super.call(this) || this;
+        var _a, _b, _c, _d;
+        var _this = _super.call(this, {
+            injectables: {
+                base: (_a = options.universeBase) !== null && _a !== void 0 ? _a : "https://" + options.name + ".hello-charles.com"
+            }
+        }) || this;
         _this.initialized = false;
         _this.payload = null;
         _this.mqtt = null;
         _this.options = options;
         _this.name = options.name;
         _this.user = options.user;
-        _this.base = (_a = _this.options.base) !== null && _a !== void 0 ? _a : 'https://hello-charles.com';
-        _this.universeBase = (_b = options.universeBase) !== null && _b !== void 0 ? _b : "https://" + _this.name + ".hello-charles.com";
-        _this.mqttUniverseBase = (_c = options.mqttUniverseBase) !== null && _c !== void 0 ? _c : "wss://" + _this.name + ".hello-charles.com";
+        _this.base = (_b = _this.options.base) !== null && _b !== void 0 ? _b : 'https://hello-charles.com';
+        _this.universeBase = (_c = options.universeBase) !== null && _c !== void 0 ? _c : "https://" + _this.name + ".hello-charles.com";
+        _this.mqttUniverseBase = (_d = options.mqttUniverseBase) !== null && _d !== void 0 ? _d : "wss://" + _this.name + ".hello-charles.com";
         _this.status = new status_1.UniverseStatus({ universe: _this });
         _this.health = new status_1.UniverseHealth({ universe: _this });
         _this.http = options.http;
@@ -2148,7 +2152,7 @@ var Universe = (function (_super) {
     };
     Universe.endpoint = 'api/v0/universes';
     return Universe;
-}(readable_stream_1.Readable));
+}(base_1.APICarrier));
 exports.Universe = Universe;
 var UnviverseSingleton = (function (_super) {
     tslib_1.__extends(UnviverseSingleton, _super);

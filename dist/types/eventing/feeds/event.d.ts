@@ -73,6 +73,7 @@ export interface EventPayload {
 }
 export declare class Event extends EventEmitter {
     protected universe: Universe;
+    protected apiCarrier: Universe;
     protected _feed: Feed;
     protected http: Universe['http'];
     protected options: EventOptions;

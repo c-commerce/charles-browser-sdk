@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CRMSetupRemoteError = exports.CRMSyncChannelUsersRemoteError = exports.CRMSyncPipelinesRemoteError = exports.CRMSyncDealsRemoteError = exports.CRMSyncCustomPropertiesRemoteError = exports.CRMsFetchRemoteError = exports.CRMFetchRemoteError = exports.CRMInitializationError = exports.CRMs = exports.CRM = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var CRM = (function (_super) {
     tslib_1.__extends(CRM, _super);
@@ -10,6 +10,7 @@ var CRM = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/crms';
         _this.http = options.http;
         _this.options = options;
@@ -245,7 +246,7 @@ var CRM = (function (_super) {
         });
     };
     return CRM;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.CRM = CRM;
 var CRMs = (function () {
     function CRMs() {

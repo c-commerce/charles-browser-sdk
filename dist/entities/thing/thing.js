@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ThingsBindRemoteError = exports.ThingsFetchRemoteError = exports.ThingFetchRemoteError = exports.ThingInitializationError = exports.Things = exports.Thing = void 0;
 var tslib_1 = require("tslib");
-var _base_1 = tslib_1.__importDefault(require("../_base"));
+var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var Thing = (function (_super) {
     tslib_1.__extends(Thing, _super);
@@ -10,6 +10,7 @@ var Thing = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
         _this.endpoint = 'api/v0/things';
         _this.http = options.http;
         _this.options = options;
@@ -116,7 +117,7 @@ var Thing = (function (_super) {
         });
     };
     return Thing;
-}(_base_1.default));
+}(_base_1.UniverseEntity));
 exports.Thing = Thing;
 var Things = (function () {
     function Things() {
