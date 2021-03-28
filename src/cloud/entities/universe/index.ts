@@ -1,12 +1,14 @@
 
 import {
-  Universe,
-  Universes,
-  UniversesFetchRemoteError
+  CloudUniverse,
+  CloudUniverses,
+  CloudUniverseRawPayload,
+  CloudUniversesFetchRemoteError
 } from './universe'
 
 export {
-  Universe,
-  Universes,
-  UniversesFetchRemoteError
+  CloudUniverse,
+  CloudUniverseRawPayload,
+  CloudUniverses,
+  CloudUniversesFetchRemoteError
 }

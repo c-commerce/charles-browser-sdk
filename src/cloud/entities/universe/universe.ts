@@ -1,8 +1,10 @@
 
+import { APICarrier } from '../../../base'
 import Entity, { EntityOptions } from '../../../entities/_base'
 import { BaseError } from '../../../errors'
+import type { Cloud } from '../../index'
 
-export interface CloudUniverseOptions extends UniverseEntityOptions {
+export interface CloudUniverseOptions extends EntityOptions {
   rawPayload?: CloudUniverseRawPayload
 }
 
@@ -29,10 +31,9 @@ export interface CloudUniversePayload {
  *
  * @category Entity
  */
-export class CloudUniverse extends UniverseEntity<CloudUniversePayload, CloudUniverseRawPayload> {
-  protected universe: Universe
-  protected apiCarrier: Universe
-  protected http: Universe['http']
+export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRawPayload> {
+  protected apiCarrier: APICarrier
+  protected http: Cloud['http']
   protected options: CloudUniverseOptions
   public initialized: boolean
 
@@ -43,16 +44,12 @@ export class CloudUniverse extends UniverseEntity<CloudUniversePayload, CloudUni
   public updatedAt?: CloudUniversePayload['updatedAt']
   public deleted?: CloudUniversePayload['deleted']
   public active?: CloudUniversePayload['active']
-  public type?: CloudUniversePayload['type']
-  public value?: CloudUniversePayload['value']
   public name?: CloudUniversePayload['name']
-  public i18n?: CloudUniversePayload['i18n']
 
   constructor (options: CloudUniverseOptions) {
     super()
-    this.universe = options.universe
-    this.apiCarrier = options.universe
-    this.endpoint = 'api/v0/CloudUniverses'
+    this.apiCarrier = options.carrier
+    this.endpoint = 'api/v0/universes'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -68,16 +65,13 @@ export class CloudUniverse extends UniverseEntity<CloudUniversePayload, CloudUni
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
-    this.type = rawPayload.type
-    this.value = rawPayload.value
     this.name = rawPayload.name
-    this.i18n = rawPayload.i18n
 
     return this
   }
 
-  public static create (payload: CloudUniverseRawPayload, universe: Universe, http: Universe['http']): CloudUniverse {
-    return new CloudUniverse({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: CloudUniverseRawPayload, carrier: Cloud, http: Cloud['http']): CloudUniverse {
+    return new CloudUniverse({ rawPayload: payload, carrier, http, initialized: true })
   }
 
   public serialize (): CloudUniverseRawPayload {
@@ -87,10 +81,7 @@ export class CloudUniverse extends UniverseEntity<CloudUniversePayload, CloudUni
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
       active: this.active ?? true,
-      type: this.type,
-      value: this.value,
-      name: this.name,
-      i18n: this.i18n
+      name: this.name
     }
   }
 
@@ -107,7 +98,7 @@ export class CloudUniverse extends UniverseEntity<CloudUniversePayload, CloudUni
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class CloudUniverses {
-  public static endpoint: string = 'api/v0/CloudUniverses'
+  public static endpoint: string = 'api/v0/universes'
 }
 
 export class CloudUniverseInitializationError extends BaseError {

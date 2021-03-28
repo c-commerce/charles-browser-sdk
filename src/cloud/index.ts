@@ -6,8 +6,7 @@ import * as realtime from '../realtime'
 import { BaseError } from '../errors'
 
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
-
-// hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
+import * as universe from './entities/universe'
 
 export interface CloudUser {
   id?: string
@@ -137,7 +136,7 @@ export class Cloud extends APICarrier {
   public constructor (options: CloudOptions) {
     super({
       injectables: {
-        base: options.cloudBase
+        base: options.cloudBase ?? 'https://staging-3.hello-charles.com'
       }
     })
 
@@ -218,8 +217,8 @@ export class Cloud extends APICarrier {
     return proto.create(payload, this, this.http)
   }
 
-  public feed (payload: CloudUniverseRawPayload): CloudUniverse {
-    return CloudUniverse.create(payload, this, this.http)
+  public universe (payload: universe.CloudUniverseRawPayload): universe.CloudUniverse {
+    return universe.CloudUniverse.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -283,7 +282,9 @@ export class Cloud extends APICarrier {
     }
   }
 
-  // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
+  public async universes (options?: EntityFetchOptions): Promise<universe.CloudUniverse[] | universe.CloudUniverseRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<universe.CloudUniverse, universe.CloudUniverses, universe.CloudUniverseRawPayload, EntityFetchOptions, universe.CloudUniversesFetchRemoteError>(universe.CloudUniverse, universe.CloudUniverses, universe.CloudUniversesFetchRemoteError, options)
+  }
 
   public async versions (): Promise<{ multiverse: string } | undefined> {
     try {

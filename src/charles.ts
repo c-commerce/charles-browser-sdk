@@ -9,7 +9,7 @@ import * as errors from './errors'
 import { Client, ClientOptions } from './client'
 import { environment } from './environment'
 import { Universe, UnviverseSingleton, UniverseOptions } from './universe'
-import { Cloud, CloudSingleton, CloudOptions } from './cloud'
+import { Cloud, CloudSingleton, CloudOptions } from './cloud/index'
 import { isEntity } from './helpers/entity'
 
 export {
@@ -57,6 +57,11 @@ export interface IUniverseFactoryOptions {
    */
   universeBase?: UniverseOptions['universeBase']
   mqttUniverseBase?: UniverseOptions['mqttUniverseBase']
+}
+
+export interface ICloudFactoryOptions {
+  singleton?: boolean
+  base?: string
 }
 
 export declare interface CharlesClient {
@@ -224,6 +229,30 @@ export class CharlesClient extends events.EventEmitter {
     }
 
     return new Universe(opts)
+  }
+
+  /**
+   * Create a reference to the cloud via singleton or instance
+   */
+  cloud (options?: ICloudFactoryOptions): Cloud | CloudSingleton {
+    if (!this.http || !this.auth || !this.auth.authenticated) {
+      throw new errors.UninstantiatedClient('Cannot invoke universe without instantiated http client')
+    }
+
+    const opts: CloudOptions = {
+      http: this.http,
+      cloudBase: options?.base ? options.base : 'https://staging-3.hello-charles.com',
+      user: {
+        accessToken: this.auth.accessToken,
+        id: this.options ? this.options.user : undefined
+      }
+    }
+
+    if (options && options.singleton === true) {
+      return CloudSingleton.getInstance(opts)
+    }
+
+    return new Cloud(opts)
   }
 
   /**
