@@ -1,7 +1,7 @@
-import { Readable } from 'readable-stream'
 import qs from 'qs'
 import { UniverseHealth, UniverseStatus } from './status'
 import { Client } from '../client'
+import { APICarrier } from '../base'
 import { Feeds, Feed, FeedRawPayload, FeedsFetchRemoteError, FeedFetchCountRemoteError } from '../eventing/feeds/feed'
 import * as realtime from '../realtime'
 import { BaseError } from '../errors'
@@ -366,7 +366,7 @@ type BaseResourceEntityFetchOptions<O> = EntityFetchOptions
  *
  * @category Universe
  */
-export class Universe extends Readable {
+export class Universe extends APICarrier {
   public status: UniverseStatus
   public health: UniverseHealth
   public options: UniverseOptions
@@ -385,7 +385,12 @@ export class Universe extends Readable {
   private _cachedMeData?: MeData
 
   public constructor (options: UniverseOptions) {
-    super()
+    super({
+      injectables: {
+        // symmetric to the legacy implementation below
+        base: options.universeBase ?? `https://${options.name}.hello-charles.com`
+      }
+    })
 
     this.options = options
     this.name = options.name

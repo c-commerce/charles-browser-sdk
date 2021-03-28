@@ -1,10 +1,10 @@
 
-import Entity, { EntityOptions } from '../_base'
+import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { CRM, Pipeline, PipelineStage } from '../crm'
 
-export interface DealOptions extends EntityOptions {
+export interface DealOptions extends UniverseEntityOptions {
   rawPayload?: DealRawPayload
 }
 
@@ -83,8 +83,9 @@ export interface DealPayload {
  *
  * @category Entity
  */
-export class Deal extends Entity<DealPayload, DealRawPayload> {
+export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
   protected universe: Universe
+  protected apiCarrier: Universe
   protected http: Universe['http']
   protected options: DealOptions
   public initialized: boolean
@@ -127,6 +128,7 @@ export class Deal extends Entity<DealPayload, DealRawPayload> {
   constructor (options: DealOptions) {
     super()
     this.universe = options.universe
+    this.apiCarrier = options.universe
     this.endpoint = 'api/v0/deals'
     this.http = options.http
     this.options = options

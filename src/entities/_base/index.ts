@@ -8,6 +8,7 @@ import {
 import { ndjsonStream } from './helpers'
 import { diff, jsonPatchPathConverter } from 'just-diff'
 import qs from 'qs'
+import { APICarrier } from '../../base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { isEntity } from '../../helpers/entity'
@@ -21,9 +22,16 @@ export interface RawPatchItem {
 export type RawPatch = RawPatchItem[]
 
 export interface EntityOptions {
-  universe: Universe
-  http: Universe['http']
+  carrier: APICarrier
+  http: APICarrier['http']
   initialized?: boolean
+}
+
+export interface UniverseEntityOptions extends Omit<EntityOptions, 'carrier'> {
+  /**
+   * @deprecated user carrier
+   */
+  universe: Universe
 }
 
 export interface EntityRawPayload {
@@ -54,8 +62,8 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     [key: string]: SyncHook | SyncBailHook | SyncWaterfallHook | SyncLoopHook | AsyncParallelHook | AsyncParallelBailHook | AsyncSeriesHook | AsyncSeriesBailHook | AsyncSeriesWaterfallHook
   }
 
-  protected abstract universe: Universe
-  protected abstract http: Universe['http']
+  protected abstract apiCarrier: APICarrier
+  protected abstract http: APICarrier['http']
 
   /**
    * @ignore
@@ -118,7 +126,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     try {
       const opts = {
         method: 'GET',
-        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
@@ -163,7 +171,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
 
       const opts = {
         method: 'PATCH',
-        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}`,
         headers: {
           'Content-Type': 'application/json-patch+json'
         },
@@ -201,7 +209,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     try {
       const opts = {
         method: 'PATCH',
-        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}`,
         headers: {
           'Content-Type': 'application/json-patch+json'
         },
@@ -234,7 +242,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe?.universeBase}/${this.endpoint}`,
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
@@ -272,7 +280,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
       const part: object = omit(this.serialize(), ['id', 'created_at', 'updated_at']) as object
       const opts = {
         method: 'PUT',
-        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
@@ -307,7 +315,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     try {
       const opts = {
         method: 'DELETE',
-        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}`,
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
@@ -355,6 +363,10 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     // TODO: this should change if we get PUT or PATCH (application/json) endpoints
     throw new TypeError('save requires a sendable payload')
   }
+}
+
+export abstract class UniverseEntity<Payload, RawPayload> extends Entity<Payload, RawPayload> {
+  protected abstract universe: Universe
 }
 
 export class EntityPatchError extends BaseError {
@@ -408,8 +420,8 @@ export interface EntitiesListExportCsvOptions {
 }
 
 export abstract class EntitiesList<Entity, RawPayload> extends Readable {
-  protected abstract universe: Universe
-  protected abstract http: Universe['http']
+  protected abstract apiCarrier: APICarrier
+  protected abstract http: APICarrier['http']
   // [key: string]: any
   public abstract endpoint: string
 
@@ -428,7 +440,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   public abstract getStream (options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>>
 
   protected async _getStream (options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>> {
-    const uri = `${this.universe?.universeBase}/${this.endpoint}/${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`
+    const uri = `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`
     const response = await fetch(uri, {
       headers: {
         ...this.http.getDefaultHeaders(),
@@ -473,7 +485,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   protected async _exportCsv (options?: EntitiesListExportCsvOptions): Promise<Blob> {
     const opts = {
       method: 'GET',
-      url: `${this.universe?.universeBase}/${this.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+      url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
       headers: {
         Accept: 'text/csv'
       },

@@ -9,6 +9,7 @@ import * as errors from './errors'
 import { Client, ClientOptions } from './client'
 import { environment } from './environment'
 import { Universe, UnviverseSingleton, UniverseOptions } from './universe'
+import { Cloud, CloudSingleton, CloudOptions } from './cloud'
 import { isEntity } from './helpers/entity'
 
 export {
