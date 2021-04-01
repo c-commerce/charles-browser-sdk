@@ -1,5 +1,5 @@
 
-import{ UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { Inventory, InventoryRawPayload } from '../inventory'
 import { BaseError } from '../../errors'

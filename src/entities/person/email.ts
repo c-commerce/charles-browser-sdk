@@ -1,4 +1,4 @@
-import Entity, { UniverseEntity, UniverseEntityOptions, EntityRawPayload, EntityFetchOptions, RawPatch } from '../_base'
+import Entity, { UniverseEntity, UniverseEntityOptions, EntityRawPayload, RawPatch } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import omit from 'just-omit'

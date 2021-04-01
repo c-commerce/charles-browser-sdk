@@ -17,6 +17,8 @@ import { Cart, CartRawPayload, CartsFetchRemoteError, CartCreateRemoteError } fr
 import omit from 'just-omit'
 import qs from 'qs'
 import { Deal, DealRawPayload } from '../deal/deal'
+import { Event, EventRawPayload } from '../../eventing/feeds/event'
+import { Feed } from 'src/eventing/feeds/feed'
 
 export interface PersonOptions extends UniverseEntityOptions {
   rawPayload?: PersonRawPayload
@@ -30,6 +32,11 @@ export interface PhonenumberOptions extends PersonOptions {
   rawPayload?: PersonPhonenumberRawPayload
 }
 
+export interface PreviewNotificationParams{
+  id: string
+  channelUserId: string
+  messageTemplateId: string
+}
 export interface PersonAddressRawPayload extends EntityRawPayload {
   readonly first_name?: string
   readonly last_name?: string
@@ -740,6 +747,34 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public address (payload: PersonAddressRawPayload): Address {
     return Address.create({ ...payload, person: this.id }, this.universe, this.http)
   }
+
+  public async previewNotification (params: PreviewNotificationParams, language: string, parameters?: any[] | object, options?: EntityFetchOptions): Promise<EventRawPayload[]> {
+    if (!(params?.id && params?.messageTemplateId && params?.channelUserId)) throw new TypeError('message template preview setup requires person id, channelUser id and message template id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/api/v0/people/${params.id}/channel_users/${params.channelUserId}/notifications/templates/${params.messageTemplateId}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        data: {
+          language,
+          parameters
+        }
+      }
+      const res = await this.http?.getClient()(opts)
+      const resources = res.data.data as EventRawPayload[]
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      const _feed = Feed.createUninitialized({ id: resources?.[0]?.feed }, this.universe, this.http, null)
+
+      return resources.map((item: EventRawPayload) => {
+        return Event.create(item, _feed, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new PersonPreviewNotificationError(undefined, { error: err })
+    }
+  }
 }
 export interface PersonGDPROptions {
   password?: string
@@ -1077,6 +1112,13 @@ export class PersonEmailDeleteError extends BaseError {
   constructor (public message: string = 'Could not delete email for person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PersonEmailDeleteError.prototype)
+  }
+}
+export class PersonPreviewNotificationError extends BaseError {
+  public name = 'PersonPreviewNotificationError'
+  constructor (public message: string = 'Could not preview notification for person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PersonPreviewNotificationError.prototype)
   }
 }
 export class DealsFetchRemoteError extends BaseError {
