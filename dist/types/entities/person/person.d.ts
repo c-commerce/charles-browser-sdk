@@ -5,6 +5,7 @@ import { Order, OrderRawPayload } from '../../entities/order/order';
 import { ChannelUser, ChannelUserRawPayload } from './channel-user';
 import { Analytics, AnalyticsRawPayload } from './analytics';
 import { Email, EmailRawPayload } from './email';
+import { EventRawPayload } from '../../eventing/feeds/event';
 export interface PersonOptions extends UniverseEntityOptions {
     rawPayload?: PersonRawPayload;
 }
@@ -13,6 +14,11 @@ export interface AddressOptions extends PersonOptions {
 }
 export interface PhonenumberOptions extends PersonOptions {
     rawPayload?: PersonPhonenumberRawPayload;
+}
+export interface PreviewNotificationParams {
+    id: string;
+    channelUserId: string;
+    messageTemplateId: string;
 }
 export interface PersonAddressRawPayload extends EntityRawPayload {
     readonly first_name?: string;
@@ -211,6 +217,7 @@ export declare class Person extends UniverseEntity<PersonPayload, PersonRawPaylo
     email(payload: EmailRawPayload): Email;
     phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
     address(payload: PersonAddressRawPayload): Address;
+    previewNotification(params: PreviewNotificationParams, language: string, parameters?: any[] | object, options?: EntityFetchOptions): Promise<EventRawPayload[]>;
 }
 export interface PersonGDPROptions {
     password?: string;
@@ -353,6 +360,11 @@ export declare class PersonEmailApplyPatchError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class PersonEmailDeleteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PersonPreviewNotificationError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

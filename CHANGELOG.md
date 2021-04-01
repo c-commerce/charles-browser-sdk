@@ -1,3 +1,15 @@
+# [4.1.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.0.0...v4.1.0) (2021-04-01)
+
+
+### Bug Fixes
+
+* **person:** fix feed import ([97a90ac](https://github.com/c-commerce/charles-browser-sdk/commit/97a90acbd4e2c7ab683b6a2df08538ec62f88eda))
+
+
+### Features
+
+* **person:** preview notification ([1323934](https://github.com/c-commerce/charles-browser-sdk/commit/13239342d796e336c5809d7b36f365d35139881f))
+
 # [4.0.0](https://github.com/c-commerce/charles-browser-sdk/compare/v3.98.1...v4.0.0) (2021-03-28)
 
 

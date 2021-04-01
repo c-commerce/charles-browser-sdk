@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DealCreateRemoteError = exports.DealsFetchRemoteError = exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
+exports.DealCreateRemoteError = exports.DealsFetchRemoteError = exports.PersonPreviewNotificationError = exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -12,6 +12,8 @@ var cart_1 = require("../cart/cart");
 var just_omit_1 = tslib_1.__importDefault(require("just-omit"));
 var qs_1 = tslib_1.__importDefault(require("qs"));
 var deal_1 = require("../deal/deal");
+var event_1 = require("../../eventing/feeds/event");
+var feed_1 = require("../../eventing/feeds/feed");
 var AddressArray = (function (_super) {
     tslib_1.__extends(AddressArray, _super);
     function AddressArray(items, universe, http, person) {
@@ -592,6 +594,46 @@ var Person = (function (_super) {
     Person.prototype.address = function (payload) {
         return Address.create(tslib_1.__assign(tslib_1.__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
+    Person.prototype.previewNotification = function (params, language, parameters, options) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, _feed_1, err_13;
+            var _this = this;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (!((params === null || params === void 0 ? void 0 : params.id) && (params === null || params === void 0 ? void 0 : params.messageTemplateId) && (params === null || params === void 0 ? void 0 : params.channelUserId)))
+                            throw new TypeError('message template preview setup requires person id, channelUser id and message template id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/api/v0/people/" + params.id + "/channel_users/" + params.channelUserId + "/notifications/templates/" + params.messageTemplateId + "/preview" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            data: {
+                                language: language,
+                                parameters: parameters
+                            }
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _c.sent();
+                        resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
+                        _feed_1 = feed_1.Feed.createUninitialized({ id: (_b = resources === null || resources === void 0 ? void 0 : resources[0]) === null || _b === void 0 ? void 0 : _b.feed }, this.universe, this.http, null);
+                        return [2, resources.map(function (item) {
+                                return event_1.Event.create(item, _feed_1, _this.universe, _this.http);
+                            })];
+                    case 3:
+                        err_13 = _c.sent();
+                        throw new PersonPreviewNotificationError(undefined, { error: err_13 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return Person;
 }(_base_1.UniverseEntity));
 exports.Person = Person;
@@ -967,6 +1009,19 @@ var PersonEmailDeleteError = (function (_super) {
     return PersonEmailDeleteError;
 }(errors_1.BaseError));
 exports.PersonEmailDeleteError = PersonEmailDeleteError;
+var PersonPreviewNotificationError = (function (_super) {
+    tslib_1.__extends(PersonPreviewNotificationError, _super);
+    function PersonPreviewNotificationError(message, properties) {
+        if (message === void 0) { message = 'Could not preview notification for person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PersonPreviewNotificationError';
+        Object.setPrototypeOf(_this, PersonPreviewNotificationError.prototype);
+        return _this;
+    }
+    return PersonPreviewNotificationError;
+}(errors_1.BaseError));
+exports.PersonPreviewNotificationError = PersonPreviewNotificationError;
 var DealsFetchRemoteError = (function (_super) {
     tslib_1.__extends(DealsFetchRemoteError, _super);
     function DealsFetchRemoteError(message, properties) {
