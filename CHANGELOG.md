@@ -1,3 +1,10 @@
+## [4.1.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.1.0...v4.1.1) (2021-04-01)
+
+
+### Bug Fixes
+
+* **person preview notification:** nit: use own id ([e2f80d5](https://github.com/c-commerce/charles-browser-sdk/commit/e2f80d593abf9461ed86c6b2bea28ee2b0756c73))
+
 # [4.1.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.0.0...v4.1.0) (2021-04-01)
 
 

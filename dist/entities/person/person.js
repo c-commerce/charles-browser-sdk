@@ -602,14 +602,14 @@ var Person = (function (_super) {
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        if (!((params === null || params === void 0 ? void 0 : params.id) && (params === null || params === void 0 ? void 0 : params.messageTemplateId) && (params === null || params === void 0 ? void 0 : params.channelUserId)))
+                        if (!(this.id && (params === null || params === void 0 ? void 0 : params.messageTemplateId) && (params === null || params === void 0 ? void 0 : params.channelUserId)))
                             throw new TypeError('message template preview setup requires person id, channelUser id and message template id to be set.');
                         _c.label = 1;
                     case 1:
                         _c.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'POST',
-                            url: this.universe.universeBase + "/api/v0/people/" + params.id + "/channel_users/" + params.channelUserId + "/notifications/templates/" + params.messageTemplateId + "/preview" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            url: this.universe.universeBase + "/api/v0/people/" + this.id + "/channel_users/" + params.channelUserId + "/notifications/templates/" + params.messageTemplateId + "/preview" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
                             data: {
                                 language: language,
                                 parameters: parameters

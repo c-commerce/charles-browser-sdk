@@ -16,7 +16,6 @@ export interface PhonenumberOptions extends PersonOptions {
     rawPayload?: PersonPhonenumberRawPayload;
 }
 export interface PreviewNotificationParams {
-    id: string;
     channelUserId: string;
     messageTemplateId: string;
 }
