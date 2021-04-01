@@ -33,7 +33,6 @@ export interface PhonenumberOptions extends PersonOptions {
 }
 
 export interface PreviewNotificationParams{
-  id: string
   channelUserId: string
   messageTemplateId: string
 }
@@ -749,12 +748,12 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   }
 
   public async previewNotification (params: PreviewNotificationParams, language: string, parameters?: any[] | object, options?: EntityFetchOptions): Promise<EventRawPayload[]> {
-    if (!(params?.id && params?.messageTemplateId && params?.channelUserId)) throw new TypeError('message template preview setup requires person id, channelUser id and message template id to be set.')
+    if (!(this.id && params?.messageTemplateId && params?.channelUserId)) throw new TypeError('message template preview setup requires person id, channelUser id and message template id to be set.')
 
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe.universeBase}/api/v0/people/${params.id}/channel_users/${params.channelUserId}/notifications/templates/${params.messageTemplateId}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        url: `${this.universe.universeBase}/api/v0/people/${this.id}/channel_users/${params.channelUserId}/notifications/templates/${params.messageTemplateId}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         data: {
           language,
           parameters
