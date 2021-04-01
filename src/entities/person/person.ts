@@ -18,7 +18,7 @@ import omit from 'just-omit'
 import qs from 'qs'
 import { Deal, DealRawPayload } from '../deal/deal'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
-import { Feed } from 'src/eventing/feeds/feed'
+import { Feed } from '../../eventing/feeds/feed'
 
 export interface PersonOptions extends UniverseEntityOptions {
   rawPayload?: PersonRawPayload

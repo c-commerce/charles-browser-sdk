@@ -2,7 +2,7 @@
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { CRM, Pipeline, PipelineStage } from '../crm'
+import { Pipeline, PipelineStage } from '../crm'
 
 export interface DealOptions extends UniverseEntityOptions {
   rawPayload?: DealRawPayload
