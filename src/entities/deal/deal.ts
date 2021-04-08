@@ -41,6 +41,7 @@ export interface DealRawPayload {
   readonly owner?: object | string
   readonly proxy_payload?: object
   readonly links?: object
+  readonly custom_properties?: object
 }
 
 export interface DealPayload {
@@ -76,6 +77,7 @@ export interface DealPayload {
   readonly owner?: DealRawPayload['owner']
   readonly proxyPayload?: DealRawPayload['proxy_payload']
   readonly links?: DealRawPayload['links']
+  readonly customProperties?: DealRawPayload['custom_properties']
 }
 
 /**
@@ -124,6 +126,7 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
   public owner?: DealPayload['owner']
   public proxyPayload?: DealPayload['proxyPayload']
   public links?: DealPayload['links']
+  public customProperties?: DealPayload['customProperties']
 
   constructor (options: DealOptions) {
     super()
@@ -176,6 +179,7 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     this.owner = rawPayload.owner
     this.proxyPayload = rawPayload.proxy_payload
     this.links = rawPayload.links
+    this.customProperties = rawPayload.custom_properties
 
     if (rawPayload.stage && this.initialized) {
       this.stage = PipelineStage.create(rawPayload.stage, this.universe, this.http)
@@ -233,7 +237,8 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
       author: this.author,
       owner: this.owner,
       proxy_payload: this.proxyPayload,
-      links: this.links
+      links: this.links,
+      custom_properties: this.customProperties
     }
   }
 
