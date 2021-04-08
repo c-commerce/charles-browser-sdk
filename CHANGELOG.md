@@ -1,3 +1,10 @@
+## [4.1.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.1.1...v4.1.2) (2021-04-08)
+
+
+### Bug Fixes
+
+* **deal:** add custom properties ([6c084ca](https://github.com/c-commerce/charles-browser-sdk/commit/6c084cad5069997aaca5bedc7259812ad3238420))
+
 ## [4.1.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.1.0...v4.1.1) (2021-04-01)
 
 

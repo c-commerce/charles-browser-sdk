@@ -37,6 +37,7 @@ export interface DealRawPayload {
     readonly owner?: object | string;
     readonly proxy_payload?: object;
     readonly links?: object;
+    readonly custom_properties?: object;
 }
 export interface DealPayload {
     readonly id?: DealRawPayload['id'];
@@ -70,6 +71,7 @@ export interface DealPayload {
     readonly owner?: DealRawPayload['owner'];
     readonly proxyPayload?: DealRawPayload['proxy_payload'];
     readonly links?: DealRawPayload['links'];
+    readonly customProperties?: DealRawPayload['custom_properties'];
 }
 export declare class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     protected universe: Universe;
@@ -109,6 +111,7 @@ export declare class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     owner?: DealPayload['owner'];
     proxyPayload?: DealPayload['proxyPayload'];
     links?: DealPayload['links'];
+    customProperties?: DealPayload['customProperties'];
     constructor(options: DealOptions);
     protected deserialize(rawPayload: DealRawPayload): Deal;
     static create(payload: DealRawPayload, universe: Universe, http: Universe['http']): Deal;

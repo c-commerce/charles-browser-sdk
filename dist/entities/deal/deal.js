@@ -56,6 +56,7 @@ var Deal = (function (_super) {
         this.owner = rawPayload.owner;
         this.proxyPayload = rawPayload.proxy_payload;
         this.links = rawPayload.links;
+        this.customProperties = rawPayload.custom_properties;
         if (rawPayload.stage && this.initialized) {
             this.stage = crm_1.PipelineStage.create(rawPayload.stage, this.universe, this.http);
         }
@@ -112,7 +113,8 @@ var Deal = (function (_super) {
             author: this.author,
             owner: this.owner,
             proxy_payload: this.proxyPayload,
-            links: this.links
+            links: this.links,
+            custom_properties: this.customProperties
         };
     };
     Deal.prototype.init = function () {
