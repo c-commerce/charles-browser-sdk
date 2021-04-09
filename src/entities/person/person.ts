@@ -145,6 +145,12 @@ export interface IPersonDeals {
   toJson: Function
   create: Function
 }
+export interface IPersonPhonenumbers {
+  fetch: Function
+  fromJson: Function
+  toJson: Function
+  create: Function
+}
 
 export interface IPersonAddresses {
   fetch: Function
@@ -286,7 +292,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public namePreference?: PersonPayload['namePreference']
   public customProperties?: PersonPayload['customProperties']
   public _addresses?: PersonPayload['addresses']
-  public phonenumbers?: PersonPayload['phonenumbers']
+  public _phonenumbers?: PersonPayload['phonenumbers']
   public channelUsers?: PersonPayload['channelUsers']
   public analytics?: PersonPayload['analytics']
   public defaultAddress?: PersonPayload['defaultAddress']
@@ -366,15 +372,15 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     }
 
     if (rawPayload.phonenumbers && this.initialized) {
-      this.phonenumbers = rawPayload.phonenumbers.map(i =>
+      this._phonenumbers = rawPayload.phonenumbers.map(i =>
         Phonenumber.create(i, this.universe, this.http)
       )
     } else if (rawPayload.phonenumbers && !this.initialized) {
-      this.phonenumbers = rawPayload.phonenumbers.map(i =>
+      this._phonenumbers = rawPayload.phonenumbers.map(i =>
         Phonenumber.createUninitialized(i, this.universe, this.http)
       )
-    } else if (!this.phonenumbers) {
-      this.phonenumbers = undefined
+    } else if (!this._phonenumbers) {
+      this._phonenumbers = undefined
     }
 
     if (rawPayload.channel_users && this.initialized) {
@@ -427,8 +433,8 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
       addresses: Array.isArray(this._addresses)
         ? this._addresses.map(item => item.serialize())
         : undefined,
-      phonenumbers: Array.isArray(this.phonenumbers)
-        ? this.phonenumbers.map(item => item.serialize())
+      phonenumbers: Array.isArray(this._phonenumbers)
+        ? this._phonenumbers.map(item => item.serialize())
         : undefined,
       channel_users: Array.isArray(this.channelUsers)
         ? this.channelUsers.map(item => item.serialize())
@@ -745,6 +751,57 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
 
   public address (payload: PersonAddressRawPayload): Address {
     return Address.create({ ...payload, person: this.id }, this.universe, this.http)
+  }
+
+  public get phonenumbers (): IPersonPhonenumbers {
+    return {
+      fromJson: (payloads: PersonPhonenumberRawPayload[]): Phonenumber[] => {
+        return payloads.map(item => Phonenumber.create(item, this.universe, this.http))
+      },
+      toJson: (payloads: Phonenumber[]): PersonPhonenumberRawPayload[] => {
+        return payloads.map(item => item.serialize())
+      },
+      fetch: async (options?: EntityFetchOptions): Promise<Phonenumber[] | PersonPhonenumberRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/phonenumbers`,
+            params: {
+              ...(options?.query ? options.query : {})
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const phonenumbers = res.data.data as PersonPhonenumberRawPayload[]
+
+          if (options && options.raw === true) {
+            return phonenumbers
+          }
+
+          return phonenumbers.map((deal: PersonPhonenumberRawPayload) => {
+            return Phonenumber.create(deal, this.universe, this.http)
+          })
+        } catch (err) {
+          throw new PhonenumbersFetchRemoteError(undefined, { error: err })
+        }
+      },
+      create: async (deal: PersonPhonenumberRawPayload): Promise<Phonenumber | undefined> => {
+        try {
+          const opts = {
+            method: 'POST',
+            url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/phonenumbers`,
+            data: deal
+          }
+          const res = await this.http.getClient()(opts)
+          const phonenumbers = res.data.data as PersonPhonenumberRawPayload[]
+
+          return phonenumbers.map((deal: PersonPhonenumberRawPayload) => {
+            return Phonenumber.create(deal, this.universe, this.http)
+          })[0]
+        } catch (err) {
+          throw new PhonenumberCreateRemoteError(undefined, { error: err })
+        }
+      }
+    }
   }
 
   public async previewNotification (params: PreviewNotificationParams, language: string, parameters?: any[] | object, options?: EntityFetchOptions): Promise<EventRawPayload[]> {
@@ -1132,5 +1189,19 @@ export class DealCreateRemoteError extends BaseError {
   constructor (public message: string = 'Could not create deal for person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, DealCreateRemoteError.prototype)
+  }
+}
+export class PhonenumbersFetchRemoteError extends BaseError {
+  public name = 'PhonenumbersFetchRemoteError'
+  constructor (public message: string = 'Could not fetch phonenumbers for person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PhonenumbersFetchRemoteError.prototype)
+  }
+}
+export class PhonenumberCreateRemoteError extends BaseError {
+  public name = 'PhonenumberCreateRemoteError'
+  constructor (public message: string = 'Could not create phonenumber for person.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PhonenumberCreateRemoteError.prototype)
   }
 }
