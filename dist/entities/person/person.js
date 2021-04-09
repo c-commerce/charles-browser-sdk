@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DealCreateRemoteError = exports.DealsFetchRemoteError = exports.PersonPreviewNotificationError = exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
+exports.PhonenumberCreateRemoteError = exports.PhonenumbersFetchRemoteError = exports.DealCreateRemoteError = exports.DealsFetchRemoteError = exports.PersonPreviewNotificationError = exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -165,17 +165,17 @@ var Person = (function (_super) {
             this._addresses = undefined;
         }
         if (rawPayload.phonenumbers && this.initialized) {
-            this.phonenumbers = rawPayload.phonenumbers.map(function (i) {
+            this._phonenumbers = rawPayload.phonenumbers.map(function (i) {
                 return Phonenumber.create(i, _this.universe, _this.http);
             });
         }
         else if (rawPayload.phonenumbers && !this.initialized) {
-            this.phonenumbers = rawPayload.phonenumbers.map(function (i) {
+            this._phonenumbers = rawPayload.phonenumbers.map(function (i) {
                 return Phonenumber.createUninitialized(i, _this.universe, _this.http);
             });
         }
-        else if (!this.phonenumbers) {
-            this.phonenumbers = undefined;
+        else if (!this._phonenumbers) {
+            this._phonenumbers = undefined;
         }
         if (rawPayload.channel_users && this.initialized) {
             this.channelUsers = rawPayload.channel_users.map(function (i) {
@@ -223,8 +223,8 @@ var Person = (function (_super) {
             addresses: Array.isArray(this._addresses)
                 ? this._addresses.map(function (item) { return item.serialize(); })
                 : undefined,
-            phonenumbers: Array.isArray(this.phonenumbers)
-                ? this.phonenumbers.map(function (item) { return item.serialize(); })
+            phonenumbers: Array.isArray(this._phonenumbers)
+                ? this._phonenumbers.map(function (item) { return item.serialize(); })
                 : undefined,
             channel_users: Array.isArray(this.channelUsers)
                 ? this.channelUsers.map(function (item) { return item.serialize(); })
@@ -594,10 +594,80 @@ var Person = (function (_super) {
     Person.prototype.address = function (payload) {
         return Address.create(tslib_1.__assign(tslib_1.__assign({}, payload), { person: this.id }), this.universe, this.http);
     };
+    Object.defineProperty(Person.prototype, "phonenumbers", {
+        get: function () {
+            var _this = this;
+            return {
+                fromJson: function (payloads) {
+                    return payloads.map(function (item) { return Phonenumber.create(item, _this.universe, _this.http); });
+                },
+                toJson: function (payloads) {
+                    return payloads.map(function (item) { return item.serialize(); });
+                },
+                fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    var opts, res, phonenumbers, err_13;
+                    var _this = this;
+                    return tslib_1.__generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'GET',
+                                    url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/phonenumbers",
+                                    params: tslib_1.__assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
+                                };
+                                return [4, this.http.getClient()(opts)];
+                            case 1:
+                                res = _a.sent();
+                                phonenumbers = res.data.data;
+                                if (options && options.raw === true) {
+                                    return [2, phonenumbers];
+                                }
+                                return [2, phonenumbers.map(function (phonenumber) {
+                                        return Phonenumber.create(phonenumber, _this.universe, _this.http);
+                                    })];
+                            case 2:
+                                err_13 = _a.sent();
+                                throw new PhonenumbersFetchRemoteError(undefined, { error: err_13 });
+                            case 3: return [2];
+                        }
+                    });
+                }); },
+                create: function (phonenumber) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    var opts, res, phonenumbers, err_14;
+                    var _this = this;
+                    return tslib_1.__generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                opts = {
+                                    method: 'POST',
+                                    url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/phonenumbers",
+                                    data: phonenumber
+                                };
+                                return [4, this.http.getClient()(opts)];
+                            case 1:
+                                res = _a.sent();
+                                phonenumbers = res.data.data;
+                                return [2, phonenumbers.map(function (phonenumber) {
+                                        return Phonenumber.create(phonenumber, _this.universe, _this.http);
+                                    })[0]];
+                            case 2:
+                                err_14 = _a.sent();
+                                throw new PhonenumberCreateRemoteError(undefined, { error: err_14 });
+                            case 3: return [2];
+                        }
+                    });
+                }); }
+            };
+        },
+        enumerable: false,
+        configurable: true
+    });
     Person.prototype.previewNotification = function (params, language, parameters, options) {
         var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, resources, _feed_1, err_13;
+            var opts, res, resources, _feed_1, err_15;
             var _this = this;
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
@@ -627,8 +697,8 @@ var Person = (function (_super) {
                                 return event_1.Event.create(item, _feed_1, _this.universe, _this.http);
                             })];
                     case 3:
-                        err_13 = _c.sent();
-                        throw new PersonPreviewNotificationError(undefined, { error: err_13 });
+                        err_15 = _c.sent();
+                        throw new PersonPreviewNotificationError(undefined, { error: err_15 });
                     case 4: return [2];
                 }
             });
@@ -1048,4 +1118,30 @@ var DealCreateRemoteError = (function (_super) {
     return DealCreateRemoteError;
 }(errors_1.BaseError));
 exports.DealCreateRemoteError = DealCreateRemoteError;
+var PhonenumbersFetchRemoteError = (function (_super) {
+    tslib_1.__extends(PhonenumbersFetchRemoteError, _super);
+    function PhonenumbersFetchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not fetch phonenumbers for person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PhonenumbersFetchRemoteError';
+        Object.setPrototypeOf(_this, PhonenumbersFetchRemoteError.prototype);
+        return _this;
+    }
+    return PhonenumbersFetchRemoteError;
+}(errors_1.BaseError));
+exports.PhonenumbersFetchRemoteError = PhonenumbersFetchRemoteError;
+var PhonenumberCreateRemoteError = (function (_super) {
+    tslib_1.__extends(PhonenumberCreateRemoteError, _super);
+    function PhonenumberCreateRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not create phonenumber for person.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PhonenumberCreateRemoteError';
+        Object.setPrototypeOf(_this, PhonenumberCreateRemoteError.prototype);
+        return _this;
+    }
+    return PhonenumberCreateRemoteError;
+}(errors_1.BaseError));
+exports.PhonenumberCreateRemoteError = PhonenumberCreateRemoteError;
 //# sourceMappingURL=person.js.map

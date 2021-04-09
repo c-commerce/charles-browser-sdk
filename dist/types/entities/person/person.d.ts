@@ -120,6 +120,12 @@ export interface IPersonDeals {
     toJson: Function;
     create: Function;
 }
+export interface IPersonPhonenumbers {
+    fetch: Function;
+    fromJson: Function;
+    toJson: Function;
+    create: Function;
+}
 export interface IPersonAddresses {
     fetch: Function;
     fromJson: Function;
@@ -193,7 +199,7 @@ export declare class Person extends UniverseEntity<PersonPayload, PersonRawPaylo
     namePreference?: PersonPayload['namePreference'];
     customProperties?: PersonPayload['customProperties'];
     _addresses?: PersonPayload['addresses'];
-    phonenumbers?: PersonPayload['phonenumbers'];
+    _phonenumbers?: PersonPayload['phonenumbers'];
     channelUsers?: PersonPayload['channelUsers'];
     analytics?: PersonPayload['analytics'];
     defaultAddress?: PersonPayload['defaultAddress'];
@@ -216,6 +222,7 @@ export declare class Person extends UniverseEntity<PersonPayload, PersonRawPaylo
     email(payload: EmailRawPayload): Email;
     phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
     address(payload: PersonAddressRawPayload): Address;
+    get phonenumbers(): IPersonPhonenumbers;
     previewNotification(params: PreviewNotificationParams, language: string, parameters?: any[] | object, options?: EntityFetchOptions): Promise<EventRawPayload[]>;
 }
 export interface PersonGDPROptions {
@@ -374,6 +381,16 @@ export declare class DealsFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class DealCreateRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PhonenumbersFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PhonenumberCreateRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

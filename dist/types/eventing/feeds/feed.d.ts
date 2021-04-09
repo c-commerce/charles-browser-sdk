@@ -75,7 +75,7 @@ export declare class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     initialized: boolean;
     endpoint: string;
     private readonly eventsMap;
-    protected _rawPayload?: FeedPayload | null;
+    protected _rawPayload?: FeedRawPayload | null;
     id?: string;
     kind?: FeedPayload['kind'];
     participants?: FeedPayload['participants'];

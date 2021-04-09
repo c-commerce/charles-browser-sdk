@@ -1,3 +1,16 @@
+# [4.2.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.1.2...v4.2.0) (2021-04-09)
+
+
+### Bug Fixes
+
+* **feed:** correct _rawPayload type ([e9c115d](https://github.com/c-commerce/charles-browser-sdk/commit/e9c115dbffeb55a3640692d046120c0bb3bb60e0))
+* **person:** phonenumber create fix ([3535e09](https://github.com/c-commerce/charles-browser-sdk/commit/3535e090f192e3bb6c18c6a46afce46484a98feb))
+
+
+### Features
+
+* **person:** phonenumbers ([5d0331a](https://github.com/c-commerce/charles-browser-sdk/commit/5d0331af5a39f5124d6d9ff2277b730552c094c0))
+
 ## [4.1.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.1.1...v4.1.2) (2021-04-08)
 
 
