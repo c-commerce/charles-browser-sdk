@@ -103,7 +103,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
   public endpoint: string
   private readonly eventsMap: FeedEventsMap = new Map()
 
-  protected _rawPayload?: FeedPayload | null = null
+  protected _rawPayload?: FeedRawPayload | null = null
 
   public id?: string
   public kind?: FeedPayload['kind']
