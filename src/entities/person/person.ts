@@ -777,25 +777,25 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
             return phonenumbers
           }
 
-          return phonenumbers.map((deal: PersonPhonenumberRawPayload) => {
-            return Phonenumber.create(deal, this.universe, this.http)
+          return phonenumbers.map((phonenumber: PersonPhonenumberRawPayload) => {
+            return Phonenumber.create(phonenumber, this.universe, this.http)
           })
         } catch (err) {
           throw new PhonenumbersFetchRemoteError(undefined, { error: err })
         }
       },
-      create: async (deal: PersonPhonenumberRawPayload): Promise<Phonenumber | undefined> => {
+      create: async (phonenumber: PersonPhonenumberRawPayload): Promise<Phonenumber | undefined> => {
         try {
           const opts = {
             method: 'POST',
             url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/phonenumbers`,
-            data: deal
+            data: phonenumber
           }
           const res = await this.http.getClient()(opts)
           const phonenumbers = res.data.data as PersonPhonenumberRawPayload[]
 
-          return phonenumbers.map((deal: PersonPhonenumberRawPayload) => {
-            return Phonenumber.create(deal, this.universe, this.http)
+          return phonenumbers.map((phonenumber: PersonPhonenumberRawPayload) => {
+            return Phonenumber.create(phonenumber, this.universe, this.http)
           })[0]
         } catch (err) {
           throw new PhonenumberCreateRemoteError(undefined, { error: err })
