@@ -483,16 +483,21 @@ export class Universe extends APICarrier {
       .subscribe(this.defaultSubscriptions)
   }
 
+  public subscribe (topic: string | string[]): void {
+    this.getMqttClient()
+      .subscribe(topic)
+  }
+
   /**
    *
    * Parsing and routing logic is being handled here. We take extensive decisions about type and destinations here.
    */
   private handleMessage (msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage): void {
+    this.emit('message', msg)
     // each arming message will cause an unsubscription
     if (universeTopics.api.clients.arm.isTopic(msg.topic)) {
       this.emit('armed', msg)
       this.getMqttClient().unsubscribe(msg.topic)
-      this.emit('message', msg)
       return
     }
 
@@ -545,7 +550,7 @@ export class Universe extends APICarrier {
       return
     }
 
-    this.emit('message', msg)
+    return undefined
   }
 
   /**
