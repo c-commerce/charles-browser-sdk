@@ -196,11 +196,15 @@ var Universe = (function (_super) {
         this.getMqttClient()
             .subscribe(this.defaultSubscriptions);
     };
+    Universe.prototype.subscribe = function (topic) {
+        this.getMqttClient()
+            .subscribe(topic);
+    };
     Universe.prototype.handleMessage = function (msg) {
+        this.emit('message', msg);
         if (topics_1.default.api.clients.arm.isTopic(msg.topic)) {
             this.emit('armed', msg);
             this.getMqttClient().unsubscribe(msg.topic);
-            this.emit('message', msg);
             return;
         }
         if (topics_1.default.api.message.isTopic(msg.topic)) {
@@ -247,7 +251,7 @@ var Universe = (function (_super) {
             this.emit('universe:people', tslib_1.__assign(tslib_1.__assign({}, msg), { _person: _person }));
             return;
         }
-        this.emit('message', msg);
+        return undefined;
     };
     Universe.prototype.getMqttClient = function () {
         if (this.mqtt)

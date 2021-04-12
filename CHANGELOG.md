@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.2.0...v4.3.0) (2021-04-12)
+
+
+### Features
+
+* **Universe:** make all topics subscribable ([a8d9ecd](https://github.com/c-commerce/charles-browser-sdk/commit/a8d9ecd514c21b9358d8e7873ccab6a924b1585a))
+
 # [4.2.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.1.2...v4.2.0) (2021-04-09)
 
 

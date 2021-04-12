@@ -285,6 +285,7 @@ export declare class Universe extends APICarrier {
     private setMqttClient;
     private get defaultSubscriptions();
     private subscibeDefaults;
+    subscribe(topic: string | string[]): void;
     private handleMessage;
     private getMqttClient;
     create(options: UniverseOptions): Universe;
