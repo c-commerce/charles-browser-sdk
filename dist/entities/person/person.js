@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PhonenumberCreateRemoteError = exports.PhonenumbersFetchRemoteError = exports.DealCreateRemoteError = exports.DealsFetchRemoteError = exports.PersonPreviewNotificationError = exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
+exports.PhonenumberApplyPatchRemoteError = exports.PhonenumberPatchRemoteError = exports.PhonenumberCreateRemoteError = exports.PhonenumbersFetchRemoteError = exports.DealCreateRemoteError = exports.DealsFetchRemoteError = exports.PersonPreviewNotificationError = exports.PersonEmailDeleteError = exports.PersonEmailApplyPatchError = exports.PersonEmailPostRemoteError = exports.PeopleExportRemoteError = exports.PersonGDPRGetRemoteError = exports.PersonMergeRemoteError = exports.AddressPatchRemoteError = exports.AddressCreateRemoteError = exports.AddressFetchRemoteError = exports.PeopleFetchCountRemoteError = exports.PeopleFetchRemoteError = exports.PersonFetchRemoteError = exports.PersonInitializationError = exports.PersonFetchOrdersRemoteError = exports.PersonDeleteRemoteError = exports.Phonenumber = exports.Address = exports.People = exports.Person = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -862,13 +862,21 @@ var Phonenumber = (function (_super) {
         return _this;
     }
     Phonenumber.prototype.deserialize = function (rawPayload) {
+        this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
-        this.value = rawPayload.value;
-        this.type = rawPayload.type;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
         this.deleted = rawPayload.deleted;
         this.active = rawPayload.active;
+        this.value = rawPayload.value;
+        this.type = rawPayload.type;
+        this.person = rawPayload.person;
+        this.channelUser = rawPayload.channel_user;
+        this.proxyVendor = rawPayload.proxy_vendor;
+        this.isProxy = rawPayload.is_proxy;
+        this.portability = rawPayload.portability;
+        this.portability = rawPayload.portability;
+        this.isPortable = rawPayload.is_portable;
         return this;
     };
     Phonenumber.create = function (payload, universe, http) {
@@ -885,8 +893,42 @@ var Phonenumber = (function (_super) {
             created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: this.deleted,
-            active: this.active
+            active: this.active,
+            person: this.person,
+            channel_user: this.channelUser,
+            is_proxy: this.isProxy,
+            proxy_vendor: this.proxyVendor,
+            portability: this.portability,
+            is_portable: this.isPortable
         };
+    };
+    Phonenumber.prototype.patch = function (changePart) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.person) {
+                            throw new PhonenumberPatchRemoteError('Phonenumber patch requires person to be set.');
+                        }
+                        return [4, this._patch(changePart)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Phonenumber.prototype.applyPatch = function (patch) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.person) {
+                            throw new PhonenumberApplyPatchRemoteError('Phonenumber applyPatch requires person to be set.');
+                        }
+                        return [4, this._applyPatch(patch)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
     };
     return Phonenumber;
 }(_base_1.UniverseEntity));
@@ -1151,4 +1193,30 @@ var PhonenumberCreateRemoteError = (function (_super) {
     return PhonenumberCreateRemoteError;
 }(errors_1.BaseError));
 exports.PhonenumberCreateRemoteError = PhonenumberCreateRemoteError;
+var PhonenumberPatchRemoteError = (function (_super) {
+    tslib_1.__extends(PhonenumberPatchRemoteError, _super);
+    function PhonenumberPatchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Phonenumber patch requires person to be set.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PhonenumberPatchRemoteError';
+        Object.setPrototypeOf(_this, PhonenumberPatchRemoteError.prototype);
+        return _this;
+    }
+    return PhonenumberPatchRemoteError;
+}(errors_1.BaseError));
+exports.PhonenumberPatchRemoteError = PhonenumberPatchRemoteError;
+var PhonenumberApplyPatchRemoteError = (function (_super) {
+    tslib_1.__extends(PhonenumberApplyPatchRemoteError, _super);
+    function PhonenumberApplyPatchRemoteError(message, properties) {
+        if (message === void 0) { message = 'Phonenumber applyPatch requires person to be set.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'PhonenumberApplyPatchRemoteError';
+        Object.setPrototypeOf(_this, PhonenumberApplyPatchRemoteError.prototype);
+        return _this;
+    }
+    return PhonenumberApplyPatchRemoteError;
+}(errors_1.BaseError));
+exports.PhonenumberApplyPatchRemoteError = PhonenumberApplyPatchRemoteError;
 //# sourceMappingURL=person.js.map

@@ -1,3 +1,10 @@
+## [4.4.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.4.1...v4.4.2) (2021-04-12)
+
+
+### Bug Fixes
+
+* **person phonenumbers:** add missing properties, overwrite patch/applyPatch ([a55fc41](https://github.com/c-commerce/charles-browser-sdk/commit/a55fc419564ef96f8bd021ae957d443af739f038))
+
 ## [4.4.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.4.0...v4.4.1) (2021-04-12)
 
 

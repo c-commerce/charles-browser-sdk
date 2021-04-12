@@ -57,13 +57,18 @@ export interface PersonAddressPayload {
     readonly postal_code?: PersonAddressRawPayload['postal_code'];
 }
 export interface PersonPhonenumberRawPayload extends EntityRawPayload {
-    readonly person?: string;
     readonly created_at?: string;
     readonly updated_at?: string;
     readonly deleted?: boolean;
     readonly active?: boolean;
+    readonly person?: string;
     readonly type?: string;
     readonly value?: string;
+    readonly channel_user?: string;
+    readonly is_portable?: boolean;
+    readonly is_proxy?: boolean;
+    readonly proxy_vendor?: string;
+    readonly portability?: object | any | null;
 }
 export interface PersonPhonenumberPayload {
     readonly id?: PersonPhonenumberRawPayload['id'];
@@ -73,6 +78,12 @@ export interface PersonPhonenumberPayload {
     readonly active?: PersonPhonenumberRawPayload['active'];
     readonly type?: PersonPhonenumberRawPayload['type'];
     readonly value?: PersonPhonenumberRawPayload['value'];
+    readonly person?: PersonPhonenumberRawPayload['person'];
+    readonly channelUser?: PersonPhonenumberRawPayload['channel_user'];
+    readonly isPortable?: PersonPhonenumberRawPayload['is_portable'];
+    readonly isProxy?: PersonPhonenumberRawPayload['is_proxy'];
+    readonly proxyVendor?: PersonPhonenumberRawPayload['proxy_vendor'];
+    readonly portability?: PersonPhonenumberRawPayload['portability'];
 }
 export declare type PersonChannelUserRawPayload = ChannelUserRawPayload;
 export declare type PersonAnalyticsRawPayload = AnalyticsRawPayload;
@@ -291,19 +302,27 @@ export declare class Phonenumber extends UniverseEntity<PersonPhonenumberPayload
     protected options: PhonenumberOptions;
     initialized: boolean;
     id?: string;
-    value?: string;
-    type?: string;
     createdAt?: Date | null;
     updatedAt?: Date | null;
     comment?: string;
     deleted?: boolean;
     active?: boolean;
+    value?: string;
+    type?: string;
+    person?: string;
+    channelUser?: string;
+    isPortable?: boolean;
+    isProxy?: boolean;
+    proxyVendor?: string;
+    portability?: object | any | null;
     endpoint: string;
     constructor(options: PhonenumberOptions);
     protected deserialize(rawPayload: PersonPhonenumberRawPayload): Phonenumber;
     static create(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
     static createUninitialized(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
     serialize(): PersonPhonenumberRawPayload;
+    patch(changePart: PersonPhonenumberRawPayload): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>>;
+    applyPatch(patch: RawPatch): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>>;
 }
 export declare class PersonDeleteRemoteError extends BaseError {
     message: string;
@@ -401,6 +420,16 @@ export declare class PhonenumbersFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class PhonenumberCreateRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PhonenumberPatchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class PhonenumberApplyPatchRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
