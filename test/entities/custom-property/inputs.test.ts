@@ -56,7 +56,7 @@ describe('Custom property: Inputs helper:', () => {
 
   // DATE
   it('Date to return ISO DATE', async () => {
-    expect(DATE.serialize(new Date('Wed, 18 Dec 2021 18:00:00 GMT'))).toStrictEqual('2021-12-18')
+    expect(DATE.serialize(new Date('Wed, 18 Dec 2021 18:00:00 UTC'))).toStrictEqual('2021-12-18')
     expect(DATE.serialize(new Date('Wed, 18 Dec 2021'))).toStrictEqual('2021-12-18')
   })
   it('Date to handle null', async () => {
@@ -78,8 +78,8 @@ describe('Custom property: Inputs helper:', () => {
 
   it('Daterange to return ISO values', async () => {
     const range = {
-      start: new Date('Wed, 18 Dec 2021 18:00:00 GMT'),
-      end: new Date('Wed, 19 Dec 2021 18:00:00 GMT')
+      start: new Date('Wed, 18 Dec 2021 18:00:00 UTC'),
+      end: new Date('Wed, 19 Dec 2021 18:00:00 UTC')
     }
     expect(DATERANGE.serialize(range)).toStrictEqual({
       start: '2021-12-18',
@@ -93,7 +93,7 @@ describe('Custom property: Inputs helper:', () => {
 
   // DATETIME
   it('Datetime to return ISO DATETIMEs', async () => {
-    expect(DATETIME.serialize(new Date('Wed, 18 Dec 2021 18:00:00 GMT'))).toStrictEqual('2021-12-18T19:00:00+01:00')
+    expect(DATETIME.serialize(new Date('Wed, 18 Dec 2021 18:00:00 UTC'))).toStrictEqual('2021-12-18T19:00:00+01:00')
     expect(DATETIME.serialize(new Date('Wed, 18 Dec 2021'))).toStrictEqual('2021-12-18T00:00:00+01:00')
   })
   it('Datetime to handle null', async () => {
@@ -115,8 +115,8 @@ describe('Custom property: Inputs helper:', () => {
 
   it('Datetimerange to return ISO values', async () => {
     const range = {
-      start: new Date('Wed, 18 Dec 2021 18:00:00 GMT'),
-      end: new Date('Wed, 19 Dec 2021 18:00:00 GMT')
+      start: new Date('Wed, 18 Dec 2021 18:00:00 UTC'),
+      end: new Date('Wed, 19 Dec 2021 18:00:00 UTC')
     }
     expect(DATETIMERANGE.serialize(range)).toStrictEqual({
       start: '2021-12-18T19:00:00+01:00',
@@ -217,7 +217,7 @@ describe('Custom property: Inputs helper:', () => {
     expect(TIME.serialize()).toBeNull()
   })
   it('Time to handle string', async () => {
-    expect(TIME.serialize(new Date('Wed, 18 Dec 2021 18:00:00 GMT'))).toStrictEqual('19:00:00+01:00')
+    expect(TIME.serialize(new Date('Wed, 18 Dec 2021 18:00:00 UTC'))).toStrictEqual('19:00:00+01:00')
   })
 
   // TIMERANGE
@@ -235,8 +235,8 @@ describe('Custom property: Inputs helper:', () => {
 
   it('Timerange to return ISO values', async () => {
     const range = {
-      start: new Date('Wed, 18 Dec 2021 18:00:00 GMT'),
-      end: new Date('Wed, 19 Dec 2021 20:00:00 GMT')
+      start: new Date('Wed, 18 Dec 2021 18:00:00 UTC'),
+      end: new Date('Wed, 19 Dec 2021 20:00:00 UTC')
     }
     expect(TIMERANGE.serialize(range)).toStrictEqual({
       start: '19:00:00+01:00',
