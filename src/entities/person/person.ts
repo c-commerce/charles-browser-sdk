@@ -84,6 +84,15 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
   readonly type?: string
   readonly value?: string
 }
+export interface PersonPhonenumberPayload {
+  readonly id?: PersonPhonenumberRawPayload['id']
+  readonly createdAt?: Date | null
+  readonly updatedAt?: Date | null
+  readonly deleted?: PersonPhonenumberRawPayload['deleted']
+  readonly active?: PersonPhonenumberRawPayload['active']
+  readonly type?: PersonPhonenumberRawPayload['type']
+  readonly value?: PersonPhonenumberRawPayload['value']
+}
 
 export type PersonChannelUserRawPayload = ChannelUserRawPayload
 
@@ -991,7 +1000,7 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
   }
 }
 
-export class Phonenumber {
+export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, PersonPhonenumberRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
@@ -1007,12 +1016,21 @@ export class Phonenumber {
   public deleted?: boolean
   public active?: boolean
 
+  public endpoint: string
+
   constructor (options: PhonenumberOptions) {
+    super()
+
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.endpoint = ''
+
+    if (options?.rawPayload && options.rawPayload.person) {
+      this.endpoint = `api/v0/people/${options.rawPayload.person}/phonenumbers`
+    }
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
