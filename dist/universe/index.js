@@ -199,6 +199,12 @@ var Universe = (function (_super) {
     Universe.prototype.subscribe = function (topic) {
         this.getMqttClient()
             .subscribe(topic);
+        return this;
+    };
+    Universe.prototype.unsubscribe = function (topic) {
+        this.getMqttClient()
+            .unsubscribe(topic);
+        return this;
     };
     Universe.prototype.handleMessage = function (msg) {
         this.emit('message', msg);

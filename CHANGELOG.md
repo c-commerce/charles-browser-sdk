@@ -1,3 +1,10 @@
+# [4.4.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.3.0...v4.4.0) (2021-04-12)
+
+
+### Features
+
+* **Universe:** allow unsubscribing ([ce2f4e8](https://github.com/c-commerce/charles-browser-sdk/commit/ce2f4e86e19928356086a41f8273e21f7f499a24))
+
 # [4.3.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.2.0...v4.3.0) (2021-04-12)
 
 
