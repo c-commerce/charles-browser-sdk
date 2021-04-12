@@ -1,3 +1,12 @@
+## [4.4.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.4.2...v4.4.3) (2021-04-12)
+
+
+### Bug Fixes
+
+* **custom property inputs:** implement helper to serialize input values ([a489348](https://github.com/c-commerce/charles-browser-sdk/commit/a489348a7db9711b77085a1c6a70c7b44ad2c5ad))
+* **custom property tests:** fix timezone ([d086860](https://github.com/c-commerce/charles-browser-sdk/commit/d086860920703415d857b82459f7df7b67c957bd))
+* **test:** tryfix timezone ([93e6d83](https://github.com/c-commerce/charles-browser-sdk/commit/93e6d837051a16f2e43c3cc2f482cc96d079b002))
+
 ## [4.4.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.4.1...v4.4.2) (2021-04-12)
 
 
