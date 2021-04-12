@@ -483,9 +483,16 @@ export class Universe extends APICarrier {
       .subscribe(this.defaultSubscriptions)
   }
 
-  public subscribe (topic: string | string[]): void {
+  public subscribe (topic: string | string[]): Universe {
     this.getMqttClient()
       .subscribe(topic)
+    return this
+  }
+
+  public unsubscribe (topic: string | string[]): Universe {
+    this.getMqttClient()
+      .unsubscribe(topic)
+    return this
   }
 
   /**
