@@ -76,13 +76,19 @@ export interface PersonAddressPayload {
 }
 
 export interface PersonPhonenumberRawPayload extends EntityRawPayload {
-  readonly person?: string
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
   readonly active?: boolean
+
+  readonly person?: string
   readonly type?: string
   readonly value?: string
+  readonly channel_user?: string
+  readonly is_portable?: boolean
+  readonly is_proxy?: boolean
+  readonly proxy_vendor?: string
+  readonly portability?: object | any | null
 }
 export interface PersonPhonenumberPayload {
   readonly id?: PersonPhonenumberRawPayload['id']
@@ -92,6 +98,12 @@ export interface PersonPhonenumberPayload {
   readonly active?: PersonPhonenumberRawPayload['active']
   readonly type?: PersonPhonenumberRawPayload['type']
   readonly value?: PersonPhonenumberRawPayload['value']
+  readonly person?: PersonPhonenumberRawPayload['person']
+  readonly channelUser?: PersonPhonenumberRawPayload['channel_user']
+  readonly isPortable?: PersonPhonenumberRawPayload['is_portable']
+  readonly isProxy?: PersonPhonenumberRawPayload['is_proxy']
+  readonly proxyVendor?: PersonPhonenumberRawPayload['proxy_vendor']
+  readonly portability?: PersonPhonenumberRawPayload['portability']
 }
 
 export type PersonChannelUserRawPayload = ChannelUserRawPayload
@@ -1008,13 +1020,19 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
   public initialized: boolean
 
   public id?: string
-  public value?: string
-  public type?: string
   public createdAt?: Date | null
   public updatedAt?: Date | null
   public comment?: string
   public deleted?: boolean
   public active?: boolean
+  public value?: string
+  public type?: string
+  public person?: string
+  public channelUser?: string
+  public isPortable?: boolean
+  public isProxy?: boolean
+  public proxyVendor?: string
+  public portability?: object| any | null
 
   public endpoint: string
 
@@ -1038,13 +1056,23 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
   }
 
   protected deserialize (rawPayload: PersonPhonenumberRawPayload): Phonenumber {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
-    this.value = rawPayload.value
-    this.type = rawPayload.type
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.deleted = rawPayload.deleted
     this.active = rawPayload.active
+
+    this.value = rawPayload.value
+    this.type = rawPayload.type
+    this.person = rawPayload.person
+    this.channelUser = rawPayload.channel_user
+    this.proxyVendor = rawPayload.proxy_vendor
+    this.isProxy = rawPayload.is_proxy
+    this.portability = rawPayload.portability
+    this.portability = rawPayload.portability
+    this.isPortable = rawPayload.is_portable
     return this
   }
 
@@ -1072,8 +1100,29 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted,
-      active: this.active
+      active: this.active,
+      person: this.person,
+      channel_user: this.channelUser,
+      is_proxy: this.isProxy,
+      proxy_vendor: this.proxyVendor,
+      portability: this.portability,
+      is_portable: this.isPortable
     }
+  }
+
+  public async patch (changePart: PersonPhonenumberRawPayload): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>> {
+    if (!this.person) {
+      throw new PhonenumberPatchRemoteError('Phonenumber patch requires person to be set.')
+    }
+    // we allow implementers to override us by calling ._patch directly and e.g. handle our error differently
+    return await this._patch(changePart)
+  }
+
+  public async applyPatch (patch: RawPatch): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>> {
+    if (!this.person) {
+      throw new PhonenumberApplyPatchRemoteError('Phonenumber applyPatch requires person to be set.')
+    }
+    return await this._applyPatch(patch)
   }
 }
 export class PersonDeleteRemoteError extends BaseError {
@@ -1221,5 +1270,19 @@ export class PhonenumberCreateRemoteError extends BaseError {
   constructor (public message: string = 'Could not create phonenumber for person.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PhonenumberCreateRemoteError.prototype)
+  }
+}
+export class PhonenumberPatchRemoteError extends BaseError {
+  public name = 'PhonenumberPatchRemoteError'
+  constructor (public message: string = 'Phonenumber patch requires person to be set.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PhonenumberPatchRemoteError.prototype)
+  }
+}
+export class PhonenumberApplyPatchRemoteError extends BaseError {
+  public name = 'PhonenumberApplyPatchRemoteError'
+  constructor (public message: string = 'Phonenumber applyPatch requires person to be set.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PhonenumberApplyPatchRemoteError.prototype)
   }
 }
