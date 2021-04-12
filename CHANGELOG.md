@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.4.0...v4.4.1) (2021-04-12)
+
+
+### Bug Fixes
+
+* **person phone numbers:** extend universeEntity ([89fd0d4](https://github.com/c-commerce/charles-browser-sdk/commit/89fd0d414feb85bd36a4172836b7d417fff4cb31))
+
 # [4.4.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.3.0...v4.4.0) (2021-04-12)
 
 

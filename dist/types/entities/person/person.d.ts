@@ -65,6 +65,15 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
     readonly type?: string;
     readonly value?: string;
 }
+export interface PersonPhonenumberPayload {
+    readonly id?: PersonPhonenumberRawPayload['id'];
+    readonly createdAt?: Date | null;
+    readonly updatedAt?: Date | null;
+    readonly deleted?: PersonPhonenumberRawPayload['deleted'];
+    readonly active?: PersonPhonenumberRawPayload['active'];
+    readonly type?: PersonPhonenumberRawPayload['type'];
+    readonly value?: PersonPhonenumberRawPayload['value'];
+}
 export declare type PersonChannelUserRawPayload = ChannelUserRawPayload;
 export declare type PersonAnalyticsRawPayload = AnalyticsRawPayload;
 export declare type PersonEmailRawPayload = EmailRawPayload;
@@ -275,7 +284,7 @@ export declare class Address extends UniverseEntity<PersonAddressPayload, Person
     patch(changePart: PersonAddressRawPayload): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>>;
     applyPatch(patch: RawPatch): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>>;
 }
-export declare class Phonenumber {
+export declare class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, PersonPhonenumberRawPayload> {
     protected universe: Universe;
     protected apiCarrier: Universe;
     protected http: Universe['http'];
@@ -289,6 +298,7 @@ export declare class Phonenumber {
     comment?: string;
     deleted?: boolean;
     active?: boolean;
+    endpoint: string;
     constructor(options: PhonenumberOptions);
     protected deserialize(rawPayload: PersonPhonenumberRawPayload): Phonenumber;
     static create(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;

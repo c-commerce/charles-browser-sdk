@@ -842,17 +842,24 @@ var Address = (function (_super) {
     return Address;
 }(_base_1.UniverseEntity));
 exports.Address = Address;
-var Phonenumber = (function () {
+var Phonenumber = (function (_super) {
+    tslib_1.__extends(Phonenumber, _super);
     function Phonenumber(options) {
         var _a;
-        this.universe = options.universe;
-        this.apiCarrier = options.universe;
-        this.http = options.http;
-        this.options = options;
-        this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
-        if (options === null || options === void 0 ? void 0 : options.rawPayload) {
-            this.deserialize(options.rawPayload);
+        var _this = _super.call(this) || this;
+        _this.universe = options.universe;
+        _this.apiCarrier = options.universe;
+        _this.http = options.http;
+        _this.options = options;
+        _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
+        _this.endpoint = '';
+        if ((options === null || options === void 0 ? void 0 : options.rawPayload) && options.rawPayload.person) {
+            _this.endpoint = "api/v0/people/" + options.rawPayload.person + "/phonenumbers";
         }
+        if (options === null || options === void 0 ? void 0 : options.rawPayload) {
+            _this.deserialize(options.rawPayload);
+        }
+        return _this;
     }
     Phonenumber.prototype.deserialize = function (rawPayload) {
         this.id = rawPayload.id;
@@ -882,7 +889,7 @@ var Phonenumber = (function () {
         };
     };
     return Phonenumber;
-}());
+}(_base_1.UniverseEntity));
 exports.Phonenumber = Phonenumber;
 var PersonDeleteRemoteError = (function (_super) {
     tslib_1.__extends(PersonDeleteRemoteError, _super);
