@@ -265,7 +265,7 @@ var Person = (function (_super) {
         (_a = this.mqtt) === null || _a === void 0 ? void 0 : _a.on('message', function (msg) {
             _this.handleMessage(msg);
         });
-        this.subscibeDefaults();
+        this.subscribeDefaults();
         return this;
     };
     Object.defineProperty(Person.prototype, "defaultSubscriptions", {
@@ -277,7 +277,7 @@ var Person = (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Person.prototype.subscibeDefaults = function () {
+    Person.prototype.subscribeDefaults = function () {
         this.subscribe(this.defaultSubscriptions);
     };
     Person.prototype.unsubscribeDefaults = function () {

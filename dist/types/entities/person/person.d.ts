@@ -233,7 +233,7 @@ export declare class Person extends UniverseEntity<PersonPayload, PersonRawPaylo
     init(): Promise<Person | undefined>;
     setupDefaultMessageListeners(): Person;
     private get defaultSubscriptions();
-    subscibeDefaults(): void;
+    subscribeDefaults(): void;
     unsubscribeDefaults(): void;
     subscribe(topic: string | string[]): Person;
     unsubscribe(topic: string | string[]): Person;

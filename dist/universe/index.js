@@ -176,7 +176,7 @@ var Universe = (function (_super) {
         this.mqtt.on('message', function (msg) {
             _this.handleMessage(msg);
         });
-        this.subscibeDefaults();
+        this.subscribeDefaults();
     };
     Object.defineProperty(Universe.prototype, "defaultSubscriptions", {
         get: function () {
@@ -192,7 +192,7 @@ var Universe = (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Universe.prototype.subscibeDefaults = function () {
+    Universe.prototype.subscribeDefaults = function () {
         this.getMqttClient()
             .subscribe(this.defaultSubscriptions);
     };
@@ -323,7 +323,7 @@ var Universe = (function (_super) {
         return order.Order.create(payload, this, this.http);
     };
     Universe.prototype.person = function (payload) {
-        return person.Person.create(payload, this, this.http);
+        return person.Person.create(payload, this, this.http, this.mqtt);
     };
     Universe.prototype.address = function (payload) {
         return person.Address.create(payload, this, this.http);

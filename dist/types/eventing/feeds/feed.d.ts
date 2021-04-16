@@ -101,7 +101,7 @@ export declare class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     setupDefaultMessageListeners(): Feed;
     private get defaultSubscriptions();
     deinitialize(): void;
-    private subscibeDefaults;
+    private subscribeDefaults;
     private getMqttClient;
     private handleMessage;
     fetchLatestEvents(options?: EntityFetchOptions): Promise<Event[] | FeedlatestEventsRawPayload | undefined>;

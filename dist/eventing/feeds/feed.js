@@ -135,7 +135,7 @@ var Feed = (function (_super) {
         (_a = this.mqtt) === null || _a === void 0 ? void 0 : _a.on('message', function (msg) {
             _this.handleMessage(msg);
         });
-        this.subscibeDefaults();
+        this.subscribeDefaults();
         return this;
     };
     Object.defineProperty(Feed.prototype, "defaultSubscriptions", {
@@ -156,7 +156,7 @@ var Feed = (function (_super) {
         this.removeAllListeners();
         this.getMqttClient().unsubscribe(this.defaultSubscriptions);
     };
-    Feed.prototype.subscibeDefaults = function () {
+    Feed.prototype.subscribeDefaults = function () {
         this.getMqttClient()
             .subscribe(this.defaultSubscriptions);
     };

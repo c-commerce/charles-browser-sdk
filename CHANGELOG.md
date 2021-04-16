@@ -1,3 +1,10 @@
+## [4.5.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.5.0...v4.5.1) (2021-04-16)
+
+
+### Bug Fixes
+
+* **Person:** pass mqtt correctly ([44fc9c6](https://github.com/c-commerce/charles-browser-sdk/commit/44fc9c65571775388ad69cb6c76c6d67a326cb9d))
+
 # [4.5.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.4.3...v4.5.0) (2021-04-16)
 
 
