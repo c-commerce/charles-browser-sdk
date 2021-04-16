@@ -491,7 +491,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
       this.handleMessage(msg)
     })
 
-    this.subscibeDefaults()
+    this.subscribeDefaults()
 
     return this
   }
@@ -502,7 +502,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     ]
   }
 
-  public subscibeDefaults (): void {
+  public subscribeDefaults (): void {
     this.subscribe(this.defaultSubscriptions)
   }
 

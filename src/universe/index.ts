@@ -645,7 +645,7 @@ export class Universe extends APICarrier {
   }
 
   public person (payload: person.PersonRawPayload): person.Person {
-    return person.Person.create(payload, this, this.http)
+    return person.Person.create(payload, this, this.http, this.mqtt)
   }
 
   public address (payload: person.PersonAddressRawPayload): person.Address {
