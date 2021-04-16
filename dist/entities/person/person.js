@@ -14,6 +14,8 @@ var qs_1 = tslib_1.__importDefault(require("qs"));
 var deal_1 = require("../deal/deal");
 var event_1 = require("../../eventing/feeds/event");
 var feed_1 = require("../../eventing/feeds/feed");
+var topics_1 = tslib_1.__importDefault(require("../../universe/topics"));
+var realtime = tslib_1.__importStar(require("../../realtime"));
 var AddressArray = (function (_super) {
     tslib_1.__extends(AddressArray, _super);
     function AddressArray(items, universe, http, person) {
@@ -107,6 +109,9 @@ var Person = (function (_super) {
         if (options === null || options === void 0 ? void 0 : options.rawPayload) {
             _this.deserialize(options.rawPayload);
         }
+        if (options === null || options === void 0 ? void 0 : options.mqtt) {
+            _this.mqtt = options === null || options === void 0 ? void 0 : options.mqtt;
+        }
         return _this;
     }
     Person.prototype.deserialize = function (rawPayload) {
@@ -192,8 +197,8 @@ var Person = (function (_super) {
         }
         return this;
     };
-    Person.create = function (payload, universe, http) {
-        return new Person({ rawPayload: payload, universe: universe, http: http, initialized: true });
+    Person.create = function (payload, universe, http, mqtt) {
+        return new Person({ rawPayload: payload, universe: universe, http: http, initialized: true, mqtt: mqtt });
     };
     Person.prototype.serialize = function () {
         var _a, _b;
@@ -253,6 +258,54 @@ var Person = (function (_super) {
                 }
             });
         });
+    };
+    Person.prototype.setupDefaultMessageListeners = function () {
+        var _this = this;
+        var _a;
+        (_a = this.mqtt) === null || _a === void 0 ? void 0 : _a.on('message', function (msg) {
+            _this.handleMessage(msg);
+        });
+        this.subscibeDefaults();
+        return this;
+    };
+    Object.defineProperty(Person.prototype, "defaultSubscriptions", {
+        get: function () {
+            return [
+                topics_1.default.api.personChange.generateTopic(this)
+            ];
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Person.prototype.subscibeDefaults = function () {
+        this.subscribe(this.defaultSubscriptions);
+    };
+    Person.prototype.unsubscribeDefaults = function () {
+        this.unsubscribe(this.defaultSubscriptions);
+    };
+    Person.prototype.subscribe = function (topic) {
+        this.getMqttClient()
+            .subscribe(topic);
+        return this;
+    };
+    Person.prototype.unsubscribe = function (topic) {
+        this.getMqttClient()
+            .unsubscribe(topic);
+        return this;
+    };
+    Person.prototype.getMqttClient = function () {
+        if (this.mqtt)
+            return this.mqtt;
+        throw new realtime.UninstantiatedRealtimeClient();
+    };
+    Person.prototype.handleMessage = function (msg) {
+        if (topics_1.default.api.personChange.isTopic(msg.topic, this.serialize())) {
+            var person = void 0;
+            if (msg.payload.message) {
+                person = Person.create(msg.payload.person, this.universe, this.http, this.mqtt);
+            }
+            this.emit('person:change', tslib_1.__assign(tslib_1.__assign({}, msg), { person: person }));
+        }
     };
     Person.prototype.patch = function (changePart) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {

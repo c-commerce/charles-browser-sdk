@@ -8,6 +8,7 @@ import { Email, EmailRawPayload } from './email';
 import { EventRawPayload } from '../../eventing/feeds/event';
 export interface PersonOptions extends UniverseEntityOptions {
     rawPayload?: PersonRawPayload;
+    mqtt?: Universe['mqtt'];
 }
 export interface AddressOptions extends PersonOptions {
     rawPayload?: PersonAddressRawPayload;
@@ -195,6 +196,7 @@ export declare class Person extends UniverseEntity<PersonPayload, PersonRawPaylo
     protected universe: Universe;
     protected apiCarrier: Universe;
     protected http: Universe['http'];
+    protected mqtt?: Universe['mqtt'];
     protected options: PersonOptions;
     initialized: boolean;
     endpoint: string;
@@ -226,9 +228,17 @@ export declare class Person extends UniverseEntity<PersonPayload, PersonRawPaylo
     languagePreference?: PersonPayload['languagePreference'];
     constructor(options: PersonOptions);
     protected deserialize(rawPayload: PersonRawPayload): Person;
-    static create(payload: PersonRawPayload, universe: Universe, http: Universe['http']): Person;
+    static create(payload: PersonRawPayload, universe: Universe, http: Universe['http'], mqtt?: Universe['mqtt']): Person;
     serialize(): PersonRawPayload;
     init(): Promise<Person | undefined>;
+    setupDefaultMessageListeners(): Person;
+    private get defaultSubscriptions();
+    subscibeDefaults(): void;
+    unsubscribeDefaults(): void;
+    subscribe(topic: string | string[]): Person;
+    unsubscribe(topic: string | string[]): Person;
+    private getMqttClient;
+    private handleMessage;
     patch(changePart: PersonRawPayload): Promise<Person>;
     delete(options?: EntityDeleteOptions): Promise<Person>;
     merge(mergeables: Object[]): Promise<Person | PersonRawPayload>;

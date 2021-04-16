@@ -75,6 +75,11 @@ declare const _default: {
             generateTopic(): string;
             isTopic(topic: string): boolean;
         };
+        personChange: {
+            template: string;
+            generateTopic(data: IInjectableDataObject): string;
+            isTopic(topic: string, data: IInjectableDataObject): boolean;
+        };
     };
 };
 export default _default;

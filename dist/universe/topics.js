@@ -220,6 +220,21 @@ exports.default = {
                 return topic === this.template;
             };
             return class_14;
+        }(TopicGenerator)))(),
+        personChange: new ((function (_super) {
+            tslib_1.__extends(class_15, _super);
+            function class_15() {
+                var _this = _super !== null && _super.apply(this, arguments) || this;
+                _this.template = 'api/people/${id}';
+                return _this;
+            }
+            class_15.prototype.generateTopic = function (data) {
+                return this.template.replace('${id}', data.id);
+            };
+            class_15.prototype.isTopic = function (topic, data) {
+                return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic);
+            };
+            return class_15;
         }(TopicGenerator)))()
     }
 };

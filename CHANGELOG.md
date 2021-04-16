@@ -1,3 +1,10 @@
+# [4.5.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.4.3...v4.5.0) (2021-04-16)
+
+
+### Features
+
+* **Person:** allow MQTT sub ([d8b3d86](https://github.com/c-commerce/charles-browser-sdk/commit/d8b3d868919e839c18036a66caff4ecdfeacdd24))
+
 ## [4.4.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.4.2...v4.4.3) (2021-04-12)
 
 
