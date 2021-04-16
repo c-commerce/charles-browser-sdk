@@ -464,7 +464,7 @@ export class Universe extends APICarrier {
     this.mqtt.on('message', (msg) => {
       this.handleMessage(msg)
     })
-    this.subscibeDefaults()
+    this.subscribeDefaults()
   }
 
   private get defaultSubscriptions (): string[] {
@@ -478,7 +478,7 @@ export class Universe extends APICarrier {
     ]
   }
 
-  private subscibeDefaults (): void {
+  private subscribeDefaults (): void {
     this.getMqttClient()
       .subscribe(this.defaultSubscriptions)
   }

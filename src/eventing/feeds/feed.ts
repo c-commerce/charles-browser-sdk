@@ -258,7 +258,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
       this.handleMessage(msg)
     })
 
-    this.subscibeDefaults()
+    this.subscribeDefaults()
 
     return this
   }
@@ -279,7 +279,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     this.getMqttClient().unsubscribe(this.defaultSubscriptions)
   }
 
-  private subscibeDefaults (): void {
+  private subscribeDefaults (): void {
     this.getMqttClient()
       .subscribe(this.defaultSubscriptions)
   }
