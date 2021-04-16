@@ -539,7 +539,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     // NOTE: we are also receiving all other messages, but we do not emit them. This is a srtrong fan-out
     if (universeTopics.api.personChange.isTopic(msg.topic, this.serialize())) {
       let person
-      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
+      if ((msg as realtime.RealtimeMessageMessage).payload.person) {
         // person = Person.deserialize((msg as realtime.RealtimeMessageMessage).payload.person as MessageRawPayload)
         person = Person.create((msg as realtime.RealtimeMessageMessage).payload.person, this.universe, this.http, this.mqtt)
       }
