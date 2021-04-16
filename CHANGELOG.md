@@ -1,3 +1,10 @@
+## [4.5.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.5.1...v4.5.2) (2021-04-16)
+
+
+### Bug Fixes
+
+* **Person:** do correctly exclude non person events ([67c915d](https://github.com/c-commerce/charles-browser-sdk/commit/67c915d376a54f922abb0fe77d2f513b4313bd28))
+
 ## [4.5.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.5.0...v4.5.1) (2021-04-16)
 
 

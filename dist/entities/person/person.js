@@ -301,7 +301,7 @@ var Person = (function (_super) {
     Person.prototype.handleMessage = function (msg) {
         if (topics_1.default.api.personChange.isTopic(msg.topic, this.serialize())) {
             var person = void 0;
-            if (msg.payload.message) {
+            if (msg.payload.person) {
                 person = Person.create(msg.payload.person, this.universe, this.http, this.mqtt);
             }
             this.emit('person:change', tslib_1.__assign(tslib_1.__assign({}, msg), { person: person }));
