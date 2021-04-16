@@ -19,9 +19,12 @@ import qs from 'qs'
 import { Deal, DealRawPayload } from '../deal/deal'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
 import { Feed } from '../../eventing/feeds/feed'
+import universeTopics from '../../universe/topics'
+import * as realtime from '../../realtime'
 
 export interface PersonOptions extends UniverseEntityOptions {
   rawPayload?: PersonRawPayload
+  mqtt?: Universe['mqtt']
 }
 
 export interface AddressOptions extends PersonOptions {
@@ -287,6 +290,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt?: Universe['mqtt']
   protected options: PersonOptions
   public initialized: boolean
 
@@ -330,6 +334,10 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
+    }
+
+    if (options?.mqtt) {
+      this.mqtt = options?.mqtt
     }
   }
 
@@ -422,9 +430,10 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public static create (
     payload: PersonRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt?: Universe['mqtt']
   ): Person {
-    return new Person({ rawPayload: payload, universe, http, initialized: true })
+    return new Person({ rawPayload: payload, universe, http, initialized: true, mqtt })
   }
 
   public serialize (): PersonRawPayload {
@@ -474,6 +483,68 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
       return this
     } catch (err) {
       throw this.handleError(new PersonInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public setupDefaultMessageListeners (): Person {
+    this.mqtt?.on('message', (msg) => {
+      this.handleMessage(msg)
+    })
+
+    this.subscibeDefaults()
+
+    return this
+  }
+
+  private get defaultSubscriptions (): string[] {
+    return [
+      universeTopics.api.personChange.generateTopic(this)
+    ]
+  }
+
+  public subscibeDefaults (): void {
+    this.subscribe(this.defaultSubscriptions)
+  }
+
+  public unsubscribeDefaults (): void {
+    this.unsubscribe(this.defaultSubscriptions)
+  }
+
+  public subscribe (topic: string | string[]): Person {
+    this.getMqttClient()
+      .subscribe(topic)
+    return this
+  }
+
+  public unsubscribe (topic: string | string[]): Person {
+    this.getMqttClient()
+      .unsubscribe(topic)
+    return this
+  }
+
+  /**
+   * Safe access the mqtt client. This has a conequence that all the methods that use it need to be aware that they might throw.
+   */
+  private getMqttClient (): realtime.RealtimeClient {
+    if (this.mqtt) return this.mqtt
+
+    throw new realtime.UninstantiatedRealtimeClient()
+  }
+
+  /**
+   *
+   * Parsing and routing logic is being handled here.
+   */
+  private handleMessage (msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage): void {
+    // NOTE: we are also receiving all other messages, but we do not emit them. This is a srtrong fan-out
+    if (universeTopics.api.personChange.isTopic(msg.topic, this.serialize())) {
+      let person
+      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
+        // person = Person.deserialize((msg as realtime.RealtimeMessageMessage).payload.person as MessageRawPayload)
+        person = Person.create((msg as realtime.RealtimeMessageMessage).payload.person, this.universe, this.http, this.mqtt)
+      }
+
+      this.emit('person:change', { ...msg, person })
     }
   }
 

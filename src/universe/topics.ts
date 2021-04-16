@@ -158,6 +158,16 @@ export default {
       isTopic (topic: string): boolean {
         return topic === this.template
       }
+    })(),
+    personChange: new (class extends TopicGenerator {
+      template: string = 'api/people/${id}'
+      generateTopic (data: IInjectableDataObject): string {
+        return this.template.replace('${id}', data.id)
+      }
+
+      isTopic (topic: string, data: IInjectableDataObject): boolean {
+        return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic)
+      }
     })()
   }
 }
