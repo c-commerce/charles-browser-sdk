@@ -2021,13 +2021,23 @@ export class Universe extends APICarrier {
     }
   }
 
-  public async self (): Promise<{ universe: string } | undefined> {
+  public async selfV0 (): Promise<{ universe: string } | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/api/self`)
 
       return {
         universe: res.data?.universe
       }
+    } catch (err) {
+      throw new UniverseSelfError(undefined, { error: err })
+    }
+  }
+
+  public async self (): Promise<{ [key: string]: any } | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/api/v1/self`)
+
+      return res.data?.data
     } catch (err) {
       throw new UniverseSelfError(undefined, { error: err })
     }
