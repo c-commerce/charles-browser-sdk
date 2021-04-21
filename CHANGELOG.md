@@ -1,3 +1,10 @@
+# [4.6.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.5.2...v4.6.0) (2021-04-21)
+
+
+### Features
+
+* **Universe:** upgrade self ([f145f9c](https://github.com/c-commerce/charles-browser-sdk/commit/f145f9c598872f58fb6a6138f7d8376b74232c43))
+
 ## [4.5.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.5.1...v4.5.2) (2021-04-16)
 
 

@@ -407,8 +407,11 @@ export declare class Universe extends APICarrier {
     versions(): Promise<{
         universe: string;
     } | undefined>;
-    self(): Promise<{
+    selfV0(): Promise<{
         universe: string;
+    } | undefined>;
+    self(): Promise<{
+        [key: string]: any;
     } | undefined>;
     healthz(): Promise<{
         message: string;
