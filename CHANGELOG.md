@@ -1,3 +1,10 @@
+## [4.7.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.7.0...v4.7.1) (2021-04-22)
+
+
+### Bug Fixes
+
+* **message subscriptions:** add event_route_template property ([c908db2](https://github.com/c-commerce/charles-browser-sdk/commit/c908db24b0f95d2a5dd70af7f8297855ee06f864))
+
 # [4.7.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.6.0...v4.7.0) (2021-04-22)
 
 

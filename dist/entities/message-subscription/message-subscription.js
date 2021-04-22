@@ -42,6 +42,7 @@ var MessageSubscription = (function (_super) {
         this.kind = rawPayload.kind;
         this.scope = rawPayload.scope;
         this.messageTemplates = rawPayload.message_templates;
+        this.eventRouteTemplate = rawPayload.event_route_template;
         return this;
     };
     MessageSubscription.create = function (payload, universe, http) {
@@ -60,7 +61,8 @@ var MessageSubscription = (function (_super) {
             description: this.description,
             kind: this.kind,
             scope: this.scope,
-            message_templates: this.messageTemplates
+            message_templates: this.messageTemplates,
+            event_route_template: this.eventRouteTemplate
         };
     };
     MessageSubscription.prototype.init = function () {

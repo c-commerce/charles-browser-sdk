@@ -24,6 +24,7 @@ export interface MessageSubscriptionRawPayload {
     readonly kind?: IMessageSubscriptionKindType;
     readonly scope?: string;
     readonly message_templates?: object;
+    readonly event_route_template?: object;
 }
 export interface MessageSubscriptionPayload {
     readonly id?: MessageSubscriptionRawPayload['id'];
@@ -37,6 +38,7 @@ export interface MessageSubscriptionPayload {
     readonly kind?: MessageSubscriptionRawPayload['kind'];
     readonly scope?: MessageSubscriptionRawPayload['scope'];
     readonly messageTemplates?: MessageSubscriptionRawPayload['message_templates'];
+    readonly eventRouteTemplate?: MessageSubscriptionRawPayload['event_route_template'];
 }
 export declare class MessageSubscription extends UniverseEntity<MessageSubscriptionPayload, MessageSubscriptionRawPayload> {
     protected universe: Universe;
@@ -56,6 +58,7 @@ export declare class MessageSubscription extends UniverseEntity<MessageSubscript
     kind?: MessageSubscriptionPayload['kind'];
     scope?: MessageSubscriptionPayload['scope'];
     messageTemplates?: MessageSubscriptionPayload['messageTemplates'];
+    eventRouteTemplate?: MessageSubscriptionPayload['eventRouteTemplate'];
     constructor(options: MessageSubscriptionOptions);
     protected deserialize(rawPayload: MessageSubscriptionRawPayload): MessageSubscription;
     static create(payload: MessageSubscriptionRawPayload, universe: Universe, http: Universe['http']): MessageSubscription;
