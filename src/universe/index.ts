@@ -60,6 +60,7 @@ import * as deal from '../entities/deal/deal'
 import * as pipeline from '../entities/crm/pipeline'
 import * as pipelineStage from '../entities/crm/pipeline-stage'
 import * as dealEvent from '../entities/deal/deal-event'
+import * as messageSubscription from '../entities/message-subscription/message-subscription'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -790,6 +791,10 @@ export class Universe extends APICarrier {
 
   public dealEvent (payload: dealEvent.DealEventRawPayload): dealEvent.DealEvent {
     return dealEvent.DealEvent.create(payload, this, this.http)
+  }
+
+  public messageSubscription (payload: messageSubscription.MessageSubscriptionRawPayload): messageSubscription.MessageSubscription {
+    return messageSubscription.MessageSubscription.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1987,6 +1992,10 @@ export class Universe extends APICarrier {
         }
       }
     }
+  }
+
+  public async messageSubscriptions (options?: EntityFetchOptions): Promise<messageSubscription.MessageSubscription[] | messageSubscription.MessageSubscriptionRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<messageSubscription.MessageSubscription, messageSubscription.MessageSubscriptions, messageSubscription.MessageSubscriptionRawPayload, EntityFetchOptions, messageSubscription.MessageSubscriptionsFetchRemoteError>(messageSubscription.MessageSubscription, messageSubscription.MessageSubscriptions, messageSubscription.MessageSubscriptionsFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
