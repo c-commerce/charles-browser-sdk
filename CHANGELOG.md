@@ -1,3 +1,10 @@
+# [4.7.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.6.0...v4.7.0) (2021-04-22)
+
+
+### Features
+
+* **message subscriptions:** implement entity ([0b0ce05](https://github.com/c-commerce/charles-browser-sdk/commit/0b0ce054b93c45aff755e28bf9dccbd4f9baaf22))
+
 # [4.6.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.5.2...v4.6.0) (2021-04-21)
 
 

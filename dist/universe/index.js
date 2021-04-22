@@ -55,6 +55,7 @@ var deal = tslib_1.__importStar(require("../entities/deal/deal"));
 var pipeline = tslib_1.__importStar(require("../entities/crm/pipeline"));
 var pipelineStage = tslib_1.__importStar(require("../entities/crm/pipeline-stage"));
 var dealEvent = tslib_1.__importStar(require("../entities/deal/deal-event"));
+var messageSubscription = tslib_1.__importStar(require("../entities/message-subscription/message-subscription"));
 var UniverseUnauthenticatedError = (function (_super) {
     tslib_1.__extends(UniverseUnauthenticatedError, _super);
     function UniverseUnauthenticatedError(message, properties) {
@@ -432,6 +433,9 @@ var Universe = (function (_super) {
     };
     Universe.prototype.dealEvent = function (payload) {
         return dealEvent.DealEvent.create(payload, this, this.http);
+    };
+    Universe.prototype.messageSubscription = function (payload) {
+        return messageSubscription.MessageSubscription.create(payload, this, this.http);
     };
     Universe.prototype.apiRequest = function (options) {
         var _a;
@@ -2030,6 +2034,16 @@ var Universe = (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Universe.prototype.messageSubscriptions = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.makeBaseResourceListRequest(messageSubscription.MessageSubscription, messageSubscription.MessageSubscriptions, messageSubscription.MessageSubscriptionsFetchRemoteError, options)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
     Universe.prototype.arm = function () {
         var _this = this;
         var mqtt = this.getMqttClient();
