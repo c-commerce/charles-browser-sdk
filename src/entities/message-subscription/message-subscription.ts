@@ -34,6 +34,7 @@ export interface MessageSubscriptionRawPayload {
   readonly kind?: IMessageSubscriptionKindType
   readonly scope?: string
   readonly message_templates?: object
+  readonly event_route_template?: object
 }
 
 export interface MessageSubscriptionPayload {
@@ -49,6 +50,7 @@ export interface MessageSubscriptionPayload {
   readonly kind?: MessageSubscriptionRawPayload['kind']
   readonly scope?: MessageSubscriptionRawPayload['scope']
   readonly messageTemplates?: MessageSubscriptionRawPayload['message_templates']
+  readonly eventRouteTemplate?: MessageSubscriptionRawPayload['event_route_template']
 }
 
 /**
@@ -77,6 +79,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
   public kind?: MessageSubscriptionPayload['kind']
   public scope?: MessageSubscriptionPayload['scope']
   public messageTemplates?: MessageSubscriptionPayload['messageTemplates']
+  public eventRouteTemplate?: MessageSubscriptionPayload['eventRouteTemplate']
 
   constructor (options: MessageSubscriptionOptions) {
     super()
@@ -107,6 +110,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     this.kind = rawPayload.kind
     this.scope = rawPayload.scope
     this.messageTemplates = rawPayload.message_templates
+    this.eventRouteTemplate = rawPayload.event_route_template
 
     return this
   }
@@ -128,7 +132,8 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
       description: this.description,
       kind: this.kind,
       scope: this.scope,
-      message_templates: this.messageTemplates
+      message_templates: this.messageTemplates,
+      event_route_template: this.eventRouteTemplate
     }
   }
 
