@@ -158,17 +158,21 @@ export interface PersonRawPayload extends EntityRawPayload {
 }
 
 export interface IPersonCarts {
-  fetch: Function
-  fromJson: Function
-  toJson: Function
-  create: Function
+  fetch: (options?: UniverseFetchOptions) => Promise<Cart[] | CartRawPayload[] | undefined>
+  fromJson: (carts: CartRawPayload[]) => Cart[]
+  toJson: (carts: Cart[]) => CartRawPayload[]
+  create: (cart: CartRawPayload) => Promise<Cart | undefined>
 }
+
+// TODO: implement fn args
 export interface IPersonDeals {
   fetch: Function
   fromJson: Function
   toJson: Function
   create: Function
 }
+
+// TODO: implement fn args
 export interface IPersonPhonenumbers {
   fetch: Function
   fromJson: Function
@@ -176,6 +180,7 @@ export interface IPersonPhonenumbers {
   create: Function
 }
 
+// TODO: implement fn args
 export interface IPersonAddresses {
   fetch: Function
   fromJson: Function
