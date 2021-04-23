@@ -163,11 +163,12 @@ export interface CartRawPayload {
   readonly amount_total_tax?: string
   readonly amount_total_shipping_gross?: string
   readonly order_prompt?: string
+  readonly storefront?: string
   readonly status?: ICartStatusType | null
-  readonly proxy_payload?: object | null
   readonly discounts?: CartDiscountRawPayload[] | null
   readonly shipping_methods?: CartShippingRawPayload[] | null
   readonly taxes_summary?: CartTaxLineRawPayload[] | null
+  readonly proxy_payload?: object | null
 }
 
 export interface CartPayload {
@@ -202,11 +203,12 @@ export interface CartPayload {
   readonly amountTotalTax?: CartRawPayload['amount_total_tax']
   readonly amountTotalShippingGross?: CartRawPayload['amount_total_shipping_gross']
   readonly orderPrompt?: CartRawPayload['order_prompt']
+  readonly storefront?: CartRawPayload['storefront']
   readonly status?: CartRawPayload['status']
-  readonly proxyPayload?: CartRawPayload['proxy_payload']
   readonly discounts?: CartRawPayload['discounts']
   readonly shippingMethods?: CartRawPayload['shipping_methods']
   readonly taxesSummary?: CartRawPayload['taxes_summary']
+  readonly proxyPayload?: CartRawPayload['proxy_payload']
 }
 
 export interface AddItemItemOptions {
@@ -355,11 +357,12 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
   public amountTotalTax?: CartPayload['amountTotalTax']
   public amountTotalShippingGross?: CartPayload['amountTotalShippingGross']
   public orderPrompt?: CartPayload['orderPrompt']
+  public storefront?: CartPayload['storefront']
   public status?: CartPayload['status']
-  public proxyPayload?: CartPayload['proxyPayload']
   public discounts?: CartPayload['discounts']
   public shippingMethods?: CartPayload['shippingMethods']
   public taxesSummary?: CartPayload['taxesSummary']
+  public proxyPayload?: CartPayload['proxyPayload']
 
   constructor (options: CartOptions) {
     super()
@@ -408,11 +411,12 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     this.amountTotalTax = rawPayload.amount_total_tax
     this.amountTotalShippingGross = rawPayload.amount_total_shipping_gross
     this.orderPrompt = rawPayload.order_prompt
+    this.storefront = rawPayload.storefront
     this.status = rawPayload.status
-    this.proxyPayload = rawPayload.proxy_payload
     this.discounts = rawPayload.discounts
     this.shippingMethods = rawPayload.shipping_methods
     this.taxesSummary = rawPayload.taxes_summary
+    this.proxyPayload = rawPayload.proxy_payload
 
     if (Array.isArray(rawPayload.items)) {
       this.items = rawPayload.items.map((item) => (CartItem.create(item, this.universe, this.http)))
@@ -465,11 +469,12 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
       amount_total_tax: this.amountTotalTax,
       amount_total_shipping_gross: this.amountTotalShippingGross,
       order_prompt: this.orderPrompt,
+      storefront: this.storefront,
       status: this.status,
-      proxy_payload: this.proxyPayload,
       discounts: this.discounts,
       shipping_methods: this.shippingMethods,
-      taxes_summary: this.taxesSummary
+      taxes_summary: this.taxesSummary,
+      proxy_payload: this.proxyPayload
     }
   }
 
