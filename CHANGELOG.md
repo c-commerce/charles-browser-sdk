@@ -1,3 +1,10 @@
+## [4.7.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.7.2...v4.7.3) (2021-04-23)
+
+
+### Bug Fixes
+
+* **Cart:** serialize storefront ref ([e315ebd](https://github.com/c-commerce/charles-browser-sdk/commit/e315ebd014799396ed724e4195c88addcd88d9dc))
+
 ## [4.7.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.7.1...v4.7.2) (2021-04-23)
 
 

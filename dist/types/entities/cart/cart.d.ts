@@ -146,11 +146,12 @@ export interface CartRawPayload {
     readonly amount_total_tax?: string;
     readonly amount_total_shipping_gross?: string;
     readonly order_prompt?: string;
+    readonly storefront?: string;
     readonly status?: ICartStatusType | null;
-    readonly proxy_payload?: object | null;
     readonly discounts?: CartDiscountRawPayload[] | null;
     readonly shipping_methods?: CartShippingRawPayload[] | null;
     readonly taxes_summary?: CartTaxLineRawPayload[] | null;
+    readonly proxy_payload?: object | null;
 }
 export interface CartPayload {
     readonly id?: CartRawPayload['id'];
@@ -184,11 +185,12 @@ export interface CartPayload {
     readonly amountTotalTax?: CartRawPayload['amount_total_tax'];
     readonly amountTotalShippingGross?: CartRawPayload['amount_total_shipping_gross'];
     readonly orderPrompt?: CartRawPayload['order_prompt'];
+    readonly storefront?: CartRawPayload['storefront'];
     readonly status?: CartRawPayload['status'];
-    readonly proxyPayload?: CartRawPayload['proxy_payload'];
     readonly discounts?: CartRawPayload['discounts'];
     readonly shippingMethods?: CartRawPayload['shipping_methods'];
     readonly taxesSummary?: CartRawPayload['taxes_summary'];
+    readonly proxyPayload?: CartRawPayload['proxy_payload'];
 }
 export interface AddItemItemOptions {
     product: string;
@@ -263,11 +265,12 @@ export declare class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     amountTotalTax?: CartPayload['amountTotalTax'];
     amountTotalShippingGross?: CartPayload['amountTotalShippingGross'];
     orderPrompt?: CartPayload['orderPrompt'];
+    storefront?: CartPayload['storefront'];
     status?: CartPayload['status'];
-    proxyPayload?: CartPayload['proxyPayload'];
     discounts?: CartPayload['discounts'];
     shippingMethods?: CartPayload['shippingMethods'];
     taxesSummary?: CartPayload['taxesSummary'];
+    proxyPayload?: CartPayload['proxyPayload'];
     constructor(options: CartOptions);
     protected deserialize(rawPayload: CartRawPayload): Cart;
     static create(payload: CartRawPayload, universe: Universe, http: Universe['http']): Cart;

@@ -126,11 +126,12 @@ var Cart = (function (_super) {
         this.amountTotalTax = rawPayload.amount_total_tax;
         this.amountTotalShippingGross = rawPayload.amount_total_shipping_gross;
         this.orderPrompt = rawPayload.order_prompt;
+        this.storefront = rawPayload.storefront;
         this.status = rawPayload.status;
-        this.proxyPayload = rawPayload.proxy_payload;
         this.discounts = rawPayload.discounts;
         this.shippingMethods = rawPayload.shipping_methods;
         this.taxesSummary = rawPayload.taxes_summary;
+        this.proxyPayload = rawPayload.proxy_payload;
         if (Array.isArray(rawPayload.items)) {
             this.items = rawPayload.items.map(function (item) { return (CartItem.create(item, _this.universe, _this.http)); });
         }
@@ -180,11 +181,12 @@ var Cart = (function (_super) {
             amount_total_tax: this.amountTotalTax,
             amount_total_shipping_gross: this.amountTotalShippingGross,
             order_prompt: this.orderPrompt,
+            storefront: this.storefront,
             status: this.status,
-            proxy_payload: this.proxyPayload,
             discounts: this.discounts,
             shipping_methods: this.shippingMethods,
-            taxes_summary: this.taxesSummary
+            taxes_summary: this.taxesSummary,
+            proxy_payload: this.proxyPayload
         };
     };
     Cart.prototype.init = function () {
