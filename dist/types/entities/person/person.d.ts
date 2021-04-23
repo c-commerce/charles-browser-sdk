@@ -5,6 +5,7 @@ import { Order, OrderRawPayload } from '../../entities/order/order';
 import { ChannelUser, ChannelUserRawPayload } from './channel-user';
 import { Analytics, AnalyticsRawPayload } from './analytics';
 import { Email, EmailRawPayload } from './email';
+import { Cart, CartRawPayload } from '../cart/cart';
 import { EventRawPayload } from '../../eventing/feeds/event';
 export interface PersonOptions extends UniverseEntityOptions {
     rawPayload?: PersonRawPayload;
@@ -130,10 +131,10 @@ export interface PersonRawPayload extends EntityRawPayload {
     readonly language_preference?: string;
 }
 export interface IPersonCarts {
-    fetch: Function;
-    fromJson: Function;
-    toJson: Function;
-    create: Function;
+    fetch: (options?: UniverseFetchOptions) => Promise<Cart[] | CartRawPayload[] | undefined>;
+    fromJson: (carts: CartRawPayload[]) => Cart[];
+    toJson: (carts: Cart[]) => CartRawPayload[];
+    create: (cart: CartRawPayload) => Promise<Cart | undefined>;
 }
 export interface IPersonDeals {
     fetch: Function;
