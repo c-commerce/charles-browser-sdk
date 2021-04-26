@@ -1,3 +1,10 @@
+# [4.8.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.7.3...v4.8.0) (2021-04-26)
+
+
+### Features
+
+* **message subscription instances:** implement class, add message subscription instances preview ([9bd4970](https://github.com/c-commerce/charles-browser-sdk/commit/9bd4970b67bd1a5b4ad23a5b63e70ff31402d195))
+
 ## [4.7.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.7.2...v4.7.3) (2021-04-23)
 
 

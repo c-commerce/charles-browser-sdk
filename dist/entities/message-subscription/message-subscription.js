@@ -4,6 +4,8 @@ exports.MessageSubscriptionsFetchRemoteError = exports.MessageSubscriptionFetchR
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
+var qs_1 = tslib_1.__importDefault(require("qs"));
+var message_subscription_instance_1 = require("../message-subscription-instance/message-subscription-instance");
 var IMessageSubscriptionKindEnum;
 (function (IMessageSubscriptionKindEnum) {
     IMessageSubscriptionKindEnum["GDPRGenernalCommunicationImplicit"] = "GDPRGenernalCommunicationImplicit";
@@ -79,6 +81,41 @@ var MessageSubscription = (function (_super) {
                     case 2:
                         err_1 = _a.sent();
                         throw this.handleError(new MessageSubscriptionInitializationError(undefined, { error: err_1 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    MessageSubscription.prototype.subscribers = function (options) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, err_2;
+            var _this = this;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/instances" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 1:
+                        res = _c.sent();
+                        resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
+                        return [2, resources.map(function (item) {
+                                return message_subscription_instance_1.MessageSubscriptionInstance.create(item, _this.universe, _this.http);
+                            })];
+                    case 2:
+                        err_2 = _c.sent();
+                        throw this.handleError(new message_subscription_instance_1.MessageSubscriptionInstanceGetAllRemoteError(undefined, { error: err_2 }));
                     case 3: return [2];
                 }
             });

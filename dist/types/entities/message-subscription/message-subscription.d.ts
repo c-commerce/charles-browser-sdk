@@ -1,6 +1,7 @@
-import { UniverseEntityOptions, UniverseEntity } from '../_base';
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance/message-subscription-instance';
 export interface MessageSubscriptionOptions extends UniverseEntityOptions {
     rawPayload?: MessageSubscriptionRawPayload;
 }
@@ -64,6 +65,7 @@ export declare class MessageSubscription extends UniverseEntity<MessageSubscript
     static create(payload: MessageSubscriptionRawPayload, universe: Universe, http: Universe['http']): MessageSubscription;
     serialize(): MessageSubscriptionRawPayload;
     init(): Promise<MessageSubscription | undefined>;
+    subscribers(options?: EntityFetchOptions): Promise<MessageSubscriptionInstanceRawPayload[]>;
 }
 export declare class MessageSubscriptions {
     static endpoint: string;
