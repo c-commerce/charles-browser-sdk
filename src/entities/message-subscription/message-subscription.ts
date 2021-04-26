@@ -1,7 +1,9 @@
 
-import { UniverseEntityOptions, UniverseEntity } from '../_base'
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import qs from 'qs'
+import { MessageSubscriptionInstance, MessageSubscriptionInstanceGetAllRemoteError, MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance/message-subscription-instance'
 
 export interface MessageSubscriptionOptions extends UniverseEntityOptions {
   rawPayload?: MessageSubscriptionRawPayload
@@ -144,6 +146,34 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
       return this
     } catch (err) {
       throw this.handleError(new MessageSubscriptionInitializationError(undefined, { error: err }))
+    }
+  }
+
+  /**
+ * Get a list of all message subscription subscriber instances
+ */
+  public async subscribers (options?: EntityFetchOptions): Promise<MessageSubscriptionInstanceRawPayload[]> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/instances${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const resources = res.data.data as MessageSubscriptionInstanceRawPayload[]
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((item: MessageSubscriptionInstanceRawPayload) => {
+        return MessageSubscriptionInstance.create(item, this.universe, this.http)
+      })
+    } catch (err) {
+      throw this.handleError(new MessageSubscriptionInstanceGetAllRemoteError(undefined, { error: err }))
     }
   }
 }
