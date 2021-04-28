@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageSubscriptionsFetchRemoteError = exports.MessageSubscriptionFetchRemoteError = exports.MessageSubscriptionInitializationError = exports.MessageSubscriptions = exports.MessageSubscription = exports.IMessageSubscriptionKindEnum = void 0;
+exports.MessageSubscriptionsCreateInstanceRemoteError = exports.MessageSubscriptionsFetchRemoteError = exports.MessageSubscriptionFetchRemoteError = exports.MessageSubscriptionInitializationError = exports.MessageSubscriptions = exports.MessageSubscription = exports.IMessageSubscriptionKindEnum = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -121,6 +121,35 @@ var MessageSubscription = (function (_super) {
             });
         });
     };
+    MessageSubscription.prototype.createInstance = function (payload) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resource, err_3;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('MessageSubscription create instance requires message subscription id to be set');
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/instances",
+                            data: payload
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 2:
+                        res = _a.sent();
+                        resource = res.data.data;
+                        return [2, message_subscription_instance_1.MessageSubscriptionInstance.create(resource, this.universe, this.http)];
+                    case 3:
+                        err_3 = _a.sent();
+                        throw new MessageSubscriptionsCreateInstanceRemoteError(undefined, { error: err_3 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return MessageSubscription;
 }(_base_1.UniverseEntity));
 exports.MessageSubscription = MessageSubscription;
@@ -170,4 +199,17 @@ var MessageSubscriptionsFetchRemoteError = (function (_super) {
     return MessageSubscriptionsFetchRemoteError;
 }(errors_1.BaseError));
 exports.MessageSubscriptionsFetchRemoteError = MessageSubscriptionsFetchRemoteError;
+var MessageSubscriptionsCreateInstanceRemoteError = (function (_super) {
+    tslib_1.__extends(MessageSubscriptionsCreateInstanceRemoteError, _super);
+    function MessageSubscriptionsCreateInstanceRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not create message_subscription instance'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'MessageSubscriptionsCreateInstanceRemoteError';
+        Object.setPrototypeOf(_this, MessageSubscriptionsCreateInstanceRemoteError.prototype);
+        return _this;
+    }
+    return MessageSubscriptionsCreateInstanceRemoteError;
+}(errors_1.BaseError));
+exports.MessageSubscriptionsCreateInstanceRemoteError = MessageSubscriptionsCreateInstanceRemoteError;
 //# sourceMappingURL=message-subscription.js.map

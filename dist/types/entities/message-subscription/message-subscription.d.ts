@@ -1,7 +1,7 @@
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-import { MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance/message-subscription-instance';
+import { MessageSubscriptionInstance, MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance/message-subscription-instance';
 export interface MessageSubscriptionOptions extends UniverseEntityOptions {
     rawPayload?: MessageSubscriptionRawPayload;
 }
@@ -66,6 +66,7 @@ export declare class MessageSubscription extends UniverseEntity<MessageSubscript
     serialize(): MessageSubscriptionRawPayload;
     init(): Promise<MessageSubscription | undefined>;
     subscribers(options?: EntityFetchOptions): Promise<MessageSubscriptionInstanceRawPayload[]>;
+    createInstance(payload: MessageSubscriptionInstanceRawPayload): Promise<MessageSubscriptionInstance | undefined>;
 }
 export declare class MessageSubscriptions {
     static endpoint: string;
@@ -81,6 +82,11 @@ export declare class MessageSubscriptionFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class MessageSubscriptionsFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageSubscriptionsCreateInstanceRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
