@@ -176,6 +176,24 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
       throw this.handleError(new MessageSubscriptionInstanceGetAllRemoteError(undefined, { error: err }))
     }
   }
+
+  async createInstance (payload: MessageSubscriptionInstanceRawPayload): Promise<MessageSubscriptionInstance | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('MessageSubscription create instance requires message subscription id to be set')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/instances`,
+        data: payload
+      }
+      const res = await this.http.getClient()(opts)
+      const resource = res.data.data as MessageSubscriptionInstanceRawPayload
+
+      return MessageSubscriptionInstance.create(resource, this.universe, this.http)
+    } catch (err) {
+      throw new MessageSubscriptionsCreateInstanceRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -204,5 +222,12 @@ export class MessageSubscriptionsFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get message_subscriptions.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionsFetchRemoteError.prototype)
+  }
+}
+export class MessageSubscriptionsCreateInstanceRemoteError extends BaseError {
+  public name = 'MessageSubscriptionsCreateInstanceRemoteError'
+  constructor (public message: string = 'Could not create message_subscription instance', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageSubscriptionsCreateInstanceRemoteError.prototype)
   }
 }
