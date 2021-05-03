@@ -1,3 +1,10 @@
+## [4.9.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.9.0...v4.9.1) (2021-05-03)
+
+
+### Bug Fixes
+
+* **MessageSubscription:** fix typo in kind ([29cf6ae](https://github.com/c-commerce/charles-browser-sdk/commit/29cf6ae588927913a2128c7902386b4d7ece6a08))
+
 # [4.9.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.8.0...v4.9.0) (2021-04-28)
 
 

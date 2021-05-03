@@ -6,8 +6,8 @@ export interface MessageSubscriptionOptions extends UniverseEntityOptions {
     rawPayload?: MessageSubscriptionRawPayload;
 }
 export declare enum IMessageSubscriptionKindEnum {
-    GDPRGenernalCommunicationImplicit = "GDPRGenernalCommunicationImplicit",
-    GDPRGenernalCommunicationExplicit = "GDPRGenernalCommunicationExplicit",
+    GDPRGenernalCommunicationImplicit = "GDPRGeneralCommunicationImplicit",
+    GDPRGenernalCommunicationExplicit = "GDPRGeneralCommunicationExplicit",
     OneTimeEventImplicit = "OneTimeEventImplicit",
     OneTimeEventExplicit = "OneTimeEventExplicit",
     Generic = "Generic"

@@ -8,8 +8,8 @@ var qs_1 = tslib_1.__importDefault(require("qs"));
 var message_subscription_instance_1 = require("../message-subscription-instance/message-subscription-instance");
 var IMessageSubscriptionKindEnum;
 (function (IMessageSubscriptionKindEnum) {
-    IMessageSubscriptionKindEnum["GDPRGenernalCommunicationImplicit"] = "GDPRGenernalCommunicationImplicit";
-    IMessageSubscriptionKindEnum["GDPRGenernalCommunicationExplicit"] = "GDPRGenernalCommunicationExplicit";
+    IMessageSubscriptionKindEnum["GDPRGenernalCommunicationImplicit"] = "GDPRGeneralCommunicationImplicit";
+    IMessageSubscriptionKindEnum["GDPRGenernalCommunicationExplicit"] = "GDPRGeneralCommunicationExplicit";
     IMessageSubscriptionKindEnum["OneTimeEventImplicit"] = "OneTimeEventImplicit";
     IMessageSubscriptionKindEnum["OneTimeEventExplicit"] = "OneTimeEventExplicit";
     IMessageSubscriptionKindEnum["Generic"] = "Generic";
