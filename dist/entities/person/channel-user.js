@@ -76,7 +76,7 @@ var ChannelUser = (function () {
             phone: this.phone
         };
     };
-    ChannelUser.prototype.sendMessageFromMessageTemplate = function (messageTemplate, language, parameters) {
+    ChannelUser.prototype.sendMessageFromMessageTemplate = function (messageTemplate, language, parameters, extra) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, response, _feed, err_1;
             return tslib_1.__generator(this, function (_a) {
@@ -86,10 +86,8 @@ var ChannelUser = (function () {
                         opts = {
                             method: 'POST',
                             url: this.universe.universeBase + "/api/v0/people/" + this.person + "/channel_users/" + this.id + "/notifications/templates/" + messageTemplate.id,
-                            data: {
-                                parameters: parameters,
-                                language: language
-                            }
+                            data: tslib_1.__assign({ parameters: parameters,
+                                language: language }, (extra !== null && extra !== void 0 ? extra : {}))
                         };
                         return [4, this.http.getClient()(opts)];
                     case 1:

@@ -1,3 +1,10 @@
+# [4.10.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.9.1...v4.10.0) (2021-05-04)
+
+
+### Features
+
+* **Notification:** add extra params ([67c6eea](https://github.com/c-commerce/charles-browser-sdk/commit/67c6eea46e139edc90a493199f4b9449e2e8257f))
+
 ## [4.9.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.9.0...v4.9.1) (2021-05-03)
 
 
