@@ -1,7 +1,10 @@
 
-import { UniverseEntityOptions, UniverseEntity } from '../_base'
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { Event, EventRawPayload } from '../../eventing/feeds/event'
+import qs from 'qs'
+import { Feed } from '../../eventing/feeds/feed'
 
 export interface MessageTemplateOptions extends UniverseEntityOptions {
   rawPayload?: MessageTemplateRawPayload
@@ -249,7 +252,33 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
       const resource = res.data.data as MessageTemplateRawPayload
       return MessageTemplate.create(resource, this.universe, this.http)
     } catch (err) {
-      throw new MessageBrokerSubmitRemoteError(undefined, { error: err })
+      throw new MessageTemplateSubmitRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async preview (language: String, payload?: Object, options?: EntityFetchOptions): Promise<EventRawPayload> {
+    if (!language) throw new TypeError('message template preview requires language to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/api/v0/${this.endpoint}/${this.id as string}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        data: {
+          language,
+          ...payload
+        }
+      }
+      const res = await this.http?.getClient()(opts)
+      const resource = res.data.data as EventRawPayload
+      if (options && options.raw === true) {
+        return resource
+      }
+
+      const _feed = Feed.createUninitialized({ id: resource?.feed }, this.universe, this.http, null)
+
+      return Event.create(resource, _feed, this.universe, this.http)
+    } catch (err) {
+      throw new MessageTemplatePreviewRemoteError(undefined, { error: err })
     }
   }
 }
@@ -279,9 +308,15 @@ export class MessageTemplatesFetchRemoteError extends BaseError {
     super(message, properties)
   }
 }
-export class MessageBrokerSubmitRemoteError extends BaseError {
-  public name = 'MessageBrokerSubmitRemoteError'
+export class MessageTemplateSubmitRemoteError extends BaseError {
+  public name = 'MessageTemplateSubmitRemoteError'
   constructor (public message: string = 'Could not submit message template.', properties?: any) {
+    super(message, properties)
+  }
+}
+export class MessageTemplatePreviewRemoteError extends BaseError {
+  public name = 'MessageTemplatePreviewRemoteError'
+  constructor (public message: string = 'Could not preview message template.', properties?: any) {
     super(message, properties)
   }
 }
