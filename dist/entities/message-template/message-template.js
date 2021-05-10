@@ -135,7 +135,7 @@ var MessageTemplate = (function (_super) {
                         _b.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'POST',
-                            url: this.universe.universeBase + "/api/v0/" + this.endpoint + "/" + this.id + "/preview" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/preview" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
                             data: tslib_1.__assign({ language: language }, payload)
                         };
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
