@@ -262,7 +262,7 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe.universeBase}/api/v0/${this.endpoint}/${this.id as string}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         data: {
           language,
           ...payload
