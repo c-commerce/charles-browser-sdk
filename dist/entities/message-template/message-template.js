@@ -1,9 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageBrokerSubmitRemoteError = exports.MessageTemplatesFetchRemoteError = exports.MessageTemplateFetchRemoteError = exports.MessageTemplateInitializationError = exports.MessageTemplates = exports.MessageTemplate = void 0;
+exports.MessageTemplatePreviewRemoteError = exports.MessageTemplateSubmitRemoteError = exports.MessageTemplatesFetchRemoteError = exports.MessageTemplateFetchRemoteError = exports.MessageTemplateInitializationError = exports.MessageTemplates = exports.MessageTemplate = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
+var event_1 = require("../../eventing/feeds/event");
+var qs_1 = tslib_1.__importDefault(require("qs"));
+var feed_1 = require("../../eventing/feeds/feed");
 var MessageTemplate = (function (_super) {
     tslib_1.__extends(MessageTemplate, _super);
     function MessageTemplate(options) {
@@ -112,8 +115,42 @@ var MessageTemplate = (function (_super) {
                         return [2, MessageTemplate.create(resource, this.universe, this.http)];
                     case 2:
                         err_2 = _b.sent();
-                        throw new MessageBrokerSubmitRemoteError(undefined, { error: err_2 });
+                        throw new MessageTemplateSubmitRemoteError(undefined, { error: err_2 });
                     case 3: return [2];
+                }
+            });
+        });
+    };
+    MessageTemplate.prototype.preview = function (language, payload, options) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resource, _feed, err_3;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!language)
+                            throw new TypeError('message template preview requires language to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/api/v0/" + this.endpoint + "/" + this.id + "/preview" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            data: tslib_1.__assign({ language: language }, payload)
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        resource = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resource];
+                        }
+                        _feed = feed_1.Feed.createUninitialized({ id: resource === null || resource === void 0 ? void 0 : resource.feed }, this.universe, this.http, null);
+                        return [2, event_1.Event.create(resource, _feed, this.universe, this.http)];
+                    case 3:
+                        err_3 = _b.sent();
+                        throw new MessageTemplatePreviewRemoteError(undefined, { error: err_3 });
+                    case 4: return [2];
                 }
             });
         });
@@ -164,16 +201,28 @@ var MessageTemplatesFetchRemoteError = (function (_super) {
     return MessageTemplatesFetchRemoteError;
 }(errors_1.BaseError));
 exports.MessageTemplatesFetchRemoteError = MessageTemplatesFetchRemoteError;
-var MessageBrokerSubmitRemoteError = (function (_super) {
-    tslib_1.__extends(MessageBrokerSubmitRemoteError, _super);
-    function MessageBrokerSubmitRemoteError(message, properties) {
+var MessageTemplateSubmitRemoteError = (function (_super) {
+    tslib_1.__extends(MessageTemplateSubmitRemoteError, _super);
+    function MessageTemplateSubmitRemoteError(message, properties) {
         if (message === void 0) { message = 'Could not submit message template.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
-        _this.name = 'MessageBrokerSubmitRemoteError';
+        _this.name = 'MessageTemplateSubmitRemoteError';
         return _this;
     }
-    return MessageBrokerSubmitRemoteError;
+    return MessageTemplateSubmitRemoteError;
 }(errors_1.BaseError));
-exports.MessageBrokerSubmitRemoteError = MessageBrokerSubmitRemoteError;
+exports.MessageTemplateSubmitRemoteError = MessageTemplateSubmitRemoteError;
+var MessageTemplatePreviewRemoteError = (function (_super) {
+    tslib_1.__extends(MessageTemplatePreviewRemoteError, _super);
+    function MessageTemplatePreviewRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not preview message template.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'MessageTemplatePreviewRemoteError';
+        return _this;
+    }
+    return MessageTemplatePreviewRemoteError;
+}(errors_1.BaseError));
+exports.MessageTemplatePreviewRemoteError = MessageTemplatePreviewRemoteError;
 //# sourceMappingURL=message-template.js.map

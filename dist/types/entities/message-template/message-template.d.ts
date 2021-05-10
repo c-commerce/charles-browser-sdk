@@ -1,6 +1,7 @@
-import { UniverseEntityOptions, UniverseEntity } from '../_base';
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { EventRawPayload } from '../../eventing/feeds/event';
 export interface MessageTemplateOptions extends UniverseEntityOptions {
     rawPayload?: MessageTemplateRawPayload;
 }
@@ -144,6 +145,7 @@ export declare class MessageTemplate extends UniverseEntity<MessageTemplatePaylo
     serialize(): MessageTemplateRawPayload;
     init(): Promise<MessageTemplate | undefined>;
     submit(payload: object): Promise<MessageTemplate>;
+    preview(language: String, payload?: Object, options?: EntityFetchOptions): Promise<EventRawPayload>;
 }
 export declare class MessageTemplates {
     static endpoint: string;
@@ -163,7 +165,12 @@ export declare class MessageTemplatesFetchRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
-export declare class MessageBrokerSubmitRemoteError extends BaseError {
+export declare class MessageTemplateSubmitRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageTemplatePreviewRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

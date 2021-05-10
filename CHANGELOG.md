@@ -1,3 +1,10 @@
+# [4.11.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.10.0...v4.11.0) (2021-05-10)
+
+
+### Features
+
+* **message template:** implement preview ([77029fe](https://github.com/c-commerce/charles-browser-sdk/commit/77029fe63ebe9006256d25f958372dfd086dfb5a))
+
 # [4.10.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.9.1...v4.10.0) (2021-05-04)
 
 
