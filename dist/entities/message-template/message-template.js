@@ -122,17 +122,18 @@ var MessageTemplate = (function (_super) {
         });
     };
     MessageTemplate.prototype.preview = function (language, payload, options) {
-        var _a;
+        var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, resource, _feed, err_3;
-            return tslib_1.__generator(this, function (_b) {
-                switch (_b.label) {
+            var opts, res, resources, _feed_1, err_3;
+            var _this = this;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
                         if (!language)
                             throw new TypeError('message template preview requires language to be set.');
-                        _b.label = 1;
+                        _c.label = 1;
                     case 1:
-                        _b.trys.push([1, 3, , 4]);
+                        _c.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'POST',
                             url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/preview" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
@@ -140,15 +141,17 @@ var MessageTemplate = (function (_super) {
                         };
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
                     case 2:
-                        res = _b.sent();
-                        resource = res.data.data;
+                        res = _c.sent();
+                        resources = res.data.data;
                         if (options && options.raw === true) {
-                            return [2, resource];
+                            return [2, resources];
                         }
-                        _feed = feed_1.Feed.createUninitialized({ id: resource === null || resource === void 0 ? void 0 : resource.feed }, this.universe, this.http, null);
-                        return [2, event_1.Event.create(resource, _feed, this.universe, this.http)];
+                        _feed_1 = feed_1.Feed.createUninitialized({ id: (_b = resources === null || resources === void 0 ? void 0 : resources[0]) === null || _b === void 0 ? void 0 : _b.feed }, this.universe, this.http, null);
+                        return [2, resources.map(function (item) {
+                                return event_1.Event.create(item, _feed_1, _this.universe, _this.http);
+                            })];
                     case 3:
-                        err_3 = _b.sent();
+                        err_3 = _c.sent();
                         throw new MessageTemplatePreviewRemoteError(undefined, { error: err_3 });
                     case 4: return [2];
                 }

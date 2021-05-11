@@ -1,3 +1,10 @@
+## [4.11.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.11.1...v4.11.2) (2021-05-11)
+
+
+### Bug Fixes
+
+* **message templates:** fix preview response parsing ([9be8e5c](https://github.com/c-commerce/charles-browser-sdk/commit/9be8e5c938ab1d95f16c4a3cb9c593804268f75e))
+
 ## [4.11.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.11.0...v4.11.1) (2021-05-10)
 
 

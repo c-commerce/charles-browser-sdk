@@ -145,7 +145,7 @@ export declare class MessageTemplate extends UniverseEntity<MessageTemplatePaylo
     serialize(): MessageTemplateRawPayload;
     init(): Promise<MessageTemplate | undefined>;
     submit(payload: object): Promise<MessageTemplate>;
-    preview(language: String, payload?: Object, options?: EntityFetchOptions): Promise<EventRawPayload>;
+    preview(language: String, payload?: Object, options?: EntityFetchOptions): Promise<EventRawPayload[]>;
 }
 export declare class MessageTemplates {
     static endpoint: string;
