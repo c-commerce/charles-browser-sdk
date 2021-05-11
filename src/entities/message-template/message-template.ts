@@ -256,7 +256,7 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
     }
   }
 
-  public async preview (language: String, payload?: Object, options?: EntityFetchOptions): Promise<EventRawPayload> {
+  public async preview (language: String, payload?: Object, options?: EntityFetchOptions): Promise<EventRawPayload[]> {
     if (!language) throw new TypeError('message template preview requires language to be set.')
 
     try {
@@ -269,14 +269,16 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
         }
       }
       const res = await this.http?.getClient()(opts)
-      const resource = res.data.data as EventRawPayload
+      const resources = res.data.data as EventRawPayload[]
       if (options && options.raw === true) {
-        return resource
+        return resources
       }
 
-      const _feed = Feed.createUninitialized({ id: resource?.feed }, this.universe, this.http, null)
+      const _feed = Feed.createUninitialized({ id: resources?.[0]?.feed }, this.universe, this.http, null)
 
-      return Event.create(resource, _feed, this.universe, this.http)
+      return resources.map((item: EventRawPayload) => {
+        return Event.create(item, _feed, this.universe, this.http)
+      })
     } catch (err) {
       throw new MessageTemplatePreviewRemoteError(undefined, { error: err })
     }
