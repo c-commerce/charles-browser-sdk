@@ -54,21 +54,15 @@ var Cloud = (function (_super) {
     }
     Cloud.prototype.init = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_1;
             return tslib_1.__generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.cloudBase + "/" + Cloud.endpoint + "/self")];
-                    case 1:
-                        res = _a.sent();
-                        this.setInitialized(res.data.data[0]);
-                        return [2, this];
-                    case 2:
-                        err_1 = _a.sent();
-                        throw new CloudInitializationError(undefined, { error: err_1 });
-                    case 3: return [2];
+                try {
+                    this.setInitialized(null);
+                    return [2, this];
                 }
+                catch (err) {
+                    throw new CloudInitializationError(undefined, { error: err });
+                }
+                return [2];
             });
         });
     };
@@ -129,7 +123,7 @@ var Cloud = (function (_super) {
     Cloud.prototype.apiRequest = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, err_2;
+            var opts, res, err_1;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -146,8 +140,8 @@ var Cloud = (function (_super) {
                         res = _b.sent();
                         return [2, res.data.data];
                     case 3:
-                        err_2 = _b.sent();
-                        throw new CloudApiRequestError(undefined, { error: err_2 });
+                        err_1 = _b.sent();
+                        throw new CloudApiRequestError(undefined, { error: err_1 });
                     case 4: return [2];
                 }
             });
@@ -171,6 +165,34 @@ var Cloud = (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Cloud.prototype.me = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, response, err_2;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: this.cloudBase + "/api/v0/me"
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        response = _b.sent();
+                        this.setCachedMeData(response.data.data);
+                        return [2, response.data.data];
+                    case 2:
+                        err_2 = _b.sent();
+                        if (((_a = err_2 === null || err_2 === void 0 ? void 0 : err_2.response) === null || _a === void 0 ? void 0 : _a.status) === 401) {
+                            throw new CloudUnauthenticatedError(undefined, { error: err_2 });
+                        }
+                        throw new CloudMeError(undefined, { error: err_2 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Cloud.prototype.makeBaseResourceListRequest = function (proto, listProto, errorProto, options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {

@@ -1,3 +1,10 @@
+## [4.14.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.14.1...v4.14.2) (2021-05-20)
+
+
+### Bug Fixes
+
+* **cloud:** remove self call, enable me call ([5e35a2d](https://github.com/c-commerce/charles-browser-sdk/commit/5e35a2d88350b122d1e0d94567096eb49ff67a7a))
+
 ## [4.14.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.14.0...v4.14.1) (2021-05-20)
 
 

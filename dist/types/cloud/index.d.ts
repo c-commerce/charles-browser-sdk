@@ -4,6 +4,7 @@ import { APICarrier } from '../base';
 import { BaseError } from '../errors';
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base';
 import * as universe from './entities/universe';
+import * as staff from '../entities/staff/staff';
 export interface CloudUser {
     id?: string;
     accessToken?: string;
@@ -54,6 +55,16 @@ export interface CloudErrors {
 }
 export declare type CloudPermissionType = 'admin';
 export declare type CloudRoleType = 'admin';
+export interface MeData {
+    user: {
+        email: string;
+        sub: string;
+        authenticated: boolean;
+    };
+    permissions: CloudPermissionType[];
+    roles: CloudPermissionType[];
+    staff: staff.StaffRawPayload;
+}
 interface BaseResourceCreateable<T, K> {
     new (...args: any[]): T;
     create: (payload: K, cloud: Cloud, http: Cloud['http']) => T;
@@ -97,6 +108,7 @@ export declare class Cloud extends APICarrier {
     get authData(): {
         me?: CloudMeData;
     };
+    me(): Promise<MeData | undefined>;
     makeBaseResourceListRequest<T, TL, K, O, E>(proto: BaseResourceCreateable<T, K>, listProto: BaseResourceList<TL>, errorProto: BaseResourceErrorProto<E>, options?: BaseResourceEntityFetchOptions<O>): Promise<T[] | K[] | undefined>;
     universes(options?: EntityFetchOptions): Promise<universe.CloudUniverse[] | universe.CloudUniverseRawPayload[] | undefined>;
     versions(): Promise<{
