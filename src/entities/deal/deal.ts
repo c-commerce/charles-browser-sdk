@@ -43,7 +43,7 @@ export interface DealRawPayload {
   readonly proxy_payload?: object
   readonly links?: object
   readonly custom_properties?: object
-  readonly people_organization?: PeopleOrganization
+  readonly organization?: PeopleOrganization
 
 }
 
@@ -81,7 +81,7 @@ export interface DealPayload {
   readonly proxyPayload?: DealRawPayload['proxy_payload']
   readonly links?: DealRawPayload['links']
   readonly customProperties?: DealRawPayload['custom_properties']
-  readonly peopleOrganization?: DealRawPayload['people_organization']
+  readonly organization?: DealRawPayload['organization']
 }
 
 /**
@@ -131,7 +131,7 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
   public proxyPayload?: DealPayload['proxyPayload']
   public links?: DealPayload['links']
   public customProperties?: DealPayload['customProperties']
-  public peopleOrganization?: DealPayload['peopleOrganization']
+  public organization?: DealPayload['organization']
 
   constructor (options: DealOptions) {
     super()
@@ -202,12 +202,12 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
       this.pipeline = undefined
     }
 
-    if (rawPayload.people_organization && this.initialized) {
-      this.peopleOrganization = PeopleOrganization.create(rawPayload.people_organization, this.universe, this.http)
-    } else if (rawPayload.people_organization && !this.initialized) {
-      this.peopleOrganization = PeopleOrganization.createUninitialized(rawPayload.people_organization, this.universe, this.http)
-    } else if (!this.peopleOrganization) {
-      this.peopleOrganization = undefined
+    if (rawPayload.organization && this.initialized) {
+      this.organization = PeopleOrganization.create(rawPayload.organization, this.universe, this.http)
+    } else if (rawPayload.organization && !this.initialized) {
+      this.organization = PeopleOrganization.createUninitialized(rawPayload.organization, this.universe, this.http)
+    } else if (!this.organization) {
+      this.organization = undefined
     }
 
     return this
