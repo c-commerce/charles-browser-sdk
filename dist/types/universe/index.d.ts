@@ -50,6 +50,7 @@ import * as pipelineStage from '../entities/crm/pipeline-stage';
 import * as dealEvent from '../entities/deal/deal-event';
 import * as messageSubscription from '../entities/message-subscription/message-subscription';
 import * as messageSubscriptionInstance from '../entities/message-subscription-instance/message-subscription-instance';
+import * as peopleOrganization from '../entities/people-organization/people-organization';
 export interface UniverseUser {
     id?: string;
     accessToken?: string;
@@ -345,6 +346,7 @@ export declare class Universe extends APICarrier {
     dealEvent(payload: dealEvent.DealEventRawPayload): dealEvent.DealEvent;
     messageSubscription(payload: messageSubscription.MessageSubscriptionRawPayload): messageSubscription.MessageSubscription;
     messageSubscriptionInstance(payload: messageSubscriptionInstance.MessageSubscriptionInstanceRawPayload): messageSubscriptionInstance.MessageSubscriptionInstance;
+    peopleOrganization(payload: peopleOrganization.PeopleOrganizationRawPayload): peopleOrganization.PeopleOrganization;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -409,6 +411,7 @@ export declare class Universe extends APICarrier {
     get deals(): IUniverseDeals;
     messageSubscriptions(options?: EntityFetchOptions): Promise<messageSubscription.MessageSubscription[] | messageSubscription.MessageSubscriptionRawPayload[] | undefined>;
     messageSubscriptionInstances(options?: EntityFetchOptions): Promise<messageSubscriptionInstance.MessageSubscriptionInstance[] | messageSubscriptionInstance.MessageSubscriptionInstanceRawPayload[] | undefined>;
+    peopleOrganizations(options?: EntityFetchOptions): Promise<peopleOrganization.PeopleOrganization[] | peopleOrganization.PeopleOrganizationRawPayload[] | undefined>;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
