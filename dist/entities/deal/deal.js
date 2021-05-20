@@ -76,14 +76,14 @@ var Deal = (function (_super) {
         else if (!this.pipeline) {
             this.pipeline = undefined;
         }
-        if (rawPayload.people_organization && this.initialized) {
-            this.peopleOrganization = people_organization_1.PeopleOrganization.create(rawPayload.people_organization, this.universe, this.http);
+        if (rawPayload.organization && this.initialized) {
+            this.organization = people_organization_1.PeopleOrganization.create(rawPayload.organization, this.universe, this.http);
         }
-        else if (rawPayload.people_organization && !this.initialized) {
-            this.peopleOrganization = people_organization_1.PeopleOrganization.createUninitialized(rawPayload.people_organization, this.universe, this.http);
+        else if (rawPayload.organization && !this.initialized) {
+            this.organization = people_organization_1.PeopleOrganization.createUninitialized(rawPayload.organization, this.universe, this.http);
         }
-        else if (!this.peopleOrganization) {
-            this.peopleOrganization = undefined;
+        else if (!this.organization) {
+            this.organization = undefined;
         }
         return this;
     };

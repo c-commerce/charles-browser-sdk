@@ -1,3 +1,10 @@
+## [4.14.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.14.0...v4.14.1) (2021-05-20)
+
+
+### Bug Fixes
+
+* **deal:** fix org embed ([52c58d1](https://github.com/c-commerce/charles-browser-sdk/commit/52c58d14d42abc1a5582ad939ba48a18c7a9dc2d))
+
 # [4.14.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.13.0...v4.14.0) (2021-05-20)
 
 
