@@ -7,6 +7,7 @@ import { BaseError } from '../errors'
 
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 import * as universe from './entities/universe'
+import * as staff from '../entities/staff/staff'
 
 export interface CloudUser {
   id?: string
@@ -91,6 +92,20 @@ export type CloudPermissionType =
 export type CloudRoleType =
   | 'admin'
 
+export interface MeData {
+  user: {
+    email: string
+    /**
+     * user id
+     */
+    sub: string
+    authenticated: boolean
+  }
+  permissions: CloudPermissionType[]
+  roles: CloudPermissionType[]
+  staff: staff.StaffRawPayload
+}
+
 interface BaseResourceCreateable<T, K> {
   new(...args: any[]): T
   create: (payload: K, cloud: Cloud, http: Cloud['http']) => T
@@ -153,9 +168,7 @@ export class Cloud extends APICarrier {
 
   public async init (): Promise<Cloud | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.cloudBase}/${Cloud.endpoint}/self`)
-
-      this.setInitialized(res.data.data[0])
+      this.setInitialized(null)
 
       return this
     } catch (err) {
@@ -257,6 +270,31 @@ export class Cloud extends APICarrier {
   public get authData (): { me?: CloudMeData } {
     return {
       me: this._cachedMeData
+    }
+  }
+
+  /**
+   * Fetch the data of the current user. If you receive an instane of UniverseUnauthenticatedError
+   * you should logout the current session and create a new one.
+   */
+  public async me (): Promise<MeData | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.cloudBase}/api/v0/me`
+      }
+
+      const response = await this.http.getClient()(opts)
+
+      this.setCachedMeData(response.data.data)
+
+      return response.data.data
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        throw new CloudUnauthenticatedError(undefined, { error: err })
+      }
+
+      throw new CloudMeError(undefined, { error: err })
     }
   }
 
