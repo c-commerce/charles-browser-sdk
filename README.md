@@ -1,6 +1,6 @@
 # Charles Browser SDK
 
-> The browser utility for working with the CHarles API.
+> The browser utility for working with the Charles API.
 
 ---
 
