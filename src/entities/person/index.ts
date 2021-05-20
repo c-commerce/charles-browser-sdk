@@ -3,12 +3,14 @@ import {
   Person,
   People,
   PeopleFetchRemoteError,
-  PersonRawPayload
+  PersonRawPayload,
+  Address
 } from './person'
 
 export {
   Person,
   People,
   PeopleFetchRemoteError,
-  PersonRawPayload
+  PersonRawPayload,
+  Address
 }

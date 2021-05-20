@@ -62,6 +62,7 @@ import * as pipelineStage from '../entities/crm/pipeline-stage'
 import * as dealEvent from '../entities/deal/deal-event'
 import * as messageSubscription from '../entities/message-subscription/message-subscription'
 import * as messageSubscriptionInstance from '../entities/message-subscription-instance/message-subscription-instance'
+import * as peopleOrganization from '../entities/people-organization/people-organization'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -800,6 +801,10 @@ export class Universe extends APICarrier {
 
   public messageSubscriptionInstance (payload: messageSubscriptionInstance.MessageSubscriptionInstanceRawPayload): messageSubscriptionInstance.MessageSubscriptionInstance {
     return messageSubscriptionInstance.MessageSubscriptionInstance.create(payload, this, this.http)
+  }
+
+  public peopleOrganization (payload: peopleOrganization.PeopleOrganizationRawPayload): peopleOrganization.PeopleOrganization {
+    return peopleOrganization.PeopleOrganization.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -2005,6 +2010,10 @@ export class Universe extends APICarrier {
 
   public async messageSubscriptionInstances (options?: EntityFetchOptions): Promise<messageSubscriptionInstance.MessageSubscriptionInstance[] | messageSubscriptionInstance.MessageSubscriptionInstanceRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<messageSubscriptionInstance.MessageSubscriptionInstance, messageSubscriptionInstance.MessageSubscriptionInstances, messageSubscriptionInstance.MessageSubscriptionInstanceRawPayload, EntityFetchOptions, messageSubscriptionInstance.MessageSubscriptionInstancesFetchRemoteError>(messageSubscriptionInstance.MessageSubscriptionInstance, messageSubscriptionInstance.MessageSubscriptionInstances, messageSubscriptionInstance.MessageSubscriptionInstancesFetchRemoteError, options)
+  }
+
+  public async peopleOrganizations (options?: EntityFetchOptions): Promise<peopleOrganization.PeopleOrganization[] | peopleOrganization.PeopleOrganizationRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<peopleOrganization.PeopleOrganization, peopleOrganization.PeopleOrganizations, peopleOrganization.PeopleOrganizationRawPayload, EntityFetchOptions, peopleOrganization.PeopleOrganizationsFetchRemoteError>(peopleOrganization.PeopleOrganization, peopleOrganization.PeopleOrganizations, peopleOrganization.PeopleOrganizationsFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
