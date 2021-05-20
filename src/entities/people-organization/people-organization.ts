@@ -94,6 +94,14 @@ export class PeopleOrganization extends UniverseEntity<PeopleOrganizationPayload
     return new PeopleOrganization({ rawPayload: payload, universe, http, initialized: true })
   }
 
+  public static createUninitialized (
+    payload: PeopleOrganizationRawPayload,
+    universe: Universe,
+    http: Universe['http']
+  ): PeopleOrganization {
+    return new PeopleOrganization({ rawPayload: payload, universe, http, initialized: false })
+  }
+
   public serialize (): PeopleOrganizationRawPayload {
     return {
       id: this.id,

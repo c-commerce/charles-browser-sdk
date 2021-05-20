@@ -3,6 +3,7 @@ import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Pipeline, PipelineStage } from '../crm'
+import { PeopleOrganization } from '../people-organization'
 
 export interface DealOptions extends UniverseEntityOptions {
   rawPayload?: DealRawPayload
@@ -42,6 +43,8 @@ export interface DealRawPayload {
   readonly proxy_payload?: object
   readonly links?: object
   readonly custom_properties?: object
+  readonly people_organization?: PeopleOrganization
+
 }
 
 export interface DealPayload {
@@ -78,6 +81,7 @@ export interface DealPayload {
   readonly proxyPayload?: DealRawPayload['proxy_payload']
   readonly links?: DealRawPayload['links']
   readonly customProperties?: DealRawPayload['custom_properties']
+  readonly peopleOrganization?: DealRawPayload['people_organization']
 }
 
 /**
@@ -127,6 +131,7 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
   public proxyPayload?: DealPayload['proxyPayload']
   public links?: DealPayload['links']
   public customProperties?: DealPayload['customProperties']
+  public peopleOrganization?: DealPayload['peopleOrganization']
 
   constructor (options: DealOptions) {
     super()
@@ -195,6 +200,14 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
       this.pipeline = Pipeline.createUninitialized(rawPayload.pipeline, this.universe, this.http)
     } else if (!this.pipeline) {
       this.pipeline = undefined
+    }
+
+    if (rawPayload.people_organization && this.initialized) {
+      this.peopleOrganization = PeopleOrganization.create(rawPayload.people_organization, this.universe, this.http)
+    } else if (rawPayload.people_organization && !this.initialized) {
+      this.peopleOrganization = PeopleOrganization.createUninitialized(rawPayload.people_organization, this.universe, this.http)
+    } else if (!this.peopleOrganization) {
+      this.peopleOrganization = undefined
     }
 
     return this
