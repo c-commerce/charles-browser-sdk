@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CRMSetupRemoteError = exports.CRMSyncChannelUsersRemoteError = exports.CRMSyncPipelinesRemoteError = exports.CRMSyncDealsRemoteError = exports.CRMSyncCustomPropertiesRemoteError = exports.CRMsFetchRemoteError = exports.CRMFetchRemoteError = exports.CRMInitializationError = exports.CRMs = exports.CRM = void 0;
+exports.CRMSyncOrganizationsRemoteError = exports.CRMSetupRemoteError = exports.CRMSyncChannelUsersRemoteError = exports.CRMSyncPipelinesRemoteError = exports.CRMSyncDealsRemoteError = exports.CRMSyncCustomPropertiesRemoteError = exports.CRMsFetchRemoteError = exports.CRMFetchRemoteError = exports.CRMInitializationError = exports.CRMs = exports.CRM = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -212,10 +212,43 @@ var CRM = (function (_super) {
             });
         });
     };
-    CRM.prototype.setup = function () {
+    CRM.prototype.syncOrganizations = function () {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, err_6;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('CRM syncOrganizations requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/people_organizations",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_6 = _b.sent();
+                        throw this.handleError(new CRMSyncOrganizationsRemoteError(undefined, { error: err_6 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    CRM.prototype.setup = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_7;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -238,8 +271,8 @@ var CRM = (function (_super) {
                         res = _b.sent();
                         return [2, res.status];
                     case 3:
-                        err_6 = _b.sent();
-                        throw this.handleError(new CRMSetupRemoteError(undefined, { error: err_6 }));
+                        err_7 = _b.sent();
+                        throw this.handleError(new CRMSetupRemoteError(undefined, { error: err_7 }));
                     case 4: return [2];
                 }
             });
@@ -359,4 +392,17 @@ var CRMSetupRemoteError = (function (_super) {
     return CRMSetupRemoteError;
 }(errors_1.BaseError));
 exports.CRMSetupRemoteError = CRMSetupRemoteError;
+var CRMSyncOrganizationsRemoteError = (function (_super) {
+    tslib_1.__extends(CRMSyncOrganizationsRemoteError, _super);
+    function CRMSyncOrganizationsRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not start remote org sync.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CRMSyncOrganizationsRemoteError';
+        Object.setPrototypeOf(_this, CRMSyncOrganizationsRemoteError.prototype);
+        return _this;
+    }
+    return CRMSyncOrganizationsRemoteError;
+}(errors_1.BaseError));
+exports.CRMSyncOrganizationsRemoteError = CRMSyncOrganizationsRemoteError;
 //# sourceMappingURL=crm.js.map

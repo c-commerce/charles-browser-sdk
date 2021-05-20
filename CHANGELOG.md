@@ -1,3 +1,10 @@
+# [4.14.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.13.0...v4.14.0) (2021-05-20)
+
+
+### Features
+
+* **crm:** handle people org sync ([2b1829d](https://github.com/c-commerce/charles-browser-sdk/commit/2b1829dc2058df7475c7224d284675cbf8693580))
+
 # [4.13.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.12.0...v4.13.0) (2021-05-20)
 
 

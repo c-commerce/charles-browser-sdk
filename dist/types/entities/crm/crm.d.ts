@@ -66,6 +66,7 @@ export declare class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     syncDeals(): Promise<number | undefined>;
     syncChannelUsers(): Promise<number | undefined>;
     syncPipelines(): Promise<number | undefined>;
+    syncOrganizations(): Promise<number | undefined>;
     setup(): Promise<number | undefined>;
 }
 export declare class CRMs {
@@ -107,6 +108,11 @@ export declare class CRMSyncChannelUsersRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class CRMSetupRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSyncOrganizationsRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
