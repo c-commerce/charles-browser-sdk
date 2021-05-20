@@ -1,3 +1,10 @@
+# [4.13.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.12.0...v4.13.0) (2021-05-20)
+
+
+### Features
+
+* **deal:** embed of people organization ([e472d00](https://github.com/c-commerce/charles-browser-sdk/commit/e472d0060926e5a2d37798c68ce40caea263d4ae))
+
 # [4.12.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.11.2...v4.12.0) (2021-05-20)
 
 

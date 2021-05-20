@@ -38,6 +38,9 @@ var PeopleOrganization = (function (_super) {
     PeopleOrganization.create = function (payload, universe, http) {
         return new PeopleOrganization({ rawPayload: payload, universe: universe, http: http, initialized: true });
     };
+    PeopleOrganization.createUninitialized = function (payload, universe, http) {
+        return new PeopleOrganization({ rawPayload: payload, universe: universe, http: http, initialized: false });
+    };
     PeopleOrganization.prototype.serialize = function () {
         var _a, _b;
         return {

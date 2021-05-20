@@ -2,6 +2,7 @@ import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
 import { Pipeline, PipelineStage } from '../crm';
+import { PeopleOrganization } from '../people-organization';
 export interface DealOptions extends UniverseEntityOptions {
     rawPayload?: DealRawPayload;
 }
@@ -38,6 +39,7 @@ export interface DealRawPayload {
     readonly proxy_payload?: object;
     readonly links?: object;
     readonly custom_properties?: object;
+    readonly people_organization?: PeopleOrganization;
 }
 export interface DealPayload {
     readonly id?: DealRawPayload['id'];
@@ -72,6 +74,7 @@ export interface DealPayload {
     readonly proxyPayload?: DealRawPayload['proxy_payload'];
     readonly links?: DealRawPayload['links'];
     readonly customProperties?: DealRawPayload['custom_properties'];
+    readonly peopleOrganization?: DealRawPayload['people_organization'];
 }
 export declare class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     protected universe: Universe;
@@ -112,6 +115,7 @@ export declare class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     proxyPayload?: DealPayload['proxyPayload'];
     links?: DealPayload['links'];
     customProperties?: DealPayload['customProperties'];
+    peopleOrganization?: DealPayload['peopleOrganization'];
     constructor(options: DealOptions);
     protected deserialize(rawPayload: DealRawPayload): Deal;
     static create(payload: DealRawPayload, universe: Universe, http: Universe['http']): Deal;

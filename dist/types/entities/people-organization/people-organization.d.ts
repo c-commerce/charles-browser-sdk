@@ -49,6 +49,7 @@ export declare class PeopleOrganization extends UniverseEntity<PeopleOrganizatio
     constructor(options: PeopleOrganizationOptions);
     protected deserialize(rawPayload: PeopleOrganizationRawPayload): PeopleOrganization;
     static create(payload: PeopleOrganizationRawPayload, universe: Universe, http: Universe['http']): PeopleOrganization;
+    static createUninitialized(payload: PeopleOrganizationRawPayload, universe: Universe, http: Universe['http']): PeopleOrganization;
     serialize(): PeopleOrganizationRawPayload;
     init(): Promise<PeopleOrganization | undefined>;
 }

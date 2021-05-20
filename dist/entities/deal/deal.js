@@ -5,6 +5,7 @@ var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
 var crm_1 = require("../crm");
+var people_organization_1 = require("../people-organization");
 var Deal = (function (_super) {
     tslib_1.__extends(Deal, _super);
     function Deal(options) {
@@ -74,6 +75,15 @@ var Deal = (function (_super) {
         }
         else if (!this.pipeline) {
             this.pipeline = undefined;
+        }
+        if (rawPayload.people_organization && this.initialized) {
+            this.peopleOrganization = people_organization_1.PeopleOrganization.create(rawPayload.people_organization, this.universe, this.http);
+        }
+        else if (rawPayload.people_organization && !this.initialized) {
+            this.peopleOrganization = people_organization_1.PeopleOrganization.createUninitialized(rawPayload.people_organization, this.universe, this.http);
+        }
+        else if (!this.peopleOrganization) {
+            this.peopleOrganization = undefined;
         }
         return this;
     };
