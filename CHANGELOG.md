@@ -1,3 +1,10 @@
+# [4.12.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.11.2...v4.12.0) (2021-05-20)
+
+
+### Features
+
+* **people organizations:** implement class ([e8c4db1](https://github.com/c-commerce/charles-browser-sdk/commit/e8c4db15d0a86ddb763478bdd3a1921027f0df31))
+
 ## [4.11.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.11.1...v4.11.2) (2021-05-11)
 
 
