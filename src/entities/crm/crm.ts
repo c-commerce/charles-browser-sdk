@@ -222,6 +222,27 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     }
   }
 
+  public async syncOrganizations (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM syncOrganizations requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/people_organizations`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new CRMSyncOrganizationsRemoteError(undefined, { error: err }))
+    }
+  }
+
   public async setup (): Promise<number | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('CRM setup requires id to be set.')
 
@@ -310,5 +331,12 @@ export class CRMSetupRemoteError extends BaseError {
   constructor (public message: string = 'Could not start setup of crm.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CRMSetupRemoteError.prototype)
+  }
+}
+export class CRMSyncOrganizationsRemoteError extends BaseError {
+  public name = 'CRMSyncOrganizationsRemoteError'
+  constructor (public message: string = 'Could not start remote org sync.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CRMSyncOrganizationsRemoteError.prototype)
   }
 }
