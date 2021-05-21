@@ -4,9 +4,9 @@ import { UsernameAuth, KeyAuth, TokenAuth } from './v0/auth';
 import * as v0 from './v0';
 import { Client } from './client';
 import { Universe, UnviverseSingleton, UniverseOptions } from './universe';
-import { Cloud, CloudSingleton } from './cloud/index';
+import { Cloud, CloudSingleton, CloudOptions } from './cloud';
 import { isEntity } from './helpers/entity';
-export { v0, Universe, UniverseOptions, isEntity };
+export { v0, Universe, UniverseOptions, Cloud, CloudOptions, isEntity };
 export declare const defaultOptions: CharlesSDKOptions;
 export interface CharlesSDKOptions {
     credentials?: UsernameAuth | KeyAuth | TokenAuth | undefined;

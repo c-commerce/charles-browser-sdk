@@ -1,3 +1,10 @@
+## [4.14.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.14.2...v4.14.3) (2021-05-21)
+
+
+### Bug Fixes
+
+* **charles:** export cloud, cloudoptions ([6048c73](https://github.com/c-commerce/charles-browser-sdk/commit/6048c73fd21fe17c7df4cdc02a4312365ee0e5e8))
+
 ## [4.14.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.14.1...v4.14.2) (2021-05-20)
 
 

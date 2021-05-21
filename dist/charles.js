@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Charles = exports.CharlesClient = exports.defaultOptions = exports.isEntity = exports.Universe = exports.v0 = void 0;
+exports.Charles = exports.CharlesClient = exports.defaultOptions = exports.isEntity = exports.Cloud = exports.Universe = exports.v0 = void 0;
 var tslib_1 = require("tslib");
 var events_1 = tslib_1.__importDefault(require("events"));
 var v0 = tslib_1.__importStar(require("./v0"));
@@ -10,7 +10,8 @@ var client_1 = require("./client");
 var environment_1 = require("./environment");
 var universe_1 = require("./universe");
 Object.defineProperty(exports, "Universe", { enumerable: true, get: function () { return universe_1.Universe; } });
-var index_1 = require("./cloud/index");
+var cloud_1 = require("./cloud");
+Object.defineProperty(exports, "Cloud", { enumerable: true, get: function () { return cloud_1.Cloud; } });
 var entity_1 = require("./helpers/entity");
 Object.defineProperty(exports, "isEntity", { enumerable: true, get: function () { return entity_1.isEntity; } });
 exports.defaultOptions = {
@@ -134,9 +135,9 @@ var CharlesClient = (function (_super) {
             }
         };
         if (options && options.singleton === true) {
-            return index_1.CloudSingleton.getInstance(opts);
+            return cloud_1.CloudSingleton.getInstance(opts);
         }
-        return new index_1.Cloud(opts);
+        return new cloud_1.Cloud(opts);
     };
     CharlesClient.prototype.messages = function () {
         return this.generateAuthenticatedInstance(v0.Messages);
