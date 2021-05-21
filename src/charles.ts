@@ -9,14 +9,15 @@ import * as errors from './errors'
 import { Client, ClientOptions } from './client'
 import { environment } from './environment'
 import { Universe, UnviverseSingleton, UniverseOptions } from './universe'
-import { Cloud, CloudSingleton, CloudOptions } from './cloud/index'
+import { Cloud, CloudSingleton, CloudOptions } from './cloud'
 import { isEntity } from './helpers/entity'
 
 export {
   v0,
   Universe,
   UniverseOptions,
-
+  Cloud,
+  CloudOptions,
   // Export helper functions
   isEntity
 }
