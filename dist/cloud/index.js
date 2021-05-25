@@ -7,6 +7,7 @@ var status_1 = require("./status");
 var base_1 = require("../base");
 var errors_1 = require("../errors");
 var universe = tslib_1.__importStar(require("./entities/universe"));
+var user_1 = require("./entities/user");
 var CloudUnauthenticatedError = (function (_super) {
     tslib_1.__extends(CloudUnauthenticatedError, _super);
     function CloudUnauthenticatedError(message, properties) {
@@ -120,6 +121,9 @@ var Cloud = (function (_super) {
     Cloud.prototype.universe = function (payload) {
         return universe.CloudUniverse.create(payload, this, this.http);
     };
+    Cloud.prototype.universeUser = function (payload) {
+        return user_1.UniverseUser.create(payload, this, this.http);
+    };
     Cloud.prototype.apiRequest = function (options) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -227,6 +231,16 @@ var Cloud = (function (_super) {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, this.makeBaseResourceListRequest(universe.CloudUniverse, universe.CloudUniverses, universe.CloudUniversesFetchRemoteError, options)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Cloud.prototype.universeUsers = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.makeBaseResourceListRequest(user_1.UniverseUser, user_1.UniverseUsers, user_1.UniverseUsersFetchRemoteError, options)];
                     case 1: return [2, _a.sent()];
                 }
             });

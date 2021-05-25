@@ -4,7 +4,7 @@ import { APICarrier } from '../base';
 import { BaseError } from '../errors';
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base';
 import * as universe from './entities/universe';
-import * as staff from '../entities/staff/staff';
+import { UniverseUser, UniverseUserRawPayload } from './entities/user';
 export interface CloudUser {
     id?: string;
     accessToken?: string;
@@ -63,7 +63,6 @@ export interface MeData {
     };
     permissions: CloudPermissionType[];
     roles: CloudPermissionType[];
-    staff: staff.StaffRawPayload;
 }
 interface BaseResourceCreateable<T, K> {
     new (...args: any[]): T;
@@ -99,6 +98,7 @@ export declare class Cloud extends APICarrier {
     private handleError;
     private baseResourceFactory;
     universe(payload: universe.CloudUniverseRawPayload): universe.CloudUniverse;
+    universeUser(payload: UniverseUserRawPayload): UniverseUser;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -111,6 +111,7 @@ export declare class Cloud extends APICarrier {
     me(): Promise<MeData | undefined>;
     makeBaseResourceListRequest<T, TL, K, O, E>(proto: BaseResourceCreateable<T, K>, listProto: BaseResourceList<TL>, errorProto: BaseResourceErrorProto<E>, options?: BaseResourceEntityFetchOptions<O>): Promise<T[] | K[] | undefined>;
     universes(options?: EntityFetchOptions): Promise<universe.CloudUniverse[] | universe.CloudUniverseRawPayload[] | undefined>;
+    universeUsers(options?: EntityFetchOptions): Promise<UniverseUser[] | UniverseUserRawPayload[] | undefined>;
     versions(): Promise<{
         multiverse: string;
     } | undefined>;
