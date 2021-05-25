@@ -7,7 +7,8 @@ import { BaseError } from '../errors'
 
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 import * as universe from './entities/universe'
-import * as staff from '../entities/staff/staff'
+import { UniverseUser, UniverseUsers, UniverseUserRawPayload, UniverseUsersFetchRemoteError } from './entities/user'
+// import * as staff from '../entities/staff/staff'
 
 export interface CloudUser {
   id?: string
@@ -103,7 +104,7 @@ export interface MeData {
   }
   permissions: CloudPermissionType[]
   roles: CloudPermissionType[]
-  staff: staff.StaffRawPayload
+  // staff: staff.StaffRawPayload
 }
 
 interface BaseResourceCreateable<T, K> {
@@ -234,6 +235,10 @@ export class Cloud extends APICarrier {
     return universe.CloudUniverse.create(payload, this, this.http)
   }
 
+  public universeUser (payload: UniverseUserRawPayload): UniverseUser {
+    return UniverseUser.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -322,6 +327,10 @@ export class Cloud extends APICarrier {
 
   public async universes (options?: EntityFetchOptions): Promise<universe.CloudUniverse[] | universe.CloudUniverseRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<universe.CloudUniverse, universe.CloudUniverses, universe.CloudUniverseRawPayload, EntityFetchOptions, universe.CloudUniversesFetchRemoteError>(universe.CloudUniverse, universe.CloudUniverses, universe.CloudUniversesFetchRemoteError, options)
+  }
+
+  public async universeUsers (options?: EntityFetchOptions): Promise<UniverseUser[] | UniverseUserRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<UniverseUser, UniverseUsers, UniverseUserRawPayload, EntityFetchOptions, UniverseUsersFetchRemoteError>(UniverseUser, UniverseUsers, UniverseUsersFetchRemoteError, options)
   }
 
   public async versions (): Promise<{ multiverse: string } | undefined> {
