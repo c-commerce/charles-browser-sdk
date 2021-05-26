@@ -1,3 +1,10 @@
+# [4.15.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.14.3...v4.15.0) (2021-05-25)
+
+
+### Features
+
+* **cloud:** add universe user entity ([0498a95](https://github.com/c-commerce/charles-browser-sdk/commit/0498a9556929b9071a55d38578d38693c489d201))
+
 ## [4.14.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.14.2...v4.14.3) (2021-05-21)
 
 
