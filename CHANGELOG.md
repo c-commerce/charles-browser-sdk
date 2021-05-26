@@ -1,3 +1,10 @@
+# [4.16.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.15.0...v4.16.0) (2021-05-26)
+
+
+### Features
+
+* **universe:** fetch users ([a48ecfd](https://github.com/c-commerce/charles-browser-sdk/commit/a48ecfd457527bd733b017ca4a78d374f0775571))
+
 # [4.15.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.14.3...v4.15.0) (2021-05-25)
 
 

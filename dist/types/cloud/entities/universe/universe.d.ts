@@ -1,7 +1,9 @@
+import { Client } from 'src/client';
 import { APICarrier } from '../../../base';
-import Entity, { EntityOptions } from '../../../entities/_base';
+import Entity, { EntityFetchOptions, EntityOptions } from '../../../entities/_base';
 import { BaseError } from '../../../errors';
-import type { Cloud } from '../../index';
+import { Cloud } from '../../index';
+import { UniverseUserRawPayload } from '../user';
 export interface CloudUniverseOptions extends EntityOptions {
     rawPayload?: CloudUniverseRawPayload;
 }
@@ -38,6 +40,8 @@ export declare class CloudUniverse extends Entity<CloudUniversePayload, CloudUni
     static create(payload: CloudUniverseRawPayload, carrier: Cloud, http: Cloud['http']): CloudUniverse;
     serialize(): CloudUniverseRawPayload;
     init(): Promise<CloudUniverse | undefined>;
+    users(options?: EntityFetchOptions): Promise<UniverseUserRawPayload[]>;
+    universe(item: any, universe: any, http: Client): any;
 }
 export declare class CloudUniverses {
     static endpoint: string;
