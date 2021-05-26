@@ -79,7 +79,7 @@ var CloudUniverse = (function (_super) {
                         _d.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'GET',
-                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id + "/users" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
                             },

@@ -1,3 +1,10 @@
+## [4.16.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.16.0...v4.16.1) (2021-05-26)
+
+
+### Bug Fixes
+
+* **cloud universe:** fix users fetch ([049071e](https://github.com/c-commerce/charles-browser-sdk/commit/049071ea80bbc6215d68ffb6064221adb843924f))
+
 # [4.16.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.15.0...v4.16.0) (2021-05-26)
 
 
