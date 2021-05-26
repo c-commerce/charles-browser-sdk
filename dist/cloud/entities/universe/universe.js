@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CloudUniversesFetchRemoteError = exports.CloudUniverseFetchRemoteError = exports.CloudUniverseInitializationError = exports.CloudUniverses = exports.CloudUniverse = void 0;
 var tslib_1 = require("tslib");
+var qs_1 = tslib_1.__importDefault(require("qs"));
 var _base_1 = tslib_1.__importDefault(require("../../../entities/_base"));
 var errors_1 = require("../../../errors");
+var user_1 = require("../user");
 var CloudUniverse = (function (_super) {
     tslib_1.__extends(CloudUniverse, _super);
     function CloudUniverse(options) {
@@ -61,6 +63,48 @@ var CloudUniverse = (function (_super) {
                 }
             });
         });
+    };
+    CloudUniverse.prototype.users = function (options) {
+        var _a, _b, _c;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resources, err_2;
+            var _this = this;
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('universe.users() requires universe id to be set.');
+                        _d.label = 1;
+                    case 1:
+                        _d.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'GET',
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
+                    case 2:
+                        res = _d.sent();
+                        resources = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, resources];
+                        }
+                        return [2, resources.map(function (item) {
+                                return user_1.UniverseUser.create(item, _this.apiCarrier, _this.http);
+                            })];
+                    case 3:
+                        err_2 = _d.sent();
+                        throw this.handleError(new user_1.UniverseUsersFetchRemoteError(undefined, { error: err_2 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    CloudUniverse.prototype.universe = function (item, universe, http) {
+        throw new Error('Method not implemented.');
     };
     return CloudUniverse;
 }(_base_1.default));
