@@ -1,8 +1,11 @@
 
+import qs from 'qs'
+import { Client } from 'src/client'
 import { APICarrier } from '../../../base'
-import Entity, { EntityOptions } from '../../../entities/_base'
+import Entity, { EntityFetchOptions, EntityOptions } from '../../../entities/_base'
 import { BaseError } from '../../../errors'
-import type { Cloud } from '../../index'
+import { Cloud } from '../../index'
+import { UniverseUser, UniverseUserRawPayload, UniverseUsersFetchRemoteError } from '../user'
 
 export interface CloudUniverseOptions extends EntityOptions {
   rawPayload?: CloudUniverseRawPayload
@@ -93,6 +96,37 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     } catch (err) {
       throw this.handleError(new CloudUniverseInitializationError(undefined, { error: err }))
     }
+  }
+
+  public async users (options?: EntityFetchOptions): Promise<UniverseUserRawPayload[]> {
+    if (this.id === null || this.id === undefined) throw new TypeError('universe.users() requires universe id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const resources = res.data.data as UniverseUserRawPayload[]
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((item: UniverseUserRawPayload) => {
+        return UniverseUser.create(item, this.apiCarrier as Cloud, this.http)
+      })
+    } catch (err) {
+      throw this.handleError(new UniverseUsersFetchRemoteError(undefined, { error: err }))
+    }
+  }
+
+  universe (item: any, universe: any, http: Client): any {
+    throw new Error('Method not implemented.')
   }
 }
 

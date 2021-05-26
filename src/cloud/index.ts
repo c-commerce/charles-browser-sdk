@@ -123,8 +123,8 @@ type BaseResourceErrorProto<E> = new(...args: any[]) => E
 type BaseResourceEntityFetchOptions<O> = EntityFetchOptions
 
 /**
- * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
- * or namespace for data.
+ * The cloud is a base entitiy one wants to build upon in regards of managing multiple universes.
+ * Consider it the top level organizational space for all universes and their services.
  *
  * It also allows easy access to remote states of entities, such as:
  *
