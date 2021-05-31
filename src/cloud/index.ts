@@ -8,8 +8,8 @@ import { BaseError } from '../errors'
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 import * as universe from './entities/universe'
 import { UniverseUser, UniverseUsers, UniverseUserRawPayload, UniverseUsersFetchRemoteError } from './entities/user'
-// import * as staff from '../entities/staff/staff'
 import * as organization from './entities/organization/organization'
+import * as universesPool from './entities/universes-pool/universes-pool'
 
 export interface CloudUser {
   id?: string
@@ -244,6 +244,9 @@ export class Cloud extends APICarrier {
     return organization.Organization.create(payload, this, this.http)
   }
 
+  public universePool (payload: universesPool.UniversesPoolRawPayload): universesPool.UniversesPool {
+    return universesPool.UniversesPool.create(payload, this, this.http)
+  }
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -336,6 +339,14 @@ export class Cloud extends APICarrier {
 
   public async universeUsers (options?: EntityFetchOptions): Promise<UniverseUser[] | UniverseUserRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<UniverseUser, UniverseUsers, UniverseUserRawPayload, EntityFetchOptions, UniverseUsersFetchRemoteError>(UniverseUser, UniverseUsers, UniverseUsersFetchRemoteError, options)
+  }
+
+  public async organizations (options?: EntityFetchOptions): Promise<organization.Organization[] | organization.OrganizationRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<organization.Organization, organization.Organizations, organization.OrganizationRawPayload, EntityFetchOptions, organization.OrganizationsFetchRemoteError>(organization.Organization, organization.Organizations, organization.OrganizationsFetchRemoteError, options)
+  }
+
+  public async universesPools (options?: EntityFetchOptions): Promise<universesPool.UniversesPool[] | universesPool.UniversesPoolRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<universesPool.UniversesPool, universesPool.UniversesPools, universesPool.UniversesPoolRawPayload, EntityFetchOptions, universesPool.UniversesPoolsFetchRemoteError>(universesPool.UniversesPool, universesPool.UniversesPools, universesPool.UniversesPoolsFetchRemoteError, options)
   }
 
   public async versions (): Promise<{ multiverse: string } | undefined> {
