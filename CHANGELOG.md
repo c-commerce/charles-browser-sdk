@@ -1,3 +1,11 @@
+# [4.17.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.16.1...v4.17.0) (2021-05-31)
+
+
+### Features
+
+* **cloud:** organizations ([4ab400d](https://github.com/c-commerce/charles-browser-sdk/commit/4ab400d4ded548b717f66cef6361227c5f12e344))
+* **cloud:** universes pools ([af950ab](https://github.com/c-commerce/charles-browser-sdk/commit/af950ab85755818e9207d267aca9056c519081cb))
+
 ## [4.16.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.16.0...v4.16.1) (2021-05-26)
 
 
