@@ -4,9 +4,9 @@ import { APICarrier } from '../base';
 import { BaseError } from '../errors';
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base';
 import * as universe from './entities/universe';
-import { UniverseUser, UniverseUserRawPayload } from './entities/user';
-import * as organization from './entities/organization/organization';
-import * as universesPool from './entities/universes-pool/universes-pool';
+import * as universeUser from './entities/user';
+import * as organization from './entities/organization';
+import * as universesPool from './entities/universes-pool';
 export interface CloudUser {
     id?: string;
     accessToken?: string;
@@ -100,7 +100,7 @@ export declare class Cloud extends APICarrier {
     private handleError;
     private baseResourceFactory;
     universe(payload: universe.CloudUniverseRawPayload): universe.CloudUniverse;
-    universeUser(payload: UniverseUserRawPayload): UniverseUser;
+    universeUser(payload: universeUser.UniverseUserRawPayload): universeUser.UniverseUser;
     organization(payload: organization.OrganizationRawPayload): organization.Organization;
     universePool(payload: universesPool.UniversesPoolRawPayload): universesPool.UniversesPool;
     apiRequest(options: ApiRequestOptions): Promise<{
@@ -115,7 +115,7 @@ export declare class Cloud extends APICarrier {
     me(): Promise<MeData | undefined>;
     makeBaseResourceListRequest<T, TL, K, O, E>(proto: BaseResourceCreateable<T, K>, listProto: BaseResourceList<TL>, errorProto: BaseResourceErrorProto<E>, options?: BaseResourceEntityFetchOptions<O>): Promise<T[] | K[] | undefined>;
     universes(options?: EntityFetchOptions): Promise<universe.CloudUniverse[] | universe.CloudUniverseRawPayload[] | undefined>;
-    universeUsers(options?: EntityFetchOptions): Promise<UniverseUser[] | UniverseUserRawPayload[] | undefined>;
+    universeUsers(options?: EntityFetchOptions): Promise<universeUser.UniverseUser[] | universeUser.UniverseUserRawPayload[] | undefined>;
     organizations(options?: EntityFetchOptions): Promise<organization.Organization[] | organization.OrganizationRawPayload[] | undefined>;
     universesPools(options?: EntityFetchOptions): Promise<universesPool.UniversesPool[] | universesPool.UniversesPoolRawPayload[] | undefined>;
     versions(): Promise<{

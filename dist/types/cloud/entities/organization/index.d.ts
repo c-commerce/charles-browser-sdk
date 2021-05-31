@@ -1,2 +1,2 @@
-import { Organization, Organizations, OrganizationsFetchRemoteError } from './organization';
-export { Organization, Organizations, OrganizationsFetchRemoteError };
+import { Organization, Organizations, OrganizationRawPayload, OrganizationsFetchRemoteError } from './organization';
+export { Organization, Organizations, OrganizationRawPayload, OrganizationsFetchRemoteError };

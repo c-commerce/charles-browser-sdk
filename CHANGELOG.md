@@ -1,3 +1,10 @@
+## [4.17.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.17.0...v4.17.1) (2021-05-31)
+
+
+### Bug Fixes
+
+* **cloud:** fix unicerseUser & organizations namespacing ([da07b7c](https://github.com/c-commerce/charles-browser-sdk/commit/da07b7ccef01f235d7f05a28d1c9543cd830beda))
+
 # [4.17.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.16.1...v4.17.0) (2021-05-31)
 
 

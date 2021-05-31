@@ -7,9 +7,9 @@ var status_1 = require("./status");
 var base_1 = require("../base");
 var errors_1 = require("../errors");
 var universe = tslib_1.__importStar(require("./entities/universe"));
-var user_1 = require("./entities/user");
-var organization = tslib_1.__importStar(require("./entities/organization/organization"));
-var universesPool = tslib_1.__importStar(require("./entities/universes-pool/universes-pool"));
+var universeUser = tslib_1.__importStar(require("./entities/user"));
+var organization = tslib_1.__importStar(require("./entities/organization"));
+var universesPool = tslib_1.__importStar(require("./entities/universes-pool"));
 var CloudUnauthenticatedError = (function (_super) {
     tslib_1.__extends(CloudUnauthenticatedError, _super);
     function CloudUnauthenticatedError(message, properties) {
@@ -124,7 +124,7 @@ var Cloud = (function (_super) {
         return universe.CloudUniverse.create(payload, this, this.http);
     };
     Cloud.prototype.universeUser = function (payload) {
-        return user_1.UniverseUser.create(payload, this, this.http);
+        return universeUser.UniverseUser.create(payload, this, this.http);
     };
     Cloud.prototype.organization = function (payload) {
         return organization.Organization.create(payload, this, this.http);
@@ -248,7 +248,7 @@ var Cloud = (function (_super) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, this.makeBaseResourceListRequest(user_1.UniverseUser, user_1.UniverseUsers, user_1.UniverseUsersFetchRemoteError, options)];
+                    case 0: return [4, this.makeBaseResourceListRequest(universeUser.UniverseUser, universeUser.UniverseUsers, universeUser.UniverseUsersFetchRemoteError, options)];
                     case 1: return [2, _a.sent()];
                 }
             });
