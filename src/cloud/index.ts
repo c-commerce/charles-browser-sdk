@@ -9,6 +9,7 @@ import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 import * as universe from './entities/universe'
 import { UniverseUser, UniverseUsers, UniverseUserRawPayload, UniverseUsersFetchRemoteError } from './entities/user'
 // import * as staff from '../entities/staff/staff'
+import * as organization from './entities/organization/organization'
 
 export interface CloudUser {
   id?: string
@@ -237,6 +238,10 @@ export class Cloud extends APICarrier {
 
   public universeUser (payload: UniverseUserRawPayload): UniverseUser {
     return UniverseUser.create(payload, this, this.http)
+  }
+
+  public organization (payload: organization.OrganizationRawPayload): organization.Organization {
+    return organization.Organization.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.

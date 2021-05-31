@@ -807,6 +807,10 @@ export class Universe extends APICarrier {
     return peopleOrganization.PeopleOrganization.create(payload, this, this.http)
   }
 
+  public organization (payload: organization.OrganizationRawPayload): organization.Organization {
+    return organization.Organization.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -2014,6 +2018,10 @@ export class Universe extends APICarrier {
 
   public async peopleOrganizations (options?: EntityFetchOptions): Promise<peopleOrganization.PeopleOrganization[] | peopleOrganization.PeopleOrganizationRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<peopleOrganization.PeopleOrganization, peopleOrganization.PeopleOrganizations, peopleOrganization.PeopleOrganizationRawPayload, EntityFetchOptions, peopleOrganization.PeopleOrganizationsFetchRemoteError>(peopleOrganization.PeopleOrganization, peopleOrganization.PeopleOrganizations, peopleOrganization.PeopleOrganizationsFetchRemoteError, options)
+  }
+
+  public async organizations (options?: EntityFetchOptions): Promise<organization.Organization[] | organization.OrganizationRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<organization.Organization, organization.Organizations, organization.OrganizationRawPayload, EntityFetchOptions, organization.OrganizationsFetchRemoteError>(organization.Organization, organization.Organizations, organization.OrganizationsFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
