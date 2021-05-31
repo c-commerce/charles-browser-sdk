@@ -7,9 +7,9 @@ import { BaseError } from '../errors'
 
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 import * as universe from './entities/universe'
-import { UniverseUser, UniverseUsers, UniverseUserRawPayload, UniverseUsersFetchRemoteError } from './entities/user'
-import * as organization from './entities/organization/organization'
-import * as universesPool from './entities/universes-pool/universes-pool'
+import * as universeUser from './entities/user'
+import * as organization from './entities/organization'
+import * as universesPool from './entities/universes-pool'
 
 export interface CloudUser {
   id?: string
@@ -236,8 +236,8 @@ export class Cloud extends APICarrier {
     return universe.CloudUniverse.create(payload, this, this.http)
   }
 
-  public universeUser (payload: UniverseUserRawPayload): UniverseUser {
-    return UniverseUser.create(payload, this, this.http)
+  public universeUser (payload: universeUser.UniverseUserRawPayload): universeUser.UniverseUser {
+    return universeUser.UniverseUser.create(payload, this, this.http)
   }
 
   public organization (payload: organization.OrganizationRawPayload): organization.Organization {
@@ -337,8 +337,8 @@ export class Cloud extends APICarrier {
     return await this.makeBaseResourceListRequest<universe.CloudUniverse, universe.CloudUniverses, universe.CloudUniverseRawPayload, EntityFetchOptions, universe.CloudUniversesFetchRemoteError>(universe.CloudUniverse, universe.CloudUniverses, universe.CloudUniversesFetchRemoteError, options)
   }
 
-  public async universeUsers (options?: EntityFetchOptions): Promise<UniverseUser[] | UniverseUserRawPayload[] | undefined> {
-    return await this.makeBaseResourceListRequest<UniverseUser, UniverseUsers, UniverseUserRawPayload, EntityFetchOptions, UniverseUsersFetchRemoteError>(UniverseUser, UniverseUsers, UniverseUsersFetchRemoteError, options)
+  public async universeUsers (options?: EntityFetchOptions): Promise<universeUser.UniverseUser[] | universeUser.UniverseUserRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<universeUser.UniverseUser, universeUser.UniverseUsers, universeUser.UniverseUserRawPayload, EntityFetchOptions, universeUser.UniverseUsersFetchRemoteError>(universeUser.UniverseUser, universeUser.UniverseUsers, universeUser.UniverseUsersFetchRemoteError, options)
   }
 
   public async organizations (options?: EntityFetchOptions): Promise<organization.Organization[] | organization.OrganizationRawPayload[] | undefined> {
