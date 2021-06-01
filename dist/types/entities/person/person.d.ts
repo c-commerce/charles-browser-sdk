@@ -7,6 +7,7 @@ import { Analytics, AnalyticsRawPayload } from './analytics';
 import { Email, EmailRawPayload } from './email';
 import { Cart, CartRawPayload } from '../cart/cart';
 import { EventRawPayload } from '../../eventing/feeds/event';
+import type { MessageBroker } from '../message-broker';
 export interface PersonOptions extends UniverseEntityOptions {
     rawPayload?: PersonRawPayload;
     mqtt?: Universe['mqtt'];
@@ -306,6 +307,9 @@ export declare class Address extends UniverseEntity<PersonAddressPayload, Person
     patch(changePart: PersonAddressRawPayload): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>>;
     applyPatch(patch: RawPatch): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>>;
 }
+export interface PhonenumberToAccessor {
+    messageBrokerChannelUser: (messageBroker: MessageBroker) => Promise<ChannelUser>;
+}
 export declare class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, PersonPhonenumberRawPayload> {
     protected universe: Universe;
     protected apiCarrier: Universe;
@@ -334,6 +338,7 @@ export declare class Phonenumber extends UniverseEntity<PersonPhonenumberPayload
     serialize(): PersonPhonenumberRawPayload;
     patch(changePart: PersonPhonenumberRawPayload): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>>;
     applyPatch(patch: RawPatch): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>>;
+    get to(): PhonenumberToAccessor;
 }
 export declare class PersonDeleteRemoteError extends BaseError {
     message: string;

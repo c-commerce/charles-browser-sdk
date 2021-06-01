@@ -1,3 +1,10 @@
+# [4.18.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.17.1...v4.18.0) (2021-06-01)
+
+
+### Features
+
+* **Phonenumber:** convert to message broker channel user ([c75ca61](https://github.com/c-commerce/charles-browser-sdk/commit/c75ca612f26586129f7e462a848f33117d97939b))
+
 ## [4.17.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.17.0...v4.17.1) (2021-05-31)
 
 

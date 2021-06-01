@@ -983,6 +983,32 @@ var Phonenumber = (function (_super) {
             });
         });
     };
+    Object.defineProperty(Phonenumber.prototype, "to", {
+        get: function () {
+            var _this = this;
+            return {
+                messageBrokerChannelUser: function (messageBroker) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                    var opts, res, resource;
+                    return tslib_1.__generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                opts = {
+                                    method: 'POST',
+                                    url: this.endpoint + "/" + this.id + "/to/message_brokers/" + messageBroker.id + "/channel_user"
+                                };
+                                return [4, this.http.getClient()(opts)];
+                            case 1:
+                                res = _a.sent();
+                                resource = res.data.data[0];
+                                return [2, channel_user_1.ChannelUser.create(resource, this.universe, this.http)];
+                        }
+                    });
+                }); }
+            };
+        },
+        enumerable: false,
+        configurable: true
+    });
     return Phonenumber;
 }(_base_1.UniverseEntity));
 exports.Phonenumber = Phonenumber;
