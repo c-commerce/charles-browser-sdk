@@ -63,6 +63,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   }
 
   protected deserialize (rawPayload: CloudUniverseRawPayload): CloudUniverse {
+    this.setRawPayload(rawPayload)
+
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
