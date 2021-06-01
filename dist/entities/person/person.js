@@ -989,16 +989,17 @@ var Phonenumber = (function (_super) {
             return {
                 messageBrokerChannelUser: function (messageBroker) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     var opts, res, resource;
-                    return tslib_1.__generator(this, function (_a) {
-                        switch (_a.label) {
+                    var _a;
+                    return tslib_1.__generator(this, function (_b) {
+                        switch (_b.label) {
                             case 0:
                                 opts = {
                                     method: 'POST',
-                                    url: this.endpoint + "/" + this.id + "/to/message_brokers/" + messageBroker.id + "/channel_user"
+                                    url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/to/message_brokers/" + messageBroker.id + "/channel_user"
                                 };
                                 return [4, this.http.getClient()(opts)];
                             case 1:
-                                res = _a.sent();
+                                res = _b.sent();
                                 resource = res.data.data[0];
                                 return [2, channel_user_1.ChannelUser.create(resource, this.universe, this.http)];
                         }
