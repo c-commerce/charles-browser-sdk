@@ -21,6 +21,7 @@ import { Event, EventRawPayload } from '../../eventing/feeds/event'
 import { Feed } from '../../eventing/feeds/feed'
 import universeTopics from '../../universe/topics'
 import * as realtime from '../../realtime'
+import type { MessageBroker } from '../message-broker'
 
 export interface PersonOptions extends UniverseEntityOptions {
   rawPayload?: PersonRawPayload
@@ -1088,6 +1089,10 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
   }
 }
 
+export interface PhonenumberToAccessor {
+  messageBrokerChannelUser: (messageBroker: MessageBroker) => Promise<ChannelUser>
+}
+
 export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, PersonPhonenumberRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
@@ -1200,7 +1205,23 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
     }
     return await this._applyPatch(patch)
   }
+
+  get to (): PhonenumberToAccessor {
+    return {
+      messageBrokerChannelUser: async (messageBroker: MessageBroker): Promise<ChannelUser> => {
+        const opts = {
+          method: 'POST',
+          url: `${this.endpoint}/${this.id as string}/to/message_brokers/${messageBroker.id as string}/channel_user`
+        }
+        const res = await this.http.getClient()(opts)
+        const resource = res.data.data[0] as ChannelUserRawPayload
+
+        return ChannelUser.create(resource, this.universe, this.http)
+      }
+    }
+  }
 }
+
 export class PersonDeleteRemoteError extends BaseError {
   public name = 'PersonDeleteRemoteError'
   constructor (public message: string = 'Could not delete person.', properties?: any) {
@@ -1208,6 +1229,7 @@ export class PersonDeleteRemoteError extends BaseError {
     Object.setPrototypeOf(this, PersonDeleteRemoteError.prototype)
   }
 }
+
 export class PersonFetchOrdersRemoteError extends BaseError {
   public name = 'PersonFetchOrdersRemoteError'
   constructor (public message: string = 'Could not get person orders.', properties?: any) {
@@ -1271,6 +1293,7 @@ export class AddressPatchRemoteError extends BaseError {
     Object.setPrototypeOf(this, AddressPatchRemoteError.prototype)
   }
 }
+
 export class PersonMergeRemoteError extends BaseError {
   public name = 'PersonMergeRemoteError'
   constructor (public message: string = 'Could not merge persons.', properties?: any) {
@@ -1278,6 +1301,7 @@ export class PersonMergeRemoteError extends BaseError {
     Object.setPrototypeOf(this, PersonMergeRemoteError.prototype)
   }
 }
+
 export class PersonGDPRGetRemoteError extends BaseError {
   public name = 'PersonGDPRGetRemoteError'
   constructor (public message: string = 'Could not get gdpr info for person.', properties?: any) {
@@ -1285,6 +1309,7 @@ export class PersonGDPRGetRemoteError extends BaseError {
     Object.setPrototypeOf(this, PersonGDPRGetRemoteError.prototype)
   }
 }
+
 export class PeopleExportRemoteError extends BaseError {
   public name = 'PeopleExportRemoteError'
   constructor (public message: string = 'Could not export people.', properties?: any) {
@@ -1292,6 +1317,7 @@ export class PeopleExportRemoteError extends BaseError {
     Object.setPrototypeOf(this, PeopleExportRemoteError.prototype)
   }
 }
+
 export class PersonEmailPostRemoteError extends BaseError {
   public name = 'PersonEmailPostRemoteError'
   constructor (public message: string = 'Could not save email for person.', properties?: any) {
@@ -1299,6 +1325,7 @@ export class PersonEmailPostRemoteError extends BaseError {
     Object.setPrototypeOf(this, PersonEmailPostRemoteError.prototype)
   }
 }
+
 export class PersonEmailApplyPatchError extends BaseError {
   public name = 'PersonEmailApplyPatchError'
   constructor (public message: string = 'Could not apply patch on email for person.', properties?: any) {
@@ -1306,6 +1333,7 @@ export class PersonEmailApplyPatchError extends BaseError {
     Object.setPrototypeOf(this, PersonEmailApplyPatchError.prototype)
   }
 }
+
 export class PersonEmailDeleteError extends BaseError {
   public name = 'PersonEmailDeleteError'
   constructor (public message: string = 'Could not delete email for person.', properties?: any) {
@@ -1313,6 +1341,7 @@ export class PersonEmailDeleteError extends BaseError {
     Object.setPrototypeOf(this, PersonEmailDeleteError.prototype)
   }
 }
+
 export class PersonPreviewNotificationError extends BaseError {
   public name = 'PersonPreviewNotificationError'
   constructor (public message: string = 'Could not preview notification for person.', properties?: any) {
@@ -1320,6 +1349,7 @@ export class PersonPreviewNotificationError extends BaseError {
     Object.setPrototypeOf(this, PersonPreviewNotificationError.prototype)
   }
 }
+
 export class DealsFetchRemoteError extends BaseError {
   public name = 'DealsFetchRemoteError'
   constructor (public message: string = 'Could not fetch deals for person.', properties?: any) {
@@ -1327,6 +1357,7 @@ export class DealsFetchRemoteError extends BaseError {
     Object.setPrototypeOf(this, DealsFetchRemoteError.prototype)
   }
 }
+
 export class DealCreateRemoteError extends BaseError {
   public name = 'DealCreateRemoteError'
   constructor (public message: string = 'Could not create deal for person.', properties?: any) {
@@ -1334,6 +1365,7 @@ export class DealCreateRemoteError extends BaseError {
     Object.setPrototypeOf(this, DealCreateRemoteError.prototype)
   }
 }
+
 export class PhonenumbersFetchRemoteError extends BaseError {
   public name = 'PhonenumbersFetchRemoteError'
   constructor (public message: string = 'Could not fetch phonenumbers for person.', properties?: any) {
@@ -1341,6 +1373,7 @@ export class PhonenumbersFetchRemoteError extends BaseError {
     Object.setPrototypeOf(this, PhonenumbersFetchRemoteError.prototype)
   }
 }
+
 export class PhonenumberCreateRemoteError extends BaseError {
   public name = 'PhonenumberCreateRemoteError'
   constructor (public message: string = 'Could not create phonenumber for person.', properties?: any) {
@@ -1348,6 +1381,7 @@ export class PhonenumberCreateRemoteError extends BaseError {
     Object.setPrototypeOf(this, PhonenumberCreateRemoteError.prototype)
   }
 }
+
 export class PhonenumberPatchRemoteError extends BaseError {
   public name = 'PhonenumberPatchRemoteError'
   constructor (public message: string = 'Phonenumber patch requires person to be set.', properties?: any) {
@@ -1355,6 +1389,7 @@ export class PhonenumberPatchRemoteError extends BaseError {
     Object.setPrototypeOf(this, PhonenumberPatchRemoteError.prototype)
   }
 }
+
 export class PhonenumberApplyPatchRemoteError extends BaseError {
   public name = 'PhonenumberApplyPatchRemoteError'
   constructor (public message: string = 'Phonenumber applyPatch requires person to be set.', properties?: any) {
