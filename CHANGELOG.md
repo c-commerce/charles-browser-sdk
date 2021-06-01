@@ -1,3 +1,10 @@
+## [4.18.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.18.0...v4.18.1) (2021-06-01)
+
+
+### Bug Fixes
+
+* **cloud universe:** correctly set raw payload ([ea13768](https://github.com/c-commerce/charles-browser-sdk/commit/ea13768f87e42d8c793eae7e5b62bc270dd68fd3))
+
 # [4.18.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.17.1...v4.18.0) (2021-06-01)
 
 

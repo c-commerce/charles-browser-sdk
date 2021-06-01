@@ -23,6 +23,7 @@ var CloudUniverse = (function (_super) {
     }
     CloudUniverse.prototype.deserialize = function (rawPayload) {
         var _a, _b;
+        this.setRawPayload(rawPayload);
         this.id = rawPayload.id;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
