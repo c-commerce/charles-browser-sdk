@@ -1,3 +1,10 @@
+## [4.18.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.18.1...v4.18.2) (2021-06-01)
+
+
+### Bug Fixes
+
+* **cloud universe:** add missing prop configuration ([4815815](https://github.com/c-commerce/charles-browser-sdk/commit/4815815f9e90c0fae480fc212078816d0cda80ae))
+
 ## [4.18.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.18.0...v4.18.1) (2021-06-01)
 
 

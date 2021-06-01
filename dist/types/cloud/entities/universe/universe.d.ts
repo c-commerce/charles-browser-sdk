@@ -14,6 +14,7 @@ export interface CloudUniverseRawPayload {
     readonly deleted?: boolean;
     readonly active?: boolean;
     readonly name?: string | null;
+    readonly configuration?: object;
 }
 export interface CloudUniversePayload {
     readonly id?: CloudUniverseRawPayload['id'];
@@ -22,6 +23,7 @@ export interface CloudUniversePayload {
     readonly deleted?: boolean;
     readonly active?: boolean;
     readonly name?: CloudUniverseRawPayload['name'];
+    readonly configuration?: CloudUniverseRawPayload['configuration'];
 }
 export declare class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRawPayload> {
     protected apiCarrier: APICarrier;
@@ -35,6 +37,7 @@ export declare class CloudUniverse extends Entity<CloudUniversePayload, CloudUni
     deleted?: CloudUniversePayload['deleted'];
     active?: CloudUniversePayload['active'];
     name?: CloudUniversePayload['name'];
+    configuration?: CloudUniversePayload['configuration'];
     constructor(options: CloudUniverseOptions);
     protected deserialize(rawPayload: CloudUniverseRawPayload): CloudUniverse;
     static create(payload: CloudUniverseRawPayload, carrier: Cloud, http: Cloud['http']): CloudUniverse;

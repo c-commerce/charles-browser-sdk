@@ -30,6 +30,7 @@ var CloudUniverse = (function (_super) {
         this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
         this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
         this.name = rawPayload.name;
+        this.configuration = rawPayload.configuration;
         return this;
     };
     CloudUniverse.create = function (payload, carrier, http) {
@@ -43,7 +44,8 @@ var CloudUniverse = (function (_super) {
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,
             active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
-            name: this.name
+            name: this.name,
+            configuration: this.configuration
         };
     };
     CloudUniverse.prototype.init = function () {
