@@ -19,6 +19,9 @@ export interface CloudUniverseRawPayload {
   readonly active?: boolean
   readonly name?: string | null
   readonly configuration?: object
+  readonly pool?: string
+  readonly organization?: string
+
 }
 
 export interface CloudUniversePayload {
@@ -29,6 +32,8 @@ export interface CloudUniversePayload {
   readonly active?: boolean
   readonly name?: CloudUniverseRawPayload['name']
   readonly configuration?: CloudUniverseRawPayload['configuration']
+  readonly pool?: CloudUniverseRawPayload['pool']
+  readonly organization?: CloudUniverseRawPayload['organization']
 }
 
 /**
@@ -51,6 +56,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   public active?: CloudUniversePayload['active']
   public name?: CloudUniversePayload['name']
   public configuration?: CloudUniversePayload['configuration']
+  public pool?: CloudUniversePayload['pool']
+  public organization?: CloudUniversePayload['organization']
 
   constructor (options: CloudUniverseOptions) {
     super()
@@ -75,7 +82,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     this.active = rawPayload.active ?? true
     this.name = rawPayload.name
     this.configuration = rawPayload.configuration
-
+    this.pool = rawPayload.pool
+    this.organization = rawPayload.organization
     return this
   }
 
@@ -91,7 +99,9 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       deleted: this.deleted ?? false,
       active: this.active ?? true,
       name: this.name,
-      configuration: this.configuration
+      configuration: this.configuration,
+      pool: this.pool,
+      organization: this.organization
     }
   }
 
