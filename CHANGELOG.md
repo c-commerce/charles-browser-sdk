@@ -1,3 +1,10 @@
+## [4.18.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.18.2...v4.18.3) (2021-06-01)
+
+
+### Bug Fixes
+
+* **Phonenumber:** add missing universe base ([9c9e34b](https://github.com/c-commerce/charles-browser-sdk/commit/9c9e34be1a6a263512867713c6a21b6889432800))
+
 ## [4.18.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.18.1...v4.18.2) (2021-06-01)
 
 
