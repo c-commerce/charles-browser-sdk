@@ -18,6 +18,7 @@ export interface CloudUniverseRawPayload {
   readonly deleted?: boolean
   readonly active?: boolean
   readonly name?: string | null
+  readonly configuration?: object
 }
 
 export interface CloudUniversePayload {
@@ -27,6 +28,7 @@ export interface CloudUniversePayload {
   readonly deleted?: boolean
   readonly active?: boolean
   readonly name?: CloudUniverseRawPayload['name']
+  readonly configuration?: CloudUniverseRawPayload['configuration']
 }
 
 /**
@@ -48,6 +50,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   public deleted?: CloudUniversePayload['deleted']
   public active?: CloudUniversePayload['active']
   public name?: CloudUniversePayload['name']
+  public configuration?: CloudUniversePayload['configuration']
 
   constructor (options: CloudUniverseOptions) {
     super()
@@ -71,6 +74,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
     this.name = rawPayload.name
+    this.configuration = rawPayload.configuration
 
     return this
   }
@@ -86,7 +90,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
       active: this.active ?? true,
-      name: this.name
+      name: this.name,
+      configuration: this.configuration
     }
   }
 
