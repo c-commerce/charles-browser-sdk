@@ -1211,7 +1211,7 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
       messageBrokerChannelUser: async (messageBroker: MessageBroker): Promise<ChannelUser> => {
         const opts = {
           method: 'POST',
-          url: `${this.endpoint}/${this.id as string}/to/message_brokers/${messageBroker.id as string}/channel_user`
+          url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/to/message_brokers/${messageBroker.id as string}/channel_user`
         }
         const res = await this.http.getClient()(opts)
         const resource = res.data.data[0] as ChannelUserRawPayload
