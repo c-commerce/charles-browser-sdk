@@ -64,7 +64,7 @@ interface FeedEventFromAgentBase {
 export declare type FeedPresencePayload = FeedEventFromAgentBase;
 export declare type FeedTypingPayload = FeedEventFromAgentBase;
 export declare interface Feed {
-    on: ((event: 'raw-error' | 'error', cb: (error: Error) => void) => this) & ((event: 'feed:message' | 'feed:event' | 'feed:presence' | 'feed:typing' | 'feed:message:status' | string, cb: Function) => this);
+    on: ((event: 'raw-error' | 'error', cb: (error: Error) => void) => this) & ((event: 'feed:message' | 'feed:event' | 'feed:presence' | 'feed:typing' | 'feed:message:status' | 'feed:message:reactions' | string, cb: Function) => this);
 }
 export declare class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     protected universe: Universe;

@@ -1,3 +1,10 @@
+# [4.19.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.18.4...v4.19.0) (2021-06-06)
+
+
+### Features
+
+* **Feed:** listen for message reactions ([16586b8](https://github.com/c-commerce/charles-browser-sdk/commit/16586b8831bf5ca844613d955d010caf2c1322e7))
+
 ## [4.18.4](https://github.com/c-commerce/charles-browser-sdk/compare/v4.18.3...v4.18.4) (2021-06-01)
 
 

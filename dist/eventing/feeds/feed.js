@@ -146,6 +146,7 @@ var Feed = (function (_super) {
                 topics_1.default.api.feedTyping.generateTopic(this.serialize()),
                 topics_1.default.api.feedPresence.generateTopic(this.serialize()),
                 topics_1.default.api.feedMessagesStatus.generateTopic(this.serialize()),
+                topics_1.default.api.feedMessagesReactions.generateTopic(this.serialize()),
                 topics_1.default.api.feedOrders.generateTopic(this.serialize())
             ];
         },
@@ -172,6 +173,14 @@ var Feed = (function (_super) {
                 message = message_1.Message.deserialize(msg.payload.message, this.universe, this.http, this);
             }
             this.emit('feed:message:status', tslib_1.__assign(tslib_1.__assign({}, msg), { message: message, feed: this }));
+            return;
+        }
+        if (topics_1.default.api.feedMessagesReactions.isTopic(msg.topic, this.serialize())) {
+            var message = void 0;
+            if (msg.payload.message) {
+                message = message_1.Message.deserialize(msg.payload.message, this.universe, this.http, this);
+            }
+            this.emit('feed:message:reactions', tslib_1.__assign(tslib_1.__assign({}, msg), { message: message, feed: this }));
             return;
         }
         if (topics_1.default.api.feedMessages.isTopic(msg.topic, this.serialize())) {
