@@ -49,6 +49,10 @@ var Message = (function (_super) {
         this.replyables = rawPayload.replyables;
         this.author = rawPayload.author;
         this.person = rawPayload.person ? person_1.Person.create({ id: rawPayload.person }, this.universe, this.http) : undefined;
+        this.messageBroker = rawPayload.message_broker;
+        this.channelUser = rawPayload.channel_user;
+        this.statuses = rawPayload.statuses;
+        this.reactions = rawPayload.reactions;
         if (options === null || options === void 0 ? void 0 : options.feed) {
             this.feed = options.feed;
         }
@@ -87,6 +91,10 @@ var Message = (function (_super) {
             processed_data: this.processedData,
             replyables: this.replyables,
             author: this.author,
+            message_broker: this.messageBroker,
+            channel_user: this.channelUser,
+            statuses: this.statuses,
+            reactions: this.reactions,
             person: this.person ? this.person.id : undefined,
             feed: this.feed ? this.feed.id : undefined
         };

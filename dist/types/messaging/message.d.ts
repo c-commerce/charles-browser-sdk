@@ -38,6 +38,8 @@ export interface MessageRawPayload extends EntityRawPayload {
     readonly deleted?: string;
     readonly is_processed?: string;
     readonly processed_data?: string;
+    readonly message_broker?: string | null;
+    readonly channel_user?: string | null;
     readonly replyables?: {
         reply_to_message?: {
             deadline: string | null;
@@ -63,6 +65,25 @@ export interface MessageRawPayload extends EntityRawPayload {
         staff?: string;
         person?: string;
     } | null;
+    readonly statuses?: Array<{
+        date?: any;
+        status?: 'read' | 'delivered' | 'failed';
+        external_person_reference_id?: any;
+        details?: any;
+        payload?: any;
+    }>;
+    readonly reactions?: Array<{
+        date?: any;
+        reaction?: {
+            action?: string;
+            type?: string;
+            value?: string;
+            class?: string;
+        } | null;
+        external_person_reference_id?: string;
+        details?: any;
+        payload?: any;
+    }>;
 }
 export interface MessagePayload {
     readonly id?: string;
@@ -85,6 +106,10 @@ export interface MessagePayload {
     readonly processedData?: string;
     readonly replyables?: MessageRawPayload['replyables'] | null;
     readonly author?: MessageRawPayload['author'];
+    readonly messageBroker?: MessageRawPayload['message_broker'];
+    readonly channelUser?: MessageRawPayload['channel_user'];
+    readonly statuses?: MessageRawPayload['statuses'];
+    readonly reactions?: MessageRawPayload['reactions'];
     readonly person?: Person;
     readonly feed?: Feed;
 }
@@ -115,6 +140,10 @@ export declare class Message extends UniverseEntity<MessagePayload, MessageRawPa
     processedData?: string;
     replyables?: MessageRawPayload['replyables'];
     author?: MessageRawPayload['author'];
+    messageBroker?: MessagePayload['messageBroker'];
+    channelUser?: MessagePayload['channelUser'];
+    statuses?: MessagePayload['statuses'];
+    reactions?: MessagePayload['reactions'];
     person?: Person;
     feed?: Feed;
     constructor(options: MessageOptions);
