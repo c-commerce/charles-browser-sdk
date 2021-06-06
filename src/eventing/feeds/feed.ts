@@ -88,6 +88,7 @@ export declare interface Feed {
     | 'feed:presence' // receive precence events in the current scope of this feed
     | 'feed:typing' // receive typing events in the current scope of this feed
     | 'feed:message:status' // receive message status change events in the current scope of this feed
+    | 'feed:message:reactions' // receive message reactions change events in the current scope of this feed
     | string,
     cb: Function) => this)
 }
@@ -270,6 +271,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
       universeTopics.api.feedTyping.generateTopic(this.serialize()),
       universeTopics.api.feedPresence.generateTopic(this.serialize()),
       universeTopics.api.feedMessagesStatus.generateTopic(this.serialize()),
+      universeTopics.api.feedMessagesReactions.generateTopic(this.serialize()),
       universeTopics.api.feedOrders.generateTopic(this.serialize())
     ]
   }
@@ -308,6 +310,17 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
       this.emit('feed:message:status', { ...msg, message, feed: this })
       return
     }
+
+    if (universeTopics.api.feedMessagesReactions.isTopic(msg.topic, this.serialize())) {
+      let message
+      if ((msg as realtime.RealtimeMessageMessage).payload.message) {
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this)
+      }
+
+      this.emit('feed:message:reactions', { ...msg, message, feed: this })
+      return
+    }
+
     // TODO: when reviewing the .isTopic implementation, you'll see that a greedy regex is not what we want, as e.g. feedMessagesStatus
     // will otherwise be fanned out. Due to backwards compat we did not eagerly refactor.
     if (universeTopics.api.feedMessages.isTopic(msg.topic, this.serialize())) {

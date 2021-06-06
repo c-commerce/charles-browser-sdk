@@ -93,6 +93,16 @@ export default {
         return new RegExp(this.template.replace('${id}', data.id).replace('*', '\\*'), 'g').test(topic)
       }
     })(),
+    feedMessagesReactions: new (class extends TopicGenerator {
+      template: string = 'api/feeds/${id}/messages/*/reactions'
+      generateTopic (data: IInjectableDataObject): string {
+        return this.template.replace('${id}', data.id)
+      }
+
+      isTopic (topic: string, data: IInjectableDataObject): boolean {
+        return new RegExp(this.template.replace('${id}', data.id).replace('*', '\\*'), 'g').test(topic)
+      }
+    })(),
     feedEvents: new (class extends TopicGenerator {
       template: string = 'api/feeds/${id}/events'
       generateTopic (data: IInjectableDataObject): string {
