@@ -43,6 +43,8 @@ export interface MessageRawPayload extends EntityRawPayload {
   readonly deleted?: string
   readonly is_processed?: string
   readonly processed_data?: string
+  readonly message_broker?: string | null
+  readonly channel_user?: string | null
   readonly replyables?: {
     reply_to_message?: {
       deadline: string | null
@@ -68,6 +70,26 @@ export interface MessageRawPayload extends EntityRawPayload {
     staff?: string
     person?: string
   } | null
+  readonly statuses?: Array<{
+    date?: any
+    status?: 'read' | 'delivered' | 'failed'
+    external_person_reference_id?: any
+    details?: any
+    payload?: any
+  }>
+  readonly reactions?: Array<{
+    // TODO: parse dates
+    date?: any
+    reaction?: {
+      action?: string
+      type?: string
+      value?: string
+      class?: string
+    } | null
+    external_person_reference_id?: string
+    details?: any
+    payload?: any
+  }>
 }
 
 export interface MessagePayload {
@@ -91,6 +113,10 @@ export interface MessagePayload {
   readonly processedData?: string
   readonly replyables?: MessageRawPayload['replyables'] | null
   readonly author?: MessageRawPayload['author']
+  readonly messageBroker?: MessageRawPayload['message_broker']
+  readonly channelUser?: MessageRawPayload['channel_user']
+  readonly statuses?: MessageRawPayload['statuses']
+  readonly reactions?: MessageRawPayload['reactions']
   readonly person?: Person
   readonly feed?: Feed
 }
@@ -126,6 +152,10 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
   public processedData?: string
   public replyables?: MessageRawPayload['replyables']
   public author?: MessageRawPayload['author']
+  public messageBroker?: MessagePayload['messageBroker']
+  public channelUser?: MessagePayload['channelUser']
+  public statuses?: MessagePayload['statuses']
+  public reactions?: MessagePayload['reactions']
   public person?: Person
   public feed?: Feed
 
@@ -171,6 +201,10 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     this.replyables = rawPayload.replyables
     this.author = rawPayload.author
     this.person = rawPayload.person ? Person.create({ id: rawPayload.person }, this.universe, this.http) : undefined
+    this.messageBroker = rawPayload.message_broker
+    this.channelUser = rawPayload.channel_user
+    this.statuses = rawPayload.statuses
+    this.reactions = rawPayload.reactions
 
     // TODO: check if this functionality is still needed or at all wanted. What
     // we likely try to achieve is harmonizing messages from from fetches and MQTT events.
@@ -215,6 +249,10 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
       processed_data: this.processedData,
       replyables: this.replyables,
       author: this.author,
+      message_broker: this.messageBroker,
+      channel_user: this.channelUser,
+      statuses: this.statuses,
+      reactions: this.reactions,
       person: this.person ? this.person.id : undefined,
       // TODO: this likely seems a bug because of the above, associated comment
       feed: this.feed ? this.feed.id : undefined
