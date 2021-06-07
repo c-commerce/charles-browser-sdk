@@ -1,3 +1,10 @@
+# [4.21.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.20.0...v4.21.0) (2021-06-07)
+
+
+### Features
+
+* **Message:** support like / unlike ([0c0cefb](https://github.com/c-commerce/charles-browser-sdk/commit/0c0cefbfd4541fb2bb6085d582135d9f197c0ac2))
+
 # [4.20.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.19.0...v4.20.0) (2021-06-06)
 
 

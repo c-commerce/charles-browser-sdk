@@ -154,6 +154,8 @@ export declare class Message extends UniverseEntity<MessagePayload, MessageRawPa
     reply(contentOptions: MessageReplyContentOptions): MessageReply;
     replyFeed(contentOptions: MessageReplyContentOptions): MessageFeedReply;
     init(): Promise<Message | undefined>;
+    like(): Promise<Message | undefined>;
+    unlike(): Promise<Message | undefined>;
 }
 export interface MessageReplyContentOptions {
     content: MessagePayload['content'];
@@ -190,6 +192,16 @@ export declare class MessagesReplyError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class MessageInitializationError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageLikeError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageUnlikeError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
