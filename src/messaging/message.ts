@@ -292,6 +292,54 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
       throw this.handleError(new MessageInitializationError(undefined, { error: err }))
     }
   }
+
+  public async like (): Promise<Message | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('like requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/reactions/like`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as MessageRawPayload)
+
+      return this
+    } catch (err) {
+      throw new MessageLikeError(undefined, { error: err })
+    }
+  }
+
+  public async unlike (): Promise<Message | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('unlike requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/reactions/unlike`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as MessageRawPayload)
+
+      return this
+    } catch (err) {
+      throw new MessageUnlikeError(undefined, { error: err })
+    }
+  }
 }
 
 export interface MessageReplyContentOptions {
@@ -460,6 +508,20 @@ export class MessagesReplyError extends BaseError {
 export class MessageInitializationError extends BaseError {
   public name = 'MessageInitializationError'
   constructor (public message: string = 'Could not initialize message.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class MessageLikeError extends BaseError {
+  public name = 'MessageLikeError'
+  constructor (public message: string = 'Could not like message.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class MessageUnlikeError extends BaseError {
+  public name = 'MessageUnlikeError'
+  constructor (public message: string = 'Could not unlike message.', properties?: any) {
     super(message, properties)
   }
 }
