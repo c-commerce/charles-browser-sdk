@@ -1,3 +1,10 @@
+## [4.22.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.22.2...v4.22.3) (2021-06-12)
+
+
+### Bug Fixes
+
+* **ci:** handle critical dep upgrade ([488ea5e](https://github.com/c-commerce/charles-browser-sdk/commit/488ea5ea1028472ac31c9b73a404def75f419ac1))
+
 ## [4.22.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.22.1...v4.22.2) (2021-06-12)
 
 
