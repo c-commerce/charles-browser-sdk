@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UrlShortenersFetchRemoteError = exports.UrlShortenerFetchRemoteError = exports.UrlShortenerInitializationError = exports.UrlShorteners = exports.UrlShortener = void 0;
+exports.UrlShortenerShortenError = exports.UrlShortenersFetchRemoteError = exports.UrlShortenerFetchRemoteError = exports.UrlShortenerInitializationError = exports.UrlShorteners = exports.UrlShortener = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -84,6 +84,39 @@ var UrlShortener = (function (_super) {
             });
         });
     };
+    UrlShortener.prototype.shorten = function (request) {
+        var _a, _b, _c;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, response, err_2;
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('shorten requires id to be set.');
+                        _d.label = 1;
+                    case 1:
+                        _d.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id + "/shorten",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: request,
+                            responseType: 'json'
+                        };
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
+                    case 2:
+                        response = _d.sent();
+                        return [2, response.data.data[0]];
+                    case 3:
+                        err_2 = _d.sent();
+                        throw new UrlShortenerShortenError(undefined, { error: err_2 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return UrlShortener;
 }(_base_1.UniverseEntity));
 exports.UrlShortener = UrlShortener;
@@ -133,4 +166,17 @@ var UrlShortenersFetchRemoteError = (function (_super) {
     return UrlShortenersFetchRemoteError;
 }(errors_1.BaseError));
 exports.UrlShortenersFetchRemoteError = UrlShortenersFetchRemoteError;
+var UrlShortenerShortenError = (function (_super) {
+    tslib_1.__extends(UrlShortenerShortenError, _super);
+    function UrlShortenerShortenError(message, properties) {
+        if (message === void 0) { message = 'Could not shorten URL.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'UrlShortenerShortenError';
+        Object.setPrototypeOf(_this, UrlShortenerShortenError.prototype);
+        return _this;
+    }
+    return UrlShortenerShortenError;
+}(errors_1.BaseError));
+exports.UrlShortenerShortenError = UrlShortenerShortenError;
 //# sourceMappingURL=url-shortener.js.map

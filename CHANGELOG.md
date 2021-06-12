@@ -1,3 +1,10 @@
+# [4.23.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.22.3...v4.23.0) (2021-06-12)
+
+
+### Features
+
+* **urlshortener:** add shorten ([0bc31e8](https://github.com/c-commerce/charles-browser-sdk/commit/0bc31e87666ea52d43bea57eae3426cfb6ebe222))
+
 ## [4.22.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.22.2...v4.22.3) (2021-06-12)
 
 

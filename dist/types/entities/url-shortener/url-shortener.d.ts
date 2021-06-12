@@ -4,6 +4,13 @@ import { BaseError } from '../../errors';
 export interface UrlShortenerOptions extends UniverseEntityOptions {
     rawPayload?: UrlShortenerRawPayload;
 }
+export interface UrlShortenerShortendedURL {
+    readonly uri: string;
+    readonly link: string;
+}
+export interface UrlShortenerShortenRequest {
+    uri: string;
+}
 export interface UrlShortenerRawPayload {
     readonly id?: string;
     readonly created_at?: string;
@@ -73,6 +80,7 @@ export declare class UrlShortener extends UniverseEntity<UrlShortenerPayload, Ur
     static create(payload: UrlShortenerRawPayload, universe: Universe, http: Universe['http']): UrlShortener;
     serialize(): UrlShortenerRawPayload;
     init(): Promise<UrlShortener | undefined>;
+    shorten(request: UrlShortenerShortenRequest): Promise<UrlShortenerShortendedURL | undefined>;
 }
 export declare class UrlShorteners {
     static endpoint: string;
@@ -88,6 +96,11 @@ export declare class UrlShortenerFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class UrlShortenersFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UrlShortenerShortenError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
