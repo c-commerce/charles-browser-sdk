@@ -121,7 +121,7 @@
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-vue": "^7.4.1",
     "husky": "^0.14.3",
-    "hygen": "^4.0.7",
+    "hygen": "^6.1.0",
     "jest": "^25.1.0",
     "jest-localstorage-mock": "^2.4.0",
     "lodash.camelcase": "^4.3.0",
