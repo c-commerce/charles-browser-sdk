@@ -64,6 +64,8 @@ import * as messageSubscription from '../entities/message-subscription/message-s
 import * as messageSubscriptionInstance from '../entities/message-subscription-instance/message-subscription-instance'
 import * as peopleOrganization from '../entities/people-organization/people-organization'
 
+import * as urlShortener from '../entities/url-shortener/url-shortener'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -805,6 +807,10 @@ export class Universe extends APICarrier {
 
   public peopleOrganization (payload: peopleOrganization.PeopleOrganizationRawPayload): peopleOrganization.PeopleOrganization {
     return peopleOrganization.PeopleOrganization.create(payload, this, this.http)
+  }
+
+  public urlShortener (payload: urlShortener.UrlShortenerRawPayload): urlShortener.UrlShortener {
+    return urlShortener.UrlShortener.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -2014,6 +2020,10 @@ export class Universe extends APICarrier {
 
   public async peopleOrganizations (options?: EntityFetchOptions): Promise<peopleOrganization.PeopleOrganization[] | peopleOrganization.PeopleOrganizationRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<peopleOrganization.PeopleOrganization, peopleOrganization.PeopleOrganizations, peopleOrganization.PeopleOrganizationRawPayload, EntityFetchOptions, peopleOrganization.PeopleOrganizationsFetchRemoteError>(peopleOrganization.PeopleOrganization, peopleOrganization.PeopleOrganizations, peopleOrganization.PeopleOrganizationsFetchRemoteError, options)
+  }
+
+  public async urlShorteners (options?: EntityFetchOptions): Promise<urlShortener.UrlShortener[] | urlShortener.UrlShortenerRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<urlShortener.UrlShortener, urlShortener.UrlShorteners, urlShortener.UrlShortenerRawPayload, EntityFetchOptions, urlShortener.UrlShortenersFetchRemoteError>(urlShortener.UrlShortener, urlShortener.UrlShorteners, urlShortener.UrlShortenersFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
