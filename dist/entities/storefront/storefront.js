@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StorefrontSyncProductCategoriesRemoteError = exports.StorefrontSyncLocationsRemoteError = exports.StorefrontSetupRemoteError = exports.StorefrontSyncInventoriesRemoteError = exports.StorefrontSyncOrdersRemoteError = exports.StorefrontSyncProductsRemoteError = exports.StorefrontsFetchRemoteError = exports.StorefrontFetchRemoteError = exports.StorefrontInitializationError = exports.Storefronts = exports.Storefront = void 0;
+exports.StorefrontSyncProductCategoriesRemoteError = exports.StorefrontSyncLocationsRemoteError = exports.StorefrontSetupRemoteError = exports.StorefrontSyncShippingMethodsRemoteError = exports.StorefrontSyncInventoriesRemoteError = exports.StorefrontSyncOrdersRemoteError = exports.StorefrontSyncProductsRemoteError = exports.StorefrontsFetchRemoteError = exports.StorefrontFetchRemoteError = exports.StorefrontInitializationError = exports.Storefronts = exports.Storefront = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -275,6 +275,39 @@ var Storefront = (function (_super) {
             });
         });
     };
+    Storefront.prototype.syncShippingMethods = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_8;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('storefront syncShippingMethods requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/shipping_methods",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_8 = _b.sent();
+                        throw this.handleError(new StorefrontSyncShippingMethodsRemoteError(undefined, { error: err_8 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return Storefront;
 }(_base_1.UniverseEntity));
 exports.Storefront = Storefront;
@@ -363,6 +396,19 @@ var StorefrontSyncInventoriesRemoteError = (function (_super) {
     return StorefrontSyncInventoriesRemoteError;
 }(errors_1.BaseError));
 exports.StorefrontSyncInventoriesRemoteError = StorefrontSyncInventoriesRemoteError;
+var StorefrontSyncShippingMethodsRemoteError = (function (_super) {
+    tslib_1.__extends(StorefrontSyncShippingMethodsRemoteError, _super);
+    function StorefrontSyncShippingMethodsRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not sync shipping methods of storefront.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'StorefrontSyncInventoriesRemoteError';
+        Object.setPrototypeOf(_this, StorefrontSyncShippingMethodsRemoteError.prototype);
+        return _this;
+    }
+    return StorefrontSyncShippingMethodsRemoteError;
+}(errors_1.BaseError));
+exports.StorefrontSyncShippingMethodsRemoteError = StorefrontSyncShippingMethodsRemoteError;
 var StorefrontSetupRemoteError = (function (_super) {
     tslib_1.__extends(StorefrontSetupRemoteError, _super);
     function StorefrontSetupRemoteError(message, properties) {

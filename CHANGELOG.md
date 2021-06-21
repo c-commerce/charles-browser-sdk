@@ -1,3 +1,10 @@
+# [4.24.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.23.0...v4.24.0) (2021-06-21)
+
+
+### Features
+
+* **entities / storefront:** added support for shipping methods sync endpoint ([ff8c3db](https://github.com/c-commerce/charles-browser-sdk/commit/ff8c3db8ceee049b0e397f43d6ee1d850a75b576))
+
 # [4.23.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.22.3...v4.23.0) (2021-06-12)
 
 
