@@ -253,6 +253,26 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
       throw this.handleError(new StorefrontSyncProductCategoriesRemoteError(undefined, { error: err }))
     }
   }
+
+  public async syncShippingMethods (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront syncShippingMethods requires id to be set.')
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/shipping_methods`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new StorefrontSyncShippingMethodsRemoteError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -302,6 +322,13 @@ export class StorefrontSyncInventoriesRemoteError extends BaseError {
   constructor (public message: string = 'Could not sync inventories of storefront.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, StorefrontSyncInventoriesRemoteError.prototype)
+  }
+}
+export class StorefrontSyncShippingMethodsRemoteError extends BaseError {
+  public name = 'StorefrontSyncInventoriesRemoteError'
+  constructor (public message: string = 'Could not sync shipping methods of storefront.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, StorefrontSyncShippingMethodsRemoteError.prototype)
   }
 }
 export class StorefrontSetupRemoteError extends BaseError {
