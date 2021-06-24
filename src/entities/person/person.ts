@@ -57,6 +57,8 @@ export interface PersonAddressRawPayload extends EntityRawPayload {
   readonly region?: string
   readonly comment?: string
   readonly postal_code?: string
+  readonly proxy_vendor?: string
+  readonly external_reference_id?: string
 }
 
 export interface PersonAddressPayload {
@@ -77,6 +79,8 @@ export interface PersonAddressPayload {
   readonly region?: PersonAddressRawPayload['region']
   readonly comment?: PersonAddressRawPayload['comment']
   readonly postal_code?: PersonAddressRawPayload['postal_code']
+  readonly proxy_vendor?: PersonAddressRawPayload['proxy_vendor']
+  readonly external_reference_id?: PersonAddressRawPayload['external_reference_id']
 }
 
 export interface PersonPhonenumberRawPayload extends EntityRawPayload {
@@ -992,6 +996,8 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
   public comment?: string
   public deleted?: boolean
   public active?: boolean
+  public proxyVendor?: string
+  public externalReferenceId?: string
 
   constructor (options: AddressOptions) {
     super()
@@ -1031,6 +1037,8 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
     this.comment = rawPayload.comment
     this.deleted = rawPayload.deleted
     this.active = rawPayload.active
+    this.proxyVendor = rawPayload.proxy_vendor
+    this.externalReferenceId = rawPayload.external_reference_id
 
     return this
   }
@@ -1069,7 +1077,9 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       comment: this.comment,
       deleted: this.deleted,
-      active: this.active
+      active: this.active,
+      proxy_vendor: this.proxyVendor,
+      external_reference_id: this.externalReferenceId
     }
   }
 
