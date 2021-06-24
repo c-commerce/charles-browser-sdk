@@ -835,6 +835,8 @@ var Address = (function (_super) {
         this.comment = rawPayload.comment;
         this.deleted = rawPayload.deleted;
         this.active = rawPayload.active;
+        this.proxyVendor = rawPayload.proxy_vendor;
+        this.externalReferenceId = rawPayload.external_reference_id;
         return this;
     };
     Address.create = function (payload, universe, http) {
@@ -861,7 +863,9 @@ var Address = (function (_super) {
             updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             comment: this.comment,
             deleted: this.deleted,
-            active: this.active
+            active: this.active,
+            proxy_vendor: this.proxyVendor,
+            external_reference_id: this.externalReferenceId
         };
     };
     Address.prototype.patch = function (changePart) {

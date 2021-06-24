@@ -1,3 +1,10 @@
+# [4.25.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.24.0...v4.25.0) (2021-06-24)
+
+
+### Features
+
+* **person / addresses:** added proxy_vendor and external_reference_id ([3d095d0](https://github.com/c-commerce/charles-browser-sdk/commit/3d095d01403c3d197bc79a9c6aa260d4ca8ea6b1))
+
 # [4.24.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.23.0...v4.24.0) (2021-06-21)
 
 

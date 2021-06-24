@@ -39,6 +39,8 @@ export interface PersonAddressRawPayload extends EntityRawPayload {
     readonly region?: string;
     readonly comment?: string;
     readonly postal_code?: string;
+    readonly proxy_vendor?: string;
+    readonly external_reference_id?: string;
 }
 export interface PersonAddressPayload {
     readonly id?: PersonAddressRawPayload['id'];
@@ -58,6 +60,8 @@ export interface PersonAddressPayload {
     readonly region?: PersonAddressRawPayload['region'];
     readonly comment?: PersonAddressRawPayload['comment'];
     readonly postal_code?: PersonAddressRawPayload['postal_code'];
+    readonly proxy_vendor?: PersonAddressRawPayload['proxy_vendor'];
+    readonly external_reference_id?: PersonAddressRawPayload['external_reference_id'];
 }
 export interface PersonPhonenumberRawPayload extends EntityRawPayload {
     readonly created_at?: string;
@@ -299,6 +303,8 @@ export declare class Address extends UniverseEntity<PersonAddressPayload, Person
     comment?: string;
     deleted?: boolean;
     active?: boolean;
+    proxyVendor?: string;
+    externalReferenceId?: string;
     constructor(options: AddressOptions);
     protected deserialize(rawPayload: PersonAddressRawPayload): Address;
     static create(payload: PersonAddressRawPayload, universe: Universe, http: Universe['http']): Address;
