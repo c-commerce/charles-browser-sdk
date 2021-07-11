@@ -154,6 +154,13 @@ export interface OrderRawPayload {
   readonly discounts?: OrderDiscountRawPayload[] | null
   readonly taxes_summary?: OrderTaxLineRawPayload[] | null
   readonly shipping_methods?: OrderShippingMethodRawPayload[] | null
+  // virtual props
+  readonly products_map?: null | {
+    [key: string]: {
+      id: string
+      [key: string]: any
+    }
+  }
 }
 
 export interface OrderPayload {
@@ -192,6 +199,8 @@ export interface OrderPayload {
   readonly discounts?: OrderRawPayload['discounts']
   readonly taxesSummary?: OrderRawPayload['taxes_summary']
   readonly shippingMethods?: OrderRawPayload['shipping_methods']
+  // virtual props
+  readonly productsMap?: OrderRawPayload['products_map']
 }
 
 export class OrderItem {
@@ -315,6 +324,8 @@ export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
   public discounts?: OrderPayload['discounts']
   public taxesSummary?: OrderPayload['taxesSummary']
   public shippingMethods?: OrderPayload['shippingMethods']
+  // virutal props
+  public productsMap?: OrderPayload['productsMap']
 
   constructor (options: OrderOptions) {
     super()
@@ -372,6 +383,9 @@ export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
       this.items = []
     }
 
+    // virtual props
+    this.productsMap = rawPayload.products_map
+
     return this
   }
 
@@ -420,7 +434,9 @@ export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
       proxy_payload: this.proxyPayload,
       discounts: this.discounts,
       taxes_summary: this.taxesSummary,
-      shipping_methods: this.shippingMethods
+      shipping_methods: this.shippingMethods,
+      // virutal props
+      products_map: this.productsMap
     }
   }
 

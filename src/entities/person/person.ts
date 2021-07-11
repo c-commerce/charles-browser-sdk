@@ -639,7 +639,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
    * //fetch all orders of a person
    * await person.orders()
    * ```
-  */
+   */
   public async orders (options?: EntityFetchOptions): Promise<Order[] | OrderRawPayload[] | undefined> {
     try {
       const opts = {
