@@ -119,6 +119,7 @@ var Order = (function (_super) {
         else {
             this.items = [];
         }
+        this.productsMap = rawPayload.products_map;
         return this;
     };
     Order.create = function (payload, universe, http) {
@@ -165,7 +166,8 @@ var Order = (function (_super) {
             proxy_payload: this.proxyPayload,
             discounts: this.discounts,
             taxes_summary: this.taxesSummary,
-            shipping_methods: this.shippingMethods
+            shipping_methods: this.shippingMethods,
+            products_map: this.productsMap
         };
     };
     Order.prototype.init = function () {

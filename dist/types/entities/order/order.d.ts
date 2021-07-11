@@ -135,6 +135,12 @@ export interface OrderRawPayload {
     readonly discounts?: OrderDiscountRawPayload[] | null;
     readonly taxes_summary?: OrderTaxLineRawPayload[] | null;
     readonly shipping_methods?: OrderShippingMethodRawPayload[] | null;
+    readonly products_map?: null | {
+        [key: string]: {
+            id: string;
+            [key: string]: any;
+        };
+    };
 }
 export interface OrderPayload {
     readonly id?: OrderRawPayload['id'];
@@ -172,6 +178,7 @@ export interface OrderPayload {
     readonly discounts?: OrderRawPayload['discounts'];
     readonly taxesSummary?: OrderRawPayload['taxes_summary'];
     readonly shippingMethods?: OrderRawPayload['shipping_methods'];
+    readonly productsMap?: OrderRawPayload['products_map'];
 }
 export declare class OrderItem {
     protected universe: Universe;
@@ -238,6 +245,7 @@ export declare class Order extends UniverseEntity<OrderPayload, OrderRawPayload>
     discounts?: OrderPayload['discounts'];
     taxesSummary?: OrderPayload['taxesSummary'];
     shippingMethods?: OrderPayload['shippingMethods'];
+    productsMap?: OrderPayload['productsMap'];
     constructor(options: OrderOptions);
     protected deserialize(rawPayload: OrderRawPayload): Order;
     static create(payload: OrderRawPayload, universe: Universe, http: Universe['http']): Order;

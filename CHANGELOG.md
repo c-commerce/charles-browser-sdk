@@ -1,3 +1,10 @@
+# [4.26.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.25.0...v4.26.0) (2021-07-11)
+
+
+### Features
+
+* **Order:** parse products map ([c4b73ac](https://github.com/c-commerce/charles-browser-sdk/commit/c4b73ac3436da541538ffd194a8614d3bba4c45f))
+
 # [4.25.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.24.0...v4.25.0) (2021-06-24)
 
 
