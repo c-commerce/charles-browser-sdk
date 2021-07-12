@@ -76,6 +76,7 @@ export interface AssetsPostOptions {
     public?: boolean;
     transform?: object;
     optimizations: AssetOptimizationType[];
+    timeout?: number;
 }
 export declare class Assets {
     protected http: Universe['http'];

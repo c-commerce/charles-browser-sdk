@@ -1,3 +1,10 @@
+# [4.27.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.26.1...v4.27.0) (2021-07-12)
+
+
+### Features
+
+* **Asset#uploadAndTransform:** allow overriding timeout ([4a4bacb](https://github.com/c-commerce/charles-browser-sdk/commit/4a4bacb0637b7fedbdb4ab9f5d1a7ddf17b40298))
+
 ## [4.26.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.26.0...v4.26.1) (2021-07-12)
 
 
