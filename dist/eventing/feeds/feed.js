@@ -11,7 +11,6 @@ var asset_1 = require("../../entities/asset");
 var person_1 = require("../../entities/person");
 var order_1 = require("../../entities/order");
 var event_1 = require("./event");
-var comment_1 = require("./comment");
 var _base_1 = require("../../entities/_base");
 exports.FEED_ENDPOINT = 'api/v0/feeds';
 var Feed = (function (_super) {
@@ -340,7 +339,7 @@ var Feed = (function (_super) {
                     case 1:
                         res = _a.sent();
                         comment = res.data.data[0];
-                        return [2, comment_1.Comment.create(comment, this, this.universe, this.http)];
+                        return [2, event_1.Event.create(comment, this, this.universe, this.http)];
                     case 2:
                         err_5 = _a.sent();
                         throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err_5 }));

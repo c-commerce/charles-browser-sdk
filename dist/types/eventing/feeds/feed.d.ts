@@ -5,7 +5,6 @@ import { Asset } from '../../entities/asset';
 import { Person, PersonRawPayload } from '../../entities/person';
 import { StaffRawPayload } from '../../entities/staff';
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event';
-import { Comment } from './comment';
 import { UniverseEntity, EntitiesList, EntityFetchOptions } from '../../entities/_base';
 export interface FeedOptions {
     universe: Universe;
@@ -107,7 +106,7 @@ export declare class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     fetchLatestEvents(options?: EntityFetchOptions): Promise<Event[] | FeedlatestEventsRawPayload | undefined>;
     fetchEvents(options?: UniverseFetchOptions): Promise<Event[] | undefined>;
     createFeedEvent(type: IEventType, resource?: string, resourceType?: IEventResourceType): Promise<Event | undefined>;
-    createFeedComment(content: object, author?: string): Promise<Comment | undefined>;
+    createFeedComment(content: object, author?: string): Promise<Event | undefined>;
     viewed(): Promise<Event | undefined>;
     events(): Event[];
     getEventsMap(): Feed['eventsMap'];

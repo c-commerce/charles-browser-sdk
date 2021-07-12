@@ -1,3 +1,10 @@
+## [4.26.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.26.0...v4.26.1) (2021-07-12)
+
+
+### Bug Fixes
+
+* **feed:** return actual event for feed comment ([6238b30](https://github.com/c-commerce/charles-browser-sdk/commit/6238b30dde29a1ae90c2850c8d4bd7aa32a368f6))
+
 # [4.26.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.25.0...v4.26.0) (2021-07-11)
 
 
