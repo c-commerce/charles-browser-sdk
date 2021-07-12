@@ -176,11 +176,15 @@ export class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
     try {
       const queryOptions = {
         public: true,
-        ...options
+        ...{
+          ...options,
+          timeout: undefined
+        }
       }
 
       const opts = {
         method: 'POST',
+        timeout: options?.timeout ?? undefined,
         url: `${this.universe?.universeBase}/${Assets.endpoint}${qs.stringify(queryOptions, { addQueryPrefix: true })}`,
         headers: {
           'Content-Type': contentType
@@ -207,6 +211,7 @@ export interface AssetsPostOptions {
   public?: boolean
   transform?: object
   optimizations: AssetOptimizationType[]
+  timeout?: number
 }
 
 export class Assets {
@@ -228,11 +233,14 @@ export class Assets {
     try {
       const queryOptions = {
         public: true,
-        ...options
+        ...{
+          ...options,
+          timeout: undefined
+        }
       }
 
       const opts = {
-        timeout: 60000,
+        timeout: options?.timeout ?? 60000,
         headers: {
           'Content-Type': 'multipart/form-data'
         }
