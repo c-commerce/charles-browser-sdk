@@ -448,7 +448,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     }
   }
 
-  public async createFeedComment (content: object, author?: string): Promise<Comment | undefined> {
+  public async createFeedComment (content: object, author?: string): Promise<Event | undefined> {
     try {
       const opts = {
         method: 'POST',
@@ -460,9 +460,9 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
       }
       const res = await this.http.getClient()(opts)
 
-      const comment = res.data.data[0] as CommentRawPayload
+      const comment = res.data.data[0] as EventRawPayload
 
-      return Comment.create(comment, this, this.universe, this.http)
+      return Event.create(comment, this, this.universe, this.http)
     } catch (err) {
       throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err }))
     }
