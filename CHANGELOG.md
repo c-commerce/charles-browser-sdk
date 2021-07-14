@@ -1,3 +1,11 @@
+# [4.28.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.27.0...v4.28.0) (2021-07-14)
+
+
+### Features
+
+* **universes waba:** expose universes waba resource in cloud handler ([dfea48f](https://github.com/c-commerce/charles-browser-sdk/commit/dfea48f801a7397c3f12a95b9e49eb7b1361de83))
+* **universes wabas:** implement resource ([1c5328c](https://github.com/c-commerce/charles-browser-sdk/commit/1c5328cb9543ad2bb3ab9b73c1e76eafed0c1269))
+
 # [4.27.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.26.1...v4.27.0) (2021-07-12)
 
 

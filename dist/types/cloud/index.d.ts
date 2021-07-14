@@ -7,6 +7,7 @@ import * as universe from './entities/universe';
 import * as universeUser from './entities/user';
 import * as organization from './entities/organization';
 import * as universesPool from './entities/universes-pool';
+import * as universesWaba from './entities/universes-waba';
 export interface CloudUser {
     id?: string;
     accessToken?: string;
@@ -103,6 +104,7 @@ export declare class Cloud extends APICarrier {
     universeUser(payload: universeUser.UniverseUserRawPayload): universeUser.UniverseUser;
     organization(payload: organization.OrganizationRawPayload): organization.Organization;
     universePool(payload: universesPool.UniversesPoolRawPayload): universesPool.UniversesPool;
+    universesWaba(payload: universesWaba.CloudUniversesWabaRawPayload): universesWaba.CloudUniversesWaba;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -118,6 +120,7 @@ export declare class Cloud extends APICarrier {
     universeUsers(options?: EntityFetchOptions): Promise<universeUser.UniverseUser[] | universeUser.UniverseUserRawPayload[] | undefined>;
     organizations(options?: EntityFetchOptions): Promise<organization.Organization[] | organization.OrganizationRawPayload[] | undefined>;
     universesPools(options?: EntityFetchOptions): Promise<universesPool.UniversesPool[] | universesPool.UniversesPoolRawPayload[] | undefined>;
+    universesWabas(options?: EntityFetchOptions): Promise<universesWaba.CloudUniversesWaba[] | universesWaba.CloudUniversesWabaRawPayload[] | undefined>;
     versions(): Promise<{
         multiverse: string;
     } | undefined>;
