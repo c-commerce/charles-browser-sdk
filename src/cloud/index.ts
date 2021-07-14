@@ -11,7 +11,7 @@ import * as universeUser from './entities/user'
 import * as organization from './entities/organization'
 import * as universesPool from './entities/universes-pool'
 import * as universesWaba from './entities/universes-waba'
-
+import * as universesWabasPhonenumber from './entities/universes-wabas-phonenumber'
 export interface CloudUser {
   id?: string
   accessToken?: string
@@ -252,6 +252,10 @@ export class Cloud extends APICarrier {
   public universesWaba (payload: universesWaba.CloudUniversesWabaRawPayload): universesWaba.CloudUniversesWaba {
     return universesWaba.CloudUniversesWaba.create(payload, this, this.http)
   }
+
+  public universesWabasPhonenumber (payload: universesWabasPhonenumber.CloudUniversesWabasPhonenumberRawPayload): universesWabasPhonenumber.CloudUniversesWabasPhonenumber {
+    return universesWabasPhonenumber.CloudUniversesWabasPhonenumber.create(payload, this, this.http)
+  }
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -356,6 +360,10 @@ export class Cloud extends APICarrier {
 
   public async universesWabas (options?: EntityFetchOptions): Promise<universesWaba.CloudUniversesWaba[] | universesWaba.CloudUniversesWabaRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<universesWaba.CloudUniversesWaba, universesWaba.CloudUniversesWabas, universesWaba.CloudUniversesWabaRawPayload, EntityFetchOptions, universesWaba.CloudUniversesWabasFetchRemoteError>(universesWaba.CloudUniversesWaba, universesWaba.CloudUniversesWabas, universesWaba.CloudUniversesWabasFetchRemoteError, options)
+  }
+
+  public async universesWabasPhonenumbers (options?: EntityFetchOptions): Promise<universesWabasPhonenumber.CloudUniversesWabasPhonenumber[] | universesWabasPhonenumber.CloudUniversesWabasPhonenumberRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<universesWabasPhonenumber.CloudUniversesWabasPhonenumber, universesWabasPhonenumber.CloudUniversesWabasPhonenumbers, universesWabasPhonenumber.CloudUniversesWabasPhonenumberRawPayload, EntityFetchOptions, universesWabasPhonenumber.CloudUniversesWabasPhonenumbersFetchRemoteError>(universesWabasPhonenumber.CloudUniversesWabasPhonenumber, universesWabasPhonenumber.CloudUniversesWabasPhonenumbers, universesWabasPhonenumber.CloudUniversesWabasPhonenumbersFetchRemoteError, options)
   }
 
   public async versions (): Promise<{ multiverse: string } | undefined> {
