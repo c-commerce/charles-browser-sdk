@@ -10,6 +10,7 @@ var universe = tslib_1.__importStar(require("./entities/universe"));
 var universeUser = tslib_1.__importStar(require("./entities/user"));
 var organization = tslib_1.__importStar(require("./entities/organization"));
 var universesPool = tslib_1.__importStar(require("./entities/universes-pool"));
+var universesWaba = tslib_1.__importStar(require("./entities/universes-waba"));
 var CloudUnauthenticatedError = (function (_super) {
     tslib_1.__extends(CloudUnauthenticatedError, _super);
     function CloudUnauthenticatedError(message, properties) {
@@ -131,6 +132,9 @@ var Cloud = (function (_super) {
     };
     Cloud.prototype.universePool = function (payload) {
         return universesPool.UniversesPool.create(payload, this, this.http);
+    };
+    Cloud.prototype.universesWaba = function (payload) {
+        return universesWaba.CloudUniversesWaba.create(payload, this, this.http);
     };
     Cloud.prototype.apiRequest = function (options) {
         var _a;
@@ -269,6 +273,16 @@ var Cloud = (function (_super) {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, this.makeBaseResourceListRequest(universesPool.UniversesPool, universesPool.UniversesPools, universesPool.UniversesPoolsFetchRemoteError, options)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Cloud.prototype.universesWabas = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.makeBaseResourceListRequest(universesWaba.CloudUniversesWaba, universesWaba.CloudUniversesWabas, universesWaba.CloudUniversesWabasFetchRemoteError, options)];
                     case 1: return [2, _a.sent()];
                 }
             });
