@@ -144,33 +144,6 @@ export class CloudUniversesWaba extends Entity<CloudUniversesWabaPayload, CloudU
       throw this.handleError(new CloudUniversesWabaInitializationError(undefined, { error: err }))
     }
   }
-
-  // public async users (options?: EntityFetchOptions): Promise<UniverseUserRawPayload[]> {
-  //   if (this.id === null || this.id === undefined) throw new TypeError('universe.users() requires universe id to be set.')
-
-  //   try {
-  //     const opts = {
-  //       method: 'GET',
-  //       url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/users${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
-  //       headers: {
-  //         'Content-Type': 'application/json; charset=utf-8'
-  //       },
-  //       responseType: 'json'
-  //     }
-
-  //     const res = await this.http?.getClient()(opts)
-  //     const resources = res.data.data as UniverseUserRawPayload[]
-  //     if (options && options.raw === true) {
-  //       return resources
-  //     }
-
-  //     return resources.map((item: UniverseUserRawPayload) => {
-  //       return UniverseUser.create(item, this.apiCarrier as Cloud, this.http)
-  //     })
-  //   } catch (err) {
-  //     throw this.handleError(new UniverseUsersFetchRemoteError(undefined, { error: err }))
-  //   }
-  // }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
