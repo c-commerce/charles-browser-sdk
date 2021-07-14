@@ -10,6 +10,7 @@ import * as universe from './entities/universe'
 import * as universeUser from './entities/user'
 import * as organization from './entities/organization'
 import * as universesPool from './entities/universes-pool'
+import * as universesWaba from './entities/universes-waba'
 
 export interface CloudUser {
   id?: string
@@ -247,6 +248,10 @@ export class Cloud extends APICarrier {
   public universePool (payload: universesPool.UniversesPoolRawPayload): universesPool.UniversesPool {
     return universesPool.UniversesPool.create(payload, this, this.http)
   }
+
+  public universesWaba (payload: universesWaba.CloudUniversesWabaRawPayload): universesWaba.CloudUniversesWaba {
+    return universesWaba.CloudUniversesWaba.create(payload, this, this.http)
+  }
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -347,6 +352,10 @@ export class Cloud extends APICarrier {
 
   public async universesPools (options?: EntityFetchOptions): Promise<universesPool.UniversesPool[] | universesPool.UniversesPoolRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<universesPool.UniversesPool, universesPool.UniversesPools, universesPool.UniversesPoolRawPayload, EntityFetchOptions, universesPool.UniversesPoolsFetchRemoteError>(universesPool.UniversesPool, universesPool.UniversesPools, universesPool.UniversesPoolsFetchRemoteError, options)
+  }
+
+  public async universesWabas (options?: EntityFetchOptions): Promise<universesWaba.CloudUniversesWaba[] | universesWaba.CloudUniversesWabaRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<universesWaba.CloudUniversesWaba, universesWaba.CloudUniversesWabas, universesWaba.CloudUniversesWabaRawPayload, EntityFetchOptions, universesWaba.CloudUniversesWabasFetchRemoteError>(universesWaba.CloudUniversesWaba, universesWaba.CloudUniversesWabas, universesWaba.CloudUniversesWabasFetchRemoteError, options)
   }
 
   public async versions (): Promise<{ multiverse: string } | undefined> {

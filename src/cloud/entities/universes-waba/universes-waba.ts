@@ -1,8 +1,8 @@
 
-import qs from 'qs'
-import { Client } from 'src/client'
+// import qs from 'qs'
+// import { Client } from 'src/client'
 import { APICarrier } from '../../../base'
-import Entity, { EntityFetchOptions, EntityOptions } from '../../../entities/_base'
+import Entity, { EntityOptions } from '../../../entities/_base'
 import { BaseError } from '../../../errors'
 import { Cloud } from '../../index'
 
