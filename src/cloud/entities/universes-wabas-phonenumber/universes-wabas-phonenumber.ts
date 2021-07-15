@@ -27,6 +27,7 @@ export interface CloudUniversesWabasPhonenumberRawPayload {
   readonly status?: string
   readonly product?: string
   readonly payload?: object
+  readonly waba?: object
 
 }
 
@@ -47,6 +48,7 @@ export interface CloudUniversesWabasPhonenumberPayload {
   readonly status?: CloudUniversesWabasPhonenumberRawPayload['status']
   readonly product?: CloudUniversesWabasPhonenumberRawPayload['product']
   readonly payload?: CloudUniversesWabasPhonenumberRawPayload['payload']
+  readonly waba?: CloudUniversesWabasPhonenumberRawPayload['waba']
 }
 
 /**
@@ -78,6 +80,7 @@ export class CloudUniversesWabasPhonenumber extends Entity<CloudUniversesWabasPh
   public status?: CloudUniversesWabasPhonenumberPayload['status']
   public product?: CloudUniversesWabasPhonenumberPayload['product']
   public payload?: CloudUniversesWabasPhonenumberPayload['payload']
+  public waba?: CloudUniversesWabasPhonenumberPayload['waba']
 
   constructor (options: CloudUniversesWabasPhonenumberOptions) {
     super()
@@ -111,6 +114,7 @@ export class CloudUniversesWabasPhonenumber extends Entity<CloudUniversesWabasPh
     this.status = rawPayload.status
     this.product = rawPayload.product
     this.payload = rawPayload.payload
+    this.waba = rawPayload.waba
     return this
   }
 
@@ -135,7 +139,8 @@ export class CloudUniversesWabasPhonenumber extends Entity<CloudUniversesWabasPh
       vendor: this.vendor,
       status: this.status,
       product: this.product,
-      payload: this.payload
+      payload: this.payload,
+      waba: this.waba
     }
   }
 
