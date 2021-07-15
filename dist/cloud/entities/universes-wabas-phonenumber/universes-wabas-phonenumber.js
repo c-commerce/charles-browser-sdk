@@ -38,6 +38,7 @@ var CloudUniversesWabasPhonenumber = (function (_super) {
         this.status = rawPayload.status;
         this.product = rawPayload.product;
         this.payload = rawPayload.payload;
+        this.waba = rawPayload.waba;
         return this;
     };
     CloudUniversesWabasPhonenumber.create = function (payload, carrier, http) {
@@ -61,7 +62,8 @@ var CloudUniversesWabasPhonenumber = (function (_super) {
             vendor: this.vendor,
             status: this.status,
             product: this.product,
-            payload: this.payload
+            payload: this.payload,
+            waba: this.waba
         };
     };
     CloudUniversesWabasPhonenumber.prototype.init = function () {

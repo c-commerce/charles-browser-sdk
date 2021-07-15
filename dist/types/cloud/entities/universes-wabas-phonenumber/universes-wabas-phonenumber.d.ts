@@ -22,6 +22,7 @@ export interface CloudUniversesWabasPhonenumberRawPayload {
     readonly status?: string;
     readonly product?: string;
     readonly payload?: object;
+    readonly waba?: object;
 }
 export interface CloudUniversesWabasPhonenumberPayload {
     readonly id?: CloudUniversesWabasPhonenumberRawPayload['id'];
@@ -40,6 +41,7 @@ export interface CloudUniversesWabasPhonenumberPayload {
     readonly status?: CloudUniversesWabasPhonenumberRawPayload['status'];
     readonly product?: CloudUniversesWabasPhonenumberRawPayload['product'];
     readonly payload?: CloudUniversesWabasPhonenumberRawPayload['payload'];
+    readonly waba?: CloudUniversesWabasPhonenumberRawPayload['waba'];
 }
 export declare class CloudUniversesWabasPhonenumber extends Entity<CloudUniversesWabasPhonenumberPayload, CloudUniversesWabasPhonenumberRawPayload> {
     protected apiCarrier: APICarrier;
@@ -63,6 +65,7 @@ export declare class CloudUniversesWabasPhonenumber extends Entity<CloudUniverse
     status?: CloudUniversesWabasPhonenumberPayload['status'];
     product?: CloudUniversesWabasPhonenumberPayload['product'];
     payload?: CloudUniversesWabasPhonenumberPayload['payload'];
+    waba?: CloudUniversesWabasPhonenumberPayload['waba'];
     constructor(options: CloudUniversesWabasPhonenumberOptions);
     protected deserialize(rawPayload: CloudUniversesWabasPhonenumberRawPayload): CloudUniversesWabasPhonenumber;
     static create(payload: CloudUniversesWabasPhonenumberRawPayload, carrier: Cloud, http: Cloud['http']): CloudUniversesWabasPhonenumber;

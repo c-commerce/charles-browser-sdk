@@ -1,3 +1,10 @@
+## [4.29.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.29.0...v4.29.1) (2021-07-15)
+
+
+### Bug Fixes
+
+* **waba phonenumber:** add property waba ([f010431](https://github.com/c-commerce/charles-browser-sdk/commit/f0104318155d8f7f240a43186d34efa3a90b890e))
+
 # [4.29.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.28.0...v4.29.0) (2021-07-14)
 
 
