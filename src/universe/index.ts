@@ -66,6 +66,8 @@ import * as peopleOrganization from '../entities/people-organization/people-orga
 
 import * as urlShortener from '../entities/url-shortener/url-shortener'
 
+import * as apiKey from '../entities/api-key/api-key'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -811,6 +813,10 @@ export class Universe extends APICarrier {
 
   public urlShortener (payload: urlShortener.UrlShortenerRawPayload): urlShortener.UrlShortener {
     return urlShortener.UrlShortener.create(payload, this, this.http)
+  }
+
+  public apiKey (payload: apiKey.ApiKeyRawPayload): apiKey.ApiKey {
+    return apiKey.ApiKey.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -2024,6 +2030,10 @@ export class Universe extends APICarrier {
 
   public async urlShorteners (options?: EntityFetchOptions): Promise<urlShortener.UrlShortener[] | urlShortener.UrlShortenerRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<urlShortener.UrlShortener, urlShortener.UrlShorteners, urlShortener.UrlShortenerRawPayload, EntityFetchOptions, urlShortener.UrlShortenersFetchRemoteError>(urlShortener.UrlShortener, urlShortener.UrlShorteners, urlShortener.UrlShortenersFetchRemoteError, options)
+  }
+
+  public async apiKeys (options?: EntityFetchOptions): Promise<apiKey.ApiKey[] | apiKey.ApiKeyRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeyRawPayload, EntityFetchOptions, apiKey.ApiKeysFetchRemoteError>(apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeysFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
