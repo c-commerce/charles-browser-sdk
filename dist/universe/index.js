@@ -59,6 +59,7 @@ var messageSubscription = tslib_1.__importStar(require("../entities/message-subs
 var messageSubscriptionInstance = tslib_1.__importStar(require("../entities/message-subscription-instance/message-subscription-instance"));
 var peopleOrganization = tslib_1.__importStar(require("../entities/people-organization/people-organization"));
 var urlShortener = tslib_1.__importStar(require("../entities/url-shortener/url-shortener"));
+var apiKey = tslib_1.__importStar(require("../entities/api-key/api-key"));
 var UniverseUnauthenticatedError = (function (_super) {
     tslib_1.__extends(UniverseUnauthenticatedError, _super);
     function UniverseUnauthenticatedError(message, properties) {
@@ -448,6 +449,9 @@ var Universe = (function (_super) {
     };
     Universe.prototype.urlShortener = function (payload) {
         return urlShortener.UrlShortener.create(payload, this, this.http);
+    };
+    Universe.prototype.apiKey = function (payload) {
+        return apiKey.ApiKey.create(payload, this, this.http);
     };
     Universe.prototype.apiRequest = function (options) {
         var _a;
@@ -2081,6 +2085,16 @@ var Universe = (function (_super) {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, this.makeBaseResourceListRequest(urlShortener.UrlShortener, urlShortener.UrlShorteners, urlShortener.UrlShortenersFetchRemoteError, options)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Universe.prototype.apiKeys = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.makeBaseResourceListRequest(apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeysFetchRemoteError, options)];
                     case 1: return [2, _a.sent()];
                 }
             });

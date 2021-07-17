@@ -1,3 +1,10 @@
+# [4.30.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.29.1...v4.30.0) (2021-07-17)
+
+
+### Features
+
+* **api key:** implement resource class ([bcf75b1](https://github.com/c-commerce/charles-browser-sdk/commit/bcf75b1638eb03b050544ab0b56dabea296cf255))
+
 ## [4.29.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.29.0...v4.29.1) (2021-07-15)
 
 

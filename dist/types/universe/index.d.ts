@@ -52,6 +52,7 @@ import * as messageSubscription from '../entities/message-subscription/message-s
 import * as messageSubscriptionInstance from '../entities/message-subscription-instance/message-subscription-instance';
 import * as peopleOrganization from '../entities/people-organization/people-organization';
 import * as urlShortener from '../entities/url-shortener/url-shortener';
+import * as apiKey from '../entities/api-key/api-key';
 export interface UniverseUser {
     id?: string;
     accessToken?: string;
@@ -349,6 +350,7 @@ export declare class Universe extends APICarrier {
     messageSubscriptionInstance(payload: messageSubscriptionInstance.MessageSubscriptionInstanceRawPayload): messageSubscriptionInstance.MessageSubscriptionInstance;
     peopleOrganization(payload: peopleOrganization.PeopleOrganizationRawPayload): peopleOrganization.PeopleOrganization;
     urlShortener(payload: urlShortener.UrlShortenerRawPayload): urlShortener.UrlShortener;
+    apiKey(payload: apiKey.ApiKeyRawPayload): apiKey.ApiKey;
     apiRequest(options: ApiRequestOptions): Promise<{
         [key: string]: any;
     } | Array<{
@@ -415,6 +417,7 @@ export declare class Universe extends APICarrier {
     messageSubscriptionInstances(options?: EntityFetchOptions): Promise<messageSubscriptionInstance.MessageSubscriptionInstance[] | messageSubscriptionInstance.MessageSubscriptionInstanceRawPayload[] | undefined>;
     peopleOrganizations(options?: EntityFetchOptions): Promise<peopleOrganization.PeopleOrganization[] | peopleOrganization.PeopleOrganizationRawPayload[] | undefined>;
     urlShorteners(options?: EntityFetchOptions): Promise<urlShortener.UrlShortener[] | urlShortener.UrlShortenerRawPayload[] | undefined>;
+    apiKeys(options?: EntityFetchOptions): Promise<apiKey.ApiKey[] | apiKey.ApiKeyRawPayload[] | undefined>;
     arm(): Universe;
     versions(): Promise<{
         universe: string;
