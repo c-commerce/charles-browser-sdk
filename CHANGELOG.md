@@ -1,3 +1,10 @@
+# [4.31.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.30.0...v4.31.0) (2021-07-20)
+
+
+### Features
+
+* **notification:** extend event class ([560839b](https://github.com/c-commerce/charles-browser-sdk/commit/560839b7cfbbdfa4e52eff8308892f6b8f4f23ae))
+
 # [4.30.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.29.1...v4.30.0) (2021-07-17)
 
 

@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventUnflagRemoteError = exports.EventUnarkRemoteError = exports.EventUnmarkRemoteError = exports.EventMarkRemoteError = exports.EventFetchRemoteError = exports.EventInitializationError = exports.Event = exports.EventResourcesTypesEnum = exports.EventTypesEnum = void 0;
 var tslib_1 = require("tslib");
-var events_1 = require("events");
 var errors_1 = require("../../errors");
+var _base_1 = require("../../entities/_base");
 var EventTypesEnum;
 (function (EventTypesEnum) {
     EventTypesEnum["resource"] = "resource";
@@ -100,29 +100,9 @@ var Event = (function (_super) {
             });
         });
     };
-    Event.prototype.fetch = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_2;
-            return tslib_1.__generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id)];
-                    case 1:
-                        res = _a.sent();
-                        this.deserialize(res.data.data[0]);
-                        return [2, this];
-                    case 2:
-                        err_2 = _a.sent();
-                        throw this.handleError(new EventFetchRemoteError(undefined, { error: err_2 }));
-                    case 3: return [2];
-                }
-            });
-        });
-    };
     Event.prototype.mark = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_3;
+            var res, err_2;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -133,8 +113,8 @@ var Event = (function (_super) {
                         this.deserialize(res.data.data[0]);
                         return [2, this];
                     case 2:
-                        err_3 = _a.sent();
-                        throw this.handleError(new EventMarkRemoteError(undefined, { error: err_3 }));
+                        err_2 = _a.sent();
+                        throw this.handleError(new EventMarkRemoteError(undefined, { error: err_2 }));
                     case 3: return [2];
                 }
             });
@@ -142,7 +122,7 @@ var Event = (function (_super) {
     };
     Event.prototype.unmark = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_4;
+            var res, err_3;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -153,8 +133,8 @@ var Event = (function (_super) {
                         this.deserialize(res.data.data[0]);
                         return [2, this];
                     case 2:
-                        err_4 = _a.sent();
-                        throw this.handleError(new EventUnmarkRemoteError(undefined, { error: err_4 }));
+                        err_3 = _a.sent();
+                        throw this.handleError(new EventUnmarkRemoteError(undefined, { error: err_3 }));
                     case 3: return [2];
                 }
             });
@@ -162,7 +142,7 @@ var Event = (function (_super) {
     };
     Event.prototype.flag = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_5;
+            var res, err_4;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -173,8 +153,8 @@ var Event = (function (_super) {
                         this.deserialize(res.data.data[0]);
                         return [2, this];
                     case 2:
-                        err_5 = _a.sent();
-                        throw this.handleError(new EventUnarkRemoteError(undefined, { error: err_5 }));
+                        err_4 = _a.sent();
+                        throw this.handleError(new EventUnarkRemoteError(undefined, { error: err_4 }));
                     case 3: return [2];
                 }
             });
@@ -182,7 +162,7 @@ var Event = (function (_super) {
     };
     Event.prototype.unflag = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_6;
+            var res, err_5;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -193,21 +173,16 @@ var Event = (function (_super) {
                         this.deserialize(res.data.data[0]);
                         return [2, this];
                     case 2:
-                        err_6 = _a.sent();
-                        throw this.handleError(new EventUnflagRemoteError(undefined, { error: err_6 }));
+                        err_5 = _a.sent();
+                        throw this.handleError(new EventUnflagRemoteError(undefined, { error: err_5 }));
                     case 3: return [2];
                 }
             });
         });
     };
-    Event.prototype.handleError = function (err) {
-        if (this.listeners('error').length > 0)
-            this.emit('error', err);
-        return err;
-    };
     Event.eventTypes = EventTypesEnum;
     return Event;
-}(events_1.EventEmitter));
+}(_base_1.UniverseEntity));
 exports.Event = Event;
 var EventInitializationError = (function (_super) {
     tslib_1.__extends(EventInitializationError, _super);

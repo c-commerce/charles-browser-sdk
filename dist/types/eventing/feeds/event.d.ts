@@ -1,9 +1,8 @@
-/// <reference types="node" />
-import { EventEmitter } from 'events';
 import { Universe } from '../../universe';
 import { Feed } from './feed';
 import { BaseError } from '../../errors';
 import { Message } from '../../messaging/message';
+import { UniverseEntity } from '../../entities/_base';
 export declare enum EventTypesEnum {
     resource = "resource",
     followUp = "follow_up",
@@ -71,14 +70,14 @@ export interface EventPayload {
     readonly context?: EventRawPayload['context'];
     readonly feed?: EventRawPayload['feed'];
 }
-export declare class Event extends EventEmitter {
+export declare class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     protected universe: Universe;
     protected apiCarrier: Universe;
     protected _feed: Feed;
     protected http: Universe['http'];
     protected options: EventOptions;
     initialized: boolean;
-    private readonly endpoint;
+    endpoint: string;
     id?: string;
     resource?: EventPayload['resource'];
     resourceType?: EventPayload['resourceType'];
@@ -94,17 +93,15 @@ export declare class Event extends EventEmitter {
     feed?: EventPayload['feed'];
     static eventTypes: typeof EventTypesEnum;
     constructor(options: EventOptions);
-    private deserialize;
+    protected deserialize(rawPayload: EventRawPayload): Event;
     static create(payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event;
     static createUninitialized(payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event;
     serialize(): EventRawPayload;
     init(): Promise<Event | undefined>;
-    fetch(): Promise<Event | undefined>;
     mark(): Promise<Event | undefined>;
     unmark(): Promise<Event | undefined>;
     flag(): Promise<Event | undefined>;
     unflag(): Promise<Event | undefined>;
-    private handleError;
 }
 export declare class EventInitializationError extends BaseError {
     message: string;
