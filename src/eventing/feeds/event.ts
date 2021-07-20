@@ -1,8 +1,8 @@
-import { EventEmitter } from 'events'
 import { Universe } from '../../universe'
 import { Feed } from './feed'
 import { BaseError } from '../../errors'
 import { Message } from '../../messaging/message'
+import { UniverseEntity } from '../../entities/_base'
 
 export enum EventTypesEnum {
   resource = 'resource',
@@ -82,7 +82,7 @@ export interface EventPayload {
   readonly feed?: EventRawPayload['feed']
 }
 
-export class Event extends EventEmitter {
+export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected _feed: Feed
@@ -90,7 +90,7 @@ export class Event extends EventEmitter {
   protected options: EventOptions
   public initialized: boolean
 
-  private readonly endpoint: string
+  public endpoint: string
   public id?: string
   public resource?: EventPayload['resource']
   public resourceType?: EventPayload['resourceType']
@@ -122,7 +122,7 @@ export class Event extends EventEmitter {
     }
   }
 
-  private deserialize (rawPayload: EventRawPayload): Event {
+  protected deserialize (rawPayload: EventRawPayload): Event {
     // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
     // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
     if (!this.id) this.id = rawPayload.id
@@ -188,18 +188,6 @@ export class Event extends EventEmitter {
     }
   }
 
-  public async fetch (): Promise<Event | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}`)
-
-      this.deserialize(res.data.data[0] as EventRawPayload)
-
-      return this
-    } catch (err) {
-      throw this.handleError(new EventFetchRemoteError(undefined, { error: err }))
-    }
-  }
-
   public async mark (): Promise<Event | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/mark`)
@@ -246,12 +234,6 @@ export class Event extends EventEmitter {
     } catch (err) {
       throw this.handleError(new EventUnflagRemoteError(undefined, { error: err }))
     }
-  }
-
-  private handleError (err: Error): Error {
-    if (this.listeners('error').length > 0) this.emit('error', err)
-
-    return err
   }
 }
 
