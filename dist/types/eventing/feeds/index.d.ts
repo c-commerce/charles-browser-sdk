@@ -1,2 +1,3 @@
 import { Feed, FeedRawPayload, FeedPayload } from './feed';
-export { Feed, FeedRawPayload, FeedPayload };
+import { Event, EventRawPayload, EventPayload } from './event';
+export { Feed, FeedRawPayload, FeedPayload, Event, EventRawPayload, EventPayload };

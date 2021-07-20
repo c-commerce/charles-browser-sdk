@@ -1,3 +1,10 @@
+## [4.31.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.31.0...v4.31.1) (2021-07-20)
+
+
+### Bug Fixes
+
+* **event:** add export event ([2d9ccc1](https://github.com/c-commerce/charles-browser-sdk/commit/2d9ccc185eb5845659a564125c2b8662d924b15c))
+
 # [4.31.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.30.0...v4.31.0) (2021-07-20)
 
 
