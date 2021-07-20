@@ -1,7 +1,10 @@
-import { Feed, FeedRawPayload, FeedPayload } from './feeds'
+import { Feed, FeedRawPayload, FeedPayload, Event, EventRawPayload, EventPayload } from './feeds'
 
 export {
   Feed,
   FeedRawPayload,
-  FeedPayload
+  FeedPayload,
+  Event,
+  EventRawPayload,
+  EventPayload
 }
