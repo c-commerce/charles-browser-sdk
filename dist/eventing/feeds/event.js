@@ -37,13 +37,16 @@ var Event = (function (_super) {
         return _this;
     }
     Event.prototype.deserialize = function (rawPayload) {
+        var _a, _b;
         if (!this.id)
             this.id = rawPayload.id;
         this.id = rawPayload.id;
-        this.resource = rawPayload.resource;
-        this.resourceType = rawPayload.resource_type;
         this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined;
         this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined;
+        this.deleted = (_a = rawPayload.deleted) !== null && _a !== void 0 ? _a : false;
+        this.active = (_b = rawPayload.active) !== null && _b !== void 0 ? _b : true;
+        this.resource = rawPayload.resource;
+        this.resourceType = rawPayload.resource_type;
         this.type = rawPayload.type;
         this.marked = rawPayload.marked;
         this.flagged = rawPayload.flagged;
@@ -65,13 +68,16 @@ var Event = (function (_super) {
         return new Event({ rawPayload: payload, universe: universe, http: http, initialized: false, feed: feed });
     };
     Event.prototype.serialize = function () {
+        var _a, _b;
         return {
             id: this.id,
+            created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
+            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+            deleted: (_a = this.deleted) !== null && _a !== void 0 ? _a : false,
+            active: (_b = this.active) !== null && _b !== void 0 ? _b : true,
             resource: this.resource,
             resource_type: this.resourceType,
             payload: this.payload,
-            created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
-            updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
             type: this.type,
             flagged: this.flagged,
             marked: this.marked,

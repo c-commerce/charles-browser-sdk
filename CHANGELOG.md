@@ -1,3 +1,10 @@
+## [4.31.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.31.1...v4.31.2) (2021-07-21)
+
+
+### Bug Fixes
+
+* **event:** add properties "active" & "deleted" ([dc4d93f](https://github.com/c-commerce/charles-browser-sdk/commit/dc4d93f60af47f825e495300dc0ad4c5c4deae4e))
+
 ## [4.31.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.31.0...v4.31.1) (2021-07-20)
 
 

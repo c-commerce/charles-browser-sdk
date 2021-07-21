@@ -27,11 +27,13 @@ export interface EventOptions {
 }
 export interface EventRawPayload {
     readonly id?: string;
+    readonly created_at?: string;
+    readonly updated_at?: string;
+    readonly deleted?: boolean;
+    readonly active?: boolean;
     readonly resource_type?: IEventResourceType | null;
     readonly resource?: string;
     readonly payload?: Message | object;
-    readonly created_at?: string;
-    readonly updated_at?: string;
     readonly type?: IEventType | null;
     readonly flagged?: boolean;
     readonly marked?: boolean;
@@ -57,11 +59,13 @@ export interface EventRawPayload {
 }
 export interface EventPayload {
     readonly id?: EventRawPayload['id'];
+    readonly createdAt?: Date | null;
+    readonly updatedAt?: Date | null;
+    readonly deleted?: EventRawPayload['deleted'];
+    readonly active?: EventRawPayload['active'];
     readonly resourceType?: EventRawPayload['resource_type'];
     readonly resource?: EventRawPayload['resource'];
     readonly payload?: EventRawPayload['payload'];
-    readonly createdAt?: Date | null;
-    readonly updatedAt?: Date | null;
     readonly type?: IEventType | null;
     readonly flagged?: EventRawPayload['flagged'];
     readonly marked?: EventRawPayload['marked'];
@@ -79,11 +83,13 @@ export declare class Event extends UniverseEntity<EventPayload, EventRawPayload>
     initialized: boolean;
     endpoint: string;
     id?: string;
+    createdAt?: EventPayload['createdAt'];
+    updatedAt?: EventPayload['updatedAt'];
+    active?: EventPayload['active'];
+    deleted?: EventPayload['deleted'];
     resource?: EventPayload['resource'];
     resourceType?: EventPayload['resourceType'];
     payload?: EventPayload['payload'];
-    createdAt?: EventPayload['createdAt'];
-    updatedAt?: EventPayload['updatedAt'];
     type?: EventPayload['type'];
     flagged?: EventPayload['flagged'];
     marked?: EventPayload['marked'];
