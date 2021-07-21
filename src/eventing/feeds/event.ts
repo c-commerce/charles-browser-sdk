@@ -37,11 +37,14 @@ export interface EventOptions {
 
 export interface EventRawPayload {
   readonly id?: string
+  readonly created_at?: string
+  readonly updated_at?: string
+  readonly deleted?: boolean
+  readonly active?: boolean
+
   readonly resource_type?: IEventResourceType | null
   readonly resource?: string
   readonly payload?: Message | object
-  readonly created_at?: string
-  readonly updated_at?: string
   readonly type?: IEventType | null
   readonly flagged?: boolean
   readonly marked?: boolean
@@ -68,11 +71,13 @@ export interface EventRawPayload {
 
 export interface EventPayload {
   readonly id?: EventRawPayload['id']
+  readonly createdAt?: Date | null
+  readonly updatedAt?: Date | null
+  readonly deleted?: EventRawPayload['deleted']
+  readonly active?: EventRawPayload['active']
   readonly resourceType?: EventRawPayload['resource_type']
   readonly resource?: EventRawPayload['resource']
   readonly payload?: EventRawPayload['payload']
-  readonly createdAt?: Date | null
-  readonly updatedAt?: Date | null
   readonly type?: IEventType | null
   readonly flagged?: EventRawPayload['flagged']
   readonly marked?: EventRawPayload['marked']
@@ -92,11 +97,14 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
 
   public endpoint: string
   public id?: string
+  public createdAt?: EventPayload['createdAt']
+  public updatedAt?: EventPayload['updatedAt']
+  public active?: EventPayload['active']
+  public deleted?: EventPayload['deleted']
+
   public resource?: EventPayload['resource']
   public resourceType?: EventPayload['resourceType']
   public payload?: EventPayload['payload']
-  public createdAt?: EventPayload['createdAt']
-  public updatedAt?: EventPayload['updatedAt']
   public type?: EventPayload['type']
   public flagged?: EventPayload['flagged']
   public marked?: EventPayload['marked']
@@ -127,10 +135,12 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
     if (!this.id) this.id = rawPayload.id
     this.id = rawPayload.id
-    this.resource = rawPayload.resource
-    this.resourceType = rawPayload.resource_type
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
+    this.deleted = rawPayload.deleted ?? false
+    this.active = rawPayload.active ?? true
+    this.resource = rawPayload.resource
+    this.resourceType = rawPayload.resource_type
     this.type = rawPayload.type
     this.marked = rawPayload.marked
     this.flagged = rawPayload.flagged
@@ -163,11 +173,13 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
   public serialize (): EventRawPayload {
     return {
       id: this.id,
+      created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
+      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
+      deleted: this.deleted ?? false,
+      active: this.active ?? true,
       resource: this.resource,
       resource_type: this.resourceType,
       payload: this.payload,
-      created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
-      updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       type: this.type,
       flagged: this.flagged,
       marked: this.marked,
