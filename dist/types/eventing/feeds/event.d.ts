@@ -37,6 +37,7 @@ export interface EventRawPayload {
     readonly type?: IEventType | null;
     readonly flagged?: boolean;
     readonly marked?: boolean;
+    readonly archived?: boolean;
     readonly annotations?: {
         language?: {
             language?: string | null;
@@ -69,6 +70,7 @@ export interface EventPayload {
     readonly type?: IEventType | null;
     readonly flagged?: EventRawPayload['flagged'];
     readonly marked?: EventRawPayload['marked'];
+    readonly archived?: EventRawPayload['archived'];
     readonly annotations?: EventRawPayload['annotations'];
     readonly suggestions?: EventRawPayload['suggestions'];
     readonly context?: EventRawPayload['context'];
@@ -93,6 +95,7 @@ export declare class Event extends UniverseEntity<EventPayload, EventRawPayload>
     type?: EventPayload['type'];
     flagged?: EventPayload['flagged'];
     marked?: EventPayload['marked'];
+    archived?: EventPayload['archived'];
     annotations?: EventPayload['annotations'];
     suggestions?: EventPayload['suggestions'];
     context?: EventPayload['context'];
@@ -108,6 +111,8 @@ export declare class Event extends UniverseEntity<EventPayload, EventRawPayload>
     unmark(): Promise<Event | undefined>;
     flag(): Promise<Event | undefined>;
     unflag(): Promise<Event | undefined>;
+    archive(): Promise<Event | undefined>;
+    unarchive(): Promise<Event | undefined>;
 }
 export declare class EventInitializationError extends BaseError {
     message: string;
@@ -124,6 +129,11 @@ export declare class EventMarkRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class EventArchiveRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export declare class EventUnmarkRemoteError extends BaseError {
     message: string;
     name: string;
@@ -135,6 +145,11 @@ export declare class EventUnarkRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class EventUnflagRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class EventUnarchiveRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

@@ -1,3 +1,11 @@
+# [4.32.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.31.2...v4.32.0) (2021-07-23)
+
+
+### Features
+
+* **event:** added archived ([d0a6177](https://github.com/c-commerce/charles-browser-sdk/commit/d0a6177d0b98f6ea6f3f0c5e06accda9d227822a))
+* **event:** added archived to event entity class ([787c893](https://github.com/c-commerce/charles-browser-sdk/commit/787c893373f9806d72339713c25dcd4b82a98b7e))
+
 ## [4.31.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.31.1...v4.31.2) (2021-07-21)
 
 
