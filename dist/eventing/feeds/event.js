@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EventUnflagRemoteError = exports.EventUnarkRemoteError = exports.EventUnmarkRemoteError = exports.EventMarkRemoteError = exports.EventFetchRemoteError = exports.EventInitializationError = exports.Event = exports.EventResourcesTypesEnum = exports.EventTypesEnum = void 0;
+exports.EventUnarchiveRemoteError = exports.EventUnflagRemoteError = exports.EventUnarkRemoteError = exports.EventUnmarkRemoteError = exports.EventArchiveRemoteError = exports.EventMarkRemoteError = exports.EventFetchRemoteError = exports.EventInitializationError = exports.Event = exports.EventResourcesTypesEnum = exports.EventTypesEnum = void 0;
 var tslib_1 = require("tslib");
+var feed_1 = require("./feed");
 var errors_1 = require("../../errors");
 var _base_1 = require("../../entities/_base");
 var EventTypesEnum;
@@ -27,7 +28,7 @@ var Event = (function (_super) {
         _this.universe = options.universe;
         _this.apiCarrier = options.universe;
         _this._feed = options.feed;
-        _this.endpoint = _this._feed.id + "/events";
+        _this.endpoint = feed_1.FEED_ENDPOINT + "/" + _this._feed.id + "/events";
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -113,7 +114,7 @@ var Event = (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/mark")];
+                        return [4, this.http.getClient().post(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/mark")];
                     case 1:
                         res = _a.sent();
                         this.deserialize(res.data.data[0]);
@@ -133,7 +134,7 @@ var Event = (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/unmark")];
+                        return [4, this.http.getClient().post(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/unmark")];
                     case 1:
                         res = _a.sent();
                         this.deserialize(res.data.data[0]);
@@ -153,7 +154,7 @@ var Event = (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/flag")];
+                        return [4, this.http.getClient().post(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/flag")];
                     case 1:
                         res = _a.sent();
                         this.deserialize(res.data.data[0]);
@@ -173,7 +174,7 @@ var Event = (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4, this.http.getClient().get(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/unflag")];
+                        return [4, this.http.getClient().post(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/unflag")];
                     case 1:
                         res = _a.sent();
                         this.deserialize(res.data.data[0]);
@@ -181,6 +182,46 @@ var Event = (function (_super) {
                     case 2:
                         err_5 = _a.sent();
                         throw this.handleError(new EventUnflagRemoteError(undefined, { error: err_5 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Event.prototype.archive = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var res, err_6;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().post(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/archive")];
+                    case 1:
+                        res = _a.sent();
+                        this.deserialize(res.data.data[0]);
+                        return [2, this];
+                    case 2:
+                        err_6 = _a.sent();
+                        throw this.handleError(new EventArchiveRemoteError(undefined, { error: err_6 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    Event.prototype.unarchive = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var res, err_7;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.http.getClient().post(this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/unarchive")];
+                    case 1:
+                        res = _a.sent();
+                        this.deserialize(res.data.data[0]);
+                        return [2, this];
+                    case 2:
+                        err_7 = _a.sent();
+                        throw this.handleError(new EventUnarchiveRemoteError(undefined, { error: err_7 }));
                     case 3: return [2];
                 }
             });
@@ -226,6 +267,18 @@ var EventMarkRemoteError = (function (_super) {
     return EventMarkRemoteError;
 }(errors_1.BaseError));
 exports.EventMarkRemoteError = EventMarkRemoteError;
+var EventArchiveRemoteError = (function (_super) {
+    tslib_1.__extends(EventArchiveRemoteError, _super);
+    function EventArchiveRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not archive event.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EventArchiveRemoteError';
+        return _this;
+    }
+    return EventArchiveRemoteError;
+}(errors_1.BaseError));
+exports.EventArchiveRemoteError = EventArchiveRemoteError;
 var EventUnmarkRemoteError = (function (_super) {
     tslib_1.__extends(EventUnmarkRemoteError, _super);
     function EventUnmarkRemoteError(message, properties) {
@@ -262,4 +315,16 @@ var EventUnflagRemoteError = (function (_super) {
     return EventUnflagRemoteError;
 }(errors_1.BaseError));
 exports.EventUnflagRemoteError = EventUnflagRemoteError;
+var EventUnarchiveRemoteError = (function (_super) {
+    tslib_1.__extends(EventUnarchiveRemoteError, _super);
+    function EventUnarchiveRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not unarchive event.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'EventUnarchiveRemoteError';
+        return _this;
+    }
+    return EventUnarchiveRemoteError;
+}(errors_1.BaseError));
+exports.EventUnarchiveRemoteError = EventUnarchiveRemoteError;
 //# sourceMappingURL=event.js.map
