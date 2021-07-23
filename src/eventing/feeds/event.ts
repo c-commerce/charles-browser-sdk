@@ -1,5 +1,5 @@
 import { Universe } from '../../universe'
-import { Feed } from './feed'
+import { Feed, FEED_ENDPOINT } from './feed'
 import { BaseError } from '../../errors'
 import { Message } from '../../messaging/message'
 import { UniverseEntity } from '../../entities/_base'
@@ -13,10 +13,10 @@ export enum EventTypesEnum {
 }
 
 export type IEventType = 'resource'
-| 'follow_up'
-| 'person:feedback_pending'
-| 'conversation:completed'
-| 'agent:view'
+  | 'follow_up'
+  | 'person:feedback_pending'
+  | 'conversation:completed'
+  | 'agent:view'
 
 export enum EventResourcesTypesEnum {
   message = 'message',
@@ -48,6 +48,7 @@ export interface EventRawPayload {
   readonly type?: IEventType | null
   readonly flagged?: boolean
   readonly marked?: boolean
+  readonly archived?: boolean
   readonly annotations?: {
     language?: {
       language?: string | null
@@ -81,6 +82,7 @@ export interface EventPayload {
   readonly type?: IEventType | null
   readonly flagged?: EventRawPayload['flagged']
   readonly marked?: EventRawPayload['marked']
+  readonly archived?: EventRawPayload['archived']
   readonly annotations?: EventRawPayload['annotations']
   readonly suggestions?: EventRawPayload['suggestions']
   readonly context?: EventRawPayload['context']
@@ -108,6 +110,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
   public type?: EventPayload['type']
   public flagged?: EventPayload['flagged']
   public marked?: EventPayload['marked']
+  public archived?: EventPayload['archived']
   public annotations?: EventPayload['annotations']
   public suggestions?: EventPayload['suggestions']
   public context?: EventPayload['context']
@@ -120,7 +123,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     this.universe = options.universe
     this.apiCarrier = options.universe
     this._feed = options.feed
-    this.endpoint = `${this._feed.id as string}/events`
+    this.endpoint = `${FEED_ENDPOINT}/${this._feed.id as string}/events`
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -144,6 +147,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     this.type = rawPayload.type
     this.marked = rawPayload.marked
     this.flagged = rawPayload.flagged
+    this.archived = rawPayload.archived
     this.annotations = rawPayload.annotations
     this.suggestions = rawPayload.suggestions
     this.context = rawPayload.context
@@ -183,6 +187,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
       type: this.type,
       flagged: this.flagged,
       marked: this.marked,
+      archived: this.archived,
       annotations: this.annotations,
       suggestions: this.suggestions,
       context: this.context,
@@ -202,7 +207,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
 
   public async mark (): Promise<Event | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/mark`)
+      const res = await this.http.getClient().post(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/mark`)
 
       this.deserialize(res.data.data[0] as EventRawPayload)
 
@@ -214,7 +219,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
 
   public async unmark (): Promise<Event | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/unmark`)
+      const res = await this.http.getClient().post(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/unmark`)
 
       this.deserialize(res.data.data[0] as EventRawPayload)
 
@@ -226,7 +231,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
 
   public async flag (): Promise<Event | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/flag`)
+      const res = await this.http.getClient().post(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/flag`)
 
       this.deserialize(res.data.data[0] as EventRawPayload)
 
@@ -238,13 +243,37 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
 
   public async unflag (): Promise<Event | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/unflag`)
+      const res = await this.http.getClient().post(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/unflag`)
 
       this.deserialize(res.data.data[0] as EventRawPayload)
 
       return this
     } catch (err) {
       throw this.handleError(new EventUnflagRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async archive (): Promise<Event | undefined> {
+    try {
+      const res = await this.http.getClient().post(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/archive`)
+
+      this.deserialize(res.data.data[0] as EventRawPayload)
+
+      return this
+    } catch (err) {
+      throw this.handleError(new EventArchiveRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async unarchive (): Promise<Event | undefined> {
+    try {
+      const res = await this.http.getClient().post(`${this.universe.universeBase}/${this.endpoint}/${this.id as string}/unarchive`)
+
+      this.deserialize(res.data.data[0] as EventRawPayload)
+
+      return this
+    } catch (err) {
+      throw this.handleError(new EventUnarchiveRemoteError(undefined, { error: err }))
     }
   }
 }
@@ -270,6 +299,13 @@ export class EventMarkRemoteError extends BaseError {
   }
 }
 
+export class EventArchiveRemoteError extends BaseError {
+  public name = 'EventArchiveRemoteError'
+  constructor (public message: string = 'Could not archive event.', properties?: any) {
+    super(message, properties)
+  }
+}
+
 export class EventUnmarkRemoteError extends BaseError {
   public name = 'EventUnmarkRemoteError'
   constructor (public message: string = 'Could not unmark event.', properties?: any) {
@@ -287,6 +323,13 @@ export class EventUnarkRemoteError extends BaseError {
 export class EventUnflagRemoteError extends BaseError {
   public name = 'EventUnflagRemoteError'
   constructor (public message: string = 'Could not unflag event.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EventUnarchiveRemoteError extends BaseError {
+  public name = 'EventUnarchiveRemoteError'
+  constructor (public message: string = 'Could not unarchive event.', properties?: any) {
     super(message, properties)
   }
 }
