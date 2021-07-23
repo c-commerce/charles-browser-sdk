@@ -48,6 +48,7 @@ export interface EventRawPayload {
   readonly type?: IEventType | null
   readonly flagged?: boolean
   readonly marked?: boolean
+  readonly archived?: boolean
   readonly annotations?: {
     language?: {
       language?: string | null
@@ -81,6 +82,7 @@ export interface EventPayload {
   readonly type?: IEventType | null
   readonly flagged?: EventRawPayload['flagged']
   readonly marked?: EventRawPayload['marked']
+  readonly archived?: EventRawPayload['archived']
   readonly annotations?: EventRawPayload['annotations']
   readonly suggestions?: EventRawPayload['suggestions']
   readonly context?: EventRawPayload['context']
@@ -108,6 +110,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
   public type?: EventPayload['type']
   public flagged?: EventPayload['flagged']
   public marked?: EventPayload['marked']
+  public archived?: EventPayload['archived']
   public annotations?: EventPayload['annotations']
   public suggestions?: EventPayload['suggestions']
   public context?: EventPayload['context']
@@ -144,6 +147,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     this.type = rawPayload.type
     this.marked = rawPayload.marked
     this.flagged = rawPayload.flagged
+    this.archived = rawPayload.archived
     this.annotations = rawPayload.annotations
     this.suggestions = rawPayload.suggestions
     this.context = rawPayload.context
@@ -183,6 +187,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
       type: this.type,
       flagged: this.flagged,
       marked: this.marked,
+      archived: this.archived,
       annotations: this.annotations,
       suggestions: this.suggestions,
       context: this.context,
