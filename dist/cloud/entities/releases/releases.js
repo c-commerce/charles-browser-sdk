@@ -10,7 +10,7 @@ var Release = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.apiCarrier = options.carrier;
-        _this.endpoint = 'api/v0/universes_pools';
+        _this.endpoint = 'api/v0/releases';
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -81,7 +81,7 @@ exports.Release = Release;
 var Releases = (function () {
     function Releases() {
     }
-    Releases.endpoint = 'api/v0/universes_pools';
+    Releases.endpoint = 'api/v0/releases';
     return Releases;
 }());
 exports.Releases = Releases;
@@ -114,7 +114,7 @@ exports.ReleaseFetchRemoteError = ReleaseFetchRemoteError;
 var ReleasesFetchRemoteError = (function (_super) {
     tslib_1.__extends(ReleasesFetchRemoteError, _super);
     function ReleasesFetchRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could not get universes pools.'; }
+        if (message === void 0) { message = 'Could not get releases.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'ReleasesFetchRemoteError';

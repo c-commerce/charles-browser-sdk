@@ -10,7 +10,7 @@ var Product = (function (_super) {
         var _a;
         var _this = _super.call(this) || this;
         _this.apiCarrier = options.carrier;
-        _this.endpoint = 'api/v0/universes_pools';
+        _this.endpoint = 'api/v0/products';
         _this.http = options.http;
         _this.options = options;
         _this.initialized = (_a = options.initialized) !== null && _a !== void 0 ? _a : false;
@@ -77,7 +77,7 @@ exports.Product = Product;
 var Products = (function () {
     function Products() {
     }
-    Products.endpoint = 'api/v0/universes_pools';
+    Products.endpoint = 'api/v0/products';
     return Products;
 }());
 exports.Products = Products;
@@ -110,7 +110,7 @@ exports.ProductFetchRemoteError = ProductFetchRemoteError;
 var ProductsFetchRemoteError = (function (_super) {
     tslib_1.__extends(ProductsFetchRemoteError, _super);
     function ProductsFetchRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could not get universes pools.'; }
+        if (message === void 0) { message = 'Could not get products.'; }
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'ProductsFetchRemoteError';

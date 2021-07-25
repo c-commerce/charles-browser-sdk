@@ -1,3 +1,10 @@
+## [4.33.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.33.0...v4.33.1) (2021-07-25)
+
+
+### Bug Fixes
+
+* **Cloud:** add correct endpoint refs ([fc34da3](https://github.com/c-commerce/charles-browser-sdk/commit/fc34da3f72b555470ce1feacf48ba260aac86525))
+
 # [4.33.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.32.0...v4.33.0) (2021-07-25)
 
 
