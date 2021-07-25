@@ -12,6 +12,8 @@ import * as organization from './entities/organization'
 import * as universesPool from './entities/universes-pool'
 import * as universesWaba from './entities/universes-waba'
 import * as universesWabasPhonenumber from './entities/universes-wabas-phonenumber'
+import * as products from './entities/products'
+import * as releases from './entities/releases'
 export interface CloudUser {
   id?: string
   accessToken?: string
@@ -256,6 +258,14 @@ export class Cloud extends APICarrier {
   public universesWabasPhonenumber (payload: universesWabasPhonenumber.CloudUniversesWabasPhonenumberRawPayload): universesWabasPhonenumber.CloudUniversesWabasPhonenumber {
     return universesWabasPhonenumber.CloudUniversesWabasPhonenumber.create(payload, this, this.http)
   }
+
+  public product (payload: products.ProductRawPayload): products.Product {
+    return products.Product.create(payload, this, this.http)
+  }
+
+  public release (payload: releases.ReleaseRawPayload): releases.Release {
+    return releases.Release.create(payload, this, this.http)
+  }
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -364,6 +374,14 @@ export class Cloud extends APICarrier {
 
   public async universesWabasPhonenumbers (options?: EntityFetchOptions): Promise<universesWabasPhonenumber.CloudUniversesWabasPhonenumber[] | universesWabasPhonenumber.CloudUniversesWabasPhonenumberRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<universesWabasPhonenumber.CloudUniversesWabasPhonenumber, universesWabasPhonenumber.CloudUniversesWabasPhonenumbers, universesWabasPhonenumber.CloudUniversesWabasPhonenumberRawPayload, EntityFetchOptions, universesWabasPhonenumber.CloudUniversesWabasPhonenumbersFetchRemoteError>(universesWabasPhonenumber.CloudUniversesWabasPhonenumber, universesWabasPhonenumber.CloudUniversesWabasPhonenumbers, universesWabasPhonenumber.CloudUniversesWabasPhonenumbersFetchRemoteError, options)
+  }
+
+  public async products (options?: EntityFetchOptions): Promise<products.Product[] | products.ProductRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<products.Product, products.Products, products.ProductRawPayload, EntityFetchOptions, products.ProductsFetchRemoteError>(products.Product, products.Products, products.ProductsFetchRemoteError, options)
+  }
+
+  public async releases (options?: EntityFetchOptions): Promise<releases.Release[] | releases.ReleaseRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<releases.Release, releases.Releases, releases.ReleaseRawPayload, EntityFetchOptions, releases.ReleasesFetchRemoteError>(releases.Release, releases.Releases, releases.ReleasesFetchRemoteError, options)
   }
 
   public async versions (): Promise<{ multiverse: string } | undefined> {
