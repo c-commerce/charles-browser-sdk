@@ -1,3 +1,11 @@
+# [4.33.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.32.0...v4.33.0) (2021-07-25)
+
+
+### Features
+
+* **Cloud:** add releases, products ([56dc34e](https://github.com/c-commerce/charles-browser-sdk/commit/56dc34eb7e70cdac7201bf19ee71420b73db6eb6))
+* **Cloud:** serialize release, stautus ([7eaef58](https://github.com/c-commerce/charles-browser-sdk/commit/7eaef582285a20f48c826d62fa4c31813c6abc2a))
+
 # [4.32.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.31.2...v4.32.0) (2021-07-23)
 
 

@@ -12,6 +12,8 @@ var organization = tslib_1.__importStar(require("./entities/organization"));
 var universesPool = tslib_1.__importStar(require("./entities/universes-pool"));
 var universesWaba = tslib_1.__importStar(require("./entities/universes-waba"));
 var universesWabasPhonenumber = tslib_1.__importStar(require("./entities/universes-wabas-phonenumber"));
+var products = tslib_1.__importStar(require("./entities/products"));
+var releases = tslib_1.__importStar(require("./entities/releases"));
 var CloudUnauthenticatedError = (function (_super) {
     tslib_1.__extends(CloudUnauthenticatedError, _super);
     function CloudUnauthenticatedError(message, properties) {
@@ -139,6 +141,12 @@ var Cloud = (function (_super) {
     };
     Cloud.prototype.universesWabasPhonenumber = function (payload) {
         return universesWabasPhonenumber.CloudUniversesWabasPhonenumber.create(payload, this, this.http);
+    };
+    Cloud.prototype.product = function (payload) {
+        return products.Product.create(payload, this, this.http);
+    };
+    Cloud.prototype.release = function (payload) {
+        return releases.Release.create(payload, this, this.http);
     };
     Cloud.prototype.apiRequest = function (options) {
         var _a;
@@ -297,6 +305,26 @@ var Cloud = (function (_super) {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, this.makeBaseResourceListRequest(universesWabasPhonenumber.CloudUniversesWabasPhonenumber, universesWabasPhonenumber.CloudUniversesWabasPhonenumbers, universesWabasPhonenumber.CloudUniversesWabasPhonenumbersFetchRemoteError, options)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Cloud.prototype.products = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.makeBaseResourceListRequest(products.Product, products.Products, products.ProductsFetchRemoteError, options)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    Cloud.prototype.releases = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.makeBaseResourceListRequest(releases.Release, releases.Releases, releases.ReleasesFetchRemoteError, options)];
                     case 1: return [2, _a.sent()];
                 }
             });

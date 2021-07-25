@@ -17,6 +17,8 @@ export interface CloudUniverseRawPayload {
     readonly configuration?: object;
     readonly pool?: string;
     readonly organization?: string;
+    readonly status?: object;
+    readonly release?: string;
 }
 export interface CloudUniversePayload {
     readonly id?: CloudUniverseRawPayload['id'];
@@ -28,6 +30,8 @@ export interface CloudUniversePayload {
     readonly configuration?: CloudUniverseRawPayload['configuration'];
     readonly pool?: CloudUniverseRawPayload['pool'];
     readonly organization?: CloudUniverseRawPayload['organization'];
+    readonly status?: CloudUniverseRawPayload['status'];
+    readonly release?: CloudUniverseRawPayload['release'];
 }
 export declare class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRawPayload> {
     protected apiCarrier: APICarrier;
@@ -44,12 +48,15 @@ export declare class CloudUniverse extends Entity<CloudUniversePayload, CloudUni
     configuration?: CloudUniversePayload['configuration'];
     pool?: CloudUniversePayload['pool'];
     organization?: CloudUniversePayload['organization'];
+    status?: CloudUniversePayload['status'];
+    release?: CloudUniversePayload['release'];
     constructor(options: CloudUniverseOptions);
     protected deserialize(rawPayload: CloudUniverseRawPayload): CloudUniverse;
     static create(payload: CloudUniverseRawPayload, carrier: Cloud, http: Cloud['http']): CloudUniverse;
     serialize(): CloudUniverseRawPayload;
     init(): Promise<CloudUniverse | undefined>;
     users(options?: EntityFetchOptions): Promise<UniverseUserRawPayload[]>;
+    patchDeployFromRelease(releaseId: string): Promise<CloudUniverse>;
     universe(item: any, universe: any, http: Client): any;
 }
 export declare class CloudUniverses {
@@ -66,6 +73,11 @@ export declare class CloudUniverseFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class CloudUniversesFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CloudUniversePatchDeployFromReleaseRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

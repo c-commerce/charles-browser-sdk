@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CloudUniversesFetchRemoteError = exports.CloudUniverseFetchRemoteError = exports.CloudUniverseInitializationError = exports.CloudUniverses = exports.CloudUniverse = void 0;
+exports.CloudUniversePatchDeployFromReleaseRemoteError = exports.CloudUniversesFetchRemoteError = exports.CloudUniverseFetchRemoteError = exports.CloudUniverseInitializationError = exports.CloudUniverses = exports.CloudUniverse = void 0;
 var tslib_1 = require("tslib");
 var qs_1 = tslib_1.__importDefault(require("qs"));
 var _base_1 = tslib_1.__importDefault(require("../../../entities/_base"));
@@ -33,6 +33,8 @@ var CloudUniverse = (function (_super) {
         this.configuration = rawPayload.configuration;
         this.pool = rawPayload.pool;
         this.organization = rawPayload.organization;
+        this.status = rawPayload.status;
+        this.release = rawPayload.release;
         return this;
     };
     CloudUniverse.create = function (payload, carrier, http) {
@@ -49,7 +51,9 @@ var CloudUniverse = (function (_super) {
             name: this.name,
             configuration: this.configuration,
             pool: this.pool,
-            organization: this.organization
+            organization: this.organization,
+            status: this.status,
+            release: this.release
         };
     };
     CloudUniverse.prototype.init = function () {
@@ -110,6 +114,39 @@ var CloudUniverse = (function (_super) {
             });
         });
     };
+    CloudUniverse.prototype.patchDeployFromRelease = function (releaseId) {
+        var _a, _b, _c;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, resource, err_3;
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('Universe.deploy requires universe id to be set.');
+                        if (releaseId === null || releaseId === undefined)
+                            throw new TypeError('universe.deploy requires release id to be set.');
+                        _d.label = 1;
+                    case 1:
+                        _d.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PATCH',
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id + "/deploy/releases/" + releaseId + "}",
+                            headers: {},
+                            responseType: 'json'
+                        };
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
+                    case 2:
+                        res = _d.sent();
+                        resource = res.data.data[0];
+                        return [2, CloudUniverse.create(resource, this.apiCarrier, this.http)];
+                    case 3:
+                        err_3 = _d.sent();
+                        throw this.handleError(new CloudUniversePatchDeployFromReleaseRemoteError(undefined, { error: err_3 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     CloudUniverse.prototype.universe = function (item, universe, http) {
         throw new Error('Method not implemented.');
     };
@@ -130,6 +167,7 @@ var CloudUniverseInitializationError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'CloudUniverseInitializationError';
+        Object.setPrototypeOf(_this, CloudUniverseInitializationError.prototype);
         return _this;
     }
     return CloudUniverseInitializationError;
@@ -142,6 +180,7 @@ var CloudUniverseFetchRemoteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'CloudUniverseFetchRemoteError';
+        Object.setPrototypeOf(_this, CloudUniverseFetchRemoteError.prototype);
         return _this;
     }
     return CloudUniverseFetchRemoteError;
@@ -154,9 +193,23 @@ var CloudUniversesFetchRemoteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'CloudUniversesFetchRemoteError';
+        Object.setPrototypeOf(_this, CloudUniversesFetchRemoteError.prototype);
         return _this;
     }
     return CloudUniversesFetchRemoteError;
 }(errors_1.BaseError));
 exports.CloudUniversesFetchRemoteError = CloudUniversesFetchRemoteError;
+var CloudUniversePatchDeployFromReleaseRemoteError = (function (_super) {
+    tslib_1.__extends(CloudUniversePatchDeployFromReleaseRemoteError, _super);
+    function CloudUniversePatchDeployFromReleaseRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could alter deployment unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CloudUniversePatchDeployFromReleaseRemoteError';
+        Object.setPrototypeOf(_this, CloudUniversePatchDeployFromReleaseRemoteError.prototype);
+        return _this;
+    }
+    return CloudUniversePatchDeployFromReleaseRemoteError;
+}(errors_1.BaseError));
+exports.CloudUniversePatchDeployFromReleaseRemoteError = CloudUniversePatchDeployFromReleaseRemoteError;
 //# sourceMappingURL=universe.js.map
