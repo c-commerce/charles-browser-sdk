@@ -21,6 +21,8 @@ export interface CloudUniverseRawPayload {
   readonly configuration?: object
   readonly pool?: string
   readonly organization?: string
+  readonly status?: object
+  readonly release?: string
 
 }
 
@@ -34,6 +36,8 @@ export interface CloudUniversePayload {
   readonly configuration?: CloudUniverseRawPayload['configuration']
   readonly pool?: CloudUniverseRawPayload['pool']
   readonly organization?: CloudUniverseRawPayload['organization']
+  readonly status?: CloudUniverseRawPayload['status']
+  readonly release?: CloudUniverseRawPayload['release']
 }
 
 /**
@@ -58,6 +62,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   public configuration?: CloudUniversePayload['configuration']
   public pool?: CloudUniversePayload['pool']
   public organization?: CloudUniversePayload['organization']
+  public status?: CloudUniversePayload['status']
+  public release?: CloudUniversePayload['release']
 
   constructor (options: CloudUniverseOptions) {
     super()
@@ -84,6 +90,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     this.configuration = rawPayload.configuration
     this.pool = rawPayload.pool
     this.organization = rawPayload.organization
+    this.status = rawPayload.status
+    this.release = rawPayload.release
     return this
   }
 
@@ -101,7 +109,9 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       name: this.name,
       configuration: this.configuration,
       pool: this.pool,
-      organization: this.organization
+      organization: this.organization,
+      status: this.status,
+      release: this.release
     }
   }
 
@@ -142,6 +152,29 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+  public async patchDeployFromRelease (releaseId: string): Promise<CloudUniverse> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
+    if (releaseId === null || releaseId === undefined) throw new TypeError('universe.deploy requires release id to be set.')
+
+    try {
+      const opts = {
+        method: 'PATCH',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/deploy/releases/${releaseId}}`,
+        headers: {
+
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const resource = res.data.data[0] as CloudUniverseRawPayload
+
+      return CloudUniverse.create(resource, this.apiCarrier as Cloud, this.http)
+    } catch (err) {
+      throw this.handleError(new CloudUniversePatchDeployFromReleaseRemoteError(undefined, { error: err }))
+    }
+  }
+
   universe (item: any, universe: any, http: Client): any {
     throw new Error('Method not implemented.')
   }
@@ -156,6 +189,7 @@ export class CloudUniverseInitializationError extends BaseError {
   public name = 'CloudUniverseInitializationError'
   constructor (public message: string = 'Could not initialize CloudUniverse.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, CloudUniverseInitializationError.prototype)
   }
 }
 
@@ -163,6 +197,7 @@ export class CloudUniverseFetchRemoteError extends BaseError {
   public name = 'CloudUniverseFetchRemoteError'
   constructor (public message: string = 'Could not get CloudUniverse.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, CloudUniverseFetchRemoteError.prototype)
   }
 }
 
@@ -170,5 +205,14 @@ export class CloudUniversesFetchRemoteError extends BaseError {
   public name = 'CloudUniversesFetchRemoteError'
   constructor (public message: string = 'Could not get CloudUniverses.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, CloudUniversesFetchRemoteError.prototype)
+  }
+}
+
+export class CloudUniversePatchDeployFromReleaseRemoteError extends BaseError {
+  public name = 'CloudUniversePatchDeployFromReleaseRemoteError'
+  constructor (public message: string = 'Could alter deployment unexpectedly.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CloudUniversePatchDeployFromReleaseRemoteError.prototype)
   }
 }
