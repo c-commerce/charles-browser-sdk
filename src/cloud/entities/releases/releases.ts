@@ -68,7 +68,7 @@ export class Release extends Entity<ReleasePaylod, ReleaseRawPayload> {
   constructor (options: ReleaseOptions) {
     super()
     this.apiCarrier = options.carrier
-    this.endpoint = 'api/v0/universes_pools'
+    this.endpoint = 'api/v0/releases'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -131,7 +131,7 @@ export class Release extends Entity<ReleasePaylod, ReleaseRawPayload> {
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Releases {
-  public static endpoint: string = 'api/v0/universes_pools'
+  public static endpoint: string = 'api/v0/releases'
 }
 
 export class ReleaseInitializationError extends BaseError {
@@ -152,7 +152,7 @@ export class ReleaseFetchRemoteError extends BaseError {
 
 export class ReleasesFetchRemoteError extends BaseError {
   public name = 'ReleasesFetchRemoteError'
-  constructor (public message: string = 'Could not get universes pools.', properties?: any) {
+  constructor (public message: string = 'Could not get releases.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ReleasesFetchRemoteError.prototype)
   }

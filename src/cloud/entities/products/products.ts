@@ -64,7 +64,7 @@ export class Product extends Entity<ProductPaylod, ProductRawPayload> {
   constructor (options: ProductOptions) {
     super()
     this.apiCarrier = options.carrier
-    this.endpoint = 'api/v0/universes_pools'
+    this.endpoint = 'api/v0/products'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -123,7 +123,7 @@ export class Product extends Entity<ProductPaylod, ProductRawPayload> {
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Products {
-  public static endpoint: string = 'api/v0/universes_pools'
+  public static endpoint: string = 'api/v0/products'
 }
 
 export class ProductInitializationError extends BaseError {
@@ -144,7 +144,7 @@ export class ProductFetchRemoteError extends BaseError {
 
 export class ProductsFetchRemoteError extends BaseError {
   public name = 'ProductsFetchRemoteError'
-  constructor (public message: string = 'Could not get universes pools.', properties?: any) {
+  constructor (public message: string = 'Could not get products.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ProductsFetchRemoteError.prototype)
   }
