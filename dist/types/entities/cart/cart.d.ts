@@ -38,6 +38,7 @@ export interface CartItemRawPayload {
     readonly sku?: string;
     readonly name?: string;
     readonly amount?: CartAmount;
+    readonly passive?: boolean;
     readonly currency?: string;
     readonly vat_rate?: number;
     readonly vat_class?: 'vat_class_zero' | 'vat_class_reduced' | 'vat_class_normal' | 'vat_class_custom';
@@ -65,6 +66,7 @@ export interface CartItemPayload {
     readonly sku?: string;
     readonly name: string;
     readonly amount?: CartItemRawPayload['amount'];
+    readonly passive?: boolean;
     readonly currency?: CartItemRawPayload['currency'];
     readonly vatRate?: CartItemRawPayload['vat_rate'];
     readonly vatClass?: CartItemRawPayload['vat_class'];
@@ -206,6 +208,7 @@ export declare class CartItem {
     sku?: CartItemPayload['sku'];
     name?: CartItemPayload['name'];
     amount?: CartItemRawPayload['amount'];
+    passive?: CartItemRawPayload['passive'];
     currency?: CartItemRawPayload['currency'];
     vatRate?: CartItemRawPayload['vat_rate'];
     vatClass?: CartItemRawPayload['vat_class'];

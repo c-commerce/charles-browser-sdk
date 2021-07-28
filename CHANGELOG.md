@@ -1,3 +1,10 @@
+# [4.34.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.33.1...v4.34.0) (2021-07-28)
+
+
+### Features
+
+* **cart:** implemented passive items ([0ece51d](https://github.com/c-commerce/charles-browser-sdk/commit/0ece51d7adc2b6f07d03672445912d42c0b1b8fa))
+
 ## [4.33.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.33.0...v4.33.1) (2021-07-25)
 
 

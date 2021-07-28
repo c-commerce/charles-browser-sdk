@@ -27,6 +27,7 @@ var CartItem = (function () {
         this.sku = rawPayload.sku;
         this.name = rawPayload.name;
         this.amount = rawPayload.amount;
+        this.passive = rawPayload.passive;
         this.currency = rawPayload.currency;
         this.vatRate = rawPayload.vat_rate;
         this.vatClass = rawPayload.vat_class;
@@ -55,6 +56,7 @@ var CartItem = (function () {
             sku: this.sku,
             name: this.name,
             amount: this.amount,
+            passive: this.passive,
             currency: this.currency,
             vat_rate: this.vatRate,
             vat_class: this.vatClass,
