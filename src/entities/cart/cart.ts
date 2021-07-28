@@ -46,6 +46,7 @@ export interface CartItemRawPayload {
   readonly sku?: string
   readonly name?: string
   readonly amount?: CartAmount
+  readonly passive?: boolean
   readonly currency?: string
   readonly vat_rate?: number
   readonly vat_class?: 'vat_class_zero' | 'vat_class_reduced' | 'vat_class_normal' | 'vat_class_custom'
@@ -74,6 +75,7 @@ export interface CartItemPayload {
   readonly sku?: string
   readonly name: string
   readonly amount?: CartItemRawPayload['amount']
+  readonly passive?: boolean
   readonly currency?: CartItemRawPayload['currency']
   readonly vatRate?: CartItemRawPayload['vat_rate']
   readonly vatClass?: CartItemRawPayload['vat_class']
@@ -227,6 +229,7 @@ export class CartItem {
   public sku?: CartItemPayload['sku']
   public name?: CartItemPayload['name']
   public amount?: CartItemRawPayload['amount']
+  public passive?: CartItemRawPayload['passive']
   public currency?: CartItemRawPayload['currency']
   public vatRate?: CartItemRawPayload['vat_rate']
   public vatClass?: CartItemRawPayload['vat_class']
@@ -261,6 +264,7 @@ export class CartItem {
     this.sku = rawPayload.sku
     this.name = rawPayload.name
     this.amount = rawPayload.amount
+    this.passive = rawPayload.passive
     this.currency = rawPayload.currency
     this.vatRate = rawPayload.vat_rate
     this.vatClass = rawPayload.vat_class
@@ -292,6 +296,7 @@ export class CartItem {
       sku: this.sku,
       name: this.name,
       amount: this.amount,
+      passive: this.passive,
       currency: this.currency,
       vat_rate: this.vatRate,
       vat_class: this.vatClass,
