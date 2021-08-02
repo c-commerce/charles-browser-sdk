@@ -131,7 +131,7 @@
     "prompt": "^1.0.0",
     "replace-in-file": "^3.4.2",
     "rimraf": "^3.0.2",
-    "runtypes": "^4.1.0",
+    "runtypes": "^6.3.2",
     "semantic-release": "^17.4.3",
     "ts-jest": "^25.2.1",
     "ts-node": "^9.1.1",
