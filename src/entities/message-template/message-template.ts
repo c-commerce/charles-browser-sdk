@@ -103,6 +103,8 @@ export interface MessageTemplateRawPayload {
   } | null
   readonly notification?: boolean
   readonly content_category?: string
+  readonly kind?: string
+  readonly labels?: object
 }
 
 export interface MessageTemplatePayload {
@@ -124,6 +126,8 @@ export interface MessageTemplatePayload {
   readonly metadata?: MessageTemplateRawPayload['metadata']
   readonly notification?: MessageTemplateRawPayload['notification']
   readonly contentCategory?: MessageTemplateRawPayload['content_category']
+  readonly kind?: MessageTemplateRawPayload['kind']
+  readonly labels?: MessageTemplateRawPayload['labels']
 }
 
 /**
@@ -157,6 +161,8 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
   public metadata?: MessageTemplatePayload['metadata']
   public notification?: MessageTemplatePayload['notification']
   public contentCategory?: MessageTemplatePayload['contentCategory']
+  public kind?: MessageTemplatePayload['kind']
+  public labels?: MessageTemplatePayload['labels']
 
   constructor (options: MessageTemplateOptions) {
     super()
@@ -193,6 +199,8 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
     this.metadata = rawPayload.metadata
     this.notification = rawPayload.notification
     this.contentCategory = rawPayload.content_category
+    this.kind = rawPayload.kind
+    this.labels = rawPayload.labels
 
     return this
   }
@@ -220,7 +228,9 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
       payload: this.payload,
       metadata: this.metadata,
       notification: this.notification,
-      content_category: this.contentCategory
+      content_category: this.contentCategory,
+      kind: this.kind,
+      labels: this.labels
     }
   }
 
