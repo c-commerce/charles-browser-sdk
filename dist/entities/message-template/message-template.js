@@ -44,6 +44,8 @@ var MessageTemplate = (function (_super) {
         this.metadata = rawPayload.metadata;
         this.notification = rawPayload.notification;
         this.contentCategory = rawPayload.content_category;
+        this.kind = rawPayload.kind;
+        this.labels = rawPayload.labels;
         return this;
     };
     MessageTemplate.create = function (payload, universe, http) {
@@ -69,7 +71,9 @@ var MessageTemplate = (function (_super) {
             payload: this.payload,
             metadata: this.metadata,
             notification: this.notification,
-            content_category: this.contentCategory
+            content_category: this.contentCategory,
+            kind: this.kind,
+            labels: this.labels
         };
     };
     MessageTemplate.prototype.init = function () {

@@ -1,3 +1,10 @@
+## [4.34.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.34.1...v4.34.2) (2021-08-06)
+
+
+### Bug Fixes
+
+* **message template:** add properties "kind" & "labels" ([f9523b4](https://github.com/c-commerce/charles-browser-sdk/commit/f9523b427230e4150b3d68e9a873badaa783162d))
+
 ## [4.34.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.34.0...v4.34.1) (2021-08-06)
 
 
