@@ -13,10 +13,10 @@ export enum EventTypesEnum {
 }
 
 export type IEventType = 'resource'
-  | 'follow_up'
-  | 'person:feedback_pending'
-  | 'conversation:completed'
-  | 'agent:view'
+| 'follow_up'
+| 'person:feedback_pending'
+| 'conversation:completed'
+| 'agent:view'
 
 export enum EventResourcesTypesEnum {
   message = 'message',

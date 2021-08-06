@@ -91,6 +91,7 @@ export interface ProductRawPayload extends EntityRawPayload {
   /* Embeddable */
   readonly children?: ProductRawPayloadChild[]
   readonly options?: object[]
+  readonly message_template?: string
 }
 
 export interface ProductPayload {
@@ -147,6 +148,7 @@ export interface ProductPayload {
   readonly links?: ProductRawPayload['links']
   readonly metadata?: object
   readonly prices?: ProductRawPayload['prices']
+  readonly messageTemplate?: ProductRawPayload['message_template']
 
   /* Embeddable */
   readonly children?: ProductRawPayload['children']
@@ -223,6 +225,7 @@ export class Product extends UniverseEntity<ProductPayload, ProductRawPayload> {
   public inventoryExternalReferenceId?: ProductPayload['inventoryExternalReferenceId']
   public links?: ProductPayload['links']
   public metadata?: ProductPayload['metadata']
+  public messageTemplate?: ProductPayload['messageTemplate']
 
   public children?: ProductPayload['children']
   public attributesOptions?: ProductPayload['options']
@@ -297,6 +300,7 @@ export class Product extends UniverseEntity<ProductPayload, ProductRawPayload> {
     this.links = rawPayload.links
     this.metadata = rawPayload.metadata
     this.prices = rawPayload.prices
+    this.messageTemplate = rawPayload.message_template
 
     /* Embeddable */
     this.children = rawPayload.children
@@ -365,7 +369,8 @@ export class Product extends UniverseEntity<ProductPayload, ProductRawPayload> {
       metadata: this.metadata,
       prices: this.prices,
       children: this.children,
-      options: this.attributesOptions
+      options: this.attributesOptions,
+      message_template: this.messageTemplate
     }
   }
 
