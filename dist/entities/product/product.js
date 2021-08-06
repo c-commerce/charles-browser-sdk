@@ -77,6 +77,7 @@ var Product = (function (_super) {
         this.links = rawPayload.links;
         this.metadata = rawPayload.metadata;
         this.prices = rawPayload.prices;
+        this.messageTemplate = rawPayload.message_template;
         this.children = rawPayload.children;
         this.attributesOptions = rawPayload.options;
         return this;
@@ -141,7 +142,8 @@ var Product = (function (_super) {
             metadata: this.metadata,
             prices: this.prices,
             children: this.children,
-            options: this.attributesOptions
+            options: this.attributesOptions,
+            message_template: this.messageTemplate
         };
     };
     Product.prototype.init = function () {
