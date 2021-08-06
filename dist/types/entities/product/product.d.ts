@@ -84,6 +84,7 @@ export interface ProductRawPayload extends EntityRawPayload {
     };
     readonly children?: ProductRawPayloadChild[];
     readonly options?: object[];
+    readonly message_template?: string;
 }
 export interface ProductPayload {
     readonly id?: ProductRawPayload['id'];
@@ -139,6 +140,7 @@ export interface ProductPayload {
     readonly links?: ProductRawPayload['links'];
     readonly metadata?: object;
     readonly prices?: ProductRawPayload['prices'];
+    readonly messageTemplate?: ProductRawPayload['message_template'];
     readonly children?: ProductRawPayload['children'];
     readonly options?: ProductRawPayload['options'];
 }
@@ -202,6 +204,7 @@ export declare class Product extends UniverseEntity<ProductPayload, ProductRawPa
     inventoryExternalReferenceId?: ProductPayload['inventoryExternalReferenceId'];
     links?: ProductPayload['links'];
     metadata?: ProductPayload['metadata'];
+    messageTemplate?: ProductPayload['messageTemplate'];
     children?: ProductPayload['children'];
     attributesOptions?: ProductPayload['options'];
     constructor(options: ProductOptions);

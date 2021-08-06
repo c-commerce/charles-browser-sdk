@@ -1,3 +1,10 @@
+## [4.34.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.34.0...v4.34.1) (2021-08-06)
+
+
+### Bug Fixes
+
+* **product:** add property message template ([ed9474f](https://github.com/c-commerce/charles-browser-sdk/commit/ed9474f165cff4f63d92cbfa52c145e81c7b719f))
+
 # [4.34.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.33.1...v4.34.0) (2021-07-28)
 
 
