@@ -22,6 +22,7 @@ import { Feed } from '../../eventing/feeds/feed'
 import universeTopics from '../../universe/topics'
 import * as realtime from '../../realtime'
 import type { MessageBroker } from '../message-broker'
+import { MessageSubscriptionInstance, MessageSubscriptionInstanceRawPayload, MessageSubscriptionInstancesFetchRemoteError } from '../message-subscription-instance'
 
 export interface PersonOptions extends UniverseEntityOptions {
   rawPayload?: PersonRawPayload
@@ -817,6 +818,33 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
 
   set addresses (items: AddressArray<Address>) {
     this._addresses = items.map((item: Address) => (item))
+  }
+
+  /**
+   * Get all message subscription instances of this person
+   * */
+  public async getMessagesubscriptionInstances (options?: EntityFetchOptions): Promise<MessageSubscriptionInstance[] | MessageSubscriptionInstanceRawPayload[]> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${People.endpoint}/${this.id as string}/message_subscription_instances`,
+        params: {
+          ...(options?.query ? options.query : {})
+        }
+      }
+      const res = await this.http.getClient()(opts)
+      const messageSubscriptionInstances = res.data.data as MessageSubscriptionInstanceRawPayload[]
+
+      if (options && options.raw === true) {
+        return messageSubscriptionInstances
+      }
+
+      return messageSubscriptionInstances.map((messageSubscriptionInstance: MessageSubscriptionInstanceRawPayload) => {
+        return MessageSubscriptionInstance.create(messageSubscriptionInstance, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new MessageSubscriptionInstancesFetchRemoteError(undefined, { error: err })
+    }
   }
 
   public async getEmails (options?: EntityFetchOptions): Promise<Email[] | EmailRawPayload[]> {

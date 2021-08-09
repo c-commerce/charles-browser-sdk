@@ -2,11 +2,14 @@
 import {
   MessageSubscriptionInstance,
   MessageSubscriptionInstances,
-  MessageSubscriptionInstancesFetchRemoteError
+  MessageSubscriptionInstancesFetchRemoteError,
+  MessageSubscriptionInstanceRawPayload
+
 } from './message-subscription-instance'
 
 export {
   MessageSubscriptionInstance,
   MessageSubscriptionInstances,
-  MessageSubscriptionInstancesFetchRemoteError
+  MessageSubscriptionInstancesFetchRemoteError,
+  MessageSubscriptionInstanceRawPayload
 }
