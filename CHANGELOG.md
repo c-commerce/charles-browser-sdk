@@ -1,3 +1,10 @@
+## [4.34.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.34.2...v4.34.3) (2021-08-09)
+
+
+### Bug Fixes
+
+* **person:** implement message subscription instances GET ([32497ed](https://github.com/c-commerce/charles-browser-sdk/commit/32497ed721bbd082c965ca3d98440a83a0847ce7))
+
 ## [4.34.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.34.1...v4.34.2) (2021-08-06)
 
 

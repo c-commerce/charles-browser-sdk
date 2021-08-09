@@ -8,6 +8,7 @@ import { Email, EmailRawPayload } from './email';
 import { Cart, CartRawPayload } from '../cart/cart';
 import { EventRawPayload } from '../../eventing/feeds/event';
 import type { MessageBroker } from '../message-broker';
+import { MessageSubscriptionInstance, MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance';
 export interface PersonOptions extends UniverseEntityOptions {
     rawPayload?: PersonRawPayload;
     mqtt?: Universe['mqtt'];
@@ -254,6 +255,7 @@ export declare class Person extends UniverseEntity<PersonPayload, PersonRawPaylo
     get deals(): IPersonDeals;
     get addresses(): AddressArray<Address>;
     set addresses(items: AddressArray<Address>);
+    getMessagesubscriptionInstances(options?: EntityFetchOptions): Promise<MessageSubscriptionInstance[] | MessageSubscriptionInstanceRawPayload[]>;
     getEmails(options?: EntityFetchOptions): Promise<Email[] | EmailRawPayload[]>;
     email(payload: EmailRawPayload): Email;
     phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;

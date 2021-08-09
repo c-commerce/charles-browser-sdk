@@ -16,6 +16,7 @@ var event_1 = require("../../eventing/feeds/event");
 var feed_1 = require("../../eventing/feeds/feed");
 var topics_1 = tslib_1.__importDefault(require("../../universe/topics"));
 var realtime = tslib_1.__importStar(require("../../realtime"));
+var message_subscription_instance_1 = require("../message-subscription-instance");
 var AddressArray = (function (_super) {
     tslib_1.__extends(AddressArray, _super);
     function AddressArray(items, universe, http, person) {
@@ -607,9 +608,40 @@ var Person = (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Person.prototype.getMessagesubscriptionInstances = function (options) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, messageSubscriptionInstances, err_12;
+            var _this = this;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + People.endpoint + "/" + this.id + "/message_subscription_instances",
+                            params: tslib_1.__assign({}, ((options === null || options === void 0 ? void 0 : options.query) ? options.query : {}))
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        res = _a.sent();
+                        messageSubscriptionInstances = res.data.data;
+                        if (options && options.raw === true) {
+                            return [2, messageSubscriptionInstances];
+                        }
+                        return [2, messageSubscriptionInstances.map(function (messageSubscriptionInstance) {
+                                return message_subscription_instance_1.MessageSubscriptionInstance.create(messageSubscriptionInstance, _this.universe, _this.http);
+                            })];
+                    case 2:
+                        err_12 = _a.sent();
+                        throw new message_subscription_instance_1.MessageSubscriptionInstancesFetchRemoteError(undefined, { error: err_12 });
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     Person.prototype.getEmails = function (options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, emails, err_12;
+            var opts, res, emails, err_13;
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
@@ -631,8 +663,8 @@ var Person = (function (_super) {
                                 return email_1.Email.create(email, _this.universe, _this.http);
                             })];
                     case 2:
-                        err_12 = _a.sent();
-                        throw new email_1.EmailsFetchRemoteError(undefined, { error: err_12 });
+                        err_13 = _a.sent();
+                        throw new email_1.EmailsFetchRemoteError(undefined, { error: err_13 });
                     case 3: return [2];
                 }
             });
@@ -658,7 +690,7 @@ var Person = (function (_super) {
                     return payloads.map(function (item) { return item.serialize(); });
                 },
                 fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, phonenumbers, err_13;
+                    var opts, res, phonenumbers, err_14;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -680,14 +712,14 @@ var Person = (function (_super) {
                                         return Phonenumber.create(phonenumber, _this.universe, _this.http);
                                     })];
                             case 2:
-                                err_13 = _a.sent();
-                                throw new PhonenumbersFetchRemoteError(undefined, { error: err_13 });
+                                err_14 = _a.sent();
+                                throw new PhonenumbersFetchRemoteError(undefined, { error: err_14 });
                             case 3: return [2];
                         }
                     });
                 }); },
                 create: function (phonenumber) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
-                    var opts, res, phonenumbers, err_14;
+                    var opts, res, phonenumbers, err_15;
                     var _this = this;
                     return tslib_1.__generator(this, function (_a) {
                         switch (_a.label) {
@@ -706,8 +738,8 @@ var Person = (function (_super) {
                                         return Phonenumber.create(phonenumber, _this.universe, _this.http);
                                     })[0]];
                             case 2:
-                                err_14 = _a.sent();
-                                throw new PhonenumberCreateRemoteError(undefined, { error: err_14 });
+                                err_15 = _a.sent();
+                                throw new PhonenumberCreateRemoteError(undefined, { error: err_15 });
                             case 3: return [2];
                         }
                     });
@@ -720,7 +752,7 @@ var Person = (function (_super) {
     Person.prototype.previewNotification = function (params, language, parameters, options) {
         var _a, _b;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, resources, _feed_1, err_15;
+            var opts, res, resources, _feed_1, err_16;
             var _this = this;
             return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
@@ -750,8 +782,8 @@ var Person = (function (_super) {
                                 return event_1.Event.create(item, _feed_1, _this.universe, _this.http);
                             })];
                     case 3:
-                        err_15 = _c.sent();
-                        throw new PersonPreviewNotificationError(undefined, { error: err_15 });
+                        err_16 = _c.sent();
+                        throw new PersonPreviewNotificationError(undefined, { error: err_16 });
                     case 4: return [2];
                 }
             });
