@@ -1,3 +1,10 @@
+# [4.35.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.34.3...v4.35.0) (2021-08-12)
+
+
+### Features
+
+* **imports:** implement entity and add. methods ([a55584e](https://github.com/c-commerce/charles-browser-sdk/commit/a55584ee0ae6ff7c9c37bb8abe10e932c7e34d72))
+
 ## [4.34.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.34.2...v4.34.3) (2021-08-09)
 
 
