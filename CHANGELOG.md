@@ -1,3 +1,10 @@
+## [4.35.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.35.0...v4.35.1) (2021-08-12)
+
+
+### Bug Fixes
+
+* **imports:** enable pagination handler ([1cb199b](https://github.com/c-commerce/charles-browser-sdk/commit/1cb199b04047d01223a1004b1b88643f649efac5))
+
 # [4.35.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.34.3...v4.35.0) (2021-08-12)
 
 

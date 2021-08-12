@@ -231,6 +231,14 @@ export interface IUniverseDeals {
         count: number;
     }>;
 }
+export interface IUniverseImports {
+    fetch: (options?: UniverseFetchOptions) => Promise<dataImport.Import[] | dataImport.ImportRawPayload[] | undefined>;
+    fromJson: (dataImports: dataImport.ImportRawPayload[]) => dataImport.Import[];
+    toJson: (dataImports: dataImport.Import[]) => dataImport.ImportRawPayload[];
+    fetchCount: (options?: EntityFetchOptions) => Promise<{
+        count: number;
+    }>;
+}
 export declare class UniverseUnauthenticatedError extends BaseError {
     message: string;
     name: string;
@@ -420,7 +428,7 @@ export declare class Universe extends APICarrier {
     peopleOrganizations(options?: EntityFetchOptions): Promise<peopleOrganization.PeopleOrganization[] | peopleOrganization.PeopleOrganizationRawPayload[] | undefined>;
     urlShorteners(options?: EntityFetchOptions): Promise<urlShortener.UrlShortener[] | urlShortener.UrlShortenerRawPayload[] | undefined>;
     apiKeys(options?: EntityFetchOptions): Promise<apiKey.ApiKey[] | apiKey.ApiKeyRawPayload[] | undefined>;
-    imports(options?: EntityFetchOptions): Promise<dataImport.Import[] | dataImport.ImportRawPayload[] | undefined>;
+    get imports(): IUniverseImports;
     arm(): Universe;
     versions(): Promise<{
         universe: string;

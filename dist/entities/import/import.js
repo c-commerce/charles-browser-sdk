@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ImportUploadRemoteError = exports.ImportProcessRemoteError = exports.ImportPreviewRemoteError = exports.ImportsFetchRemoteError = exports.ImportFetchRemoteError = exports.ImportInitializationError = exports.Imports = exports.Import = exports.IResourceEnum = exports.IImportFromEnum = exports.IStatusEnum = exports.IOnDuplicateEnum = void 0;
+exports.ImportsFetchCountRemoteError = exports.ImportUploadRemoteError = exports.ImportProcessRemoteError = exports.ImportPreviewRemoteError = exports.ImportsFetchRemoteError = exports.ImportFetchRemoteError = exports.ImportInitializationError = exports.Imports = exports.Import = exports.IResourceEnum = exports.IImportFromEnum = exports.IStatusEnum = exports.IOnDuplicateEnum = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -280,4 +280,17 @@ var ImportUploadRemoteError = (function (_super) {
     return ImportUploadRemoteError;
 }(errors_1.BaseError));
 exports.ImportUploadRemoteError = ImportUploadRemoteError;
+var ImportsFetchCountRemoteError = (function (_super) {
+    tslib_1.__extends(ImportsFetchCountRemoteError, _super);
+    function ImportsFetchCountRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not fetch count of imports.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'ImportsFetchCountRemoteError';
+        Object.setPrototypeOf(_this, ImportsFetchCountRemoteError.prototype);
+        return _this;
+    }
+    return ImportsFetchCountRemoteError;
+}(errors_1.BaseError));
+exports.ImportsFetchCountRemoteError = ImportsFetchCountRemoteError;
 //# sourceMappingURL=import.js.map
