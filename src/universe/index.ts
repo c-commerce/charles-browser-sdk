@@ -63,10 +63,10 @@ import * as dealEvent from '../entities/deal/deal-event'
 import * as messageSubscription from '../entities/message-subscription/message-subscription'
 import * as messageSubscriptionInstance from '../entities/message-subscription-instance/message-subscription-instance'
 import * as peopleOrganization from '../entities/people-organization/people-organization'
-
 import * as urlShortener from '../entities/url-shortener/url-shortener'
-
 import * as apiKey from '../entities/api-key/api-key'
+// NOTE: cannot use import as it is a reserved keyword
+import * as dataImport from '../entities/import/import'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -817,6 +817,10 @@ export class Universe extends APICarrier {
 
   public apiKey (payload: apiKey.ApiKeyRawPayload): apiKey.ApiKey {
     return apiKey.ApiKey.create(payload, this, this.http)
+  }
+
+  public import (payload: dataImport.ImportRawPayload): dataImport.Import {
+    return dataImport.Import.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -2034,6 +2038,10 @@ export class Universe extends APICarrier {
 
   public async apiKeys (options?: EntityFetchOptions): Promise<apiKey.ApiKey[] | apiKey.ApiKeyRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeyRawPayload, EntityFetchOptions, apiKey.ApiKeysFetchRemoteError>(apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeysFetchRemoteError, options)
+  }
+
+  public async imports (options?: EntityFetchOptions): Promise<dataImport.Import[] | dataImport.ImportRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<dataImport.Import, dataImport.Imports, dataImport.ImportRawPayload, EntityFetchOptions, dataImport.ImportsFetchRemoteError>(dataImport.Import, dataImport.Imports, dataImport.ImportsFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
