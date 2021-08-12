@@ -278,6 +278,13 @@ export interface IUniverseDeals {
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
 
+export interface IUniverseImports {
+  fetch: (options?: UniverseFetchOptions) => Promise<dataImport.Import[] | dataImport.ImportRawPayload[] | undefined>
+  fromJson: (dataImports: dataImport.ImportRawPayload[]) => dataImport.Import[]
+  toJson: (dataImports: dataImport.Import[]) => dataImport.ImportRawPayload[]
+  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
+}
+
 export class UniverseUnauthenticatedError extends BaseError {
   public name = 'UniverseUnauthenticatedError'
   constructor (public message: string = 'Invalid or expired session.', properties?: any) {
@@ -2040,8 +2047,57 @@ export class Universe extends APICarrier {
     return await this.makeBaseResourceListRequest<apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeyRawPayload, EntityFetchOptions, apiKey.ApiKeysFetchRemoteError>(apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeysFetchRemoteError, options)
   }
 
-  public async imports (options?: EntityFetchOptions): Promise<dataImport.Import[] | dataImport.ImportRawPayload[] | undefined> {
-    return await this.makeBaseResourceListRequest<dataImport.Import, dataImport.Imports, dataImport.ImportRawPayload, EntityFetchOptions, dataImport.ImportsFetchRemoteError>(dataImport.Import, dataImport.Imports, dataImport.ImportsFetchRemoteError, options)
+  public get imports (): IUniverseImports {
+    return {
+      fromJson: (payloads: dataImport.ImportRawPayload[]): dataImport.Import[] => {
+        return payloads.map((item) => (dataImport.Import.create(item, this, this.http)))
+      },
+      toJson: (payloads: dataImport.Import[]): dataImport.ImportRawPayload[] => {
+        return payloads.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: UniverseFetchOptions): Promise<dataImport.Import[] | dataImport.ImportRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${dataImport.Imports.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const resources = res.data.data as dataImport.ImportRawPayload[]
+
+          if (options && options.raw === true) {
+            return resources
+          }
+
+          return resources.map((resource: dataImport.ImportRawPayload) => {
+            return dataImport.Import.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new dataImport.ImportsFetchRemoteError(undefined, { error: err })
+        }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${dataImport.Imports.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new dataImport.ImportsFetchCountRemoteError(undefined, { error: err })
+        }
+      }
+    }
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.

@@ -335,3 +335,11 @@ export class ImportUploadRemoteError extends BaseError {
     Object.setPrototypeOf(this, ImportUploadRemoteError.prototype)
   }
 }
+
+export class ImportsFetchCountRemoteError extends BaseError {
+  public name = 'ImportsFetchCountRemoteError'
+  constructor (public message: string = 'Could not fetch count of imports.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ImportsFetchCountRemoteError.prototype)
+  }
+}
