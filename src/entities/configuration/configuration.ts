@@ -42,6 +42,9 @@ export interface ConfigurationRawPayload {
   ui?: {
     [key: string]: any
   }
+  privacy?: {
+    [key: string]: any
+  }
   dashboard?: {
     [key: string]: any
   }
@@ -56,6 +59,7 @@ export interface ConfigurationPayload {
   readonly owner?: ConfigurationRawPayload['owner']
   readonly configuration?: ConfigurationRawPayload['configuration']
   readonly ui?: ConfigurationRawPayload['ui']
+  readonly privacy?: ConfigurationRawPayload['privacy']
   readonly dashboard?: ConfigurationRawPayload['dashboard']
 }
 
@@ -81,6 +85,7 @@ export class Configuration extends UniverseEntity<ConfigurationPayload, Configur
   public owner?: ConfigurationPayload['owner']
   public configuration?: ConfigurationPayload['configuration']
   public ui?: ConfigurationPayload['ui']
+  public privacy?: ConfigurationPayload['privacy']
   public dashboard?: ConfigurationPayload['dashboard']
 
   constructor (options: ConfigurationOptions) {
@@ -108,6 +113,7 @@ export class Configuration extends UniverseEntity<ConfigurationPayload, Configur
     this.owner = rawPayload.owner
     this.configuration = rawPayload.configuration
     this.ui = rawPayload.ui
+    this.privacy = rawPayload.privacy
     this.dashboard = rawPayload.dashboard
 
     return this
@@ -127,6 +133,7 @@ export class Configuration extends UniverseEntity<ConfigurationPayload, Configur
       owner: this.owner,
       configuration: this.configuration,
       ui: this.ui,
+      privacy: this.privacy,
       dashboard: this.dashboard
     }
   }
