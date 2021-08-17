@@ -133,6 +133,11 @@ export interface CartTaxLineRawPayload {
   readonly rate?: number
 }
 
+export interface CartAuthorRawPayload {
+  readonly user?: string
+  readonly stuff?: string
+}
+
 export interface CartRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -170,6 +175,7 @@ export interface CartRawPayload {
   readonly discounts?: CartDiscountRawPayload[] | null
   readonly shipping_methods?: CartShippingRawPayload[] | null
   readonly taxes_summary?: CartTaxLineRawPayload[] | null
+  readonly author?: CartAuthorRawPayload | null
   readonly proxy_payload?: object | null
 }
 
@@ -210,6 +216,7 @@ export interface CartPayload {
   readonly discounts?: CartRawPayload['discounts']
   readonly shippingMethods?: CartRawPayload['shipping_methods']
   readonly taxesSummary?: CartRawPayload['taxes_summary']
+  readonly author?: CartRawPayload['author']
   readonly proxyPayload?: CartRawPayload['proxy_payload']
 }
 
@@ -367,6 +374,7 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
   public discounts?: CartPayload['discounts']
   public shippingMethods?: CartPayload['shippingMethods']
   public taxesSummary?: CartPayload['taxesSummary']
+  public author?: CartPayload['author']
   public proxyPayload?: CartPayload['proxyPayload']
 
   constructor (options: CartOptions) {
@@ -418,6 +426,7 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     this.orderPrompt = rawPayload.order_prompt
     this.storefront = rawPayload.storefront
     this.status = rawPayload.status
+    this.author = rawPayload.author
     this.discounts = rawPayload.discounts
     this.shippingMethods = rawPayload.shipping_methods
     this.taxesSummary = rawPayload.taxes_summary
@@ -476,6 +485,7 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
       order_prompt: this.orderPrompt,
       storefront: this.storefront,
       status: this.status,
+      author: this.author,
       discounts: this.discounts,
       shipping_methods: this.shippingMethods,
       taxes_summary: this.taxesSummary,
