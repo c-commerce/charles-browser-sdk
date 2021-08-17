@@ -1,3 +1,10 @@
+# [4.36.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.35.1...v4.36.0) (2021-08-17)
+
+
+### Features
+
+* **configuration:** serialize privacy ([3b42304](https://github.com/c-commerce/charles-browser-sdk/commit/3b423041a84091bd4203bbe74cffa2c92e59dc7a))
+
 ## [4.35.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.35.0...v4.35.1) (2021-08-12)
 
 

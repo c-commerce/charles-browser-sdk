@@ -31,6 +31,7 @@ var Configuration = (function (_super) {
         this.owner = rawPayload.owner;
         this.configuration = rawPayload.configuration;
         this.ui = rawPayload.ui;
+        this.privacy = rawPayload.privacy;
         this.dashboard = rawPayload.dashboard;
         return this;
     };
@@ -48,6 +49,7 @@ var Configuration = (function (_super) {
             owner: this.owner,
             configuration: this.configuration,
             ui: this.ui,
+            privacy: this.privacy,
             dashboard: this.dashboard
         };
     };
