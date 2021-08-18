@@ -2,6 +2,7 @@
 import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { Feed, FeedRawPayload } from '../../eventing/feeds/feed'
 
 export interface StaffOptions extends UniverseEntityOptions {
   rawPayload?: StaffRawPayload
@@ -165,6 +166,22 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
       throw this.handleError(new StaffInviteError(undefined, { error: err }))
     }
   }
+
+  public async feeds (): Promise<FeedRawPayload[] | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/feeds`
+      }
+
+      const response = await this.http.getClient()(opts)
+      const payloads = response.data.data as FeedRawPayload[]
+
+      return payloads
+    } catch (err) {
+      throw this.handleError(new StaffFeedsFetchError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -176,6 +193,7 @@ export class StaffInitializationError extends BaseError {
   public name = 'StaffInitializationError'
   constructor (public message: string = 'Could not initialize staff.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, StaffInitializationError.prototype)
   }
 }
 
@@ -183,6 +201,7 @@ export class StaffFetchRemoteError extends BaseError {
   public name = 'StaffFetchRemoteError'
   constructor (public message: string = 'Could not get staff.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, StaffFetchRemoteError.prototype)
   }
 }
 
@@ -190,6 +209,7 @@ export class StaffsFetchRemoteError extends BaseError {
   public name = 'StaffsFetchRemoteError'
   constructor (public message: string = 'Could not get staffs.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, StaffsFetchRemoteError.prototype)
   }
 }
 
@@ -197,5 +217,14 @@ export class StaffInviteError extends BaseError {
   public name = 'StaffInviteError'
   constructor (public message: string = 'Could not invite user unexpectedly.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, StaffInviteError.prototype)
+  }
+}
+
+export class StaffFeedsFetchError extends BaseError {
+  public name = 'StaffFeedsFetchError'
+  constructor (public message: string = 'Could load feeds unexpectedly.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, StaffFeedsFetchError.prototype)
   }
 }
