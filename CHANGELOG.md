@@ -1,3 +1,10 @@
+# [4.37.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.36.0...v4.37.0) (2021-08-18)
+
+
+### Features
+
+* **staff:** adding staff feeds ([22e5e3a](https://github.com/c-commerce/charles-browser-sdk/commit/22e5e3a69b043fda607886207129d70d6bab961d))
+
 # [4.36.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.35.1...v4.36.0) (2021-08-17)
 
 

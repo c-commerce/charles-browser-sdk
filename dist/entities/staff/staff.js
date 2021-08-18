@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StaffInviteError = exports.StaffsFetchRemoteError = exports.StaffFetchRemoteError = exports.StaffInitializationError = exports.Staffs = exports.Staff = void 0;
+exports.StaffFeedsFetchError = exports.StaffInviteError = exports.StaffsFetchRemoteError = exports.StaffFetchRemoteError = exports.StaffInitializationError = exports.Staffs = exports.Staff = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -110,6 +110,30 @@ var Staff = (function (_super) {
             });
         });
     };
+    Staff.prototype.feeds = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, response, payloads, err_3;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/feeds"
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 1:
+                        response = _a.sent();
+                        payloads = response.data.data;
+                        return [2, payloads];
+                    case 2:
+                        err_3 = _a.sent();
+                        throw this.handleError(new StaffFeedsFetchError(undefined, { error: err_3 }));
+                    case 3: return [2];
+                }
+            });
+        });
+    };
     return Staff;
 }(_base_1.UniverseEntity));
 exports.Staff = Staff;
@@ -127,6 +151,7 @@ var StaffInitializationError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'StaffInitializationError';
+        Object.setPrototypeOf(_this, StaffInitializationError.prototype);
         return _this;
     }
     return StaffInitializationError;
@@ -139,6 +164,7 @@ var StaffFetchRemoteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'StaffFetchRemoteError';
+        Object.setPrototypeOf(_this, StaffFetchRemoteError.prototype);
         return _this;
     }
     return StaffFetchRemoteError;
@@ -151,6 +177,7 @@ var StaffsFetchRemoteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'StaffsFetchRemoteError';
+        Object.setPrototypeOf(_this, StaffsFetchRemoteError.prototype);
         return _this;
     }
     return StaffsFetchRemoteError;
@@ -163,9 +190,23 @@ var StaffInviteError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'StaffInviteError';
+        Object.setPrototypeOf(_this, StaffInviteError.prototype);
         return _this;
     }
     return StaffInviteError;
 }(errors_1.BaseError));
 exports.StaffInviteError = StaffInviteError;
+var StaffFeedsFetchError = (function (_super) {
+    tslib_1.__extends(StaffFeedsFetchError, _super);
+    function StaffFeedsFetchError(message, properties) {
+        if (message === void 0) { message = 'Could load feeds unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'StaffFeedsFetchError';
+        Object.setPrototypeOf(_this, StaffFeedsFetchError.prototype);
+        return _this;
+    }
+    return StaffFeedsFetchError;
+}(errors_1.BaseError));
+exports.StaffFeedsFetchError = StaffFeedsFetchError;
 //# sourceMappingURL=staff.js.map

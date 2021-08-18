@@ -1,6 +1,7 @@
 import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { FeedRawPayload } from '../../eventing/feeds/feed';
 export interface StaffOptions extends UniverseEntityOptions {
     rawPayload?: StaffRawPayload;
 }
@@ -68,6 +69,7 @@ export declare class Staff extends UniverseEntity<StaffPayload, StaffRawPayload>
     serialize(): StaffRawPayload;
     init(): Promise<Staff | undefined>;
     inviteUser(userEmail: string, userFirstName: string): Promise<Staff | undefined>;
+    feeds(): Promise<FeedRawPayload[] | undefined>;
 }
 export declare class Staffs {
     static endpoint: string;
@@ -88,6 +90,11 @@ export declare class StaffsFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class StaffInviteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class StaffFeedsFetchError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
