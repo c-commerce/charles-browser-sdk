@@ -1,3 +1,10 @@
+# [4.39.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.38.0...v4.39.0) (2021-08-19)
+
+
+### Features
+
+* **Message:** set statuses ([bef446e](https://github.com/c-commerce/charles-browser-sdk/commit/bef446e827fbff99e9cbb46252ce5a5c0cf0ba6a))
+
 # [4.38.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.37.0...v4.38.0) (2021-08-19)
 
 

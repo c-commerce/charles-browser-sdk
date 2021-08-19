@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageUnlikeError = exports.MessageLikeError = exports.MessageInitializationError = exports.MessagesReplyError = exports.MessageFeedReply = exports.MessageReply = exports.Reply = exports.Message = void 0;
+exports.MessageSetStatusError = exports.MessageUnlikeError = exports.MessageLikeError = exports.MessageInitializationError = exports.MessagesReplyError = exports.MessageFeedReply = exports.MessageReply = exports.Reply = exports.Message = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../entities/_base");
 var errors_1 = require("../errors");
@@ -196,6 +196,58 @@ var Message = (function (_super) {
             });
         });
     };
+    Message.prototype.setStatuses = function (statuses) {
+        var _a, _b, _c;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var data, reads, deliveries, opts, response, err_4;
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('setting status requires id to be set.');
+                        data = {};
+                        reads = statuses.filter(function (item) { return (item.status === 'read'); });
+                        if (reads.length) {
+                            data.reads = reads;
+                        }
+                        deliveries = statuses.filter(function (item) { return (item.status === 'read' || item.status === 'failed'); });
+                        if (deliveries.length) {
+                            data.deliveries = deliveries;
+                        }
+                        _d.label = 1;
+                    case 1:
+                        _d.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id + "/statuses",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: data,
+                            responseType: 'json'
+                        };
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
+                    case 2:
+                        response = _d.sent();
+                        return [2, response.data.data];
+                    case 3:
+                        err_4 = _d.sent();
+                        throw new MessageSetStatusError(undefined, { error: err_4 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    Message.prototype.setStatus = function (status) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.setStatuses([status])];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
     return Message;
 }(_base_1.UniverseEntity));
 exports.Message = Message;
@@ -206,7 +258,7 @@ var Reply = (function (_super) {
     }
     Reply.prototype.prepareSendWithAssets = function (payload) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var assetsHandler, data, err_4;
+            var assetsHandler, data, err_5;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -220,8 +272,8 @@ var Reply = (function (_super) {
                         data = _a.sent();
                         return [2, data];
                     case 2:
-                        err_4 = _a.sent();
-                        throw err_4;
+                        err_5 = _a.sent();
+                        throw err_5;
                     case 3: return [2];
                 }
             });
@@ -241,7 +293,7 @@ var MessageReply = (function (_super) {
     MessageReply.prototype.send = function () {
         var _a, _b, _c, _d;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var additonalAttachments, assets, attachments, res, err_5;
+            var additonalAttachments, assets, attachments, res, err_6;
             return tslib_1.__generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
@@ -285,8 +337,8 @@ var MessageReply = (function (_super) {
                         }
                         return [2, res.data.data[0]];
                     case 4:
-                        err_5 = _e.sent();
-                        throw new MessagesReplyError(undefined, { error: err_5 });
+                        err_6 = _e.sent();
+                        throw new MessagesReplyError(undefined, { error: err_6 });
                     case 5: return [2];
                 }
             });
@@ -307,7 +359,7 @@ var MessageFeedReply = (function (_super) {
     MessageFeedReply.prototype.send = function () {
         var _a, _b, _c, _d;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var additonalAttachments, assets, attachments, res, err_6;
+            var additonalAttachments, assets, attachments, res, err_7;
             return tslib_1.__generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
@@ -348,8 +400,8 @@ var MessageFeedReply = (function (_super) {
                         res = _e.sent();
                         return [2, res.data.data[0]];
                     case 4:
-                        err_6 = _e.sent();
-                        throw new MessagesReplyError(undefined, { error: err_6 });
+                        err_7 = _e.sent();
+                        throw new MessagesReplyError(undefined, { error: err_7 });
                     case 5: return [2];
                 }
             });
@@ -365,6 +417,7 @@ var MessagesReplyError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'MessagesReplyError';
+        Object.setPrototypeOf(_this, MessagesReplyError.prototype);
         return _this;
     }
     return MessagesReplyError;
@@ -389,6 +442,7 @@ var MessageLikeError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'MessageLikeError';
+        Object.setPrototypeOf(_this, MessageInitializationError.prototype);
         return _this;
     }
     return MessageLikeError;
@@ -401,9 +455,23 @@ var MessageUnlikeError = (function (_super) {
         var _this = _super.call(this, message, properties) || this;
         _this.message = message;
         _this.name = 'MessageUnlikeError';
+        Object.setPrototypeOf(_this, MessageUnlikeError.prototype);
         return _this;
     }
     return MessageUnlikeError;
 }(errors_1.BaseError));
 exports.MessageUnlikeError = MessageUnlikeError;
+var MessageSetStatusError = (function (_super) {
+    tslib_1.__extends(MessageSetStatusError, _super);
+    function MessageSetStatusError(message, properties) {
+        if (message === void 0) { message = 'Could not set statuses of message unexpectedly.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'MessageSetStatusError';
+        Object.setPrototypeOf(_this, MessageSetStatusError.prototype);
+        return _this;
+    }
+    return MessageSetStatusError;
+}(errors_1.BaseError));
+exports.MessageSetStatusError = MessageSetStatusError;
 //# sourceMappingURL=message.js.map

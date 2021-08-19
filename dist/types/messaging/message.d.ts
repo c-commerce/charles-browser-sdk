@@ -16,6 +16,18 @@ export interface MessageRawPayloadAttachment {
     mime_type?: string;
     payload: string | null | object;
 }
+export interface MessageStatus {
+    date?: any;
+    status?: 'read' | 'delivered' | 'failed';
+    external_person_reference_id?: any;
+    person?: {
+        id?: string;
+        staff?: string;
+        user?: string;
+    } | null;
+    details?: any;
+    payload?: any;
+}
 export interface MessageRawPayload extends EntityRawPayload {
     readonly id?: string;
     readonly source_type?: string;
@@ -65,13 +77,7 @@ export interface MessageRawPayload extends EntityRawPayload {
         staff?: string;
         person?: string;
     } | null;
-    readonly statuses?: Array<{
-        date?: any;
-        status?: 'read' | 'delivered' | 'failed';
-        external_person_reference_id?: any;
-        details?: any;
-        payload?: any;
-    }>;
+    readonly statuses?: MessageStatus[];
     readonly reactions?: Array<{
         date?: any;
         reaction?: {
@@ -156,6 +162,8 @@ export declare class Message extends UniverseEntity<MessagePayload, MessageRawPa
     init(): Promise<Message | undefined>;
     like(): Promise<Message | undefined>;
     unlike(): Promise<Message | undefined>;
+    setStatuses(statuses: MessageStatus[]): Promise<MessageStatus[] | undefined>;
+    setStatus(status: MessageStatus): Promise<MessageStatus[] | undefined>;
 }
 export interface MessageReplyContentOptions {
     content: MessagePayload['content'];
@@ -202,6 +210,11 @@ export declare class MessageLikeError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class MessageUnlikeError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class MessageSetStatusError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
