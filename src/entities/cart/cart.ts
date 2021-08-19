@@ -12,6 +12,10 @@ export interface CartItemOptions extends UniverseEntityOptions {
   rawPayload?: CartItemRawPayload
 }
 
+export interface CartPatchOrderPromptRequest {
+  value: string
+}
+
 export interface CartAmount {
   net?: number
   gross?: number
@@ -518,6 +522,29 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
       throw new CartAddItemsRemoteError(undefined, { error: err })
     }
   }
+
+  public async patchOrderPrompt (request: CartPatchOrderPromptRequest): Promise<Cart> {
+    if (this.id === null || this.id === undefined) throw new TypeError('order prompt patch requires cart id to be set')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/order_prompt`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: request,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const rawCart = res.data.data[0] as CartRawPayload
+
+      return Cart.create(rawCart, this.universe, this.http)
+    } catch (err) {
+      throw new CartPatchOrderPromptError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -569,5 +596,13 @@ export class CartAddItemsRemoteError extends BaseError {
   constructor (public message: string = 'Could not add items to cart', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CartAddItemsRemoteError.prototype)
+  }
+}
+
+export class CartPatchOrderPromptError extends BaseError {
+  public name = 'CartPatchOrderPromptError'
+  constructor (public message: string = 'Could not patch order prompt of cart', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CartPatchOrderPromptError.prototype)
   }
 }
