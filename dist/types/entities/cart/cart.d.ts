@@ -8,6 +8,9 @@ export interface CartOptions extends UniverseEntityOptions {
 export interface CartItemOptions extends UniverseEntityOptions {
     rawPayload?: CartItemRawPayload;
 }
+export interface CartPatchOrderPromptRequest {
+    value: string;
+}
 export interface CartAmount {
     net?: number;
     gross?: number;
@@ -280,6 +283,7 @@ export declare class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     serialize(): CartRawPayload;
     init(): Promise<Cart | undefined>;
     addItems(itemsOptions: AddItemItemOptions[]): Promise<Cart>;
+    patchOrderPrompt(request: CartPatchOrderPromptRequest): Promise<Cart>;
 }
 export declare class Carts {
     static endpoint: string;
@@ -310,6 +314,11 @@ export declare class CartCreateRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class CartAddItemsRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CartPatchOrderPromptError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

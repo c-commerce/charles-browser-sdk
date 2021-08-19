@@ -1,3 +1,10 @@
+# [4.38.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.37.0...v4.38.0) (2021-08-19)
+
+
+### Features
+
+* **cart:** implement order prompt patch ([ee11393](https://github.com/c-commerce/charles-browser-sdk/commit/ee11393bc7250c1d25cad811f1ec385d15cce6c9))
+
 # [4.37.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.36.0...v4.37.0) (2021-08-18)
 
 

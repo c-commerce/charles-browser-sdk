@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CartAddItemsRemoteError = exports.CartCreateRemoteError = exports.CartsFetchCountRemoteError = exports.CartsFetchRemoteError = exports.CartFetchRemoteError = exports.CartInitializationError = exports.Carts = exports.Cart = exports.CartItem = exports.ICartStatusEnum = void 0;
+exports.CartPatchOrderPromptError = exports.CartAddItemsRemoteError = exports.CartCreateRemoteError = exports.CartsFetchCountRemoteError = exports.CartsFetchRemoteError = exports.CartFetchRemoteError = exports.CartInitializationError = exports.Carts = exports.Cart = exports.CartItem = exports.ICartStatusEnum = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -250,6 +250,40 @@ var Cart = (function (_super) {
             });
         });
     };
+    Cart.prototype.patchOrderPrompt = function (request) {
+        var _a, _b, _c;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, rawCart, err_3;
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('order prompt patch requires cart id to be set');
+                        _d.label = 1;
+                    case 1:
+                        _d.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: ((_b = (_a = this.apiCarrier) === null || _a === void 0 ? void 0 : _a.injectables) === null || _b === void 0 ? void 0 : _b.base) + "/" + this.endpoint + "/" + this.id + "/order_prompt",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            data: request,
+                            responseType: 'json'
+                        };
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
+                    case 2:
+                        res = _d.sent();
+                        rawCart = res.data.data[0];
+                        return [2, Cart.create(rawCart, this.universe, this.http)];
+                    case 3:
+                        err_3 = _d.sent();
+                        throw new CartPatchOrderPromptError(undefined, { error: err_3 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
     return Cart;
 }(_base_1.UniverseEntity));
 exports.Cart = Cart;
@@ -338,4 +372,17 @@ var CartAddItemsRemoteError = (function (_super) {
     return CartAddItemsRemoteError;
 }(errors_1.BaseError));
 exports.CartAddItemsRemoteError = CartAddItemsRemoteError;
+var CartPatchOrderPromptError = (function (_super) {
+    tslib_1.__extends(CartPatchOrderPromptError, _super);
+    function CartPatchOrderPromptError(message, properties) {
+        if (message === void 0) { message = 'Could not patch order prompt of cart'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CartPatchOrderPromptError';
+        Object.setPrototypeOf(_this, CartPatchOrderPromptError.prototype);
+        return _this;
+    }
+    return CartPatchOrderPromptError;
+}(errors_1.BaseError));
+exports.CartPatchOrderPromptError = CartPatchOrderPromptError;
 //# sourceMappingURL=cart.js.map
