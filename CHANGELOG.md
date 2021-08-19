@@ -1,3 +1,10 @@
+## [4.39.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.39.0...v4.39.1) (2021-08-19)
+
+
+### Bug Fixes
+
+* **Message#status:** filter deliveries correctly ([0dc01cc](https://github.com/c-commerce/charles-browser-sdk/commit/0dc01cc92a49e3d0c6d6309a47cbc6a1b8f111ae))
+
 # [4.39.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.38.0...v4.39.0) (2021-08-19)
 
 

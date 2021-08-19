@@ -210,7 +210,7 @@ var Message = (function (_super) {
                         if (reads.length) {
                             data.reads = reads;
                         }
-                        deliveries = statuses.filter(function (item) { return (item.status === 'read' || item.status === 'failed'); });
+                        deliveries = statuses.filter(function (item) { return (item.status === 'delivered' || item.status === 'failed'); });
                         if (deliveries.length) {
                             data.deliveries = deliveries;
                         }
