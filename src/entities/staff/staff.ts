@@ -26,6 +26,7 @@ export interface StaffRawPayload extends EntityRawPayload {
   readonly invite?: null | {
     [key: string]: any
   }
+  readonly custom_id?: string
 }
 
 export interface StaffPayload {
@@ -44,6 +45,7 @@ export interface StaffPayload {
   readonly roles?: StaffRawPayload['roles']
   readonly permissions?: StaffRawPayload['permissions']
   readonly invite?: StaffRawPayload['invite']
+  readonly customId?: StaffRawPayload['custom_id']
 }
 
 /**
@@ -75,6 +77,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
   public roles?: StaffRawPayload['roles']
   public permissions?: StaffRawPayload['permissions']
   public invite?: StaffRawPayload['invite']
+  public customId?: StaffRawPayload['custom_id']
 
   constructor (options: StaffOptions) {
     super()
@@ -108,6 +111,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
     this.roles = rawPayload.roles
     this.permissions = rawPayload.permissions
     this.invite = rawPayload.invite
+    this.customId = rawPayload.custom_id
 
     return this
   }
@@ -132,7 +136,8 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
       user: this.user,
       roles: this.roles,
       permissions: this.permissions,
-      invite: this.invite
+      invite: this.invite,
+      custom_id: this.customId
     }
   }
 
