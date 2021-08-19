@@ -21,6 +21,19 @@ export interface MessageRawPayloadAttachment {
   payload: string | null | object
 }
 
+export interface MessageStatus {
+  date?: any
+  status?: 'read' | 'delivered' | 'failed'
+  external_person_reference_id?: any
+  person?: {
+    id?: string
+    staff?: string
+    user?: string
+  } | null
+  details?: any
+  payload?: any
+}
+
 export interface MessageRawPayload extends EntityRawPayload {
   readonly id?: string
   readonly source_type?: string
@@ -70,13 +83,7 @@ export interface MessageRawPayload extends EntityRawPayload {
     staff?: string
     person?: string
   } | null
-  readonly statuses?: Array<{
-    date?: any
-    status?: 'read' | 'delivered' | 'failed'
-    external_person_reference_id?: any
-    details?: any
-    payload?: any
-  }>
+  readonly statuses?: MessageStatus[]
   readonly reactions?: Array<{
     // TODO: parse dates
     date?: any
@@ -340,6 +347,44 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
       throw new MessageUnlikeError(undefined, { error: err })
     }
   }
+
+  public async setStatuses (statuses: MessageStatus[]): Promise<MessageStatus[] | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('setting status requires id to be set.')
+
+    const data: {reads?: MessageStatus[], deliveries?: MessageStatus[]} = {}
+
+    const reads = statuses.filter((item) => (item.status === 'read'))
+    if (reads.length) {
+      data.reads = reads
+    }
+
+    const deliveries = statuses.filter((item) => (item.status === 'read' || item.status === 'failed'))
+    if (deliveries.length) {
+      data.deliveries = deliveries
+    }
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/statuses`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      return response.data.data as MessageStatus[]
+    } catch (err) {
+      throw new MessageSetStatusError(undefined, { error: err })
+    }
+  }
+
+  public async setStatus (status: MessageStatus): Promise<MessageStatus[] | undefined> {
+    return await this.setStatuses([status])
+  }
 }
 
 export interface MessageReplyContentOptions {
@@ -502,6 +547,7 @@ export class MessagesReplyError extends BaseError {
     properties?: any
   ) {
     super(message, properties)
+    Object.setPrototypeOf(this, MessagesReplyError.prototype)
   }
 }
 
@@ -516,6 +562,7 @@ export class MessageLikeError extends BaseError {
   public name = 'MessageLikeError'
   constructor (public message: string = 'Could not like message.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, MessageInitializationError.prototype)
   }
 }
 
@@ -523,5 +570,14 @@ export class MessageUnlikeError extends BaseError {
   public name = 'MessageUnlikeError'
   constructor (public message: string = 'Could not unlike message.', properties?: any) {
     super(message, properties)
+    Object.setPrototypeOf(this, MessageUnlikeError.prototype)
+  }
+}
+
+export class MessageSetStatusError extends BaseError {
+  public name = 'MessageSetStatusError'
+  constructor (public message: string = 'Could not set statuses of message unexpectedly.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageSetStatusError.prototype)
   }
 }
