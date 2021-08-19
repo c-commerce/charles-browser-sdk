@@ -358,7 +358,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
       data.reads = reads
     }
 
-    const deliveries = statuses.filter((item) => (item.status === 'read' || item.status === 'failed'))
+    const deliveries = statuses.filter((item) => (item.status === 'delivered' || item.status === 'failed'))
     if (deliveries.length) {
       data.deliveries = deliveries
     }
