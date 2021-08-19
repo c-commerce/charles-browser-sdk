@@ -38,6 +38,7 @@ var Staff = (function (_super) {
         this.roles = rawPayload.roles;
         this.permissions = rawPayload.permissions;
         this.invite = rawPayload.invite;
+        this.customId = rawPayload.custom_id;
         return this;
     };
     Staff.create = function (payload, universe, http) {
@@ -60,7 +61,8 @@ var Staff = (function (_super) {
             user: this.user,
             roles: this.roles,
             permissions: this.permissions,
-            invite: this.invite
+            invite: this.invite,
+            custom_id: this.customId
         };
     };
     Staff.prototype.init = function () {

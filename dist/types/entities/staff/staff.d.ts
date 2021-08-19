@@ -23,6 +23,7 @@ export interface StaffRawPayload extends EntityRawPayload {
     readonly invite?: null | {
         [key: string]: any;
     };
+    readonly custom_id?: string;
 }
 export interface StaffPayload {
     readonly id?: StaffRawPayload['id'];
@@ -40,6 +41,7 @@ export interface StaffPayload {
     readonly roles?: StaffRawPayload['roles'];
     readonly permissions?: StaffRawPayload['permissions'];
     readonly invite?: StaffRawPayload['invite'];
+    readonly customId?: StaffRawPayload['custom_id'];
 }
 export declare class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
     protected universe: Universe;
@@ -63,6 +65,7 @@ export declare class Staff extends UniverseEntity<StaffPayload, StaffRawPayload>
     roles?: StaffRawPayload['roles'];
     permissions?: StaffRawPayload['permissions'];
     invite?: StaffRawPayload['invite'];
+    customId?: StaffRawPayload['custom_id'];
     constructor(options: StaffOptions);
     protected deserialize(rawPayload: StaffRawPayload): Staff;
     static create(payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff;

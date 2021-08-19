@@ -1,3 +1,10 @@
+# [4.40.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.39.1...v4.40.0) (2021-08-19)
+
+
+### Features
+
+* **staff:** implemented custom id ([325eff0](https://github.com/c-commerce/charles-browser-sdk/commit/325eff0adc41ea19d0736a26dc1537c47ae01c5b))
+
 ## [4.39.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.39.0...v4.39.1) (2021-08-19)
 
 
