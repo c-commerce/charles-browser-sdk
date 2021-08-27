@@ -164,7 +164,7 @@ var Import = (function (_super) {
             });
         });
     };
-    Import.prototype.upload = function (options) {
+    Import.prototype.upload = function (payload) {
         var _a;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, err_4;
@@ -174,12 +174,12 @@ var Import = (function (_super) {
                         _b.trys.push([0, 2, , 3]);
                         opts = {
                             method: 'POST',
-                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/upload" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/upload",
                             timeout: 60000,
                             headers: {
                                 'Content-Type': 'multipart/form-data'
                             },
-                            responseType: 'json'
+                            data: payload
                         };
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
                     case 1:

@@ -1,3 +1,10 @@
+## [4.40.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.40.1...v4.40.2) (2021-08-27)
+
+
+### Bug Fixes
+
+* **Import#upload:** do send form data ([add441b](https://github.com/c-commerce/charles-browser-sdk/commit/add441b4c911e13d0e52c3655e7112184bb40714))
+
 ## [4.40.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.40.0...v4.40.1) (2021-08-27)
 
 

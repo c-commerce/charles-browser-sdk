@@ -125,7 +125,7 @@ export declare class Import extends UniverseEntity<ImportPayload, ImportRawPaylo
     init(): Promise<Import | undefined>;
     preview(options?: EntityFetchOptions): Promise<ImportRawPayload[]>;
     process(options?: EntityFetchOptions): Promise<ImportRawPayload[]>;
-    upload(options?: EntityFetchOptions): Promise<Import>;
+    upload(payload: FormData): Promise<Import>;
 }
 export declare class Imports {
     static endpoint: string;
