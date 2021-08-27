@@ -1,3 +1,10 @@
+## [4.40.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.40.0...v4.40.1) (2021-08-27)
+
+
+### Bug Fixes
+
+* **Import#upload:** use correct content type, return this ([acbd2b6](https://github.com/c-commerce/charles-browser-sdk/commit/acbd2b675e9fd7dad716485cfd2206c74ca11444))
+
 # [4.40.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.39.1...v4.40.0) (2021-08-19)
 
 

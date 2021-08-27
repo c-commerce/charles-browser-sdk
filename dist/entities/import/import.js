@@ -175,15 +175,17 @@ var Import = (function (_super) {
                         opts = {
                             method: 'POST',
                             url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/upload" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
+                            timeout: 60000,
                             headers: {
-                                'Content-Type': 'application/json; charset=utf-8'
+                                'Content-Type': 'multipart/form-data'
                             },
                             responseType: 'json'
                         };
                         return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
                     case 1:
                         res = _b.sent();
-                        return [2, res.data.data];
+                        this.deserialize(res.data.data[0]);
+                        return [2, this];
                     case 2:
                         err_4 = _b.sent();
                         throw this.handleError(new ImportUploadRemoteError(undefined, { error: err_4 }));
