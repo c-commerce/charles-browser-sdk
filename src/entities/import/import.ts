@@ -217,8 +217,8 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   }
 
   /**
- * Preview the import
- */
+   * Preview the import
+   */
   public async preview (options?: EntityFetchOptions): Promise<ImportRawPayload[]> {
     try {
       const opts = {
@@ -239,8 +239,8 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   }
 
   /**
- * Process the import
- */
+   * Process the import
+   */
   public async process (options?: EntityFetchOptions): Promise<ImportRawPayload[]> {
     try {
       const opts = {
@@ -261,8 +261,8 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   }
 
   /**
- * Upload the import
- */
+   * Upload the import
+   */
   public async upload (options?: EntityFetchOptions): Promise<Import> {
     try {
       const opts = {
