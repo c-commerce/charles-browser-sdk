@@ -263,16 +263,16 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   /**
    * Upload the import
    */
-  public async upload (options?: EntityFetchOptions): Promise<Import> {
+  public async upload (payload: FormData): Promise<Import> {
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/upload${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/upload`,
         timeout: 60000,
         headers: {
           'Content-Type': 'multipart/form-data'
         },
-        responseType: 'json'
+        data: payload
       }
 
       const res = await this.http?.getClient()(opts)
