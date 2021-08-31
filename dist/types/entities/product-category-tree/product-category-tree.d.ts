@@ -16,6 +16,7 @@ export interface ProductCategoryTreeRawPayload {
     readonly children?: any[];
     readonly comment?: string;
     readonly storefront?: string;
+    readonly configuration?: object;
 }
 export interface ProductCategoryTreePayload {
     readonly id?: ProductCategoryTreeRawPayload['id'];
@@ -29,6 +30,7 @@ export interface ProductCategoryTreePayload {
     readonly children?: ProductCategoryTreeRawPayload['children'];
     readonly comment?: ProductCategoryTreeRawPayload['comment'];
     readonly storefront?: ProductCategoryTreeRawPayload['storefront'];
+    readonly configuration?: ProductCategoryTreeRawPayload['configuration'];
 }
 export declare class ProductCategoryTree extends UniverseEntity<ProductCategoryTreePayload, ProductCategoryTreeRawPayload> {
     protected universe: Universe;
@@ -48,6 +50,7 @@ export declare class ProductCategoryTree extends UniverseEntity<ProductCategoryT
     children?: ProductCategoryTreePayload['children'];
     comment?: ProductCategoryTreePayload['comment'];
     storefront?: ProductCategoryTreePayload['storefront'];
+    configuration?: ProductCategoryTreePayload['configuration'];
     constructor(options: ProductCategoryTreeOptions);
     protected deserialize(rawPayload: ProductCategoryTreeRawPayload): ProductCategoryTree;
     static create(payload: ProductCategoryTreeRawPayload, universe: Universe, http: Universe['http']): ProductCategoryTree;

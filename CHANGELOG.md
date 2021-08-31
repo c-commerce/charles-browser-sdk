@@ -1,3 +1,11 @@
+# [4.41.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.40.2...v4.41.0) (2021-08-31)
+
+
+### Features
+
+* **cart:** added author to cart entity ([4d05ebf](https://github.com/c-commerce/charles-browser-sdk/commit/4d05ebfcad04eaac55db9c2d7aedc6d343f16793))
+* **product cat tree:** added product cat tree config ([fa2d6ee](https://github.com/c-commerce/charles-browser-sdk/commit/fa2d6eea2b0de26772079ef5d61cec706f49a73a))
+
 ## [4.40.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.40.1...v4.40.2) (2021-08-27)
 
 

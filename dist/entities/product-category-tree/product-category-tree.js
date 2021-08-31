@@ -34,6 +34,7 @@ var ProductCategoryTree = (function (_super) {
         this.children = rawPayload.children;
         this.comment = rawPayload.comment;
         this.storefront = rawPayload.storefront;
+        this.configuration = rawPayload.configuration;
         return this;
     };
     ProductCategoryTree.create = function (payload, universe, http) {
@@ -52,7 +53,8 @@ var ProductCategoryTree = (function (_super) {
             description: this.description,
             children: this.children,
             comment: this.comment,
-            storefront: this.storefront
+            storefront: this.storefront,
+            configuration: this.configuration
         };
     };
     ProductCategoryTree.prototype.init = function () {

@@ -130,6 +130,7 @@ var Cart = (function (_super) {
         this.orderPrompt = rawPayload.order_prompt;
         this.storefront = rawPayload.storefront;
         this.status = rawPayload.status;
+        this.author = rawPayload.author;
         this.discounts = rawPayload.discounts;
         this.shippingMethods = rawPayload.shipping_methods;
         this.taxesSummary = rawPayload.taxes_summary;
@@ -185,6 +186,7 @@ var Cart = (function (_super) {
             order_prompt: this.orderPrompt,
             storefront: this.storefront,
             status: this.status,
+            author: this.author,
             discounts: this.discounts,
             shipping_methods: this.shippingMethods,
             taxes_summary: this.taxesSummary,
