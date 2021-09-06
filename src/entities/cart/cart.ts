@@ -180,6 +180,7 @@ export interface CartRawPayload {
   readonly shipping_methods?: CartShippingRawPayload[] | null
   readonly taxes_summary?: CartTaxLineRawPayload[] | null
   readonly author?: CartAuthorRawPayload | null
+  readonly direct_feed?: string
   readonly proxy_payload?: object | null
 }
 
@@ -221,6 +222,7 @@ export interface CartPayload {
   readonly shippingMethods?: CartRawPayload['shipping_methods']
   readonly taxesSummary?: CartRawPayload['taxes_summary']
   readonly author?: CartRawPayload['author']
+  readonly directFeed?: CartRawPayload['direct_feed']
   readonly proxyPayload?: CartRawPayload['proxy_payload']
 }
 
@@ -379,6 +381,7 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
   public shippingMethods?: CartPayload['shippingMethods']
   public taxesSummary?: CartPayload['taxesSummary']
   public author?: CartPayload['author']
+  public directFeed?: CartPayload['directFeed']
   public proxyPayload?: CartPayload['proxyPayload']
 
   constructor (options: CartOptions) {
@@ -431,6 +434,7 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     this.storefront = rawPayload.storefront
     this.status = rawPayload.status
     this.author = rawPayload.author
+    this.directFeed = rawPayload.direct_feed
     this.discounts = rawPayload.discounts
     this.shippingMethods = rawPayload.shipping_methods
     this.taxesSummary = rawPayload.taxes_summary
@@ -490,6 +494,7 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
       storefront: this.storefront,
       status: this.status,
       author: this.author,
+      direct_feed: this.directFeed,
       discounts: this.discounts,
       shipping_methods: this.shippingMethods,
       taxes_summary: this.taxesSummary,
