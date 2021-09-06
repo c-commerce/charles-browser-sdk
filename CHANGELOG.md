@@ -1,3 +1,10 @@
+# [4.42.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.41.0...v4.42.0) (2021-09-06)
+
+
+### Features
+
+* **cart:** add direct_feed ([aedeeb3](https://github.com/c-commerce/charles-browser-sdk/commit/aedeeb301f51a365b80228da69124e6a11e03792))
+
 # [4.41.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.40.2...v4.41.0) (2021-08-31)
 
 

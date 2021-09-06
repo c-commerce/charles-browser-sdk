@@ -161,6 +161,7 @@ export interface CartRawPayload {
     readonly shipping_methods?: CartShippingRawPayload[] | null;
     readonly taxes_summary?: CartTaxLineRawPayload[] | null;
     readonly author?: CartAuthorRawPayload | null;
+    readonly direct_feed?: string;
     readonly proxy_payload?: object | null;
 }
 export interface CartPayload {
@@ -201,6 +202,7 @@ export interface CartPayload {
     readonly shippingMethods?: CartRawPayload['shipping_methods'];
     readonly taxesSummary?: CartRawPayload['taxes_summary'];
     readonly author?: CartRawPayload['author'];
+    readonly directFeed?: CartRawPayload['direct_feed'];
     readonly proxyPayload?: CartRawPayload['proxy_payload'];
 }
 export interface AddItemItemOptions {
@@ -283,6 +285,7 @@ export declare class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     shippingMethods?: CartPayload['shippingMethods'];
     taxesSummary?: CartPayload['taxesSummary'];
     author?: CartPayload['author'];
+    directFeed?: CartPayload['directFeed'];
     proxyPayload?: CartPayload['proxyPayload'];
     constructor(options: CartOptions);
     protected deserialize(rawPayload: CartRawPayload): Cart;
