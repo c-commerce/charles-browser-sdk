@@ -9,6 +9,7 @@ import { Cart, CartRawPayload } from '../cart/cart';
 import { EventRawPayload } from '../../eventing/feeds/event';
 import type { MessageBroker } from '../message-broker';
 import { MessageSubscriptionInstance, MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance';
+import { PossibleDuplicatesRawPayload } from './possible-duplicates';
 export interface PersonOptions extends UniverseEntityOptions {
     rawPayload?: PersonRawPayload;
     mqtt?: Universe['mqtt'];
@@ -96,6 +97,7 @@ export interface PersonPhonenumberPayload {
 export declare type PersonChannelUserRawPayload = ChannelUserRawPayload;
 export declare type PersonAnalyticsRawPayload = AnalyticsRawPayload;
 export declare type PersonEmailRawPayload = EmailRawPayload;
+export declare type PersonPossibleDuplicatesRawPayload = PossibleDuplicatesRawPayload;
 export interface PersonRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
@@ -262,6 +264,7 @@ export declare class Person extends UniverseEntity<PersonPayload, PersonRawPaylo
     address(payload: PersonAddressRawPayload): Address;
     get phonenumbers(): IPersonPhonenumbers;
     previewNotification(params: PreviewNotificationParams, language: string, parameters?: any[] | object, options?: EntityFetchOptions): Promise<EventRawPayload[]>;
+    checkDuplicates(): Promise<PersonPossibleDuplicatesRawPayload[]>;
 }
 export interface PersonGDPROptions {
     password?: string;
