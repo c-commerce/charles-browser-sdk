@@ -332,6 +332,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public analytics?: PersonPayload['analytics']
   public defaultAddress?: PersonPayload['defaultAddress']
   public languagePreference?: PersonPayload['languagePreference']
+  // public possibleDuplicates?: PersonPayload['possibleDuplicates']
 
   constructor (options: PersonOptions) {
     super()
