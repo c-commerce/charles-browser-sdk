@@ -23,7 +23,7 @@ import universeTopics from '../../universe/topics'
 import * as realtime from '../../realtime'
 import type { MessageBroker } from '../message-broker'
 import { MessageSubscriptionInstance, MessageSubscriptionInstanceRawPayload, MessageSubscriptionInstancesFetchRemoteError } from '../message-subscription-instance'
-import { PossibleDuplicatesRawPayload, PossibleDuplicatesFetchRemoteError } from './possible-duplicates'
+import { PossibleDuplicatesRawPayload, PossibleDuplicatesPayload, PossibleDuplicatesFetchRemoteError } from './possible-duplicates'
 
 export interface PersonOptions extends UniverseEntityOptions {
   rawPayload?: PersonRawPayload
@@ -332,7 +332,6 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public analytics?: PersonPayload['analytics']
   public defaultAddress?: PersonPayload['defaultAddress']
   public languagePreference?: PersonPayload['languagePreference']
-  // public possibleDuplicates?: PersonPayload['possibleDuplicates']
 
   constructor (options: PersonOptions) {
     super()
@@ -962,15 +961,25 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     }
   }
 
-  public async checkDuplicates (): Promise<PossibleDuplicatesRawPayload[]> {
-    if (this.id === null || this.id === undefined) throw new TypeError('people checkDuplicates requires id to be set.')
-    try {
-      const res = await this.http?.getClient().put<PossibleDuplicatesRawPayload[]>(
-        `${this.universe?.universeBase}/${this.endpoint}/${this.id}/check/duplicates`,
-        null,
-        { params: { strategies: ['global_phonenumber'] } })
+  public async checkDuplicates (options?: EntityFetchOptions): Promise<PossibleDuplicatesPayload> {
+    if (this.id === null || this.id === undefined) throw new TypeError('people duplicates check requires person id to be set.')
 
-      return res.data
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/check/duplicates${qs.stringify(options?.query ?? {}, { addQueryPrefix: true })}`,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      const { person_id, ...rest } = res.data.data[0] as PossibleDuplicatesRawPayload
+
+      return {
+        personId: person_id,
+        ...rest
+      }
     } catch (err) {
       throw this.handleError(new PossibleDuplicatesFetchRemoteError(undefined, { error: err }))
     }
