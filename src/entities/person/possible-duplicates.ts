@@ -1,5 +1,5 @@
 import { EntityRawPayload } from '../_base'
-import { PersonRawPayload, PersonPhonenumberRawPayload } from './person'
+import { PersonRawPayload, PersonPhoneNumberRawPayload } from './person'
 import { ChannelUserRawPayload } from './channel-user'
 import { BaseError } from '../../errors'
 
@@ -9,7 +9,7 @@ export interface PossibleDuplicatesRawPayload extends EntityRawPayload {
 }
 
 export interface PossibleDuplicatesStrategies {
-  readonly global_phonenumber?: StrategiesResult[]
+  readonly global_phone_number?: StrategiesResult[]
   readonly name_exact_matches?: StrategiesResult[]
 }
 
@@ -21,7 +21,7 @@ export interface StrategiesResult {
 export interface StrategiesDocument {
   readonly person: Pick<PersonRawPayload, 'id'| 'kind' | 'name'>
   readonly channel_user?: Pick<ChannelUserRawPayload, 'id' | 'name' | 'phone'>
-  readonly phone_number?: Pick<PersonPhonenumberRawPayload, 'id' | 'value'>
+  readonly phone_number?: Pick<PersonPhoneNumberRawPayload, 'id' | 'value'>
 }
 
 export interface PossibleDuplicatesPayload {

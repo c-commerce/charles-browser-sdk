@@ -35,7 +35,7 @@ export interface AddressOptions extends PersonOptions {
 }
 
 export interface PhonenumberOptions extends PersonOptions {
-  rawPayload?: PersonPhonenumberRawPayload
+  rawPayload?: PersonPhoneNumberRawPayload
 }
 
 export interface PreviewNotificationParams{
@@ -85,7 +85,7 @@ export interface PersonAddressPayload {
   readonly external_reference_id?: PersonAddressRawPayload['external_reference_id']
 }
 
-export interface PersonPhonenumberRawPayload extends EntityRawPayload {
+export interface PersonPhoneNumberRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
@@ -100,20 +100,20 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
   readonly proxy_vendor?: string
   readonly portability?: object | any | null
 }
-export interface PersonPhonenumberPayload {
-  readonly id?: PersonPhonenumberRawPayload['id']
+export interface PersonPhoneNumberPayload {
+  readonly id?: PersonPhoneNumberRawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
-  readonly deleted?: PersonPhonenumberRawPayload['deleted']
-  readonly active?: PersonPhonenumberRawPayload['active']
-  readonly type?: PersonPhonenumberRawPayload['type']
-  readonly value?: PersonPhonenumberRawPayload['value']
-  readonly person?: PersonPhonenumberRawPayload['person']
-  readonly channelUser?: PersonPhonenumberRawPayload['channel_user']
-  readonly isPortable?: PersonPhonenumberRawPayload['is_portable']
-  readonly isProxy?: PersonPhonenumberRawPayload['is_proxy']
-  readonly proxyVendor?: PersonPhonenumberRawPayload['proxy_vendor']
-  readonly portability?: PersonPhonenumberRawPayload['portability']
+  readonly deleted?: PersonPhoneNumberRawPayload['deleted']
+  readonly active?: PersonPhoneNumberRawPayload['active']
+  readonly type?: PersonPhoneNumberRawPayload['type']
+  readonly value?: PersonPhoneNumberRawPayload['value']
+  readonly person?: PersonPhoneNumberRawPayload['person']
+  readonly channelUser?: PersonPhoneNumberRawPayload['channel_user']
+  readonly isPortable?: PersonPhoneNumberRawPayload['is_portable']
+  readonly isProxy?: PersonPhoneNumberRawPayload['is_proxy']
+  readonly proxyVendor?: PersonPhoneNumberRawPayload['proxy_vendor']
+  readonly portability?: PersonPhoneNumberRawPayload['portability']
 }
 
 export type PersonChannelUserRawPayload = ChannelUserRawPayload
@@ -156,7 +156,7 @@ export interface PersonRawPayload extends EntityRawPayload {
   }
   readonly emails?: PersonEmailRawPayload[]
   readonly addresses?: PersonAddressRawPayload[]
-  readonly phonenumbers?: PersonPhonenumberRawPayload[]
+  readonly phonenumbers?: PersonPhoneNumberRawPayload[]
   readonly channel_users?: PersonChannelUserRawPayload[]
   readonly analytics?: PersonAnalyticsRawPayload
   readonly default_address?: string | null
@@ -332,7 +332,6 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public analytics?: PersonPayload['analytics']
   public defaultAddress?: PersonPayload['defaultAddress']
   public languagePreference?: PersonPayload['languagePreference']
-  // public possibleDuplicates?: PersonPayload['possibleDuplicates']
 
   constructor (options: PersonOptions) {
     super()
@@ -875,7 +874,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     return Email.create({ ...payload, person: this.id }, this.universe, this.http)
   }
 
-  public phonenumber (payload: PersonPhonenumberRawPayload): Phonenumber {
+  public phonenumber (payload: PersonPhoneNumberRawPayload): Phonenumber {
     return Phonenumber.create({ ...payload, person: this.id }, this.universe, this.http)
   }
 
@@ -885,13 +884,13 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
 
   public get phonenumbers (): IPersonPhonenumbers {
     return {
-      fromJson: (payloads: PersonPhonenumberRawPayload[]): Phonenumber[] => {
+      fromJson: (payloads: PersonPhoneNumberRawPayload[]): Phonenumber[] => {
         return payloads.map(item => Phonenumber.create(item, this.universe, this.http))
       },
-      toJson: (payloads: Phonenumber[]): PersonPhonenumberRawPayload[] => {
+      toJson: (payloads: Phonenumber[]): PersonPhoneNumberRawPayload[] => {
         return payloads.map(item => item.serialize())
       },
-      fetch: async (options?: EntityFetchOptions): Promise<Phonenumber[] | PersonPhonenumberRawPayload[] | undefined> => {
+      fetch: async (options?: EntityFetchOptions): Promise<Phonenumber[] | PersonPhoneNumberRawPayload[] | undefined> => {
         try {
           const opts = {
             method: 'GET',
@@ -901,20 +900,20 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
             }
           }
           const res = await this.http.getClient()(opts)
-          const phonenumbers = res.data.data as PersonPhonenumberRawPayload[]
+          const phonenumbers = res.data.data as PersonPhoneNumberRawPayload[]
 
           if (options && options.raw === true) {
             return phonenumbers
           }
 
-          return phonenumbers.map((phonenumber: PersonPhonenumberRawPayload) => {
+          return phonenumbers.map((phonenumber: PersonPhoneNumberRawPayload) => {
             return Phonenumber.create(phonenumber, this.universe, this.http)
           })
         } catch (err) {
           throw new PhonenumbersFetchRemoteError(undefined, { error: err })
         }
       },
-      create: async (phonenumber: PersonPhonenumberRawPayload): Promise<Phonenumber | undefined> => {
+      create: async (phonenumber: PersonPhoneNumberRawPayload): Promise<Phonenumber | undefined> => {
         try {
           const opts = {
             method: 'POST',
@@ -922,9 +921,9 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
             data: phonenumber
           }
           const res = await this.http.getClient()(opts)
-          const phonenumbers = res.data.data as PersonPhonenumberRawPayload[]
+          const phonenumbers = res.data.data as PersonPhoneNumberRawPayload[]
 
-          return phonenumbers.map((phonenumber: PersonPhonenumberRawPayload) => {
+          return phonenumbers.map((phonenumber: PersonPhoneNumberRawPayload) => {
             return Phonenumber.create(phonenumber, this.universe, this.http)
           })[0]
         } catch (err) {
@@ -1155,7 +1154,7 @@ export interface PhonenumberToAccessor {
   messageBrokerChannelUser: (messageBroker: MessageBroker) => Promise<ChannelUser>
 }
 
-export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, PersonPhonenumberRawPayload> {
+export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
@@ -1198,7 +1197,7 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
     }
   }
 
-  protected deserialize (rawPayload: PersonPhonenumberRawPayload): Phonenumber {
+  protected deserialize (rawPayload: PersonPhoneNumberRawPayload): Phonenumber {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -1220,7 +1219,7 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
   }
 
   public static create (
-    payload: PersonPhonenumberRawPayload,
+    payload: PersonPhoneNumberRawPayload,
     universe: Universe,
     http: Universe['http']
   ): Phonenumber {
@@ -1228,14 +1227,14 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
   }
 
   public static createUninitialized (
-    payload: PersonPhonenumberRawPayload,
+    payload: PersonPhoneNumberRawPayload,
     universe: Universe,
     http: Universe['http']
   ): Phonenumber {
     return new Phonenumber({ rawPayload: payload, universe, http, initialized: false })
   }
 
-  public serialize (): PersonPhonenumberRawPayload {
+  public serialize (): PersonPhoneNumberRawPayload {
     return {
       id: this.id,
       value: this.value,
@@ -1253,7 +1252,7 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
     }
   }
 
-  public async patch (changePart: PersonPhonenumberRawPayload): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>> {
+  public async patch (changePart: PersonPhoneNumberRawPayload): Promise<Entity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload>> {
     if (!this.person) {
       throw new PhonenumberPatchRemoteError('Phonenumber patch requires person to be set.')
     }
@@ -1261,7 +1260,7 @@ export class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, Person
     return await this._patch(changePart)
   }
 
-  public async applyPatch (patch: RawPatch): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>> {
+  public async applyPatch (patch: RawPatch): Promise<Entity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload>> {
     if (!this.person) {
       throw new PhonenumberApplyPatchRemoteError('Phonenumber applyPatch requires person to be set.')
     }

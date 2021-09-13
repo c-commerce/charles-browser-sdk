@@ -17,7 +17,6 @@ var feed_1 = require("../../eventing/feeds/feed");
 var topics_1 = tslib_1.__importDefault(require("../../universe/topics"));
 var realtime = tslib_1.__importStar(require("../../realtime"));
 var message_subscription_instance_1 = require("../message-subscription-instance");
-var possible_duplicates_1 = require("./possible-duplicates");
 var AddressArray = (function (_super) {
     tslib_1.__extends(AddressArray, _super);
     function AddressArray(items, universe, http, person) {
@@ -785,30 +784,6 @@ var Person = (function (_super) {
                     case 3:
                         err_16 = _c.sent();
                         throw new PersonPreviewNotificationError(undefined, { error: err_16 });
-                    case 4: return [2];
-                }
-            });
-        });
-    };
-    Person.prototype.checkDuplicates = function () {
-        var _a, _b;
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var res, err_17;
-            return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        if (this.id === null || this.id === undefined)
-                            throw new TypeError('people checkDuplicates requires id to be set.');
-                        _c.label = 1;
-                    case 1:
-                        _c.trys.push([1, 3, , 4]);
-                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient().put(((_b = this.universe) === null || _b === void 0 ? void 0 : _b.universeBase) + "/" + this.endpoint + "/" + this.id + "/check/duplicates", null, { params: { strategies: ['global_phonenumber'] } }))];
-                    case 2:
-                        res = _c.sent();
-                        return [2, res.data];
-                    case 3:
-                        err_17 = _c.sent();
-                        throw this.handleError(new possible_duplicates_1.PossibleDuplicatesFetchRemoteError(undefined, { error: err_17 }));
                     case 4: return [2];
                 }
             });

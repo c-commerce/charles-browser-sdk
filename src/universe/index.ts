@@ -667,7 +667,7 @@ export class Universe extends APICarrier {
     return person.Address.create(payload, this, this.http)
   }
 
-  public phonenumber (payload: person.PersonPhonenumberRawPayload): person.Phonenumber {
+  public phonenumber (payload: person.PersonPhoneNumberRawPayload): person.Phonenumber {
     return person.Phonenumber.create(payload, this, this.http)
   }
 
