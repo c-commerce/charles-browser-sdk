@@ -5,8 +5,17 @@ import {
   StorefrontsFetchRemoteError
 } from './storefront'
 
+import {
+  StorefrontScript,
+  StorefrontScripts,
+  StorefrontScriptFetchRemoteError
+} from './storefront-script'
+
 export {
   Storefront,
   Storefronts,
-  StorefrontsFetchRemoteError
+  StorefrontsFetchRemoteError,
+  StorefrontScript,
+  StorefrontScripts,
+  StorefrontScriptFetchRemoteError
 }

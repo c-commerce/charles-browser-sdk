@@ -1,7 +1,12 @@
 
-import { UniverseEntityOptions, UniverseEntity } from '../_base'
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import {
+  StorefrontScript,
+  StorefrontScriptRawPayload,
+  StorefrontScriptsFetchRemoteError
+} from './storefront-script'
 
 export interface StorefrontOptions extends UniverseEntityOptions {
   rawPayload?: StorefrontRawPayload
@@ -271,6 +276,33 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
       return res.status
     } catch (err) {
       throw this.handleError(new StorefrontSyncShippingMethodsRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async getScripts (options?: EntityFetchOptions): Promise<StorefrontScript[] | StorefrontScriptRawPayload[] | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront getScripts requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/scripts`,
+        params: {
+          ...(options?.query ?? {}),
+          embed: options?.query?.embed ?? 'options'
+        }
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data as StorefrontScriptRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: StorefrontScriptRawPayload) => {
+        return StorefrontScript.create(resource, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new StorefrontScriptsFetchRemoteError(undefined, { error: err })
     }
   }
 }
