@@ -43,6 +43,7 @@ import * as inventory from '../entities/inventory/inventory'
 import * as integration from '../entities/integration/integration'
 import * as messageBroker from '../entities/message-broker/message-broker'
 import * as storefront from '../entities/storefront/storefront'
+import * as storefrontScript from '../entities/storefront/storefront-script'
 import * as shippingMethod from '../entities/shipping-method/shipping-method'
 import * as route from '../entities/route/route'
 import * as thing from '../entities/thing/thing'
@@ -736,6 +737,10 @@ export class Universe extends APICarrier {
 
   public storefront (payload: storefront.StorefrontRawPayload): storefront.Storefront {
     return storefront.Storefront.create(payload, this, this.http)
+  }
+
+  public storefrontScript (payload: storefrontScript.StorefrontScriptRawPayload): storefrontScript.StorefrontScript {
+    return storefrontScript.StorefrontScript.create(payload, this, this.http)
   }
 
   public shippingMethod (payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod {
