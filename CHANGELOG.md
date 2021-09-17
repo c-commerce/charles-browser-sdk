@@ -1,3 +1,16 @@
+# [4.43.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.42.0...v4.43.0) (2021-09-17)
+
+
+### Features
+
+* **storefront script:** added storefront scripts ([233054f](https://github.com/c-commerce/charles-browser-sdk/commit/233054f5467f44528ce97ba8042efa75eda1193f))
+* **storefront scripts:** addded storefront scripts ([7c1df5a](https://github.com/c-commerce/charles-browser-sdk/commit/7c1df5a0fc25572e189a6c4818b2c3b08efd0ea3))
+
+
+### Reverts
+
+* **dist:** revert dist commit ([26b68bd](https://github.com/c-commerce/charles-browser-sdk/commit/26b68bdb5ab11140cfb9ed1c6321761989905334))
+
 # [4.42.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.41.0...v4.42.0) (2021-09-06)
 
 

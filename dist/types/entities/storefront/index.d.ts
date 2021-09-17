@@ -1,2 +1,3 @@
 import { Storefront, Storefronts, StorefrontsFetchRemoteError } from './storefront';
-export { Storefront, Storefronts, StorefrontsFetchRemoteError };
+import { StorefrontScript, StorefrontScripts, StorefrontScriptFetchRemoteError } from './storefront-script';
+export { Storefront, Storefronts, StorefrontsFetchRemoteError, StorefrontScript, StorefrontScripts, StorefrontScriptFetchRemoteError };
