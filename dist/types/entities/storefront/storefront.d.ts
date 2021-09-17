@@ -1,7 +1,6 @@
-import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base';
+import { UniverseEntityOptions, UniverseEntity } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-import { StorefrontScript, StorefrontScriptRawPayload } from './storefront-script';
 export interface StorefrontOptions extends UniverseEntityOptions {
     rawPayload?: StorefrontRawPayload;
 }
@@ -67,7 +66,6 @@ export declare class Storefront extends UniverseEntity<StorefrontPayload, Storef
     syncLocations(): Promise<number | undefined>;
     syncProductCategories(): Promise<number | undefined>;
     syncShippingMethods(): Promise<number | undefined>;
-    getScripts(options?: EntityFetchOptions): Promise<StorefrontScript[] | StorefrontScriptRawPayload[] | undefined>;
 }
 export declare class Storefronts {
     static endpoint: string;

@@ -4,7 +4,6 @@ exports.StorefrontSyncProductCategoriesRemoteError = exports.StorefrontSyncLocat
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
-var storefront_script_1 = require("./storefront-script");
 var Storefront = (function (_super) {
     tslib_1.__extends(Storefront, _super);
     function Storefront(options) {
@@ -304,42 +303,6 @@ var Storefront = (function (_super) {
                     case 3:
                         err_8 = _b.sent();
                         throw this.handleError(new StorefrontSyncShippingMethodsRemoteError(undefined, { error: err_8 }));
-                    case 4: return [2];
-                }
-            });
-        });
-    };
-    Storefront.prototype.getScripts = function (options) {
-        var _a, _b, _c;
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, resources, err_9;
-            var _this = this;
-            return tslib_1.__generator(this, function (_d) {
-                switch (_d.label) {
-                    case 0:
-                        if (this.id === null || this.id === undefined)
-                            throw new TypeError('storefront getScripts requires id to be set.');
-                        _d.label = 1;
-                    case 1:
-                        _d.trys.push([1, 3, , 4]);
-                        opts = {
-                            method: 'GET',
-                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/scripts",
-                            params: tslib_1.__assign(tslib_1.__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {})), { embed: (_c = (_b = options === null || options === void 0 ? void 0 : options.query) === null || _b === void 0 ? void 0 : _b.embed) !== null && _c !== void 0 ? _c : 'options' })
-                        };
-                        return [4, this.http.getClient()(opts)];
-                    case 2:
-                        res = _d.sent();
-                        resources = res.data.data;
-                        if (options && options.raw === true) {
-                            return [2, resources];
-                        }
-                        return [2, resources.map(function (resource) {
-                                return storefront_script_1.StorefrontScript.create(resource, _this.universe, _this.http);
-                            })];
-                    case 3:
-                        err_9 = _d.sent();
-                        throw new storefront_script_1.StorefrontScriptsFetchRemoteError(undefined, { error: err_9 });
                     case 4: return [2];
                 }
             });

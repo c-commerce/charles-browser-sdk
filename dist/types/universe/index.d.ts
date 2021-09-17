@@ -31,7 +31,6 @@ import * as inventory from '../entities/inventory/inventory';
 import * as integration from '../entities/integration/integration';
 import * as messageBroker from '../entities/message-broker/message-broker';
 import * as storefront from '../entities/storefront/storefront';
-import * as storefrontScript from '../entities/storefront/storefront-script';
 import * as shippingMethod from '../entities/shipping-method/shipping-method';
 import * as route from '../entities/route/route';
 import * as thing from '../entities/thing/thing';
@@ -339,7 +338,6 @@ export declare class Universe extends APICarrier {
     integration(payload: integration.IntegrationRawPayload): integration.Integration;
     messageBroker(payload: messageBroker.MessageBrokerRawPayload): messageBroker.MessageBroker;
     storefront(payload: storefront.StorefrontRawPayload): storefront.Storefront;
-    storefrontScript(payload: storefrontScript.StorefrontScriptRawPayload): storefrontScript.StorefrontScript;
     shippingMethod(payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod;
     route(payload: route.RouteRawPayload): route.Route;
     thing(payload: thing.ThingRawPayload): thing.Thing;

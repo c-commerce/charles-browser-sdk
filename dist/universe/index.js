@@ -38,7 +38,6 @@ var inventory = tslib_1.__importStar(require("../entities/inventory/inventory"))
 var integration = tslib_1.__importStar(require("../entities/integration/integration"));
 var messageBroker = tslib_1.__importStar(require("../entities/message-broker/message-broker"));
 var storefront = tslib_1.__importStar(require("../entities/storefront/storefront"));
-var storefrontScript = tslib_1.__importStar(require("../entities/storefront/storefront-script"));
 var shippingMethod = tslib_1.__importStar(require("../entities/shipping-method/shipping-method"));
 var route = tslib_1.__importStar(require("../entities/route/route"));
 var thing = tslib_1.__importStar(require("../entities/thing/thing"));
@@ -388,9 +387,6 @@ var Universe = (function (_super) {
     };
     Universe.prototype.storefront = function (payload) {
         return storefront.Storefront.create(payload, this, this.http);
-    };
-    Universe.prototype.storefrontScript = function (payload) {
-        return storefrontScript.StorefrontScript.create(payload, this, this.http);
     };
     Universe.prototype.shippingMethod = function (payload) {
         return shippingMethod.ShippingMethod.create(payload, this, this.http);
