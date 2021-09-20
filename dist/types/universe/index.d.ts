@@ -321,7 +321,7 @@ export declare class Universe extends APICarrier {
     order(payload: order.OrderRawPayload): order.Order;
     person(payload: person.PersonRawPayload): person.Person;
     address(payload: person.PersonAddressRawPayload): person.Address;
-    phonenumber(payload: person.PersonPhonenumberRawPayload): person.Phonenumber;
+    phonenumber(payload: person.PersonPhoneNumberRawPayload): person.Phonenumber;
     channelUser(payload: person.PersonChannelUserRawPayload): channelUser.ChannelUser;
     email(payload: person.PersonEmailRawPayload): email.Email;
     ticket(payload: ticket.TicketRawPayload): ticket.Ticket;

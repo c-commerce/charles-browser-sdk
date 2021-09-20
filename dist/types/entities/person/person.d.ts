@@ -9,6 +9,7 @@ import { Cart, CartRawPayload } from '../cart/cart';
 import { EventRawPayload } from '../../eventing/feeds/event';
 import type { MessageBroker } from '../message-broker';
 import { MessageSubscriptionInstance, MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance';
+import { PossibleDuplicatesPayload } from './possible-duplicates';
 export interface PersonOptions extends UniverseEntityOptions {
     rawPayload?: PersonRawPayload;
     mqtt?: Universe['mqtt'];
@@ -17,7 +18,7 @@ export interface AddressOptions extends PersonOptions {
     rawPayload?: PersonAddressRawPayload;
 }
 export interface PhonenumberOptions extends PersonOptions {
-    rawPayload?: PersonPhonenumberRawPayload;
+    rawPayload?: PersonPhoneNumberRawPayload;
 }
 export interface PreviewNotificationParams {
     channelUserId: string;
@@ -64,7 +65,7 @@ export interface PersonAddressPayload {
     readonly proxy_vendor?: PersonAddressRawPayload['proxy_vendor'];
     readonly external_reference_id?: PersonAddressRawPayload['external_reference_id'];
 }
-export interface PersonPhonenumberRawPayload extends EntityRawPayload {
+export interface PersonPhoneNumberRawPayload extends EntityRawPayload {
     readonly created_at?: string;
     readonly updated_at?: string;
     readonly deleted?: boolean;
@@ -78,20 +79,20 @@ export interface PersonPhonenumberRawPayload extends EntityRawPayload {
     readonly proxy_vendor?: string;
     readonly portability?: object | any | null;
 }
-export interface PersonPhonenumberPayload {
-    readonly id?: PersonPhonenumberRawPayload['id'];
+export interface PersonPhoneNumberPayload {
+    readonly id?: PersonPhoneNumberRawPayload['id'];
     readonly createdAt?: Date | null;
     readonly updatedAt?: Date | null;
-    readonly deleted?: PersonPhonenumberRawPayload['deleted'];
-    readonly active?: PersonPhonenumberRawPayload['active'];
-    readonly type?: PersonPhonenumberRawPayload['type'];
-    readonly value?: PersonPhonenumberRawPayload['value'];
-    readonly person?: PersonPhonenumberRawPayload['person'];
-    readonly channelUser?: PersonPhonenumberRawPayload['channel_user'];
-    readonly isPortable?: PersonPhonenumberRawPayload['is_portable'];
-    readonly isProxy?: PersonPhonenumberRawPayload['is_proxy'];
-    readonly proxyVendor?: PersonPhonenumberRawPayload['proxy_vendor'];
-    readonly portability?: PersonPhonenumberRawPayload['portability'];
+    readonly deleted?: PersonPhoneNumberRawPayload['deleted'];
+    readonly active?: PersonPhoneNumberRawPayload['active'];
+    readonly type?: PersonPhoneNumberRawPayload['type'];
+    readonly value?: PersonPhoneNumberRawPayload['value'];
+    readonly person?: PersonPhoneNumberRawPayload['person'];
+    readonly channelUser?: PersonPhoneNumberRawPayload['channel_user'];
+    readonly isPortable?: PersonPhoneNumberRawPayload['is_portable'];
+    readonly isProxy?: PersonPhoneNumberRawPayload['is_proxy'];
+    readonly proxyVendor?: PersonPhoneNumberRawPayload['proxy_vendor'];
+    readonly portability?: PersonPhoneNumberRawPayload['portability'];
 }
 export declare type PersonChannelUserRawPayload = ChannelUserRawPayload;
 export declare type PersonAnalyticsRawPayload = AnalyticsRawPayload;
@@ -130,7 +131,7 @@ export interface PersonRawPayload extends EntityRawPayload {
     };
     readonly emails?: PersonEmailRawPayload[];
     readonly addresses?: PersonAddressRawPayload[];
-    readonly phonenumbers?: PersonPhonenumberRawPayload[];
+    readonly phonenumbers?: PersonPhoneNumberRawPayload[];
     readonly channel_users?: PersonChannelUserRawPayload[];
     readonly analytics?: PersonAnalyticsRawPayload;
     readonly default_address?: string | null;
@@ -258,10 +259,11 @@ export declare class Person extends UniverseEntity<PersonPayload, PersonRawPaylo
     getMessagesubscriptionInstances(options?: EntityFetchOptions): Promise<MessageSubscriptionInstance[] | MessageSubscriptionInstanceRawPayload[]>;
     getEmails(options?: EntityFetchOptions): Promise<Email[] | EmailRawPayload[]>;
     email(payload: EmailRawPayload): Email;
-    phonenumber(payload: PersonPhonenumberRawPayload): Phonenumber;
+    phonenumber(payload: PersonPhoneNumberRawPayload): Phonenumber;
     address(payload: PersonAddressRawPayload): Address;
     get phonenumbers(): IPersonPhonenumbers;
     previewNotification(params: PreviewNotificationParams, language: string, parameters?: any[] | object, options?: EntityFetchOptions): Promise<EventRawPayload[]>;
+    checkDuplicates(options?: EntityFetchOptions): Promise<PossibleDuplicatesPayload>;
 }
 export interface PersonGDPROptions {
     password?: string;
@@ -318,7 +320,7 @@ export declare class Address extends UniverseEntity<PersonAddressPayload, Person
 export interface PhonenumberToAccessor {
     messageBrokerChannelUser: (messageBroker: MessageBroker) => Promise<ChannelUser>;
 }
-export declare class Phonenumber extends UniverseEntity<PersonPhonenumberPayload, PersonPhonenumberRawPayload> {
+export declare class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload> {
     protected universe: Universe;
     protected apiCarrier: Universe;
     protected http: Universe['http'];
@@ -340,12 +342,12 @@ export declare class Phonenumber extends UniverseEntity<PersonPhonenumberPayload
     portability?: object | any | null;
     endpoint: string;
     constructor(options: PhonenumberOptions);
-    protected deserialize(rawPayload: PersonPhonenumberRawPayload): Phonenumber;
-    static create(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
-    static createUninitialized(payload: PersonPhonenumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
-    serialize(): PersonPhonenumberRawPayload;
-    patch(changePart: PersonPhonenumberRawPayload): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>>;
-    applyPatch(patch: RawPatch): Promise<Entity<PersonPhonenumberPayload, PersonPhonenumberRawPayload>>;
+    protected deserialize(rawPayload: PersonPhoneNumberRawPayload): Phonenumber;
+    static create(payload: PersonPhoneNumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
+    static createUninitialized(payload: PersonPhoneNumberRawPayload, universe: Universe, http: Universe['http']): Phonenumber;
+    serialize(): PersonPhoneNumberRawPayload;
+    patch(changePart: PersonPhoneNumberRawPayload): Promise<Entity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload>>;
+    applyPatch(patch: RawPatch): Promise<Entity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload>>;
     get to(): PhonenumberToAccessor;
 }
 export declare class PersonDeleteRemoteError extends BaseError {

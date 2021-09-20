@@ -17,6 +17,7 @@ var feed_1 = require("../../eventing/feeds/feed");
 var topics_1 = tslib_1.__importDefault(require("../../universe/topics"));
 var realtime = tslib_1.__importStar(require("../../realtime"));
 var message_subscription_instance_1 = require("../message-subscription-instance");
+var possible_duplicates_1 = require("./possible-duplicates");
 var AddressArray = (function (_super) {
     tslib_1.__extends(AddressArray, _super);
     function AddressArray(items, universe, http, person) {
@@ -784,6 +785,36 @@ var Person = (function (_super) {
                     case 3:
                         err_16 = _c.sent();
                         throw new PersonPreviewNotificationError(undefined, { error: err_16 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    Person.prototype.checkDuplicates = function (options) {
+        var _a, _b, _c;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, _d, person_id, rest, err_17;
+            return tslib_1.__generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('people duplicates check requires person id to be set.');
+                        _e.label = 1;
+                    case 1:
+                        _e.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/check/duplicates" + qs_1.default.stringify((_b = options === null || options === void 0 ? void 0 : options.query) !== null && _b !== void 0 ? _b : {}, { addQueryPrefix: true }),
+                            responseType: 'json'
+                        };
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
+                    case 2:
+                        res = _e.sent();
+                        _d = res.data.data[0], person_id = _d.person_id, rest = tslib_1.__rest(_d, ["person_id"]);
+                        return [2, tslib_1.__assign({ personId: person_id }, rest)];
+                    case 3:
+                        err_17 = _e.sent();
+                        throw this.handleError(new possible_duplicates_1.PossibleDuplicatesFetchRemoteError(undefined, { error: err_17 }));
                     case 4: return [2];
                 }
             });

@@ -1,3 +1,11 @@
+# [4.44.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.43.0...v4.44.0) (2021-09-20)
+
+
+### Features
+
+* **person#possible_duplicates:** add new interface for possible duplicated contacts ([57c18a9](https://github.com/c-commerce/charles-browser-sdk/commit/57c18a9f4abe8a935e4cfb09c7fc6fa376bf1b46))
+* **person#possible_duplicates:** check for person's possible duplicated contacts ([dcc1e11](https://github.com/c-commerce/charles-browser-sdk/commit/dcc1e111489553898e77d0b34e28cd0cc3f94a84))
+
 # [4.43.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.42.0...v4.43.0) (2021-09-17)
 
 
