@@ -1,0 +1,66 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    strategy:
+      matrix:
+        node-version: [ 14.17.4 ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: '**/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run:
+          # Replace typedoc's typescript dep with currently installed version
+          # because it comes with an incompatible version
+          name: install
+          command: |
+            npm install
+
+            rm -rf ./node_modules/typedoc/node_modules/typescript
+            cp -r ./node_modules/typescript ./node_modules/typedoc/node_modules/typescript
+
+      - run:
+          name: test
+          command: npm run test:prod
+      - run:
+          name: build
+          command: npm run build
+
+      - run: npm run coverage
+      # - run: git describe --exact-match --tags HEAD && npm run docs && npm run deploy-docs
+      - run:
+          name: release
+          command: npm run semantic-release || true
+      - run:
+          name: build-docs
+          command: npm run build:docs && npm run build:storybooks:prepare && npm run build:storybooks
+      - run: npm run deploy-docs
+
+
