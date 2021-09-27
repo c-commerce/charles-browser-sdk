@@ -216,6 +216,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     this.isDraft = rawPayload.is_draft
     this.analytics = rawPayload.analytics
     this.messageAuthor = rawPayload.message_author
+    this.defaultLanguage = rawPayload.default_language
 
     return this
   }
@@ -342,6 +343,30 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
+  /**
+   * Same as publish but used if campaign was halted due to errors or else.
+   */
+  public async continue (): Promise<NotificationCampaign> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign continue requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/continue`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data[0] as NotificationCampaignRawPayload
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignContinueError(undefined, { error: err })
+    }
+  }
+
   public async test (payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
 
@@ -465,5 +490,12 @@ export class NotificationCampaignGetFeedEventsError extends BaseError {
   constructor (public message: string = 'Could not get notification_campaign feed events', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignGetFeedEventsError.prototype)
+  }
+}
+export class NotificationCampaignContinueError extends BaseError {
+  public name = 'NotificationCampaignContinueError'
+  constructor (public message: string = 'Could not continue notification campaign', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignContinueError.prototype)
   }
 }
