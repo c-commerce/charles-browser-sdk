@@ -36,31 +36,32 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run:
-          # Replace typedoc's typescript dep with currently installed version
-          # because it comes with an incompatible version
-          name: install
-          command: |
+      
+      - name: install
+        # Replace typedoc's typescript dep with currently installed version
+        # because it comes with an incompatible version
+        run: |
             npm install
 
             rm -rf ./node_modules/typedoc/node_modules/typescript
             cp -r ./node_modules/typescript ./node_modules/typedoc/node_modules/typescript
+      
+      - name: test
+        run: npm run test:prod
+      
+      - name: build
+        run: npm run build
 
-      - run:
-          name: test
-          command: npm run test:prod
-      - run:
-          name: build
-          command: npm run build
-
-      - run: npm run coverage
+      - name: coverage
+        run: npm run coverage
       # - run: git describe --exact-match --tags HEAD && npm run docs && npm run deploy-docs
-      - run:
-          name: release
-          command: npm run semantic-release || true
-      - run:
-          name: build-docs
-          command: npm run build:docs && npm run build:storybooks:prepare && npm run build:storybooks
-      - run: npm run deploy-docs
+      - name: release
+        run: npm run semantic-release || true
+
+      - name: build-docs
+        run: npm run build:docs && npm run build:storybooks:prepare && npm run build:storybooks
+
+      - name: deploy-docs
+        run: npm run deploy-docs
 
 
