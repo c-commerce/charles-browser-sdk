@@ -144,6 +144,7 @@ export declare class NotificationCampaign extends UniverseEntity<NotificationCam
     preflightCheck(): Promise<NotificationCampaign>;
     preflightArm(): Promise<NotificationCampaign>;
     publish(): Promise<NotificationCampaign>;
+    continue(): Promise<NotificationCampaign>;
     test(payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign>;
     getFeedEvents(options?: EntityFetchOptions): Promise<EventRawPayload[]>;
 }
@@ -191,6 +192,11 @@ export declare class NotificationCampaignTestError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class NotificationCampaignGetFeedEventsError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class NotificationCampaignContinueError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

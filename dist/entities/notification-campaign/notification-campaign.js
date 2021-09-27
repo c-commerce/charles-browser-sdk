@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NotificationCampaignGetFeedEventsError = exports.NotificationCampaignTestError = exports.NotificationCampaignPublishError = exports.NotificationCampaignArmError = exports.NotificationCampaignPreflightError = exports.NotificationCampaignsFetchCountRemoteError = exports.NotificationCampaignsFetchRemoteError = exports.NotificationCampaignFetchRemoteError = exports.NotificationCampaignInitializationError = exports.NotificationCampaigns = exports.NotificationCampaign = void 0;
+exports.NotificationCampaignContinueError = exports.NotificationCampaignGetFeedEventsError = exports.NotificationCampaignTestError = exports.NotificationCampaignPublishError = exports.NotificationCampaignArmError = exports.NotificationCampaignPreflightError = exports.NotificationCampaignsFetchCountRemoteError = exports.NotificationCampaignsFetchRemoteError = exports.NotificationCampaignFetchRemoteError = exports.NotificationCampaignInitializationError = exports.NotificationCampaigns = exports.NotificationCampaign = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -49,6 +49,7 @@ var NotificationCampaign = (function (_super) {
         this.isDraft = rawPayload.is_draft;
         this.analytics = rawPayload.analytics;
         this.messageAuthor = rawPayload.message_author;
+        this.defaultLanguage = rawPayload.default_language;
         return this;
     };
     NotificationCampaign.create = function (payload, universe, http) {
@@ -200,9 +201,41 @@ var NotificationCampaign = (function (_super) {
             });
         });
     };
-    NotificationCampaign.prototype.test = function (payload) {
+    NotificationCampaign.prototype.continue = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, data, err_5;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('campaign continue requires id to be set.');
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/continue",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, this.http.getClient()(opts)];
+                    case 2:
+                        res = _a.sent();
+                        data = res.data.data[0];
+                        return [2, this.deserialize(data)];
+                    case 3:
+                        err_5 = _a.sent();
+                        throw new NotificationCampaignContinueError(undefined, { error: err_5 });
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    NotificationCampaign.prototype.test = function (payload) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, data, err_6;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -226,8 +259,8 @@ var NotificationCampaign = (function (_super) {
                         data = res.data.data;
                         return [2, this.deserialize(data)];
                     case 3:
-                        err_5 = _a.sent();
-                        throw new NotificationCampaignTestError(undefined, { error: err_5 });
+                        err_6 = _a.sent();
+                        throw new NotificationCampaignTestError(undefined, { error: err_6 });
                     case 4: return [2];
                 }
             });
@@ -236,7 +269,7 @@ var NotificationCampaign = (function (_super) {
     NotificationCampaign.prototype.getFeedEvents = function (options) {
         var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var opts, res, resources, _feed_1, err_6;
+            var opts, res, resources, _feed_1, err_7;
             var _this = this;
             return tslib_1.__generator(this, function (_d) {
                 switch (_d.label) {
@@ -266,8 +299,8 @@ var NotificationCampaign = (function (_super) {
                                 return event_1.Event.create(item, _feed_1, _this.universe, _this.http);
                             })];
                     case 3:
-                        err_6 = _d.sent();
-                        throw new NotificationCampaignGetFeedEventsError(undefined, { error: err_6 });
+                        err_7 = _d.sent();
+                        throw new NotificationCampaignGetFeedEventsError(undefined, { error: err_7 });
                     case 4: return [2];
                 }
             });
@@ -400,4 +433,17 @@ var NotificationCampaignGetFeedEventsError = (function (_super) {
     return NotificationCampaignGetFeedEventsError;
 }(errors_1.BaseError));
 exports.NotificationCampaignGetFeedEventsError = NotificationCampaignGetFeedEventsError;
+var NotificationCampaignContinueError = (function (_super) {
+    tslib_1.__extends(NotificationCampaignContinueError, _super);
+    function NotificationCampaignContinueError(message, properties) {
+        if (message === void 0) { message = 'Could not continue notification campaign'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'NotificationCampaignContinueError';
+        Object.setPrototypeOf(_this, NotificationCampaignContinueError.prototype);
+        return _this;
+    }
+    return NotificationCampaignContinueError;
+}(errors_1.BaseError));
+exports.NotificationCampaignContinueError = NotificationCampaignContinueError;
 //# sourceMappingURL=notification-campaign.js.map

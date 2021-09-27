@@ -1,3 +1,16 @@
+# [4.45.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.44.0...v4.45.0) (2021-09-27)
+
+
+### Bug Fixes
+
+* **github actions:** fix node yml ([408829f](https://github.com/c-commerce/charles-browser-sdk/commit/408829fd316a6262bafd87ec300a4fb58f38e3f2))
+
+
+### Features
+
+* **github actions:** enable build on actions ([7bebf7b](https://github.com/c-commerce/charles-browser-sdk/commit/7bebf7bcb444a2eda33b1722eed50464c21ac0ad))
+* **notification campaign:** fix deserialize, implement continue method ([85e14ef](https://github.com/c-commerce/charles-browser-sdk/commit/85e14ef3dd992e85e56013fa5a0f5a61c9f9a977))
+
 # [4.44.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.43.0...v4.44.0) (2021-09-20)
 
 
