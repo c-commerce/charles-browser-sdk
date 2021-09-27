@@ -1,3 +1,10 @@
+## [4.45.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.45.0...v4.45.1) (2021-09-27)
+
+
+### Bug Fixes
+
+* **github actions:** add token ref ([80590cd](https://github.com/c-commerce/charles-browser-sdk/commit/80590cdf45708a50d0c17bdad93f685434f08ade))
+
 # [4.45.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.44.0...v4.45.0) (2021-09-27)
 
 
