@@ -201,7 +201,7 @@ var NotificationCampaign = (function (_super) {
             });
         });
     };
-    NotificationCampaign.prototype.continue = function () {
+    NotificationCampaign.prototype.continue = function (options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, data, err_5;
             return tslib_1.__generator(this, function (_a) {
@@ -214,7 +214,7 @@ var NotificationCampaign = (function (_super) {
                         _a.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'POST',
-                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/continue",
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/continue" + ((options === null || options === void 0 ? void 0 : options.query) ? qs_1.default.stringify(options.query, { addQueryPrefix: true }) : ''),
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
                             },

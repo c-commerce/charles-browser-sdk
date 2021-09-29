@@ -144,7 +144,7 @@ export declare class NotificationCampaign extends UniverseEntity<NotificationCam
     preflightCheck(): Promise<NotificationCampaign>;
     preflightArm(): Promise<NotificationCampaign>;
     publish(): Promise<NotificationCampaign>;
-    continue(): Promise<NotificationCampaign>;
+    continue(options?: EntityFetchOptions): Promise<NotificationCampaign>;
     test(payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign>;
     getFeedEvents(options?: EntityFetchOptions): Promise<EventRawPayload[]>;
 }

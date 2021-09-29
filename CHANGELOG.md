@@ -1,3 +1,10 @@
+## [4.45.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.45.1...v4.45.2) (2021-09-29)
+
+
+### Bug Fixes
+
+* **notification campaign:** allow query params in continue ([337245f](https://github.com/c-commerce/charles-browser-sdk/commit/337245fccb3d91fb22c02ca5c320b03009e01a11))
+
 ## [4.45.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.45.0...v4.45.1) (2021-09-27)
 
 
