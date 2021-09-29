@@ -346,13 +346,13 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   /**
    * Same as publish but used if campaign was halted due to errors or else.
    */
-  public async continue (): Promise<NotificationCampaign> {
+  public async continue (options?: EntityFetchOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign continue requires id to be set.')
 
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/continue`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/continue${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
