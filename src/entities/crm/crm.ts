@@ -293,8 +293,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     try {
       const opts = {
         method: 'GET',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/users
-          ${qs.stringify(options?.query ?? {}, { addQueryPrefix: true })}`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/users${qs.stringify(options?.query ?? {}, { addQueryPrefix: true })}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Content-Length': '0'
