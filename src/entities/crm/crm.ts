@@ -1,7 +1,9 @@
 
-import { UniverseEntityOptions, UniverseEntity } from '../_base'
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import qs from 'qs'
+import { CrmUser } from 'src/entities/crm/crm-user'
 
 export interface CRMOptions extends UniverseEntityOptions {
   rawPayload?: CRMRawPayload
@@ -259,6 +261,48 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
 
       const res = await this.http?.getClient()(opts)
       return res.status
+    } catch (err) {
+      throw this.handleError(new CRMSetupRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async syncUsers (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM syncPipelines requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/users`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new CRMSyncPipelinesRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async getCrmUsers (options?: EntityFetchOptions): Promise<CrmUser[]> {
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM getCrmUsers requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/users${qs.stringify(options?.query ?? {}, { addQueryPrefix: true })}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data
     } catch (err) {
       throw this.handleError(new CRMSetupRemoteError(undefined, { error: err }))
     }
