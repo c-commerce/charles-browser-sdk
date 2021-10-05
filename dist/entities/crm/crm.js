@@ -4,6 +4,7 @@ exports.CRMSyncOrganizationsRemoteError = exports.CRMSetupRemoteError = exports.
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
+var qs_1 = tslib_1.__importDefault(require("qs"));
 var CRM = (function (_super) {
     tslib_1.__extends(CRM, _super);
     function CRM(options) {
@@ -273,6 +274,72 @@ var CRM = (function (_super) {
                     case 3:
                         err_7 = _b.sent();
                         throw this.handleError(new CRMSetupRemoteError(undefined, { error: err_7 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    CRM.prototype.syncUsers = function () {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_8;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('CRM syncPipelines requires id to be set.');
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'PUT',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/sync/users",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_8 = _b.sent();
+                        throw this.handleError(new CRMSyncPipelinesRemoteError(undefined, { error: err_8 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    CRM.prototype.getCrmUsers = function (options) {
+        var _a, _b;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var opts, res, err_9;
+            return tslib_1.__generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('CRM getCrmUsers requires id to be set.');
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'GET',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/users" + qs_1.default.stringify((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}, { addQueryPrefix: true }),
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            responseType: 'json'
+                        };
+                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                    case 2:
+                        res = _c.sent();
+                        return [2, res.data.data];
+                    case 3:
+                        err_9 = _c.sent();
+                        throw this.handleError(new CRMSetupRemoteError(undefined, { error: err_9 }));
                     case 4: return [2];
                 }
             });

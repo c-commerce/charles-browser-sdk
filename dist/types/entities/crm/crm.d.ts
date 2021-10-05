@@ -1,6 +1,7 @@
-import { UniverseEntityOptions, UniverseEntity } from '../_base';
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
+import { CrmUser } from 'src/entities/crm/crm-user';
 export interface CRMOptions extends UniverseEntityOptions {
     rawPayload?: CRMRawPayload;
 }
@@ -68,6 +69,8 @@ export declare class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     syncPipelines(): Promise<number | undefined>;
     syncOrganizations(): Promise<number | undefined>;
     setup(): Promise<number | undefined>;
+    syncUsers(): Promise<number | undefined>;
+    getCrmUsers(options?: EntityFetchOptions): Promise<CrmUser[]>;
 }
 export declare class CRMs {
     static endpoint: string;

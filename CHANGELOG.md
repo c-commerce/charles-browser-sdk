@@ -1,3 +1,12 @@
+# [4.46.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.45.2...v4.46.0) (2021-10-05)
+
+
+### Features
+
+* **Pipedrive:** add syncUsers and getCrmUsers methods ([c6e4897](https://github.com/c-commerce/charles-browser-sdk/commit/c6e48977d34046cffa8a4a245ec388f3e2c495fc))
+* **Pipedrive:** return data array instead ([81f5a67](https://github.com/c-commerce/charles-browser-sdk/commit/81f5a67edd2b27c769af046e90598981933ce9ce))
+* **Pipedrive:** update type declarations for crm user ([942d617](https://github.com/c-commerce/charles-browser-sdk/commit/942d617a1e4a3e041a7715cce139dde2fcbff6a8))
+
 ## [4.45.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.45.1...v4.45.2) (2021-09-29)
 
 
