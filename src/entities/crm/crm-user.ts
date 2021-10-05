@@ -1,4 +1,4 @@
-export interface CRMUser {
+export interface CrmUser {
   id: string
   created_at: string
   updated_at: string
