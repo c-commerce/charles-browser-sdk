@@ -1,4 +1,4 @@
-export interface CrmUser {
+export interface CRMUser {
   id: string
   created_at: string
   updated_at: string
@@ -6,20 +6,20 @@ export interface CrmUser {
   active: boolean
   username: string
   email: string
-  secret?: string
-  authentication_provider?: string
-  parent?: string
+  secret: string | null
+  authentication_provider: string | null
+  parent: string | null
   kind: string
   proxy_vendor: string
   type: string
   external_reference_id: string
-  external_custom_id?: string
-  permissions?: string
-  status?: string
-  roles?: string
-  verified?: string
-  authentication_payload?: string
-  payload: Payload
+  external_custom_id: string | null
+  permissions: string | null
+  status: string | null
+  roles: string | null
+  verified: string | null
+  authentication_payload: string | null
+  payload: CrmUserPayload
   labels: Labels
   user_profile: UserProfile
 }
@@ -30,17 +30,17 @@ export interface Labels {
   type: string
 }
 
-export interface Payload {
+export interface CrmUserPayload {
   id: number
   lang: number
   name: string
   email: string
-  phone: null
+  phone: string | null
   is_you: boolean
   locale: string
   created: string
   role_id: number
-  icon_url: null
+  icon_url: string | null
   is_admin: number
   modified: string
   active_flag: boolean
@@ -56,10 +56,10 @@ export interface UserProfile {
   user: string
   created_at: string
   updated_at: string
-  firstname?: string
-  lastname?: string
-  phone?: string
-  avatar?: string
+  firstname: string | null
+  lastname: string | null
+  phone: string | null
+  avatar: string | null
   locale: string
   display_name: string
   email: string
