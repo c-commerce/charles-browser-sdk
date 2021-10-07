@@ -3,7 +3,7 @@ import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_b
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import qs from 'qs'
-import { CrmUser } from 'src/entities/crm/crm-user'
+import { AssociateUsersPayload, CrmUser } from 'src/entities/crm/crm-user'
 
 export interface CRMOptions extends UniverseEntityOptions {
   rawPayload?: CRMRawPayload
@@ -267,7 +267,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
   }
 
   public async syncUsers (): Promise<number | undefined> {
-    if (this.id === null || this.id === undefined) throw new TypeError('CRM syncPipelines requires id to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM syncUsers requires id to be set.')
 
     try {
       const opts = {
@@ -283,7 +283,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
       const res = await this.http?.getClient()(opts)
       return res.status
     } catch (err) {
-      throw this.handleError(new CRMSyncPipelinesRemoteError(undefined, { error: err }))
+      throw this.handleError(new CRMSyncUsersRemoteError(undefined, { error: err }))
     }
   }
 
@@ -304,7 +304,37 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
       const res = await this.http?.getClient()(opts)
       return res.data.data
     } catch (err) {
-      throw this.handleError(new CRMSetupRemoteError(undefined, { error: err }))
+      throw this.handleError(new CRMFetchUsersRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async associateUsers (payload: AssociateUsersPayload[], options?: object): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM associateUsers requires id to be set.')
+
+    const data = {
+      options,
+      payload: payload.map(item => ({
+        external_user_reference_id: item.externalUserReferenceId,
+        staff_id: item.staffId
+      }))
+    }
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/users/associate`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        data,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new CRMAssociateUsersError(undefined, { error: err }))
     }
   }
 }
@@ -314,6 +344,7 @@ export class CRMs {
   public static endpoint: string = 'api/v0/crms'
 }
 
+// Init and setup error handlers
 export class CRMInitializationError extends BaseError {
   public name = 'CRMInitializationError'
   constructor (public message: string = 'Could not initialize crm.', properties?: any) {
@@ -322,6 +353,23 @@ export class CRMInitializationError extends BaseError {
   }
 }
 
+export class CRMSetupRemoteError extends BaseError {
+  public name = 'CRMSetupRemoteError'
+  constructor (public message: string = 'Could not start setup of crm.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CRMSetupRemoteError.prototype)
+  }
+}
+
+export class CRMAssociateUsersError extends BaseError {
+  public name = 'CRMAssociateUsersError'
+  constructor (public message: string = 'Could not associate users.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CRMAssociateUsersError.prototype)
+  }
+}
+
+// Fetch remote error handlers
 export class CRMFetchRemoteError extends BaseError {
   public name = 'CRMFetchRemoteError'
   constructor (public message: string = 'Could not get crm.', properties?: any) {
@@ -338,6 +386,15 @@ export class CRMsFetchRemoteError extends BaseError {
   }
 }
 
+export class CRMFetchUsersRemoteError extends BaseError {
+  public name = 'CRMFetchUsersRemoteError'
+  constructor (public message: string = 'Could not get users.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CRMFetchUsersRemoteError.prototype)
+  }
+}
+
+// Sync remote error handlers
 export class CRMSyncCustomPropertiesRemoteError extends BaseError {
   public name = 'CRMSyncCustomPropertiesRemoteError'
   constructor (public message: string = 'Could not start sync of crms\' custom properties.', properties?: any) {
@@ -370,17 +427,18 @@ export class CRMSyncChannelUsersRemoteError extends BaseError {
   }
 }
 
-export class CRMSetupRemoteError extends BaseError {
-  public name = 'CRMSetupRemoteError'
-  constructor (public message: string = 'Could not start setup of crm.', properties?: any) {
-    super(message, properties)
-    Object.setPrototypeOf(this, CRMSetupRemoteError.prototype)
-  }
-}
 export class CRMSyncOrganizationsRemoteError extends BaseError {
   public name = 'CRMSyncOrganizationsRemoteError'
   constructor (public message: string = 'Could not start remote org sync.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CRMSyncOrganizationsRemoteError.prototype)
+  }
+}
+
+export class CRMSyncUsersRemoteError extends BaseError {
+  public name = 'CRMSyncUsersRemoteError'
+  constructor (public message: string = 'Could not start sync of users.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CRMSyncUsersRemoteError)
   }
 }
