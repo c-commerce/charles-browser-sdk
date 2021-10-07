@@ -301,7 +301,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
    * - insufficient campaign data
    * - contact targets not being sufficient e.g. missing channel users
    */
-  public async preflightArm (): Promise<NotificationCampaign> {
+  public async preflightArm (options?: EntityFetchOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign preflight arm requires id to be set.')
 
     try {
@@ -311,7 +311,8 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        responseType: 'json'
+        responseType: 'json',
+        timeout: options?.timeout ?? 60000
       }
 
       const res = await this.http?.getClient()(opts)

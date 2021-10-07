@@ -48,6 +48,7 @@ export interface EntityDeleteQuery {
 export interface EntityFetchOptions {
   raw?: boolean
   query?: EntityFetchQuery
+  timeout?: number
 }
 export interface EntityDeleteOptions {
   query?: EntityFetchQuery
