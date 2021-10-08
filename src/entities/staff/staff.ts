@@ -2,7 +2,7 @@
 import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { Feed, FeedRawPayload } from '../../eventing/feeds/feed'
+import { FeedRawPayload } from '../../eventing/feeds/feed'
 
 export interface StaffOptions extends UniverseEntityOptions {
   rawPayload?: StaffRawPayload
@@ -21,6 +21,7 @@ export interface StaffRawPayload extends EntityRawPayload {
   readonly type?: 'agent' | 'bot'
   readonly gender?: string
   readonly user?: string
+  readonly universe_user?: string
   readonly roles?: string[]
   readonly permissions?: string[]
   readonly invite?: null | {
@@ -42,6 +43,7 @@ export interface StaffPayload {
   readonly type?: StaffRawPayload['type']
   readonly gender?: StaffRawPayload['gender']
   readonly user?: StaffRawPayload['user']
+  readonly universeUser?: StaffRawPayload['universe_user']
   readonly roles?: StaffRawPayload['roles']
   readonly permissions?: StaffRawPayload['permissions']
   readonly invite?: StaffRawPayload['invite']
@@ -74,6 +76,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
   public type?: StaffRawPayload['type']
   public gender?: StaffRawPayload['gender']
   public user?: StaffRawPayload['user']
+  public universeUser?: StaffRawPayload['universe_user']
   public roles?: StaffRawPayload['roles']
   public permissions?: StaffRawPayload['permissions']
   public invite?: StaffRawPayload['invite']
@@ -108,6 +111,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
     this.type = rawPayload.type
     this.gender = rawPayload.gender
     this.user = rawPayload.user
+    this.universeUser = rawPayload.universe_user
     this.roles = rawPayload.roles
     this.permissions = rawPayload.permissions
     this.invite = rawPayload.invite
@@ -134,6 +138,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
       type: this.type,
       gender: this.gender,
       user: this.user,
+      universe_user: this.universeUser,
       roles: this.roles,
       permissions: this.permissions,
       invite: this.invite,
