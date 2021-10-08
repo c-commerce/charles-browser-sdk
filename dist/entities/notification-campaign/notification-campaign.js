@@ -136,33 +136,34 @@ var NotificationCampaign = (function (_super) {
             });
         });
     };
-    NotificationCampaign.prototype.preflightArm = function () {
-        var _a, _b;
+    NotificationCampaign.prototype.preflightArm = function (options) {
+        var _a, _b, _c;
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var opts, res, err_3;
-            return tslib_1.__generator(this, function (_c) {
-                switch (_c.label) {
+            return tslib_1.__generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
                         if (this.id === null || this.id === undefined)
                             throw new TypeError('campaign preflight arm requires id to be set.');
-                        _c.label = 1;
+                        _d.label = 1;
                     case 1:
-                        _c.trys.push([1, 3, , 4]);
+                        _d.trys.push([1, 3, , 4]);
                         opts = {
                             method: 'POST',
                             url: ((_a = this.universe) === null || _a === void 0 ? void 0 : _a.universeBase) + "/" + this.endpoint + "/" + this.id + "/preflight/arm",
                             headers: {
                                 'Content-Type': 'application/json; charset=utf-8'
                             },
-                            responseType: 'json'
+                            responseType: 'json',
+                            timeout: (_b = options === null || options === void 0 ? void 0 : options.timeout) !== null && _b !== void 0 ? _b : 60000
                         };
-                        return [4, ((_b = this.http) === null || _b === void 0 ? void 0 : _b.getClient()(opts))];
+                        return [4, ((_c = this.http) === null || _c === void 0 ? void 0 : _c.getClient()(opts))];
                     case 2:
-                        res = _c.sent();
+                        res = _d.sent();
                         this.deserialize(res.data.data[0].notification_campaign);
                         return [2, this];
                     case 3:
-                        err_3 = _c.sent();
+                        err_3 = _d.sent();
                         throw new NotificationCampaignArmError(undefined, { error: err_3 });
                     case 4: return [2];
                 }

@@ -1,3 +1,10 @@
+## [4.48.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.48.0...v4.48.1) (2021-10-08)
+
+
+### Bug Fixes
+
+* **base:** enable timeout in fetch opts, add default timeout to campaign arming ([35ae674](https://github.com/c-commerce/charles-browser-sdk/commit/35ae67452c9d4976a8d27594af96e3506bcde4b1))
+
 # [4.48.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.47.0...v4.48.0) (2021-10-08)
 
 
