@@ -35,6 +35,7 @@ var Staff = (function (_super) {
         this.type = rawPayload.type;
         this.gender = rawPayload.gender;
         this.user = rawPayload.user;
+        this.universeUser = rawPayload.universe_user;
         this.roles = rawPayload.roles;
         this.permissions = rawPayload.permissions;
         this.invite = rawPayload.invite;
@@ -59,6 +60,7 @@ var Staff = (function (_super) {
             type: this.type,
             gender: this.gender,
             user: this.user,
+            universe_user: this.universeUser,
             roles: this.roles,
             permissions: this.permissions,
             invite: this.invite,

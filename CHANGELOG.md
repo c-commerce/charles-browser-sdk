@@ -1,3 +1,10 @@
+# [4.48.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.47.0...v4.48.0) (2021-10-08)
+
+
+### Features
+
+* **Pipedrive:** expose universe_user field ([53ceed6](https://github.com/c-commerce/charles-browser-sdk/commit/53ceed65e26d47a4be0f372f2b8318c46dc80bd6))
+
 # [4.47.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.46.0...v4.47.0) (2021-10-08)
 
 

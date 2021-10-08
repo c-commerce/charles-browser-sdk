@@ -18,6 +18,7 @@ export interface StaffRawPayload extends EntityRawPayload {
     readonly type?: 'agent' | 'bot';
     readonly gender?: string;
     readonly user?: string;
+    readonly universe_user?: string;
     readonly roles?: string[];
     readonly permissions?: string[];
     readonly invite?: null | {
@@ -38,6 +39,7 @@ export interface StaffPayload {
     readonly type?: StaffRawPayload['type'];
     readonly gender?: StaffRawPayload['gender'];
     readonly user?: StaffRawPayload['user'];
+    readonly universeUser?: StaffRawPayload['universe_user'];
     readonly roles?: StaffRawPayload['roles'];
     readonly permissions?: StaffRawPayload['permissions'];
     readonly invite?: StaffRawPayload['invite'];
@@ -62,6 +64,7 @@ export declare class Staff extends UniverseEntity<StaffPayload, StaffRawPayload>
     type?: StaffRawPayload['type'];
     gender?: StaffRawPayload['gender'];
     user?: StaffRawPayload['user'];
+    universeUser?: StaffRawPayload['universe_user'];
     roles?: StaffRawPayload['roles'];
     permissions?: StaffRawPayload['permissions'];
     invite?: StaffRawPayload['invite'];
