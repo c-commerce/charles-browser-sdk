@@ -61,3 +61,7 @@ export interface UserProfile {
     display_name: string;
     email: string;
 }
+export interface AssociateUsersPayload {
+    readonly externalUserReferenceId: string;
+    readonly staffId: string;
+}

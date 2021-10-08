@@ -1,7 +1,7 @@
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base';
 import { Universe } from '../../universe';
 import { BaseError } from '../../errors';
-import { CrmUser } from 'src/entities/crm/crm-user';
+import { AssociateUsersPayload, CrmUser } from 'src/entities/crm/crm-user';
 export interface CRMOptions extends UniverseEntityOptions {
     rawPayload?: CRMRawPayload;
 }
@@ -71,11 +71,22 @@ export declare class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     setup(): Promise<number | undefined>;
     syncUsers(): Promise<number | undefined>;
     getCrmUsers(options?: EntityFetchOptions): Promise<CrmUser[]>;
+    associateUsers(payload: AssociateUsersPayload[], options?: object): Promise<number | undefined>;
 }
 export declare class CRMs {
     static endpoint: string;
 }
 export declare class CRMInitializationError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSetupRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMAssociateUsersError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
@@ -86,6 +97,11 @@ export declare class CRMFetchRemoteError extends BaseError {
     constructor(message?: string, properties?: any);
 }
 export declare class CRMsFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMFetchUsersRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
@@ -110,12 +126,12 @@ export declare class CRMSyncChannelUsersRemoteError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
-export declare class CRMSetupRemoteError extends BaseError {
+export declare class CRMSyncOrganizationsRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);
 }
-export declare class CRMSyncOrganizationsRemoteError extends BaseError {
+export declare class CRMSyncUsersRemoteError extends BaseError {
     message: string;
     name: string;
     constructor(message?: string, properties?: any);

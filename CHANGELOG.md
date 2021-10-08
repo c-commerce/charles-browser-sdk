@@ -1,3 +1,10 @@
+# [4.47.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.46.0...v4.47.0) (2021-10-08)
+
+
+### Features
+
+* **crm:** add functionality to associate users to staff ([4db2ff3](https://github.com/c-commerce/charles-browser-sdk/commit/4db2ff3fe02dae0572cb4d868669f35e5474255a))
+
 # [4.46.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.45.2...v4.46.0) (2021-10-05)
 
 

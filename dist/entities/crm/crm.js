@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CRMSyncOrganizationsRemoteError = exports.CRMSetupRemoteError = exports.CRMSyncChannelUsersRemoteError = exports.CRMSyncPipelinesRemoteError = exports.CRMSyncDealsRemoteError = exports.CRMSyncCustomPropertiesRemoteError = exports.CRMsFetchRemoteError = exports.CRMFetchRemoteError = exports.CRMInitializationError = exports.CRMs = exports.CRM = void 0;
+exports.CRMSyncUsersRemoteError = exports.CRMSyncOrganizationsRemoteError = exports.CRMSyncChannelUsersRemoteError = exports.CRMSyncPipelinesRemoteError = exports.CRMSyncDealsRemoteError = exports.CRMSyncCustomPropertiesRemoteError = exports.CRMFetchUsersRemoteError = exports.CRMsFetchRemoteError = exports.CRMFetchRemoteError = exports.CRMAssociateUsersError = exports.CRMSetupRemoteError = exports.CRMInitializationError = exports.CRMs = exports.CRM = void 0;
 var tslib_1 = require("tslib");
 var _base_1 = require("../_base");
 var errors_1 = require("../../errors");
@@ -287,7 +287,7 @@ var CRM = (function (_super) {
                 switch (_b.label) {
                     case 0:
                         if (this.id === null || this.id === undefined)
-                            throw new TypeError('CRM syncPipelines requires id to be set.');
+                            throw new TypeError('CRM syncUsers requires id to be set.');
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 3, , 4]);
@@ -306,7 +306,7 @@ var CRM = (function (_super) {
                         return [2, res.status];
                     case 3:
                         err_8 = _b.sent();
-                        throw this.handleError(new CRMSyncPipelinesRemoteError(undefined, { error: err_8 }));
+                        throw this.handleError(new CRMSyncUsersRemoteError(undefined, { error: err_8 }));
                     case 4: return [2];
                 }
             });
@@ -339,7 +339,48 @@ var CRM = (function (_super) {
                         return [2, res.data.data];
                     case 3:
                         err_9 = _c.sent();
-                        throw this.handleError(new CRMSetupRemoteError(undefined, { error: err_9 }));
+                        throw this.handleError(new CRMFetchUsersRemoteError(undefined, { error: err_9 }));
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    CRM.prototype.associateUsers = function (payload, options) {
+        var _a;
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var data, opts, res, err_10;
+            return tslib_1.__generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (this.id === null || this.id === undefined)
+                            throw new TypeError('CRM associateUsers requires id to be set.');
+                        data = {
+                            options: options,
+                            payload: payload.map(function (item) { return ({
+                                external_user_reference_id: item.externalUserReferenceId,
+                                staff_id: item.staffId
+                            }); })
+                        };
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        opts = {
+                            method: 'POST',
+                            url: this.universe.universeBase + "/" + this.endpoint + "/" + this.id + "/users/associate",
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8',
+                                'Content-Length': '0'
+                            },
+                            data: data,
+                            responseType: 'json'
+                        };
+                        return [4, ((_a = this.http) === null || _a === void 0 ? void 0 : _a.getClient()(opts))];
+                    case 2:
+                        res = _b.sent();
+                        return [2, res.status];
+                    case 3:
+                        err_10 = _b.sent();
+                        throw this.handleError(new CRMAssociateUsersError(undefined, { error: err_10 }));
                     case 4: return [2];
                 }
             });
@@ -368,6 +409,32 @@ var CRMInitializationError = (function (_super) {
     return CRMInitializationError;
 }(errors_1.BaseError));
 exports.CRMInitializationError = CRMInitializationError;
+var CRMSetupRemoteError = (function (_super) {
+    tslib_1.__extends(CRMSetupRemoteError, _super);
+    function CRMSetupRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not start setup of crm.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CRMSetupRemoteError';
+        Object.setPrototypeOf(_this, CRMSetupRemoteError.prototype);
+        return _this;
+    }
+    return CRMSetupRemoteError;
+}(errors_1.BaseError));
+exports.CRMSetupRemoteError = CRMSetupRemoteError;
+var CRMAssociateUsersError = (function (_super) {
+    tslib_1.__extends(CRMAssociateUsersError, _super);
+    function CRMAssociateUsersError(message, properties) {
+        if (message === void 0) { message = 'Could not associate users.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CRMAssociateUsersError';
+        Object.setPrototypeOf(_this, CRMAssociateUsersError.prototype);
+        return _this;
+    }
+    return CRMAssociateUsersError;
+}(errors_1.BaseError));
+exports.CRMAssociateUsersError = CRMAssociateUsersError;
 var CRMFetchRemoteError = (function (_super) {
     tslib_1.__extends(CRMFetchRemoteError, _super);
     function CRMFetchRemoteError(message, properties) {
@@ -394,6 +461,19 @@ var CRMsFetchRemoteError = (function (_super) {
     return CRMsFetchRemoteError;
 }(errors_1.BaseError));
 exports.CRMsFetchRemoteError = CRMsFetchRemoteError;
+var CRMFetchUsersRemoteError = (function (_super) {
+    tslib_1.__extends(CRMFetchUsersRemoteError, _super);
+    function CRMFetchUsersRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not get users.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CRMFetchUsersRemoteError';
+        Object.setPrototypeOf(_this, CRMFetchUsersRemoteError.prototype);
+        return _this;
+    }
+    return CRMFetchUsersRemoteError;
+}(errors_1.BaseError));
+exports.CRMFetchUsersRemoteError = CRMFetchUsersRemoteError;
 var CRMSyncCustomPropertiesRemoteError = (function (_super) {
     tslib_1.__extends(CRMSyncCustomPropertiesRemoteError, _super);
     function CRMSyncCustomPropertiesRemoteError(message, properties) {
@@ -446,19 +526,6 @@ var CRMSyncChannelUsersRemoteError = (function (_super) {
     return CRMSyncChannelUsersRemoteError;
 }(errors_1.BaseError));
 exports.CRMSyncChannelUsersRemoteError = CRMSyncChannelUsersRemoteError;
-var CRMSetupRemoteError = (function (_super) {
-    tslib_1.__extends(CRMSetupRemoteError, _super);
-    function CRMSetupRemoteError(message, properties) {
-        if (message === void 0) { message = 'Could not start setup of crm.'; }
-        var _this = _super.call(this, message, properties) || this;
-        _this.message = message;
-        _this.name = 'CRMSetupRemoteError';
-        Object.setPrototypeOf(_this, CRMSetupRemoteError.prototype);
-        return _this;
-    }
-    return CRMSetupRemoteError;
-}(errors_1.BaseError));
-exports.CRMSetupRemoteError = CRMSetupRemoteError;
 var CRMSyncOrganizationsRemoteError = (function (_super) {
     tslib_1.__extends(CRMSyncOrganizationsRemoteError, _super);
     function CRMSyncOrganizationsRemoteError(message, properties) {
@@ -472,4 +539,17 @@ var CRMSyncOrganizationsRemoteError = (function (_super) {
     return CRMSyncOrganizationsRemoteError;
 }(errors_1.BaseError));
 exports.CRMSyncOrganizationsRemoteError = CRMSyncOrganizationsRemoteError;
+var CRMSyncUsersRemoteError = (function (_super) {
+    tslib_1.__extends(CRMSyncUsersRemoteError, _super);
+    function CRMSyncUsersRemoteError(message, properties) {
+        if (message === void 0) { message = 'Could not start sync of users.'; }
+        var _this = _super.call(this, message, properties) || this;
+        _this.message = message;
+        _this.name = 'CRMSyncUsersRemoteError';
+        Object.setPrototypeOf(_this, CRMSyncUsersRemoteError);
+        return _this;
+    }
+    return CRMSyncUsersRemoteError;
+}(errors_1.BaseError));
+exports.CRMSyncUsersRemoteError = CRMSyncUsersRemoteError;
 //# sourceMappingURL=crm.js.map
