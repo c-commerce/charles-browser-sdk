@@ -45,6 +45,7 @@ var MessageSubscription = (function (_super) {
         this.scope = rawPayload.scope;
         this.messageTemplates = rawPayload.message_templates;
         this.eventRouteTemplate = rawPayload.event_route_template;
+        this.configuration = rawPayload.configuration;
         return this;
     };
     MessageSubscription.create = function (payload, universe, http) {
@@ -64,7 +65,8 @@ var MessageSubscription = (function (_super) {
             kind: this.kind,
             scope: this.scope,
             message_templates: this.messageTemplates,
-            event_route_template: this.eventRouteTemplate
+            event_route_template: this.eventRouteTemplate,
+            configuration: this.configuration
         };
     };
     MessageSubscription.prototype.init = function () {

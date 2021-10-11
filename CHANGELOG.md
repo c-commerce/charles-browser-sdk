@@ -1,3 +1,10 @@
+# [4.49.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.48.1...v4.49.0) (2021-10-11)
+
+
+### Features
+
+* **message subscription:** enable configuration ([f833d33](https://github.com/c-commerce/charles-browser-sdk/commit/f833d33aebdd89de2804aec5a221ced4548df65d))
+
 ## [4.48.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.48.0...v4.48.1) (2021-10-08)
 
 

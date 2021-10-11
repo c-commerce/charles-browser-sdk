@@ -26,6 +26,9 @@ export interface MessageSubscriptionRawPayload {
     readonly scope?: string;
     readonly message_templates?: object;
     readonly event_route_template?: object;
+    readonly configuration?: {
+        skip_feed_reactivation?: boolean;
+    };
 }
 export interface MessageSubscriptionPayload {
     readonly id?: MessageSubscriptionRawPayload['id'];
@@ -40,6 +43,7 @@ export interface MessageSubscriptionPayload {
     readonly scope?: MessageSubscriptionRawPayload['scope'];
     readonly messageTemplates?: MessageSubscriptionRawPayload['message_templates'];
     readonly eventRouteTemplate?: MessageSubscriptionRawPayload['event_route_template'];
+    readonly configuration?: MessageSubscriptionRawPayload['configuration'];
 }
 export declare class MessageSubscription extends UniverseEntity<MessageSubscriptionPayload, MessageSubscriptionRawPayload> {
     protected universe: Universe;
@@ -60,6 +64,7 @@ export declare class MessageSubscription extends UniverseEntity<MessageSubscript
     scope?: MessageSubscriptionPayload['scope'];
     messageTemplates?: MessageSubscriptionPayload['messageTemplates'];
     eventRouteTemplate?: MessageSubscriptionPayload['eventRouteTemplate'];
+    configuration?: MessageSubscriptionPayload['configuration'];
     constructor(options: MessageSubscriptionOptions);
     protected deserialize(rawPayload: MessageSubscriptionRawPayload): MessageSubscription;
     static create(payload: MessageSubscriptionRawPayload, universe: Universe, http: Universe['http']): MessageSubscription;
