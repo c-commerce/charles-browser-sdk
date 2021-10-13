@@ -132,6 +132,7 @@ export interface UniverseFetchQuery {
 export interface UniverseFetchOptions {
   raw?: boolean
   query?: UniverseFetchQuery
+  timeout?: number
 }
 export interface UniverseExportCsvOptions {
   query?: UniverseFetchQuery
@@ -1052,7 +1053,9 @@ export class Universe extends APICarrier {
             url: `${this.universeBase}/${person.People.endpoint}`,
             params: {
               ...(options?.query ?? {})
-            }
+            },
+            timeout: options?.timeout ?? 60000
+
           }
 
           const res = await this.http.getClient()(opts)
@@ -1076,7 +1079,8 @@ export class Universe extends APICarrier {
             url: `${this.universeBase}/${person.People.endpoint}`,
             params: {
               ...(options?.query ?? {})
-            }
+            },
+            timeout: options?.timeout ?? 60000
           }
 
           const res = await this.http.getClient()(opts)
