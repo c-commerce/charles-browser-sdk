@@ -720,19 +720,20 @@ var Universe = (function (_super) {
                 fetch: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     var opts, res, resources, err_7;
                     var _this = this;
-                    var _a;
-                    return tslib_1.__generator(this, function (_b) {
-                        switch (_b.label) {
+                    var _a, _b;
+                    return tslib_1.__generator(this, function (_c) {
+                        switch (_c.label) {
                             case 0:
-                                _b.trys.push([0, 2, , 3]);
+                                _c.trys.push([0, 2, , 3]);
                                 opts = {
                                     method: 'GET',
                                     url: this.universeBase + "/" + person.People.endpoint,
-                                    params: tslib_1.__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                                    params: tslib_1.__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {})),
+                                    timeout: (_b = options === null || options === void 0 ? void 0 : options.timeout) !== null && _b !== void 0 ? _b : 60000
                                 };
                                 return [4, this.http.getClient()(opts)];
                             case 1:
-                                res = _b.sent();
+                                res = _c.sent();
                                 resources = res.data.data;
                                 if (options && options.raw === true) {
                                     return [2, resources];
@@ -741,7 +742,7 @@ var Universe = (function (_super) {
                                         return person.Person.create(resource, _this, _this.http);
                                     })];
                             case 2:
-                                err_7 = _b.sent();
+                                err_7 = _c.sent();
                                 throw new person.PeopleFetchRemoteError(undefined, { error: err_7 });
                             case 3: return [2];
                         }
@@ -749,24 +750,25 @@ var Universe = (function (_super) {
                 }); },
                 fetchCount: function (options) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                     var opts, res, err_8;
-                    var _a;
-                    return tslib_1.__generator(this, function (_b) {
-                        switch (_b.label) {
+                    var _a, _b;
+                    return tslib_1.__generator(this, function (_c) {
+                        switch (_c.label) {
                             case 0:
-                                _b.trys.push([0, 2, , 3]);
+                                _c.trys.push([0, 2, , 3]);
                                 opts = {
                                     method: 'HEAD',
                                     url: this.universeBase + "/" + person.People.endpoint,
-                                    params: tslib_1.__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {}))
+                                    params: tslib_1.__assign({}, ((_a = options === null || options === void 0 ? void 0 : options.query) !== null && _a !== void 0 ? _a : {})),
+                                    timeout: (_b = options === null || options === void 0 ? void 0 : options.timeout) !== null && _b !== void 0 ? _b : 60000
                                 };
                                 return [4, this.http.getClient()(opts)];
                             case 1:
-                                res = _b.sent();
+                                res = _c.sent();
                                 return [2, {
                                         count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
                                     }];
                             case 2:
-                                err_8 = _b.sent();
+                                err_8 = _c.sent();
                                 throw new person.PeopleFetchCountRemoteError(undefined, { error: err_8 });
                             case 3: return [2];
                         }

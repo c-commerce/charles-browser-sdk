@@ -1,3 +1,10 @@
+## [4.49.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.49.0...v4.49.1) (2021-10-13)
+
+
+### Bug Fixes
+
+* **contacts:** enable fetch + head timeouts & override ([1f3d713](https://github.com/c-commerce/charles-browser-sdk/commit/1f3d713ca42365e3ee732f89b78cc9475cf86aec))
+
 # [4.49.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.48.1...v4.49.0) (2021-10-11)
 
 

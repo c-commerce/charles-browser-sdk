@@ -89,6 +89,7 @@ export interface UniverseFetchQuery {
 export interface UniverseFetchOptions {
     raw?: boolean;
     query?: UniverseFetchQuery;
+    timeout?: number;
 }
 export interface UniverseExportCsvOptions {
     query?: UniverseFetchQuery;
