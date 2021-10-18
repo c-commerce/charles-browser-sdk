@@ -246,6 +246,26 @@ export declare class UniverseUnauthenticatedError extends BaseError {
     name: string;
     constructor(message?: string, properties?: any);
 }
+export declare class UniverseForbiddenError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseBadGatewayError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseServiceUnavailableError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class UniverseTimeoutError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
 export declare class UniverseMeError extends BaseError {
     message: string;
     name: string;
@@ -253,6 +273,10 @@ export declare class UniverseMeError extends BaseError {
 }
 export interface UniverseErrors {
     UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError;
+    UniverseForbiddenError: new () => UniverseForbiddenError;
+    UniverseBadGatewayError: new () => UniverseBadGatewayError;
+    UniverseServiceUnavailableError: new () => UniverseServiceUnavailableError;
+    UniverseTimeoutError: new () => UniverseTimeoutError;
     UniverseMeError: new () => UniverseMeError;
 }
 export declare type UniversePermissionType = 'admin';
@@ -373,7 +397,7 @@ export declare class Universe extends APICarrier {
     get authData(): {
         me?: MeData;
     };
-    me(): Promise<MeData | undefined>;
+    me(): Promise<MeData | never>;
     private makeAnalyticsRequest;
     get analytics(): UniverseAnalytics;
     get feeds(): UniverseFeeds;
