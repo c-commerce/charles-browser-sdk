@@ -287,6 +287,10 @@ export interface IUniverseImports {
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
 
+export interface IUniverseHelpers{
+  fetchProxiedUri: (options?: UniverseFetchOptions) => Promise<string | undefined>
+}
+
 export class UniverseUnauthenticatedError extends BaseError {
   public name = 'UniverseUnauthenticatedError'
   constructor (public message: string = 'Invalid or expired session.', properties?: any) {
@@ -2212,6 +2216,28 @@ export class Universe extends APICarrier {
       throw new UniverseSearchError(undefined, { error: err })
     }
   }
+
+  public get helper (): IUniverseHelpers {
+    return {
+      fetchProxiedUri: async (options?: UniverseFetchOptions) => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/v0/proxies/privacy/media`,
+            params: {
+              ...(options?.query ?? {})
+            },
+            timeout: options?.timeout ?? 60000
+          }
+          const res = await this.http.getClient()(opts)
+          return res.data.data
+        } catch (err) {
+          throw new UniverseHelperFetchProxiedUriError(undefined, { error: err })
+        }
+      }
+
+    }
+  }
 }
 
 export class UnviverseSingleton extends Universe {
@@ -2281,5 +2307,14 @@ export class UniverseHealthzError extends BaseError {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseHealthzError.prototype)
+  }
+}
+
+export class UniverseHelperFetchProxiedUriError extends BaseError {
+  public name = 'UniverseHelperFetchProxiedUriError'
+  constructor (public message: string = 'Unexptected response making proxied uri request.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseHelperFetchProxiedUriError.prototype)
   }
 }
