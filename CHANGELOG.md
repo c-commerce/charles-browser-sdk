@@ -1,3 +1,10 @@
+# [4.50.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.49.1...v4.50.0) (2021-10-21)
+
+
+### Features
+
+* **universe:** add error exceptions ([#77](https://github.com/c-commerce/charles-browser-sdk/issues/77)) ([f065077](https://github.com/c-commerce/charles-browser-sdk/commit/f065077f06fbcab8fd33516d8b694bc22cd57dd3))
+
 ## [4.49.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.49.0...v4.49.1) (2021-10-13)
 
 
