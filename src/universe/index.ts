@@ -8,6 +8,7 @@ import { BaseError } from '../errors'
 import universeTopics from './topics'
 import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
+import { throwExceptionFromCommonError } from '../helpers'
 
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 
@@ -296,6 +297,42 @@ export class UniverseUnauthenticatedError extends BaseError {
   }
 }
 
+export class UniverseForbiddenError extends BaseError {
+  public name = 'UniverseForbiddenError'
+  constructor (public message: string = 'Requested resource is forbidden.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseForbiddenError.prototype)
+  }
+}
+
+export class UniverseBadGatewayError extends BaseError {
+  public name = 'UniverseBadGatewayError'
+  constructor (public message: string = 'The service was temporarily unable to service your request.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseBadGatewayError.prototype)
+  }
+}
+
+export class UniverseServiceUnavailableError extends BaseError {
+  public name = 'UniverseServiceUnavailableError'
+  constructor (public message: string = 'The service was temporarily unable to service your request.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseServiceUnavailableError.prototype)
+  }
+}
+
+export class UniverseTimeoutError extends BaseError {
+  public name = 'UniverseTimeoutError'
+  constructor (public message: string = 'The service was taking too long to load.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseTimeoutError.prototype)
+  }
+}
+
 export class UniverseMeError extends BaseError {
   public name = 'UniverseMeError'
   constructor (public message: string = 'Unexptected error fetching me data', properties?: any) {
@@ -307,6 +344,10 @@ export class UniverseMeError extends BaseError {
 
 export interface UniverseErrors {
   UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError
+  UniverseForbiddenError: new () => UniverseForbiddenError
+  UniverseBadGatewayError: new () => UniverseBadGatewayError
+  UniverseServiceUnavailableError: new () => UniverseServiceUnavailableError
+  UniverseTimeoutError: new () => UniverseTimeoutError
   UniverseMeError: new () => UniverseMeError
 }
 
@@ -346,7 +387,7 @@ type BaseResourceErrorProto<E> = new(...args: any[]) => E
 type BaseResourceEntityFetchOptions<O> = EntityFetchOptions
 
 /**
- * The unsiverse is usually the base entitiy one wants to build upon. Consider it a project, product
+ * The universe is usually the base entity one wants to build upon. Consider it a project, product
  * or namespace for data.
  *
  * It also allows easy access to remote states of entities, such as:
@@ -442,6 +483,10 @@ export class Universe extends APICarrier {
   public static get errors (): UniverseErrors {
     return {
       UniverseUnauthenticatedError,
+      UniverseForbiddenError,
+      UniverseBadGatewayError,
+      UniverseServiceUnavailableError,
+      UniverseTimeoutError,
       UniverseMeError
     }
   }
@@ -876,10 +921,15 @@ export class Universe extends APICarrier {
   }
 
   /**
-   * Fetch the data of the current user. If you receive an instane of UniverseUnauthenticatedError
-   * you should logout the current session and create a new one.
+   * Fetch the data of the current user.
+   * If you receive an instance of UniverseUnauthenticatedError you should logout the current session and create a new one.
+   * UniverseUnauthenticatedError: 401
+   * UniverseForbiddenError: 403
+   * UniverseBadGatewayError: 502
+   * UniverseServiceUnavailableError: 503
+   * UniverseTimeoutError: 504
    */
-  public async me (): Promise<MeData | undefined> {
+  public async me (): Promise<MeData | never> {
     try {
       const opts = {
         method: 'GET',
@@ -891,12 +941,10 @@ export class Universe extends APICarrier {
       this.setCachedMeData(response.data.data)
 
       return response.data.data
-    } catch (err) {
-      if (err?.response?.status === 401) {
-        throw new UniverseUnauthenticatedError(undefined, { error: err })
-      }
+    } catch (error) {
+      throwExceptionFromCommonError(error)
 
-      throw new UniverseMeError(undefined, { error: err })
+      throw new UniverseMeError(undefined, { error })
     }
   }
 

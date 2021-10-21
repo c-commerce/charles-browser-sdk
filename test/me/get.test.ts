@@ -6,9 +6,15 @@ import * as universe from '../../src/universe/index'
 import { stubUniverse } from '../util'
 dotenv.config()
 
-// const legacyId = '4564'
-
 const mock = new MockAdapter(axios)
+
+const mockMe = (code: number): void => {
+  mock
+    .onGet('https://stub-universe.hello-charles.com/api/v0/me')
+    .reply(function (config) {
+      return [code, {}]
+    })
+}
 
 describe('v0: Me: can get me data', () => {
   beforeEach(() => {
@@ -73,37 +79,16 @@ describe('v0: Me: can get me data', () => {
     expect(meData?.staff.id).toBe('SOME_STAFF_ID')
   })
 
-  it('Charles\'s return unautenticated on 401s', () => {
-    mock
-      .onGet('https://stub-universe.hello-charles.com/api/v0/me')
-      .reply(function (config) {
-        return [
-          401,
-          {
-
-          }
-        ]
-      })
-
-    const universeStub = stubUniverse()
-
-    expect(universeStub.universe.me()).rejects.toBeInstanceOf(universe.UniverseUnauthenticatedError)
-  })
-
-  it('Charles\'s return on anything else', () => {
-    mock
-      .onGet('https://stub-universe.hello-charles.com/api/v0/me')
-      .reply(function (config) {
-        return [
-          500,
-          {
-
-          }
-        ]
-      })
-
-    const universeStub = stubUniverse()
-
-    expect(universeStub.universe.me()).rejects.toBeInstanceOf(universe.UniverseMeError)
+  test.each`
+    code   | expected
+    ${401} | ${universe.UniverseUnauthenticatedError}
+    ${403} | ${universe.UniverseForbiddenError}
+    ${502} | ${universe.UniverseBadGatewayError}
+    ${503} | ${universe.UniverseServiceUnavailableError}
+    ${504} | ${universe.UniverseTimeoutError}
+    ${500} | ${universe.UniverseMeError}
+  `('returns exception $expected when the error code is $code', async ({ code, expected }) => {
+    mockMe(code)
+    await expect(stubUniverse().universe.me()).rejects.toBeInstanceOf(expected)
   })
 })
