@@ -5,6 +5,13 @@ import * as event from '../../eventing/feeds/event'
 import * as feed from '../../eventing/feeds/feed'
 import { BaseError } from '../../errors'
 
+export interface ChannelProfile {
+  is_verified: boolean
+  is_business_follow_user: boolean
+  is_user_follow_business: boolean
+  follower_count: number
+}
+
 export interface ChannelUserRawPayload extends EntityRawPayload {
   readonly person?: string
   readonly created_at?: string
@@ -28,6 +35,7 @@ export interface ChannelUserRawPayload extends EntityRawPayload {
   readonly middle_name?: string
   readonly last_name?: string
   readonly phone?: string
+  readonly channel_profile?: ChannelProfile | null
 }
 
 export interface ChannelUserOptions extends UniverseEntityOptions {
@@ -66,6 +74,7 @@ export class ChannelUser {
   public middleName?: ChannelUserRawPayload['middle_name']
   public lastName?: ChannelUserRawPayload['last_name']
   public phone?: ChannelUserRawPayload['phone']
+  public channelProfile?: ChannelUserRawPayload['channel_profile']
 
   constructor (options: ChannelUserOptions) {
     this.universe = options.universe
@@ -103,6 +112,7 @@ export class ChannelUser {
     this.middleName = rawPayload.middle_name
     this.lastName = rawPayload.last_name
     this.phone = rawPayload.phone
+    this.channelProfile = rawPayload.channel_profile
 
     return this
   }
@@ -139,7 +149,8 @@ export class ChannelUser {
       first_name: this.firstName,
       middle_name: this.middleName,
       last_name: this.lastName,
-      phone: this.phone
+      phone: this.phone,
+      channel_profile: this.channelProfile
     }
   }
 

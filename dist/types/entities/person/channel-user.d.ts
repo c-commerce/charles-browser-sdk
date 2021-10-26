@@ -3,6 +3,12 @@ import { Universe } from '../../universe';
 import * as messageTemplate from '../message-template/message-template';
 import * as event from '../../eventing/feeds/event';
 import { BaseError } from '../../errors';
+interface ChannelProfile {
+    is_verified: boolean;
+    is_business_follow_user: boolean;
+    is_user_follow_business: boolean;
+    follower_count: number;
+}
 export interface ChannelUserRawPayload extends EntityRawPayload {
     readonly person?: string;
     readonly created_at?: string;
@@ -26,6 +32,7 @@ export interface ChannelUserRawPayload extends EntityRawPayload {
     readonly middle_name?: string;
     readonly last_name?: string;
     readonly phone?: string;
+    readonly channel_profile?: ChannelProfile | null;
 }
 export interface ChannelUserOptions extends UniverseEntityOptions {
     rawPayload?: ChannelUserRawPayload;
@@ -61,6 +68,7 @@ export declare class ChannelUser {
     middleName?: ChannelUserRawPayload['middle_name'];
     lastName?: ChannelUserRawPayload['last_name'];
     phone?: ChannelUserRawPayload['phone'];
+    channelProfile?: ChannelUserRawPayload['channel_profile'];
     constructor(options: ChannelUserOptions);
     protected deserialize(rawPayload: ChannelUserRawPayload): ChannelUser;
     static create(payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser;
@@ -75,3 +83,4 @@ export declare class PersonChannelUserMessageTemplateSendError extends BaseError
     name: string;
     constructor(message?: string, properties?: any);
 }
+export {};

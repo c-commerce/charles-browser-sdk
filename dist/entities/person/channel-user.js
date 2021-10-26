@@ -41,6 +41,7 @@ var ChannelUser = (function () {
         this.middleName = rawPayload.middle_name;
         this.lastName = rawPayload.last_name;
         this.phone = rawPayload.phone;
+        this.channelProfile = rawPayload.channel_profile;
         return this;
     };
     ChannelUser.create = function (payload, universe, http) {
@@ -73,7 +74,8 @@ var ChannelUser = (function () {
             first_name: this.firstName,
             middle_name: this.middleName,
             last_name: this.lastName,
-            phone: this.phone
+            phone: this.phone,
+            channel_profile: this.channelProfile
         };
     };
     ChannelUser.prototype.sendMessageFromMessageTemplate = function (messageTemplate, language, parameters, extra) {
