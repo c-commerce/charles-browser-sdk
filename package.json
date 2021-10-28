@@ -177,7 +177,6 @@
         "assets": [
           "package.json",
           "package-lock.json",
-          "dist",
           "CHANGELOG.md"
         ],
         "message": "chore(release): Release ${nextRelease.version} - <%=new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })%> [skip ci]\n\n${nextRelease.notes}"
