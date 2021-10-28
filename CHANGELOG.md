@@ -1,3 +1,10 @@
+## [4.51.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.51.0...v4.51.1) (2021-10-28)
+
+
+### Bug Fixes
+
+* **build:** remove dist from tag and history ([5bf8919](https://github.com/c-commerce/charles-browser-sdk/commit/5bf89194a724552796d489aa359ddfdb89faee30))
+
 # [4.51.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.50.0...v4.51.0) (2021-10-28)
 
 
