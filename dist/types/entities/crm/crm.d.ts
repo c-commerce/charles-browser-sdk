@@ -1,0 +1,138 @@
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base';
+import { Universe } from '../../universe';
+import { BaseError } from '../../errors';
+import { AssociateUsersPayload, CrmUser } from 'src/entities/crm/crm-user';
+export interface CRMOptions extends UniverseEntityOptions {
+    rawPayload?: CRMRawPayload;
+}
+export interface CRMRawPayload {
+    readonly id?: string;
+    readonly created_at?: string;
+    readonly updated_at?: string;
+    readonly deleted?: boolean;
+    readonly active?: boolean;
+    readonly name?: string;
+    readonly uri?: string;
+    readonly is_proxy?: boolean;
+    readonly proxy_vendor?: string | any;
+    readonly configuration?: object | any;
+    readonly integration_configuration?: string | any;
+    readonly is_set_up?: boolean;
+    readonly metadata?: object | any;
+    readonly labels?: object | any;
+}
+export interface CRMPayload {
+    readonly id?: CRMRawPayload['id'];
+    readonly createdAt?: Date | null;
+    readonly updatedAt?: Date | null;
+    readonly deleted?: CRMRawPayload['deleted'];
+    readonly active?: CRMRawPayload['active'];
+    readonly name?: CRMRawPayload['name'];
+    readonly uri?: CRMRawPayload['uri'];
+    readonly isProxy?: CRMRawPayload['is_proxy'];
+    readonly proxyVendor?: CRMRawPayload['proxy_vendor'];
+    readonly configuration?: CRMRawPayload['configuration'];
+    readonly integrationConfiguration?: CRMRawPayload['integration_configuration'];
+    readonly isSetUp?: CRMRawPayload['is_set_up'];
+    readonly metadata?: CRMRawPayload['metadata'];
+    readonly labels?: CRMRawPayload['labels'];
+}
+export declare class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
+    protected universe: Universe;
+    protected apiCarrier: Universe;
+    protected http: Universe['http'];
+    protected options: CRMOptions;
+    initialized: boolean;
+    endpoint: string;
+    id?: CRMPayload['id'];
+    createdAt?: CRMPayload['createdAt'];
+    updatedAt?: CRMPayload['updatedAt'];
+    deleted?: CRMPayload['deleted'];
+    active?: CRMPayload['active'];
+    name?: CRMPayload['name'];
+    uri?: CRMPayload['uri'];
+    isProxy?: CRMPayload['isProxy'];
+    proxyVendor?: CRMPayload['proxyVendor'];
+    configuration?: CRMPayload['configuration'];
+    integrationConfiguration?: CRMPayload['integrationConfiguration'];
+    isSetUp?: CRMPayload['isSetUp'];
+    metadata?: CRMPayload['metadata'];
+    labels?: CRMPayload['labels'];
+    constructor(options: CRMOptions);
+    protected deserialize(rawPayload: CRMRawPayload): CRM;
+    static create(payload: CRMRawPayload, universe: Universe, http: Universe['http']): CRM;
+    serialize(): CRMRawPayload;
+    init(): Promise<CRM | undefined>;
+    syncCustomProperties(): Promise<number | undefined>;
+    syncDeals(): Promise<number | undefined>;
+    syncChannelUsers(): Promise<number | undefined>;
+    syncPipelines(): Promise<number | undefined>;
+    syncOrganizations(): Promise<number | undefined>;
+    setup(): Promise<number | undefined>;
+    syncUsers(): Promise<number | undefined>;
+    getCrmUsers(options?: EntityFetchOptions): Promise<CrmUser[]>;
+    associateUsers(payload: AssociateUsersPayload[], options?: object): Promise<number | undefined>;
+}
+export declare class CRMs {
+    static endpoint: string;
+}
+export declare class CRMInitializationError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSetupRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMAssociateUsersError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMsFetchRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMFetchUsersRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSyncCustomPropertiesRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSyncDealsRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSyncPipelinesRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSyncChannelUsersRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSyncOrganizationsRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}
+export declare class CRMSyncUsersRemoteError extends BaseError {
+    message: string;
+    name: string;
+    constructor(message?: string, properties?: any);
+}

@@ -1,3 +1,10 @@
+# [4.51.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.50.0...v4.51.0) (2021-10-28)
+
+
+### Features
+
+* **person:** add channel profile ([6aa7a98](https://github.com/c-commerce/charles-browser-sdk/commit/6aa7a9823ad31e345612a882f80ad568ccbd0fa0))
+
 # [4.50.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.49.1...v4.50.0) (2021-10-21)
 
 
