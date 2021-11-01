@@ -1,3 +1,10 @@
+# [4.52.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.51.1...v4.52.0) (2021-11-01)
+
+
+### Features
+
+* **Cart:** add productsMap ([94d6c55](https://github.com/c-commerce/charles-browser-sdk/commit/94d6c55962bb8823d6e07b43a760cfba0f14dc54))
+
 ## [4.51.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.51.0...v4.51.1) (2021-10-28)
 
 
