@@ -69,7 +69,6 @@ import * as urlShortener from '../entities/url-shortener/url-shortener'
 import * as apiKey from '../entities/api-key/api-key'
 // NOTE: cannot use import as it is a reserved keyword
 import * as dataImport from '../entities/import/import'
-
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -871,6 +870,26 @@ export class Universe extends APICarrier {
 
   public urlShortener (payload: urlShortener.UrlShortenerRawPayload): urlShortener.UrlShortener {
     return urlShortener.UrlShortener.create(payload, this, this.http)
+  }
+
+  public async loginImgProxy (): Promise<boolean> {
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.injectables?.base}/api/v0/interverse/login`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: { },
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      return response.headers.code === 200
+    } catch (error) {
+      throw new UrlShortenerImgProxyError({ error })
+    }
   }
 
   public apiKey (payload: apiKey.ApiKeyRawPayload): apiKey.ApiKey {
@@ -2329,5 +2348,13 @@ export class UniverseHealthzError extends BaseError {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseHealthzError.prototype)
+  }
+}
+
+export class UrlShortenerImgProxyError extends BaseError {
+  public name = 'UrlShortenerImgProxyError'
+  constructor (properties?: any) {
+    super('Could not login by img proxy.', properties)
+    Object.setPrototypeOf(this, UrlShortenerImgProxyError.prototype)
   }
 }

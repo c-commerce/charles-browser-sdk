@@ -31,6 +31,7 @@ export interface UrlShortenerRawPayload {
   readonly external_reference_id?: string | null
   readonly configuration?: {
     shorten_chatout?: boolean
+    shorten_images?: boolean
     [key: string]: any
   } | null
   readonly integration_configuration?: string | null
