@@ -16,6 +16,19 @@ export interface UrlShortenerShortenRequest {
   uri: string
 }
 
+export interface UrlShortenerImgShortenRequest {
+  url: string
+  resize: {
+    type: 'fill' | 'fit' | 'auto'
+    height: number
+    width: number
+  }
+  dpr: number
+  format: 'png' | 'jpeg'
+  background: string
+  gravity: 'center' | 'north' | 'south' | 'east' | 'west' | 'north_east' | 'north_west' | 'south_east' | 'south_west'| 'smart'
+}
+
 export interface UrlShortenerRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -170,6 +183,28 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
       const opts = {
         method: 'PUT',
         url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/shorten`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: request,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      return response.data.data[0] as UrlShortenerShortendedURL
+    } catch (err) {
+      throw new UrlShortenerShortenError(undefined, { error: err })
+    }
+  }
+
+  public async shortenImg (request: UrlShortenerImgShortenRequest): Promise<UrlShortenerShortendedURL | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('shorten requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/shorten_img`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
