@@ -466,7 +466,7 @@ export class MessageReply extends Reply {
         this.content.attachments = attachments
       }
 
-      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_message?.options.uri as string}`, {
+      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.endpoint}/${this.message.id as string}/reply`, {
         content: {
           ...this.content
         },
@@ -527,7 +527,7 @@ export class MessageFeedReply extends Reply {
         this.content.attachments = attachments
       }
 
-      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.replyables?.reply_to_feed?.options.uri as string}`, {
+      const res = await this.http?.getClient().post(`${this.universe.universeBase}${this.message.feed?.endpoint as string}/${this.message.feed?.id as string}`, {
         content: {
           ...this.content
         },
