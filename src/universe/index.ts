@@ -66,6 +66,7 @@ import * as messageSubscription from '../entities/message-subscription/message-s
 import * as messageSubscriptionInstance from '../entities/message-subscription-instance/message-subscription-instance'
 import * as peopleOrganization from '../entities/people-organization/people-organization'
 import * as urlShortener from '../entities/url-shortener/url-shortener'
+import * as imgProxy from '../entities/image-proxy/image-proxy'
 import * as apiKey from '../entities/api-key/api-key'
 // NOTE: cannot use import as it is a reserved keyword
 import * as dataImport from '../entities/import/import'
@@ -2117,6 +2118,10 @@ export class Universe extends APICarrier {
 
   public async urlShorteners (options?: EntityFetchOptions): Promise<urlShortener.UrlShortener[] | urlShortener.UrlShortenerRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<urlShortener.UrlShortener, urlShortener.UrlShorteners, urlShortener.UrlShortenerRawPayload, EntityFetchOptions, urlShortener.UrlShortenersFetchRemoteError>(urlShortener.UrlShortener, urlShortener.UrlShorteners, urlShortener.UrlShortenersFetchRemoteError, options)
+  }
+
+  public async imgProxies (options?: EntityFetchOptions): Promise<imgProxy.ImageProxy[] | imgProxy.ImageProxyRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<imgProxy.ImageProxy, imgProxy.ImageProxyAPI, imgProxy.ImageProxyRawPayload, EntityFetchOptions, imgProxy.ImageProxyGetAPIError>(imgProxy.ImageProxy, imgProxy.ImageProxyAPI, imgProxy.ImageProxyGetAPIError, options)
   }
 
   public async apiKeys (options?: EntityFetchOptions): Promise<apiKey.ApiKey[] | apiKey.ApiKeyRawPayload[] | undefined> {
