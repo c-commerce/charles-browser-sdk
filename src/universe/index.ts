@@ -873,26 +873,6 @@ export class Universe extends APICarrier {
     return urlShortener.UrlShortener.create(payload, this, this.http)
   }
 
-  public async loginImgProxy (): Promise<boolean> {
-    try {
-      const opts = {
-        method: 'PUT',
-        url: `${this.injectables?.base}/api/v0/interverse/login`,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        data: { },
-        responseType: 'json'
-      }
-
-      const response = await this.http?.getClient()(opts)
-
-      return response.headers.code === 200
-    } catch (error) {
-      throw new UrlShortenerImgProxyError({ error })
-    }
-  }
-
   public apiKey (payload: apiKey.ApiKeyRawPayload): apiKey.ApiKey {
     return apiKey.ApiKey.create(payload, this, this.http)
   }
