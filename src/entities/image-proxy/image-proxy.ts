@@ -1,9 +1,23 @@
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
-import { Universe } from '../../universe'
+import { Universe, UrlShortenerImgProxyError } from '../../universe'
 import { BaseError } from '../../errors'
+import queryString from 'query-string'
 
 export interface ImageProxyOptions extends UniverseEntityOptions {
   rawPayload?: ImageProxyRawPayload
+}
+
+export interface ImageProxyResizeRequest {
+  url: string
+  resize: {
+    type: 'fill' | 'fit' | 'auto'
+    height: number
+    width: number
+  }
+  dpr: number
+  format: 'png' | 'jpeg'
+  background: string
+  gravity: 'center' | 'north' | 'south' | 'east' | 'west' | 'north_east' | 'north_west' | 'south_east' | 'south_west'| 'smart'
 }
 
 export interface ImageProxyRawPayload {
@@ -16,6 +30,8 @@ export interface ImageProxyRawPayload {
   readonly is_default?: boolean
   readonly proxy_vendor?: string | null
   readonly configuration?: {
+    domain: string
+    resize_images: boolean
     [key: string]: any
   } | null
   readonly labels?: {
@@ -57,7 +73,7 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
   public name?: ImageProxyPayload['name']
   public isDefault?: ImageProxyPayload['isDefault']
   public proxyVendor?: ImageProxyPayload['proxyVendor']
-  public configuration?: ImageProxyPayload['configuration']
+  public configuration: ImageProxyPayload['configuration']
   public labels?: ImageProxyPayload['labels']
 
   constructor (options: ImageProxyOptions) {
@@ -118,6 +134,50 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
     } catch (err) {
       throw this.handleError(new ImageProxyErrorInitializationError(undefined, { error: err }))
     }
+  }
+
+  public async auth (): Promise<boolean> {
+    if (!this.configuration) return false
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.apiCarrier?.injectables?.base}/api/v0/image_proxy/auth`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: { },
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      return response.headers.code === 200
+    } catch (error) {
+      throw new UrlShortenerImgProxyError({ error })
+    }
+  }
+
+  public getResizedImgUrl (request: ImageProxyResizeRequest): string {
+    if (!this.configuration) throw new TypeError('img proxy requires configuration to be set.')
+
+    return `${this.configuration.domain}/proxy/images?${queryString.stringify(this.getUrlParams(request))}`
+  }
+
+  private getUrlParams (request: ImageProxyResizeRequest): { [key: string]: string | number } {
+    const params = Object.assign({ uri: request.url },
+      request.dpr === null ? null : { dpr: request.dpr },
+      request.format === null ? null : { format: request.format },
+      request.background === null ? null : { background: request.background },
+      request.gravity === null ? null : { gravity: request.gravity }
+    )
+
+    if (request.resize) {
+      params['resize[type]'] = request.resize.type
+      params['resize[height]'] = request.resize.height
+      params['resize[width]'] = request.resize.width
+    }
+
+    return params
   }
 }
 

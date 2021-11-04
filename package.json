@@ -157,6 +157,7 @@
     "just-typeof": "^2.0.0",
     "mqtt": "^4.2.6",
     "qs": "^6.6.0",
+    "query-string": "^7.0.1",
     "readable-stream": "^3.6.0",
     "serialize-error": "^4.1.0",
     "tapable": "^1.1.3",
