@@ -1,10 +1,15 @@
+import qs from 'qs'
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
-import { Universe, UrlShortenerImgProxyError } from '../../universe'
+import { ImageProxyGetSessionCodeError, Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import queryString from 'query-string'
 
 export interface ImageProxyOptions extends UniverseEntityOptions {
   rawPayload?: ImageProxyRawPayload
+}
+
+interface SessionCodeResponse {
+  expires: number
+  header: { [key: string]: string }
 }
 
 export interface ImageProxyResizeRequest {
@@ -136,12 +141,20 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
     }
   }
 
-  public async auth (): Promise<boolean> {
+  public configResizeImages (): boolean {
+    return this.configuration?.resize_images === true
+  }
+
+  public async getSessionCredentials (): Promise<{
+    urn: string
+    expires: number
+    header: { [key: string]: string }
+  } | boolean > {
     if (!this.configuration) return false
     try {
       const opts = {
-        method: 'PUT',
-        url: `${this.apiCarrier?.injectables?.base}/api/v0/image_proxy/auth`,
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/api/v0/image_proxy/session_code`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
@@ -151,16 +164,21 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
 
       const response = await this.http?.getClient()(opts)
 
-      return response.headers.code === 200
+      const sessionCodeResponse: SessionCodeResponse = response.data.data[0]
+
+      return {
+        ...sessionCodeResponse,
+        urn: `${this.configuration.domain}/api/v0/session`
+      }
     } catch (error) {
-      throw new UrlShortenerImgProxyError({ error })
+      throw new ImageProxyGetSessionCodeError({ error })
     }
   }
 
   public getResizedImgUrl (request: ImageProxyResizeRequest): string {
     if (!this.configuration) throw new TypeError('img proxy requires configuration to be set.')
 
-    return `${this.configuration.domain}/proxy/images?${queryString.stringify(this.getUrlParams(request))}`
+    return `${this.configuration.domain}/proxy/images?${qs.stringify(this.getUrlParams(request))}`
   }
 
   private getUrlParams (request: ImageProxyResizeRequest): { [key: string]: string | number } {
@@ -168,14 +186,9 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
       request.dpr === null ? null : { dpr: request.dpr },
       request.format === null ? null : { format: request.format },
       request.background === null ? null : { background: request.background },
-      request.gravity === null ? null : { gravity: request.gravity }
+      request.gravity === null ? null : { gravity: request.gravity },
+      request.resize === null ? null : { resize: request.resize }
     )
-
-    if (request.resize) {
-      params['resize[type]'] = request.resize.type
-      params['resize[height]'] = request.resize.height
-      params['resize[width]'] = request.resize.width
-    }
 
     return params
   }

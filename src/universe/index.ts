@@ -2100,7 +2100,7 @@ export class Universe extends APICarrier {
     return await this.makeBaseResourceListRequest<urlShortener.UrlShortener, urlShortener.UrlShorteners, urlShortener.UrlShortenerRawPayload, EntityFetchOptions, urlShortener.UrlShortenersFetchRemoteError>(urlShortener.UrlShortener, urlShortener.UrlShorteners, urlShortener.UrlShortenersFetchRemoteError, options)
   }
 
-  public async imgProxies (options?: EntityFetchOptions): Promise<imgProxy.ImageProxy[] | imgProxy.ImageProxyRawPayload[] | undefined> {
+  public async imageProxies (options?: EntityFetchOptions): Promise<imgProxy.ImageProxy[] | imgProxy.ImageProxyRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<imgProxy.ImageProxy, imgProxy.ImageProxyAPI, imgProxy.ImageProxyRawPayload, EntityFetchOptions, imgProxy.ImageProxyGetAPIError>(imgProxy.ImageProxy, imgProxy.ImageProxyAPI, imgProxy.ImageProxyGetAPIError, options)
   }
 
@@ -2336,10 +2336,10 @@ export class UniverseHealthzError extends BaseError {
   }
 }
 
-export class UrlShortenerImgProxyError extends BaseError {
-  public name = 'UrlShortenerImgProxyError'
+export class ImageProxyGetSessionCodeError extends BaseError {
+  public name = 'ImageProxyGetSessionCodeError'
   constructor (properties?: any) {
-    super('Could not login by img proxy.', properties)
-    Object.setPrototypeOf(this, UrlShortenerImgProxyError.prototype)
+    super('Could not get session code from image proxy.', properties)
+    Object.setPrototypeOf(this, ImageProxyGetSessionCodeError.prototype)
   }
 }

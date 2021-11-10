@@ -16,19 +16,6 @@ export interface UrlShortenerShortenRequest {
   uri: string
 }
 
-export interface UrlShortenerImgShortenRequest {
-  url: string
-  resize: {
-    type: 'fill' | 'fit' | 'auto'
-    height: number
-    width: number
-  }
-  dpr: number
-  format: 'png' | 'jpeg'
-  background: string
-  gravity: 'center' | 'north' | 'south' | 'east' | 'west' | 'north_east' | 'north_west' | 'south_east' | 'south_west'| 'smart'
-}
-
 export interface UrlShortenerRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -44,7 +31,6 @@ export interface UrlShortenerRawPayload {
   readonly external_reference_id?: string | null
   readonly configuration?: {
     shorten_chatout?: boolean
-    shorten_images?: boolean
     [key: string]: any
   } | null
   readonly integration_configuration?: string | null
