@@ -1,3 +1,10 @@
+# [4.53.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.52.0...v4.53.0) (2021-11-19)
+
+
+### Features
+
+* **channel user:** verify ([f5ae58d](https://github.com/c-commerce/charles-browser-sdk/commit/f5ae58d37e0c21f8f37def104c1a67782a15aa15))
+
 # [4.52.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.51.1...v4.52.0) (2021-11-01)
 
 
