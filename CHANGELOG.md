@@ -1,3 +1,10 @@
+## [4.53.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.53.0...v4.53.1) (2021-11-19)
+
+
+### Bug Fixes
+
+* **channeluser:** add missing property verified ([e12f2d8](https://github.com/c-commerce/charles-browser-sdk/commit/e12f2d809265288435c5043507ec0ceea75af8a3))
+
 # [4.53.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.52.0...v4.53.0) (2021-11-19)
 
 
