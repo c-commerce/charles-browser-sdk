@@ -37,6 +37,7 @@ export interface ChannelUserRawPayload extends EntityRawPayload {
   readonly last_name?: string
   readonly phone?: string
   readonly channel_profile?: ChannelProfile | null
+  readonly verified?: boolean
 }
 
 export interface ChannelUserOptions extends UniverseEntityOptions {
@@ -78,6 +79,7 @@ export class ChannelUser {
   public lastName?: ChannelUserRawPayload['last_name']
   public phone?: ChannelUserRawPayload['phone']
   public channelProfile?: ChannelUserRawPayload['channel_profile']
+  public verified?: ChannelUserRawPayload['verified']
 
   constructor (options: ChannelUserOptions) {
     this.universe = options.universe
@@ -117,6 +119,7 @@ export class ChannelUser {
     this.lastName = rawPayload.last_name
     this.phone = rawPayload.phone
     this.channelProfile = rawPayload.channel_profile
+    this.verified = rawPayload.verified
 
     return this
   }
@@ -154,7 +157,8 @@ export class ChannelUser {
       middle_name: this.middleName,
       last_name: this.lastName,
       phone: this.phone,
-      channel_profile: this.channelProfile
+      channel_profile: this.channelProfile,
+      verified: this.verified
     }
   }
 
