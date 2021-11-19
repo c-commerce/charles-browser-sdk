@@ -1,9 +1,10 @@
-import { UniverseEntityOptions, EntityRawPayload } from '../_base'
+import { UniverseEntityOptions, EntityRawPayload, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import * as messageTemplate from '../message-template/message-template'
 import * as event from '../../eventing/feeds/event'
 import * as feed from '../../eventing/feeds/feed'
 import { BaseError } from '../../errors'
+import qs from 'qs'
 
 export interface ChannelProfile {
   is_verified: boolean
@@ -49,6 +50,8 @@ export class ChannelUser {
   protected options: ChannelUserOptions
   public initialized: boolean
 
+  public endpoint: string
+
   public id?: string
   public value?: string
   public type?: string
@@ -79,6 +82,7 @@ export class ChannelUser {
   constructor (options: ChannelUserOptions) {
     this.universe = options.universe
     this.apiCarrier = options.universe
+    this.endpoint = 'api/v0/channel_users'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -174,11 +178,36 @@ export class ChannelUser {
       throw new PersonChannelUserMessageTemplateSendError(undefined, { error: err })
     }
   }
+
+  public async verify (options?: EntityFetchOptions): Promise<ChannelUserRawPayload> {
+    if (this.id === null || this.id === undefined) throw new TypeError('channel user verify requires')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/verify${qs.stringify(options?.query ?? {}, { addQueryPrefix: true })}`,
+        responseType: 'json'
+      }
+
+      const res = await this.http.getClient()(opts)
+      const resource = res.data.data[0] as ChannelUserRawPayload
+      return ChannelUser.create(resource, this.universe, this.http)
+    } catch (err) {
+      throw new ChannelUserVerifyRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 export class PersonChannelUserMessageTemplateSendError extends BaseError {
   public name = 'PersonChannelUserMessageTemplateSendError'
   constructor (public message: string = 'Could not send message via message template unexpectedl.', properties?: any) {
     super(message, properties)
+  }
+}
+export class ChannelUserVerifyRemoteError extends BaseError {
+  public name = 'ChannelUserVerifyRemoteError'
+  constructor (public message: string = 'Could not verify channel user unexpectedly', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ChannelUserVerifyRemoteError.prototype)
   }
 }
