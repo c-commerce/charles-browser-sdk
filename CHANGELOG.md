@@ -1,3 +1,10 @@
+## [4.54.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.54.0...v4.54.1) (2021-11-23)
+
+
+### Bug Fixes
+
+* **import:** rename property correctly ([059b6cf](https://github.com/c-commerce/charles-browser-sdk/commit/059b6cfb0835b818daa0d61ff06b39ab94e565e8))
+
 # [4.54.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.53.1...v4.54.0) (2021-11-23)
 
 
