@@ -1,3 +1,10 @@
+# [4.54.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.53.1...v4.54.0) (2021-11-23)
+
+
+### Features
+
+* **img-proxy:** cookie-session ([#88](https://github.com/c-commerce/charles-browser-sdk/issues/88)) ([218c716](https://github.com/c-commerce/charles-browser-sdk/commit/218c716eb771d7d8344f7eea6a9890a9391f224b))
+
 ## [4.53.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.53.0...v4.53.1) (2021-11-19)
 
 
