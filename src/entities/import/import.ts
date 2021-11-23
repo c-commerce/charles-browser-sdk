@@ -79,7 +79,7 @@ export interface ImportRawPayload {
       update_existing?: boolean
     }
   }
-  readonly auto_assignement?: {
+  readonly auto_assignment?: {
     tags?: string[]
     lists?: string[]
     message_subscriptions_granted?: string[]
@@ -104,7 +104,7 @@ export interface ImportPayload {
   readonly validationStrategy?: ImportRawPayload['validation_strategy']
   readonly duplicationStrategy?: ImportRawPayload['duplication_strategy']
   readonly fieldMap?: ImportRawPayload['field_map']
-  readonly autoAssignement?: ImportRawPayload['auto_assignement']
+  readonly autoAssignment?: ImportRawPayload['auto_assignment']
   readonly status?: ImportRawPayload['status']
   readonly importFrom?: ImportRawPayload['import_from']
   readonly date?: ImportRawPayload['date']
@@ -136,7 +136,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   public validationStrategy?: ImportPayload['validationStrategy']
   public duplicationStrategy?: ImportPayload['duplicationStrategy']
   public fieldMap?: ImportPayload['fieldMap']
-  public autoAssignement?: ImportPayload['autoAssignement']
+  public autoAssignment?: ImportPayload['autoAssignment']
   public status?: ImportPayload['status']
   public importFrom?: ImportPayload['importFrom']
   public date?: ImportPayload['date']
@@ -171,7 +171,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
     this.validationStrategy = rawPayload.validation_strategy
     this.duplicationStrategy = rawPayload.duplication_strategy
     this.fieldMap = rawPayload.field_map
-    this.autoAssignement = rawPayload.auto_assignement
+    this.autoAssignment = rawPayload.auto_assignment
     this.status = rawPayload.status
     this.importFrom = rawPayload.import_from
     this.date = rawPayload.date
@@ -198,7 +198,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
       validation_strategy: this.validationStrategy,
       duplication_strategy: this.duplicationStrategy,
       field_map: this.fieldMap,
-      auto_assignement: this.autoAssignement,
+      auto_assignment: this.autoAssignment,
       status: this.status,
       import_from: this.importFrom,
       date: this.date,
