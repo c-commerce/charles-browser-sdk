@@ -1,3 +1,10 @@
+# [4.55.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.54.2...v4.55.0) (2021-11-26)
+
+
+### Features
+
+* **event:** add property: data ([3d47a34](https://github.com/c-commerce/charles-browser-sdk/commit/3d47a3477b8234765b0ea2e9f2c1459f02a07cd3))
+
 ## [4.54.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.54.1...v4.54.2) (2021-11-26)
 
 
