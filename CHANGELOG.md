@@ -1,3 +1,10 @@
+# [4.56.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.55.0...v4.56.0) (2021-11-26)
+
+
+### Features
+
+* **channel user:** acknowledge identity ([142ebe2](https://github.com/c-commerce/charles-browser-sdk/commit/142ebe20ed6cbb8517e5251c9d7f2e8d67665472))
+
 # [4.55.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.54.2...v4.55.0) (2021-11-26)
 
 
