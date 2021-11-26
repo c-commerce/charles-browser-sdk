@@ -1,3 +1,10 @@
+## [4.54.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.54.1...v4.54.2) (2021-11-26)
+
+
+### Bug Fixes
+
+* **image-proxy:** set correct url for getting cookie-code ([#93](https://github.com/c-commerce/charles-browser-sdk/issues/93)) ([4e5f179](https://github.com/c-commerce/charles-browser-sdk/commit/4e5f1795df908c9e95cffc5b2f7fb996348e645f))
+
 ## [4.54.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.54.0...v4.54.1) (2021-11-23)
 
 
