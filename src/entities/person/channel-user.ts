@@ -184,12 +184,30 @@ export class ChannelUser {
   }
 
   public async verify (options?: EntityFetchOptions): Promise<ChannelUserRawPayload> {
-    if (this.id === null || this.id === undefined) throw new TypeError('channel user verify requires')
+    if (this.id === null || this.id === undefined) throw new TypeError('channel user verify requires id to be set')
 
     try {
       const opts = {
         method: 'POST',
         url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/verify${qs.stringify(options?.query ?? {}, { addQueryPrefix: true })}`,
+        responseType: 'json'
+      }
+
+      const res = await this.http.getClient()(opts)
+      const resource = res.data.data[0] as ChannelUserRawPayload
+      return ChannelUser.create(resource, this.universe, this.http)
+    } catch (err) {
+      throw new ChannelUserVerifyRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async acknowledgeIdentityChange (options?: EntityFetchOptions): Promise<ChannelUserRawPayload> {
+    if (this.id === null || this.id === undefined) throw new TypeError('channel user acknowledgeIdentityChange requires id to be set')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/acknowledge_identity${qs.stringify(options?.query ?? {}, { addQueryPrefix: true })}`,
         responseType: 'json'
       }
 
