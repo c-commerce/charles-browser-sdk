@@ -150,15 +150,18 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
     expires: number
     header: { [key: string]: string }
   } | boolean > {
-    if (!this.configuration) return false
+    if (!this.configuration || !this.id) {
+      throw new ImageProxySessionCodeError('Image proxy should have id & configuration')
+    }
+
     try {
       const opts = {
         method: 'GET',
-        url: `${this.apiCarrier?.injectables?.base}/api/v0/image_proxy/session_code`,
+        url: `${this.apiCarrier?.injectables?.base}/api/v0/image_proxy/${this.id}/session_code`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        data: { },
+        data: {},
         responseType: 'json'
       }
 
@@ -212,5 +215,13 @@ export class ImageProxyGetAPIError extends BaseError {
   constructor (public message: string = 'Could not get ImageProxy from api', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ImageProxyGetAPIError.prototype)
+  }
+}
+
+export class ImageProxySessionCodeError extends BaseError {
+  public name = 'ImageProxySessionCodeError'
+  constructor (public message: string, properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ImageProxySessionCodeError.prototype)
   }
 }
