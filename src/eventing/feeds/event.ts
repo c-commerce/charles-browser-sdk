@@ -68,6 +68,7 @@ export interface EventRawPayload {
   readonly suggestions?: object | null
   readonly context?: string | object | null
   readonly feed?: string
+  readonly data?: object
 }
 
 export interface EventPayload {
@@ -87,6 +88,7 @@ export interface EventPayload {
   readonly suggestions?: EventRawPayload['suggestions']
   readonly context?: EventRawPayload['context']
   readonly feed?: EventRawPayload['feed']
+  readonly data?: EventRawPayload['data']
 }
 
 export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
@@ -115,6 +117,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
   public suggestions?: EventPayload['suggestions']
   public context?: EventPayload['context']
   public feed?: EventPayload['feed']
+  public data?: EventPayload['data']
 
   static eventTypes = EventTypesEnum
 
@@ -151,6 +154,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     this.annotations = rawPayload.annotations
     this.suggestions = rawPayload.suggestions
     this.context = rawPayload.context
+    this.data = rawPayload.data
 
     // we will store the feed id on this property, in case an event is initialized without a feed context
     this.feed = rawPayload.feed
@@ -191,7 +195,8 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
       annotations: this.annotations,
       suggestions: this.suggestions,
       context: this.context,
-      feed: this.feed
+      feed: this.feed,
+      data: this.data
     }
   }
 
