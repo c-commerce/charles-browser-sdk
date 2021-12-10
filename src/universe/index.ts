@@ -1592,10 +1592,10 @@ export class Universe extends APICarrier {
 
   public async makeBaseResourceListRequest<T, TL, K, O, E>(proto: BaseResourceCreateable<T, K>, listProto: BaseResourceList<TL>, errorProto: BaseResourceErrorProto<E>, options?: BaseResourceEntityFetchOptions<O>): Promise<T[] | K[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${listProto.endpoint}`, {
-        params: {
-          ...(options?.query ?? {})
-        }
+      // NOTE: previously we used the axios params option here, which led to
+      // invalid queries toward the universe API
+      const res = await this.http.getClient().get(`${this.universeBase}/${listProto.endpoint}${qs.stringify(options?.query ?? {}, { addQueryPrefix: true })}`, {
+
       })
       const resources = res.data.data as K[]
 
