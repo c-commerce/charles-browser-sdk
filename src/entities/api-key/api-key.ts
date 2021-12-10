@@ -1,5 +1,6 @@
 
-import { UniverseEntityOptions, UniverseEntity } from '../_base'
+import qs from 'qs'
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 
@@ -118,6 +119,30 @@ export class ApiKey extends UniverseEntity<ApiKeyPayload, ApiKeyRawPayload> {
       throw this.handleError(new ApiKeyInitializationError(undefined, { error: err }))
     }
   }
+
+  public async describe (options?: EntityFetchOptions): Promise<ApiKey | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('describe requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/describe${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as ApiKeyRawPayload)
+
+      return this
+    } catch (err) {
+      throw new ApiKeyDescribeRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -135,15 +160,22 @@ export class ApiKeyInitializationError extends BaseError {
 
 export class ApiKeyFetchRemoteError extends BaseError {
   public name = 'ApiKeyFetchRemoteError'
-  constructor (public message: string = 'Could not get api_key.', properties?: any) {
+  constructor (public message: string = 'Could not get api key.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ApiKeyFetchRemoteError.prototype)
+  }
+}
+export class ApiKeyDescribeRemoteError extends BaseError {
+  public name = 'ApiKeyDescribeRemoteError'
+  constructor (public message: string = 'Could not get api key details.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ApiKeyDescribeRemoteError.prototype)
   }
 }
 
 export class ApiKeysFetchRemoteError extends BaseError {
   public name = 'ApiKeysFetchRemoteError'
-  constructor (public message: string = 'Could not get api_keys.', properties?: any) {
+  constructor (public message: string = 'Could not get api keys.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ApiKeysFetchRemoteError.prototype)
   }
