@@ -1,3 +1,10 @@
+## [4.56.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.56.0...v4.56.1) (2021-12-10)
+
+
+### Bug Fixes
+
+* **dev:** set node consistently ([0e635e2](https://github.com/c-commerce/charles-browser-sdk/commit/0e635e2953aa8d7c37045d511b0bb4ee1d26dab6))
+
 # [4.56.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.55.0...v4.56.0) (2021-11-26)
 
 
