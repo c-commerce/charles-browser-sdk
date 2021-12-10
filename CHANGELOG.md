@@ -1,3 +1,10 @@
+## [4.57.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.57.0...v4.57.1) (2021-12-10)
+
+
+### Bug Fixes
+
+* **Universe:** inject query params correctly ([647d80a](https://github.com/c-commerce/charles-browser-sdk/commit/647d80a611819eacc38b2ebf59e286e0db6cf27b))
+
 # [4.57.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.56.1...v4.57.0) (2021-12-10)
 
 
