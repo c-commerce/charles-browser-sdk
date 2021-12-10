@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios'
+import { ClientError } from '../client'
 import {
   UniverseBadGatewayError,
   UniverseForbiddenError, UniverseServiceUnavailableError, UniverseTimeoutError,
@@ -7,14 +7,14 @@ import {
 
 type commonException = UniverseBadGatewayError | UniverseForbiddenError | UniverseUnauthenticatedError | UniverseServiceUnavailableError | UniverseTimeoutError
 
-export function throwExceptionFromCommonError (error: AxiosError): void | never {
+export function throwExceptionFromCommonError (error: ClientError): void | never {
   const exception = returnExceptionFromError(error)
   if (exception) {
     throw exception
   }
 }
 
-export function returnExceptionFromError (error: AxiosError): commonException | undefined {
+export function returnExceptionFromError (error: ClientError): commonException | undefined {
   const status = error?.response?.status
   if (status === 401) {
     return new UniverseUnauthenticatedError(undefined, { error })

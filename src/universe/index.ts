@@ -1,6 +1,6 @@
 import qs from 'qs'
 import { UniverseHealth, UniverseStatus } from './status'
-import { Client } from '../client'
+import { Client, ClientError } from '../client'
 import { APICarrier } from '../base'
 import { Feeds, Feed, FeedRawPayload, FeedsFetchRemoteError, FeedFetchCountRemoteError } from '../eventing/feeds/feed'
 import * as realtime from '../realtime'
@@ -942,7 +942,7 @@ export class Universe extends APICarrier {
 
       return response.data.data
     } catch (error) {
-      throwExceptionFromCommonError(error)
+      throwExceptionFromCommonError(error as ClientError)
 
       throw new UniverseMeError(undefined, { error })
     }
