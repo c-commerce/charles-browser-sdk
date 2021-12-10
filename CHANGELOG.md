@@ -1,3 +1,15 @@
+# [4.57.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.56.1...v4.57.0) (2021-12-10)
+
+
+### Bug Fixes
+
+* **client:** expose error correctly ([3b36ad4](https://github.com/c-commerce/charles-browser-sdk/commit/3b36ad49dad27f1d241ca918bdf73d5a823672fd))
+
+
+### Features
+
+* add automation engines, api key fetch ([4d77029](https://github.com/c-commerce/charles-browser-sdk/commit/4d770298ac229a63e3dbc808ab475f76359d669e))
+
 ## [4.56.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.56.0...v4.56.1) (2021-12-10)
 
 
