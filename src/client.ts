@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, AxiosPromise } from 'axios'
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, AxiosPromise, AxiosError } from 'axios'
 
 import { environment } from './environment'
 
@@ -29,6 +29,10 @@ export type HTTPClientPromise = AxiosPromise
 
 export interface HTTPClient extends AxiosInstance {
   (config: HTTPClientRequestConfig): HTTPClientPromise
+}
+
+export interface ClientError extends AxiosError {
+
 }
 
 /**

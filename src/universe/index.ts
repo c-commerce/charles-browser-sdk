@@ -1,6 +1,6 @@
 import qs from 'qs'
 import { UniverseHealth, UniverseStatus } from './status'
-import { Client } from '../client'
+import { Client, ClientError } from '../client'
 import { APICarrier } from '../base'
 import { Feeds, Feed, FeedRawPayload, FeedsFetchRemoteError, FeedFetchCountRemoteError } from '../eventing/feeds/feed'
 import * as realtime from '../realtime'
@@ -68,8 +68,9 @@ import * as peopleOrganization from '../entities/people-organization/people-orga
 import * as urlShortener from '../entities/url-shortener/url-shortener'
 import * as imgProxy from '../entities/image-proxy/image-proxy'
 import * as apiKey from '../entities/api-key/api-key'
-// NOTE: cannot use import as it is a reserved keyword
-import * as dataImport from '../entities/import/import'
+import * as dataImport from '../entities/import/import' // NOTE: cannot use import as it is a reserved keyword
+import * as automationEngine from '../entities/automation-engine/automation-engine'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -881,6 +882,10 @@ export class Universe extends APICarrier {
     return dataImport.Import.create(payload, this, this.http)
   }
 
+  public automationEngine (payload: automationEngine.AutomationEngineRawPayload): automationEngine.AutomationEngine {
+    return automationEngine.AutomationEngine.create(payload, this, this.http)
+  }
+
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
@@ -942,7 +947,7 @@ export class Universe extends APICarrier {
 
       return response.data.data
     } catch (error) {
-      throwExceptionFromCommonError(error)
+      throwExceptionFromCommonError(error as ClientError)
 
       throw new UniverseMeError(undefined, { error })
     }
@@ -2159,6 +2164,10 @@ export class Universe extends APICarrier {
         }
       }
     }
+  }
+
+  public async automationEngines (options?: EntityFetchOptions): Promise<automationEngine.AutomationEngine[] | automationEngine.AutomationEngineRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<automationEngine.AutomationEngine, automationEngine.AutomationEngines, automationEngine.AutomationEngineRawPayload, EntityFetchOptions, automationEngine.AutomationEnginesFetchRemoteError>(automationEngine.AutomationEngine, automationEngine.AutomationEngines, automationEngine.AutomationEnginesFetchRemoteError, options)
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
