@@ -84,19 +84,23 @@ export interface MessageRawPayload extends EntityRawPayload {
     person?: string
   } | null
   readonly statuses?: MessageStatus[]
-  readonly reactions?: Array<{
-    // TODO: parse dates
-    date?: any
-    reaction?: {
-      action?: string
-      type?: string
-      value?: string
-      class?: string
-    } | null
-    external_person_reference_id?: string
-    details?: any
-    payload?: any
-  }>
+  readonly reactions?: MessageReaction[] | null
+}
+
+export interface MessageReaction {
+  id: string | null
+  // TODO: parse dates
+  date: string | null
+  details: object | null
+  payload: object | null
+  external_person_reference_id: string | null
+  external_person_custom_id: string | null
+  is_staff: boolean
+  reaction: {
+    action: 'react' | 'unreact'
+    type: string | null
+    emoji: string | null
+  } | null
 }
 
 export interface MessagePayload {
