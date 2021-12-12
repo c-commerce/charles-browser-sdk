@@ -146,6 +146,41 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   }
 
   /**
+   * Fetch the current state of this object.
+   */
+  public async fetchCount (options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
+    // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
+    return await this._fetch(options)
+  }
+
+  /**
+   * @ignore
+   */
+  protected async _fetchCount (options?: EntityFetchOptions): Promise<{ count: number }> {
+    if (this.id === null || this.id === undefined) throw new TypeError('fetchCount requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'HEAD',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      return {
+        count: Number(response.headers['X-Resource-Count'] || response.headers['x-resource-count'])
+      }
+    } catch (err) {
+      throw new EntityFetchCountError(undefined, { error: err })
+    }
+  }
+
+  /**
    * Change this object on the remote by partially applying a change object to it as diff.
    * @param changePart
    */
@@ -401,6 +436,13 @@ export class EntityPutError extends BaseError {
 export class EntityFetchError extends BaseError {
   public name = 'EntityFetchError'
   constructor (public message: string = 'Could fetch resource unexpectedly.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EntityFetchCountError extends BaseError {
+  public name = 'EntityFetchCountError'
+  constructor (public message: string = 'Could fetch count ofresource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
