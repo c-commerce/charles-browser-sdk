@@ -1,7 +1,7 @@
 
 import qs from 'qs'
-import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
-import { Universe } from '../../universe'
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions, EntitiesList } from '../_base'
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
 
 export interface ApiKeyOptions extends UniverseEntityOptions {
@@ -145,9 +145,44 @@ export class ApiKey extends UniverseEntity<ApiKeyPayload, ApiKeyRawPayload> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export class ApiKeys {
+export interface ApiKeysOptions {
+  universe: Universe
+  http: Universe['http']
+}
+
+export class ApiKeys extends EntitiesList<ApiKey, ApiKeyRawPayload> {
   public static endpoint: string = 'api/v0/api_keys'
+  public endpoint: string = ApiKeys.endpoint
+  protected universe: Universe
+  protected apiCarrier: Universe
+  protected http: Universe['http']
+
+  constructor (options: ApiKeysOptions) {
+    super()
+    this.universe = options.universe
+    this.apiCarrier = options.universe
+    this.http = options.http
+  }
+
+  protected parseItem (payload: ApiKeyRawPayload): ApiKey {
+    return ApiKey.create(payload, this.universe, this.http)
+  }
+
+  public async getStream (options?: UniverseFetchOptions): Promise<ApiKeys> {
+    return (await this._getStream(options)) as ApiKeys
+  }
+
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
+    return (await this._exportCsv(options))
+  }
+
+  public async fetch (options: EntityFetchOptions): Promise<ApiKey[] | ApiKeyRawPayload[] | undefined> {
+    try {
+      return await super.fetch(options)
+    } catch (err) {
+      throw new ApiKeysFetchRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 export class ApiKeyInitializationError extends BaseError {

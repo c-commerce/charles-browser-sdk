@@ -146,41 +146,6 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   }
 
   /**
-   * Fetch the current state of this object.
-   */
-  public async fetchCount (options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
-    // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
-    return await this._fetch(options)
-  }
-
-  /**
-   * @ignore
-   */
-  protected async _fetchCount (options?: EntityFetchOptions): Promise<{ count: number }> {
-    if (this.id === null || this.id === undefined) throw new TypeError('fetchCount requires id to be set.')
-
-    try {
-      const opts = {
-        method: 'HEAD',
-        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        data: undefined,
-        responseType: 'json'
-      }
-
-      const response = await this.http?.getClient()(opts)
-
-      return {
-        count: Number(response.headers['X-Resource-Count'] || response.headers['x-resource-count'])
-      }
-    } catch (err) {
-      throw new EntityFetchCountError(undefined, { error: err })
-    }
-  }
-
-  /**
    * Change this object on the remote by partially applying a change object to it as diff.
    * @param changePart
    */
@@ -458,6 +423,7 @@ export interface EntitiesListFetchOptions {
   raw?: boolean
   query?: EntitiesListFetchQuery
 }
+
 export interface EntitiesListExportCsvOptions {
   query?: EntitiesListExportCsvQuery
 }
@@ -477,6 +443,14 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   }
 
   protected abstract parseItem (payload: RawPayload): Entity
+
+  fromJson (payloads: RawPayload[]): Entity[] {
+    return payloads.map((item) => (this.parseItem(item)))
+  }
+
+  // toJson (list: Entity[]): RawPayload[] {
+  //   return list.map((item: Entity) => (item.serialize()))
+  // }
 
   static pipeline = pipeline
 
@@ -541,5 +515,74 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
         this.emit('error', err)
         return undefined
       })
+  }
+
+  /**
+   * Fetch the list of this entity.
+   */
+  public async fetchCount (options?: EntityFetchOptions): Promise<{ count: number }> {
+    // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
+    return await this._fetchCount(options)
+  }
+
+  /**
+   * @ignore
+   */
+  protected async _fetchCount (options?: EntityFetchOptions): Promise<{ count: number }> {
+    try {
+      const opts = {
+        method: 'HEAD',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      return {
+        count: Number(response.headers['X-Resource-Count'] || response.headers['x-resource-count'])
+      }
+    } catch (err) {
+      throw new EntityFetchCountError(undefined, { error: err })
+    }
+  }
+
+  /**
+   * Fetch the list of this entity.
+   */
+  public async fetch (options?: EntityFetchOptions): Promise<Entity[] | RawPayload[] | undefined> {
+    return await this._fetch(options)
+  }
+
+  /**
+   * @ignore
+   */
+  protected async _fetch (options?: EntityFetchOptions): Promise<Entity[] | RawPayload[] | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      const resources = response.data.data as RawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource) => this.parseItem(resource))
+    } catch (err) {
+      throw new EntityFetchCountError(undefined, { error: err })
+    }
   }
 }

@@ -15,8 +15,8 @@ to: "<%= 'src/entities/' + h.inflection.dasherize(singularizedName, true) + '/' 
   classListName  = h.changeCase.pascal(pluralizedName, true)
   title  = h.changeCase.title(singularizedName, true)
 %>
-import { UniverseEntityOptions, UniverseEntity } from '../_base'
-import { Universe } from '../../universe'
+import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions, EntitiesList } from '../_base'
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
 
 export interface <%= className %>Options extends UniverseEntityOptions {
@@ -110,9 +110,44 @@ export class <%= className %> extends UniverseEntity<<%= className %>Payload, <%
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export class <%= classListName %> {
+export interface <%= classListName %>Options {
+  universe: Universe
+  http: Universe['http']
+}
+
+export class <%= classListName %> extends EntitiesList<<%= className %>, <%= className %>RawPayload> {
   public static endpoint: string = 'api/<%= version %>/<%= name %>'
+  public endpoint: string = <%= classListName %>.endpoint
+  protected universe: Universe
+  protected apiCarrier: Universe
+  protected http: Universe['http']
+
+  constructor (options: <%= classListName %>Options) {
+    super()
+    this.universe = options.universe
+    this.apiCarrier = options.universe
+    this.http = options.http
+  }
+
+  protected parseItem (payload: <%= className %>RawPayload): <%= className %> {
+    return <%= className %>.create(payload, this.universe, this.http)
+  }
+
+  public async getStream (options?: UniverseFetchOptions): Promise<<%= classListName %>> {
+    return (await this._getStream(options)) as <%= classListName %>
+  }
+
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
+    return (await this._exportCsv(options))
+  }
+
+  public async fetch (options: EntityFetchOptions): Promise<<%= className %>[] | <%= className %>RawPayload[] | undefined> {
+    try {
+      return await super.fetch(options)
+    } catch (err) {
+      throw new <%= classListName %>FetchRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 export class <%= className %>InitializationError extends BaseError {

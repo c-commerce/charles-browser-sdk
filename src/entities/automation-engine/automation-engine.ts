@@ -2,7 +2,7 @@
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { ApiKeys } from '../api-key'
+import { ApiKeys, ApiKeyRawPayload } from '../api-key'
 
 export interface AutomationEngineOptions extends UniverseEntityOptions {
   rawPayload?: AutomationEngineRawPayload
@@ -149,7 +149,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
     }
   }
 
-  async fetchApiKeys (): Promise<ApiKeys[] | undefined> {
+  async fetchApiKeys (): Promise<ApiKeys[] | ApiKeyRawPayload[] | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('fetchApiKeys requires id to be set.')
 
     const opts = {
@@ -161,7 +161,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
       }
     }
 
-    return await this.universe.apiKeys(opts)
+    return await this.universe.apiKeysList().fetch(opts)
   }
 }
 

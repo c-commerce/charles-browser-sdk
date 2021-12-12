@@ -2,11 +2,13 @@
 import {
   ApiKey,
   ApiKeys,
-  ApiKeysFetchRemoteError
+  ApiKeysFetchRemoteError,
+  ApiKeyRawPayload
 } from './api-key'
 
 export {
   ApiKey,
   ApiKeys,
-  ApiKeysFetchRemoteError
+  ApiKeysFetchRemoteError,
+  ApiKeyRawPayload
 }
