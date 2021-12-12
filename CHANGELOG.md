@@ -1,3 +1,10 @@
+# [4.59.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.58.0...v4.59.0) (2021-12-12)
+
+
+### Features
+
+* **UniverseEntity:** move to list impl, ApiKey do list ([e47cf5d](https://github.com/c-commerce/charles-browser-sdk/commit/e47cf5d707d3464f1f55609af480fdc5a687aaf2))
+
 # [4.58.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.57.1...v4.58.0) (2021-12-12)
 
 
