@@ -1429,46 +1429,14 @@ export class Universe extends APICarrier {
         return orders.map((item) => (item.serialize()))
       },
       fetch: async (options?: UniverseFetchOptions): Promise<order.Order[] | order.OrderRawPayload[] | undefined> => {
-        try {
-          const opts = {
-            method: 'GET',
-            url: `${this.universeBase}/${order.Orders.endpoint}`,
-            params: {
-              ...(options?.query ?? {})
-            }
-          }
-          const res = await this.http.getClient()(opts)
-          const resources = res.data.data as order.OrderRawPayload[]
+        const orders = new order.Orders({ universe: this, http: this.http })
 
-          if (options && options.raw === true) {
-            return resources
-          }
-
-          return resources.map((resource: order.OrderRawPayload) => {
-            return order.Order.create(resource, this, this.http)
-          })
-        } catch (err) {
-          throw new order.OrdersFetchRemoteError(undefined, { error: err })
-        }
+        return await orders.fetch(options)
       },
       fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
-        try {
-          const opts = {
-            method: 'HEAD',
-            url: `${this.universeBase}/${order.Orders.endpoint}`,
-            params: {
-              ...(options?.query ?? {})
-            }
-          }
+        const orders = new order.Orders({ universe: this, http: this.http })
 
-          const res = await this.http.getClient()(opts)
-
-          return {
-            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
-          }
-        } catch (err) {
-          throw new order.OrdersFetchCountRemoteError(undefined, { error: err })
-        }
+        return await orders.fetchCount(options)
       },
       export: async (options?: UniverseExportCsvOptions): Promise<Blob> => {
         const inst = new order.Orders({
@@ -2111,6 +2079,10 @@ export class Universe extends APICarrier {
 
   public async apiKeys (options?: EntityFetchOptions): Promise<apiKey.ApiKey[] | apiKey.ApiKeyRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeyRawPayload, EntityFetchOptions, apiKey.ApiKeysFetchRemoteError>(apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeysFetchRemoteError, options)
+  }
+
+  public apiKeysList (): apiKey.ApiKeys {
+    return new apiKey.ApiKeys({ universe: this, http: this.http })
   }
 
   public get imports (): IUniverseImports {
