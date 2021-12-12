@@ -1,3 +1,10 @@
+# [4.58.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.57.1...v4.58.0) (2021-12-12)
+
+
+### Features
+
+* **Entity:** add global fetch count ([0cb6fc7](https://github.com/c-commerce/charles-browser-sdk/commit/0cb6fc712acc3202f25fbdfaf5b2bef7feb11aec))
+
 ## [4.57.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.57.0...v4.57.1) (2021-12-10)
 
 
