@@ -201,6 +201,12 @@ export interface UniverseSearches {
   products: (q: string) => Promise<UnviverseProductsSearchResultItem[]>
 }
 
+export interface UniverseProxies {
+  privacy: {
+    media: (uri: string) => string
+  }
+}
+
 /* Analytics */
 export interface UniverseAnalyticsOptions {
   start: string
@@ -2224,6 +2230,16 @@ export class Universe extends APICarrier {
       },
       feeds: async (q: string, query?: { [key: string]: any }): Promise<UnviverseFeedsSearchResultItem[]> => {
         return await this.searchEntity<UnviverseFeedsSearchResultItem[]>(Feeds.endpoint, q, query)
+      }
+    }
+  }
+
+  public get proxies (): UniverseProxies {
+    return {
+      privacy: {
+        media: (uri: string): string => {
+          return `${this.universeBase}/api/v0/proxies/privacy/media${qs.stringify({ uri }, { addQueryPrefix: true })}`
+        }
       }
     }
   }
