@@ -1,3 +1,10 @@
+# [4.60.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.59.0...v4.60.0) (2021-12-20)
+
+
+### Features
+
+* **universe:** add privacy proxy ([88ad71a](https://github.com/c-commerce/charles-browser-sdk/commit/88ad71aef018709bfa21f7b13be83d8a815217ce))
+
 # [4.59.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.58.0...v4.59.0) (2021-12-12)
 
 
