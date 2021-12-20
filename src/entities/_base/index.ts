@@ -1,6 +1,6 @@
 import omit from 'just-omit'
 import { EventEmitter } from 'events'
-import { Readable, pipeline } from 'readable-stream'
+import { Readable } from 'readable-stream'
 import {
   SyncHook, SyncBailHook, SyncWaterfallHook, SyncLoopHook, AsyncParallelHook,
   AsyncParallelBailHook, AsyncSeriesHook, AsyncSeriesBailHook, AsyncSeriesWaterfallHook
@@ -451,8 +451,6 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   // toJson (list: Entity[]): RawPayload[] {
   //   return list.map((item: Entity) => (item.serialize()))
   // }
-
-  static pipeline = pipeline
 
   public abstract getStream (options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>>
 
