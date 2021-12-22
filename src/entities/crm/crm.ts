@@ -3,7 +3,7 @@ import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_b
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import qs from 'qs'
-import { AssociateUsersPayload, CrmUser } from 'src/entities/crm/crm-user'
+import { AssociateUsersPayload, CrmUser } from '../../entities/crm/crm-user'
 
 export interface CRMOptions extends UniverseEntityOptions {
   rawPayload?: CRMRawPayload
