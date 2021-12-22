@@ -1,3 +1,10 @@
+## [4.60.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.60.0...v4.60.1) (2021-12-22)
+
+
+### Bug Fixes
+
+* **ts:** fixed type imports for generated dist type declarations ([b1aff35](https://github.com/c-commerce/charles-browser-sdk/commit/b1aff35f166bf2c56dc0717c0d94eab5de40ac7c))
+
 # [4.60.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.59.0...v4.60.0) (2021-12-20)
 
 
