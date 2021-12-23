@@ -1,3 +1,11 @@
+# [4.61.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.60.1...v4.61.0) (2021-12-23)
+
+
+### Features
+
+* **dev:** upgrade tslib ([39c819b](https://github.com/c-commerce/charles-browser-sdk/commit/39c819b3645baafb915c1fff26cac3451b6b5eee))
+* **reactions:** updated interface for message reactions ([ce4af31](https://github.com/c-commerce/charles-browser-sdk/commit/ce4af310468e9a2709ffc2e4c5f1696bfc5b0e75))
+
 ## [4.60.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.60.0...v4.60.1) (2021-12-22)
 
 
