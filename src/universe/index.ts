@@ -1756,6 +1756,28 @@ export class Universe extends APICarrier {
     }
   }
 
+  public async storefrontScripts (options?: EntityFetchOptions): Promise<storefrontScript.StorefrontScript[] | storefrontScript.StorefrontScriptPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${storefrontScript.StorefrontScripts.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
+
+      const resources = res.data.data as storefrontScript.StorefrontScriptPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((resource: storefront.StorefrontRawPayload) => {
+        return storefrontScript.StorefrontScript.create(resource, this, this.http)
+      })
+    } catch (err) {
+      throw new storefrontScript.StorefrontScriptFetchRemoteError(undefined, { error: err })
+    }
+  }
+
   public async shippingMethods (options?: EntityFetchOptions): Promise<shippingMethod.ShippingMethod[] | shippingMethod.ShippingMethodRawPayload[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${shippingMethod.ShippingMethods.endpoint}`, {

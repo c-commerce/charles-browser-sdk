@@ -1,4 +1,3 @@
-
 import Entity, { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
@@ -83,7 +82,7 @@ export class StorefrontScript extends UniverseEntity<StorefrontScriptPayload, St
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
-    this.endpoint = 'api/v0/storefronts'
+    this.endpoint = 'api/v0/storefronts/scripts'
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -197,7 +196,7 @@ export class StorefrontScript extends UniverseEntity<StorefrontScriptPayload, St
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class StorefrontScripts {
-  public static endpoint: string = 'api/v0/storefronts'
+  public static endpoint: string = 'api/v0/storefronts/scripts'
 }
 
 export class StorefrontScriptNoStorefrontError extends BaseError {
