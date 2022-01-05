@@ -1,3 +1,10 @@
+# [4.62.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.61.0...v4.62.0) (2022-01-05)
+
+
+### Features
+
+* **Storefront Scripts:** add util to fetch all scripts ([4348b51](https://github.com/c-commerce/charles-browser-sdk/commit/4348b519abc563d9a722d23c9d86f9b44a47629c))
+
 # [4.61.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.60.1...v4.61.0) (2021-12-23)
 
 
