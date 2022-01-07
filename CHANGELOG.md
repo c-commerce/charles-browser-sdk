@@ -1,3 +1,10 @@
+# [4.63.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.62.0...v4.63.0) (2022-01-07)
+
+
+### Features
+
+* **shortener:** add person & feed params ([#105](https://github.com/c-commerce/charles-browser-sdk/issues/105)) ([8352cf7](https://github.com/c-commerce/charles-browser-sdk/commit/8352cf75648508a0b3fc28fce10b2af5578cb796))
+
 # [4.62.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.61.0...v4.62.0) (2022-01-05)
 
 
