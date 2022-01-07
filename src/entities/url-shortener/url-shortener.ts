@@ -14,6 +14,8 @@ export interface UrlShortenerShortendedURL {
 
 export interface UrlShortenerShortenRequest {
   uri: string
+  personId?: string
+  feedId?: string
 }
 
 export interface UrlShortenerRawPayload {
