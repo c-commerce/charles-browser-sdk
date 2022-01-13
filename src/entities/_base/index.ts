@@ -296,7 +296,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
 
       return this
     } catch (err) {
-      throw new EntityPostError(undefined, { error: err })
+      throw new EntityCloneError(undefined, { error: err })
     }
   }
 
@@ -419,6 +419,13 @@ export class EntityPatchError extends BaseError {
 export class EntityPostError extends BaseError {
   public name = 'EntityPostError'
   constructor (public message: string = 'Could not create resource unexpectedly.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EntityCloneError extends BaseError {
+  public name = 'EntityCloneError'
+  constructor (public message: string = 'Could not clone resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
