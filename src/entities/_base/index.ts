@@ -50,6 +50,10 @@ export interface EntityFetchOptions {
   query?: EntityFetchQuery
   timeout?: number
 }
+
+export interface EntityPostOptions {
+  query?: EntityFetchQuery
+}
 export interface EntityDeleteOptions {
   query?: EntityFetchQuery
 }
@@ -262,6 +266,41 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   }
 
   /**
+   * Clones this object on the remote.
+   */
+  public async clone (options?: EntityPostOptions): Promise<Entity<Payload, RawPayload>> {
+    // we allow implementers to override us by calling ._clone directly and e.g. handle our error differently
+    return await this._clone(options)
+  }
+
+  /**
+   * @ignore
+   */
+  protected async _clone (options?: EntityPostOptions): Promise<Entity<Payload, RawPayload>> {
+    if (this.id === null || this.id === undefined) throw new TypeError('clone requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/clone${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: this._rawPayload ?? undefined,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      this.deserialize(response.data.data[0] as RawPayload)
+
+      return this
+    } catch (err) {
+      throw new EntityCloneError(undefined, { error: err })
+    }
+  }
+
+  /**
    * Replace all properties on the remote.
    */
   public async put (): Promise<Entity<Payload, RawPayload>> {
@@ -380,6 +419,13 @@ export class EntityPatchError extends BaseError {
 export class EntityPostError extends BaseError {
   public name = 'EntityPostError'
   constructor (public message: string = 'Could not create resource unexpectedly.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class EntityCloneError extends BaseError {
+  public name = 'EntityCloneError'
+  constructor (public message: string = 'Could not clone resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
