@@ -1,3 +1,15 @@
+# [4.64.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.63.0...v4.64.0) (2022-01-13)
+
+
+### Bug Fixes
+
+* **entity:** create new err for clone ([0096622](https://github.com/c-commerce/charles-browser-sdk/commit/0096622d6fd1b9da8a539fe7b01354c150ed1e5f))
+
+
+### Features
+
+* **entity base:** allow clone ([b0298df](https://github.com/c-commerce/charles-browser-sdk/commit/b0298dfd8d895030615249c020abf91b78f701c4))
+
 # [4.63.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.62.0...v4.63.0) (2022-01-07)
 
 
