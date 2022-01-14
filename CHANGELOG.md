@@ -1,3 +1,10 @@
+# [4.66.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.65.0...v4.66.0) (2022-01-14)
+
+
+### Features
+
+* **camapign:** fix remaining payload ([46352b0](https://github.com/c-commerce/charles-browser-sdk/commit/46352b0ba4dbc9e98d15a270a42f7f55cada097c))
+
 # [4.65.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.64.0...v4.65.0) (2022-01-14)
 
 
