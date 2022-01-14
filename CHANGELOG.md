@@ -1,3 +1,10 @@
+# [4.65.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.64.0...v4.65.0) (2022-01-14)
+
+
+### Features
+
+* **camapign:** contact list from remaining recipients ([73cb8e3](https://github.com/c-commerce/charles-browser-sdk/commit/73cb8e3bb773291631171214f3e67de8618e9e9b))
+
 # [4.64.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.63.0...v4.64.0) (2022-01-13)
 
 
