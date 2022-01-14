@@ -5,6 +5,7 @@ import { BaseError } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
 import qs from 'qs'
 import { Feed } from '../../eventing/feeds/feed'
+import { ContactList, ContactListRawPayload } from '../contact-list/contact-list'
 
 export interface NotificationCampaignOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignRawPayload
@@ -390,6 +391,27 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
+  public async createContactListFromRemainingRecipients (options?: EntityFetchOptions): Promise<ContactList> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign createContactListFromRemainingRecipients requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/remaining_recipients${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data as ContactListRawPayload
+
+      return ContactList.create(data, this.universe, this.http)
+    } catch (err) {
+      throw new NotificationCampaignCreateContactListFromRemainingRecipientsRemoteError(undefined, { error: err })
+    }
+  }
+
   /**
  * Fetches campaign feed events
  */
@@ -498,5 +520,13 @@ export class NotificationCampaignContinueError extends BaseError {
   constructor (public message: string = 'Could not continue notification campaign', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignContinueError.prototype)
+  }
+}
+
+export class NotificationCampaignCreateContactListFromRemainingRecipientsRemoteError extends BaseError {
+  public name = 'NotificationCampaignCreateContactListFromRemainingRecipientsRemoteError'
+  constructor (public message: string = 'Could not create contact list from remaining recipients', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignCreateContactListFromRemainingRecipientsRemoteError.prototype)
   }
 }
