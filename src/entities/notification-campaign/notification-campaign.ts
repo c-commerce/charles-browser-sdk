@@ -404,7 +404,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
         responseType: 'json'
       }
       const res = await this.http.getClient()(opts)
-      const data = res.data.data as ContactListRawPayload
+      const data = res.data.data[0] as ContactListRawPayload
 
       return ContactList.create(data, this.universe, this.http)
     } catch (err) {
