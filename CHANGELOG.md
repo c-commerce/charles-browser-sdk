@@ -1,3 +1,10 @@
+# [4.67.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.66.0...v4.67.0) (2022-01-18)
+
+
+### Features
+
+* **form_provider/form_instances:** implement entities ([553516f](https://github.com/c-commerce/charles-browser-sdk/commit/553516f14fc0335c20d3946f14d69fd6bf25ee7f))
+
 # [4.66.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.65.0...v4.66.0) (2022-01-14)
 
 
