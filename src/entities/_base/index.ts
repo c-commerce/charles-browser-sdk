@@ -553,6 +553,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
       responseType: 'blob'
     }
 
+    // eslint-disable-next-line @typescript-eslint/return-await
     return await this.http?.getClient()(opts)
       .then((res: { data: any }) => res.data)
       .catch((err: any) => {

@@ -71,6 +71,10 @@ import * as apiKey from '../entities/api-key/api-key'
 import * as dataImport from '../entities/import/import' // NOTE: cannot use import as it is a reserved keyword
 import * as automationEngine from '../entities/automation-engine/automation-engine'
 
+import * as formProvider from '../entities/form-provider/form-provider'
+
+import * as formInstance from '../entities/form-instance/form-instance'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -890,6 +894,14 @@ export class Universe extends APICarrier {
 
   public automationEngine (payload: automationEngine.AutomationEngineRawPayload): automationEngine.AutomationEngine {
     return automationEngine.AutomationEngine.create(payload, this, this.http)
+  }
+
+  public formProvider (payload: formProvider.FormProviderRawPayload): formProvider.FormProvider {
+    return formProvider.FormProvider.create(payload, this, this.http)
+  }
+
+  public formInstance (payload: formInstance.FormInstanceRawPayload): formInstance.FormInstance {
+    return formInstance.FormInstance.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -2168,6 +2180,14 @@ export class Universe extends APICarrier {
 
   public async automationEngines (options?: EntityFetchOptions): Promise<automationEngine.AutomationEngine[] | automationEngine.AutomationEngineRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<automationEngine.AutomationEngine, automationEngine.AutomationEngines, automationEngine.AutomationEngineRawPayload, EntityFetchOptions, automationEngine.AutomationEnginesFetchRemoteError>(automationEngine.AutomationEngine, automationEngine.AutomationEngines, automationEngine.AutomationEnginesFetchRemoteError, options)
+  }
+
+  public formProvidersList (): formProvider.FormProviders {
+    return new formProvider.FormProviders({ universe: this, http: this.http })
+  }
+
+  public formInstancesList (): formInstance.FormInstances {
+    return new formInstance.FormInstances({ universe: this, http: this.http })
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
