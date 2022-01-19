@@ -2,6 +2,7 @@
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions, EntitiesList } from '../_base'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
+import qs from 'qs'
 
 export interface FormInstanceOptions extends UniverseEntityOptions {
   rawPayload?: FormInstanceRawPayload
@@ -155,6 +156,29 @@ export class FormInstance extends UniverseEntity<FormInstancePayload, FormInstan
       throw this.handleError(new FormInstanceInitializationError(undefined, { error: err }))
     }
   }
+
+  /**
+   * Set a webhook for this form instance.
+   */
+  public async createWebhook (options?: EntityFetchOptions): Promise<FormInstance> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/webhooks${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      this.deserialize(res.data.data[0])
+
+      return this
+    } catch (err) {
+      throw this.handleError(new FormInstancesCreateWebhookRemoteError(undefined, { error: err }))
+    }
+  }
 }
 
 export interface FormInstancesOptions {
@@ -218,5 +242,13 @@ export class FormInstancesFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get form_instances.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, FormInstancesFetchRemoteError.prototype)
+  }
+}
+
+export class FormInstancesCreateWebhookRemoteError extends BaseError {
+  public name = 'FormInstancesCreateWebhookRemoteError'
+  constructor (public message: string = 'Could not create webhook for form_instances.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, FormInstancesCreateWebhookRemoteError.prototype)
   }
 }
