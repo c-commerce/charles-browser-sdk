@@ -14,6 +14,10 @@ import * as universesWaba from './entities/universes-waba'
 import * as universesWabasPhonenumber from './entities/universes-wabas-phonenumber'
 import * as products from './entities/products'
 import * as releases from './entities/releases'
+import * as interverseOrganization from './entities/interverse/organization'
+import * as subdomain from './entities/interverse/subdomain'
+import * as apiKey from './entities/interverse/api-key'
+
 export interface CloudUser {
   id?: string
   accessToken?: string
@@ -332,7 +336,8 @@ export class Cloud extends APICarrier {
 
   public async makeBaseResourceListRequest<T, TL, K, O, E>(proto: BaseResourceCreateable<T, K>, listProto: BaseResourceList<TL>, errorProto: BaseResourceErrorProto<E>, options?: BaseResourceEntityFetchOptions<O>): Promise<T[] | K[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.cloudBase}/${listProto.endpoint}`, {
+      const endpoint = options?.endpoint ?? listProto.endpoint
+      const res = await this.http.getClient().get(`${this.cloudBase}/${endpoint}`, {
         params: {
           ...(options?.query ?? {})
         }
@@ -349,6 +354,27 @@ export class Cloud extends APICarrier {
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-throw-literal,new-cap
       throw new errorProto(undefined, { error: err })
+    }
+  }
+
+  public interverse = {
+    organizations: async (options?: EntityFetchOptions): Promise<interverseOrganization.InterverseOrganization[] | interverseOrganization.InterverseOrganizationRawPayload[] | undefined> => {
+      return await this.makeBaseResourceListRequest<interverseOrganization.InterverseOrganization, interverseOrganization.InterverseOrganizations, interverseOrganization.InterverseOrganizationRawPayload, EntityFetchOptions, interverseOrganization.InterverseOrganizationsFetchRemoteError>(interverseOrganization.InterverseOrganization, interverseOrganization.InterverseOrganizations, interverseOrganization.InterverseOrganizationsFetchRemoteError, options)
+    },
+    organisation: (payload: interverseOrganization.InterverseOrganizationRawPayload): interverseOrganization.InterverseOrganization => {
+      return interverseOrganization.InterverseOrganization.create(payload, this, this.http)
+    },
+    apiKeys: async (options?: EntityFetchOptions): Promise<apiKey.ApiKey[] | apiKey.ApiKeyRawPayload[] | undefined> => {
+      return await this.makeBaseResourceListRequest<apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeyRawPayload, EntityFetchOptions, apiKey.ApiKeyFetchRemoteError>(apiKey.ApiKey, apiKey.ApiKeys, apiKey.ApiKeysFetchRemoteError, options)
+    },
+    apiKey: (payload: apiKey.ApiKeyRawPayload): apiKey.ApiKey => {
+      return apiKey.ApiKey.create(payload, this, this.http)
+    },
+    subdomains: async (options?: EntityFetchOptions): Promise<subdomain.Subdomain[] | subdomain.SubdomainRawPayload[] | undefined> => {
+      return await this.makeBaseResourceListRequest<subdomain.Subdomain, subdomain.Subdomains, subdomain.SubdomainRawPayload, EntityFetchOptions, subdomain.SubdomainFetchRemoteError>(subdomain.Subdomain, subdomain.Subdomains, subdomain.SubdomainsFetchRemoteError, options)
+    },
+    subdomain: (payload: subdomain.SubdomainRawPayload): subdomain.Subdomain => {
+      return subdomain.Subdomain.create(payload, this, this.http)
     }
   }
 

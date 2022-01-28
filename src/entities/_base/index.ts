@@ -49,6 +49,7 @@ export interface EntityFetchOptions {
   raw?: boolean
   query?: EntityFetchQuery
   timeout?: number
+  endpoint?: string
 }
 
 export interface EntityPostOptions {
