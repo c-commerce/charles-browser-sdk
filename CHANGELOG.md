@@ -1,3 +1,10 @@
+## [4.68.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.68.0...v4.68.1) (2022-02-03)
+
+
+### Bug Fixes
+
+* **notification campaign:** parse test res data correctly ([acbaa90](https://github.com/c-commerce/charles-browser-sdk/commit/acbaa90854997c412f226f78772857c6a39fe4d7))
+
 # [4.68.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.67.0...v4.68.0) (2022-01-19)
 
 
