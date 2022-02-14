@@ -299,6 +299,14 @@ export interface IUniverseImports {
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
 
+export interface IUniverseMessageSubscriptions {
+  fetch: ((options?: UniverseFetchOptions & { raw: true }) => Promise<messageSubscription.MessageSubscriptionRawPayload[] | undefined>)
+  & ((options?: UniverseFetchOptions) => Promise<messageSubscription.MessageSubscription[] | undefined>)
+  fromJson: (messageSubscriptions: messageSubscription.MessageSubscriptionPayload[]) => messageSubscription.MessageSubscription[]
+  toJson: (messageSubscriptions: messageSubscription.MessageSubscription[]) => messageSubscription.MessageSubscriptionPayload[]
+  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
+}
+
 export class UniverseUnauthenticatedError extends BaseError {
   public name = 'UniverseUnauthenticatedError'
   constructor (public message: string = 'Invalid or expired session.', properties?: any) {
@@ -2097,7 +2105,61 @@ export class Universe extends APICarrier {
     }
   }
 
-  public async messageSubscriptions (options?: EntityFetchOptions): Promise<messageSubscription.MessageSubscription[] | messageSubscription.MessageSubscriptionRawPayload[] | undefined> {
+  public get messageSubscriptions (): IUniverseMessageSubscriptions {
+    return {
+      fromJson: (payloads: messageSubscription.MessageSubscriptionPayload[]): messageSubscription.MessageSubscription[] => {
+        return payloads.map((item) => (messageSubscription.MessageSubscription.create(item, this, this.http)))
+      },
+      toJson: (payloads: messageSubscription.MessageSubscription[]): messageSubscription.MessageSubscriptionPayload[] => {
+        return payloads.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: UniverseFetchOptions): Promise<any> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${messageSubscription.MessageSubscriptions.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+          const resources = res.data.data as messageSubscription.MessageSubscriptionRawPayload[]
+
+          if (options && options.raw === true) {
+            return resources
+          }
+
+          return resources.map((resource: messageSubscription.MessageSubscriptionPayload) => {
+            return messageSubscription.MessageSubscription.create(resource, this, this.http)
+          })
+        } catch (err) {
+          throw new messageSubscription.MessageSubscriptionFetchRemoteError(undefined, { error: err })
+        }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${messageSubscription.MessageSubscriptions.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new messageSubscription.MessageSubscriptionFetchRemoteError(undefined, { error: err })
+        }
+      }
+    }
+  }
+
+  public async fetchMessageSubscriptions (options?: EntityFetchOptions): Promise<messageSubscription.MessageSubscription[] | messageSubscription.MessageSubscriptionRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<messageSubscription.MessageSubscription, messageSubscription.MessageSubscriptions, messageSubscription.MessageSubscriptionRawPayload, EntityFetchOptions, messageSubscription.MessageSubscriptionsFetchRemoteError>(messageSubscription.MessageSubscription, messageSubscription.MessageSubscriptions, messageSubscription.MessageSubscriptionsFetchRemoteError, options)
   }
 

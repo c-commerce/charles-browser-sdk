@@ -23,6 +23,51 @@ IMessageSubscriptionKindEnum.OneTimeEventImplicit |
 IMessageSubscriptionKindEnum.OneTimeEventExplicit |
 IMessageSubscriptionKindEnum.Generic
 
+interface ILogicConfiguration {
+  $id: 'api.v0.logic.message.payload.content.body.content.matches_any_string'
+  logic: {
+    equals_any: [
+      {
+        var: 'payload.message.content.body'
+      },
+      string[]
+    ]
+  }
+}
+
+export declare type IMessageSubscriptionEventRouteTemplate = {
+  kind: 'MessageSubscriptionInstance'
+  topic?: never
+  topic_template: 'api/feeds/*/incoming_messages/first/message_subscriptions/{{message_subscription.id}}/unsubscribed'
+  logic?: null
+} | {
+  kind: 'MessageSubscriptionInstance'
+  topic: 'api/feeds/*/incoming_messages/first/unsubscribed'
+  topic_template?: never
+  logic?: null
+} | {
+  kind: 'MessageSubscriptionInstance'
+  topic: 'api/feeds/*/messages'
+  topic_template?: never
+  logic: null | ILogicConfiguration
+}
+
+export declare interface IMessageSubscriptionMessagesTemplates {
+  consent_request: null | {
+    id?: string
+  }
+  consent_granted_response?: null | {
+    id?: string
+  }
+  consent_denial_response?: null | {
+    id?: string
+  }
+  consent_withdrawal_response?: null | {
+    id?: string
+    logic?: null | ILogicConfiguration
+  }
+}
+
 export interface MessageSubscriptionRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -35,8 +80,8 @@ export interface MessageSubscriptionRawPayload {
   readonly description?: string
   readonly kind?: IMessageSubscriptionKindType
   readonly scope?: string
-  readonly message_templates?: object
-  readonly event_route_template?: object
+  readonly message_templates?: IMessageSubscriptionMessagesTemplates
+  readonly event_route_template?: IMessageSubscriptionEventRouteTemplate
   readonly configuration?: {
     skip_feed_reactivation?: boolean
   }
@@ -146,13 +191,37 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     }
   }
 
-  public async init (): Promise<MessageSubscription | undefined> {
+  public async init (): Promise<MessageSubscription> {
     try {
       await this.fetch()
 
       return this
     } catch (err) {
       throw this.handleError(new MessageSubscriptionInitializationError(undefined, { error: err }))
+    }
+  }
+
+  /**
+   * Create a copy of the message subscription
+   */
+  public async duplicate (overridePayload: MessageSubscriptionRawPayload = {}): Promise<MessageSubscription> {
+    try {
+      const duplicatePayload = {
+        ...this.serialize(),
+        id: undefined,
+        created_at: undefined,
+        updated_at: undefined,
+        deleted: undefined,
+        active: undefined,
+        ...overridePayload
+      }
+
+      const subscription = MessageSubscription.create(duplicatePayload, this.universe, this.http)
+      await subscription.post()
+
+      return subscription
+    } catch (err) {
+      throw this.handleError(new MessageSubscriptionDuplicateError(undefined, { error: err }))
     }
   }
 
@@ -213,6 +282,14 @@ export class MessageSubscriptionInitializationError extends BaseError {
   constructor (public message: string = 'Could not initialize message_subscription.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionInitializationError.prototype)
+  }
+}
+
+export class MessageSubscriptionDuplicateError extends BaseError {
+  public name = 'MessageSubscriptionDuplicateError'
+  constructor (public message: string = 'Could not duplicate message_subscription.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageSubscriptionDuplicateError.prototype)
   }
 }
 
