@@ -1,3 +1,11 @@
+# [4.70.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.69.0...v4.70.0) (2022-02-21)
+
+
+### Features
+
+* **message-subscriptions:** improve types readability ([0ab23ce](https://github.com/c-commerce/charles-browser-sdk/commit/0ab23cebdd5e2510dcea227f5e1da1b86939afef))
+* **message-subscriptions:** update message subscription interface and types ([1409dbc](https://github.com/c-commerce/charles-browser-sdk/commit/1409dbc7e1f85e76923d08dabceffa75f029ab64))
+
 # [4.69.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.68.1...v4.69.0) (2022-02-21)
 
 
