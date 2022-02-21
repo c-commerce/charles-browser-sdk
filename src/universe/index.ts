@@ -144,6 +144,11 @@ export interface UniverseExportCsvOptions {
   query?: UniverseFetchQuery
 }
 
+export interface UniverseFetch<E, R> {
+  (options?: UniverseFetchOptions & { raw: true }): Promise<R | undefined>
+  (options?: UniverseFetchOptions): Promise<E | undefined>
+}
+
 export declare interface Universe {
   on: ((event: 'raw-error' | 'error', cb: (error: Error) => void) => this) & ((event:
   'armed' // currently unused
@@ -300,8 +305,7 @@ export interface IUniverseImports {
 }
 
 export interface IUniverseMessageSubscriptions {
-  fetch: ((options?: UniverseFetchOptions & { raw: true }) => Promise<messageSubscription.MessageSubscriptionRawPayload[] | undefined>)
-  & ((options?: UniverseFetchOptions) => Promise<messageSubscription.MessageSubscription[] | undefined>)
+  fetch: UniverseFetch<messageSubscription.MessageSubscription[], messageSubscription.MessageSubscriptionRawPayload[]>
   fromJson: (messageSubscriptions: messageSubscription.MessageSubscriptionPayload[]) => messageSubscription.MessageSubscription[]
   toJson: (messageSubscriptions: messageSubscription.MessageSubscription[]) => messageSubscription.MessageSubscriptionPayload[]
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
