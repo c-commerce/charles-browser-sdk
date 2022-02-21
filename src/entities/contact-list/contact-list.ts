@@ -177,6 +177,27 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   }
 
   /**
+   * Get a count of the contacts in a dynamic contact list
+   * @param options EntityFetchOptions
+   */
+  public async previewCount (options?: EntityFetchOptions): Promise<{ count: number }> {
+    try {
+      const opts = {
+        method: 'HEAD',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`
+      }
+
+      const res = await this.http.getClient()(opts)
+
+      return {
+        count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+      }
+    } catch (err) {
+      throw this.handleError(new ContactListPreviewCountRemoteError(undefined, { error: err }))
+    }
+  }
+
+  /**
    * Static entry accessor
    *
    * ```js
@@ -350,5 +371,12 @@ export class ContactListPreviewRemoteError extends BaseError {
   constructor (public message: string = 'Could not get preview of Contact List.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ContactListPreviewRemoteError.prototype)
+  }
+}
+export class ContactListPreviewCountRemoteError extends BaseError {
+  public name = 'ContactListPreviewCountRemoteError'
+  constructor (public message: string = 'Could not get preview count of Contact List.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ContactListPreviewCountRemoteError.prototype)
   }
 }
