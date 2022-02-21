@@ -1,3 +1,10 @@
+# [4.69.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.68.1...v4.69.0) (2022-02-21)
+
+
+### Features
+
+* **contact list:** fetch preview count ([5d066fc](https://github.com/c-commerce/charles-browser-sdk/commit/5d066fcf92e603738261ee206a0e3379ecf532ec))
+
 ## [4.68.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.68.0...v4.68.1) (2022-02-03)
 
 
