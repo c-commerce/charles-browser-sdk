@@ -132,7 +132,7 @@
     "prompt": "^1.0.0",
     "replace-in-file": "^3.4.2",
     "rimraf": "^3.0.2",
-    "runtypes": "^4.1.0",
+    "runtypes": "^6.5.1",
     "semantic-release": "^17.4.3",
     "shelljs": "^0.8.4",
     "ts-jest": "^25.2.1",
