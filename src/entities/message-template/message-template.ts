@@ -43,6 +43,45 @@ export interface MessageTemplateRawPayloadCarousel {
   items?: MessageTemplateRawPayloadCarouselItem[]
 }
 
+export interface MessageTemplateRawPayloadQuickReply {
+  type?: 'text' | string | null
+  payload?: string | null
+  text?: string
+  image_url?: string
+}
+
+export interface MessageTemplateRawPayloadLocalizedContent {
+  locale?: string
+  status?: string
+  rejection_reason?: string | null
+  body?: string
+  header?: {
+    type?: 'text' | string | null
+    payload?: string | null
+  } | null
+  footer?: {
+    type?: 'text' | null
+    payload?: string
+  } | null
+  attachments?: MessageTemplateRawPayloadAttachment[] | MessageTemplateRawPayloadLocation[] | MessageTemplateRawPayloadCarousel[] | any
+  approved?: boolean
+  quick_replies?: {
+    translate?: boolean
+    translation_prepend?: string | null
+    translation_append?: string | null
+    replies?: MessageTemplateRawPayloadQuickReply[]
+  }
+}
+
+export type MessageTemplateRawPayloadParameters = {
+  [key: string]: any
+} | Array<{
+  name?: string
+  required?: boolean | null
+  order_index?: number
+  logic?: object| null
+}>
+
 export interface MessageTemplateRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -61,45 +100,14 @@ export interface MessageTemplateRawPayload {
     body?: string | null
     // DEPRECATED
     attachments?: MessageTemplateRawPayloadAttachment[] | null
-    i18n?: Array<{
-      locale?: string
-      status?: string
-      rejection_reason?: string | null
-      body?: string
-      header?: {
-        type?: 'text' | string | null
-        payload?: string | null
-      } | null
-      footer?: {
-        type?: 'text' | null
-        payload?: string
-      } | null
-      attachments?: MessageTemplateRawPayloadAttachment[] | MessageTemplateRawPayloadLocation[] | MessageTemplateRawPayloadCarousel[] | any
-      approved?: boolean
-      quick_replies?: {
-        translate?: boolean
-        translation_prepend?: string | null
-        translation_append?: string | null
-        replies?: Array<{
-          type?: 'text' | string | null
-          payload?: string | null
-          text?: string
-          image_url?: string
-        }>
-      }
-    }> | null
+    i18n?: MessageTemplateRawPayloadLocalizedContent[] | null
   } | null
   readonly configuration?: object
   readonly payload?: object
   readonly metadata?: object
   readonly parameters_template?: {
     type?: 'list' | 'map'
-    parameters?: { [key: string]: any } | Array<{
-      name?: string
-      required?: boolean | null
-      order_index?: number
-      logic?: object| null
-    }>
+    parameters?: MessageTemplateRawPayloadParameters
   } | null
   readonly notification?: boolean
   readonly content_category?: string
