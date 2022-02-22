@@ -15,7 +15,7 @@ import * as universesWabasPhonenumber from './entities/universes-wabas-phonenumb
 import * as products from './entities/products'
 import * as releases from './entities/releases'
 import * as interverseOrganization from './entities/interverse/organization'
-import * as subdomain from './entities/interverse/subdomain'
+import * as domain from './entities/interverse/domain'
 import * as apiKey from './entities/interverse/api-key'
 
 export interface CloudUser {
@@ -370,11 +370,11 @@ export class Cloud extends APICarrier {
     apiKey: (payload: apiKey.ApiKeyRawPayload): apiKey.ApiKey => {
       return apiKey.ApiKey.create(payload, this, this.http)
     },
-    subdomains: async (options?: EntityFetchOptions): Promise<subdomain.Subdomain[] | subdomain.SubdomainRawPayload[] | undefined> => {
-      return await this.makeBaseResourceListRequest<subdomain.Subdomain, subdomain.Subdomains, subdomain.SubdomainRawPayload, EntityFetchOptions, subdomain.SubdomainFetchRemoteError>(subdomain.Subdomain, subdomain.Subdomains, subdomain.SubdomainsFetchRemoteError, options)
+    domains: async (options?: EntityFetchOptions): Promise<domain.Domain[] | domain.DomainRawPayload[] | undefined> => {
+      return await this.makeBaseResourceListRequest<domain.Domain, domain.Domains, domain.DomainRawPayload, EntityFetchOptions, domain.DomainFetchRemoteError>(domain.Domain, domain.Domains, domain.DomainsFetchRemoteError, options)
     },
-    subdomain: (payload: subdomain.SubdomainRawPayload): subdomain.Subdomain => {
-      return subdomain.Subdomain.create(payload, this, this.http)
+    domain: (payload: domain.DomainRawPayload): domain.Domain => {
+      return domain.Domain.create(payload, this, this.http)
     }
   }
 
