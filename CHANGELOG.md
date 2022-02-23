@@ -1,3 +1,10 @@
+# [4.71.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.70.0...v4.71.0) (2022-02-23)
+
+
+### Features
+
+* **cloud:** intervers: add organisations + keys ([25cb144](https://github.com/c-commerce/charles-browser-sdk/commit/25cb144362a65ffe48c56f690b3bb16cd36cf5be))
+
 # [4.70.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.69.0...v4.70.0) (2022-02-21)
 
 
