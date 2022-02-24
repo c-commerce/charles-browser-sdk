@@ -199,6 +199,26 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
     }
   }
 
+  public async syncChannelUser (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('storefront syncChannelUser requires id to be set.')
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/channel_users`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new StorefrontSyncChanelUserRemoteError(undefined, { error: err }))
+    }
+  }
+
   public async syncInventories (): Promise<number | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('storefront syncInventories requires id to be set.')
     try {
@@ -345,6 +365,13 @@ export class StorefrontSyncProductsRemoteError extends BaseError {
 export class StorefrontSyncOrdersRemoteError extends BaseError {
   public name = 'StorefrontSyncOrdersRemoteError'
   constructor (public message: string = 'Could not sync orders of storefront.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, StorefrontSyncOrdersRemoteError.prototype)
+  }
+}
+export class StorefrontSyncChanelUserRemoteError extends BaseError {
+  public name = 'StorefrontSyncChanelUserRemoteError'
+  constructor (public message: string = 'Could not sync channel user of storefront.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, StorefrontSyncOrdersRemoteError.prototype)
   }
