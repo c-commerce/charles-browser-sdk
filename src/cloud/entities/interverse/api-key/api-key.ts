@@ -7,6 +7,11 @@ export interface ApiKeyOptions extends EntityOptions {
   rawPayload?: ApiKeyRawPayload
 }
 
+interface Key {
+  payload: string
+  type: string
+}
+
 export interface ApiKeyRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -14,7 +19,8 @@ export interface ApiKeyRawPayload {
   readonly deleted?: boolean
   readonly active?: boolean
   readonly organization?: string
-  readonly domains?: string[]
+  readonly key?: Key | {}
+  readonly roles?: string[]
 }
 
 export interface ApiKeyPayload {
@@ -24,7 +30,8 @@ export interface ApiKeyPayload {
   readonly deleted?: ApiKeyRawPayload['deleted']
   readonly active?: ApiKeyRawPayload['active']
   readonly organization?: ApiKeyRawPayload['organization']
-  readonly domains?: ApiKeyRawPayload['domains']
+  readonly key?: ApiKeyRawPayload['key']
+  readonly roles?: ApiKeyRawPayload['roles']
 }
 
 /**
@@ -43,8 +50,9 @@ export class ApiKey extends Entity<ApiKeyPayload, ApiKeyRawPayload> {
   public updatedAt?: ApiKeyPayload['updatedAt']
   public deleted?: ApiKeyPayload['deleted']
   public active?: ApiKeyPayload['active']
-  public domains?: ApiKeyPayload['domains']
+  public key?: ApiKeyPayload['key']
   public organization?: ApiKeyPayload['organization']
+  public roles?: ApiKeyPayload['roles']
 
   constructor (options: ApiKeyOptions) {
     super()
@@ -70,7 +78,8 @@ export class ApiKey extends Entity<ApiKeyPayload, ApiKeyRawPayload> {
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
     this.organization = rawPayload.organization
-    this.domains = rawPayload.domains ?? []
+    this.key = rawPayload.key ?? {}
+    this.roles = rawPayload.roles ?? []
 
     return this
   }
@@ -86,8 +95,9 @@ export class ApiKey extends Entity<ApiKeyPayload, ApiKeyRawPayload> {
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
       active: this.active ?? true,
-      domains: this.domains ?? [],
-      organization: this.organization
+      key: this.key ?? {},
+      organization: this.organization,
+      roles: this.roles
     }
   }
 
