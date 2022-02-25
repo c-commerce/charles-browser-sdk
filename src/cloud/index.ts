@@ -361,7 +361,7 @@ export class Cloud extends APICarrier {
     organizations: async (options?: EntityFetchOptions): Promise<interverseOrganization.InterverseOrganization[] | interverseOrganization.InterverseOrganizationRawPayload[] | undefined> => {
       return await this.makeBaseResourceListRequest<interverseOrganization.InterverseOrganization, interverseOrganization.InterverseOrganizations, interverseOrganization.InterverseOrganizationRawPayload, EntityFetchOptions, interverseOrganization.InterverseOrganizationsFetchRemoteError>(interverseOrganization.InterverseOrganization, interverseOrganization.InterverseOrganizations, interverseOrganization.InterverseOrganizationsFetchRemoteError, options)
     },
-    organisation: (payload: interverseOrganization.InterverseOrganizationRawPayload): interverseOrganization.InterverseOrganization => {
+    organization: (payload: interverseOrganization.InterverseOrganizationRawPayload): interverseOrganization.InterverseOrganization => {
       return interverseOrganization.InterverseOrganization.create(payload, this, this.http)
     },
     apiKeys: async (options?: EntityFetchOptions): Promise<apiKey.ApiKey[] | apiKey.ApiKeyRawPayload[] | undefined> => {
