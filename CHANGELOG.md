@@ -1,3 +1,10 @@
+## [4.71.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.71.0...v4.71.1) (2022-02-25)
+
+
+### Bug Fixes
+
+* organisations -> organizations ([#130](https://github.com/c-commerce/charles-browser-sdk/issues/130)) ([0dc170e](https://github.com/c-commerce/charles-browser-sdk/commit/0dc170ec2fbc36657e3c2246c0ffbcb753f129d9))
+
 # [4.71.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.70.0...v4.71.0) (2022-02-23)
 
 
