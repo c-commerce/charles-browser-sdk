@@ -18,6 +18,11 @@ export interface UrlShortenerShortenRequest {
   feedId?: string
 }
 
+interface UrlShortenerDomain {
+  value: string
+  label: string
+}
+
 export interface UrlShortenerRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -33,6 +38,7 @@ export interface UrlShortenerRawPayload {
   readonly external_reference_id?: string | null
   readonly configuration?: {
     shorten_chatout?: boolean
+    domain?: string
     [key: string]: any
   } | null
   readonly integration_configuration?: string | null
@@ -161,6 +167,28 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
       return this
     } catch (err) {
       throw this.handleError(new UrlShortenerInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public async getDomains (): Promise<UrlShortenerDomain[] | never> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Shorten requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/domains`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+      const resultData: Array<{ subdomain: string }> = response.data.data
+
+      return resultData.map(domain => ({ value: domain.subdomain, label: domain.subdomain }))
+    } catch (err) {
+      throw new UrlShortenerShortenError(undefined, { error: err })
     }
   }
 
