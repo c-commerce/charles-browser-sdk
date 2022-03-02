@@ -1,3 +1,10 @@
+# [4.72.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.71.1...v4.72.0) (2022-03-02)
+
+
+### Features
+
+* domain ([#132](https://github.com/c-commerce/charles-browser-sdk/issues/132)) ([7128399](https://github.com/c-commerce/charles-browser-sdk/commit/7128399e56936eb6c075a2e0c3228a7c0c3210b6))
+
 ## [4.71.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.71.0...v4.71.1) (2022-02-25)
 
 
