@@ -1,3 +1,10 @@
+## [4.72.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.72.0...v4.72.1) (2022-03-03)
+
+
+### Bug Fixes
+
+* **contact lists:** add missing prop labels ([e69d567](https://github.com/c-commerce/charles-browser-sdk/commit/e69d567fec988e30700e13d66b552281b61a18d6))
+
 # [4.72.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.71.1...v4.72.0) (2022-03-02)
 
 
