@@ -23,10 +23,21 @@ IMessageSubscriptionKindEnum.OneTimeEventImplicit |
 IMessageSubscriptionKindEnum.OneTimeEventExplicit |
 IMessageSubscriptionKindEnum.Generic
 
-interface ILogicConfiguration {
+interface ILogicMatchAnyConfiguration {
   $id: 'api.v0.logic.message.payload.content.body.content.matches_any_string'
   logic: {
     equals_any: [
+      {
+        var: 'payload.message.content.body'
+      },
+      string[]
+    ]
+  }
+}
+interface ILogicMatchSubstringConfiguration {
+  $id: 'api.v0.logic.message.payload.content.body.content.matches_any_substring'
+  logic: {
+    contains_any: [
       {
         var: 'payload.message.content.body'
       },
@@ -49,7 +60,7 @@ export declare type IMessageSubscriptionEventRouteTemplate = {
   kind: 'MessageSubscriptionInstance'
   topic: 'api/feeds/*/messages'
   topic_template?: never
-  logic: null | ILogicConfiguration
+  logic: null | ILogicMatchAnyConfiguration | ILogicMatchSubstringConfiguration
 }
 
 export declare interface IMessageSubscriptionMessagesTemplates {
@@ -64,7 +75,7 @@ export declare interface IMessageSubscriptionMessagesTemplates {
   }
   consent_withdrawal_response?: null | {
     id?: string
-    logic?: null | ILogicConfiguration
+    logic?: null | ILogicMatchAnyConfiguration | ILogicMatchSubstringConfiguration
   }
 }
 
