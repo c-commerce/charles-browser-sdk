@@ -1,3 +1,10 @@
+# [4.73.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.72.1...v4.73.0) (2022-03-09)
+
+
+### Features
+
+* **message subscriptions:** support match substring logic ([1841c72](https://github.com/c-commerce/charles-browser-sdk/commit/1841c72046104d72749b96a60ad8ff5b0eb24eb9))
+
 ## [4.72.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.72.0...v4.72.1) (2022-03-03)
 
 
