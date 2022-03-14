@@ -1,3 +1,10 @@
+## [4.73.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.73.1...v4.73.2) (2022-03-14)
+
+
+### Bug Fixes
+
+* **mt submit:** correctly return payload ([83c0550](https://github.com/c-commerce/charles-browser-sdk/commit/83c0550db959c73093211d2c560bb0f48b0a1ed7))
+
 ## [4.73.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.73.0...v4.73.1) (2022-03-14)
 
 
