@@ -272,7 +272,7 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
         responseType: 'json'
       }
       const res = await this.http.getClient()(opts)
-      const resource = res.data.data as MessageTemplateRawPayload
+      const resource = res.data.data[0] as MessageTemplateRawPayload
       return MessageTemplate.create(resource, this.universe, this.http)
     } catch (err) {
       throw new MessageTemplateSubmitRemoteError(undefined, { error: err })
