@@ -1,3 +1,10 @@
+## [4.73.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.73.0...v4.73.1) (2022-03-14)
+
+
+### Bug Fixes
+
+* **message template submit:** allow timeout ([bee91c4](https://github.com/c-commerce/charles-browser-sdk/commit/bee91c47d23696caa0db454fd9f9bf0e904e7321))
+
 # [4.73.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.72.1...v4.73.0) (2022-03-09)
 
 
