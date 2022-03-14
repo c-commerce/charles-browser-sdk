@@ -54,6 +54,7 @@ export interface EntityFetchOptions {
 
 export interface EntityPostOptions {
   query?: EntityFetchQuery
+  timeout?: number
 }
 export interface EntityDeleteOptions {
   query?: EntityFetchQuery

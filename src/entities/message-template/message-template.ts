@@ -9,6 +9,10 @@ import { Feed } from '../../eventing/feeds/feed'
 export interface MessageTemplateOptions extends UniverseEntityOptions {
   rawPayload?: MessageTemplateRawPayload
 }
+
+export interface MessageTemplatePostOptions {
+  timeout?: number
+}
 export interface MessageTemplateRawPayloadAttachment {
   type: 'image' | 'document' | 'video' | 'audio' | 'asset' | string
   // NOTE: the API is capable of digesting any mime type, however both messaging platforms and UIs are not.
@@ -255,11 +259,12 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
   /**
  * Submit a message template update(notification) to the respective broker
  */
-  public async submit (payload: object): Promise<MessageTemplate> {
+  public async submit (payload: object, options?: MessageTemplatePostOptions): Promise<MessageTemplate> {
     try {
       const opts = {
         method: 'POST',
         url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/submit`,
+        timeout: options?.timeout ?? 30000,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
