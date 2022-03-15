@@ -1,3 +1,10 @@
+## [4.73.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.73.2...v4.73.3) (2022-03-15)
+
+
+### Bug Fixes
+
+* set correct error message for get shortener domains ([502d811](https://github.com/c-commerce/charles-browser-sdk/commit/502d81136c2fb49a92690af1e04aa583d0cacd93))
+
 ## [4.73.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.73.1...v4.73.2) (2022-03-14)
 
 
