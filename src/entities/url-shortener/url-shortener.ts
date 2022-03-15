@@ -188,7 +188,7 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
 
       return resultData.map(domain => ({ value: domain.subdomain, label: domain.subdomain }))
     } catch (err) {
-      throw new UrlShortenerShortenError(undefined, { error: err })
+      throw new UrlShortenerShortenError('Can not get shortener domains', { error: err })
     }
   }
 
