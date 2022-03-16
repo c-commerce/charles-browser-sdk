@@ -1,3 +1,10 @@
+# [4.74.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.73.3...v4.74.0) (2022-03-16)
+
+
+### Features
+
+* **analytics:** add subscription events analytics ([40f316b](https://github.com/c-commerce/charles-browser-sdk/commit/40f316bc925cd108b6aa8dcbde746dd88e48a6ff))
+
 ## [4.73.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.73.2...v4.73.3) (2022-03-15)
 
 
