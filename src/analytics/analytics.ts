@@ -34,3 +34,24 @@ export interface AnalyticsReport {
   metric: AnalyticsReportMetric
   values: Object[]
 }
+
+export interface SubscriptionsAnalyticsReport {
+  count: number
+  created_at: string
+  metric: AnalyticsReportMetric
+  values: Array<[string, number]>
+}
+
+export interface SubscriptionsAnalyticsSummaryReport {
+  count: number
+  created_at: string
+  metric: AnalyticsReportMetric
+  summary: number
+}
+
+export type SubscriptionAnalyticsResponse = [
+  SubscriptionsAnalyticsReport,
+  SubscriptionsAnalyticsReport,
+  SubscriptionsAnalyticsSummaryReport,
+  SubscriptionsAnalyticsSummaryReport
+]

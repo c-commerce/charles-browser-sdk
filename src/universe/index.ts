@@ -15,7 +15,8 @@ import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 import {
   ANALYTICS_ENDPOINT,
   AnalyticsFetchRemoteError,
-  AnalyticsReport
+  AnalyticsReport,
+  SubscriptionAnalyticsResponse
 } from '../analytics/analytics'
 
 import * as staff from '../entities/staff/staff'
@@ -224,10 +225,19 @@ export interface UniverseAnalyticsOptions {
   period?: string
 }
 
+export interface UniverseAnalyticsEventsOptions {
+  timezone: string
+  start: string
+  end: string
+  datepart?: string
+}
+
 export interface UniverseAnalytics {
   orders: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   revenues: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   xau: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
+  subscriptionEventsBySubscriptionId: (subscriptionId: string, options: UniverseAnalyticsEventsOptions) => Promise<SubscriptionAnalyticsResponse | undefined>
+  subscriptionEvents: (options: UniverseAnalyticsEventsOptions) => Promise<SubscriptionAnalyticsResponse | undefined>
   feedOpenedClosed: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   feedConversion: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   peopleMessagingChannelParticipationDistribution: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
@@ -983,7 +993,7 @@ export class Universe extends APICarrier {
     }
   }
 
-  private async makeAnalyticsRequest<T, K>(endpointSlug: string, options: K): Promise<T[]> {
+  private async makeAnalyticsRequest<T, K>(endpointSlug: string, options: K): Promise<T> {
     try {
       const opts = {
         method: 'GET',
@@ -992,7 +1002,7 @@ export class Universe extends APICarrier {
       }
 
       const res = await this.http.getClient()(opts)
-      return res.data.data as T[]
+      return res.data.data as T
     } catch (err) {
       throw new AnalyticsFetchRemoteError(undefined, { error: err })
     }
@@ -1002,22 +1012,28 @@ export class Universe extends APICarrier {
   public get analytics (): UniverseAnalytics {
     return {
       orders: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/commerce/orders/distribution/count', options)
+        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/commerce/orders/distribution/count', options)
       },
       revenues: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/commerce/revenues/distribution', options)
+        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/commerce/revenues/distribution', options)
       },
       xau: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/messages/xau/count', options)
+        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/messages/xau/count', options)
+      },
+      subscriptionEventsBySubscriptionId: async (subscriptionId: string, options: UniverseAnalyticsEventsOptions): Promise<SubscriptionAnalyticsResponse | undefined> => {
+        return await this.makeAnalyticsRequest<SubscriptionAnalyticsResponse, UniverseAnalyticsEventsOptions>(`/events/subscriptions/${subscriptionId}`, options)
+      },
+      subscriptionEvents: async (options: UniverseAnalyticsEventsOptions): Promise<SubscriptionAnalyticsResponse | undefined> => {
+        return await this.makeAnalyticsRequest<SubscriptionAnalyticsResponse, UniverseAnalyticsEventsOptions>('/events/subscriptions', options)
       },
       peopleMessagingChannelParticipationDistribution: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/people/channel_participation/distribution', options)
+        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/people/channel_participation/distribution', options)
       },
       feedOpenedClosed: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/feeds/open_close/distribution/count', options)
+        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/feeds/open_close/distribution/count', options)
       },
       feedConversion: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport, UniverseAnalyticsOptions>('/feeds/conversion/counts', options)
+        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/feeds/conversion/counts', options)
       }
     }
   }
