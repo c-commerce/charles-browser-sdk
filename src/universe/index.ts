@@ -98,6 +98,12 @@ export interface UniverseOptions {
    */
   universeBase?: string
   /**
+   * Dangerously override the unviverse host. This mostly used overriding the hosting environment and will
+   * fallback to hello-charles.com
+   * Also NOTE: this is in conflict with universeBase, potentially, which overrides the full URL.
+   */
+  universeHost?: string
+  /**
    * The override of the universe base URL. It overrides the above mentioned computation.
    */
   mqttUniverseBase?: string
@@ -460,24 +466,30 @@ export class Universe extends APICarrier {
   private mqtt: realtime.RealtimeClient | null = null
   public base: string
   public universeBase: string
+  public universeHost: string = 'hello-charles.com'
   public mqttUniverseBase: string
   private static readonly endpoint: string = 'api/v0/universes'
   private _cachedMeData?: MeData
 
   public constructor (options: UniverseOptions) {
+    // NOTE: there is a bit unfortunate duplication necessary because of https://github.com/microsoft/TypeScript/issues/8277
+    // not being able to declare const before super calls
     super({
       injectables: {
         // symmetric to the legacy implementation below
-        base: options.universeBase ?? `https://${options.name}.hello-charles.com`
+        base: options.universeBase ?? `https://${options.name}.${options.universeHost ?? 'hello-charles.com'}`
       }
     })
+
+    const universeHost = `${options.universeHost ?? 'hello-charles.com'}`
 
     this.options = options
     this.name = options.name
     this.user = options.user
+    this.universeHost = universeHost
     this.base = this.options.base ?? 'https://hello-charles.com'
-    this.universeBase = options.universeBase ?? `https://${this.name}.hello-charles.com`
-    this.mqttUniverseBase = options.mqttUniverseBase ?? `wss://${this.name}.hello-charles.com`
+    this.universeBase = options.universeBase ?? `https://${this.name}.${universeHost}`
+    this.mqttUniverseBase = options.mqttUniverseBase ?? `wss://${this.name}.${universeHost}`
 
     this.status = new UniverseStatus({ universe: this })
     this.health = new UniverseHealth({ universe: this })
