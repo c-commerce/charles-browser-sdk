@@ -1,3 +1,10 @@
+# [4.75.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.74.0...v4.75.0) (2022-03-16)
+
+
+### Features
+
+* **universe:** enable targetting hosting environment dynamically ([5f5a833](https://github.com/c-commerce/charles-browser-sdk/commit/5f5a833808569b3343f2e2b6721617f8fc7591f1))
+
 # [4.74.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.73.3...v4.74.0) (2022-03-16)
 
 
