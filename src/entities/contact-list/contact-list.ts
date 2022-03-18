@@ -13,6 +13,14 @@ export interface ContactListOptions extends UniverseEntityOptions {
   rawPayload?: ContactListRawPayload
 }
 
+export interface ContactListImportContact {
+  readonly people_phonenumber_external_value?: string
+  readonly people_organization_external_name?: string
+  readonly people_external_firstname?: string
+  readonly people_external_email?: string
+}
+export interface ContactListImportContacts extends Array<ContactListImportContact> {}
+
 export interface ContactListRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -150,6 +158,24 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       return this
     } catch (err) {
       throw this.handleError(new ContactListInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public async import (contactList: ContactListImportContacts): Promise<any> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/static_entries/import`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: contactList,
+        responseType: 'json'
+      }
+
+      return await this.http?.getClient()(opts)
+    } catch (err) {
+      throw this.handleError(new ContactListImportRemoteError(undefined, { error: err }))
     }
   }
 
@@ -376,6 +402,13 @@ export class ContactListPreviewRemoteError extends BaseError {
   constructor (public message: string = 'Could not get preview of Contact List.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ContactListPreviewRemoteError.prototype)
+  }
+}
+export class ContactListImportRemoteError extends BaseError {
+  public name = 'ContactListImportRemoteError'
+  constructor (public message: string = 'Could not import contacts into Contact List.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ContactListImportRemoteError.prototype)
   }
 }
 export class ContactListPreviewCountRemoteError extends BaseError {
