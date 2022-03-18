@@ -1,3 +1,10 @@
+# [4.76.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.75.1...v4.76.0) (2022-03-18)
+
+
+### Features
+
+* **contect list:** added import endpoint ([3161702](https://github.com/c-commerce/charles-browser-sdk/commit/316170284c48797db96307c18ef0c5c74b641e0e))
+
 ## [4.75.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.75.0...v4.75.1) (2022-03-16)
 
 
