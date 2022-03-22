@@ -1,3 +1,15 @@
+# [4.78.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.77.1...v4.78.0) (2022-03-22)
+
+
+### Features
+
+* **storefronts:** added storefront channel user endpoint ([8a2f5a7](https://github.com/c-commerce/charles-browser-sdk/commit/8a2f5a7518708109fd7f74ae9cad4f5cbd51b0e5))
+
+
+### Reverts
+
+* **package-lock:** reverted lock file ([c3525a8](https://github.com/c-commerce/charles-browser-sdk/commit/c3525a8d7a443903bd60ac428d1bdec69b559bea))
+
 ## [4.77.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.77.0...v4.77.1) (2022-03-22)
 
 
