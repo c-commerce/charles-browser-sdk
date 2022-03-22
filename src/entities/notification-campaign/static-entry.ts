@@ -40,6 +40,9 @@ export interface NotificationCampaignStaticEntryRawPayload {
     resource?: string
   }
   readonly notification_campaign?: string
+  readonly communication_language?: string
+  readonly channel_type?: string
+  readonly message_broker?: string
 }
 
 export interface NotificationCampaignStaticEntryPayload {
@@ -53,6 +56,10 @@ export interface NotificationCampaignStaticEntryPayload {
   readonly resource?: NotificationCampaignStaticEntryRawPayload['resource']
   readonly originResource?: NotificationCampaignStaticEntryRawPayload['origin_resource']
   readonly notificationCampaign?: NotificationCampaignStaticEntryRawPayload['notification_campaign']
+  readonly communicationLanguage?: NotificationCampaignStaticEntryRawPayload['communication_language']
+  readonly channelType?: NotificationCampaignStaticEntryRawPayload['channel_type']
+  readonly messageBroker?: NotificationCampaignStaticEntryRawPayload['message_broker']
+
 }
 
 /**
@@ -79,6 +86,9 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
   public resource?: NotificationCampaignStaticEntryPayload['resource']
   public originResource?: NotificationCampaignStaticEntryPayload['originResource']
   public noticationCampaign?: NotificationCampaignStaticEntryPayload['notificationCampaign']
+  public communicationLanguage?: NotificationCampaignStaticEntryPayload['communicationLanguage']
+  public channelType?: NotificationCampaignStaticEntryPayload['channelType']
+  public messageBroker?: NotificationCampaignStaticEntryPayload['messageBroker']
 
   constructor (options: StaticEntryOptions) {
     super()
@@ -110,6 +120,9 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
     this.resource = rawPayload.resource
     this.originResource = rawPayload.origin_resource
     this.noticationCampaign = rawPayload.notification_campaign
+    this.communicationLanguage = rawPayload.communication_language
+    this.channelType = rawPayload.channel_type
+    this.messageBroker = rawPayload.message_broker
 
     return this
   }
@@ -129,7 +142,11 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
       effect: this.effect,
       resource: this.resource,
       origin_resource: this.originResource,
-      notification_campaign: this.noticationCampaign
+      notification_campaign: this.noticationCampaign,
+      communication_language: this.communicationLanguage,
+      channel_type: this.channelType,
+      message_broker: this.messageBroker
+
     }
   }
 
