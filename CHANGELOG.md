@@ -1,3 +1,10 @@
+# [4.77.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.76.0...v4.77.0) (2022-03-22)
+
+
+### Features
+
+* **campaign:** preview & GET recipients ([a4a468b](https://github.com/c-commerce/charles-browser-sdk/commit/a4a468b88952859e2dc662d5450e7813f2316536))
+
 # [4.76.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.75.1...v4.76.0) (2022-03-18)
 
 
