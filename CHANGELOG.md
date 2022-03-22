@@ -1,3 +1,10 @@
+## [4.77.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.77.0...v4.77.1) (2022-03-22)
+
+
+### Bug Fixes
+
+* **notification campaign static entry:** add missing props ([ea70ec6](https://github.com/c-commerce/charles-browser-sdk/commit/ea70ec6194e5892b8aab1a3a0d582a7bfebf5045))
+
 # [4.77.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.76.0...v4.77.0) (2022-03-22)
 
 
