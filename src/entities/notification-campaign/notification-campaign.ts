@@ -6,6 +6,7 @@ import { Event, EventRawPayload } from '../../eventing/feeds/event'
 import qs from 'qs'
 import { Feed } from '../../eventing/feeds/feed'
 import { ContactList, ContactListRawPayload } from '../contact-list/contact-list'
+import { ContactListStaticEntriesFetchRemoteError, NotificationCampaignStaticEntry, NotificationCampaignStaticEntryRawPayload } from './static-entry'
 
 export interface NotificationCampaignOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignRawPayload
@@ -133,7 +134,6 @@ export interface NotificationCampaignPayload {
   readonly defaultLanguage?: NotificationCampaignRawPayload['default_language']
   readonly analytics?: NotificationCampaignRawPayload['analytics']
   readonly messageAuthor?: NotificationCampaignRawPayload['message_author']
-
 }
 
 /**
@@ -412,6 +412,27 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
+  public async preview (options?: EntityFetchOptions): Promise<NotificationCampaign> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign preview requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data[0] as NotificationCampaignRawPayload
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignPreviewRemoteError(undefined, { error: err })
+    }
+  }
+
   /**
  * Fetches campaign feed events
  */
@@ -441,6 +462,57 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       })
     } catch (err) {
       throw new NotificationCampaignGetFeedEventsError(undefined, { error: err })
+    }
+  }
+
+  /**
+ * Fetches all campaign static entries
+ */
+  public async getStaticEntries (options?: EntityFetchOptions): Promise<NotificationCampaignStaticEntryRawPayload[]> {
+    if (this.id === null || this.id === undefined) throw new TypeError('notification campaign getStaticEntries requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id}/recipients/static_entries${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const resources = res.data.data as NotificationCampaignStaticEntryRawPayload[]
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((item: NotificationCampaignStaticEntryRawPayload) => {
+        return NotificationCampaignStaticEntry.create(item, this.universe, this.http)
+      })
+    } catch (err) {
+      throw new ContactListStaticEntriesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  /**
+   * Get a count of the static entries in a campaign
+   * @param options EntityFetchOptions
+   */
+  public async previewStaticEntriesCount (options?: EntityFetchOptions): Promise<{ count: number }> {
+    try {
+      const opts = {
+        method: 'HEAD',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/recipients/static_entries${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`
+      }
+
+      const res = await this.http.getClient()(opts)
+
+      return {
+        count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+      }
+    } catch (err) {
+      throw this.handleError(new NotificationCampaignPreviewStaticEntriesCountRemoteError(undefined, { error: err }))
     }
   }
 }
@@ -528,5 +600,21 @@ export class NotificationCampaignCreateContactListFromRemainingRecipientsRemoteE
   constructor (public message: string = 'Could not create contact list from remaining recipients', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignCreateContactListFromRemainingRecipientsRemoteError.prototype)
+  }
+}
+
+export class NotificationCampaignPreviewRemoteError extends BaseError {
+  public name = 'NotificationCampaignPreviewRemoteError'
+  constructor (public message: string = 'Could not create preview campaign', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignPreviewRemoteError.prototype)
+  }
+}
+
+export class NotificationCampaignPreviewStaticEntriesCountRemoteError extends BaseError {
+  public name = 'NotificationCampaignPreviewStaticEntriesCountRemoteError'
+  constructor (public message: string = 'Could not get count of campaign static entries', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignPreviewStaticEntriesCountRemoteError.prototype)
   }
 }
