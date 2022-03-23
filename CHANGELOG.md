@@ -1,3 +1,10 @@
+## [4.78.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.78.0...v4.78.1) (2022-03-23)
+
+
+### Bug Fixes
+
+* **campaign:** parse arm lock ([90b9ca1](https://github.com/c-commerce/charles-browser-sdk/commit/90b9ca122c5cf61c39723ed1c243c9d918c0ac3b))
+
 # [4.78.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.77.1...v4.78.0) (2022-03-22)
 
 
