@@ -106,6 +106,7 @@ export interface NotificationCampaignRawPayload {
     static_entries_count?: number | null
     [key: string]: any
   }
+  readonly arm_lock?: boolean
 }
 
 export interface NotificationCampaignPayload {
@@ -134,6 +135,7 @@ export interface NotificationCampaignPayload {
   readonly defaultLanguage?: NotificationCampaignRawPayload['default_language']
   readonly analytics?: NotificationCampaignRawPayload['analytics']
   readonly messageAuthor?: NotificationCampaignRawPayload['message_author']
+  readonly armLock?: NotificationCampaignRawPayload['arm_lock']
 }
 
 /**
@@ -175,6 +177,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   public defaultLanguage?: NotificationCampaignPayload['defaultLanguage']
   public analytics?: NotificationCampaignPayload['analytics']
   public messageAuthor?: NotificationCampaignPayload['messageAuthor']
+  public armLock?: NotificationCampaignPayload['armLock']
 
   constructor (options: NotificationCampaignOptions) {
     super()
@@ -218,6 +221,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     this.analytics = rawPayload.analytics
     this.messageAuthor = rawPayload.message_author
     this.defaultLanguage = rawPayload.default_language
+    this.armLock = rawPayload.arm_lock
 
     return this
   }
@@ -252,7 +256,8 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       is_draft: this.isDraft,
       default_language: this.defaultLanguage,
       analytics: this.analytics,
-      message_author: this.messageAuthor
+      message_author: this.messageAuthor,
+      arm_lock: this.armLock
     }
   }
 
