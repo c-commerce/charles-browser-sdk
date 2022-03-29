@@ -1,3 +1,10 @@
+# [4.79.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.78.1...v4.79.0) (2022-03-29)
+
+
+### Features
+
+* **message broker:** handle status ([f778264](https://github.com/c-commerce/charles-browser-sdk/commit/f778264ddb2b24886a7229ba361424507568b9dc))
+
 ## [4.78.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.78.0...v4.78.1) (2022-03-23)
 
 
