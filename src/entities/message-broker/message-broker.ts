@@ -41,7 +41,8 @@ export interface MessageBrokerRawPayload {
     websites: any[]
     logo: string
   } | any
-  external_reference_id?: string | null
+  readonly external_reference_id?: string | null
+  readonly external_status_payload?: object | null
 }
 
 export interface MessageBrokerPayload {
@@ -65,6 +66,7 @@ export interface MessageBrokerPayload {
   }
   readonly profile?: MessageBrokerRawPayload['profile']
   readonly externalReferenceId?: MessageBrokerRawPayload['external_reference_id']
+  readonly externalStatusPayload?: MessageBrokerRawPayload['external_status_payload']
 }
 
 /**
@@ -98,6 +100,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
   public details?: MessageBrokerPayload['details']
   public profile?: MessageBrokerPayload['profile']
   public externalReferenceId?: MessageBrokerPayload['externalReferenceId']
+  public externalStatusPayload?: MessageBrokerPayload['externalStatusPayload']
 
   constructor (options: MessageBrokerOptions) {
     super()
@@ -132,6 +135,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
     this.labels = rawPayload.labels
     this.profile = rawPayload.profile
     this.externalReferenceId = rawPayload.external_reference_id
+    this.externalStatusPayload = rawPayload.external_status_payload
 
     if (rawPayload.details) {
       this.details = {
@@ -159,7 +163,8 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
       metadata: this.metadata,
       labels: this.labels,
       profile: this.profile,
-      external_reference_id: this.externalReferenceId
+      external_reference_id: this.externalReferenceId,
+      external_status_payload: this.externalStatusPayload
     }
   }
 
@@ -340,6 +345,29 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
       throw new MessageBrokerMessageTemplateNotificationSendError(undefined, { error: err })
     }
   }
+
+  /**
+ * Gets the external status payload of this broker
+ * @param payload
+ */
+  public async getStatus (options: EntityFetchOptions): Promise<object | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('message broker getStatus requires id to be set')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/status`,
+        params: {
+          ...(options?.query ? options.query : {})
+        }
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data[0]
+      return resources
+    } catch (err) {
+      throw this.handleError(new MessageBrokerGetStatusRemoteError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -399,5 +427,13 @@ export class MessageBrokerMessageTemplateNotificationSendError extends BaseError
   constructor (public message: string = 'Could not create broker notification unexpectedly.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageBrokerMessageTemplateNotificationSendError.prototype)
+  }
+}
+
+export class MessageBrokerGetStatusRemoteError extends BaseError {
+  public name = 'MessageBrokerGetStatusRemoteError'
+  constructor (public message: string = 'Could not get broker status unexpectedly.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageBrokerGetStatusRemoteError.prototype)
   }
 }
