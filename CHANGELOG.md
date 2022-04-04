@@ -1,3 +1,10 @@
+## [4.79.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.79.0...v4.79.1) (2022-04-04)
+
+
+### Bug Fixes
+
+* **message subscription:** adjust config types ([b3e5d8d](https://github.com/c-commerce/charles-browser-sdk/commit/b3e5d8d224b1f2adb1fc4a28c1d4cf84bda1f6fe))
+
 # [4.79.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.78.1...v4.79.0) (2022-03-29)
 
 
