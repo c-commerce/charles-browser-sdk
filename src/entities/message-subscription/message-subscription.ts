@@ -95,6 +95,7 @@ export interface MessageSubscriptionRawPayload {
   readonly event_route_template?: IMessageSubscriptionEventRouteTemplate
   readonly configuration?: {
     skip_feed_reactivation?: boolean
+    auto_close_feed?: boolean
   }
 }
 
