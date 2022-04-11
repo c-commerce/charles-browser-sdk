@@ -1,3 +1,10 @@
+## [4.79.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.79.2...v4.79.3) (2022-04-11)
+
+
+### Bug Fixes
+
+* **feed:** add missing feed reply context ([9fe99d3](https://github.com/c-commerce/charles-browser-sdk/commit/9fe99d31a3ee0ce1ed23e299f73050a82c63092c))
+
 ## [4.79.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.79.1...v4.79.2) (2022-04-11)
 
 
