@@ -395,6 +395,7 @@ export interface MessageReplyContentOptions {
   content: MessagePayload['content']
   rawAssets?: FormData
   causes?: object[] | null
+  context?: object | null
 }
 
 export interface ReplyOptions extends MessageOptions, MessageReplyContentOptions { }
@@ -432,6 +433,7 @@ export class MessageReply extends Reply {
   private readonly message: Message
   private readonly rawAssets?: FormData
   private readonly causes?: object[] | null
+  private readonly context?: object | null
 
   constructor (options: MessageReplyOptions) {
     super(options)
@@ -474,7 +476,8 @@ export class MessageReply extends Reply {
         content: {
           ...this.content
         },
-        causes: this.causes ?? undefined
+        causes: this.causes ?? undefined,
+        context: this.context ?? undefined
       })
 
       if (this.feed) {
@@ -492,6 +495,7 @@ export class MessageFeedReply extends Reply {
   private readonly message: Message
   private readonly rawAssets?: FormData
   private readonly causes?: object[] | null
+  private readonly context?: object | null
 
   constructor (options: MessageReplyOptions) {
     super(options)
@@ -499,6 +503,7 @@ export class MessageFeedReply extends Reply {
     this.message = options.message
     this.rawAssets = options.rawAssets
     this.causes = options.causes
+    this.context = options.context
   }
 
   public async send (): Promise<ReplyResponse | undefined> {
@@ -535,7 +540,8 @@ export class MessageFeedReply extends Reply {
         content: {
           ...this.content
         },
-        causes: this.causes ?? undefined
+        causes: this.causes ?? undefined,
+        context: this.context ?? undefined
       })
       return res.data.data[0] as ReplyResponse
     } catch (err) {
