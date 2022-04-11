@@ -1,3 +1,10 @@
+## [4.79.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.79.1...v4.79.2) (2022-04-11)
+
+
+### Bug Fixes
+
+* **message:** handle message context ([b4d110d](https://github.com/c-commerce/charles-browser-sdk/commit/b4d110d18d6b978c8101c60e8916f082b2ea1e60))
+
 ## [4.79.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.79.0...v4.79.1) (2022-04-04)
 
 
