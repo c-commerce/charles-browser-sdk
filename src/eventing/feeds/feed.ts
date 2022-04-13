@@ -554,6 +554,7 @@ export interface FeedReplyOptions extends ReplyOptions {
   rawPayload?: MessageRawPayload
   rawAssets?: FormData
   causes?: object[] | null
+  context?: object | null
 }
 
 export class FeedReply {
@@ -566,6 +567,7 @@ export class FeedReply {
   public contentType: Reply['contentType']
   public rawAssets?: FormData
   public causes?: object[] | null
+  public context?: object | null
 
   constructor (options: FeedReplyOptions) {
     this.options = options
@@ -575,6 +577,7 @@ export class FeedReply {
     this.content = options.content
     this.rawAssets = options.rawAssets
     this.causes = options.causes
+    this.context = options.context
     // this.contentType = options.contentType
   }
 
@@ -626,7 +629,8 @@ export class FeedReply {
 
       const res = await this.http?.getClient().post(`${this.universe.universeBase}/${FEED_ENDPOINT}/${this.feed.id as string}/reply`, {
         content: this.content,
-        causes: this.causes ?? undefined
+        causes: this.causes ?? undefined,
+        context: this.context ?? undefined
       })
 
       return Event.create(res.data.data[0], this.feed, this.universe, this.http)
