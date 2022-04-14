@@ -580,7 +580,8 @@ export class Universe extends APICarrier {
       universeTopics.api.feedsActivities.generateTopic(),
       universeTopics.api.feedsMessages.generateTopic(),
       universeTopics.api.feedsEvents.generateTopic(),
-      universeTopics.api.people.generateTopic()
+      universeTopics.api.people.generateTopic(),
+      universeTopics.api.feedOpenClosed.generateTopic()
     ]
   }
 
@@ -660,6 +661,15 @@ export class Universe extends APICarrier {
         _person = person.Person.create((msg as realtime.RealtimePeople).payload.person, this, this.http)
       }
       this.emit('universe:people', { ...msg, _person })
+      return
+    }
+
+    if (universeTopics.api.feedOpenClosed.isTopic(msg.topic)) {
+      let feed
+      if ((msg as realtime.RealtimeFeeds).payload.feed) {
+        feed = Feed.create((msg as realtime.RealtimeFeeds).payload.feed as FeedRawPayload, this, this.http, this.mqtt)
+      }
+      this.emit('universe:feeds:feedOpenClosed', { ...msg, feed, action: (msg as realtime.RealtimeFeeds).payload.action })
       return
     }
 

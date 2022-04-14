@@ -272,8 +272,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
       universeTopics.api.feedPresence.generateTopic(this.serialize()),
       universeTopics.api.feedMessagesStatus.generateTopic(this.serialize()),
       universeTopics.api.feedMessagesReactions.generateTopic(this.serialize()),
-      universeTopics.api.feedOrders.generateTopic(this.serialize()),
-      universeTopics.api.feedOpenClosed.generateTopic(this.serialize())
+      universeTopics.api.feedOrders.generateTopic(this.serialize())
     ]
   }
 
@@ -301,7 +300,6 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
    * Parsing and routing logic is being handled here.
    */
   private handleMessage (msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage): void {
-    console.log('a7a', msg.topic)
     // NOTE: we are also receiving all other messages, but we do not emit them. This is a srtrong fan-out
     if (universeTopics.api.feedMessagesStatus.isTopic(msg.topic, this.serialize())) {
       let message
