@@ -178,6 +178,16 @@ export default {
       isTopic (topic: string, data: IInjectableDataObject): boolean {
         return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic)
       }
+    })(),
+    feedOpenClosed: new (class extends TopicGenerator {
+      template: string = 'api/feeds/${id}/open/closed'
+      generateTopic (data: IInjectableDataObject): string {
+        return this.template.replace('${id}', data.id)
+      }
+
+      isTopic (topic: string, data: IInjectableDataObject): boolean {
+        return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic)
+      }
     })()
   }
 }
