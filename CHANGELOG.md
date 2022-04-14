@@ -1,3 +1,10 @@
+# [4.80.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.79.3...v4.80.0) (2022-04-14)
+
+
+### Features
+
+* **universe search:** added method to cancel search requests from outside the SDK ([a49f601](https://github.com/c-commerce/charles-browser-sdk/commit/a49f601ef0f0db88bd08abfde58af118387bee38))
+
 ## [4.79.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.79.2...v4.79.3) (2022-04-11)
 
 
