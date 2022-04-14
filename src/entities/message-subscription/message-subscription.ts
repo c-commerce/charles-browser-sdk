@@ -18,10 +18,10 @@ export enum IMessageSubscriptionKindEnum {
 }
 
 export type IMessageSubscriptionKindType = IMessageSubscriptionKindEnum.GDPRGenernalCommunicationImplicit |
-IMessageSubscriptionKindEnum.GDPRGenernalCommunicationExplicit |
-IMessageSubscriptionKindEnum.OneTimeEventImplicit |
-IMessageSubscriptionKindEnum.OneTimeEventExplicit |
-IMessageSubscriptionKindEnum.Generic
+  IMessageSubscriptionKindEnum.GDPRGenernalCommunicationExplicit |
+  IMessageSubscriptionKindEnum.OneTimeEventImplicit |
+  IMessageSubscriptionKindEnum.OneTimeEventExplicit |
+  IMessageSubscriptionKindEnum.Generic
 
 interface ILogicMatchAnyConfiguration {
   $id: 'api.v0.logic.message.payload.content.body.content.matches_any_string'
@@ -95,8 +95,12 @@ export interface MessageSubscriptionRawPayload {
   readonly event_route_template?: IMessageSubscriptionEventRouteTemplate
   readonly configuration?: {
     skip_feed_reactivation?: boolean
-    hide_opt_in_feeds?: boolean
-    hide_opt_out_feeds?: boolean
+    auto_close?: {
+      consent_request?: boolean
+      consent_granted_response?: boolean
+      consent_denial_response?: boolean
+      consent_withdrawal_response?: boolean
+    }
   }
 }
 
@@ -146,7 +150,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
   public eventRouteTemplate?: MessageSubscriptionPayload['eventRouteTemplate']
   public configuration?: MessageSubscriptionPayload['configuration']
 
-  constructor (options: MessageSubscriptionOptions) {
+  constructor(options: MessageSubscriptionOptions) {
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
@@ -160,7 +164,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     }
   }
 
-  protected deserialize (rawPayload: MessageSubscriptionRawPayload): MessageSubscription {
+  protected deserialize(rawPayload: MessageSubscriptionRawPayload): MessageSubscription {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -181,11 +185,11 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     return this
   }
 
-  public static create (payload: MessageSubscriptionRawPayload, universe: Universe, http: Universe['http']): MessageSubscription {
+  public static create(payload: MessageSubscriptionRawPayload, universe: Universe, http: Universe['http']): MessageSubscription {
     return new MessageSubscription({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize (): MessageSubscriptionRawPayload {
+  public serialize(): MessageSubscriptionRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
@@ -204,7 +208,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     }
   }
 
-  public async init (): Promise<MessageSubscription> {
+  public async init(): Promise<MessageSubscription> {
     try {
       await this.fetch()
 
@@ -217,7 +221,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
   /**
    * Create a copy of the message subscription
    */
-  public async duplicate (overridePayload: MessageSubscriptionRawPayload = {}): Promise<MessageSubscription> {
+  public async duplicate(overridePayload: MessageSubscriptionRawPayload = {}): Promise<MessageSubscription> {
     try {
       const duplicatePayload = {
         ...this.serialize(),
@@ -241,7 +245,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
   /**
  * Get a list of all message subscription subscriber instances
  */
-  public async subscribers (options?: EntityFetchOptions): Promise<MessageSubscriptionInstanceRawPayload[]> {
+  public async subscribers(options?: EntityFetchOptions): Promise<MessageSubscriptionInstanceRawPayload[]> {
     try {
       const opts = {
         method: 'GET',
@@ -266,7 +270,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     }
   }
 
-  async createInstance (payload: MessageSubscriptionInstanceRawPayload): Promise<MessageSubscriptionInstance | undefined> {
+  async createInstance(payload: MessageSubscriptionInstanceRawPayload): Promise<MessageSubscriptionInstance | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('MessageSubscription create instance requires message subscription id to be set')
 
     try {
@@ -292,7 +296,7 @@ export class MessageSubscriptions {
 
 export class MessageSubscriptionInitializationError extends BaseError {
   public name = 'MessageSubscriptionInitializationError'
-  constructor (public message: string = 'Could not initialize message_subscription.', properties?: any) {
+  constructor(public message: string = 'Could not initialize message_subscription.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionInitializationError.prototype)
   }
@@ -300,7 +304,7 @@ export class MessageSubscriptionInitializationError extends BaseError {
 
 export class MessageSubscriptionDuplicateError extends BaseError {
   public name = 'MessageSubscriptionDuplicateError'
-  constructor (public message: string = 'Could not duplicate message_subscription.', properties?: any) {
+  constructor(public message: string = 'Could not duplicate message_subscription.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionDuplicateError.prototype)
   }
@@ -308,7 +312,7 @@ export class MessageSubscriptionDuplicateError extends BaseError {
 
 export class MessageSubscriptionFetchRemoteError extends BaseError {
   public name = 'MessageSubscriptionFetchRemoteError'
-  constructor (public message: string = 'Could not get message_subscription.', properties?: any) {
+  constructor(public message: string = 'Could not get message_subscription.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionFetchRemoteError.prototype)
   }
@@ -316,14 +320,14 @@ export class MessageSubscriptionFetchRemoteError extends BaseError {
 
 export class MessageSubscriptionsFetchRemoteError extends BaseError {
   public name = 'MessageSubscriptionsFetchRemoteError'
-  constructor (public message: string = 'Could not get message_subscriptions.', properties?: any) {
+  constructor(public message: string = 'Could not get message_subscriptions.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionsFetchRemoteError.prototype)
   }
 }
 export class MessageSubscriptionsCreateInstanceRemoteError extends BaseError {
   public name = 'MessageSubscriptionsCreateInstanceRemoteError'
-  constructor (public message: string = 'Could not create message_subscription instance', properties?: any) {
+  constructor(public message: string = 'Could not create message_subscription instance', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionsCreateInstanceRemoteError.prototype)
   }
