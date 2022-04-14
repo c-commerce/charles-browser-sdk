@@ -10,6 +10,8 @@ import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 import { throwExceptionFromCommonError } from '../helpers'
 
+import axios, { Canceler, CancelToken } from 'axios'
+
 import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 
 import {
@@ -212,9 +214,9 @@ export interface UnviverseFeedsSearchResultItem extends UnviverseSearchResultIte
 }
 
 export interface UniverseSearches {
-  people: (q: string) => Promise<UnviversePeopleSearchResultItem[]>
-  feeds: (q: string) => Promise<UnviverseFeedsSearchResultItem[]>
-  products: (q: string) => Promise<UnviverseProductsSearchResultItem[]>
+  people: (q: string, query?: { [key: string]: any }, cancelFactory?: (canceler: Canceler) => void) => Promise<UnviversePeopleSearchResultItem[]>
+  feeds: (q: string, query?: { [key: string]: any }, cancelFactory?: (canceler: Canceler) => void) => Promise<UnviverseFeedsSearchResultItem[]>
+  products: (q: string, query?: { [key: string]: any }, cancelFactory?: (canceler: Canceler) => void) => Promise<UnviverseProductsSearchResultItem[]>
 }
 
 export interface UniverseProxies {
@@ -2358,14 +2360,14 @@ export class Universe extends APICarrier {
    */
   public get search (): UniverseSearches {
     return {
-      people: async (q: string, query?: { [key: string]: any }): Promise<UnviversePeopleSearchResultItem[]> => {
-        return await this.searchEntity<UnviversePeopleSearchResultItem[]>(person.People.endpoint, q, query)
+      people: async (q: string, query?: { [key: string]: any }, cancelFactory?: (canceler: Canceler) => void): Promise<UnviversePeopleSearchResultItem[]> => {
+        return await this.searchEntity<UnviversePeopleSearchResultItem[]>(person.People.endpoint, q, query, cancelFactory)
       },
-      products: async (q: string, query?: { [key: string]: any }): Promise<UnviverseProductsSearchResultItem[]> => {
-        return await this.searchEntity<UnviverseProductsSearchResultItem[]>(product.Products.endpoint, q, query)
+      products: async (q: string, query?: { [key: string]: any }, cancelFactory?: (canceler: Canceler) => void): Promise<UnviverseProductsSearchResultItem[]> => {
+        return await this.searchEntity<UnviverseProductsSearchResultItem[]>(product.Products.endpoint, q, query, cancelFactory)
       },
-      feeds: async (q: string, query?: { [key: string]: any }): Promise<UnviverseFeedsSearchResultItem[]> => {
-        return await this.searchEntity<UnviverseFeedsSearchResultItem[]>(Feeds.endpoint, q, query)
+      feeds: async (q: string, query?: { [key: string]: any }, cancelFactory?: (canceler: Canceler) => void): Promise<UnviverseFeedsSearchResultItem[]> => {
+        return await this.searchEntity<UnviverseFeedsSearchResultItem[]>(Feeds.endpoint, q, query, cancelFactory)
       }
     }
   }
@@ -2382,18 +2384,29 @@ export class Universe extends APICarrier {
 
   /**
    * Execute search for a given entity
-   * @ignore
    * @param endpoint
    * @param q
+   * @param query
+   * @param cancelFactory
+   * @private
    */
-  private async searchEntity<T>(endpoint: string, q: string, query?: { [key: string]: any }): Promise<T> {
+  private async searchEntity<T>(endpoint: string, q: string, query?: { [key: string]: any }, cancelFactory?: (canceler: Canceler) => void): Promise<T> {
+    const opts: {
+      cancelToken?: CancelToken
+    } = {}
+    if (cancelFactory) {
+      opts.cancelToken = new axios.CancelToken(cancelFactory)
+    }
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${endpoint}/search${qs.stringify({
         q,
         ...(query ?? {})
-      }, { addQueryPrefix: true })}`)
+      }, { addQueryPrefix: true })}`, opts)
       return res.data.data
     } catch (err) {
+      if (axios.isCancel(err)) {
+        throw new UniverseSearchCanceled('Operation canceled by the user.', { error: err })
+      }
       throw new UniverseSearchError(undefined, { error: err })
     }
   }
@@ -2429,6 +2442,13 @@ export class UniverseInitializationError extends BaseError {
 export class UniverseSearchError extends BaseError {
   public name = 'UniverseSearchError'
   constructor (public message: string = 'Could not fulfill search unexpectedly.', properties?: any) {
+    super(message, properties)
+  }
+}
+
+export class UniverseSearchCanceled extends BaseError {
+  public name = 'UniverseSearchCanceled'
+  constructor (public message: string = 'Search canceled by the user', properties?: any) {
     super(message, properties)
   }
 }
