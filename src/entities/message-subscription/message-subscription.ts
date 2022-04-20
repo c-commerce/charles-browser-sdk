@@ -95,7 +95,16 @@ export interface MessageSubscriptionRawPayload {
   readonly event_route_template?: IMessageSubscriptionEventRouteTemplate
   readonly configuration?: {
     skip_feed_reactivation?: boolean
+    /**
+    * @deprecated auto_close_feed should not be used in favour of auto_close's properties
+    */
     auto_close_feed?: boolean
+    auto_close?: {
+      consent_request?: boolean
+      consent_granted_response?: boolean
+      consent_denial_response?: boolean
+      consent_withdrawal_response?: boolean
+    }
   }
 }
 

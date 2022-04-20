@@ -628,12 +628,15 @@ export class Universe extends APICarrier {
     if (universeTopics.api.feedsEvents.isTopic(msg.topic)) {
       let event
       let feed
+      let feedStruct
       if ((msg as realtime.RealtimeMessageMessage).payload.event) {
         const feedPayload: FeedRawPayload = { id: (msg as realtime.RealtimeMessageMessage).payload.event.feed }
         feed = Feed.create(feedPayload, this, this.http, this.mqtt)
+        // This one is an actual feed, the one above is just a fake object with just an id
+        feedStruct = (msg as realtime.RealtimeMessageMessage).payload.feed
         event = Event.create((msg as realtime.RealtimeMessageMessage).payload.event as EventRawPayload, feed, this, this.http)
       }
-      this.emit('universe:feeds:events', { ...msg, event, feed: feed })
+      this.emit('universe:feeds:events', { ...msg, event, feed: feed, feedStruct })
     }
 
     if (universeTopics.api.feedsMessages.isTopic(msg.topic)) {
