@@ -43,6 +43,9 @@ export interface RealtimeMessageMessage extends RealtimeMessage {
     typing: {
       [key: string]: any | object | undefined | null
     }
+    feed?: {
+      [key: string]: any | object | undefined | null
+    }
   }
 }
 

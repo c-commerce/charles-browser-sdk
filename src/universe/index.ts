@@ -608,6 +608,7 @@ export class Universe extends APICarrier {
    */
   private handleMessage (msg: realtime.RealtimeMessage | realtime.RealtimeMessageMessage): void {
     this.emit('message', msg)
+
     // each arming message will cause an unsubscription
     if (universeTopics.api.clients.arm.isTopic(msg.topic)) {
       this.emit('armed', msg)
@@ -627,12 +628,15 @@ export class Universe extends APICarrier {
     if (universeTopics.api.feedsEvents.isTopic(msg.topic)) {
       let event
       let feed
+      let feedStruct
       if ((msg as realtime.RealtimeMessageMessage).payload.event) {
         const feedPayload: FeedRawPayload = { id: (msg as realtime.RealtimeMessageMessage).payload.event.feed }
         feed = Feed.create(feedPayload, this, this.http, this.mqtt)
+        // This one is an actual feed, the one above is just a fake object with just an id
+        feedStruct = (msg as realtime.RealtimeMessageMessage).payload.feed
         event = Event.create((msg as realtime.RealtimeMessageMessage).payload.event as EventRawPayload, feed, this, this.http)
       }
-      this.emit('universe:feeds:events', { ...msg, event, feed: feed })
+      this.emit('universe:feeds:events', { ...msg, event, feed: feed, feedStruct })
     }
 
     if (universeTopics.api.feedsMessages.isTopic(msg.topic)) {
@@ -661,15 +665,6 @@ export class Universe extends APICarrier {
         _person = person.Person.create((msg as realtime.RealtimePeople).payload.person, this, this.http)
       }
       this.emit('universe:people', { ...msg, _person })
-      return
-    }
-
-    if (universeTopics.api.feedOpenClosed.isTopic(msg.topic)) {
-      let feed
-      if ((msg as realtime.RealtimeFeeds).payload.feed) {
-        feed = Feed.create((msg as realtime.RealtimeFeeds).payload.feed as FeedRawPayload, this, this.http, this.mqtt)
-      }
-      this.emit('universe:feeds:feedOpenClosed', { ...msg, feed, action: (msg as realtime.RealtimeFeeds).payload.action })
       return
     }
 
