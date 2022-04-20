@@ -580,9 +580,7 @@ export class Universe extends APICarrier {
       universeTopics.api.feedsActivities.generateTopic(),
       universeTopics.api.feedsMessages.generateTopic(),
       universeTopics.api.feedsEvents.generateTopic(),
-      universeTopics.api.people.generateTopic(),
-      universeTopics.api.feedOpenClosed.generateTopic()
-    ]
+      universeTopics.api.people.generateTopic()]
   }
 
   private subscribeDefaults (): void {
