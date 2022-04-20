@@ -1,3 +1,10 @@
+# [4.81.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.80.0...v4.81.0) (2022-04-20)
+
+
+### Features
+
+* **browser-sdk:** Autohide feeds feat ([7c23032](https://github.com/c-commerce/charles-browser-sdk/commit/7c230322ddb8c551a9a44f14ea2f97c692784e79))
+
 # [4.80.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.79.3...v4.80.0) (2022-04-14)
 
 
