@@ -1,3 +1,10 @@
+## [4.81.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.81.0...v4.81.1) (2022-04-21)
+
+
+### Bug Fixes
+
+* **notif campaign:** set timeouts fo preview ([8a36e3e](https://github.com/c-commerce/charles-browser-sdk/commit/8a36e3ea7a6bbf6434edcb249a8b1f480180360e))
+
 # [4.81.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.80.0...v4.81.0) (2022-04-20)
 
 
