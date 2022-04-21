@@ -427,7 +427,8 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        responseType: 'json'
+        responseType: 'json',
+        timeout: options?.timeout ?? 60000
       }
       const res = await this.http.getClient()(opts)
       const data = res.data.data[0] as NotificationCampaignRawPayload
@@ -451,7 +452,8 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        responseType: 'json'
+        responseType: 'json',
+        timeout: options?.timeout ?? 60000
       }
 
       const res = await this.http?.getClient()(opts)
