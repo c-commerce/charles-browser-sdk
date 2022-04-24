@@ -2,11 +2,11 @@
 import {
   MessageSubscriptionTriggeredEvent,
   MessageSubscriptionTriggeredEvents,
-  MessageSubscriptionTriggeredEventFetchRemoteError
-} from './message-subscription'
+  MessageSubscriptionTriggeredEventsFetchRemoteError
+} from './message-subscription-triggered-event'
 
 export {
-  MessageSubscription,
-  MessageSubscriptions,
-  MessageSubscriptionTriggeredEventFetchRemoteError
+  MessageSubscriptionTriggeredEvent,
+  MessageSubscriptionTriggeredEvents,
+  MessageSubscriptionTriggeredEventsFetchRemoteError
 }
