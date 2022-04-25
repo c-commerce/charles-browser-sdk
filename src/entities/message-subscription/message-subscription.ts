@@ -4,6 +4,7 @@ import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import qs from 'qs'
 import { MessageSubscriptionInstance, MessageSubscriptionInstanceGetAllRemoteError, MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance/message-subscription-instance'
+import { FeedEventsRawPayload } from 'src/eventing/feeds/feed'
 
 export interface MessageSubscriptionOptions extends UniverseEntityOptions {
   rawPayload?: MessageSubscriptionRawPayload
@@ -274,6 +275,30 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     }
   }
 
+  public async triggeredEvents (options: EntityFetchOptions = {}): Promise<FeedEventsRawPayload> {
+    if (this.id === null || this.id === undefined) throw new TypeError('MessageSubscription fetch triggered events requires message subscription id to be set')
+
+    try {
+      options.query = { context: { message_subscription: this.id }, ...options.query }
+
+      const opts = {
+        method: 'GET',
+        url: `${this.universe?.universeBase}/api/v0/messages/${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const resource = res.data.data as FeedEventsRawPayload
+
+      return resource
+    } catch (err) {
+      throw new MessageSubscriptionsFetchTriggeredEventsRemoteError(undefined, { error: err })
+    }
+  }
+
   async createInstance (payload: MessageSubscriptionInstanceRawPayload): Promise<MessageSubscriptionInstance | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('MessageSubscription create instance requires message subscription id to be set')
 
@@ -327,6 +352,14 @@ export class MessageSubscriptionsFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get message_subscriptions.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionsFetchRemoteError.prototype)
+  }
+}
+
+export class MessageSubscriptionsFetchTriggeredEventsRemoteError extends BaseError {
+  public name = 'MessageSubscriptionsFetchTriggeredEventsRemoteError'
+  constructor (public message: string = 'Could not get message_subscription triggered events.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageSubscriptionsFetchTriggeredEventsRemoteError.prototype)
   }
 }
 export class MessageSubscriptionsCreateInstanceRemoteError extends BaseError {
