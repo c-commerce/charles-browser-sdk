@@ -1,3 +1,10 @@
+# [4.82.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.81.1...v4.82.0) (2022-04-25)
+
+
+### Features
+
+* **subscriptions:** Triggered events ([8bac8b6](https://github.com/c-commerce/charles-browser-sdk/commit/8bac8b6d60e93c59fc093bbdb2541136ec9352ce))
+
 ## [4.81.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.81.0...v4.81.1) (2022-04-21)
 
 
