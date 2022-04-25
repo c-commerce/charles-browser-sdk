@@ -66,7 +66,6 @@ import * as pipeline from '../entities/crm/pipeline'
 import * as pipelineStage from '../entities/crm/pipeline-stage'
 import * as dealEvent from '../entities/deal/deal-event'
 import * as messageSubscription from '../entities/message-subscription/message-subscription'
-import * as messageSubscriptionTriggeredEvent from '../entities/message-subscription-triggered-event/message-subscription-triggered-event'
 import * as messageSubscriptionInstance from '../entities/message-subscription-instance/message-subscription-instance'
 import * as peopleOrganization from '../entities/people-organization/people-organization'
 import * as urlShortener from '../entities/url-shortener/url-shortener'
@@ -327,12 +326,6 @@ export interface IUniverseMessageSubscriptions {
   fetch: UniverseFetch<messageSubscription.MessageSubscription[], messageSubscription.MessageSubscriptionRawPayload[]>
   fromJson: (messageSubscriptions: messageSubscription.MessageSubscriptionPayload[]) => messageSubscription.MessageSubscription[]
   toJson: (messageSubscriptions: messageSubscription.MessageSubscription[]) => messageSubscription.MessageSubscriptionPayload[]
-  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
-}
-
-export interface IUniverseMessageSubscriptionTriggeredEvents {
-  fetch: UniverseFetch<messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEvent[], messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEventRawPayload[]>
-  toJson: (messageSubscriptionTriggeredEvents: messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEvent[]) => messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEventPayload[]
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
 
@@ -2198,51 +2191,6 @@ export class Universe extends APICarrier {
           }
         } catch (err) {
           throw new messageSubscription.MessageSubscriptionFetchRemoteError(undefined, { error: err })
-        }
-      }
-    }
-  }
-
-  public get messageSubscriptionTriggeredEvents (): IUniverseMessageSubscriptionTriggeredEvents {
-    return {
-      toJson: (payloads: messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEvent[]): messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEventPayload[] => {
-        return payloads.map((item) => (item.serialize()))
-      },
-      fetch: async (options?: UniverseFetchOptions): Promise<any> => {
-        try {
-          const opts = {
-            method: 'GET',
-            url: `${this.universeBase}/${messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEvents.endpoint}`,
-            params: {
-              ...(options?.query ?? {})
-            }
-          }
-
-          const res = await this.http.getClient()(opts)
-          const resources = res.data.data as messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEventRawPayload[]
-
-          return resources
-        } catch (err) {
-          throw new messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEventsFetchRemoteError(undefined, { error: err })
-        }
-      },
-      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
-        try {
-          const opts = {
-            method: 'HEAD',
-            url: `${this.universeBase}/${messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEvents.endpoint}`,
-            params: {
-              ...(options?.query ?? {})
-            }
-          }
-
-          const res = await this.http.getClient()(opts)
-
-          return {
-            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
-          }
-        } catch (err) {
-          throw new messageSubscriptionTriggeredEvent.MessageSubscriptionTriggeredEventsFetchRemoteError(undefined, { error: err })
         }
       }
     }
