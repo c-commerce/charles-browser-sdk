@@ -389,7 +389,7 @@ export class MessageSubscriptionsFetchTriggeredEventsRemoteError extends BaseErr
 
 export class MessageSubscriptionsFetchTriggeredEventsCountRemoteError extends BaseError {
   public name = 'MessageSubscriptionsFetchTriggeredEventsCountRemoteError'
-  constructor (public message: string = 'Could not get message_subscription triggered events.', properties?: any) {
+  constructor (public message: string = 'Could not get message_subscription triggered events count.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionsFetchTriggeredEventsCountRemoteError.prototype)
   }
