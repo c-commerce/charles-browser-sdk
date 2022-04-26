@@ -1,3 +1,10 @@
+# [4.83.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.82.0...v4.83.0) (2022-04-26)
+
+
+### Features
+
+* **triggered-events:** add triggered events count ([e3607de](https://github.com/c-commerce/charles-browser-sdk/commit/e3607de405fb82e7ce1ae6ccfc09ef54616755c9))
+
 # [4.82.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.81.1...v4.82.0) (2022-04-25)
 
 
