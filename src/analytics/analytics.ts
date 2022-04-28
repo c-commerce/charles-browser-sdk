@@ -49,9 +49,34 @@ export interface SubscriptionsAnalyticsSummaryReport {
   summary: number
 }
 
+export interface SubscriberBaseAnalyticsReport {
+  count: number
+  created_at: string
+  metric: AnalyticsReportMetric
+  values: Array<[string, number]>
+}
+
+export interface SubscriberBaseAnalyticsSummaryReport {
+  created_at: string
+  metric: AnalyticsReportMetric
+  summary: number
+}
+
+export interface TotalSubscriberBaseAnalyticsReport {
+  created_at: string
+  metric: AnalyticsReportMetric
+  total: number
+}
+
 export type SubscriptionAnalyticsResponse = [
   SubscriptionsAnalyticsReport,
   SubscriptionsAnalyticsReport,
   SubscriptionsAnalyticsSummaryReport,
   SubscriptionsAnalyticsSummaryReport
+]
+
+export type SubscriberBaseAnalyticsResponse = [
+  SubscriberBaseAnalyticsReport,
+  SubscriberBaseAnalyticsSummaryReport,
+  TotalSubscriberBaseAnalyticsReport
 ]
