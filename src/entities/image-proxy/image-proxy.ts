@@ -37,6 +37,7 @@ export interface ImageProxyRawPayload {
   readonly configuration?: {
     domain: string
     resize_images: boolean
+    resize_pdp_images: boolean
     [key: string]: any
   } | null
   readonly labels?: {
@@ -143,6 +144,10 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
 
   public configResizeImages (): boolean {
     return this.configuration?.resize_images === true
+  }
+
+  public configResizePDPImages (): boolean {
+    return this.configuration?.resize_pdp_images === true
   }
 
   public async getSessionCredentials (): Promise<{
