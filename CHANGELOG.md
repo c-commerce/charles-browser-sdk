@@ -1,3 +1,10 @@
+# [4.84.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.83.0...v4.84.0) (2022-05-02)
+
+
+### Features
+
+* **img-proxy:** Allow disabling of PDP Image resizing ([f40cdc6](https://github.com/c-commerce/charles-browser-sdk/commit/f40cdc6650b678cd866ec1a9c6fc067fd8e00641))
+
 # [4.83.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.82.0...v4.83.0) (2022-04-26)
 
 
