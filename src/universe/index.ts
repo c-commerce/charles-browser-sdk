@@ -18,7 +18,8 @@ import {
   ANALYTICS_ENDPOINT,
   AnalyticsFetchRemoteError,
   AnalyticsReport,
-  SubscriptionAnalyticsResponse
+  SubscriptionAnalyticsResponse,
+  SubscriberBaseAnalyticsResponse
 } from '../analytics/analytics'
 
 import * as staff from '../entities/staff/staff'
@@ -244,6 +245,7 @@ export interface UniverseAnalytics {
   orders: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   revenues: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   xau: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
+  subscriberBaseEvents: (options: UniverseAnalyticsEventsOptions) => Promise<SubscriberBaseAnalyticsResponse | undefined>
   subscriptionEventsBySubscriptionId: (subscriptionId: string, options: UniverseAnalyticsEventsOptions) => Promise<SubscriptionAnalyticsResponse | undefined>
   subscriptionEvents: (options: UniverseAnalyticsEventsOptions) => Promise<SubscriptionAnalyticsResponse | undefined>
   feedOpenedClosed: (options: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
@@ -1036,6 +1038,9 @@ export class Universe extends APICarrier {
       },
       xau: async (options: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
         return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/messages/xau/count', options)
+      },
+      subscriberBaseEvents: async (options: UniverseAnalyticsEventsOptions): Promise<SubscriberBaseAnalyticsResponse | undefined> => {
+        return await this.makeAnalyticsRequest<SubscriberBaseAnalyticsResponse, UniverseAnalyticsEventsOptions>('/events/subscriptions/subscriber_base', options)
       },
       subscriptionEventsBySubscriptionId: async (subscriptionId: string, options: UniverseAnalyticsEventsOptions): Promise<SubscriptionAnalyticsResponse | undefined> => {
         return await this.makeAnalyticsRequest<SubscriptionAnalyticsResponse, UniverseAnalyticsEventsOptions>(`/events/subscriptions/${subscriptionId}`, options)
