@@ -1,3 +1,10 @@
+# [4.85.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.84.0...v4.85.0) (2022-05-03)
+
+
+### Features
+
+* :sparkles: add new analytics route ([76f653f](https://github.com/c-commerce/charles-browser-sdk/commit/76f653fff9178cf7413008c309d326318f1326fb))
+
 # [4.84.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.83.0...v4.84.0) (2022-05-02)
 
 
