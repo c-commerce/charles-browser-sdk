@@ -15,8 +15,9 @@ export interface ReleaseRawPayload {
   readonly active?: boolean
   readonly name?: string
   readonly status?: string
-  readonly configuration?: {
-    [key: string]: any
+  readonly versions?: {
+    readonly api?: string | null
+    readonly agent_ui?: string | null
   }
   readonly product?: string
   readonly product_name?: string
@@ -24,7 +25,7 @@ export interface ReleaseRawPayload {
   readonly default_display_name?: string
 }
 
-export interface ReleasePaylod {
+export interface ReleasePayload {
   readonly id?: ReleaseRawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
@@ -32,7 +33,7 @@ export interface ReleasePaylod {
   readonly active?: ReleaseRawPayload['active']
   readonly name?: ReleaseRawPayload['name']
   readonly status?: ReleaseRawPayload['status']
-  readonly configuration?: ReleaseRawPayload['configuration']
+  readonly versions?: ReleaseRawPayload['versions']
   readonly product?: ReleaseRawPayload['product']
   readonly productName?: ReleaseRawPayload['product_name']
   readonly channel?: ReleaseRawPayload['channel']
@@ -44,7 +45,7 @@ export interface ReleasePaylod {
  *
  * @category Entity
  */
-export class Release extends Entity<ReleasePaylod, ReleaseRawPayload> {
+export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: ReleaseOptions
@@ -52,23 +53,23 @@ export class Release extends Entity<ReleasePaylod, ReleaseRawPayload> {
 
   public endpoint: string
 
-  public id?: ReleasePaylod['id']
-  public createdAt?: ReleasePaylod['createdAt']
-  public updatedAt?: ReleasePaylod['updatedAt']
-  public deleted?: ReleasePaylod['deleted']
-  public active?: ReleasePaylod['active']
-  public name?: ReleasePaylod['name']
-  public status?: ReleasePaylod['status']
-  public configuration?: ReleasePaylod['configuration']
-  public product?: ReleasePaylod['product']
-  public productName?: ReleasePaylod['productName']
-  public channel?: ReleasePaylod['channel']
-  public defaultDisplayName?: ReleasePaylod['defaultDisplayName']
+  public id?: ReleasePayload['id']
+  public createdAt?: ReleasePayload['createdAt']
+  public updatedAt?: ReleasePayload['updatedAt']
+  public deleted?: ReleasePayload['deleted']
+  public active?: ReleasePayload['active']
+  public name?: ReleasePayload['name']
+  public status?: ReleasePayload['status']
+  public versions?: ReleasePayload['versions']
+  public product?: ReleasePayload['product']
+  public productName?: ReleasePayload['productName']
+  public channel?: ReleasePayload['channel']
+  public defaultDisplayName?: ReleasePayload['defaultDisplayName']
 
   constructor (options: ReleaseOptions) {
     super()
     this.apiCarrier = options.carrier
-    this.endpoint = 'api/v0/releases'
+    this.endpoint = 'api/v0/universes/releases'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -80,7 +81,6 @@ export class Release extends Entity<ReleasePaylod, ReleaseRawPayload> {
 
   protected deserialize (rawPayload: ReleaseRawPayload): Release {
     this.setRawPayload(rawPayload)
-
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -88,7 +88,7 @@ export class Release extends Entity<ReleasePaylod, ReleaseRawPayload> {
     this.active = rawPayload.active ?? true
     this.name = rawPayload.name
     this.status = rawPayload.status
-    this.configuration = rawPayload.configuration
+    this.versions = rawPayload.versions
     this.product = rawPayload.product
     this.productName = rawPayload.product_name
     this.channel = rawPayload.channel
@@ -110,7 +110,7 @@ export class Release extends Entity<ReleasePaylod, ReleaseRawPayload> {
       active: this.active ?? true,
       name: this.name,
       status: this.status,
-      configuration: this.configuration,
+      versions: this.versions,
       product: this.product,
       product_name: this.productName,
       channel: this.channel,
@@ -131,7 +131,7 @@ export class Release extends Entity<ReleasePaylod, ReleaseRawPayload> {
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Releases {
-  public static endpoint: string = 'api/v0/releases'
+  public static endpoint: string = 'api/v0/universes/releases'
 }
 
 export class ReleaseInitializationError extends BaseError {

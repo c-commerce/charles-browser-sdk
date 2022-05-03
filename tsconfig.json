@@ -33,6 +33,12 @@
       ]
     }
   },
+  "linked-module-name": [
+    "node_modules@heycharles/browser-sdk/dist"
+  ],
+  "linked-module-name/*": [
+    "node_modules/@heycharles/browser-sdk/dist/*"
+  ],
   "include": [
     "src/**/*.ts",
     "test/**/*.ts"
