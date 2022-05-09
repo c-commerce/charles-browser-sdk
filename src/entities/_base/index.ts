@@ -548,6 +548,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   protected async _exportCsv (options?: EntitiesListExportCsvOptions): Promise<Blob> {
     const opts = {
       method: 'GET',
+      timeout: 60000,
       url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
       headers: {
         Accept: 'text/csv'
