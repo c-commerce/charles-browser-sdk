@@ -175,6 +175,26 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+  public async deploy (): Promise<string> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
+    const deployEndpoint = `api/v0/universes/${this.id}/deploy/v2`
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.apiCarrier?.injectables?.base}/${deployEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.statusText
+    } catch (err) {
+      throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: err }))
+    }
+  }
+
   universe (item: any, universe: any, http: Client): any {
     throw new Error('Method not implemented.')
   }
@@ -209,6 +229,13 @@ export class CloudUniversesFetchRemoteError extends BaseError {
   }
 }
 
+export class CloudUniverseDeployFromUniverseConfigRemoteError extends BaseError {
+  public name = 'CloudUniversePatchDeployFromReleaseRemoteError'
+  constructor (public message: string = 'Could alter deployment unexpectedly.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CloudUniversePatchDeployFromReleaseRemoteError.prototype)
+  }
+}
 export class CloudUniversePatchDeployFromReleaseRemoteError extends BaseError {
   public name = 'CloudUniversePatchDeployFromReleaseRemoteError'
   constructor (public message: string = 'Could alter deployment unexpectedly.', properties?: any) {
