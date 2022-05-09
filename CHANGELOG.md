@@ -1,3 +1,15 @@
+# [4.86.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.85.0...v4.86.0) (2022-05-09)
+
+
+### Bug Fixes
+
+* **releases.ts:** update definition of release entity ([429c47f](https://github.com/c-commerce/charles-browser-sdk/commit/429c47f332835bfcf385b0237227e95e33adcc50))
+
+
+### Features
+
+* **universes.ts:** add deploy method to cloud/entities/universe ([f798809](https://github.com/c-commerce/charles-browser-sdk/commit/f79880942070fb31a46e4c3ecb8ce7e336b30bf6))
+
 # [4.85.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.84.0...v4.85.0) (2022-05-03)
 
 
