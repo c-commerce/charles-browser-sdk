@@ -1,3 +1,10 @@
+## [4.86.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.86.0...v4.86.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* **message broker:** extend timeout ([2f8576e](https://github.com/c-commerce/charles-browser-sdk/commit/2f8576ee7c834f7b451e8da77acc34f280a89f20))
+
 # [4.86.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.85.0...v4.86.0) (2022-05-09)
 
 
