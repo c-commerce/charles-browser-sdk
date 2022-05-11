@@ -276,12 +276,13 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
    * Updates the profile of a message broker
    * @param payload
    */
-  public async updateProfile (payload: object): Promise<number | undefined> {
+  public async updateProfile (payload: object, options?: EntityFetchOptions): Promise<number | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('message broker profile update requires id to be set')
 
     try {
       const opts = {
         method: 'PUT',
+        timeout: options?.timeout ?? 60000,
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/profile`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
