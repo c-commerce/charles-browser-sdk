@@ -1534,7 +1534,12 @@ export class Universe extends APICarrier {
 
   public async messageTemplates (): Promise<messageTemplate.MessageTemplate[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${messageTemplate.MessageTemplates.endpoint}`)
+      const res = await this.http.getClient().get(`${this.universeBase}/${messageTemplate.MessageTemplates.endpoint}`, {
+        // Fetch only none-FlowBuilder templates (That are of kind "AutomationEngine")
+        params: {
+          kind: ['Generic', 'ProductGeneral', 'ProductDetail']
+        }
+      })
       const resources = res.data.data as messageTemplate.MessageTemplateRawPayload[]
 
       return resources.map((resource: messageTemplate.MessageTemplateRawPayload) => {
