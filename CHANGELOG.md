@@ -1,3 +1,10 @@
+# [4.87.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.86.1...v4.87.0) (2022-05-13)
+
+
+### Features
+
+* **message-templates:** Fetch templates of non-AutomationEngine kind only ([e95f2ce](https://github.com/c-commerce/charles-browser-sdk/commit/e95f2ce5961e0a90052d9234e6767bc56e639d56))
+
 ## [4.86.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.86.0...v4.86.1) (2022-05-11)
 
 
