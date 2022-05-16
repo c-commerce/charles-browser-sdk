@@ -1,4 +1,4 @@
-import { UniverseEntityOptions, EntityRawPayload, EntityFetchOptions } from '../_base'
+import Entity, { UniverseEntityOptions, EntityRawPayload, EntityFetchOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import * as messageTemplate from '../message-template/message-template'
 import * as event from '../../eventing/feeds/event'
@@ -39,12 +39,11 @@ export interface ChannelUserRawPayload extends EntityRawPayload {
   readonly channel_profile?: ChannelProfile | null
   readonly verified?: boolean
 }
-
 export interface ChannelUserOptions extends UniverseEntityOptions {
   rawPayload?: ChannelUserRawPayload
 }
 
-export class ChannelUser {
+export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUserRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
@@ -82,6 +81,7 @@ export class ChannelUser {
   public verified?: ChannelUserRawPayload['verified']
 
   constructor (options: ChannelUserOptions) {
+    super()
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.endpoint = 'api/v0/channel_users'
@@ -231,5 +231,13 @@ export class ChannelUserVerifyRemoteError extends BaseError {
   constructor (public message: string = 'Could not verify channel user unexpectedly', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ChannelUserVerifyRemoteError.prototype)
+  }
+}
+
+export class ChannelUserDeleteError extends BaseError {
+  public name = 'ChannelUserDeleteError'
+  constructor (public message: string = 'Could not delete channel user unexpectedly', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ChannelUserDeleteError.prototype)
   }
 }
