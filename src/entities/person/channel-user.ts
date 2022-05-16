@@ -218,13 +218,6 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
       throw new ChannelUserVerifyRemoteError(undefined, { error: err })
     }
   }
-
-  public async delete (): Promise<Entity<ChannelUserRawPayload, ChannelUserRawPayload>> {
-    if (!this.id) {
-      throw new ChannelUserDeleteError()
-    }
-    return await this._delete()
-  }
 }
 
 export class PersonChannelUserMessageTemplateSendError extends BaseError {
