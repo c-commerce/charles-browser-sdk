@@ -1,3 +1,10 @@
+# [4.89.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.88.0...v4.89.0) (2022-05-19)
+
+
+### Features
+
+* **universes-pool:** enable Deploy ([b2e8dd7](https://github.com/c-commerce/charles-browser-sdk/commit/b2e8dd73bd988e44f8028f3d7334df72fef3d6f3))
+
 # [4.88.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.87.0...v4.88.0) (2022-05-16)
 
 
