@@ -89,6 +89,8 @@ export interface ImportRawPayload {
   readonly import_from?: IImportFromType | null
   readonly date?: Date
   readonly labels?: object
+  readonly original_file_name?: string
+
 }
 
 export interface ImportPayload {
@@ -108,7 +110,8 @@ export interface ImportPayload {
   readonly status?: ImportRawPayload['status']
   readonly importFrom?: ImportRawPayload['import_from']
   readonly date?: ImportRawPayload['date']
-  readonly labels: ImportRawPayload['labels']
+  readonly labels?: ImportRawPayload['labels']
+  readonly originalFileName?: ImportRawPayload['original_file_name']
 }
 
 /**
@@ -141,6 +144,8 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   public importFrom?: ImportPayload['importFrom']
   public date?: ImportPayload['date']
   public labels?: ImportPayload['labels']
+  public originalFileName?: ImportPayload['originalFileName']
+
 
   constructor (options: ImportOptions) {
     super()
@@ -176,6 +181,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
     this.importFrom = rawPayload.import_from
     this.date = rawPayload.date
     this.labels = rawPayload.labels
+    this.originalFileName = rawPayload.original_file_name
 
     return this
   }
@@ -202,7 +208,8 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
       status: this.status,
       import_from: this.importFrom,
       date: this.date,
-      labels: this.labels
+      labels: this.labels,
+      original_file_name: this.originalFileName
     }
   }
 
@@ -219,7 +226,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   /**
    * Preview the import
    */
-  public async preview (options?: EntityFetchOptions): Promise<ImportRawPayload[]> {
+  public async preview(options?: EntityFetchOptions): Promise<Import> {
     try {
       const opts = {
         method: 'POST',
@@ -231,8 +238,8 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
       }
 
       const res = await this.http?.getClient()(opts)
-      // FIXME: when api endpoint is implemented
-      return res.data.data
+      this.deserialize(res.data.data[0])
+      return this
     } catch (err) {
       throw this.handleError(new ImportPreviewRemoteError(undefined, { error: err }))
     }
@@ -241,7 +248,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   /**
    * Process the import
    */
-  public async process (options?: EntityFetchOptions): Promise<ImportRawPayload[]> {
+  public async process(options?: EntityFetchOptions): Promise<Import> {
     try {
       const opts = {
         method: 'POST',
@@ -253,8 +260,9 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
       }
 
       const res = await this.http?.getClient()(opts)
-      // FIXME: when api endpoint is implemented
-      return res.data.data
+
+      this.deserialize(res.data.data[0])
+      return this
     } catch (err) {
       throw this.handleError(new ImportProcessRemoteError(undefined, { error: err }))
     }
