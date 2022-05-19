@@ -1,3 +1,10 @@
+# [4.90.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.89.0...v4.90.0) (2022-05-19)
+
+
+### Features
+
+* **imports:** add original name ([c056cb8](https://github.com/c-commerce/charles-browser-sdk/commit/c056cb8e25d766214a042840b68ca9fc97e3a721))
+
 # [4.89.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.88.0...v4.89.0) (2022-05-19)
 
 
