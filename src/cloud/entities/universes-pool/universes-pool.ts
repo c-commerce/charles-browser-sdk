@@ -105,6 +105,26 @@ export class UniversesPool extends Entity<UniversesPoolPaylod, UniversesPoolRawP
       throw this.handleError(new UniversesPoolInitializationError(undefined, { error: err }))
     }
   }
+
+  public async deploy (): Promise<string> {
+    if (this.id === null || this.id === undefined) throw new TypeError('UniversePool.deploy requires pool id to be set.')
+    const deployEndpoint = `api/v0/universes_pools/${this.id}/deploy/v2`
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.apiCarrier?.injectables?.base}/${deployEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.statusText
+    } catch (err) {
+      throw this.handleError(new UniversePoolDeployError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -125,6 +145,14 @@ export class UniversesPoolFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get UniversesPool.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, UniversesPoolFetchRemoteError.prototype)
+  }
+}
+
+export class UniversePoolDeployError extends BaseError {
+  public name = 'UniversePoolDeployError'
+  constructor (public message: string = 'Could not deploy UniversePool.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, UniversePoolDeployError.prototype)
   }
 }
 
