@@ -57,6 +57,7 @@ export interface ContactListRawPayload {
   }
   readonly static_entries?: ContactListStaticEntryRawPayload[]
   readonly labels?: object
+  readonly parent ?: string
 }
 
 export interface ContactListPayload {
@@ -73,6 +74,7 @@ export interface ContactListPayload {
   readonly author?: ContactListRawPayload['author']
   readonly staticEntries?: ContactListStaticEntry[]
   readonly labels?: ContactListRawPayload['labels']
+  readonly parent?: ContactListRawPayload['parent']
 }
 
 /**
@@ -101,6 +103,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   public type?: ContactListPayload['type']
   public author?: ContactListPayload['author']
   public labels?: ContactListPayload['labels']
+  public parent?: ContactListPayload['parent']
   public _staticEntries?: ContactListPayload['staticEntries']
 
   constructor (options: ContactListOptions) {
@@ -132,6 +135,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.type = rawPayload.type
     this.author = rawPayload.author
     this.labels = rawPayload.labels
+    this.parent = rawPayload.parent
 
     if (rawPayload.static_entries && this.initialized) {
       this._staticEntries = rawPayload.static_entries.map(i => ContactListStaticEntry.create(i, this.universe, this.http))
@@ -163,7 +167,8 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       filters: this.filters,
       type: this.type,
       author: this.author,
-      labels: this.labels
+      labels: this.labels,
+      parent: this.parent
     }
   }
 
