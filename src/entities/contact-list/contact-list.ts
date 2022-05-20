@@ -270,7 +270,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
         return ContactList.create(item, this.universe, this.http)
       })
     } catch (err) {
-      throw this.handleError(new ContactListPreviewRemoteError(undefined, { error: err }))
+      throw this.handleError(new ContactListSplitRemoteError(undefined, { error: err }))
     }
   }
 
@@ -462,5 +462,12 @@ export class ContactListPreviewCountRemoteError extends BaseError {
   constructor (public message: string = 'Could not get preview count of Contact List.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ContactListPreviewCountRemoteError.prototype)
+  }
+}
+export class ContactListSplitRemoteError extends BaseError {
+  public name = 'ContactListSplitRemoteError'
+  constructor (public message: string = 'Could not split contact list.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ContactListSplitRemoteError.prototype)
   }
 }
