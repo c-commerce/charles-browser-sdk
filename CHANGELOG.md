@@ -1,3 +1,10 @@
+# [4.91.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.90.0...v4.91.0) (2022-05-20)
+
+
+### Features
+
+* **contact list:** splitting ([5d7254a](https://github.com/c-commerce/charles-browser-sdk/commit/5d7254aeb1fd19a783bf96b3c86c4da5770a9f38))
+
 # [4.90.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.89.0...v4.90.0) (2022-05-19)
 
 
