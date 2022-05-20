@@ -1,3 +1,10 @@
+# [4.92.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.91.1...v4.92.0) (2022-05-20)
+
+
+### Features
+
+* **contact list:** add field parent ([cf0baf0](https://github.com/c-commerce/charles-browser-sdk/commit/cf0baf0d32a05726f21c707d4c4d095918a80813))
+
 ## [4.91.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.91.0...v4.91.1) (2022-05-20)
 
 
