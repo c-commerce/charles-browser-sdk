@@ -1,3 +1,10 @@
+## [4.91.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.91.0...v4.91.1) (2022-05-20)
+
+
+### Bug Fixes
+
+* **contact list:** split enhance err ([fd58869](https://github.com/c-commerce/charles-browser-sdk/commit/fd58869f07dcde30aa77e58a35dffb989e8f5c38))
+
 # [4.91.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.90.0...v4.91.0) (2022-05-20)
 
 
