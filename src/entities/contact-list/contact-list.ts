@@ -21,6 +21,22 @@ export interface ContactListImportContact {
 }
 export interface ContactListImportContacts extends Array<ContactListImportContact> {}
 
+export enum IContactListSplitTypeEnum {
+  equally = 'equally',
+  amount = 'amount',
+  percentage = 'percentage',
+  custom = 'custom'
+}
+
+export type ICartStatusType = IContactListSplitTypeEnum.equally | IContactListSplitTypeEnum.amount | IContactListSplitTypeEnum.percentage | IContactListSplitTypeEnum.custom
+
+export interface ContactListSplitConfiguration {
+  readonly configuration?: {
+    type?: ICartStatusType,
+    amount?: number 
+  } | object | null
+}
+
 export interface ContactListRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -225,6 +241,36 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       }
     } catch (err) {
       throw this.handleError(new ContactListPreviewCountRemoteError(undefined, { error: err }))
+    }
+  }
+
+  /**
+  * Split a (dynamic) list
+  */
+  public async split(splitConfig: ContactListSplitConfiguration, options?: EntityFetchOptions): Promise<ContactListRawPayload[]> {
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/split${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: splitConfig
+      }
+
+      const res = await this.http?.getClient()(opts)
+
+      const resources = res.data.data as ContactListRawPayload[]
+      if (options && options.raw === true) {
+        return resources
+      }
+
+      return resources.map((item: ContactListRawPayload) => {
+        return ContactList.create(item, this.universe, this.http)
+      })
+    } catch (err) {
+      throw this.handleError(new ContactListPreviewRemoteError(undefined, { error: err }))
     }
   }
 
