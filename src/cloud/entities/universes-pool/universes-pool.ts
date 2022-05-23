@@ -106,6 +106,26 @@ export class UniversesPool extends Entity<UniversesPoolPaylod, UniversesPoolRawP
     }
   }
 
+  public async deployStatus (): Promise<string> {
+    if (this.id === null || this.id === undefined) throw new TypeError('UniversePool.deployStatus requires pool id to be set.')
+    const deployStatusEndpoint = `api/v0/universes_pools/${this.id}/deploy/status`
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${deployStatusEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.statusText
+    } catch (err) {
+      throw this.handleError(new UniversePoolDeployStatusError(undefined, { error: err }))
+    }
+  }
+
   public async deploy (): Promise<string> {
     if (this.id === null || this.id === undefined) throw new TypeError('UniversePool.deploy requires pool id to be set.')
     const deployEndpoint = `api/v0/universes_pools/${this.id}/deploy/v2`
@@ -153,6 +173,14 @@ export class UniversePoolDeployError extends BaseError {
   constructor (public message: string = 'Could not deploy UniversePool.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, UniversePoolDeployError.prototype)
+  }
+}
+
+export class UniversePoolDeployStatusError extends BaseError {
+  public name = 'UniversePoolDeployStatusError'
+  constructor (public message: string = 'Could not get UniversePool status.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, UniversePoolDeployStatusError.prototype)
   }
 }
 
