@@ -1,3 +1,10 @@
+## [4.93.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.93.0...v4.93.1) (2022-05-25)
+
+
+### Bug Fixes
+
+* **universes:** fix deployment status response for universes and pools ([dc3c287](https://github.com/c-commerce/charles-browser-sdk/commit/dc3c28716061a7964f1bdba90fc514f25347e652))
+
 # [4.93.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.92.0...v4.93.0) (2022-05-25)
 
 
