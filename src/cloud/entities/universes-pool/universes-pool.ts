@@ -18,7 +18,7 @@ export interface UniversesPoolRawPayload {
   readonly configuration?: string
 }
 
-export interface UniversesPoolPaylod {
+export interface UniversesPoolPayload {
   readonly id?: UniversesPoolRawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
@@ -34,7 +34,7 @@ export interface UniversesPoolPaylod {
  *
  * @category Entity
  */
-export class UniversesPool extends Entity<UniversesPoolPaylod, UniversesPoolRawPayload> {
+export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRawPayload> {
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: UniversesPoolOptions
@@ -42,14 +42,14 @@ export class UniversesPool extends Entity<UniversesPoolPaylod, UniversesPoolRawP
 
   public endpoint: string
 
-  public id?: UniversesPoolPaylod['id']
-  public createdAt?: UniversesPoolPaylod['createdAt']
-  public updatedAt?: UniversesPoolPaylod['updatedAt']
-  public deleted?: UniversesPoolPaylod['deleted']
-  public active?: UniversesPoolPaylod['active']
-  public name?: UniversesPoolPaylod['name']
-  public status?: UniversesPoolPaylod['status']
-  public configuration?: UniversesPoolPaylod['configuration']
+  public id?: UniversesPoolPayload['id']
+  public createdAt?: UniversesPoolPayload['createdAt']
+  public updatedAt?: UniversesPoolPayload['updatedAt']
+  public deleted?: UniversesPoolPayload['deleted']
+  public active?: UniversesPoolPayload['active']
+  public name?: UniversesPoolPayload['name']
+  public status?: UniversesPoolPayload['status']
+  public configuration?: UniversesPoolPayload['configuration']
 
   constructor (options: UniversesPoolOptions) {
     super()

@@ -24,7 +24,7 @@ export interface ProductRawPayload {
   readonly default_display_name?: string
 }
 
-export interface ProductPaylod {
+export interface ProductPayload {
   readonly id?: ProductRawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
@@ -42,7 +42,7 @@ export interface ProductPaylod {
  *
  * @category Entity
  */
-export class Product extends Entity<ProductPaylod, ProductRawPayload> {
+export class Product extends Entity<ProductPayload, ProductRawPayload> {
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: ProductOptions
@@ -50,16 +50,16 @@ export class Product extends Entity<ProductPaylod, ProductRawPayload> {
 
   public endpoint: string
 
-  public id?: ProductPaylod['id']
-  public createdAt?: ProductPaylod['createdAt']
-  public updatedAt?: ProductPaylod['updatedAt']
-  public deleted?: ProductPaylod['deleted']
-  public active?: ProductPaylod['active']
-  public name?: ProductPaylod['name']
-  public status?: ProductPaylod['status']
-  public configuration?: ProductPaylod['configuration']
-  public channel?: ProductPaylod['channel']
-  public defaultDisplayName?: ProductPaylod['defaultDisplayName']
+  public id?: ProductPayload['id']
+  public createdAt?: ProductPayload['createdAt']
+  public updatedAt?: ProductPayload['updatedAt']
+  public deleted?: ProductPayload['deleted']
+  public active?: ProductPayload['active']
+  public name?: ProductPayload['name']
+  public status?: ProductPayload['status']
+  public configuration?: ProductPayload['configuration']
+  public channel?: ProductPayload['channel']
+  public defaultDisplayName?: ProductPayload['defaultDisplayName']
 
   constructor (options: ProductOptions) {
     super()
