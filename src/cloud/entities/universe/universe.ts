@@ -40,6 +40,11 @@ export interface CloudUniversePayload {
   readonly release?: CloudUniverseRawPayload['release']
 }
 
+export interface UniverseDeployStatus {
+  readonly deployStatus: string | null
+  readonly jobStatus: string | null
+}
+
 /**
  * Manage CloudUniverses.
  *
@@ -175,7 +180,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
-  public async deployStatus (): Promise<string> {
+  public async deployStatus (): Promise<UniverseDeployStatus> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.deployStatus requires universe id to be set.')
     const statusEndpoint = `api/v0/universes/${this.id}/deploy/status`
     try {
@@ -188,8 +193,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
         responseType: 'json'
       }
 
-      const res = await this.http?.getClient()(opts)
-      return res.statusText
+      const { deployStatus, jobStatus } = (await this.http?.getClient()(opts)).data
+      return { deployStatus, jobStatus }
     } catch (err) {
       throw this.handleError(new CloudUniverseStatusFromUniverseConfigRemoteError(undefined, { error: err }))
     }

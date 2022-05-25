@@ -29,6 +29,10 @@ export interface UniversesPoolPayload {
   readonly configuration?: UniversesPoolRawPayload['configuration']
 }
 
+export interface UniversePoolDeployStatus {
+  readonly deployStatus: string | null
+  readonly jobStatus: string | null
+}
 /**
  * Manage organizations.
  *
@@ -106,7 +110,7 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
     }
   }
 
-  public async deployStatus (): Promise<string> {
+  public async deployStatus (): Promise<UniversePoolDeployStatus> {
     if (this.id === null || this.id === undefined) throw new TypeError('UniversePool.deployStatus requires pool id to be set.')
     const deployStatusEndpoint = `api/v0/universes_pools/${this.id}/deploy/status`
     try {
@@ -119,8 +123,8 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
         responseType: 'json'
       }
 
-      const res = await this.http?.getClient()(opts)
-      return res.statusText
+      const { deployStatus, jobStatus } = (await this.http?.getClient()(opts)).data
+      return { deployStatus, jobStatus }
     } catch (err) {
       throw this.handleError(new UniversePoolDeployStatusError(undefined, { error: err }))
     }
