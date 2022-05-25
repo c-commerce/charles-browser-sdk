@@ -1,3 +1,11 @@
+# [4.93.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.92.0...v4.93.0) (2022-05-25)
+
+
+### Features
+
+* **universe:** universe and universe pool entity fetch deployment status methods ([3a44066](https://github.com/c-commerce/charles-browser-sdk/commit/3a4406610411c40995aabbf54c65ec35850f4f6f))
+* **universes:** add status check to universe and pool deploy jobs ([fb8e90c](https://github.com/c-commerce/charles-browser-sdk/commit/fb8e90c4c2f2eecf81e3cf97066d0c9994252b4e))
+
 # [4.92.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.91.1...v4.92.0) (2022-05-20)
 
 
