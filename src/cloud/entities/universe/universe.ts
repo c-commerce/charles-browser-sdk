@@ -193,8 +193,9 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
         responseType: 'json'
       }
 
-      const { deployStatus, jobStatus } = (await this.http?.getClient()(opts)).data
-      return { deployStatus, jobStatus }
+      const res = await this.http?.getClient()(opts)
+      const resource = res.data.data as UniverseDeployStatus
+      return resource
     } catch (err) {
       throw this.handleError(new CloudUniverseStatusFromUniverseConfigRemoteError(undefined, { error: err }))
     }
