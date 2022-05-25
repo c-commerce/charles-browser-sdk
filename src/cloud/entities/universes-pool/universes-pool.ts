@@ -18,7 +18,7 @@ export interface UniversesPoolRawPayload {
   readonly configuration?: string
 }
 
-export interface UniversesPoolPaylod {
+export interface UniversesPoolPayload {
   readonly id?: UniversesPoolRawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
@@ -29,12 +29,16 @@ export interface UniversesPoolPaylod {
   readonly configuration?: UniversesPoolRawPayload['configuration']
 }
 
+export interface UniversePoolDeployStatus {
+  readonly deployStatus: string | null
+  readonly jobStatus: string | null
+}
 /**
  * Manage organizations.
  *
  * @category Entity
  */
-export class UniversesPool extends Entity<UniversesPoolPaylod, UniversesPoolRawPayload> {
+export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRawPayload> {
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: UniversesPoolOptions
@@ -42,14 +46,14 @@ export class UniversesPool extends Entity<UniversesPoolPaylod, UniversesPoolRawP
 
   public endpoint: string
 
-  public id?: UniversesPoolPaylod['id']
-  public createdAt?: UniversesPoolPaylod['createdAt']
-  public updatedAt?: UniversesPoolPaylod['updatedAt']
-  public deleted?: UniversesPoolPaylod['deleted']
-  public active?: UniversesPoolPaylod['active']
-  public name?: UniversesPoolPaylod['name']
-  public status?: UniversesPoolPaylod['status']
-  public configuration?: UniversesPoolPaylod['configuration']
+  public id?: UniversesPoolPayload['id']
+  public createdAt?: UniversesPoolPayload['createdAt']
+  public updatedAt?: UniversesPoolPayload['updatedAt']
+  public deleted?: UniversesPoolPayload['deleted']
+  public active?: UniversesPoolPayload['active']
+  public name?: UniversesPoolPayload['name']
+  public status?: UniversesPoolPayload['status']
+  public configuration?: UniversesPoolPayload['configuration']
 
   constructor (options: UniversesPoolOptions) {
     super()
@@ -106,6 +110,26 @@ export class UniversesPool extends Entity<UniversesPoolPaylod, UniversesPoolRawP
     }
   }
 
+  public async deployStatus (): Promise<UniversePoolDeployStatus> {
+    if (this.id === null || this.id === undefined) throw new TypeError('UniversePool.deployStatus requires pool id to be set.')
+    const deployStatusEndpoint = `api/v0/universes_pools/${this.id}/deploy/status`
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${deployStatusEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const { deployStatus, jobStatus } = (await this.http?.getClient()(opts)).data
+      return { deployStatus, jobStatus }
+    } catch (err) {
+      throw this.handleError(new UniversePoolDeployStatusError(undefined, { error: err }))
+    }
+  }
+
   public async deploy (): Promise<string> {
     if (this.id === null || this.id === undefined) throw new TypeError('UniversePool.deploy requires pool id to be set.')
     const deployEndpoint = `api/v0/universes_pools/${this.id}/deploy/v2`
@@ -153,6 +177,14 @@ export class UniversePoolDeployError extends BaseError {
   constructor (public message: string = 'Could not deploy UniversePool.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, UniversePoolDeployError.prototype)
+  }
+}
+
+export class UniversePoolDeployStatusError extends BaseError {
+  public name = 'UniversePoolDeployStatusError'
+  constructor (public message: string = 'Could not get UniversePool status.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, UniversePoolDeployStatusError.prototype)
   }
 }
 

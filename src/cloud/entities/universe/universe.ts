@@ -40,6 +40,11 @@ export interface CloudUniversePayload {
   readonly release?: CloudUniverseRawPayload['release']
 }
 
+export interface UniverseDeployStatus {
+  readonly deployStatus: string | null
+  readonly jobStatus: string | null
+}
+
 /**
  * Manage CloudUniverses.
  *
@@ -175,6 +180,26 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+  public async deployStatus (): Promise<UniverseDeployStatus> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Universe.deployStatus requires universe id to be set.')
+    const statusEndpoint = `api/v0/universes/${this.id}/deploy/status`
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${statusEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const { deployStatus, jobStatus } = (await this.http?.getClient()(opts)).data
+      return { deployStatus, jobStatus }
+    } catch (err) {
+      throw this.handleError(new CloudUniverseStatusFromUniverseConfigRemoteError(undefined, { error: err }))
+    }
+  }
+
   public async deploy (): Promise<string> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
     const deployEndpoint = `api/v0/universes/${this.id}/deploy/v2`
@@ -230,10 +255,17 @@ export class CloudUniversesFetchRemoteError extends BaseError {
 }
 
 export class CloudUniverseDeployFromUniverseConfigRemoteError extends BaseError {
-  public name = 'CloudUniversePatchDeployFromReleaseRemoteError'
+  public name = 'CloudUniverseDeployFromUniverseConfigRemoteError'
   constructor (public message: string = 'Could alter deployment unexpectedly.', properties?: any) {
     super(message, properties)
-    Object.setPrototypeOf(this, CloudUniversePatchDeployFromReleaseRemoteError.prototype)
+    Object.setPrototypeOf(this, CloudUniverseDeployFromUniverseConfigRemoteError.prototype)
+  }
+}
+export class CloudUniverseStatusFromUniverseConfigRemoteError extends BaseError {
+  public name = 'CloudUniverseStatusFromUniverseConfigRemoteError'
+  constructor (public message: string = 'Could not get universe status.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CloudUniverseStatusFromUniverseConfigRemoteError.prototype)
   }
 }
 export class CloudUniversePatchDeployFromReleaseRemoteError extends BaseError {
