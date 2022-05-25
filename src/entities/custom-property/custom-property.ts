@@ -28,7 +28,7 @@ export enum CustomPropertyTypesEnum {
   boolean = 'boolean',
   object = 'object'
 }
-export type ICustomPropertyType = CustomPropertyTypesEnum.string | CustomPropertyTypesEnum.number | CustomPropertyTypesEnum.boolean
+export type ICustomPropertyType = `${CustomPropertyTypesEnum}`
 
 export interface CustomPropertyRawPayload {
   readonly id?: string
