@@ -1,3 +1,10 @@
+## [4.93.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.93.1...v4.93.2) (2022-05-27)
+
+
+### Bug Fixes
+
+* **universes:** accept null for release ([dc9df6a](https://github.com/c-commerce/charles-browser-sdk/commit/dc9df6a823cb96c7c29c9e6ad969033908486418))
+
 ## [4.93.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.93.0...v4.93.1) (2022-05-25)
 
 
