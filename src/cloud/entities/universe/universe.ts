@@ -22,7 +22,7 @@ export interface CloudUniverseRawPayload {
   readonly pool?: string
   readonly organization?: string
   readonly status?: object
-  readonly release?: string
+  readonly release?: string | null
 
 }
 
