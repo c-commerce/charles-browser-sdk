@@ -35,6 +35,29 @@ interface ILogicMatchAnyConfiguration {
     ]
   }
 }
+
+interface ILogicMatchAnyConfigurationWithChannelFilters {
+  $id: 'api.v0.logic.message.payload.content.body.content.matches_any_string'
+  logic: {
+    and: [
+      {
+        equals_any: [
+          {
+            var: 'payload.message.content.body'
+          },
+          string[]
+        ]
+      },
+      {
+        equals_any:
+        [
+          { 'var': 'payload.channel_user.source_type' },
+          string[]
+        ]
+      }
+    ]
+  }
+}
 interface ILogicMatchSubstringConfiguration {
   $id: 'api.v0.logic.message.payload.content.body.content.matches_any_substring'
   logic: {
@@ -43,6 +66,29 @@ interface ILogicMatchSubstringConfiguration {
         var: 'payload.message.content.body'
       },
       string[]
+    ]
+  }
+}
+
+interface ILogicMatchSubstringConfigurationWithChannelFilters {
+  $id: 'api.v0.logic.message.payload.content.body.content.matches_any_substring'
+  logic: {
+    and: [
+      {
+        contains_any: [
+          {
+            var: 'payload.message.content.body'
+          },
+          string[]
+        ]
+      },
+      {
+        equals_any:
+        [
+          { 'var': 'payload.channel_user.source_type' },
+          string[]
+        ]
+      }
     ]
   }
 }
@@ -61,7 +107,7 @@ export declare type IMessageSubscriptionEventRouteTemplate = {
   kind: 'MessageSubscriptionInstance'
   topic: 'api/feeds/*/messages'
   topic_template?: never
-  logic: null | ILogicMatchAnyConfiguration | ILogicMatchSubstringConfiguration
+  logic: null | ILogicMatchAnyConfiguration | ILogicMatchSubstringConfiguration | ILogicMatchAnyConfigurationWithChannelFilters | ILogicMatchSubstringConfigurationWithChannelFilters
 }
 
 export declare interface IMessageSubscriptionMessagesTemplates {
@@ -76,7 +122,7 @@ export declare interface IMessageSubscriptionMessagesTemplates {
   }
   consent_withdrawal_response?: null | {
     id?: string
-    logic?: null | ILogicMatchAnyConfiguration | ILogicMatchSubstringConfiguration
+    logic?: null | ILogicMatchAnyConfiguration | ILogicMatchSubstringConfiguration | ILogicMatchAnyConfigurationWithChannelFilters | ILogicMatchSubstringConfigurationWithChannelFilters
   }
 }
 
