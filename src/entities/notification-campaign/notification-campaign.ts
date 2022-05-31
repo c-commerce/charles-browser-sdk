@@ -1,5 +1,5 @@
 
-import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions } from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityPostOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
@@ -329,17 +329,18 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async publish (): Promise<NotificationCampaign> {
+  public async publish(options?: EntityPostOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
 
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/publish`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/publish${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        responseType: 'json'
+        responseType: 'json',
+        timeout: options?.timeout ?? 60000
       }
       const res = await this.http.getClient()(opts)
       const data = res.data.data[0] as NotificationCampaignRawPayload
