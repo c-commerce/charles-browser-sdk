@@ -1,3 +1,10 @@
+# [4.94.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.93.2...v4.94.0) (2022-05-31)
+
+
+### Features
+
+* **campaign:** allow opts in publish ([b6df2e5](https://github.com/c-commerce/charles-browser-sdk/commit/b6df2e55b543934d0c3f0b4546eee85c9618ce6e))
+
 ## [4.93.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.93.1...v4.93.2) (2022-05-27)
 
 
