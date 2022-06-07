@@ -343,21 +343,21 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Delete this object on the remote.
    */
-  public async delete (): Promise<Entity<Payload, RawPayload>> {
+  public async delete (options?: EntityDeleteOptions): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._delete directly and e.g. handle our error differently
-    return await this._delete()
+    return await this._delete(options)
   }
 
   /**
    * @ignore
    */
-  protected async _delete (): Promise<Entity<Payload, RawPayload>> {
+  protected async _delete (options?: EntityDeleteOptions): Promise<Entity<Payload, RawPayload>> {
     if (this.id === null || this.id === undefined) throw new TypeError('delete requires id to be set.')
 
     try {
       const opts = {
         method: 'DELETE',
-        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}`,
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
