@@ -1,3 +1,10 @@
+# [4.95.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.94.0...v4.95.0) (2022-06-07)
+
+
+### Features
+
+* **entity:** add delete options for delete operation of base entity ([a13c3f3](https://github.com/c-commerce/charles-browser-sdk/commit/a13c3f3676275104eab734d30d69b5ef17e0283b))
+
 # [4.94.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.93.2...v4.94.0) (2022-05-31)
 
 
