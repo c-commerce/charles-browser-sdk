@@ -43,6 +43,7 @@ export interface NotificationCampaignStaticEntryRawPayload {
   readonly communication_language?: string
   readonly channel_type?: string
   readonly message_broker?: string
+  readonly invalid?: boolean
 }
 
 export interface NotificationCampaignStaticEntryPayload {
@@ -59,6 +60,7 @@ export interface NotificationCampaignStaticEntryPayload {
   readonly communicationLanguage?: NotificationCampaignStaticEntryRawPayload['communication_language']
   readonly channelType?: NotificationCampaignStaticEntryRawPayload['channel_type']
   readonly messageBroker?: NotificationCampaignStaticEntryRawPayload['message_broker']
+  readonly invalid?: NotificationCampaignStaticEntryRawPayload['invalid']
 
 }
 
@@ -89,6 +91,7 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
   public communicationLanguage?: NotificationCampaignStaticEntryPayload['communicationLanguage']
   public channelType?: NotificationCampaignStaticEntryPayload['channelType']
   public messageBroker?: NotificationCampaignStaticEntryPayload['messageBroker']
+  public invalid?: NotificationCampaignStaticEntryPayload['invalid']
 
   constructor (options: StaticEntryOptions) {
     super()
@@ -123,6 +126,7 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
     this.communicationLanguage = rawPayload.communication_language
     this.channelType = rawPayload.channel_type
     this.messageBroker = rawPayload.message_broker
+    this.invalid = rawPayload.invalid
 
     return this
   }
@@ -145,8 +149,8 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
       notification_campaign: this.noticationCampaign,
       communication_language: this.communicationLanguage,
       channel_type: this.channelType,
-      message_broker: this.messageBroker
-
+      message_broker: this.messageBroker,
+      invalid: this.invalid
     }
   }
 
