@@ -1,3 +1,10 @@
+# [4.96.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.95.0...v4.96.0) (2022-06-08)
+
+
+### Features
+
+* **campaign:** delete invalid contacts ([98c7ea7](https://github.com/c-commerce/charles-browser-sdk/commit/98c7ea74cb464f225a9fa0b236d82a8a9d64f334))
+
 # [4.95.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.94.0...v4.95.0) (2022-06-07)
 
 
