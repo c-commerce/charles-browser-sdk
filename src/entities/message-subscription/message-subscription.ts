@@ -37,7 +37,7 @@ interface ILogicMatchAnyConfiguration {
 }
 
 interface ILogicMatchAnyConfigurationWithChannelFilters {
-  $id: 'api.v0.logic.message.payload.content.body.content.matches_any_string'
+  $id: 'api.v0.logic.message.payload.content.body.content.matches_any_string_and_any_channel'
   logic: {
     and: [
       {
@@ -71,7 +71,7 @@ interface ILogicMatchSubstringConfiguration {
 }
 
 interface ILogicMatchSubstringConfigurationWithChannelFilters {
-  $id: 'api.v0.logic.message.payload.content.body.content.matches_any_substring'
+  $id: 'api.v0.logic.message.payload.content.body.content.matches_any_substring_and_any_channel'
   logic: {
     and: [
       {
