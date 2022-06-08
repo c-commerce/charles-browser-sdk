@@ -1,5 +1,5 @@
 
-import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityPostOptions } from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityPostOptions, EntityDeleteOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
@@ -523,6 +523,32 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       throw this.handleError(new NotificationCampaignPreviewStaticEntriesCountRemoteError(undefined, { error: err }))
     }
   }
+
+
+  /**
+   * Deletes all static entries from a specific campaign that are marked as invalid. Marking happens during the campaign armin process.
+   * @param options EntityDeleteOptions
+   * @returns Promise<number>
+   * @throws {NotificationCampaignDeleteStaticEntriesRemoteError}
+   */
+  public async deleteInvalidContacts(options?: EntityDeleteOptions): Promise<number> {
+    if (this.id === null || this.id === undefined) throw new TypeError('NotificationCampaign.deleteInvalidContacts requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/recipients/static_entries/invalid${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw new NotificationCampaignDeleteInvalidContactsRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -624,5 +650,12 @@ export class NotificationCampaignPreviewStaticEntriesCountRemoteError extends Ba
   constructor (public message: string = 'Could not get count of campaign static entries', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignPreviewStaticEntriesCountRemoteError.prototype)
+  }
+}
+export class NotificationCampaignDeleteInvalidContactsRemoteError extends BaseError {
+  public name = 'NotificationCampaignDeleteInvalidContactsRemoteError'
+  constructor (public message: string = 'Could not delete invalid contacts of notification campaign', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignDeleteInvalidContactsRemoteError.prototype)
   }
 }
