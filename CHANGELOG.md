@@ -1,3 +1,10 @@
+# [4.97.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.96.0...v4.97.0) (2022-06-08)
+
+
+### Features
+
+* **campaign static entry:** add property invalid ([04fa9f1](https://github.com/c-commerce/charles-browser-sdk/commit/04fa9f1bc765edadb34d33ca997c09bd8041c2a2))
+
 # [4.96.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.95.0...v4.96.0) (2022-06-08)
 
 
