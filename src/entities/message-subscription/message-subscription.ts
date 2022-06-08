@@ -51,7 +51,9 @@ interface ILogicMatchAnyConfigurationWithChannelFilters {
       {
         equals_any:
         [
-          { 'var': 'payload.channel_user.source_type' },
+          {
+            'var': 'payload.channel_user.source_type'
+          },
           string[]
         ]
       }
@@ -85,7 +87,9 @@ interface ILogicMatchSubstringConfigurationWithChannelFilters {
       {
         equals_any:
         [
-          { 'var': 'payload.channel_user.source_type' },
+          {
+            'var': 'payload.channel_user.source_type'
+          },
           string[]
         ]
       }
