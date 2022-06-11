@@ -514,9 +514,19 @@ export class Universe extends APICarrier {
 
   public async init (): Promise<Universe | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.base}/${Universe.endpoint}/${this.name}`)
+      // NOTE: in the legacy version of this call we have relied on
+      // the client accounts api to provide configuration. As we never really
+      // use that information and that fact making any universe dependant
+      // on a central service, we are omitting that call and stub the result below.
+      // const res = await this.http.getClient().get(`${this.base}/${Universe.endpoint}/${this.name}`)
 
-      this.setInitialized(res.data.data[0])
+      this.setInitialized({
+        // see note above
+        name: this.name,
+        active: true,
+        deleted: false
+      })
+
       this.setMqttClient()
 
       this.getMqttClient().on('error', (error) => {
@@ -546,8 +556,8 @@ export class Universe extends APICarrier {
 
   private static parsePayload (payload: any): UniversePayload {
     return {
-      createdAt: new Date(payload.created_at) ?? null,
-      updatedAt: new Date(payload.updated_at) ?? null,
+      createdAt: payload.created_at ? new Date(payload.created_at) : null,
+      updatedAt: payload.created_at ? new Date(payload.updated_at) : null,
       id: payload.id,
       organization: payload.organization,
       active: payload.active,
