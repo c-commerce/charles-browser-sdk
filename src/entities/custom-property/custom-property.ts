@@ -8,19 +8,25 @@ export interface CustomPropertyOptions extends UniverseEntityOptions {
 }
 
 export enum CustomPropertyInputTypesEnum {
-  select = 'select',
-  radio = 'radio',
-  textinput = 'textinput',
+  checkbox = 'checkbox',
+  currencyinput = 'currencyinput',
+  date = 'date',
+  daterange = 'daterange',
+  datetime = 'datetime',
+  datetimerange = 'datetimerange',
+  largetextinput = 'largetextinput',
+  multiselect = 'multiselect',
   numberinput = 'numberinput',
   numberwithunitinput = 'numberwithunitinput',
-  currencyinput = 'currencyinput',
-  textbox = 'textbox',
-  date = 'date',
-  datetime = 'datetime',
-  daterange = 'daterange'
+  phonenumber = 'phonenumber',
+  radio = 'radio',
+  select = 'select',
+  textinput = 'textinput',
+  time = 'time',
+  timerange = 'timerange'
 }
 
-export type ICustomPropertyInputType = CustomPropertyInputTypesEnum.select | CustomPropertyInputTypesEnum.radio | CustomPropertyInputTypesEnum.textinput | CustomPropertyInputTypesEnum.textbox | CustomPropertyInputTypesEnum.numberinput | CustomPropertyInputTypesEnum.date | CustomPropertyInputTypesEnum.datetime
+export type ICustomPropertyInputType = `${CustomPropertyInputTypesEnum}`
 
 export enum CustomPropertyTypesEnum {
   string = 'string',
@@ -28,6 +34,7 @@ export enum CustomPropertyTypesEnum {
   boolean = 'boolean',
   object = 'object'
 }
+
 export type ICustomPropertyType = `${CustomPropertyTypesEnum}`
 
 export interface CustomPropertyRawPayload {
