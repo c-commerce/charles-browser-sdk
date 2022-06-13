@@ -1,3 +1,15 @@
+# [4.99.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.98.0...v4.99.0) (2022-06-13)
+
+
+### Bug Fixes
+
+* **pople export:** changed timeout to 60s ([12f7993](https://github.com/c-commerce/charles-browser-sdk/commit/12f799314a3153cfcff981a6b10af19e0f07f4fa))
+
+
+### Features
+
+* **universe:** do not require multiverse to be up ([6c89955](https://github.com/c-commerce/charles-browser-sdk/commit/6c89955d51466bfcf2d676f1a8c4f85b9c3743b8))
+
 # [4.98.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.97.0...v4.98.0) (2022-06-08)
 
 
