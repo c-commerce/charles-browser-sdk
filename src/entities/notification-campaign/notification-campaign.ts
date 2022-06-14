@@ -527,12 +527,13 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
 
   /**
    * Deletes all static entries from a specific campaign that are marked as invalid. Marking happens during the campaign armin process.
+   * Additionally deletes all invalid channel users that are affected.
    * @param options EntityDeleteOptions
    * @returns Promise<number>
    * @throws {NotificationCampaignDeleteStaticEntriesRemoteError}
    */
-  public async deleteInvalidContacts(options?: EntityDeleteOptions): Promise<number> {
-    if (this.id === null || this.id === undefined) throw new TypeError('NotificationCampaign.deleteInvalidContacts requires id to be set.')
+  public async deleteInvalidEntries(options?: EntityDeleteOptions): Promise<number> {
+    if (this.id === null || this.id === undefined) throw new TypeError('NotificationCampaign.deleteInvalidEntries requires id to be set.')
 
     try {
       const opts = {
