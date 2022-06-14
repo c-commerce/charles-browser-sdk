@@ -1,3 +1,10 @@
+## [4.99.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.99.0...v4.99.1) (2022-06-14)
+
+
+### Bug Fixes
+
+* **notif campaign:** better name function ([bfc372f](https://github.com/c-commerce/charles-browser-sdk/commit/bfc372f3b898736435a663f5100fe5e3aab5cdc1))
+
 # [4.99.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.98.0...v4.99.0) (2022-06-13)
 
 
