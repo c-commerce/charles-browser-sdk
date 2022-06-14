@@ -1,3 +1,10 @@
+# [4.100.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.99.1...v4.100.0) (2022-06-14)
+
+
+### Features
+
+* **notification-campaign:** Add disableDynamicLists to campaigns ([4393794](https://github.com/c-commerce/charles-browser-sdk/commit/43937943bf7c4c9a804c270132902b23b2b6b4db))
+
 ## [4.99.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.99.0...v4.99.1) (2022-06-14)
 
 
