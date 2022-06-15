@@ -1,3 +1,10 @@
+# [4.101.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.100.0...v4.101.0) (2022-06-15)
+
+
+### Features
+
+* **universes/universes_pools:** add update method for fetching latest deployment status ([b48ef9e](https://github.com/c-commerce/charles-browser-sdk/commit/b48ef9e2325f2b8e9b5c859b1a122f9b5d354305))
+
 # [4.100.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.99.1...v4.100.0) (2022-06-14)
 
 
