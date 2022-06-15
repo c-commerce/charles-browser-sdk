@@ -45,6 +45,11 @@ export interface UniverseDeployStatus {
   readonly jobStatus: string | null
 }
 
+export interface UniversesUpdateAllResponse {
+  readonly id: UniverseDeployStatus
+}
+
+
 /**
  * Manage CloudUniverses.
  *
@@ -117,6 +122,26 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       organization: this.organization,
       status: this.status,
       release: this.release
+    }
+  }
+
+  public async updateAll (): Promise<UniversesUpdateAllResponse[]> {
+    try {
+      const updateAllEndpoint = `${this.endpoint}/deploy/status`
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${updateAllEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const resource = res.data.data as UniversesUpdateAllResponse[]
+      return resource
+    } catch (err) {
+      throw this.handleError(new UniversesUpdateAllError())
     }
   }
 
@@ -274,5 +299,12 @@ export class CloudUniversePatchDeployFromReleaseRemoteError extends BaseError {
   constructor (public message: string = 'Could alter deployment unexpectedly.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CloudUniversePatchDeployFromReleaseRemoteError.prototype)
+  }
+}
+export class UniversesUpdateAllError extends BaseError {
+  public name = 'UniversesUpdateAllError'
+  constructor (public message: string = 'Could not update universes.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, UniversesUpdateAllError.prototype)
   }
 }
