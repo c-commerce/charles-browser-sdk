@@ -107,7 +107,6 @@ export interface NotificationCampaignRawPayload {
     [key: string]: any
   }
   readonly arm_lock?: boolean
-  readonly disable_dynamic_lists?: boolean
 }
 
 export interface NotificationCampaignPayload {
@@ -137,7 +136,6 @@ export interface NotificationCampaignPayload {
   readonly analytics?: NotificationCampaignRawPayload['analytics']
   readonly messageAuthor?: NotificationCampaignRawPayload['message_author']
   readonly armLock?: NotificationCampaignRawPayload['arm_lock']
-  readonly disableDynamicLists?: NotificationCampaignRawPayload['disable_dynamic_lists']
 }
 
 /**
@@ -180,7 +178,6 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   public analytics?: NotificationCampaignPayload['analytics']
   public messageAuthor?: NotificationCampaignPayload['messageAuthor']
   public armLock?: NotificationCampaignPayload['armLock']
-  public disableDynamicLists?: NotificationCampaignPayload['disableDynamicLists']
 
   constructor (options: NotificationCampaignOptions) {
     super()
@@ -225,7 +222,6 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     this.messageAuthor = rawPayload.message_author
     this.defaultLanguage = rawPayload.default_language
     this.armLock = rawPayload.arm_lock
-    this.disableDynamicLists = rawPayload.disable_dynamic_lists
 
     return this
   }
@@ -261,8 +257,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       default_language: this.defaultLanguage,
       analytics: this.analytics,
       message_author: this.messageAuthor,
-      arm_lock: this.armLock,
-      disable_dynamic_lists: this.disableDynamicLists
+      arm_lock: this.armLock
     }
   }
 
@@ -334,7 +329,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async publish (options?: EntityPostOptions): Promise<NotificationCampaign> {
+  public async publish(options?: EntityPostOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
 
     try {
@@ -529,6 +524,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
+
   /**
    * Deletes all static entries from a specific campaign that are marked as invalid. Marking happens during the campaign armin process.
    * Additionally deletes all invalid channel users that are affected.
@@ -536,13 +532,13 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
    * @returns Promise<number>
    * @throws {NotificationCampaignDeleteStaticEntriesRemoteError}
    */
-  public async deleteInvalidEntries (options?: EntityDeleteOptions): Promise<number> {
+  public async deleteInvalidEntries(options?: EntityDeleteOptions): Promise<number> {
     if (this.id === null || this.id === undefined) throw new TypeError('NotificationCampaign.deleteInvalidEntries requires id to be set.')
 
     try {
       const opts = {
         method: 'DELETE',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/recipients/static_entries/invalid${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/recipients/static_entries/invalid${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
