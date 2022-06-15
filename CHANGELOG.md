@@ -1,3 +1,10 @@
+## [4.101.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.101.0...v4.101.1) (2022-06-15)
+
+
+### Bug Fixes
+
+* **universes:** fix response for updateAll methods on Universes and UniversesPool ([f769b46](https://github.com/c-commerce/charles-browser-sdk/commit/f769b46b2659bee99650ce92f258ecf7b608b243))
+
 # [4.101.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.100.0...v4.101.0) (2022-06-15)
 
 
