@@ -46,9 +46,10 @@ export interface UniverseDeployStatus {
 }
 
 export interface UniversesUpdateAllResponse {
-  readonly id: UniverseDeployStatus
+  readonly id: string
+  readonly deployStatus: string | null
+  readonly jobStatus: string | null
 }
-
 
 /**
  * Manage CloudUniverses.
