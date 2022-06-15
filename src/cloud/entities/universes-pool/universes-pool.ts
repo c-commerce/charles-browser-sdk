@@ -35,7 +35,9 @@ export interface UniversePoolDeployStatus {
 }
 
 export interface UniversesPoolUpdateAllResponse {
-  readonly id: UniversePoolDeployStatus
+  readonly id: string
+  readonly deployStatus: string | null
+  readonly jobStatus: string | null
 }
 
 /**
