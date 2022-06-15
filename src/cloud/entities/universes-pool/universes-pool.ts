@@ -33,6 +33,11 @@ export interface UniversePoolDeployStatus {
   readonly deployStatus: string | null
   readonly jobStatus: string | null
 }
+
+export interface UniversesPoolUpdateAllResponse {
+  readonly id: UniversePoolDeployStatus
+}
+
 /**
  * Manage organizations.
  *
@@ -97,6 +102,26 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
       name: this.name,
       status: this.status,
       configuration: this.configuration
+    }
+  }
+
+  public async updateAll (): Promise<UniversesPoolUpdateAllResponse[]> {
+    try {
+      const updateAllEndpoint = `${this.endpoint}/deploy/status`
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${updateAllEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      const resource = res.data.data as UniversesPoolUpdateAllResponse[]
+      return resource
+    } catch (err) {
+      throw this.handleError(new UniversesPoolsUpdateAllError())
     }
   }
 
@@ -194,5 +219,13 @@ export class UniversesPoolsFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get universes pools.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, UniversesPoolsFetchRemoteError.prototype)
+  }
+}
+
+export class UniversesPoolsUpdateAllError extends BaseError {
+  public name = 'UniversesPoolsUpdateAllError'
+  constructor (public message: string = 'Could not update pools.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, UniversesPoolsUpdateAllError.prototype)
   }
 }
