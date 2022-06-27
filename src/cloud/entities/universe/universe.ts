@@ -51,6 +51,19 @@ export interface UniversesUpdateAllResponse {
   readonly jobStatus: string | null
 }
 
+export interface UniverseInviteUserRawPayload {
+  readonly id?: string
+  readonly email?: string
+  readonly username?: string
+  readonly password?: string
+}
+
+export interface UserResult {
+  readonly id: string
+  readonly email: string
+  readonly username: string
+}
+
 /**
  * Manage CloudUniverses.
  *
@@ -153,6 +166,49 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       return this
     } catch (err) {
       throw this.handleError(new CloudUniverseInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public async invite (payload: UniverseInviteUserRawPayload): Promise<UniverseUserRawPayload> {
+    if (this.id === null || this.id === undefined) throw new TypeError('universe.users() requires universe id to be set.')
+    const { id, username, email, password } = payload
+    if (id && (username ?? email ?? password)) {
+      // Either invite a completely new user, or an existing one
+      throw new InviteUserInvalidPayloadError()
+    }
+    try {
+      let userId
+      if (id) {
+        userId = id
+      } else {
+        const endpointUser = 'v0/users'
+        const opts = {
+          method: 'POST',
+          url: `${this.apiCarrier?.injectables?.base}/${endpointUser}`,
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          responseType: 'json'
+        }
+        const res = await this.http?.getClient()(opts)
+        const user = res.data.data as UserResult
+        userId = user.id
+      }
+      const universe = this.id
+      const endpointInvite = `v0/universes/${universe}/invite`
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${endpointInvite}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http?.getClient()(opts)
+      const resource = res.data.data as UniverseUserRawPayload
+      return UniverseUser.create(resource, this.apiCarrier as Cloud, this.http)
+    } catch (err) {
+      throw new InviteUserError()
     }
   }
 
@@ -307,5 +363,19 @@ export class UniversesUpdateAllError extends BaseError {
   constructor (public message: string = 'Could not update universes.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, UniversesUpdateAllError.prototype)
+  }
+}
+export class InviteUserInvalidPayloadError extends BaseError {
+  public name = 'InviteUserInvalidPayloadError'
+  constructor (public message: string = 'Invalid payload: either id or new user information must be provided, ot both', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, InviteUserInvalidPayloadError.prototype)
+  }
+}
+export class InviteUserError extends BaseError {
+  public name = 'InviteUserError'
+  constructor (public message: string = 'Error inviting new user', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, InviteUserError.prototype)
   }
 }

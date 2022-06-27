@@ -19,6 +19,12 @@ export interface OrganizationRawPayload {
   readonly owner?: string
 }
 
+export interface CreateOrganizationUserRawPayload {
+  readonly email: string
+  readonly password: string
+  readonly username: string
+}
+
 export interface OrganizationPayload {
   readonly id?: OrganizationRawPayload['id']
   readonly createdAt?: Date | null
@@ -29,6 +35,45 @@ export interface OrganizationPayload {
   readonly status?: OrganizationRawPayload['status']
   readonly verified?: OrganizationRawPayload['verified']
   readonly owner?: OrganizationRawPayload['owner']
+}
+
+export interface CreateOrganizationUserPayload {
+  readonly email?: CreateOrganizationUserRawPayload['email']
+  readonly password?: CreateOrganizationUserRawPayload['password']
+  readonly username?: CreateOrganizationUserRawPayload['username']
+}
+
+export interface OrganizationWithUserPayload {
+  readonly organization: OrganizationPayload
+  readonly user: CreateOrganizationUserPayload
+}
+
+export interface OrganizationUserResult {
+  readonly id: string
+  readonly email: string
+  readonly username: string
+  readonly organization: OrganizationRawPayload
+}
+
+export interface OrganizationUserRawPayload {
+  readonly id?: string
+  readonly email?: string
+  readonly username?: string
+  readonly organization?: OrganizationRawPayload
+}
+
+export interface OrganizationUserPayload {
+  readonly id: OrganizationUserRawPayload['id']
+  readonly email: OrganizationUserRawPayload['email']
+  readonly username: OrganizationUserRawPayload['username']
+  readonly organization: OrganizationUserRawPayload['organization']
+}
+
+export interface OrganizationInviteUserRawPayload {
+  readonly id?: string
+  readonly email?: string
+  readonly username?: string
+  readonly password?: string
 }
 
 /**
@@ -87,6 +132,68 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
     return new Organization({ rawPayload: payload, carrier, http, initialized: true })
   }
 
+  public async createUserWithOrg (payload: OrganizationWithUserPayload, carrier: Cloud, http: Cloud['http']): Promise<OrganizationUserPayload> {
+    const org = Organization.create(payload.organization, carrier, http)
+    const endpointCreateUserWithOrg = '/v0/users/with_org'
+    const opts = {
+      method: 'POST',
+      url: `${this.apiCarrier?.injectables?.base}/${endpointCreateUserWithOrg}`,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      responseType: 'json'
+    }
+    const res = await this.http?.getClient()(opts)
+    const organizationWithUser = res.data.data[0] as OrganizationUserPayload
+    return organizationWithUser
+  }
+
+  public async invite (payload: OrganizationInviteUserRawPayload): Promise<OrganizationUserPayload> {
+    if (this.id === null || this.id === undefined) throw new TypeError('organization.users() requires universe id to be set.')
+    const { id, username, email, password } = payload
+    if (id && (username ?? email ?? password)) {
+      // Either invite a completely new user, or an existing one
+      throw new InviteUserInvalidPayloadError()
+    }
+    try {
+      let userId
+      if (id) {
+        userId = id
+      } else {
+        const endpointUser = 'v0/users'
+        const opts = {
+          method: 'POST',
+          url: `${this.apiCarrier?.injectables?.base}/${endpointUser}`,
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          responseType: 'json'
+        }
+        const res = await this.http?.getClient()(opts)
+        const user = res.data.data as OrganizationUserRawPayload
+        userId = user.id
+      }
+      const organization = this.id
+      if (!userId) {
+        throw new InviteUserError()
+      }
+      const endpointInvite = `v0/organizations/${organization}/invite`
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${endpointInvite}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http?.getClient()(opts)
+      const organizationUser = res.data.data as OrganizationUserPayload
+      return organizationUser
+    } catch (err) {
+      throw new InviteUserError()
+    }
+  }
+
   public serialize (): OrganizationRawPayload {
     return {
       id: this.id,
@@ -138,5 +245,20 @@ export class OrganizationsFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get organizations.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, OrganizationsFetchRemoteError.prototype)
+  }
+}
+
+export class InviteUserInvalidPayloadError extends BaseError {
+  public name = 'InviteUserInvalidPayloadError'
+  constructor (public message: string = 'Invalid payload: either id or new user information must be provided, ot both', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, InviteUserInvalidPayloadError.prototype)
+  }
+}
+export class InviteUserError extends BaseError {
+  public name = 'InviteUserError'
+  constructor (public message: string = 'Error inviting new user', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, InviteUserError.prototype)
   }
 }
