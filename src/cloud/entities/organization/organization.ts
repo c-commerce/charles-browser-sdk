@@ -177,7 +177,7 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
       if (!userId) {
         throw new InviteUserError()
       }
-      const endpointInvite = `v0/organizations/${organization}/invite/${userId}`
+      const endpointInvite = `v0/organizations/${organization}/invite`
       const opts = {
         method: 'POST',
         url: `${this.apiCarrier?.injectables?.base}/${endpointInvite}`,

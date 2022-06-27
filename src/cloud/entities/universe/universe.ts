@@ -195,7 +195,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
         userId = user.id
       }
       const universe = this.id
-      const endpointInvite = `v0/universes/${universe}/invite/${userId}`
+      const endpointInvite = `v0/universes/${universe}/invite`
       const opts = {
         method: 'POST',
         url: `${this.apiCarrier?.injectables?.base}/${endpointInvite}`,
