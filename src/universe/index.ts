@@ -279,7 +279,7 @@ export interface UniverseTracks {
 }
 
 export interface UniverseProducts {
-  fetch: (options?: EntityFetchOptions) => Promise<Product[] | ProductRawPayload[] | undefined>
+  fetch: UniverseFetch<Product[], ProductRawPayload[]>
   fromJson: (products: ProductRawPayload[]) => Product[]
   toJson: (products: Product[]) => ProductRawPayload[]
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
