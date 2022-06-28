@@ -1,3 +1,10 @@
+# [4.103.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.102.0...v4.103.0) (2022-06-28)
+
+
+### Features
+
+* **universe:** add seed method to universe to add startup data after universe creation ([baef9da](https://github.com/c-commerce/charles-browser-sdk/commit/baef9daf68ef98394126a81c5276fe67f87e2b85))
+
 # [4.102.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.101.1...v4.102.0) (2022-06-27)
 
 
