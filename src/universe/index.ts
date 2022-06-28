@@ -424,6 +424,10 @@ interface BaseResourceList<T> {
   new(...args: any[]): T
 }
 
+export interface Template {
+  readonly template: string
+}
+
 type BaseResourceErrorProto<E> = new(...args: any[]) => E
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -709,6 +713,27 @@ export class Universe extends APICarrier {
     client.unsubscribe(this.defaultSubscriptions, function () {
       client.destroy()
     })
+  }
+
+  public async seed (template: Template): Promise<{ [key: string]: any } | Array<{ [key: string]: any } | undefined>> {
+    const endpointSeed = 'api/v0/universe/seeds'
+    const opts = {
+      method: 'POST',
+      url: `${this.universeBase}/${endpointSeed}`,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      responseType: 'json',
+      body: {
+        name: template.template
+      }
+    }
+    try {
+      const res = await this.http.getClient()(opts)
+      return res
+    } catch (err) {
+      throw new UniverseInsertSeedDataError()
+    }
   }
 
   public get ready (): boolean {
@@ -2517,5 +2542,13 @@ export class ImageProxyGetSessionCodeError extends BaseError {
   constructor (properties?: any) {
     super('Could not get session code from image proxy.', properties)
     Object.setPrototypeOf(this, ImageProxyGetSessionCodeError.prototype)
+  }
+}
+
+export class UniverseInsertSeedDataError extends BaseError {
+  public name = 'UniverseInsertSeedDataError'
+  constructor (properties?: any) {
+    super('Could not insert seed data from template.', properties)
+    Object.setPrototypeOf(this, UniverseInsertSeedDataError.prototype)
   }
 }
