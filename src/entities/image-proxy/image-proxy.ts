@@ -14,15 +14,15 @@ interface SessionCodeResponse {
 
 export interface ImageProxyResizeRequest {
   url: string
-  resize: {
+  resize?: {
     type: 'fill' | 'fit' | 'auto'
     height: number
     width: number
   }
-  dpr: number
-  format: 'png' | 'jpeg'
-  background: string
-  gravity: 'center' | 'north' | 'south' | 'east' | 'west' | 'north_east' | 'north_west' | 'south_east' | 'south_west'| 'smart'
+  dpr?: number
+  format?: 'png' | 'jpeg'
+  background?: string
+  gravity?: 'center' | 'north' | 'south' | 'east' | 'west' | 'north_east' | 'north_west' | 'south_east' | 'south_west'| 'smart'
 }
 
 export interface ImageProxyRawPayload {
