@@ -154,7 +154,7 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
     urn: string
     expires: number
     header: { [key: string]: string }
-  } | boolean > {
+  }> {
     if (!this.configuration || !this.id) {
       throw new ImageProxySessionCodeError('Image proxy should have id & configuration')
     }
