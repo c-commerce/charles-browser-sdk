@@ -1,3 +1,11 @@
+# [4.104.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.103.0...v4.104.0) (2022-07-03)
+
+
+### Features
+
+* **image-proxy:** remove unused type ([b73e2e3](https://github.com/c-commerce/charles-browser-sdk/commit/b73e2e39f0817ca6b2cb759bb7873c0661af257d))
+* **image-proxy:** update resize request types ([9c3d9c9](https://github.com/c-commerce/charles-browser-sdk/commit/9c3d9c993b72792f5d29a9e0e8b2cfd4bef0fb56))
+
 # [4.103.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.102.0...v4.103.0) (2022-06-28)
 
 
