@@ -1,3 +1,10 @@
+## [4.104.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.104.0...v4.104.1) (2022-07-07)
+
+
+### Bug Fixes
+
+* **search:** query string format for search with more than 20 categories ([eeee9b2](https://github.com/c-commerce/charles-browser-sdk/commit/eeee9b28b3faaf247026e91044ef88e44a62b929))
+
 # [4.104.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.103.0...v4.104.0) (2022-07-03)
 
 
