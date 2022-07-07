@@ -2449,7 +2449,7 @@ export class Universe extends APICarrier {
       const res = await this.http.getClient().get(`${this.universeBase}/${endpoint}/search${qs.stringify({
         q,
         ...(query ?? {})
-      }, { addQueryPrefix: true })}`, opts)
+      }, { addQueryPrefix: true, arrayFormat: 'brackets' })}`, opts)
       return res.data.data
     } catch (err) {
       if (axios.isCancel(err)) {
