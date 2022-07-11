@@ -12,10 +12,21 @@ export interface UrlShortenerShortendedURL {
   readonly link: string
 }
 
+export interface UrlShortenerSubdomain {
+  readonly domain: string
+  readonly subdomain: string
+  readonly organization: string
+  readonly profile: object
+}
+
 export interface UrlShortenerShortenRequest {
   uri: string
   personId?: string
   feedId?: string
+}
+
+export interface UrlShortenerCreateSubdomainRequest {
+  name: string
 }
 
 interface UrlShortenerDomain {
@@ -176,7 +187,7 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
     try {
       const opts = {
         method: 'GET',
-        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/domains`,
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/subdomains`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
@@ -211,6 +222,28 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
       return response.data.data[0] as UrlShortenerShortendedURL
     } catch (err) {
       throw new UrlShortenerShortenError(undefined, { error: err })
+    }
+  }
+
+  public async createSubdomain (request: UrlShortenerCreateSubdomainRequest): Promise<UrlShortenerSubdomain | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Create subdomain requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id}/subdomains`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: request,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      return response.data.data[0] as UrlShortenerSubdomain
+    } catch (err) {
+      throw new UrlShortenerCreateSubdomainRemoteError(undefined, { error: err })
     }
   }
 }
@@ -249,5 +282,13 @@ export class UrlShortenerShortenError extends BaseError {
   constructor (public message: string = 'Could not shorten URL.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, UrlShortenerShortenError.prototype)
+  }
+}
+
+export class UrlShortenerCreateSubdomainRemoteError extends BaseError {
+  public name = 'UrlShortenerCreateSubdomainRemoteError'
+  constructor (public message: string = 'Could not create subdomain.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, UrlShortenerCreateSubdomainRemoteError.prototype)
   }
 }
