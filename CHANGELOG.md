@@ -1,3 +1,10 @@
+# [4.105.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.104.1...v4.105.0) (2022-07-11)
+
+
+### Features
+
+* **shortener:** create subdomain ([916dee7](https://github.com/c-commerce/charles-browser-sdk/commit/916dee7406b9e5a5772e546085bec76c14ebc813))
+
 ## [4.104.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.104.0...v4.104.1) (2022-07-07)
 
 
