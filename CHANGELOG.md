@@ -1,3 +1,10 @@
+## [4.106.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.106.0...v4.106.1) (2022-07-14)
+
+
+### Bug Fixes
+
+* **seed endpoint:** fixed requests opts to send data ([2a3c8d3](https://github.com/c-commerce/charles-browser-sdk/commit/2a3c8d30ae76a226c2973f5feb2ffb4c66e26849))
+
 # [4.106.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.105.0...v4.106.0) (2022-07-14)
 
 
