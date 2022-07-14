@@ -726,7 +726,7 @@ export class Universe extends APICarrier {
         'Content-Type': 'application/json; charset=utf-8'
       },
       responseType: 'json',
-      body: {
+      data: {
         name: template.template
       }
     }
