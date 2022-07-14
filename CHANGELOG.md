@@ -1,3 +1,10 @@
+# [4.106.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.105.0...v4.106.0) (2022-07-14)
+
+
+### Features
+
+* **entity:** add new CORS entity ([7addcad](https://github.com/c-commerce/charles-browser-sdk/commit/7addcadd0fc89d3fdde3fa02c49dc0d65e492fde))
+
 # [4.105.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.104.1...v4.105.0) (2022-07-11)
 
 
