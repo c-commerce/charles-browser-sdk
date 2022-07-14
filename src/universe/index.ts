@@ -79,6 +79,8 @@ import * as formProvider from '../entities/form-provider/form-provider'
 
 import * as formInstance from '../entities/form-instance/form-instance'
 
+import * as corsOrigin from '../entities/cors-origin/cors-origin'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -978,6 +980,10 @@ export class Universe extends APICarrier {
 
   public formInstance (payload: formInstance.FormInstanceRawPayload): formInstance.FormInstance {
     return formInstance.FormInstance.create(payload, this, this.http)
+  }
+
+  public corsOrigin (payload: corsOrigin.CorsOriginRawPayload): corsOrigin.CorsOrigin {
+    return corsOrigin.CorsOrigin.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -2332,6 +2338,10 @@ export class Universe extends APICarrier {
 
   public formInstancesList (): formInstance.FormInstances {
     return new formInstance.FormInstances({ universe: this, http: this.http })
+  }
+
+  public corsOriginsList (): corsOrigin.CorsOrigins {
+    return new corsOrigin.CorsOrigins({ universe: this, http: this.http })
   }
 
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
