@@ -1,3 +1,10 @@
+# [4.107.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.106.1...v4.107.0) (2022-07-15)
+
+
+### Features
+
+* **custom-property:** Extended entity with "disabled" param ([afe6015](https://github.com/c-commerce/charles-browser-sdk/commit/afe6015473997d9bb1ca3ae5bb1e4acbfe9c096c))
+
 ## [4.106.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.106.0...v4.106.1) (2022-07-14)
 
 
