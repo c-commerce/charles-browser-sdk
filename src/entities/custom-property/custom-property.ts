@@ -42,6 +42,7 @@ export interface CustomPropertyRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
+  readonly disabled?: boolean
   readonly active?: boolean
   readonly name?: string
   readonly object?: string
@@ -73,6 +74,7 @@ export interface CustomPropertyPayload {
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
   readonly deleted?: CustomPropertyRawPayload['deleted']
+  readonly disabled?: CustomPropertyRawPayload['disabled']
   readonly active?: CustomPropertyRawPayload['active']
   readonly name?: CustomPropertyRawPayload['name']
   readonly object?: CustomPropertyRawPayload['object']
@@ -107,6 +109,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
   public createdAt?: CustomPropertyPayload['createdAt']
   public updatedAt?: CustomPropertyPayload['updatedAt']
   public deleted?: CustomPropertyPayload['deleted']
+  public disabled?: CustomPropertyPayload['disabled']
   public active?: CustomPropertyPayload['active']
   public name?: CustomPropertyPayload['name']
   public object?: CustomPropertyPayload['object']
@@ -142,6 +145,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.deleted = rawPayload.deleted ?? false
+    this.disabled = rawPayload.disabled ?? false
     this.active = rawPayload.active ?? true
     this.name = rawPayload.name
     this.object = rawPayload.object
@@ -169,6 +173,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
+      disabled: this.disabled ?? false,
       active: this.active ?? true,
       name: this.name,
       object: this.object,
