@@ -274,30 +274,6 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
   }
 
   /**
-   * Create a copy of the message subscription
-   */
-  public async duplicate (overridePayload: MessageSubscriptionRawPayload = {}): Promise<MessageSubscription> {
-    try {
-      const duplicatePayload = {
-        ...this.serialize(),
-        id: undefined,
-        created_at: undefined,
-        updated_at: undefined,
-        deleted: undefined,
-        active: undefined,
-        ...overridePayload
-      }
-
-      const subscription = MessageSubscription.create(duplicatePayload, this.universe, this.http)
-      await subscription.post()
-
-      return subscription
-    } catch (err) {
-      throw this.handleError(new MessageSubscriptionDuplicateError(undefined, { error: err }))
-    }
-  }
-
-  /**
  * Get a list of all message subscription subscriber instances
  */
   public async subscribers (options?: EntityFetchOptions): Promise<MessageSubscriptionInstanceRawPayload[]> {
