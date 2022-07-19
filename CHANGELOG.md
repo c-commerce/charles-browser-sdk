@@ -1,3 +1,10 @@
+## [4.107.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.107.0...v4.107.1) (2022-07-19)
+
+
+### Bug Fixes
+
+* **universe.ts:** move seed method to universe entity under cloud ([dfb9b1a](https://github.com/c-commerce/charles-browser-sdk/commit/dfb9b1a6f28fb181b8729584d9dabbd85cf065d4))
+
 # [4.107.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.106.1...v4.107.0) (2022-07-15)
 
 
