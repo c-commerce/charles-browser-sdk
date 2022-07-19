@@ -2,7 +2,7 @@ import typeOf from 'just-typeof'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import universeTopics from '../../universe/topics'
 import * as realtime from '../../realtime'
-import { BaseError } from '../../errors'
+import { BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import {
   Reply, Message, MessageRawPayload,
   MessageRawPayloadAttachment, MessageReplyContentOptions, ReplyResponse, ReplyOptions
@@ -250,7 +250,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
 
       return this
     } catch (err) {
-      throw this.handleError(new FeedInitializationError(undefined, { error: err }))
+      throw this.handleError(new FeedInitializationError(err))
     }
   }
 
@@ -396,7 +396,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
 
       return Array.from(this.eventsMap.values())
     } catch (err) {
-      throw this.handleError(new FeedFetchLatestEventsRemoteError(undefined, { error: err }))
+      throw this.handleError(new FeedFetchLatestEventsRemoteError(err))
     }
   }
 
@@ -423,7 +423,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
 
       return Array.from(this.eventsMap.values())
     } catch (err) {
-      throw this.handleError(new FeedFetchEventsRemoteError(undefined, { error: err }))
+      throw this.handleError(new FeedFetchEventsRemoteError(err))
     }
   }
 
@@ -444,7 +444,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
 
       return Event.create(event, this, this.universe, this.http)
     } catch (err) {
-      throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err }))
+      throw this.handleError(new FeedCreateEventRemoteError(err))
     }
   }
 
@@ -464,7 +464,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
 
       return Event.create(comment, this, this.universe, this.http)
     } catch (err) {
-      throw this.handleError(new FeedCreateEventRemoteError(undefined, { error: err }))
+      throw this.handleError(new FeedCreateEventRemoteError(err))
     }
   }
 
@@ -635,74 +635,81 @@ export class FeedReply {
 
       return Event.create(res.data.data[0], this.feed, this.universe, this.http)
     } catch (err) {
-      throw new FeedReplyError(undefined, BaseError.handleCommonProperties(err))
+      throw new FeedReplyError(err)
     }
   }
 }
 
-export class FeedReplyError extends BaseError {
+export class FeedReplyError extends BaseErrorV2 {
   public name = 'FeedReplyError'
+  public message = 'Could not send feed reply unexpectedly.'
   constructor (
-    public message: string = 'Could not send feed reply unexpectedly.',
-    properties?: any
+    err: Error | unknown,
+    props? : BaseErrorV2Properties
   ) {
-    super(message, properties)
+    super(err as Error, props)
     Object.setPrototypeOf(this, FeedReplyError.prototype)
   }
 }
 
-export class FeedInitializationError extends BaseError {
+export class FeedInitializationError extends BaseErrorV2 {
   public name = 'FeedInitializationError'
-  constructor (public message: string = 'Could not initialize feed.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not initialize feed.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, FeedInitializationError.prototype)
   }
 }
 
-export class FeedFetchRemoteError extends BaseError {
+export class FeedFetchRemoteError extends BaseErrorV2 {
   public name = 'FeedFetchRemoteError'
-  constructor (public message: string = 'Could not get feed.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get feed.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, FeedFetchRemoteError.prototype)
   }
 }
 
-export class FeedFetchCountRemoteError extends BaseError {
+export class FeedFetchCountRemoteError extends BaseErrorV2 {
   public name = 'RemoteError '
-  constructor (public message: string = 'Could not get feed count.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get feed count.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, FeedFetchCountRemoteError.prototype)
   }
 }
 
-export class FeedFetchLatestEventsRemoteError extends BaseError {
+export class FeedFetchLatestEventsRemoteError extends BaseErrorV2 {
   public name = 'FeedFetchLatestEventsRemoteError'
-  constructor (public message: string = 'Could not get latest feed events.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get latest feed events.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, FeedFetchLatestEventsRemoteError.prototype)
   }
 }
 
-export class FeedFetchEventsRemoteError extends BaseError {
+export class FeedFetchEventsRemoteError extends BaseErrorV2 {
   public name = 'FeedFetchEventsRemoteError'
-  constructor (public message: string = 'Could not get feed events.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get feed events.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, FeedFetchEventsRemoteError.prototype)
   }
 }
 
-export class FeedCreateEventRemoteError extends BaseError {
+export class FeedCreateEventRemoteError extends BaseErrorV2 {
   public name = 'FeedCreateEventRemoteError'
-  constructor (public message: string = 'Could not create feed event.', properties?: any) {
-    super(message, properties)
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, { message: 'Could not create feed event.', ...props })
     Object.setPrototypeOf(this, FeedCreateEventRemoteError.prototype)
   }
 }
 
-export class FeedsFetchRemoteError extends BaseError {
+export class FeedsFetchRemoteError extends BaseErrorV2 {
   public name = 'FeedsFetchRemoteError'
-  constructor (public message: string = 'Could not get feeds.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get feeds.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, FeedsFetchRemoteError.prototype)
   }
 }
