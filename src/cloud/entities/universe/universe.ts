@@ -64,10 +64,6 @@ export interface UserResult {
   readonly username: string
 }
 
-export interface Template {
-  readonly template: string
-}
-
 /**
  * Manage CloudUniverses.
  *
@@ -243,28 +239,6 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
-  public async seed (template: Template): Promise<{ [key: string]: any } | Array<{ [key: string]: any } | undefined>> {
-    if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
-    const endpointSeed = 'v0/universe/'
-    const opts = {
-      method: 'POST',
-      url: `${this.apiCarrier?.injectables?.base}/${endpointSeed}${this.id}/seed`,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      responseType: 'json',
-      data: {
-        name: template.template
-      }
-    }
-    try {
-      const res = await this.http.getClient()(opts)
-      return res
-    } catch (err) {
-      throw new UniverseInsertSeedDataError()
-    }
-  }
-
   public async patchDeployFromRelease (releaseId: string): Promise<CloudUniverse> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
     if (releaseId === null || releaseId === undefined) throw new TypeError('universe.deploy requires release id to be set.')
@@ -403,13 +377,5 @@ export class InviteUserError extends BaseError {
   constructor (public message: string = 'Error inviting new user', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, InviteUserError.prototype)
-  }
-}
-
-export class UniverseInsertSeedDataError extends BaseError {
-  public name = 'UniverseInsertSeedDataError'
-  constructor (properties?: any) {
-    super('Could not insert seed data from template.', properties)
-    Object.setPrototypeOf(this, UniverseInsertSeedDataError.prototype)
   }
 }
