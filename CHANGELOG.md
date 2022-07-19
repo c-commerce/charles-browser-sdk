@@ -1,3 +1,10 @@
+## [4.107.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.107.1...v4.107.2) (2022-07-19)
+
+
+### Bug Fixes
+
+* **universe.ts:** revert breaking change to universe.ts ([1a5e31a](https://github.com/c-commerce/charles-browser-sdk/commit/1a5e31aaac305b07f184baaf66ea3a84fb96cdad))
+
 ## [4.107.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.107.0...v4.107.1) (2022-07-19)
 
 
