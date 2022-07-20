@@ -12,7 +12,6 @@ import { Person, PersonRawPayload } from '../../entities/person'
 import { Order, OrderRawPayload } from '../../entities/order'
 import { StaffRawPayload } from '../../entities/staff'
 import { Event, EventRawPayload, IEventType, IEventResourceType } from './event'
-import { Comment, CommentRawPayload } from './comment'
 import { UniverseEntity, EntitiesList, EntityFetchOptions } from '../../entities/_base'
 
 export interface FeedOptions {
@@ -699,6 +698,7 @@ export class FeedFetchEventsRemoteError extends BaseErrorV2 {
 
 export class FeedCreateEventRemoteError extends BaseErrorV2 {
   public name = 'FeedCreateEventRemoteError'
+  public message = 'Could not create feed event.'
   constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
     super(err as Error, { message: 'Could not create feed event.', ...props })
     Object.setPrototypeOf(this, FeedCreateEventRemoteError.prototype)
