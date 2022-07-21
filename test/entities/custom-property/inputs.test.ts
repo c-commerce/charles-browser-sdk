@@ -6,7 +6,7 @@ import {
   DATETIME,
   DATETIMERANGE,
   LARGETEXTINPUT,
-  URL,
+  URLINPUT,
   MULTISELECT,
   NUMBERINPUT,
   NUMBERWITHUNITINPUT,
@@ -27,7 +27,7 @@ describe('Custom property: Inputs helper:', () => {
     expect(DATETIMERANGE.serialize).toBeInstanceOf(Function)
     expect(DATETIME.serialize).toBeInstanceOf(Function)
     expect(LARGETEXTINPUT.serialize).toBeInstanceOf(Function)
-    expect(URL.serialize).toBeInstanceOf(Function)
+    expect(URLINPUT.serialize).toBeInstanceOf(Function)
     expect(MULTISELECT.serialize).toBeInstanceOf(Function)
     expect(NUMBERINPUT.serialize).toBeInstanceOf(Function)
     expect(NUMBERWITHUNITINPUT.serialize).toBeInstanceOf(Function)
@@ -135,9 +135,9 @@ describe('Custom property: Inputs helper:', () => {
     expect(LARGETEXTINPUT.serialize(null)).toBeNull()
   })
 
-  // URL
-  it('Largetextinput to handle null', async () => {
-    expect(URL.serialize(null)).toBeNull()
+  // URLINPUT
+  it('URLinput to handle null', async () => {
+    expect(URLINPUT.serialize(null)).toBeNull()
   })
 
   // MULTISELECT

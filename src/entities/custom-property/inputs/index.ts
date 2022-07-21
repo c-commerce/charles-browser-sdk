@@ -100,7 +100,7 @@ export const LARGETEXTINPUT = {
   }
 }
 
-export const URL = {
+export const URLINPUT = {
   serialize (input?: string | null): string | null {
     return input ?? null
   }
