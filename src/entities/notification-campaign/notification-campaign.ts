@@ -329,7 +329,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async publish(options?: EntityPostOptions): Promise<NotificationCampaign> {
+  public async publish (options?: EntityPostOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
 
     try {
@@ -372,6 +372,30 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       return this.deserialize(data)
     } catch (err) {
       throw new NotificationCampaignContinueError(undefined, { error: err })
+    }
+  }
+
+  /**
+   * Pauses a campaigns publishing.
+   */
+  public async pause (options?: EntityFetchOptions): Promise<NotificationCampaign> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign pause requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/pause${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data[0] as NotificationCampaignRawPayload
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignPauseError(undefined, { error: err })
     }
   }
 
@@ -524,7 +548,6 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-
   /**
    * Deletes all static entries from a specific campaign that are marked as invalid. Marking happens during the campaign armin process.
    * Additionally deletes all invalid channel users that are affected.
@@ -532,13 +555,13 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
    * @returns Promise<number>
    * @throws {NotificationCampaignDeleteStaticEntriesRemoteError}
    */
-  public async deleteInvalidEntries(options?: EntityDeleteOptions): Promise<number> {
+  public async deleteInvalidEntries (options?: EntityDeleteOptions): Promise<number> {
     if (this.id === null || this.id === undefined) throw new TypeError('NotificationCampaign.deleteInvalidEntries requires id to be set.')
 
     try {
       const opts = {
         method: 'DELETE',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/recipients/static_entries/invalid${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/recipients/static_entries/invalid${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
@@ -627,6 +650,14 @@ export class NotificationCampaignContinueError extends BaseError {
   constructor (public message: string = 'Could not continue notification campaign', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignContinueError.prototype)
+  }
+}
+
+export class NotificationCampaignPauseError extends BaseError {
+  public name = 'NotificationCampaignPauseError'
+  constructor (public message: string = 'Could not pause notification campaign.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignPauseError.prototype)
   }
 }
 
