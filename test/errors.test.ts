@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv'
+import type { AxiosError, AxiosResponse } from 'axios'
 import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../src/errors'
 
 dotenv.config()
@@ -19,14 +20,54 @@ describe('SDK: errors', () => {
       }
     }
 
-    const v2MockError = new V2MockErrorClass(new Error('some random error message'), { message: 'some random error message v2', key: 'random.error.key.v2' })
+    {
+      const err = new Error('some random error message') as AxiosError
 
-    expect(v2MockError).toBeDefined()
-    expect(v2MockError.name).toBeDefined()
-    expect(v2MockError.message).toBeDefined()
-    expect(v2MockError.message).toEqual('some random error message')
-    expect(v2MockError.properties.message).toEqual('some random error message v2')
-    expect(v2MockError.properties.key).toEqual('random.error.key.v2')
-    expect(v2MockError.hasHumanReadableAPIErrorMessage).toBeTruthy()
+      err.code = '500'
+      err.response = {
+        data: {
+
+        }
+      } as AxiosResponse
+
+      const v2MockError = new V2MockErrorClass(err, { any: 'some random error message v2', prop: 'random.error.key.v2' })
+
+      expect(v2MockError).toBeDefined()
+      expect(v2MockError.name).toBeDefined()
+      expect(v2MockError.message).toBeDefined()
+      expect(v2MockError.message).toEqual('some random error message')
+      expect(v2MockError.properties.any).toEqual('some random error message v2')
+      expect(v2MockError.properties.prop).toEqual('random.error.key.v2')
+
+      expect(v2MockError.hasHumanReadableAPIErrorMessage()).toBe(false)
+      expect(v2MockError.humanReadableAPIErrorMessage).toBe(null)
+    }
+
+    {
+      const err = new Error('some random error message') as AxiosError
+
+      err.code = '500'
+      err.response = {
+        data: {
+          errors: [
+            {
+              message: 'Some API message'
+            }
+          ]
+        }
+      } as AxiosResponse
+
+      const v2MockError = new V2MockErrorClass(err, { any: 'some random error message v2', prop: 'random.error.key.v2' })
+
+      expect(v2MockError).toBeDefined()
+      expect(v2MockError.name).toBeDefined()
+      expect(v2MockError.message).toBeDefined()
+      expect(v2MockError.message).toEqual('some random error message')
+      expect(v2MockError.properties.any).toEqual('some random error message v2')
+      expect(v2MockError.properties.prop).toEqual('random.error.key.v2')
+
+      expect(v2MockError.hasHumanReadableAPIErrorMessage()).toBe(true)
+      expect(v2MockError.humanReadableAPIErrorMessage).toBe("Some API message")
+    }
   })
 })
