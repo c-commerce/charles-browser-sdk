@@ -1,3 +1,15 @@
+# [4.108.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.107.2...v4.108.0) (2022-07-27)
+
+
+### Bug Fixes
+
+* **BaseErrorV2:** handle boolean accessor correctly, add Axios tests ([955d7a2](https://github.com/c-commerce/charles-browser-sdk/commit/955d7a26f74cb2a3f8e9c8c49759e34d2ee25c3a))
+
+
+### Features
+
+* **errors:** better generalize api error messages ([96e5c26](https://github.com/c-commerce/charles-browser-sdk/commit/96e5c265d56f2b5c81cb79da4bd44a7185f5b2f0))
+
 ## [4.107.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.107.1...v4.107.2) (2022-07-19)
 
 
