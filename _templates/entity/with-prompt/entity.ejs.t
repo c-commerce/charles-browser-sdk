@@ -17,7 +17,7 @@ to: "<%= 'src/entities/' + h.inflection.dasherize(singularizedName, true) + '/' 
 %>
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions, EntitiesList } from '../_base'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 
 export interface <%= className %>Options extends UniverseEntityOptions {
   rawPayload?: <%= className %>RawPayload
@@ -150,26 +150,29 @@ export class <%= classListName %> extends EntitiesList<<%= className %>, <%= cla
   }
 }
 
-export class <%= className %>InitializationError extends BaseError {
+export class <%= className %>InitializationError extends BaseErrorV2 {
   public name = '<%= className %>InitializationError'
-  constructor(public message: string = 'Could not initialize <%= singularizedName %>.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not initialize <%= singularizedName %>.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, <%= className %>InitializationError.prototype)
   }
 }
 
-export class <%= className %>FetchRemoteError extends BaseError {
+export class <%= className %>FetchRemoteError extends BaseErrorV2 {
   public name = '<%= className %>FetchRemoteError'
-  constructor(public message: string = 'Could not get <%= singularizedName %>.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get <%= singularizedName %>.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, <%= className %>FetchRemoteError.prototype)
   }
 }
 
-export class <%= classListName %>FetchRemoteError extends BaseError {
+export class <%= classListName %>FetchRemoteError extends BaseErrorV2 {
   public name = '<%= classListName %>FetchRemoteError'
-  constructor(public message: string = 'Could not get <%= pluralizedName %>.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get <%= pluralizedName %>.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, <%= classListName %>FetchRemoteError.prototype)
   }
 }

@@ -1,7 +1,9 @@
-import { BaseError } from './base-error'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from './base-error'
 
 export {
-  BaseError
+  BaseError,
+  BaseErrorV2,
+  BaseErrorV2Properties
 }
 
 export class AuthenticationFailed extends BaseError {

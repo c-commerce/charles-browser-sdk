@@ -1,10 +1,11 @@
-import Entity, { UniverseEntityOptions, EntityRawPayload, EntityFetchOptions, UniverseEntity } from '../_base'
+import { UniverseEntityOptions, EntityRawPayload, EntityFetchOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import * as messageTemplate from '../message-template/message-template'
 import * as event from '../../eventing/feeds/event'
 import * as feed from '../../eventing/feeds/feed'
-import { BaseError } from '../../errors'
+import { BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import qs from 'qs'
+import type { AxiosError } from 'axios'
 
 export interface ChannelProfile {
   is_verified: boolean
@@ -179,7 +180,11 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
 
       return event.Event.create(response.data.data[0], _feed, this.universe, this.http)
     } catch (err) {
-      throw new PersonChannelUserMessageTemplateSendError(undefined, { error: err })
+      const error = err as AxiosError
+      if (error.response?.status === 403) {
+        throw new PersonChannelUserMessageTemplateSendForbiddenError(error)
+      }
+      throw new PersonChannelUserMessageTemplateSendError(err)
     }
   }
 
@@ -197,7 +202,7 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
       const resource = res.data.data[0] as ChannelUserRawPayload
       return ChannelUser.create(resource, this.universe, this.http)
     } catch (err) {
-      throw new ChannelUserVerifyRemoteError(undefined, { error: err })
+      throw new ChannelUserVerifyRemoteError(err)
     }
   }
 
@@ -215,29 +220,43 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
       const resource = res.data.data[0] as ChannelUserRawPayload
       return ChannelUser.create(resource, this.universe, this.http)
     } catch (err) {
-      throw new ChannelUserVerifyRemoteError(undefined, { error: err })
+      throw new ChannelUserVerifyRemoteError(err)
     }
   }
 }
 
-export class PersonChannelUserMessageTemplateSendError extends BaseError {
+export class PersonChannelUserMessageTemplateSendError extends BaseErrorV2 {
   public name = 'PersonChannelUserMessageTemplateSendError'
-  constructor (public message: string = 'Could not send message via message template unexpectedl.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not send message via message template unexpectedly.'
+
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, PersonChannelUserMessageTemplateSendError.prototype)
   }
 }
-export class ChannelUserVerifyRemoteError extends BaseError {
+export class PersonChannelUserMessageTemplateSendForbiddenError extends BaseErrorV2 {
+  public name = 'PersonChannelUserMessageTemplateSendForbiddenError'
+  public message = 'You are not allowed to send notifications.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, PersonChannelUserMessageTemplateSendForbiddenError.prototype)
+  }
+}
+export class ChannelUserVerifyRemoteError extends BaseErrorV2 {
   public name = 'ChannelUserVerifyRemoteError'
-  constructor (public message: string = 'Could not verify channel user unexpectedly', properties?: any) {
-    super(message, properties)
+  public message = 'Could not verify channel user unexpectedly.'
+
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, ChannelUserVerifyRemoteError.prototype)
   }
 }
-
-export class ChannelUserDeleteError extends BaseError {
+export class ChannelUserDeleteError extends BaseErrorV2 {
   public name = 'ChannelUserDeleteError'
-  constructor (public message: string = 'Could not delete channel user unexpectedly', properties?: any) {
-    super(message, properties)
+  public message = 'Could not delete channel user unexpectedly.'
+
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, ChannelUserDeleteError.prototype)
   }
 }
