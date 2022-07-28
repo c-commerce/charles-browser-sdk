@@ -163,6 +163,48 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
 
     return await this.universe.apiKeysList().fetch(opts)
   }
+
+  public async syncFlows (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('AutomationEngine syncFlows requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/flows`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new AutomationEngineFetchRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async fetchTriggerableFlows (): Promise<unknown[]> {
+    if (this.id === null || this.id === undefined) throw new TypeError('AutomationEngine fetchTriggerableFlows requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/flows`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data
+    } catch (err) {
+      throw this.handleError(new AutomationEngineFetchRemoteError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
