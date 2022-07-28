@@ -49,6 +49,36 @@ export interface AutomationEnginePayload {
 
 }
 
+export interface TriggerFlowProps {
+  feed: {
+    id: string
+  }
+  channel_user: {
+    person: string
+    external_person_reference_id: string
+  }
+  trigger_id: string
+  connector_id: string
+}
+export interface TriggerableFlow {
+  createdAt: string
+  firstMessageContent: string
+  flowEmoji: string
+  flowId: string
+  flowName: string
+  flowUri: string
+  triggerNodeId: string
+}
+export interface FlowbuilderConnector {
+  id: string
+  type: string
+  vendorType: string
+}
+export interface TriggerableFlowsResponse {
+  flows: TriggerableFlow[]
+  connectors: FlowbuilderConnector[]
+}
+
 /**
  * Manage automation_engines.
  *
@@ -164,7 +194,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
     return await this.universe.apiKeysList().fetch(opts)
   }
 
-  public async syncFlows (): Promise<number | undefined> {
+  public async syncFlows (): Promise<number> {
     if (this.id === null || this.id === undefined) throw new TypeError('AutomationEngine syncFlows requires id to be set.')
 
     try {
@@ -185,7 +215,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
     }
   }
 
-  public async fetchTriggerableFlows (): Promise<unknown[]> {
+  public async fetchTriggerableFlows (): Promise<TriggerableFlowsResponse[]> {
     if (this.id === null || this.id === undefined) throw new TypeError('AutomationEngine fetchTriggerableFlows requires id to be set.')
 
     try {
@@ -201,6 +231,28 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
 
       const res = await this.http?.getClient()(opts)
       return res.data
+    } catch (err) {
+      throw this.handleError(new AutomationEngineFetchRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async triggerFlow (flowId: string, data: TriggerFlowProps): Promise<number> {
+    if (this.id === null || this.id === undefined) throw new TypeError('AutomationEngine triggerFlow requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/flows/${flowId}/trigger`,
+        data,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
     } catch (err) {
       throw this.handleError(new AutomationEngineFetchRemoteError(undefined, { error: err }))
     }
