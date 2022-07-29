@@ -1,3 +1,11 @@
+# [4.109.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.108.0...v4.109.0) (2022-07-29)
+
+
+### Features
+
+* **flows:** add fetching and syncing flows ([5f66dbb](https://github.com/c-commerce/charles-browser-sdk/commit/5f66dbbad40c994de66871bef3ec137aa8f47513))
+* **flows:** add trigger flow ([6e9e3a5](https://github.com/c-commerce/charles-browser-sdk/commit/6e9e3a5db7c2c038a6585ae529b0f5bbf4a5730c))
+
 # [4.108.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.107.2...v4.108.0) (2022-07-27)
 
 
