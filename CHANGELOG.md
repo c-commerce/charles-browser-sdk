@@ -1,3 +1,10 @@
+# [4.110.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.109.0...v4.110.0) (2022-08-01)
+
+
+### Features
+
+* **agent trigger:** return data on sync flows ([e5690a8](https://github.com/c-commerce/charles-browser-sdk/commit/e5690a851465a49392db9c58a518ae7bd677bd28))
+
 # [4.109.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.108.0...v4.109.0) (2022-07-29)
 
 
