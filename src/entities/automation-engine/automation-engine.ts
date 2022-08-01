@@ -209,7 +209,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
       }
 
       const res = await this.http?.getClient()(opts)
-      return res.status
+      return res.data
     } catch (err) {
       throw this.handleError(new AutomationEngineFetchRemoteError(undefined, { error: err }))
     }
