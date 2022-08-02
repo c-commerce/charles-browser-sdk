@@ -1,3 +1,11 @@
+# [4.111.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.110.0...v4.111.0) (2022-08-02)
+
+
+### Features
+
+* **universe.ts:** add support for deploying multiple universes ([6e60837](https://github.com/c-commerce/charles-browser-sdk/commit/6e608373a89eb67b401b384a13cda7d625867761))
+* **universe.ts:** supprot for bulk updatge ([1e81656](https://github.com/c-commerce/charles-browser-sdk/commit/1e81656cbadb1d5fc17f23767098a65a22a457cb))
+
 # [4.110.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.109.0...v4.110.0) (2022-08-01)
 
 
