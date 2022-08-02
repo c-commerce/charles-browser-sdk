@@ -291,7 +291,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
-  public async deploy (ids: [string] | null): Promise<string> {
+  public async deploy (ids?: [string]): Promise<string> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
     let deployEndpoint = `api/v0/universes/${this.id}/deploy/v2`
     if (ids) {
