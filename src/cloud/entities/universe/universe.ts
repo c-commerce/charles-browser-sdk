@@ -11,6 +11,14 @@ export interface CloudUniverseOptions extends EntityOptions {
   rawPayload?: CloudUniverseRawPayload
 }
 
+export interface DeployOptions {
+  readonly method: string
+  readonly url: string
+  readonly headers: Object
+  readonly responseType: string
+  data?: [string]
+}
+
 export interface CloudUniverseRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -283,17 +291,23 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
-  public async deploy (): Promise<string> {
+  public async deploy (ids: [string] | null): Promise<string> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
-    const deployEndpoint = `api/v0/universes/${this.id}/deploy/v2`
+    let deployEndpoint = `api/v0/universes/${this.id}/deploy/v2`
+    if (ids) {
+      deployEndpoint = 'api/v0/universes/deploy/v2'
+    }
     try {
-      const opts = {
+      const opts: DeployOptions = {
         method: 'PUT',
         url: `${this.apiCarrier?.injectables?.base}/${deployEndpoint}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
+      }
+      if (ids) {
+        opts.data = ids
       }
 
       const res = await this.http?.getClient()(opts)
