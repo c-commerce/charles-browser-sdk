@@ -1,3 +1,10 @@
+## [4.111.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.111.0...v4.111.1) (2022-08-05)
+
+
+### Bug Fixes
+
+* **ContactList#preview:** add missing timeout opts ([9506726](https://github.com/c-commerce/charles-browser-sdk/commit/9506726b01ed6ecd323efdc040ce0d0c18b81401))
+
 # [4.111.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.110.0...v4.111.0) (2022-08-02)
 
 
