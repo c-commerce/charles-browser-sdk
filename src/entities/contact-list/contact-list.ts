@@ -32,8 +32,8 @@ export type ICartStatusType = IContactListSplitTypeEnum.equally | IContactListSp
 
 export interface ContactListSplitConfiguration {
   readonly configuration?: {
-    type?: ICartStatusType,
-    amount?: number 
+    type?: ICartStatusType
+    amount?: number
   } | object | null
 }
 
@@ -57,7 +57,7 @@ export interface ContactListRawPayload {
   }
   readonly static_entries?: ContactListStaticEntryRawPayload[]
   readonly labels?: object
-  readonly parent ?: string
+  readonly parent?: string
 }
 
 export interface ContactListPayload {
@@ -211,7 +211,8 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        responseType: 'json'
+        responseType: 'json',
+        timeout: options?.timeout ?? 10000
       }
 
       const res = await this.http?.getClient()(opts)
@@ -236,7 +237,8 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     try {
       const opts = {
         method: 'HEAD',
-        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`
+        url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        timeout: options?.timeout ?? 10000
       }
 
       const res = await this.http.getClient()(opts)
@@ -252,7 +254,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   /**
   * Split a (dynamic) list
   */
-  public async split(splitConfig: ContactListSplitConfiguration, options?: EntityFetchOptions): Promise<ContactListRawPayload[]> {
+  public async split (splitConfig: ContactListSplitConfiguration, options?: EntityFetchOptions): Promise<ContactListRawPayload[]> {
     try {
       const opts = {
         method: 'PUT',
