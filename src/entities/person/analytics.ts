@@ -15,6 +15,7 @@ export interface AnalyticsRawPayload {
   readonly orders_count?: number
   readonly orders_amount_total_gross_sum?: number
   readonly orders_amount_total_gross_aggregate_sum?: object[]
+  readonly storefront_vendor_tags?: string[]
 }
 
 export class Analytics {
@@ -32,6 +33,7 @@ export class Analytics {
   public ordersCount?: AnalyticsRawPayload['orders_count']
   public ordersAmountTotalGrossSum?: AnalyticsRawPayload['orders_amount_total_gross_sum']
   public ordersAmountTotalGrossAggregateSum?: AnalyticsRawPayload['orders_amount_total_gross_aggregate_sum']
+  public storeFrontVendorTags?: AnalyticsRawPayload['storefront_vendor_tags']
 
   constructor (options: AnalyticsOptions) {
     this.universe = options.universe
@@ -54,6 +56,7 @@ export class Analytics {
     this.ordersCount = rawPayload.orders_count
     this.ordersAmountTotalGrossSum = rawPayload.orders_amount_total_gross_sum
     this.ordersAmountTotalGrossAggregateSum = rawPayload.orders_amount_total_gross_aggregate_sum
+    this.storeFrontVendorTags = rawPayload.storefront_vendor_tags
     return this
   }
 
@@ -74,7 +77,8 @@ export class Analytics {
       clv: this.clv,
       orders_count: this.ordersCount,
       orders_amount_total_gross_sum: this.ordersAmountTotalGrossSum,
-      orders_amount_total_gross_aggregate_sum: this.ordersAmountTotalGrossAggregateSum
+      orders_amount_total_gross_aggregate_sum: this.ordersAmountTotalGrossAggregateSum,
+      storefront_vendor_tags: this.storeFrontVendorTags
 
     }
   }
