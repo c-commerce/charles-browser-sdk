@@ -1,3 +1,11 @@
+# [4.112.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.111.1...v4.112.0) (2022-08-05)
+
+
+### Features
+
+* **analytics:** add strore-front-vendor to analytics entity ([d0b7ed0](https://github.com/c-commerce/charles-browser-sdk/commit/d0b7ed04ae024b7bae16850cb96f35b108232474))
+* **analytics:** adjust property naming ([444ba47](https://github.com/c-commerce/charles-browser-sdk/commit/444ba472a21c99f7ba93c69d25f69cd2103d8bff))
+
 ## [4.111.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.111.0...v4.111.1) (2022-08-05)
 
 
