@@ -1,3 +1,10 @@
+# [4.113.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.112.0...v4.113.0) (2022-08-05)
+
+
+### Features
+
+* **campaigns:** Add pause functionality ([7d490dd](https://github.com/c-commerce/charles-browser-sdk/commit/7d490dd28895909e1c711b7aa7c238d3137d12da))
+
 # [4.112.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.111.1...v4.112.0) (2022-08-05)
 
 
