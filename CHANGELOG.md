@@ -1,3 +1,10 @@
+# [4.114.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.113.0...v4.114.0) (2022-08-11)
+
+
+### Features
+
+* **opt-ins:** Add dont_resend_optin to configuration ([9737b90](https://github.com/c-commerce/charles-browser-sdk/commit/9737b901edd6990cdb33b4612371668a2ca9457e))
+
 # [4.113.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.112.0...v4.113.0) (2022-08-05)
 
 
