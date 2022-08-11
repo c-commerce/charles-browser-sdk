@@ -146,7 +146,6 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   public labels?: ImportPayload['labels']
   public originalFileName?: ImportPayload['originalFileName']
 
-
   constructor (options: ImportOptions) {
     super()
     this.universe = options.universe
@@ -226,7 +225,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   /**
    * Preview the import
    */
-  public async preview(options?: EntityFetchOptions): Promise<Import> {
+  public async preview (options?: EntityFetchOptions): Promise<Import> {
     try {
       const opts = {
         method: 'POST',
@@ -248,7 +247,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   /**
    * Process the import
    */
-  public async process(options?: EntityFetchOptions): Promise<Import> {
+  public async process (options?: EntityFetchOptions): Promise<Import> {
     try {
       const opts = {
         method: 'POST',

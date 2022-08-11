@@ -156,6 +156,7 @@ export interface MessageSubscriptionRawPayload {
       consent_denial_response?: boolean
       consent_withdrawal_response?: boolean
     }
+    dont_resend_optin?: boolean
   }
 }
 
