@@ -1,3 +1,10 @@
+# [4.115.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.114.0...v4.115.0) (2022-08-11)
+
+
+### Features
+
+* trigger build ([bab0759](https://github.com/c-commerce/charles-browser-sdk/commit/bab07593c2acff0ee7f7feeba276095cb73d7b07))
+
 # [4.114.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.113.0...v4.114.0) (2022-08-11)
 
 
