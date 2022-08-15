@@ -1,3 +1,10 @@
+## [4.116.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.0...v4.116.1) (2022-08-15)
+
+
+### Bug Fixes
+
+* **universe.ts:** fix universe save all endpoint ([b9fff90](https://github.com/c-commerce/charles-browser-sdk/commit/b9fff90622b94657c92bb171fc8b76a7321bb5aa))
+
 # [4.116.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.115.0...v4.116.0) (2022-08-15)
 
 
