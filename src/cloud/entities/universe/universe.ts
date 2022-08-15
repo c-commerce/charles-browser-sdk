@@ -130,7 +130,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     try {
       const opts = {
         method: 'PUT',
-        url: saveEndpoint,
+        url: `${this.apiCarrier?.injectables?.base}/${saveEndpoint}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
