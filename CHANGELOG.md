@@ -1,3 +1,10 @@
+# [4.116.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.115.0...v4.116.0) (2022-08-15)
+
+
+### Features
+
+* **universes.ts:** add support for saving configuration for multiple universes ([3cde909](https://github.com/c-commerce/charles-browser-sdk/commit/3cde90987f665c850fa93d106af11359e949b523))
+
 # [4.115.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.114.0...v4.115.0) (2022-08-11)
 
 
