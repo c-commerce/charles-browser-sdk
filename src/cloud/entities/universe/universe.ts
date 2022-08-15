@@ -71,6 +71,20 @@ export interface UserResult {
   readonly email: string
   readonly username: string
 }
+export interface SaveMultiplePayload {
+  readonly ids: [string]
+  readonly api: string
+  readonly agent_ui: string
+}
+
+export interface SaveResponse {
+  readonly id: string
+  readonly status: string
+}
+
+export interface SaveMultipleResponse {
+  readonly results: [SaveResponse]
+}
 
 /**
  * Manage CloudUniverses.
@@ -107,6 +121,27 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
+    }
+  }
+
+  public async saveMultiple (payload: SaveMultiplePayload): Promise<SaveMultipleResponse> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
+    const saveEndpoint = 'api/v0/universes/'
+    try {
+      const opts = {
+        method: 'PUT',
+        url: saveEndpoint,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: payload
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data as SaveMultipleResponse
+    } catch (err) {
+      throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: err }))
     }
   }
 
