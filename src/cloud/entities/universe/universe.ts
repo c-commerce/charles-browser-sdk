@@ -127,6 +127,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   public async saveMultiple (payload: SaveMultiplePayload): Promise<SaveMultipleResponse> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
     const saveEndpoint = 'api/v0/universes/'
+    let res
     try {
       const opts = {
         method: 'PUT',
@@ -138,10 +139,10 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
         data: payload
       }
 
-      const res = await this.http?.getClient()(opts)
-      return res.data.data as SaveMultipleResponse
+      res = await this.http?.getClient()(opts)
+      return res.data as SaveMultipleResponse
     } catch (err) {
-      throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: err }))
+      throw this.handleError(new CloudUniverseSaveAllError(undefined, { error: err }, res?.status, res?.data))
     }
   }
 
@@ -419,6 +420,14 @@ export class InviteUserInvalidPayloadError extends BaseError {
   constructor (public message: string = 'Invalid payload: either id or new user information must be provided, ot both', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, InviteUserInvalidPayloadError.prototype)
+  }
+}
+export class CloudUniverseSaveAllError extends BaseError {
+  public name = 'CloudUniverseSaveAllError'
+  constructor (public message: string = 'Error saving all universes', properties?: any, status: number = 0, data: object = {}) {
+    const fullMessage = `${message}, HTTP response status and data (if any): ${status}, ${JSON.stringify(data)}`
+    super(fullMessage, properties)
+    Object.setPrototypeOf(this, CloudUniverseSaveAllError.prototype)
   }
 }
 export class InviteUserError extends BaseError {
