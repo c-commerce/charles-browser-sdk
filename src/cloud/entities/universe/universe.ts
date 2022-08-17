@@ -425,8 +425,7 @@ export class InviteUserInvalidPayloadError extends BaseError {
 export class CloudUniverseSaveAllError extends BaseError {
   public name = 'CloudUniverseSaveAllError'
   constructor (public message: string = 'Error saving all universes', properties?: any, status: number = 0, data: object = {}) {
-    const fullMessage = `${message}, HTTP response status and data (if any): ${status}, ${JSON.stringify(data)}`
-    super(fullMessage, properties)
+    super(`${message}, HTTP response status and data (if any): ${status}, ${JSON.stringify(data)}`, properties)
     Object.setPrototypeOf(this, CloudUniverseSaveAllError.prototype)
   }
 }
