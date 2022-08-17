@@ -1,3 +1,11 @@
+## [4.116.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.1...v4.116.2) (2022-08-17)
+
+
+### Bug Fixes
+
+* **universe.ts:** fix constructor for CloudUniverseSaveAllError ([0e969ce](https://github.com/c-commerce/charles-browser-sdk/commit/0e969ce76a24c89e16dee03bd0e4a35abd7295be))
+* **universe.ts:** fix saveMultiple response, error type, and add more more meaningful error message ([ec4431f](https://github.com/c-commerce/charles-browser-sdk/commit/ec4431fd7bf8f4da46362d2ca56b432ad9069c6f))
+
 ## [4.116.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.0...v4.116.1) (2022-08-15)
 
 
