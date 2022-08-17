@@ -1,3 +1,10 @@
+## [4.116.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.2...v4.116.3) (2022-08-17)
+
+
+### Bug Fixes
+
+* **universe.ts:** fix CloudUniverse payload to use strings for deleted/active ([f22d98d](https://github.com/c-commerce/charles-browser-sdk/commit/f22d98d89ef7e18908e7504b057695f01de34a89))
+
 ## [4.116.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.1...v4.116.2) (2022-08-17)
 
 
