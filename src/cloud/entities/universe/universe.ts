@@ -23,8 +23,8 @@ export interface CloudUniverseRawPayload {
   readonly id?: string
   readonly created_at?: string
   readonly updated_at?: string
-  readonly deleted?: boolean
-  readonly active?: boolean
+  readonly deleted?: string
+  readonly active?: string
   readonly name?: string | null
   readonly configuration?: object
   readonly pool?: string
@@ -38,8 +38,8 @@ export interface CloudUniversePayload {
   readonly id?: CloudUniverseRawPayload['id']
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
-  readonly deleted?: boolean
-  readonly active?: boolean
+  readonly deleted?: string
+  readonly active?: string
   readonly name?: CloudUniverseRawPayload['name']
   readonly configuration?: CloudUniverseRawPayload['configuration']
   readonly pool?: CloudUniverseRawPayload['pool']
@@ -152,8 +152,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
-    this.deleted = rawPayload.deleted ?? false
-    this.active = rawPayload.active ?? true
+    this.deleted = rawPayload.deleted ?? 'false'
+    this.active = rawPayload.active ?? 'true'
     this.name = rawPayload.name
     this.configuration = rawPayload.configuration
     this.pool = rawPayload.pool
@@ -172,8 +172,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
-      deleted: this.deleted ?? false,
-      active: this.active ?? true,
+      deleted: this.deleted ?? 'false',
+      active: this.active ?? 'true',
       name: this.name,
       configuration: this.configuration,
       pool: this.pool,
