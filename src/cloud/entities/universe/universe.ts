@@ -349,7 +349,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       const res = await this.http?.getClient()(opts)
       return res.statusText
     } catch (err) {
-      throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(err, { error: err }))
+      throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: err }))
     }
   }
 
