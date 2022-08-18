@@ -16,7 +16,9 @@ export interface DeployOptions {
   readonly url: string
   readonly headers: Object
   readonly responseType: string
-  data?: [string]
+  readonly data?: {
+    readonly ids: [string]
+  }
 }
 
 export interface CloudUniverseRawPayload {
@@ -342,7 +344,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        data: ids
+        data: { ids }
       }
       const res = await this.http?.getClient()(opts)
       return res.statusText
