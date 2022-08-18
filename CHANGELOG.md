@@ -1,3 +1,10 @@
+## [4.116.4](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.3...v4.116.4) (2022-08-18)
+
+
+### Bug Fixes
+
+* **universe.ts:** fix typescript for deploy multiple universees endpoint ([fcf25d7](https://github.com/c-commerce/charles-browser-sdk/commit/fcf25d72fa0ba2024791ba84095a2e5422bc8db9))
+
 ## [4.116.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.2...v4.116.3) (2022-08-17)
 
 
