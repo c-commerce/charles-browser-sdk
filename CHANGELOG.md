@@ -1,3 +1,11 @@
+## [4.116.5](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.4...v4.116.5) (2022-08-18)
+
+
+### Bug Fixes
+
+* **universe.ts:** fix regression introduced to error handler call in CloudUniverse deploy method ([35fdbb7](https://github.com/c-commerce/charles-browser-sdk/commit/35fdbb7f2a964cca4cc0b92a69dcd68c2c6bf2d8))
+* **universe.ts:** improve the payload for the CloudUniverse deploy multiple method ([024a086](https://github.com/c-commerce/charles-browser-sdk/commit/024a08680be55a0fca8eb5a92245a6c987359c35))
+
 ## [4.116.4](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.3...v4.116.4) (2022-08-18)
 
 
