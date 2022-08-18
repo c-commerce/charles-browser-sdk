@@ -327,9 +327,10 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
-  public async deploy (ids?: [string]): Promise<string> {
+  public async deploy (payload?: [string]): Promise<string> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
     let deployEndpoint = `api/v0/universes/${this.id}/deploy/v2`
+    const ids = payload ?? [] as unknown as [string]
     if (ids) {
       deployEndpoint = 'api/v0/universes/deploy/v2'
     }
@@ -340,16 +341,13 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        responseType: 'json'
+        responseType: 'json',
+        data: ids
       }
-      if (ids) {
-        opts.data = ids
-      }
-
       const res = await this.http?.getClient()(opts)
       return res.statusText
     } catch (err) {
-      throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: err }))
+      throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(err, { error: err }))
     }
   }
 
