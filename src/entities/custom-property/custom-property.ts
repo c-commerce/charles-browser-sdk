@@ -15,6 +15,7 @@ export enum CustomPropertyInputTypesEnum {
   datetime = 'datetime',
   datetimerange = 'datetimerange',
   largetextinput = 'largetextinput',
+  urlinput = 'urlinput',
   multiselect = 'multiselect',
   numberinput = 'numberinput',
   numberwithunitinput = 'numberwithunitinput',

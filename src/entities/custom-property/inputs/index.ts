@@ -100,6 +100,12 @@ export const LARGETEXTINPUT = {
   }
 }
 
+export const URLINPUT = {
+  serialize (input?: string | null): string | null {
+    return input ?? null
+  }
+}
+
 export const MULTISELECT = {
   serialize (inputs?: string[] | number[] | null): Array<string|number> | null {
     if (!inputs) {
