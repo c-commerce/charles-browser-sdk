@@ -1,3 +1,11 @@
+# [4.117.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.5...v4.117.0) (2022-08-24)
+
+
+### Features
+
+* **custom-property:** Added URL type ([147796f](https://github.com/c-commerce/charles-browser-sdk/commit/147796f48f149bdd9ba935150bc90b6af0cda41b))
+* **custom-property:** Fixed URL type namings ([69bfd14](https://github.com/c-commerce/charles-browser-sdk/commit/69bfd14a1c03d03e7c140e475af456039f88bfbe))
+
 ## [4.116.5](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.4...v4.116.5) (2022-08-18)
 
 
