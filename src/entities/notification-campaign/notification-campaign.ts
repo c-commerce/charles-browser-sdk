@@ -12,6 +12,13 @@ export interface NotificationCampaignOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignRawPayload
 }
 
+interface IStaticContactItem {
+  type: string
+  payload: {
+    [key: string]: string
+  }
+}
+
 // export interface NotificationCampaignRawPayloadTargetRef {
 //   targetRefs?: Array<{
 //     type?: 'list' | 'subscription'
@@ -19,9 +26,8 @@ export interface NotificationCampaignOptions extends UniverseEntityOptions {
 //   }>
 // }
 
-// todo: use real static entry payload as resource from notification campaign static entries
 export interface NotificationCampaignTestRawPayload {
-  resource?: object
+  resource: IStaticContactItem | IStaticContactItem[]
   communication_language?: string
 }
 
