@@ -1,9 +1,9 @@
 
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import qs from 'qs'
-import { MessageSubscriptionInstance, MessageSubscriptionInstanceGetAllRemoteError, MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance/message-subscription-instance'
+import { MessageSubscriptionInstance, MessageSubscriptionInstanceDeletePayload, MessageSubscriptionInstanceGetAllRemoteError, MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance/message-subscription-instance'
 import { FeedEventsRawPayload } from 'src/eventing/feeds/feed'
 
 export interface MessageSubscriptionOptions extends UniverseEntityOptions {
@@ -367,6 +367,34 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
       throw new MessageSubscriptionsCreateInstanceRemoteError(undefined, { error: err })
     }
   }
+
+  /**
+   * Deletes multiple opt-ins by id
+   * @param ids Array of opt-in IDs
+   * @returns Promise<Array<string>>
+   * @throws {MessageSubscriptionDeleteManyError}
+   */
+  public async deleteMany (payload: MessageSubscriptionInstanceDeletePayload): Promise<number> {
+    console.log('[SDK] entered deleteMany', payload)
+    const { id, purge } = payload
+    if (!Array.isArray(id) || !id.length) throw new TypeError('bulk deletion of opt-ins requires IDs to be set.')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe.universeBase}/${this.endpoint}/`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: { id, purge },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw new MessageSubscriptionDeleteManyError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -426,5 +454,13 @@ export class MessageSubscriptionsCreateInstanceRemoteError extends BaseError {
   constructor (public message: string = 'Could not create message_subscription instance', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageSubscriptionsCreateInstanceRemoteError.prototype)
+  }
+}
+export class MessageSubscriptionDeleteManyError extends BaseErrorV2 {
+  public name = 'MessageSubscriptionsDeleteManyError'
+  public message: string = 'Could not delete message subscriptions'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, MessageSubscriptionDeleteManyError.prototype)
   }
 }

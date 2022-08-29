@@ -1,7 +1,7 @@
 
 import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityPostOptions, EntityDeleteOptions } from '../_base'
 import { Universe } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
 import qs from 'qs'
 import { Feed } from '../../eventing/feeds/feed'
@@ -573,6 +573,32 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       throw new NotificationCampaignDeleteInvalidContactsRemoteError(undefined, { error: err })
     }
   }
+
+  /**
+   * Deletes multiple campaigns by id.
+   * @param ids Array of notification campaign IDs
+   * @returns Promise<Array<string>>
+   * @throws {NotificationCampaignDeleteManyError}
+   */
+  public async deleteManyByIds (ids: Array<NotificationCampaignRawPayload['id']>): Promise<number> {
+    if (!Array.isArray(ids) || !ids.length) throw new TypeError('bulk deletion of campaigns requires IDs to be set.')
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe.universeBase}/${this.endpoint}/`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        // should be id - also send object with purge: true|false
+        data: ids,
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw new NotificationCampaignDeleteManyError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -689,5 +715,14 @@ export class NotificationCampaignDeleteInvalidContactsRemoteError extends BaseEr
   constructor (public message: string = 'Could not delete invalid contacts of notification campaign', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignDeleteInvalidContactsRemoteError.prototype)
+  }
+}
+
+export class NotificationCampaignDeleteManyError extends BaseErrorV2 {
+  public name = 'NotificationCampaignDeleteManyError'
+  public message: string = 'Could not delete notification campaigns'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, NotificationCampaignDeleteManyError.prototype)
   }
 }

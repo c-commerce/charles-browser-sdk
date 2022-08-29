@@ -8,7 +8,7 @@ import Entity, {
   RawPatch
 } from '../_base'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { Order, OrderRawPayload } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
 import { Analytics, AnalyticsRawPayload } from './analytics'
@@ -984,6 +984,32 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
       throw this.handleError(new PossibleDuplicatesFetchRemoteError(undefined, { error: err }))
     }
   }
+
+  /**
+   * Deletes multiple persons by id
+   * @param ids Array of person IDs
+   * @returns Promise<Array<string>>
+   * @throws {PersonDeleteManyError}
+   */
+  public async deleteMany (ids: Array<PersonPhoneNumberRawPayload['id']>): Promise<number> {
+    if (!Array.isArray(ids) || !ids.length) throw new TypeError('bulk deletion of persons requires IDs to be set.')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe.universeBase}/${this.endpoint}/`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: { people: ids },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw new PersonDeleteManyError(undefined, { error: err })
+    }
+  }
 }
 export interface PersonGDPROptions {
   password?: string
@@ -1456,5 +1482,13 @@ export class PhonenumberApplyPatchRemoteError extends BaseError {
   constructor (public message: string = 'Phonenumber applyPatch requires person to be set.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PhonenumberApplyPatchRemoteError.prototype)
+  }
+}
+export class PersonDeleteManyError extends BaseErrorV2 {
+  public name = 'PersonDeleteManyError'
+  public message: string = 'Could not delete persons'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, PersonDeleteManyError.prototype)
   }
 }

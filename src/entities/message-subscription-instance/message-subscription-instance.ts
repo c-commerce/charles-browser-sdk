@@ -12,6 +12,7 @@ export interface MessageSubscriptionInstanceRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
   readonly deleted?: boolean
+  readonly purge?: boolean
   readonly active?: boolean
 
   readonly topic?: string
@@ -37,6 +38,10 @@ export interface MessageSubscriptionInstancePayload {
   readonly status?: MessageSubscriptionInstanceRawPayload['status']
   readonly date?: MessageSubscriptionInstanceRawPayload['date']
   readonly eventRoute?: MessageSubscriptionInstanceRawPayload['event_route']
+}
+export interface MessageSubscriptionInstanceDeletePayload {
+  readonly id?: MessageSubscriptionInstanceRawPayload['id']
+  readonly purge?: MessageSubscriptionInstanceRawPayload['purge']
 }
 
 /**

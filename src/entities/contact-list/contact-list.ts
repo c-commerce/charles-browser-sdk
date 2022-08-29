@@ -1,7 +1,7 @@
 
 import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityDeleteOptions } from '../_base'
 import { Universe } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import {
   ContactListStaticEntry, ContactListStaticEntryCreateRemoteError,
   ContactListStaticEntryRawPayload, ContactListStaticEntryFetchRemoteError,
@@ -305,6 +305,32 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   set staticEntries (items: StaticEntryArray<ContactListStaticEntry>) {
     this._staticEntries = items.map((item: ContactListStaticEntry) => (item))
   }
+
+  /**
+   * Deletes multiple contact lists by id
+   * @param ids Array of contact list IDs
+   * @returns Promise<Array<string>>
+   * @throws {ContactListDeleteManyError}
+   */
+  public async deleteMany (ids: Array<ContactListRawPayload['id']>): Promise<number> {
+    if (!Array.isArray(ids) || !ids.length) throw new TypeError('bulk deletion of contact lists requires IDs to be set.')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe.universeBase}/${ContactLists.endpoint}/`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: ids,
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw new ContactListDeleteManyError(undefined, { error: err })
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -476,5 +502,14 @@ export class ContactListSplitRemoteError extends BaseError {
   constructor (public message: string = 'Could not split contact list.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ContactListSplitRemoteError.prototype)
+  }
+}
+
+export class ContactListDeleteManyError extends BaseErrorV2 {
+  public name = 'ContactListDeleteManyError'
+  public message: string = 'Could not delete recipient lists'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, ContactListDeleteManyError.prototype)
   }
 }
