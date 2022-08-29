@@ -1,3 +1,10 @@
+# [4.118.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.117.0...v4.118.0) (2022-08-29)
+
+
+### Features
+
+* **notification-campaign:** add interface for static contact entry and entries ([cd0eb6c](https://github.com/c-commerce/charles-browser-sdk/commit/cd0eb6c13cdc218262718053327226d0ffafe6f7))
+
 # [4.117.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.116.5...v4.117.0) (2022-08-24)
 
 
