@@ -49,7 +49,7 @@ export class BaseErrorV2 extends Error {
   private readonly localizedErrors: LocalizeError[] | null = null
   public humanReadableAPIErrorMessage?: string | null = null
 
-  constructor (err: Error | AxiosError<APIErrorPayload>, props?: BaseErrorV2Properties) {
+  constructor (err?: Error | AxiosError<APIErrorPayload>, props?: BaseErrorV2Properties) {
     super()
 
     if (props?.message) {
