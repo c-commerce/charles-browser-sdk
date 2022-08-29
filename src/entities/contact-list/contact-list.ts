@@ -313,7 +313,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
    * @throws {ContactListDeleteManyError}
    */
   public async deleteMany (ids: Array<ContactListRawPayload['id']>): Promise<number> {
-    if (!Array.isArray(ids) || !ids.length) throw new TypeError('bulk deletion of contact lists requires IDs to be set.')
+    if (!Array.isArray(ids) || !ids.length) throw new ContactListDeleteManyBadRequestError(undefined, { error: new Error('Bulk deletion of contact lists requires IDs to be set.') })
 
     try {
       const opts = {
@@ -511,5 +511,13 @@ export class ContactListDeleteManyError extends BaseErrorV2 {
   constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
     super(err as Error, props)
     Object.setPrototypeOf(this, ContactListDeleteManyError.prototype)
+  }
+}
+export class ContactListDeleteManyBadRequestError extends BaseErrorV2 {
+  public name = 'ContactListDeleteManyBadRequestError'
+  public message: string = 'Bulk deletion of contact lists requires IDs to be set.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, ContactListDeleteManyBadRequestError.prototype)
   }
 }

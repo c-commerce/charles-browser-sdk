@@ -375,9 +375,8 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
    * @throws {MessageSubscriptionDeleteManyError}
    */
   public async deleteMany (payload: MessageSubscriptionInstanceDeletePayload): Promise<number> {
-    console.log('[SDK] entered deleteMany', payload)
     const { id, purge } = payload
-    if (!Array.isArray(id) || !id.length) throw new TypeError('bulk deletion of opt-ins requires IDs to be set.')
+    if (!Array.isArray(id) || !id.length) throw new MessageSubscriptionDeleteManyBadRequestError(undefined, { error: new Error('bulk deletion of opt-ins requires IDs to be set.') })
 
     try {
       const opts = {
@@ -462,5 +461,13 @@ export class MessageSubscriptionDeleteManyError extends BaseErrorV2 {
   constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
     super(err as Error, props)
     Object.setPrototypeOf(this, MessageSubscriptionDeleteManyError.prototype)
+  }
+}
+export class MessageSubscriptionDeleteManyBadRequestError extends BaseErrorV2 {
+  public name = 'MessageSubscriptionDeleteManyBadRequestError'
+  public message: string = 'Bulk deletion of opt-ins requires IDs to be set.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, MessageSubscriptionDeleteManyBadRequestError.prototype)
   }
 }

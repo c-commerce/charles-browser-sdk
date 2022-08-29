@@ -581,7 +581,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
    * @throws {NotificationCampaignDeleteManyError}
    */
   public async deleteManyByIds (ids: Array<NotificationCampaignRawPayload['id']>): Promise<number> {
-    if (!Array.isArray(ids) || !ids.length) throw new TypeError('bulk deletion of campaigns requires IDs to be set.')
+    if (!Array.isArray(ids) || !ids.length) throw new NotificationCampaignDeleteManyBadRequestError(undefined, { error: new Error('Bulk deletion of campaigns requires IDs to be set.') })
     try {
       const opts = {
         method: 'DELETE',
@@ -724,5 +724,13 @@ export class NotificationCampaignDeleteManyError extends BaseErrorV2 {
   constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
     super(err as Error, props)
     Object.setPrototypeOf(this, NotificationCampaignDeleteManyError.prototype)
+  }
+}
+export class NotificationCampaignDeleteManyBadRequestError extends BaseErrorV2 {
+  public name = 'NotificationCampaignDeleteManyBadRequestError'
+  public message: string = 'Bulk deletion of campaigns requires IDs to be set.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, NotificationCampaignDeleteManyBadRequestError.prototype)
   }
 }

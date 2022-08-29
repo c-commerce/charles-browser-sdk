@@ -992,7 +992,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
    * @throws {PersonDeleteManyError}
    */
   public async deleteMany (ids: Array<PersonPhoneNumberRawPayload['id']>): Promise<number> {
-    if (!Array.isArray(ids) || !ids.length) throw new TypeError('bulk deletion of persons requires IDs to be set.')
+    if (!Array.isArray(ids) || !ids.length) throw new PersonDeleteManyBadRequestError(undefined, { error: new Error('Bulk deletion of persons requires IDs to be set.') })
 
     try {
       const opts = {
@@ -1490,5 +1490,13 @@ export class PersonDeleteManyError extends BaseErrorV2 {
   constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
     super(err as Error, props)
     Object.setPrototypeOf(this, PersonDeleteManyError.prototype)
+  }
+}
+export class PersonDeleteManyBadRequestError extends BaseErrorV2 {
+  public name = 'PersonDeleteManyBadRequestError'
+  public message: string = 'Bulk deletion of persons requires IDs to be set.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, PersonDeleteManyBadRequestError.prototype)
   }
 }
