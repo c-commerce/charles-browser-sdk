@@ -2356,6 +2356,10 @@ export class Universe extends APICarrier {
     return new contactList.ContactLists({ universe: this, http: this.http })
   }
 
+  public peopleList (): person.People {
+    return new person.People({ universe: this, http: this.http })
+  }
+
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**

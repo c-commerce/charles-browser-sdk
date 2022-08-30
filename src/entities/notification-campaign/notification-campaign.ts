@@ -1,5 +1,5 @@
 
-import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityPostOptions, EntityDeleteOptions, EntitiesList} from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityPostOptions, EntityDeleteOptions, EntitiesList } from '../_base'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
@@ -592,26 +592,26 @@ export class NotificationCampaigns extends EntitiesList<NotificationCampaign, No
   protected apiCarrier: Universe
   protected http: Universe['http']
 
-  constructor(options: NotificationCampaignsOptions) {
+  constructor (options: NotificationCampaignsOptions) {
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.http = options.http
   }
 
-  protected parseItem(payload: NotificationCampaignRawPayload): NotificationCampaign {
+  protected parseItem (payload: NotificationCampaignRawPayload): NotificationCampaign {
     return NotificationCampaign.create(payload, this.universe, this.http)
   }
 
-  public async getStream(options?: UniverseFetchOptions): Promise<NotificationCampaigns> {
+  public async getStream (options?: UniverseFetchOptions): Promise<NotificationCampaigns> {
     return (await this._getStream(options)) as NotificationCampaigns
   }
 
-  public async exportCsv(options?: UniverseExportCsvOptions): Promise<Blob> {
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
     return (await this._exportCsv(options))
   }
 
-  public async fetch(options: EntityFetchOptions): Promise<NotificationCampaign[] | NotificationCampaignRawPayload[] | undefined> {
+  public async fetch (options: EntityFetchOptions): Promise<NotificationCampaign[] | NotificationCampaignRawPayload[] | undefined> {
     try {
       return await super.fetch(options)
     } catch (err) {
