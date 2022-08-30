@@ -1,3 +1,18 @@
+# [4.119.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.118.0...v4.119.0) (2022-08-30)
+
+
+### Bug Fixes
+
+* **base:** linter ([eec04bc](https://github.com/c-commerce/charles-browser-sdk/commit/eec04bc574f521c5424c8f35245d16ad226f1c34))
+* **contact-list:** linter ([4088310](https://github.com/c-commerce/charles-browser-sdk/commit/4088310d7bfee3d6fd847aee23aef3208f5e808a))
+* **EntitiesList delete:** remove payload check to keep it general ([2aa165f](https://github.com/c-commerce/charles-browser-sdk/commit/2aa165fab40dfda0ca2dfc74cc6f75b7d7cf6302))
+* **universe:** lint nits ([099bcce](https://github.com/c-commerce/charles-browser-sdk/commit/099bcce7237071ad2576202e784f8b46e3e8e6e9))
+
+
+### Features
+
+* **EntityList:** enable delete many ([7db33cd](https://github.com/c-commerce/charles-browser-sdk/commit/7db33cdc19d2b9c8fabca9e14ee089f382fb2b22))
+
 # [4.118.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.117.0...v4.118.0) (2022-08-29)
 
 
