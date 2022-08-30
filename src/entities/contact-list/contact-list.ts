@@ -1,6 +1,6 @@
 
 import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityDeleteOptions, EntitiesList } from '../_base'
-import { Universe, UniverseFetchOptions, UniverseExportCsvOptions} from '../../universe'
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import {
   ContactListStaticEntry, ContactListStaticEntryCreateRemoteError,
@@ -307,8 +307,6 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   }
 }
 
-
-
 class StaticEntryArray<T> extends Array<T> {
   protected universe: Universe
   protected apiCarrier: Universe
@@ -417,7 +415,6 @@ class StaticEntryArray<T> extends Array<T> {
   }
 }
 
-
 export interface ContactListsOptions {
   universe: Universe
   http: Universe['http']
@@ -429,26 +426,26 @@ export class ContactLists extends EntitiesList<ContactList, ContactListRawPayloa
   protected apiCarrier: Universe
   protected http: Universe['http']
 
-  constructor(options: ContactListsOptions) {
+  constructor (options: ContactListsOptions) {
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.http = options.http
   }
 
-  protected parseItem(payload: ContactListRawPayload): ContactList {
+  protected parseItem (payload: ContactListRawPayload): ContactList {
     return ContactList.create(payload, this.universe, this.http)
   }
 
-  public async getStream(options?: UniverseFetchOptions): Promise<ContactLists> {
+  public async getStream (options?: UniverseFetchOptions): Promise<ContactLists> {
     return (await this._getStream(options)) as ContactLists
   }
 
-  public async exportCsv(options?: UniverseExportCsvOptions): Promise<Blob> {
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
     return (await this._exportCsv(options))
   }
 
-  public async fetch(options: EntityFetchOptions): Promise<ContactList[] | ContactListRawPayload[] | undefined> {
+  public async fetch (options: EntityFetchOptions): Promise<ContactList[] | ContactListRawPayload[] | undefined> {
     try {
       return await super.fetch(options)
     } catch (err) {
