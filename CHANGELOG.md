@@ -1,3 +1,10 @@
+# [4.120.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.119.0...v4.120.0) (2022-08-30)
+
+
+### Features
+
+* **universe:** people list ([4ae7148](https://github.com/c-commerce/charles-browser-sdk/commit/4ae714843fc36ef8c6be4b51c69f1c3c3b49581f))
+
 # [4.119.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.118.0...v4.119.0) (2022-08-30)
 
 
