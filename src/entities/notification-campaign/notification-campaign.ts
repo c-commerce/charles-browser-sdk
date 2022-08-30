@@ -1,6 +1,6 @@
 
-import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityPostOptions, EntityDeleteOptions } from '../_base'
-import { Universe } from '../../universe'
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityPostOptions, EntityDeleteOptions, EntitiesList} from '../_base'
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
 import qs from 'qs'
@@ -581,9 +581,43 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export class NotificationCampaigns {
+export interface NotificationCampaignsOptions {
+  universe: Universe
+  http: Universe['http']
+}
+export class NotificationCampaigns extends EntitiesList<NotificationCampaign, NotificationCampaignRawPayload> {
   public static endpoint: string = 'api/v0/notification_campaigns'
+  public endpoint: string = NotificationCampaigns.endpoint
+  protected universe: Universe
+  protected apiCarrier: Universe
+  protected http: Universe['http']
+
+  constructor(options: NotificationCampaignsOptions) {
+    super()
+    this.universe = options.universe
+    this.apiCarrier = options.universe
+    this.http = options.http
+  }
+
+  protected parseItem(payload: NotificationCampaignRawPayload): NotificationCampaign {
+    return NotificationCampaign.create(payload, this.universe, this.http)
+  }
+
+  public async getStream(options?: UniverseFetchOptions): Promise<NotificationCampaigns> {
+    return (await this._getStream(options)) as NotificationCampaigns
+  }
+
+  public async exportCsv(options?: UniverseExportCsvOptions): Promise<Blob> {
+    return (await this._exportCsv(options))
+  }
+
+  public async fetch(options: EntityFetchOptions): Promise<NotificationCampaign[] | NotificationCampaignRawPayload[] | undefined> {
+    try {
+      return await super.fetch(options)
+    } catch (err) {
+      throw new NotificationCampaignsFetchRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 export class NotificationCampaignInitializationError extends BaseError {

@@ -10,7 +10,7 @@ import { diff, jsonPatchPathConverter } from 'just-diff'
 import qs from 'qs'
 import { APICarrier } from '../../base'
 import { Universe } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError , BaseErrorV2, BaseErrorV2Properties} from '../../errors'
 import { isEntity } from '../../helpers/entity'
 
 export interface RawPatchItem {
@@ -80,7 +80,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   public abstract id?: string
   public abstract endpoint: string
 
-  constructor () {
+  constructor() {
     super()
     this.hooks = {
       beforeSetRawPayload: new SyncHook(['beforeSetRawPayload'])
@@ -90,27 +90,27 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected setRawPayload (p: RawPayload): Entity<Payload, RawPayload> {
+  protected setRawPayload(p: RawPayload): Entity<Payload, RawPayload> {
     this.hooks.beforeSetRawPayload.call(p)
     this._rawPayload = JSON.parse(JSON.stringify(p))
 
     return this
   }
 
-  public static isEntity (object: any): Boolean {
+  public static isEntity(object: any): Boolean {
     return isEntity(object)
   }
 
   /**
    * Convert object to a JS struct.
    */
-  public abstract serialize (): RawPayload
-  protected abstract deserialize (rawPayload: RawPayload): Entity<Payload, RawPayload>
+  public abstract serialize(): RawPayload
+  protected abstract deserialize(rawPayload: RawPayload): Entity<Payload, RawPayload>
 
   /**
    * @ignore
    */
-  protected handleError (err: Error): Error {
+  protected handleError(err: Error): Error {
     if (this.listeners('error').length > 0) this.emit('error', err)
 
     return err
@@ -119,7 +119,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Fetch the current state of this object.
    */
-  public async fetch (options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
+  public async fetch(options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
     return await this._fetch(options)
   }
@@ -127,7 +127,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _fetch (options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
+  protected async _fetch(options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
     if (this.id === null || this.id === undefined) throw new TypeError('fetch requires id to be set.')
 
     try {
@@ -155,7 +155,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
    * Change this object on the remote by partially applying a change object to it as diff.
    * @param changePart
    */
-  public async patch (changePart: RawPayload): Promise<Entity<Payload, RawPayload>> {
+  public async patch(changePart: RawPayload): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._patch directly and e.g. handle our error differently
     return await this._patch(changePart)
   }
@@ -163,7 +163,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _patch (changePart: RawPayload): Promise<Entity<Payload, RawPayload>> {
+  protected async _patch(changePart: RawPayload): Promise<Entity<Payload, RawPayload>> {
     if (this._rawPayload === null || this._rawPayload === undefined) throw new TypeError('patch requires raw payload to be set.')
     if (!changePart) throw new TypeError('patch requires incoming object to be set.')
     if (this.id === null || this.id === undefined) throw new TypeError('patch requires id to be set.')
@@ -202,14 +202,14 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
    *
    * @param patch
    */
-  public async applyPatch (patch: RawPatch): Promise<Entity<Payload, RawPayload>> {
+  public async applyPatch(patch: RawPatch): Promise<Entity<Payload, RawPayload>> {
     return await this._applyPatch(patch)
   }
 
   /**
    * @ignore
    */
-  protected async _applyPatch (patch: RawPatch): Promise<Entity<Payload, RawPayload>> {
+  protected async _applyPatch(patch: RawPatch): Promise<Entity<Payload, RawPayload>> {
     if (!patch) throw new TypeError('apply patch requires incoming patch to be set.')
     if (this.id === null || this.id === undefined) throw new TypeError('apply patch requires id to be set.')
 
@@ -237,7 +237,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Create this object on the remote.
    */
-  public async post (): Promise<Entity<Payload, RawPayload>> {
+  public async post(): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._post directly and e.g. handle our error differently
     return await this._post()
   }
@@ -245,7 +245,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _post (): Promise<Entity<Payload, RawPayload>> {
+  protected async _post(): Promise<Entity<Payload, RawPayload>> {
     try {
       const opts = {
         method: 'POST',
@@ -270,7 +270,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Clones this object on the remote.
    */
-  public async clone (options?: EntityPostOptions): Promise<Entity<Payload, RawPayload>> {
+  public async clone(options?: EntityPostOptions): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._clone directly and e.g. handle our error differently
     return await this._clone(options)
   }
@@ -278,7 +278,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _clone (options?: EntityPostOptions): Promise<Entity<Payload, RawPayload>> {
+  protected async _clone(options?: EntityPostOptions): Promise<Entity<Payload, RawPayload>> {
     if (this.id === null || this.id === undefined) throw new TypeError('clone requires id to be set.')
 
     try {
@@ -305,7 +305,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Replace all properties on the remote.
    */
-  public async put (): Promise<Entity<Payload, RawPayload>> {
+  public async put(): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._put directly and e.g. handle our error differently
     return await this._put()
   }
@@ -313,7 +313,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _put (): Promise<Entity<Payload, RawPayload>> {
+  protected async _put(): Promise<Entity<Payload, RawPayload>> {
     if (this.id === null || this.id === undefined) throw new TypeError('put requires id to be set.')
 
     try {
@@ -343,7 +343,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Delete this object on the remote.
    */
-  public async delete (options?: EntityDeleteOptions): Promise<Entity<Payload, RawPayload>> {
+  public async delete(options?: EntityDeleteOptions): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._delete directly and e.g. handle our error differently
     return await this._delete(options)
   }
@@ -351,7 +351,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _delete (options?: EntityDeleteOptions): Promise<Entity<Payload, RawPayload>> {
+  protected async _delete(options?: EntityDeleteOptions): Promise<Entity<Payload, RawPayload>> {
     if (this.id === null || this.id === undefined) throw new TypeError('delete requires id to be set.')
 
     try {
@@ -380,7 +380,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
    * Save a change to this local object, by either creating or patching it or replacing all proeprties on the remote.
    * @param payload
    */
-  public async save (payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
+  public async save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
     // we allow implementers to override us by calling ._save directly and e.g. handle our error differently
     return await this._save(payload)
   }
@@ -388,7 +388,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _save (payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
+  protected async _save(payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
     if (this.id && payload === undefined) {
       return await this.put()
     }
@@ -413,54 +413,54 @@ export abstract class UniverseEntity<Payload, RawPayload> extends Entity<Payload
 
 export class EntityPatchError extends BaseError {
   public name = 'EntityPatchError'
-  constructor (public message: string = 'Could not partially alter resource unexpectedly.', properties?: any) {
+  constructor(public message: string = 'Could not partially alter resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EntityPostError extends BaseError {
   public name = 'EntityPostError'
-  constructor (public message: string = 'Could not create resource unexpectedly.', properties?: any) {
+  constructor(public message: string = 'Could not create resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EntityCloneError extends BaseError {
   public name = 'EntityCloneError'
-  constructor (public message: string = 'Could not clone resource unexpectedly.', properties?: any) {
+  constructor(public message: string = 'Could not clone resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EntityDeleteError extends BaseError {
   public name = 'EntityDeleteError'
-  constructor (public message: string = 'Could not delete resource unexpectedly.', properties?: any) {
+  constructor(public message: string = 'Could not delete resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EntityPutError extends BaseError {
   public name = 'EntityPutError'
-  constructor (public message: string = 'Could not alter resource unexpectedly.', properties?: any) {
+  constructor(public message: string = 'Could not alter resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EntityFetchError extends BaseError {
   public name = 'EntityFetchError'
-  constructor (public message: string = 'Could fetch resource unexpectedly.', properties?: any) {
+  constructor(public message: string = 'Could fetch resource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
 
 export class EntityFetchCountError extends BaseError {
   public name = 'EntityFetchCountError'
-  constructor (public message: string = 'Could fetch count ofresource unexpectedly.', properties?: any) {
+  constructor(public message: string = 'Could fetch count ofresource unexpectedly.', properties?: any) {
     super(message, properties)
   }
 }
 
-export interface EntitiesListFetchQuery {
+export interface EntitiesListQuery {
   [key: string]: any
 }
 export interface EntitiesListExportCsvQuery {
@@ -469,11 +469,19 @@ export interface EntitiesListExportCsvQuery {
 
 export interface EntitiesListFetchOptions {
   raw?: boolean
-  query?: EntitiesListFetchQuery
+  query?: EntitiesListQuery
 }
 
 export interface EntitiesListExportCsvOptions {
   query?: EntitiesListExportCsvQuery
+}
+
+export interface IEntitiesListDeleteManyPayload {
+  ids: string[]
+}
+
+export interface IEntitiesListDeleteManyOptions {
+  query?: EntitiesListQuery
 }
 
 export abstract class EntitiesList<Entity, RawPayload> extends Readable {
@@ -482,17 +490,17 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   // [key: string]: any
   public abstract endpoint: string
 
-  constructor () {
+  constructor() {
     super({ objectMode: true })
   }
 
-  public _read (): void {
+  public _read(): void {
 
   }
 
-  protected abstract parseItem (payload: RawPayload): Entity
+  protected abstract parseItem(payload: RawPayload): Entity
 
-  fromJson (payloads: RawPayload[]): Entity[] {
+  fromJson(payloads: RawPayload[]): Entity[] {
     return payloads.map((item) => (this.parseItem(item)))
   }
 
@@ -500,9 +508,9 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   //   return list.map((item: Entity) => (item.serialize()))
   // }
 
-  public abstract getStream (options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>>
+  public abstract getStream(options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>>
 
-  protected async _getStream (options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>> {
+  protected async _getStream(options?: EntitiesListFetchOptions): Promise<EntitiesList<Entity, RawPayload>> {
     const uri = `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`
     const response = await fetch(uri, {
       headers: {
@@ -531,7 +539,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
       this.push(this.parseItem(result.value))
 
       reader.read()
-      // @ts-expect-error
+        // @ts-expect-error
         .then(read)
         .catch((err: Error) => {
           this.emit('error', err)
@@ -543,9 +551,9 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
     return this
   }
 
-  public abstract exportCsv (options?: EntitiesListExportCsvOptions): Promise<Blob>
+  public abstract exportCsv(options?: EntitiesListExportCsvOptions): Promise<Blob>
 
-  protected async _exportCsv (options?: EntitiesListExportCsvOptions): Promise<Blob> {
+  protected async _exportCsv(options?: EntitiesListExportCsvOptions): Promise<Blob> {
     const opts = {
       method: 'GET',
       timeout: 60000,
@@ -568,7 +576,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   /**
    * Fetch the list of this entity.
    */
-  public async fetchCount (options?: EntityFetchOptions): Promise<{ count: number }> {
+  public async fetchCount(options?: EntityFetchOptions): Promise<{ count: number }> {
     // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
     return await this._fetchCount(options)
   }
@@ -576,7 +584,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   /**
    * @ignore
    */
-  protected async _fetchCount (options?: EntityFetchOptions): Promise<{ count: number }> {
+  protected async _fetchCount(options?: EntityFetchOptions): Promise<{ count: number }> {
     try {
       const opts = {
         method: 'HEAD',
@@ -601,14 +609,14 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
   /**
    * Fetch the list of this entity.
    */
-  public async fetch (options?: EntityFetchOptions): Promise<Entity[] | RawPayload[] | undefined> {
+  public async fetch(options?: EntityFetchOptions): Promise<Entity[] | RawPayload[] | undefined> {
     return await this._fetch(options)
   }
 
   /**
    * @ignore
    */
-  protected async _fetch (options?: EntityFetchOptions): Promise<Entity[] | RawPayload[] | undefined> {
+  protected async _fetch(options?: EntityFetchOptions): Promise<Entity[] | RawPayload[] | undefined> {
     try {
       const opts = {
         method: 'GET',
@@ -632,5 +640,51 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
     } catch (err) {
       throw new EntityFetchCountError(undefined, { error: err })
     }
+  }
+
+  /**
+   * Deletes a list of this entity
+   */
+  public async delete(payload: IEntitiesListDeleteManyPayload, options?: IEntitiesListDeleteManyOptions): Promise<string[] | [] | undefined> {
+    // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
+    return await this._delete(payload, options)
+  }
+
+  /**
+   * @ignore
+   */
+  protected async _delete(payload: IEntitiesListDeleteManyPayload, options?: IEntitiesListDeleteManyOptions): Promise<string[] | [] | undefined> {
+    if (!payload?.ids === null || payload?.ids === null || payload?.ids === undefined) throw new TypeError('Delete many requires payload.ids to be sent')
+
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: payload,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      const resources = response.data.data as string[]
+
+      return resources
+
+    } catch (err) {
+      throw new EntityListDeleteRemoteError(undefined, { error: err })
+    }
+  }
+}
+
+export class EntityListDeleteRemoteError extends BaseErrorV2 {
+  public name = 'EntityListDeleteRemoteError'
+  public message: string = 'Delete of entity list failed'
+  constructor(err: Error | unknown, props?: BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, EntityListDeleteRemoteError.prototype)
   }
 }
