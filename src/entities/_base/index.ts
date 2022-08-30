@@ -10,7 +10,7 @@ import { diff, jsonPatchPathConverter } from 'just-diff'
 import qs from 'qs'
 import { APICarrier } from '../../base'
 import { Universe } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { isEntity } from '../../helpers/entity'
 
 export interface RawPatchItem {
@@ -460,7 +460,7 @@ export class EntityFetchCountError extends BaseError {
   }
 }
 
-export interface EntitiesListFetchQuery {
+export interface EntitiesListQuery {
   [key: string]: any
 }
 export interface EntitiesListExportCsvQuery {
@@ -469,11 +469,19 @@ export interface EntitiesListExportCsvQuery {
 
 export interface EntitiesListFetchOptions {
   raw?: boolean
-  query?: EntitiesListFetchQuery
+  query?: EntitiesListQuery
 }
 
 export interface EntitiesListExportCsvOptions {
   query?: EntitiesListExportCsvQuery
+}
+
+export interface IEntitiesListDeleteManyPayload {
+  ids: string[]
+}
+
+export interface IEntitiesListDeleteManyOptions {
+  query?: EntitiesListQuery
 }
 
 export abstract class EntitiesList<Entity, RawPayload> extends Readable {
@@ -531,7 +539,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
       this.push(this.parseItem(result.value))
 
       reader.read()
-      // @ts-expect-error
+        // @ts-expect-error
         .then(read)
         .catch((err: Error) => {
           this.emit('error', err)
@@ -632,5 +640,49 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
     } catch (err) {
       throw new EntityFetchCountError(undefined, { error: err })
     }
+  }
+
+  /**
+   * Deletes a list of this entity
+   */
+  public async delete (payload: IEntitiesListDeleteManyPayload, options?: IEntitiesListDeleteManyOptions): Promise<string[] | [] | undefined> {
+    // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
+    return await this._delete(payload, options)
+  }
+
+  /**
+   * @ignore
+   */
+  protected async _delete (payload: IEntitiesListDeleteManyPayload, options?: IEntitiesListDeleteManyOptions): Promise<string[] | [] | undefined> {
+    if (!payload) throw new TypeError('Delete requires payload to be sent')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: payload,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+
+      const resources = response.data.data as string[]
+
+      return resources
+    } catch (err) {
+      throw new EntityListDeleteRemoteError(undefined, { error: err })
+    }
+  }
+}
+
+export class EntityListDeleteRemoteError extends BaseErrorV2 {
+  public name = 'EntityListDeleteRemoteError'
+  public message: string = 'Delete of entity list failed'
+  constructor (err: Error | unknown, props?: BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, EntityListDeleteRemoteError.prototype)
   }
 }

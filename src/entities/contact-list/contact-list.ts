@@ -1,6 +1,6 @@
 
-import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityDeleteOptions } from '../_base'
-import { Universe } from '../../universe'
+import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityDeleteOptions, EntitiesList } from '../_base'
+import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
 import {
   ContactListStaticEntry, ContactListStaticEntryCreateRemoteError,
@@ -307,11 +307,6 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export class ContactLists {
-  public static endpoint: string = 'api/v0/contact_lists'
-}
-
 class StaticEntryArray<T> extends Array<T> {
   protected universe: Universe
   protected apiCarrier: Universe
@@ -416,6 +411,45 @@ class StaticEntryArray<T> extends Array<T> {
       return res.status
     } catch (err) {
       throw new ContactListStaticEntryDeleteRemoteError(undefined, { error: err })
+    }
+  }
+}
+
+export interface ContactListsOptions {
+  universe: Universe
+  http: Universe['http']
+}
+export class ContactLists extends EntitiesList<ContactList, ContactListRawPayload> {
+  public static endpoint: string = 'api/v0/contact_lists'
+  public endpoint: string = ContactLists.endpoint
+  protected universe: Universe
+  protected apiCarrier: Universe
+  protected http: Universe['http']
+
+  constructor (options: ContactListsOptions) {
+    super()
+    this.universe = options.universe
+    this.apiCarrier = options.universe
+    this.http = options.http
+  }
+
+  protected parseItem (payload: ContactListRawPayload): ContactList {
+    return ContactList.create(payload, this.universe, this.http)
+  }
+
+  public async getStream (options?: UniverseFetchOptions): Promise<ContactLists> {
+    return (await this._getStream(options)) as ContactLists
+  }
+
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
+    return (await this._exportCsv(options))
+  }
+
+  public async fetch (options: EntityFetchOptions): Promise<ContactList[] | ContactListRawPayload[] | undefined> {
+    try {
+      return await super.fetch(options)
+    } catch (err) {
+      throw new ContactListsFetchRemoteError(undefined, { error: err })
     }
   }
 }

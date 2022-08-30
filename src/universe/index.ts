@@ -2344,6 +2344,18 @@ export class Universe extends APICarrier {
     return new corsOrigin.CorsOrigins({ universe: this, http: this.http })
   }
 
+  public notificationCampaignsList (): notificationCampaign.NotificationCampaigns {
+    return new notificationCampaign.NotificationCampaigns({ universe: this, http: this.http })
+  }
+
+  public messageSubscriptionsList (): messageSubscription.MessageSubscriptions {
+    return new messageSubscription.MessageSubscriptions({ universe: this, http: this.http })
+  }
+
+  public contactListsList (): contactList.ContactLists {
+    return new contactList.ContactLists({ universe: this, http: this.http })
+  }
+
   // hygen:handler:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
   /**
