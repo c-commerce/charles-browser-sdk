@@ -654,7 +654,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
    * @ignore
    */
   protected async _delete(payload: IEntitiesListDeleteManyPayload, options?: IEntitiesListDeleteManyOptions): Promise<string[] | [] | undefined> {
-    if (!payload?.ids === null || payload?.ids === null || payload?.ids === undefined) throw new TypeError('Delete many requires payload.ids to be sent')
+    if (!payload) throw new TypeError('Delete requires payload to be sent')
 
 
     try {
