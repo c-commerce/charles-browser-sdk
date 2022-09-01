@@ -170,7 +170,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   }
 
   public async getImageTags (image: string): Promise<string[]> {
-    const endpoint = `v0/image-repository/${image}/tags`
+    const endpoint = `api/v0/image-repository/${image}/tags`
     try {
       const opts = {
         method: 'GET',
