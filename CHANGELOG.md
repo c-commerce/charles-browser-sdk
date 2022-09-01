@@ -1,3 +1,10 @@
+# [4.121.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.120.0...v4.121.0) (2022-09-01)
+
+
+### Features
+
+* **universe.ts:** add method for retrieving versions independent of releases ([027d7ed](https://github.com/c-commerce/charles-browser-sdk/commit/027d7ed7e9c24be0b25c5ef319cc5374ebac101e))
+
 # [4.120.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.119.0...v4.120.0) (2022-08-30)
 
 
