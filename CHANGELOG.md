@@ -1,3 +1,10 @@
+## [4.121.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.121.1...v4.121.2) (2022-09-01)
+
+
+### Bug Fixes
+
+* **universe.ts:** fix typo in cloud universe getImageTags endpoint ([4d5e38f](https://github.com/c-commerce/charles-browser-sdk/commit/4d5e38f90c2a6033dc3caf9b35340d3e14616cb9))
+
 ## [4.121.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.121.0...v4.121.1) (2022-09-01)
 
 
