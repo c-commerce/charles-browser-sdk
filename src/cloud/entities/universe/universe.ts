@@ -169,6 +169,25 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     return new CloudUniverse({ rawPayload: payload, carrier, http, initialized: true })
   }
 
+  public async getImageTags (payload: CloudUniverseRawPayload, carrier: Cloud, http: Cloud['http']): Promise<string[]> {
+    const versions = '/v0/universes/versions'
+    try {
+      const opts = {
+        method: 'GET',
+        url: versions,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http?.getClient()(opts)
+      const tags = res.data.data as string[]
+      return tags
+    } catch (err) {
+      throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: err }))
+    }
+  }
+
   public serialize (): CloudUniverseRawPayload {
     return {
       id: this.id,
@@ -362,7 +381,6 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
 export class CloudUniverses {
   public static endpoint: string = 'api/v0/universes'
 }
-
 export class CloudUniverseInitializationError extends BaseError {
   public name = 'CloudUniverseInitializationError'
   constructor (public message: string = 'Could not initialize CloudUniverse.', properties?: any) {
@@ -384,6 +402,14 @@ export class CloudUniversesFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get CloudUniverses.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CloudUniversesFetchRemoteError.prototype)
+  }
+}
+
+export class CloudUniverseGetImageTags extends BaseError {
+  public name = 'CloudUniverseGetImageTags'
+  constructor (public message: string = 'Could alter deployment unexpectedly.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CloudUniverseGetImageTags.prototype)
   }
 }
 
