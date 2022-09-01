@@ -1,3 +1,10 @@
+## [4.121.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.121.0...v4.121.1) (2022-09-01)
+
+
+### Bug Fixes
+
+* **universe.ts:** fix versions endpoint for fetching universe images ([2ae1244](https://github.com/c-commerce/charles-browser-sdk/commit/2ae124459bf4dce1ee1fcef20af34101c55b7520))
+
 # [4.121.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.120.0...v4.121.0) (2022-09-01)
 
 
