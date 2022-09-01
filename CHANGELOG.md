@@ -1,3 +1,10 @@
+## [4.121.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.121.2...v4.121.3) (2022-09-01)
+
+
+### Bug Fixes
+
+* **universe.ts:** fix tags endpoint ([a25b49c](https://github.com/c-commerce/charles-browser-sdk/commit/a25b49c6e79d16b3264d6f82d6d247f9794395bb))
+
 ## [4.121.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.121.1...v4.121.2) (2022-09-01)
 
 
