@@ -174,7 +174,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     try {
       const opts = {
         method: 'GET',
-        url: endpoint,
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
