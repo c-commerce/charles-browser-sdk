@@ -1,3 +1,10 @@
+# [4.123.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.122.0...v4.123.0) (2022-09-07)
+
+
+### Features
+
+* **releases.ts:** move gcr image tag request method to releases from universes ([db257dc](https://github.com/c-commerce/charles-browser-sdk/commit/db257dcf66bc99703c34e09e3d5fe395aed8b97e))
+
 # [4.122.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.121.4...v4.122.0) (2022-09-07)
 
 
