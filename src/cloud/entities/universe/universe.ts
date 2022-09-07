@@ -405,11 +405,11 @@ export class CloudUniversesFetchRemoteError extends BaseError {
   }
 }
 
-export class CloudUniverseGetImageTags extends BaseError {
-  public name = 'CloudUniverseGetImageTags'
-  constructor (public message: string = 'Could alter deployment unexpectedly.', properties?: any) {
+export class CloudUniverseGetImageTagsError extends BaseError {
+  public name = 'CloudUniverseGetImageTagsError'
+  constructor (public message: string = 'Could not fetch image tags unexpectedly.', properties?: any) {
     super(message, properties)
-    Object.setPrototypeOf(this, CloudUniverseGetImageTags.prototype)
+    Object.setPrototypeOf(this, CloudUniverseGetImageTagsError.prototype)
   }
 }
 

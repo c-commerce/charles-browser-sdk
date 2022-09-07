@@ -2,7 +2,6 @@ import { APICarrier } from '../../../base'
 import Entity, { EntityOptions } from '../../../entities/_base'
 import { BaseError } from '../../../errors'
 import type { Cloud } from '../../index'
-
 export interface ReleaseOptions extends EntityOptions {
   rawPayload?: ReleaseRawPayload
 }
@@ -145,6 +144,25 @@ export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
       throw this.handleError(new ReleaseInitializationError(undefined, { error: err }))
     }
   }
+
+  public async getImageTags (image: string): Promise<string[]> {
+    const endpoint = `api/v0/image-repository/${image}/tags`
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http?.getClient()(opts)
+      const tags = res.data.data as string[]
+      return tags
+    } catch (err) {
+      throw this.handleError(new ReleasesGetImageTagsError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -165,6 +183,14 @@ export class ReleaseFetchRemoteError extends BaseError {
   constructor (public message: string = 'Could not get Release.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ReleaseFetchRemoteError.prototype)
+  }
+}
+
+export class ReleasesGetImageTagsError extends BaseError {
+  public name = 'ReleasesGetImageTagsError'
+  constructor (public message: string = 'Could not fetch image tags unexpectedly.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ReleasesGetImageTagsError.prototype)
   }
 }
 
