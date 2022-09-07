@@ -1,3 +1,10 @@
+# [4.122.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.121.4...v4.122.0) (2022-09-07)
+
+
+### Features
+
+* **entities:** Add tracking providers ([d7c4485](https://github.com/c-commerce/charles-browser-sdk/commit/d7c448522c3d6e2136399e71f436e1540d936fb4))
+
 ## [4.121.4](https://github.com/c-commerce/charles-browser-sdk/compare/v4.121.3...v4.121.4) (2022-09-01)
 
 
