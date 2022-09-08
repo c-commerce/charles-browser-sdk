@@ -1,3 +1,10 @@
+# [4.124.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.123.0...v4.124.0) (2022-09-08)
+
+
+### Features
+
+* **releases.ts:** change interface for release.getImageTags response ([4f7b574](https://github.com/c-commerce/charles-browser-sdk/commit/4f7b57466d2032b84e9fecd3334556360a5aba06))
+
 # [4.123.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.122.0...v4.123.0) (2022-09-07)
 
 
