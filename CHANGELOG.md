@@ -1,3 +1,10 @@
+## [4.124.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.1...v4.124.2) (2022-09-08)
+
+
+### Bug Fixes
+
+* **releases.ts:** fix tags endpoint ([aaee09a](https://github.com/c-commerce/charles-browser-sdk/commit/aaee09a401a4a90ea09dabe97fb3d504ab3dadd7))
+
 ## [4.124.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.0...v4.124.1) (2022-09-08)
 
 
