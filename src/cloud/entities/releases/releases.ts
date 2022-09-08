@@ -145,7 +145,7 @@ export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
     }
   }
 
-  public async getImageTags (image: string): Promise<Array<Record<string, string>>> {
+  public async getImageTags (image: string): Promise<Record<string, string>> {
     const endpoint = `api/v0/image-repository/${image}/tags`
     try {
       const opts = {
@@ -157,7 +157,7 @@ export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
         responseType: 'json'
       }
       const res = await this.http?.getClient()(opts)
-      const tags = res.data.data as Array<Record<string, string>>
+      const tags = res.data.data as Record<string, string>
       return tags
     } catch (err) {
       throw this.handleError(new ReleasesGetImageTagsError(undefined, { error: err }))
