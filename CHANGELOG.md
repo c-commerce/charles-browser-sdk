@@ -1,3 +1,10 @@
+## [4.124.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.0...v4.124.1) (2022-09-08)
+
+
+### Bug Fixes
+
+* **releases.ts:** fix format of release.getImageTags response ([be91840](https://github.com/c-commerce/charles-browser-sdk/commit/be91840cfce322b9610886c81fc26501f7054c11))
+
 # [4.124.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.123.0...v4.124.0) (2022-09-08)
 
 
