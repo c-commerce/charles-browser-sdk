@@ -6,11 +6,6 @@ export interface ReleaseOptions extends EntityOptions {
   rawPayload?: ReleaseRawPayload
 }
 
-export interface VersionRawPayload {
-  readonly label: string
-  readonly value: string
-}
-
 export interface ReleaseRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -150,7 +145,7 @@ export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
     }
   }
 
-  public async getImageTags (image: string): Promise<VersionRawPayload[]> {
+  public async getImageTags (image: string): Promise<Array<Record<string, string>>> {
     const endpoint = `api/v0/image-repository/${image}/tags`
     try {
       const opts = {
@@ -162,7 +157,7 @@ export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
         responseType: 'json'
       }
       const res = await this.http?.getClient()(opts)
-      const tags = res.data.data as VersionRawPayload[]
+      const tags = res.data.data as Array<Record<string, string>>
       return tags
     } catch (err) {
       throw this.handleError(new ReleasesGetImageTagsError(undefined, { error: err }))
