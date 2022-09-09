@@ -482,6 +482,7 @@ export interface IEntitiesListDeleteManyPayload {
 
 export interface IEntitiesListDeleteManyOptions {
   query?: EntitiesListQuery
+  timeout?: number
 }
 
 export abstract class EntitiesList<Entity, RawPayload> extends Readable {
@@ -593,6 +594,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
           'Content-Type': 'application/json; charset=utf-8'
         },
         data: undefined,
+        timeout: options?.timeout ?? 60000,
         responseType: 'json'
       }
 
@@ -625,6 +627,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
           'Content-Type': 'application/json; charset=utf-8'
         },
         data: undefined,
+        timeout: options?.timeout ?? 60000,
         responseType: 'json'
       }
 
@@ -664,6 +667,7 @@ export abstract class EntitiesList<Entity, RawPayload> extends Readable {
           'Content-Type': 'application/json; charset=utf-8'
         },
         data: payload,
+        timeout: options?.timeout ?? 30000,
         responseType: 'json'
       }
 
