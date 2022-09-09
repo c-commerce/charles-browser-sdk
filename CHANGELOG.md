@@ -1,3 +1,10 @@
+## [4.124.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.2...v4.124.3) (2022-09-09)
+
+
+### Bug Fixes
+
+* **EntityList:** increase and make timeout configurable ([1ce807b](https://github.com/c-commerce/charles-browser-sdk/commit/1ce807b2608a6fbfe8f542c49f96831f1455753a))
+
 ## [4.124.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.1...v4.124.2) (2022-09-08)
 
 
