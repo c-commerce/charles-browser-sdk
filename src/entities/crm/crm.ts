@@ -3,7 +3,11 @@ import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_b
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import qs from 'qs'
-import { AssociateUsersPayload, CrmUser } from '../../entities/crm/crm-user'
+import {
+  AssociateUsersPayload,
+  CrmUser,
+  PersonPayload
+} from '../../entities/crm/crm-user'
 
 export interface CRMOptions extends UniverseEntityOptions {
   rawPayload?: CRMRawPayload
@@ -337,6 +341,32 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
       throw this.handleError(new CRMAssociateUsersError(undefined, { error: err }))
     }
   }
+
+  public async createExternalUserFromPerson (payload: PersonPayload): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM createExternalUserFromPerson requires id to be set.')
+
+    const data = {
+      person: payload.person
+    }
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/create_external_user_from_person`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        data,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new CRMCreateExternalUserFromPersonError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -358,6 +388,14 @@ export class CRMSetupRemoteError extends BaseError {
   constructor (public message: string = 'Could not start setup of crm.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, CRMSetupRemoteError.prototype)
+  }
+}
+
+export class CRMCreateExternalUserFromPersonError extends BaseError {
+  public name = 'CRMCreateExternalUserFromPersonError'
+  constructor (public message: string = 'Could not create user.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, CRMAssociateUsersError.prototype)
   }
 }
 
