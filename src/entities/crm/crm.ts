@@ -5,8 +5,7 @@ import { BaseError } from '../../errors'
 import qs from 'qs'
 import {
   AssociateUsersPayload,
-  CrmUser,
-  PersonPayload
+  CrmUser
 } from '../../entities/crm/crm-user'
 
 export interface CRMOptions extends UniverseEntityOptions {
@@ -342,7 +341,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     }
   }
 
-  public async createExternalUserFromPerson (payload: PersonPayload): Promise<number | undefined> {
+  public async createExternalUserFromPerson (payload: {person: string}): Promise<number | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('CRM createExternalUserFromPerson requires id to be set.')
 
     const data = {
@@ -354,8 +353,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/create_external_user_from_person`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         data,
         responseType: 'json'

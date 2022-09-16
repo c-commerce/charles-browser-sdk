@@ -69,7 +69,3 @@ export interface AssociateUsersPayload {
   readonly externalUserReferenceId: string
   readonly staffId: string
 }
-
-export interface PersonPayload {
-  person: string
-}
