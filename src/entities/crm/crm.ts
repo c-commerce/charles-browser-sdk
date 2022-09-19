@@ -1,7 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import qs from 'qs'
 import {
   AssociateUsersPayload,
@@ -373,108 +373,121 @@ export class CRMs {
 }
 
 // Init and setup error handlers
-export class CRMInitializationError extends BaseError {
+export class CRMInitializationError extends BaseErrorV2 {
   public name = 'CRMInitializationError'
-  constructor (public message: string = 'Could not initialize crm.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not initialize crm.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMInitializationError.prototype)
   }
 }
 
-export class CRMSetupRemoteError extends BaseError {
+export class CRMSetupRemoteError extends BaseErrorV2 {
   public name = 'CRMSetupRemoteError'
-  constructor (public message: string = 'Could not start setup of crm.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not start setup of crm.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMSetupRemoteError.prototype)
   }
 }
 
-export class CRMCreateExternalUserFromPersonError extends BaseError {
+export class CRMCreateExternalUserFromPersonError extends BaseErrorV2 {
   public name = 'CRMCreateExternalUserFromPersonError'
-  constructor (public message: string = 'Could not create user.', properties?: any) {
-    super(message, properties)
-    Object.setPrototypeOf(this, CRMAssociateUsersError.prototype)
+  public message = 'Could not create user.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, CRMCreateExternalUserFromPersonError.prototype)
   }
 }
 
-export class CRMAssociateUsersError extends BaseError {
+export class CRMAssociateUsersError extends BaseErrorV2 {
   public name = 'CRMAssociateUsersError'
-  constructor (public message: string = 'Could not associate users.', properties?: any) {
-    super(message, properties)
+  public message: string = 'Could not associate users.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMAssociateUsersError.prototype)
   }
 }
 
 // Fetch remote error handlers
-export class CRMFetchRemoteError extends BaseError {
+export class CRMFetchRemoteError extends BaseErrorV2 {
   public name = 'CRMFetchRemoteError'
-  constructor (public message: string = 'Could not get crm.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get crm.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMFetchRemoteError.prototype)
   }
 }
 
-export class CRMsFetchRemoteError extends BaseError {
+export class CRMsFetchRemoteError extends BaseErrorV2 {
   public name = 'CRMsFetchRemoteError'
-  constructor (public message: string = 'Could not get crms.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get crms.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMsFetchRemoteError.prototype)
   }
 }
 
-export class CRMFetchUsersRemoteError extends BaseError {
+export class CRMFetchUsersRemoteError extends BaseErrorV2 {
   public name = 'CRMFetchUsersRemoteError'
-  constructor (public message: string = 'Could not get users.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not get users.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMFetchUsersRemoteError.prototype)
   }
 }
 
 // Sync remote error handlers
-export class CRMSyncCustomPropertiesRemoteError extends BaseError {
+export class CRMSyncCustomPropertiesRemoteError extends BaseErrorV2 {
   public name = 'CRMSyncCustomPropertiesRemoteError'
-  constructor (public message: string = 'Could not start sync of crms\' custom properties.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not start sync of crms\' custom properties.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMSyncCustomPropertiesRemoteError.prototype)
   }
 }
 
-export class CRMSyncDealsRemoteError extends BaseError {
+export class CRMSyncDealsRemoteError extends BaseErrorV2 {
   public name = 'CRMSyncDealsRemoteError'
-  constructor (public message: string = 'Could not start sync of crm deals.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not start sync of crm deals.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMSyncDealsRemoteError.prototype)
   }
 }
 
-export class CRMSyncPipelinesRemoteError extends BaseError {
+export class CRMSyncPipelinesRemoteError extends BaseErrorV2 {
   public name = 'CRMSyncPipelinesRemoteError'
-  constructor (public message: string = 'Could not start sync of crm pipelines.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not start sync of crm pipelines.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMSyncPipelinesRemoteError.prototype)
   }
 }
 
-export class CRMSyncChannelUsersRemoteError extends BaseError {
+export class CRMSyncChannelUsersRemoteError extends BaseErrorV2 {
   public name = 'CRMSyncChannelUsersRemoteError'
-  constructor (public message: string = 'Could not start sync of crm chanel users.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not start sync of crm chanel users.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMSyncChannelUsersRemoteError.prototype)
   }
 }
 
-export class CRMSyncOrganizationsRemoteError extends BaseError {
+export class CRMSyncOrganizationsRemoteError extends BaseErrorV2 {
   public name = 'CRMSyncOrganizationsRemoteError'
-  constructor (public message: string = 'Could not start remote org sync.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not start remote org sync.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, CRMSyncOrganizationsRemoteError.prototype)
   }
 }
 
-export class CRMSyncUsersRemoteError extends BaseError {
+export class CRMSyncUsersRemoteError extends BaseErrorV2 {
   public name = 'CRMSyncUsersRemoteError'
-  constructor (public message: string = 'Could not start sync of users.', properties?: any) {
-    super(message, properties)
-    Object.setPrototypeOf(this, CRMSyncUsersRemoteError)
+  public message = 'Could not start sync of users.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, CRMSyncUsersRemoteError.prototype)
   }
 }
