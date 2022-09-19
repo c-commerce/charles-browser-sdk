@@ -1,5 +1,5 @@
 
-import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
+import Entity, { UniverseEntityOptions, UniverseEntity, EntityFetchOptions, EntityPostError, EntityPatchError } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
@@ -219,6 +219,30 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
 
   public static create (payload: MessageTemplateRawPayload, universe: Universe, http: Universe['http']): MessageTemplate {
     return new MessageTemplate({ rawPayload: payload, universe, http, initialized: true })
+  }
+
+  public async post (): Promise<Entity<MessageTemplatePayload, MessageTemplateRawPayload>> {
+    try {
+      return await this._post()
+    } catch (e: any) {
+      if (e?.properties?.error?.response?.status === 422) {
+        throw new EntityPostError(e?.properties?.error?.response?.data?.msg, { error: e })
+      } else {
+        throw e
+      }
+    }
+  }
+
+  public async patch (changePart: MessageTemplateRawPayload): Promise<Entity<MessageTemplatePayload, MessageTemplateRawPayload>> {
+    try {
+      return await this._patch(changePart)
+    } catch (e: any) {
+      if (e?.properties?.error?.response?.status === 422) {
+        throw new EntityPatchError(e?.properties?.error?.response?.data?.msg, { error: e })
+      } else {
+        throw e
+      }
+    }
   }
 
   public serialize (): MessageTemplateRawPayload {
