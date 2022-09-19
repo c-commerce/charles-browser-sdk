@@ -1,3 +1,10 @@
+# [4.125.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.3...v4.125.0) (2022-09-19)
+
+
+### Features
+
+* **hubspot:** create contact from Charles ([1aaf26e](https://github.com/c-commerce/charles-browser-sdk/commit/1aaf26e7c655187bb5ade289998a3239c96b8135))
+
 ## [4.124.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.2...v4.124.3) (2022-09-09)
 
 
