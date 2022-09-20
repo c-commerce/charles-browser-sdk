@@ -1,3 +1,10 @@
+# [4.126.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.125.0...v4.126.0) (2022-09-20)
+
+
+### Features
+
+* **universe.ts:** add deployed_configuration field to cloud universe entity ([d016192](https://github.com/c-commerce/charles-browser-sdk/commit/d0161923acd914ee05dbf2f68410427ac57888df))
+
 # [4.125.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.3...v4.125.0) (2022-09-19)
 
 
