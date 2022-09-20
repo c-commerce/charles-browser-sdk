@@ -29,6 +29,7 @@ export interface CloudUniverseRawPayload {
   readonly active?: string
   readonly name?: string | null
   readonly configuration?: object
+  readonly deployed_configuration?: object
   readonly pool?: string
   readonly organization?: string
   readonly status?: object
@@ -44,6 +45,7 @@ export interface CloudUniversePayload {
   readonly active?: string
   readonly name?: CloudUniverseRawPayload['name']
   readonly configuration?: CloudUniverseRawPayload['configuration']
+  readonly deployed_configuration?: CloudUniverseRawPayload['deployed_configuration']
   readonly pool?: CloudUniverseRawPayload['pool']
   readonly organization?: CloudUniverseRawPayload['organization']
   readonly status?: CloudUniverseRawPayload['status']
@@ -108,6 +110,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   public active?: CloudUniversePayload['active']
   public name?: CloudUniversePayload['name']
   public configuration?: CloudUniversePayload['configuration']
+  public deployed_configuration?: CloudUniversePayload['deployed_configuration']
   public pool?: CloudUniversePayload['pool']
   public organization?: CloudUniversePayload['organization']
   public status?: CloudUniversePayload['status']
@@ -158,6 +161,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     this.active = rawPayload.active ?? 'true'
     this.name = rawPayload.name
     this.configuration = rawPayload.configuration
+    this.deployed_configuration = rawPayload?.deployed_configuration ?? undefined
     this.pool = rawPayload.pool
     this.organization = rawPayload.organization
     this.status = rawPayload.status
@@ -197,6 +201,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       active: this.active ?? 'true',
       name: this.name,
       configuration: this.configuration,
+      deployed_configuration: this?.deployed_configuration ?? undefined,
       pool: this.pool,
       organization: this.organization,
       status: this.status,
