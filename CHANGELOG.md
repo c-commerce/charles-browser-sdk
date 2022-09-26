@@ -1,3 +1,10 @@
+## [4.126.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.126.0...v4.126.1) (2022-09-26)
+
+
+### Bug Fixes
+
+* **MessageTemplates:** display the wapi error message on a failing submit ([24c11b0](https://github.com/c-commerce/charles-browser-sdk/commit/24c11b01df753284e0302806f774a43cfb2d0d65))
+
 # [4.126.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.125.0...v4.126.0) (2022-09-20)
 
 
