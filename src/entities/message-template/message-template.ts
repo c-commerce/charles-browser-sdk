@@ -1,7 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
 import qs from 'qs'
 import { Feed } from '../../eventing/feeds/feed'
@@ -274,8 +274,8 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
       const res = await this.http.getClient()(opts)
       const resource = res.data.data[0] as MessageTemplateRawPayload
       return MessageTemplate.create(resource, this.universe, this.http)
-    } catch (err) {
-      throw new MessageTemplateSubmitRemoteError(undefined, { error: err })
+    } catch (err: any) {
+      throw new MessageTemplateSubmitRemoteError(err)
     }
   }
 
@@ -333,10 +333,11 @@ export class MessageTemplatesFetchRemoteError extends BaseError {
     super(message, properties)
   }
 }
-export class MessageTemplateSubmitRemoteError extends BaseError {
+export class MessageTemplateSubmitRemoteError extends BaseErrorV2 {
   public name = 'MessageTemplateSubmitRemoteError'
-  constructor (public message: string = 'Could not submit message template.', properties?: any) {
-    super(message, properties)
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, MessageTemplateSubmitRemoteError.prototype)
   }
 }
 export class MessageTemplatePreviewRemoteError extends BaseError {
