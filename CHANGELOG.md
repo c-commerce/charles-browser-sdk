@@ -1,3 +1,10 @@
+# [4.128.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.127.0...v4.128.0) (2022-09-27)
+
+
+### Features
+
+* **universes-pools.ts:** add number of universes to fields on pool ([27a95ef](https://github.com/c-commerce/charles-browser-sdk/commit/27a95ef82ad7ae81a6d8658d7ec0ba523114569b))
+
 # [4.127.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.126.1...v4.127.0) (2022-09-27)
 
 
