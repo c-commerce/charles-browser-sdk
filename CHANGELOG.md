@@ -1,3 +1,10 @@
+# [4.127.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.126.1...v4.127.0) (2022-09-27)
+
+
+### Features
+
+* **universe.ts:** add destroy universe method ([ef5dd31](https://github.com/c-commerce/charles-browser-sdk/commit/ef5dd31ffdadd4d67a37bf11dc4a42a395ccd924))
+
 ## [4.126.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.126.0...v4.126.1) (2022-09-26)
 
 
