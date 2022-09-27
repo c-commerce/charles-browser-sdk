@@ -129,6 +129,27 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+  public async destroy (): Promise<String> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
+    const endpoint = `api/v0/universes/${this.id}/deploy/v2`
+    let res
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      res = await this.http?.getClient()(opts)
+      return res.data.msg
+    } catch (err) {
+      throw this.handleError(new DestroyUniverseError(undefined, { error: err }))
+    }
+  }
+
   public async saveMultiple (payload: SaveMultiplePayload): Promise<SaveMultipleResponse> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
     const saveEndpoint = 'api/v0/universes/'
@@ -465,5 +486,12 @@ export class InviteUserError extends BaseError {
   constructor (public message: string = 'Error inviting new user', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, InviteUserError.prototype)
+  }
+}
+export class DestroyUniverseError extends BaseError {
+  public name = 'InviteUserError'
+  constructor (public message: string = 'Error destroying universe', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, DestroyUniverseError.prototype)
   }
 }
