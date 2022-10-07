@@ -14,6 +14,7 @@ export interface UniversesPoolRawPayload {
   readonly deleted?: boolean
   readonly active?: boolean
   readonly name?: string
+  readonly count?: string
   readonly status?: string
   readonly configuration?: string
 }
@@ -25,6 +26,7 @@ export interface UniversesPoolPayload {
   readonly deleted?: UniversesPoolRawPayload['deleted']
   readonly active?: UniversesPoolRawPayload['active']
   readonly name?: UniversesPoolRawPayload['name']
+  readonly count?: UniversesPoolRawPayload['count']
   readonly status?: UniversesPoolRawPayload['status']
   readonly configuration?: UniversesPoolRawPayload['configuration']
 }
@@ -59,6 +61,7 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
   public deleted?: UniversesPoolPayload['deleted']
   public active?: UniversesPoolPayload['active']
   public name?: UniversesPoolPayload['name']
+  public count?: UniversesPoolPayload['count']
   public status?: UniversesPoolPayload['status']
   public configuration?: UniversesPoolPayload['configuration']
 
@@ -84,6 +87,7 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
     this.name = rawPayload.name
+    this.count = rawPayload.count
     this.status = rawPayload.status
     this.configuration = rawPayload.configuration
 
@@ -102,6 +106,7 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
       deleted: this.deleted ?? false,
       active: this.active ?? true,
       name: this.name,
+      count: this.count,
       status: this.status,
       configuration: this.configuration
     }

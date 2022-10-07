@@ -1,3 +1,45 @@
+# [4.128.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.127.0...v4.128.0) (2022-09-27)
+
+
+### Features
+
+* **universes-pools.ts:** add number of universes to fields on pool ([27a95ef](https://github.com/c-commerce/charles-browser-sdk/commit/27a95ef82ad7ae81a6d8658d7ec0ba523114569b))
+
+# [4.127.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.126.1...v4.127.0) (2022-09-27)
+
+
+### Features
+
+* **universe.ts:** add destroy universe method ([ef5dd31](https://github.com/c-commerce/charles-browser-sdk/commit/ef5dd31ffdadd4d67a37bf11dc4a42a395ccd924))
+
+## [4.126.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.126.0...v4.126.1) (2022-09-26)
+
+
+### Bug Fixes
+
+* **MessageTemplates:** display the wapi error message on a failing submit ([24c11b0](https://github.com/c-commerce/charles-browser-sdk/commit/24c11b01df753284e0302806f774a43cfb2d0d65))
+
+# [4.126.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.125.0...v4.126.0) (2022-09-20)
+
+
+### Features
+
+* **universe.ts:** add deployed_configuration field to cloud universe entity ([d016192](https://github.com/c-commerce/charles-browser-sdk/commit/d0161923acd914ee05dbf2f68410427ac57888df))
+
+# [4.125.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.3...v4.125.0) (2022-09-19)
+
+
+### Features
+
+* **hubspot:** create contact from Charles ([1aaf26e](https://github.com/c-commerce/charles-browser-sdk/commit/1aaf26e7c655187bb5ade289998a3239c96b8135))
+
+## [4.124.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.2...v4.124.3) (2022-09-09)
+
+
+### Bug Fixes
+
+* **EntityList:** increase and make timeout configurable ([1ce807b](https://github.com/c-commerce/charles-browser-sdk/commit/1ce807b2608a6fbfe8f542c49f96831f1455753a))
+
 ## [4.124.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.124.1...v4.124.2) (2022-09-08)
 
 
