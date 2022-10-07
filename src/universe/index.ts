@@ -83,6 +83,9 @@ import * as corsOrigin from '../entities/cors-origin/cors-origin'
 
 import * as trackingProvider from '../entities/tracking-provider/tracking-provider'
 
+import * as dataExportMeta from '../entities/data-export/data-meta'
+import * as dataExport from '../entities/data-export/data-export'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -1636,6 +1639,25 @@ export class Universe extends APICarrier {
       })
     } catch (err) {
       throw new productCategoryTree.ProductCategoryTreesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async dataExportMeta (payload: dataExportMeta.DataExportMetaPayload): Promise<{string: any} | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${dataExportMeta.DataExportMetas.endpoint}`, {})
+      return res.data
+    } catch (err) {
+      throw new dataExportMeta.DataExportMetasFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async dataExport (rawPayload: dataExport.DataExportRawPayload): Promise<{string: any} | undefined> {
+    try {
+      const exportPath = dataExport.DataExport.create(rawPayload, this, this.http)
+      const res = await this.http.getClient().get(`${this.universeBase}/${exportPath.endpoint}`, {})
+      return res.data
+    } catch (err) {
+      throw new dataExport.DataExportFetchRemoteError(undefined, { error: err })
     }
   }
 
