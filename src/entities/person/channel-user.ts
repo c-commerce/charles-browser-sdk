@@ -184,7 +184,7 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
       if (error.response?.status === 403) {
         throw new PersonChannelUserMessageTemplateSendForbiddenError(error)
       }
-      throw new PersonChannelUserMessageTemplateSendError(err)
+      throw new PersonChannelUserMessageTemplateSendError(error)
     }
   }
 

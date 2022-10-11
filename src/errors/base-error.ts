@@ -18,7 +18,6 @@ export class BaseError extends Error {
     const props = Object.assign(
       { error: maybeError },
       additionalProperties ?? {},
-      // @ts-expect-error
       { localizedErrors: safeGet(maybeError, 'response.data.errors') }
     )
 

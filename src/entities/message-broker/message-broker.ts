@@ -1,7 +1,7 @@
 
 import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { Route, RouteRawPayload } from '../route'
 import * as messageTemplate from '../message-template'
 import * as feed from '../../eventing/feeds/feed'
@@ -343,7 +343,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
 
       return event.Event.create(response.data.data[0], _feed, this.universe, this.http)
     } catch (err) {
-      throw new MessageBrokerMessageTemplateNotificationSendError(undefined, { error: err })
+      throw new MessageBrokerMessageTemplateNotificationSendError(err)
     }
   }
 
@@ -423,10 +423,12 @@ export class MessageBrokerUpdateProfileRemoteError extends BaseError {
   }
 }
 
-export class MessageBrokerMessageTemplateNotificationSendError extends BaseError {
+export class MessageBrokerMessageTemplateNotificationSendError extends BaseErrorV2 {
   public name = 'MessageBrokerMessageTemplateNotificationSendError'
-  constructor (public message: string = 'Could not create broker notification unexpectedly.', properties?: any) {
-    super(message, properties)
+  public message = 'Could not create broker notification unexpectedly.'
+
+  constructor (err: Error | unknown, props?: BaseErrorV2Properties) {
+    super(err as Error, props)
     Object.setPrototypeOf(this, MessageBrokerMessageTemplateNotificationSendError.prototype)
   }
 }
