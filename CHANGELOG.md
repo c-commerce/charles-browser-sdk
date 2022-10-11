@@ -1,3 +1,11 @@
+# [4.129.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.128.0...v4.129.0) (2022-10-11)
+
+
+### Features
+
+* **#sendMessageFromMessageTemplate:** consistently forward errors ([ac0b93e](https://github.com/c-commerce/charles-browser-sdk/commit/ac0b93ec43baceb9d28ec86f836991ca02ec625f))
+* **BaseErrorV2:** support localized descriptions ([ec8190a](https://github.com/c-commerce/charles-browser-sdk/commit/ec8190a18ed176b631d2516ddbd7b3b23a385a22))
+
 # [4.128.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.127.0...v4.128.0) (2022-09-27)
 
 
