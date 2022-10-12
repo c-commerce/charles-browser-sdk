@@ -1,3 +1,15 @@
+# [4.130.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.129.0...v4.130.0) (2022-10-12)
+
+
+### Bug Fixes
+
+* **person:** code nits ([2786b48](https://github.com/c-commerce/charles-browser-sdk/commit/2786b48c0871645a0cc3cce5a99fe5d3276b7b5f))
+
+
+### Features
+
+* **person:** implement optin sugar handler ([449b20d](https://github.com/c-commerce/charles-browser-sdk/commit/449b20dbcbf21a3b27dd8c10643f9ba5a9c402d7))
+
 # [4.129.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.128.0...v4.129.0) (2022-10-11)
 
 
