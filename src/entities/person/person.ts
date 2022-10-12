@@ -199,7 +199,7 @@ export enum MessageSubscriptionActionTypesEnum {
   WITHDRAW = 'withdraw',
 }
 
-export type IMessageSubscriptionActionType = MessageSubscriptionActionTypesEnum.OPTIN | MessageSubscriptionActionTypesEnum.OPTOUT | MessageSubscriptionActionTypesEnum.WITHDRAW
+export type IMessageSubscriptionActionType = `${MessageSubscriptionActionTypesEnum}`
 
 export interface IHandleMessageSubscriptionBody {
   channel_user?: {
@@ -1025,7 +1025,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
         responseType: 'json'
       }
       const res = await this.http?.getClient()(opts)
-      const resource = res.data.data?.[0] as MessageSubscriptionInstanceRawPayload
+      const resource = res.data.data[0] as MessageSubscriptionInstanceRawPayload
       if (options && options.raw === true) {
         return resource
       }
