@@ -8,7 +8,7 @@ import Entity, {
   RawPatch
 } from '../_base'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { Order, OrderRawPayload } from '../../entities/order/order'
 import { ChannelUser, ChannelUserRawPayload } from './channel-user'
 import { Analytics, AnalyticsRawPayload } from './analytics'
@@ -192,6 +192,24 @@ export interface IPersonAddresses {
   fromJson: Function
   toJson: Function
   create: Function
+}
+export enum MessageSubscriptionActionTypesEnum {
+  OPTIN = 'optin',
+  OPTOUT = 'optout',
+  WITHDRAW = 'withdraw',
+}
+
+export type IMessageSubscriptionActionType = MessageSubscriptionActionTypesEnum.OPTIN | MessageSubscriptionActionTypesEnum.OPTOUT | MessageSubscriptionActionTypesEnum.WITHDRAW
+
+export interface IHandleMessageSubscriptionBody {
+  channel_user?: {
+    id: string
+  }
+  context?: {
+    is_by_user?: boolean
+    response_message?: string
+    feed?: string
+  }
 }
 
 class AddressArray<T> extends Array<T> {
@@ -984,6 +1002,31 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
       throw this.handleError(new PossibleDuplicatesFetchRemoteError(undefined, { error: err }))
     }
   }
+
+  public async handleMessageSubscription (messageSubscriptionId: string, action: IMessageSubscriptionActionType, body?: IHandleMessageSubscriptionBody, options?: EntityFetchOptions): Promise<MessageSubscriptionInstanceRawPayload | MessageSubscriptionInstance> {
+    if (!(this.id && messageSubscriptionId && action)) throw new TypeError('handleMessageSubscription requires personId, messageSubscriptionId and action (optin, optout, withdraw) to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/api/v0/people/${this.id}/message_subscriptions/${messageSubscriptionId}/${action}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        data: body,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http?.getClient()(opts)
+      const resource = res.data.data?.[0] as MessageSubscriptionInstanceRawPayload
+      if (options && options.raw === true) {
+        return resource
+      }
+
+      return MessageSubscriptionInstance.create(resource, this.universe, this.http)
+    } catch (err) {
+      throw new HandleMessageSubscriptionRemoteError(err)
+    }
+  }
 }
 export interface PersonGDPROptions {
   password?: string
@@ -1456,5 +1499,13 @@ export class PhonenumberApplyPatchRemoteError extends BaseError {
   constructor (public message: string = 'Phonenumber applyPatch requires person to be set.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PhonenumberApplyPatchRemoteError.prototype)
+  }
+}
+
+export class HandleMessageSubscriptionRemoteError extends BaseErrorV2 {
+  public name = 'HandleMessageSubscriptionRemoteError'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, HandleMessageSubscriptionRemoteError.prototype)
   }
 }
