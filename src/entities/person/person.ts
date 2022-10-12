@@ -1003,6 +1003,14 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     }
   }
 
+  /**
+   * Unified sugar method to handle all the different aspects of a person messageSubscriptionInstance
+   *
+   * @param messageSubscriptionId
+   * @param action - 'optin' | 'optout' | 'withdraw'
+   * @param body  - optional context
+   * @param options - optional query parameters
+   */
   public async handleMessageSubscription (messageSubscriptionId: string, action: IMessageSubscriptionActionType, body?: IHandleMessageSubscriptionBody, options?: EntityFetchOptions): Promise<MessageSubscriptionInstanceRawPayload | MessageSubscriptionInstance> {
     if (!(this.id && messageSubscriptionId && action)) throw new TypeError('handleMessageSubscription requires personId, messageSubscriptionId and action (optin, optout, withdraw) to be set.')
 

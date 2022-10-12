@@ -350,6 +350,10 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     }
   }
 
+  /**
+   * @deprecated use unified person.handleMessageSubscription(...) instead
+   * @param payload MessageSubscriptionInstanceRawPayload
+   */
   async createInstance (payload: MessageSubscriptionInstanceRawPayload): Promise<MessageSubscriptionInstance | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('MessageSubscription create instance requires message subscription id to be set')
 
