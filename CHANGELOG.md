@@ -1,3 +1,10 @@
+# [4.131.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.130.0...v4.131.0) (2022-10-14)
+
+
+### Features
+
+* **custom properties:** added readonly property ([d737157](https://github.com/c-commerce/charles-browser-sdk/commit/d73715780f830e4a9365d58851acadf05d499ffe))
+
 # [4.130.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.129.0...v4.130.0) (2022-10-12)
 
 
