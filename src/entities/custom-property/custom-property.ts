@@ -44,6 +44,7 @@ export interface CustomPropertyRawPayload {
   readonly updated_at?: string
   readonly deleted?: boolean
   readonly disabled?: boolean
+  readonly readonly?: boolean
   readonly active?: boolean
   readonly name?: string
   readonly object?: string
@@ -76,6 +77,7 @@ export interface CustomPropertyPayload {
   readonly updatedAt?: Date | null
   readonly deleted?: CustomPropertyRawPayload['deleted']
   readonly disabled?: CustomPropertyRawPayload['disabled']
+  readonly readonly?: CustomPropertyRawPayload['readonly']
   readonly active?: CustomPropertyRawPayload['active']
   readonly name?: CustomPropertyRawPayload['name']
   readonly object?: CustomPropertyRawPayload['object']
@@ -111,6 +113,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
   public updatedAt?: CustomPropertyPayload['updatedAt']
   public deleted?: CustomPropertyPayload['deleted']
   public disabled?: CustomPropertyPayload['disabled']
+  public readonly?: CustomPropertyPayload['readonly']
   public active?: CustomPropertyPayload['active']
   public name?: CustomPropertyPayload['name']
   public object?: CustomPropertyPayload['object']
@@ -147,6 +150,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.deleted = rawPayload.deleted ?? false
     this.disabled = rawPayload.disabled ?? false
+    this.readonly = rawPayload.readonly ?? false
     this.active = rawPayload.active ?? true
     this.name = rawPayload.name
     this.object = rawPayload.object
@@ -175,6 +179,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
       disabled: this.disabled ?? false,
+      readonly: this.readonly ?? false,
       active: this.active ?? true,
       name: this.name,
       object: this.object,
