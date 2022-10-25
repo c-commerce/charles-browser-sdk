@@ -10,12 +10,15 @@ export interface DataExportOptions extends UniverseEntityOptions {
 export interface DataExportRawPayload {
   readonly data?: { [key: string]: any }
   readonly name?: string
-
+  readonly dateRange?: { [key: string]: any }
+  readonly filteredColumn?: string
 }
 
 export interface DataExportPayload {
   readonly data?: DataExportRawPayload['data']
   readonly name?: DataExportRawPayload['name']
+  readonly dateRange?: DataExportRawPayload['dateRange']
+  readonly filteredColumn?: DataExportRawPayload['filteredColumn']
 }
 
 /**
@@ -31,8 +34,9 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportPayl
   protected options: DataExportOptions
   public initialized: boolean
   public endpoint: string
-
   public data?: DataExportPayload['data']
+  public dateRange?: DataExportPayload['dateRange']
+  public filteredColumn?: DataExportPayload['filteredColumn']
 
   constructor (options: DataExportOptions) {
     super()
@@ -42,7 +46,6 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportPayl
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
-
 
     if (options?.rawPayload && options.rawPayload.name) {
       this.endpoint = `api/v0/data-export/${options.rawPayload.name}`
@@ -57,6 +60,8 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportPayl
     this.setRawPayload(rawPayload)
 
     this.data = rawPayload.data
+    this.dateRange = rawPayload.dateRange
+    this.filteredColumn = rawPayload.filteredColumn
 
     return this
   }
@@ -74,7 +79,7 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportPayl
 
   public async init (): Promise<DataExport | undefined> {
     try {
-      await this.fetch()
+      await this.post()
 
       return this
     } catch (err) {

@@ -1653,8 +1653,13 @@ export class Universe extends APICarrier {
 
   public async dataExport (rawPayload: dataExport.DataExportRawPayload): Promise<{string: any} | undefined> {
     try {
-      const exportPath = dataExport.DataExport.create(rawPayload, this, this.http)
-      const res = await this.http.getClient().get(`${this.universeBase}/${exportPath.endpoint}`, {})
+      const resource = dataExport.DataExport.create(rawPayload, this, this.http)
+      const res = await this.http.getClient().post(
+        `${this.universeBase}/${resource.endpoint}`,
+        {
+          dateRange: resource.dateRange,
+          filteredColumn: resource.filteredColumn
+        })
       return res.data
     } catch (err) {
       throw new dataExport.DataExportFetchRemoteError(undefined, { error: err })
