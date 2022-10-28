@@ -1,3 +1,10 @@
+## [4.131.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.131.0...v4.131.1) (2022-10-28)
+
+
+### Bug Fixes
+
+* **contact list split:** allow timeout config ([ba3ebf4](https://github.com/c-commerce/charles-browser-sdk/commit/ba3ebf47bf0c00a7ed88ebf7059a6bce6b9ae07f))
+
 # [4.131.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.130.0...v4.131.0) (2022-10-14)
 
 
