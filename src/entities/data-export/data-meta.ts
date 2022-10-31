@@ -38,7 +38,7 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
-    this.endpoint = 'api/v0/data-export-meta'
+    this.endpoint = 'api/v0/data_export_meta'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -80,7 +80,7 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class DataExportMetas {
-  public static endpoint: string = 'api/v0/data-export-meta'
+  public static endpoint: string = 'api/v0/data_export_meta'
 }
 
 export class DataExportMetaInitializationError extends BaseError {

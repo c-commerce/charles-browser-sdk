@@ -42,13 +42,13 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportPayl
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
-    this.endpoint = 'api/v0/data-export/'
+    this.endpoint = 'api/v0/data_export/'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
 
     if (options?.rawPayload && options.rawPayload.name) {
-      this.endpoint = `api/v0/data-export/${options.rawPayload.name}`
+      this.endpoint = `api/v0/data_export/${options.rawPayload.name}`
     }
 
     if (options?.rawPayload) {
@@ -90,7 +90,7 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportPayl
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class DataExports {
-  public static endpoint: string = 'api/v0/data-export-meta'
+  public static endpoint: string = 'api/v0/data_export_meta'
 }
 
 export class DataExportInitializationError extends BaseError {
