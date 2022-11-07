@@ -350,6 +350,10 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     }
   }
 
+  /**
+   * @deprecated use unified person.handleMessageSubscription(...) instead
+   * @param payload MessageSubscriptionInstanceRawPayload
+   */
   async createInstance (payload: MessageSubscriptionInstanceRawPayload): Promise<MessageSubscriptionInstance | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('MessageSubscription create instance requires message subscription id to be set')
 
@@ -380,26 +384,26 @@ export class MessageSubscriptions extends EntitiesList<MessageSubscription, Mess
   protected apiCarrier: Universe
   protected http: Universe['http']
 
-  constructor(options: NotificationCampaignsOptions) {
+  constructor (options: NotificationCampaignsOptions) {
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.http = options.http
   }
 
-  protected parseItem(payload: MessageSubscriptionRawPayload): MessageSubscription {
+  protected parseItem (payload: MessageSubscriptionRawPayload): MessageSubscription {
     return MessageSubscription.create(payload, this.universe, this.http)
   }
 
-  public async getStream(options?: UniverseFetchOptions): Promise<MessageSubscriptions> {
+  public async getStream (options?: UniverseFetchOptions): Promise<MessageSubscriptions> {
     return (await this._getStream(options)) as MessageSubscriptions
   }
 
-  public async exportCsv(options?: UniverseExportCsvOptions): Promise<Blob> {
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
     return (await this._exportCsv(options))
   }
 
-  public async fetch(options: EntityFetchOptions): Promise<MessageSubscription[] | MessageSubscriptionRawPayload[] | undefined> {
+  public async fetch (options: EntityFetchOptions): Promise<MessageSubscription[] | MessageSubscriptionRawPayload[] | undefined> {
     try {
       return await super.fetch(options)
     } catch (err) {

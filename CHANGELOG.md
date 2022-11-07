@@ -1,3 +1,37 @@
+## [4.131.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.131.0...v4.131.1) (2022-10-28)
+
+
+### Bug Fixes
+
+* **contact list split:** allow timeout config ([ba3ebf4](https://github.com/c-commerce/charles-browser-sdk/commit/ba3ebf47bf0c00a7ed88ebf7059a6bce6b9ae07f))
+
+# [4.131.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.130.0...v4.131.0) (2022-10-14)
+
+
+### Features
+
+* **custom properties:** added readonly property ([d737157](https://github.com/c-commerce/charles-browser-sdk/commit/d73715780f830e4a9365d58851acadf05d499ffe))
+
+# [4.130.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.129.0...v4.130.0) (2022-10-12)
+
+
+### Bug Fixes
+
+* **person:** code nits ([2786b48](https://github.com/c-commerce/charles-browser-sdk/commit/2786b48c0871645a0cc3cce5a99fe5d3276b7b5f))
+
+
+### Features
+
+* **person:** implement optin sugar handler ([449b20d](https://github.com/c-commerce/charles-browser-sdk/commit/449b20dbcbf21a3b27dd8c10643f9ba5a9c402d7))
+
+# [4.129.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.128.0...v4.129.0) (2022-10-11)
+
+
+### Features
+
+* **#sendMessageFromMessageTemplate:** consistently forward errors ([ac0b93e](https://github.com/c-commerce/charles-browser-sdk/commit/ac0b93ec43baceb9d28ec86f836991ca02ec625f))
+* **BaseErrorV2:** support localized descriptions ([ec8190a](https://github.com/c-commerce/charles-browser-sdk/commit/ec8190a18ed176b631d2516ddbd7b3b23a385a22))
+
 # [4.128.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.127.0...v4.128.0) (2022-09-27)
 
 

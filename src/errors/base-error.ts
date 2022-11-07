@@ -48,6 +48,7 @@ export class BaseErrorV2 extends Error {
   public message: string = 'An unexpected error occurred'
   private readonly localizedErrors: LocalizeError[] | null = null
   public humanReadableAPIErrorMessage?: string | null = null
+  public humanReadableAPIErrorDescription?: string | null = null
 
   constructor (err: Error | AxiosError<APIErrorPayload>, props?: BaseErrorV2Properties) {
     super()
@@ -66,6 +67,10 @@ export class BaseErrorV2 extends Error {
       this.humanReadableAPIErrorMessage = this.localizedErrors[0].message
     }
 
+    if (this.localizedErrors?.[0]?.description) {
+      this.humanReadableAPIErrorDescription = this.localizedErrors[0].description
+    }
+
     this.properties = {
       ...(props ?? {}),
       error: err
@@ -76,5 +81,9 @@ export class BaseErrorV2 extends Error {
 
   hasHumanReadableAPIErrorMessage (): boolean {
     return !!(this.humanReadableAPIErrorMessage)
+  }
+
+  hasHumanReadableAPIErrorDescription (): boolean {
+    return !!(this.humanReadableAPIErrorDescription)
   }
 }

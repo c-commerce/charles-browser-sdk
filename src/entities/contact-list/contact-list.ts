@@ -263,7 +263,8 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        data: splitConfig
+        data: splitConfig,
+        timeout: options?.timeout ?? 30000
       }
 
       const res = await this.http?.getClient()(opts)
