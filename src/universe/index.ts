@@ -1642,30 +1642,6 @@ export class Universe extends APICarrier {
     }
   }
 
-  public async dataExportMeta (payload: dataExportMeta.DataExportMetaPayload): Promise<{string: any} | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${dataExportMeta.DataExportMetas.endpoint}`, {})
-      return res.data
-    } catch (err) {
-      throw new dataExportMeta.DataExportMetasFetchRemoteError(undefined, { error: err })
-    }
-  }
-
-  public async dataExport (rawPayload: dataExport.DataExportRawPayload): Promise<{string: any} | undefined> {
-    try {
-      const resource = dataExport.DataExport.create(rawPayload, this, this.http)
-      const res = await this.http.getClient().post(
-        `${this.universeBase}/${resource.endpoint}`,
-        {
-          dateRange: resource.dateRange,
-          filteredColumn: resource.filteredColumn
-        })
-      return res.data
-    } catch (err) {
-      throw new dataExport.DataExportFetchRemoteError(undefined, { error: err })
-    }
-  }
-
   public async messageTemplateCategories (): Promise<messageTemplateCategory.MessageTemplateCategory[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${messageTemplateCategory.MessageTemplateCategories.endpoint}`)
@@ -1738,6 +1714,35 @@ export class Universe extends APICarrier {
   public async configurations (options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<configuration.Configuration, configuration.Configurations, configuration.ConfigurationRawPayload, EntityFetchOptions, configuration.ConfigurationsFetchRemoteError>(configuration.Configuration, configuration.Configurations, configuration.ConfigurationsFetchRemoteError, options)
   }
+
+  public async dataExportMeta (options?: EntityFetchOptions): Promise<dataExportMeta.DataExportMeta[] | dataExportMeta.DataExportMetaRawPayload[] | undefined> {
+  //   return undefined
+    // return await this.makeBaseResourceListRequest<dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaRawPayload, EntityFetchOptions, dataExportMeta.DataExportMetaFetchRemoteError>(dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaFetchRemoteError, options)
+  // }
+
+    // public async dataExportMeta (payload: dataExportMeta.DataExportMetaPayload): Promise<{string: any} | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/${dataExportMeta.DataExportMetas.endpoint}`, {})
+      return res.data
+    } catch (err) {
+      throw new dataExportMeta.DataExportMetasFetchRemoteError(undefined, { error: err })
+    }
+  }
+
+  // public async dataExport (rawPayload: dataExport.DataExportRawPayload): Promise<{string: any} | undefined> {
+  //   try {
+  //     const resource = dataExport.DataExport.create(rawPayload, this, this.http)
+  //     const res = await this.http.getClient().post(
+  //       `${this.universeBase}/${resource.endpoint}`,
+  //       {
+  //         dateRange: resource.dateRange,
+  //         filteredColumn: resource.filteredColumn
+  //       })
+  //     return res.data
+  //   } catch (err) {
+  //     throw new dataExport.DataExportFetchRemoteError(undefined, { error: err })
+  //   }
+  // }
 
   public async uiConfigurations ({ query: { owner = 'self' }, ...rest }: { query: { owner: string }, [key: string]: any }): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
     const opts = {
