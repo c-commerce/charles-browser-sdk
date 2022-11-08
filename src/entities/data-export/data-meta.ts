@@ -8,11 +8,13 @@ export interface DataExportMetaOptions extends UniverseEntityOptions {
 }
 
 export interface DataExportMetaRawPayload {
+  readonly id?: string
   readonly data?: { [key: string]: any }
 
 }
 
 export interface DataExportMetaPayload {
+  readonly id?: DataExportMetaRawPayload['id']
   readonly data?: DataExportMetaRawPayload['data']
 
 }
@@ -22,8 +24,7 @@ export interface DataExportMetaPayload {
  *
  * @category Entity
  */
-export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataExportMetaPayload> {
-  public id?: string | undefined
+export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataExportMetaRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
@@ -32,6 +33,7 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
 
   public endpoint: string
 
+  public id?: DataExportMetaPayload['id']
   public data?: DataExportMetaPayload['data']
 
   constructor (options: DataExportMetaOptions) {
@@ -50,7 +52,7 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
 
   protected deserialize (rawPayload: DataExportMetaRawPayload): DataExportMeta {
     this.setRawPayload(rawPayload)
-
+    this.id = rawPayload.id
     this.data = rawPayload.data
 
     return this
@@ -62,6 +64,7 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
 
   public serialize (): DataExportMetaRawPayload {
     return {
+      id: this.id,
       data: this.data
 
     }

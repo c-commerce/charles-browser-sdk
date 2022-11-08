@@ -26,7 +26,7 @@ export interface DataExportPayload {
  *
  * @category Entity
  */
-export class DataExport extends UniverseEntity<DataExportPayload, DataExportPayload> {
+export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawPayload> {
   public id?: string | undefined
   protected universe: Universe
   protected apiCarrier: Universe

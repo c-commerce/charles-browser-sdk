@@ -1717,7 +1717,7 @@ export class Universe extends APICarrier {
 
   public async dataExportMeta (options?: EntityFetchOptions): Promise<dataExportMeta.DataExportMeta[] | dataExportMeta.DataExportMetaRawPayload[] | undefined> {
   //   return undefined
-    // return await this.makeBaseResourceListRequest<dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaRawPayload, EntityFetchOptions, dataExportMeta.DataExportMetaFetchRemoteError>(dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaFetchRemoteError, options)
+  // return await this.makeBaseResourceListRequest<dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaRawPayload, EntityFetchOptions, dataExportMeta.DataExportMetaFetchRemoteError>(dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaFetchRemoteError, options)
   // }
 
     // public async dataExportMeta (payload: dataExportMeta.DataExportMetaPayload): Promise<{string: any} | undefined> {
