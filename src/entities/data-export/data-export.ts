@@ -77,11 +77,20 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawP
     }
   }
 
-  public async init (): Promise<DataExport | undefined> {
+  public async fetchData (): Promise<DataExport | undefined> {
     try {
-      await this.post()
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: this._rawPayload ?? undefined,
+        responseType: 'json'
+      }
 
-      return this
+      const response = await this.http?.getClient()(opts)
+      return response.data.data
     } catch (err) {
       throw this.handleError(new DataExportInitializationError(undefined, { error: err }))
     }

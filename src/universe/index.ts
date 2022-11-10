@@ -1716,17 +1716,11 @@ export class Universe extends APICarrier {
   }
 
   public async dataExportMeta (options?: EntityFetchOptions): Promise<dataExportMeta.DataExportMeta[] | dataExportMeta.DataExportMetaRawPayload[] | undefined> {
-  //   return undefined
-  // return await this.makeBaseResourceListRequest<dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaRawPayload, EntityFetchOptions, dataExportMeta.DataExportMetaFetchRemoteError>(dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaFetchRemoteError, options)
-  // }
+    return await this.makeBaseResourceListRequest<dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaRawPayload, EntityFetchOptions, dataExportMeta.DataExportMetaFetchRemoteError>(dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaFetchRemoteError, options)
+  }
 
-    // public async dataExportMeta (payload: dataExportMeta.DataExportMetaPayload): Promise<{string: any} | undefined> {
-    try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${dataExportMeta.DataExportMetas.endpoint}`, {})
-      return res.data
-    } catch (err) {
-      throw new dataExportMeta.DataExportMetasFetchRemoteError(undefined, { error: err })
-    }
+  public dataExport (payload: dataExport.DataExportRawPayload): dataExport.DataExport {
+    return dataExport.DataExport.create(payload, this, this.http)
   }
 
   // public async dataExport (rawPayload: dataExport.DataExportRawPayload): Promise<{string: any} | undefined> {
