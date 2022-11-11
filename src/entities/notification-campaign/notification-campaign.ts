@@ -1,7 +1,7 @@
 
 import { UniverseEntity, UniverseEntityOptions, EntityFetchOptions, EntityPostOptions, EntityDeleteOptions, EntitiesList } from '../_base'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
-import { BaseError } from '../../errors'
+import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { Event, EventRawPayload } from '../../eventing/feeds/event'
 import qs from 'qs'
 import { Feed } from '../../eventing/feeds/feed'
@@ -579,6 +579,28 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       throw new NotificationCampaignDeleteInvalidContactsRemoteError(undefined, { error: err })
     }
   }
+
+  /**
+   * Enqueues a job to sync all relevant campaign Google analytics.
+   * @returns Promise<number>
+   * @throws {NotificationCampaignSyncAnalyticsRemoteError}
+   */
+  public async syncAnalytics (): Promise<number | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/sync_analytics`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new NotificationCampaignSyncAnalyticsRemoteError(err))
+    }
+  }
 }
 
 export interface NotificationCampaignsOptions {
@@ -729,5 +751,13 @@ export class NotificationCampaignDeleteInvalidContactsRemoteError extends BaseEr
   constructor (public message: string = 'Could not delete invalid contacts of notification campaign', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignDeleteInvalidContactsRemoteError.prototype)
+  }
+}
+export class NotificationCampaignSyncAnalyticsRemoteError extends BaseErrorV2 {
+  public name = 'NotificationCampaignSyncAnalyticsRemoteError'
+  public message = 'Could not enqueue campaign analytics sync.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, NotificationCampaignSyncAnalyticsRemoteError.prototype)
   }
 }
