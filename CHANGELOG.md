@@ -1,3 +1,10 @@
+# [4.132.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.131.1...v4.132.0) (2022-11-11)
+
+
+### Features
+
+* **campaign:** Sync analytics endpoint ([73be93d](https://github.com/c-commerce/charles-browser-sdk/commit/73be93ddf7d527ba5e1da48e1f4185d38e8b73d4))
+
 ## [4.131.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.131.0...v4.131.1) (2022-10-28)
 
 
