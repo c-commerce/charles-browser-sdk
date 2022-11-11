@@ -1723,21 +1723,6 @@ export class Universe extends APICarrier {
     return dataExport.DataExport.create(payload, this, this.http)
   }
 
-  // public async dataExport (rawPayload: dataExport.DataExportRawPayload): Promise<{string: any} | undefined> {
-  //   try {
-  //     const resource = dataExport.DataExport.create(rawPayload, this, this.http)
-  //     const res = await this.http.getClient().post(
-  //       `${this.universeBase}/${resource.endpoint}`,
-  //       {
-  //         dateRange: resource.dateRange,
-  //         filteredColumn: resource.filteredColumn
-  //       })
-  //     return res.data
-  //   } catch (err) {
-  //     throw new dataExport.DataExportFetchRemoteError(undefined, { error: err })
-  //   }
-  // }
-
   public async uiConfigurations ({ query: { owner = 'self' }, ...rest }: { query: { owner: string }, [key: string]: any }): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
     const opts = {
       query: {
