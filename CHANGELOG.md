@@ -1,3 +1,10 @@
+# [4.133.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.132.0...v4.133.0) (2022-11-14)
+
+
+### Features
+
+* **campaigns:** add status history property ([11d412b](https://github.com/c-commerce/charles-browser-sdk/commit/11d412b710d53e2e907b2db716e20805cbedab41))
+
 # [4.132.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.131.1...v4.132.0) (2022-11-11)
 
 
