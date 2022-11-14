@@ -113,6 +113,10 @@ export interface NotificationCampaignRawPayload {
     [key: string]: any
   }
   readonly arm_lock?: boolean
+  readonly status_history?: Array<{
+    status?: NotificationCampaignStatusType
+    timestamp?: string
+  }>
 }
 
 export interface NotificationCampaignPayload {
@@ -142,6 +146,7 @@ export interface NotificationCampaignPayload {
   readonly analytics?: NotificationCampaignRawPayload['analytics']
   readonly messageAuthor?: NotificationCampaignRawPayload['message_author']
   readonly armLock?: NotificationCampaignRawPayload['arm_lock']
+  readonly statusHistory?: NotificationCampaignRawPayload['status_history']
 }
 
 /**
@@ -184,6 +189,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   public analytics?: NotificationCampaignPayload['analytics']
   public messageAuthor?: NotificationCampaignPayload['messageAuthor']
   public armLock?: NotificationCampaignPayload['armLock']
+  public statusHistory?: NotificationCampaignPayload['statusHistory']
 
   constructor (options: NotificationCampaignOptions) {
     super()
@@ -228,6 +234,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     this.messageAuthor = rawPayload.message_author
     this.defaultLanguage = rawPayload.default_language
     this.armLock = rawPayload.arm_lock
+    this.statusHistory = rawPayload.status_history
 
     return this
   }
@@ -263,7 +270,8 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       default_language: this.defaultLanguage,
       analytics: this.analytics,
       message_author: this.messageAuthor,
-      arm_lock: this.armLock
+      arm_lock: this.armLock,
+      status_history: this.statusHistory
     }
   }
 
