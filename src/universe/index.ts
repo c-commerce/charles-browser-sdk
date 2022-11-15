@@ -83,6 +83,9 @@ import * as corsOrigin from '../entities/cors-origin/cors-origin'
 
 import * as trackingProvider from '../entities/tracking-provider/tracking-provider'
 
+import * as dataExportMeta from '../entities/data-export/data-meta'
+import * as dataExport from '../entities/data-export/data-export'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -1710,6 +1713,14 @@ export class Universe extends APICarrier {
 
   public async configurations (options?: EntityFetchOptions): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<configuration.Configuration, configuration.Configurations, configuration.ConfigurationRawPayload, EntityFetchOptions, configuration.ConfigurationsFetchRemoteError>(configuration.Configuration, configuration.Configurations, configuration.ConfigurationsFetchRemoteError, options)
+  }
+
+  public async dataExportMeta (options?: EntityFetchOptions): Promise<dataExportMeta.DataExportMeta[] | dataExportMeta.DataExportMetaRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaRawPayload, EntityFetchOptions, dataExportMeta.DataExportMetaFetchRemoteError>(dataExportMeta.DataExportMeta, dataExportMeta.DataExportMetas, dataExportMeta.DataExportMetaFetchRemoteError, options)
+  }
+
+  public dataExport (payload: dataExport.DataExportRawPayload): dataExport.DataExport {
+    return dataExport.DataExport.create(payload, this, this.http)
   }
 
   public async uiConfigurations ({ query: { owner = 'self' }, ...rest }: { query: { owner: string }, [key: string]: any }): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
