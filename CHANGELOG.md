@@ -1,3 +1,19 @@
+# [4.134.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.133.0...v4.134.0) (2022-11-15)
+
+
+### Bug Fixes
+
+* **export-hub:** removed commented code ([ba7b73d](https://github.com/c-commerce/charles-browser-sdk/commit/ba7b73dffe92f75330a82147c519f6bf19579fe4))
+
+
+### Features
+
+* **data-export:** broken feature for others to try fix ([ec24d09](https://github.com/c-commerce/charles-browser-sdk/commit/ec24d09d4c7aeaa7adeeb2b5b1993ddfef44827f))
+* **export-hub:** aligned export-meta with entity definition ([0b6f5a1](https://github.com/c-commerce/charles-browser-sdk/commit/0b6f5a1955f244ed40bfd0243cd0f373a63afc36))
+* **export-hub:** updated for PR ([f806689](https://github.com/c-commerce/charles-browser-sdk/commit/f806689dfcb4a0ea386a2ab8d8a3dcac96041d06))
+* **export-hub:** updated urls per PR comments ([ebfba42](https://github.com/c-commerce/charles-browser-sdk/commit/ebfba42ddfa31b678166cc29dc11a7af8e241590))
+* data-export now allows for filter variables ([16beba4](https://github.com/c-commerce/charles-browser-sdk/commit/16beba4f2f20c558bfd7420ad951ffe48b348348))
+
 # [4.133.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.132.0...v4.133.0) (2022-11-14)
 
 
