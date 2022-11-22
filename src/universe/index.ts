@@ -1052,9 +1052,9 @@ export class Universe extends APICarrier {
 
       const response = await this.http.getClient()(opts)
 
-      this.setCachedMeData(response.data.data)
+      this.setCachedMeData(response?.data?.data)
 
-      return response.data.data
+      return response?.data?.data
     } catch (error) {
       throwExceptionFromCommonError(error as ClientError)
 
