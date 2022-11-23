@@ -1,3 +1,10 @@
+## [4.134.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.134.0...v4.134.1) (2022-11-23)
+
+
+### Bug Fixes
+
+* **universe:** fix me call ([158869e](https://github.com/c-commerce/charles-browser-sdk/commit/158869ea1452967d7fbc9ae3403ccae9ed076589))
+
 # [4.134.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.133.0...v4.134.0) (2022-11-15)
 
 
