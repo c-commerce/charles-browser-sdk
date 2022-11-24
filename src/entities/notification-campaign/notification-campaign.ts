@@ -32,14 +32,14 @@ export interface NotificationCampaignTestRawPayload {
 }
 
 export type NotificationCampaignStatusType =
-'draft' // user: campaign has been saved, but nothing else has been done with it. The campaign is not ready to be sent
-| 'armed' // user: the campaign is ready to be sent, all recipient are primed and ready to be targetted
-| 'paused' // user: the campaign has been paused
-| 'cancelled_by_user' // user: a user has cancelled exection of the campaign
-| 'cancelled' // user: the campaign has been cancelled
-| 'published' // user: the campaign was published and might be executing or will execute
-| 'done' // user: the campaign was published the campaign has run. This does not indicate success.
-| 'errored' // user: execution was attempted but errored immediately. Errors per target are not indicated
+  'draft' // user: campaign has been saved, but nothing else has been done with it. The campaign is not ready to be sent
+  | 'armed' // user: the campaign is ready to be sent, all recipient are primed and ready to be targetted
+  | 'paused' // user: the campaign has been paused
+  | 'cancelled_by_user' // user: a user has cancelled exection of the campaign
+  | 'cancelled' // user: the campaign has been cancelled
+  | 'published' // user: the campaign was published and might be executing or will execute
+  | 'done' // user: the campaign was published the campaign has run. This does not indicate success.
+  | 'errored' // user: execution was attempted but errored immediately. Errors per target are not indicated
 
 export interface NotificationCampaignRawPayload {
   readonly id?: string
@@ -57,7 +57,7 @@ export interface NotificationCampaignRawPayload {
     name?: string
     order_index?: number
     value?: string
-    logic?: object| null
+    logic?: object | null
   }>
   readonly includes?: Array<{
     type?: 'list' | 'subscription'
@@ -99,8 +99,8 @@ export interface NotificationCampaignRawPayload {
     user?: string[] | string
   }
   readonly publisher?: {
-    staff?: string[]| string
-    user?: string[]| string
+    staff?: string[] | string
+    user?: string[] | string
   }
   readonly message_author?: string
 
@@ -117,6 +117,10 @@ export interface NotificationCampaignRawPayload {
     status?: NotificationCampaignStatusType
     timestamp?: string
   }>
+
+  readonly attribution_meta?: {
+    [key: string]: any
+  }
 }
 
 export interface NotificationCampaignPayload {
@@ -147,6 +151,7 @@ export interface NotificationCampaignPayload {
   readonly messageAuthor?: NotificationCampaignRawPayload['message_author']
   readonly armLock?: NotificationCampaignRawPayload['arm_lock']
   readonly statusHistory?: NotificationCampaignRawPayload['status_history']
+  readonly attributionMeta?: NotificationCampaignRawPayload['attribution_meta']
 }
 
 /**
@@ -190,8 +195,9 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   public messageAuthor?: NotificationCampaignPayload['messageAuthor']
   public armLock?: NotificationCampaignPayload['armLock']
   public statusHistory?: NotificationCampaignPayload['statusHistory']
+  public attributionMeta?: NotificationCampaignPayload['attributionMeta']
 
-  constructor (options: NotificationCampaignOptions) {
+  constructor(options: NotificationCampaignOptions) {
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
@@ -205,7 +211,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  protected deserialize (rawPayload: NotificationCampaignRawPayload): NotificationCampaign {
+  protected deserialize(rawPayload: NotificationCampaignRawPayload): NotificationCampaign {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -235,15 +241,16 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     this.defaultLanguage = rawPayload.default_language
     this.armLock = rawPayload.arm_lock
     this.statusHistory = rawPayload.status_history
+    this.attributionMeta = rawPayload.attribution_meta
 
     return this
   }
 
-  public static create (payload: NotificationCampaignRawPayload, universe: Universe, http: Universe['http']): NotificationCampaign {
+  public static create(payload: NotificationCampaignRawPayload, universe: Universe, http: Universe['http']): NotificationCampaign {
     return new NotificationCampaign({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize (): NotificationCampaignRawPayload {
+  public serialize(): NotificationCampaignRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
@@ -271,11 +278,13 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       analytics: this.analytics,
       message_author: this.messageAuthor,
       arm_lock: this.armLock,
-      status_history: this.statusHistory
+      status_history: this.statusHistory,
+      attribution_meta: this.attributionMeta
+
     }
   }
 
-  public async init (): Promise<NotificationCampaign | undefined> {
+  public async init(): Promise<NotificationCampaign | undefined> {
     try {
       await this.fetch()
 
@@ -288,7 +297,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   /**
    * For the general behavior see NotificationCampaign#preflightArm, whereas this method does not set any state.
    */
-  public async preflightCheck (): Promise<NotificationCampaign> {
+  public async preflightCheck(): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign preflight check requires id to be set.')
 
     try {
@@ -321,7 +330,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
    * - insufficient campaign data
    * - contact targets not being sufficient e.g. missing channel users
    */
-  public async preflightArm (options?: EntityFetchOptions): Promise<NotificationCampaign> {
+  public async preflightArm(options?: EntityFetchOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign preflight arm requires id to be set.')
 
     try {
@@ -343,7 +352,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async publish (options?: EntityPostOptions): Promise<NotificationCampaign> {
+  public async publish(options?: EntityPostOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
 
     try {
@@ -368,7 +377,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   /**
    * Same as publish but used if campaign was halted due to errors or else.
    */
-  public async continue (options?: EntityFetchOptions): Promise<NotificationCampaign> {
+  public async continue(options?: EntityFetchOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign continue requires id to be set.')
 
     try {
@@ -392,7 +401,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   /**
    * Pauses a campaigns publishing.
    */
-  public async pause (options?: EntityFetchOptions): Promise<NotificationCampaign> {
+  public async pause(options?: EntityFetchOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign pause requires id to be set.')
 
     try {
@@ -413,7 +422,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async test (payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign> {
+  public async test(payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
 
     try {
@@ -435,7 +444,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async createContactListFromRemainingRecipients (options?: EntityFetchOptions): Promise<ContactList> {
+  public async createContactListFromRemainingRecipients(options?: EntityFetchOptions): Promise<ContactList> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign createContactListFromRemainingRecipients requires id to be set.')
 
     try {
@@ -456,7 +465,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async preview (options?: EntityFetchOptions): Promise<NotificationCampaign> {
+  public async preview(options?: EntityFetchOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign preview requires id to be set.')
 
     try {
@@ -481,7 +490,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   /**
  * Fetches campaign feed events
  */
-  public async getFeedEvents (options?: EntityFetchOptions): Promise<EventRawPayload[]> {
+  public async getFeedEvents(options?: EntityFetchOptions): Promise<EventRawPayload[]> {
     if (this.id === null || this.id === undefined) throw new TypeError('notification campaign getFeedEvents requires id to be set.')
 
     try {
@@ -514,7 +523,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   /**
  * Fetches all campaign static entries
  */
-  public async getStaticEntries (options?: EntityFetchOptions): Promise<NotificationCampaignStaticEntryRawPayload[]> {
+  public async getStaticEntries(options?: EntityFetchOptions): Promise<NotificationCampaignStaticEntryRawPayload[]> {
     if (this.id === null || this.id === undefined) throw new TypeError('notification campaign getStaticEntries requires id to be set.')
 
     try {
@@ -545,7 +554,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
    * Get a count of the static entries in a campaign
    * @param options EntityFetchOptions
    */
-  public async previewStaticEntriesCount (options?: EntityFetchOptions): Promise<{ count: number }> {
+  public async previewStaticEntriesCount(options?: EntityFetchOptions): Promise<{ count: number }> {
     try {
       const opts = {
         method: 'HEAD',
@@ -569,7 +578,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
    * @returns Promise<number>
    * @throws {NotificationCampaignDeleteStaticEntriesRemoteError}
    */
-  public async deleteInvalidEntries (options?: EntityDeleteOptions): Promise<number> {
+  public async deleteInvalidEntries(options?: EntityDeleteOptions): Promise<number> {
     if (this.id === null || this.id === undefined) throw new TypeError('NotificationCampaign.deleteInvalidEntries requires id to be set.')
 
     try {
@@ -593,7 +602,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
    * @returns Promise<number>
    * @throws {NotificationCampaignSyncAnalyticsRemoteError}
    */
-  public async syncAnalytics (): Promise<number | undefined> {
+  public async syncAnalytics(): Promise<number | undefined> {
     try {
       const opts = {
         method: 'POST',
@@ -622,26 +631,26 @@ export class NotificationCampaigns extends EntitiesList<NotificationCampaign, No
   protected apiCarrier: Universe
   protected http: Universe['http']
 
-  constructor (options: NotificationCampaignsOptions) {
+  constructor(options: NotificationCampaignsOptions) {
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.http = options.http
   }
 
-  protected parseItem (payload: NotificationCampaignRawPayload): NotificationCampaign {
+  protected parseItem(payload: NotificationCampaignRawPayload): NotificationCampaign {
     return NotificationCampaign.create(payload, this.universe, this.http)
   }
 
-  public async getStream (options?: UniverseFetchOptions): Promise<NotificationCampaigns> {
+  public async getStream(options?: UniverseFetchOptions): Promise<NotificationCampaigns> {
     return (await this._getStream(options)) as NotificationCampaigns
   }
 
-  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
+  public async exportCsv(options?: UniverseExportCsvOptions): Promise<Blob> {
     return (await this._exportCsv(options))
   }
 
-  public async fetch (options: EntityFetchOptions): Promise<NotificationCampaign[] | NotificationCampaignRawPayload[] | undefined> {
+  public async fetch(options: EntityFetchOptions): Promise<NotificationCampaign[] | NotificationCampaignRawPayload[] | undefined> {
     try {
       return await super.fetch(options)
     } catch (err) {
@@ -652,7 +661,7 @@ export class NotificationCampaigns extends EntitiesList<NotificationCampaign, No
 
 export class NotificationCampaignInitializationError extends BaseError {
   public name = 'NotificationCampaignInitializationError'
-  constructor (public message: string = 'Could not initialize notification_campaign.', properties?: any) {
+  constructor(public message: string = 'Could not initialize notification_campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignInitializationError.prototype)
   }
@@ -660,7 +669,7 @@ export class NotificationCampaignInitializationError extends BaseError {
 
 export class NotificationCampaignFetchRemoteError extends BaseError {
   public name = 'NotificationCampaignFetchRemoteError'
-  constructor (public message: string = 'Could not get notification_campaign.', properties?: any) {
+  constructor(public message: string = 'Could not get notification_campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignFetchRemoteError.prototype)
   }
@@ -668,56 +677,56 @@ export class NotificationCampaignFetchRemoteError extends BaseError {
 
 export class NotificationCampaignsFetchRemoteError extends BaseError {
   public name = 'NotificationCampaignsFetchRemoteError'
-  constructor (public message: string = 'Could not get notification_campaigns.', properties?: any) {
+  constructor(public message: string = 'Could not get notification_campaigns.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignsFetchRemoteError.prototype)
   }
 }
 export class NotificationCampaignsFetchCountRemoteError extends BaseError {
   public name = 'NotificationCampaignsFetchCountRemoteError'
-  constructor (public message: string = 'Could not get notification_campaigns count.', properties?: any) {
+  constructor(public message: string = 'Could not get notification_campaigns count.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignsFetchCountRemoteError.prototype)
   }
 }
 export class NotificationCampaignPreflightError extends BaseError {
   public name = 'NotificationCampaignPreflightError'
-  constructor (public message: string = 'Could not do preflight check on campaign.', properties?: any) {
+  constructor(public message: string = 'Could not do preflight check on campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignPreflightError.prototype)
   }
 }
 export class NotificationCampaignArmError extends BaseError {
   public name = 'NotificationCampaignArmError'
-  constructor (public message: string = 'Could not preflight arm notification_campaign.', properties?: any) {
+  constructor(public message: string = 'Could not preflight arm notification_campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignArmError.prototype)
   }
 }
 export class NotificationCampaignPublishError extends BaseError {
   public name = 'NotificationCampaignPublishError'
-  constructor (public message: string = 'Could not publish notification_campaign.', properties?: any) {
+  constructor(public message: string = 'Could not publish notification_campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignPublishError.prototype)
   }
 }
 export class NotificationCampaignTestError extends BaseError {
   public name = 'NotificationCampaignTestError'
-  constructor (public message: string = 'Could not test notification_campaign.', properties?: any) {
+  constructor(public message: string = 'Could not test notification_campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignTestError.prototype)
   }
 }
 export class NotificationCampaignGetFeedEventsError extends BaseError {
   public name = 'NotificationCampaignGetFeedEventsError'
-  constructor (public message: string = 'Could not get notification_campaign feed events', properties?: any) {
+  constructor(public message: string = 'Could not get notification_campaign feed events', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignGetFeedEventsError.prototype)
   }
 }
 export class NotificationCampaignContinueError extends BaseError {
   public name = 'NotificationCampaignContinueError'
-  constructor (public message: string = 'Could not continue notification campaign', properties?: any) {
+  constructor(public message: string = 'Could not continue notification campaign', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignContinueError.prototype)
   }
@@ -725,7 +734,7 @@ export class NotificationCampaignContinueError extends BaseError {
 
 export class NotificationCampaignPauseError extends BaseError {
   public name = 'NotificationCampaignPauseError'
-  constructor (public message: string = 'Could not pause notification campaign.', properties?: any) {
+  constructor(public message: string = 'Could not pause notification campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignPauseError.prototype)
   }
@@ -733,7 +742,7 @@ export class NotificationCampaignPauseError extends BaseError {
 
 export class NotificationCampaignCreateContactListFromRemainingRecipientsRemoteError extends BaseError {
   public name = 'NotificationCampaignCreateContactListFromRemainingRecipientsRemoteError'
-  constructor (public message: string = 'Could not create contact list from remaining recipients', properties?: any) {
+  constructor(public message: string = 'Could not create contact list from remaining recipients', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignCreateContactListFromRemainingRecipientsRemoteError.prototype)
   }
@@ -741,7 +750,7 @@ export class NotificationCampaignCreateContactListFromRemainingRecipientsRemoteE
 
 export class NotificationCampaignPreviewRemoteError extends BaseError {
   public name = 'NotificationCampaignPreviewRemoteError'
-  constructor (public message: string = 'Could not create preview campaign', properties?: any) {
+  constructor(public message: string = 'Could not create preview campaign', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignPreviewRemoteError.prototype)
   }
@@ -749,14 +758,14 @@ export class NotificationCampaignPreviewRemoteError extends BaseError {
 
 export class NotificationCampaignPreviewStaticEntriesCountRemoteError extends BaseError {
   public name = 'NotificationCampaignPreviewStaticEntriesCountRemoteError'
-  constructor (public message: string = 'Could not get count of campaign static entries', properties?: any) {
+  constructor(public message: string = 'Could not get count of campaign static entries', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignPreviewStaticEntriesCountRemoteError.prototype)
   }
 }
 export class NotificationCampaignDeleteInvalidContactsRemoteError extends BaseError {
   public name = 'NotificationCampaignDeleteInvalidContactsRemoteError'
-  constructor (public message: string = 'Could not delete invalid contacts of notification campaign', properties?: any) {
+  constructor(public message: string = 'Could not delete invalid contacts of notification campaign', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignDeleteInvalidContactsRemoteError.prototype)
   }
@@ -764,7 +773,7 @@ export class NotificationCampaignDeleteInvalidContactsRemoteError extends BaseEr
 export class NotificationCampaignSyncAnalyticsRemoteError extends BaseErrorV2 {
   public name = 'NotificationCampaignSyncAnalyticsRemoteError'
   public message = 'Could not enqueue campaign analytics sync.'
-  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+  constructor(err: Error | unknown, props?: BaseErrorV2Properties) {
     super(err as Error, props)
     Object.setPrototypeOf(this, NotificationCampaignSyncAnalyticsRemoteError.prototype)
   }
