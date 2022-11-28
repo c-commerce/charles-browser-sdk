@@ -1,3 +1,10 @@
+# [4.135.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.134.1...v4.135.0) (2022-11-28)
+
+
+### Features
+
+* **organizations.ts:** add external_billing_account_id to organizations ([1d9450e](https://github.com/c-commerce/charles-browser-sdk/commit/1d9450e0a8c7473bb63d18168995f1bc5438993b))
+
 ## [4.134.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.134.0...v4.134.1) (2022-11-23)
 
 
