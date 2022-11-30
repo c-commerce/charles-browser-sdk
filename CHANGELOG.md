@@ -1,3 +1,10 @@
+## [4.135.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.135.0...v4.135.1) (2022-11-30)
+
+
+### Bug Fixes
+
+* **base-entity:** upgrade buggy version of just-diff package ([3bc0bb0](https://github.com/c-commerce/charles-browser-sdk/commit/3bc0bb0a8788470938399b5b0bf9d1156470074b))
+
 # [4.135.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.134.1...v4.135.0) (2022-11-28)
 
 
