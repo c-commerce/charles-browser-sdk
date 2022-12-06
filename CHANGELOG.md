@@ -1,3 +1,10 @@
+# [4.136.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.135.1...v4.136.0) (2022-12-06)
+
+
+### Features
+
+* **universe:** add options to customProperties ([383360c](https://github.com/c-commerce/charles-browser-sdk/commit/383360c7df2a6e538d7db0adef65c00d11c700c8))
+
 ## [4.135.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.135.0...v4.135.1) (2022-11-30)
 
 
