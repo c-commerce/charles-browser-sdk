@@ -1668,10 +1668,18 @@ export class Universe extends APICarrier {
     }
   }
 
-  public async customProperties (): Promise<customProperty.CustomProperty[] | undefined> {
+  public async customProperties (options: EntityFetchOptions): Promise<customProperty.CustomProperty[] | customProperty.CustomPropertyRawPayload[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.universeBase}/${customProperty.CustomProperties.endpoint}`)
+      const res = await this.http.getClient().get(`${this.universeBase}/${customProperty.CustomProperties.endpoint}`, {
+        params: {
+          ...(options?.query ?? {})
+        }
+      })
       const resources = res.data.data as customProperty.CustomPropertyRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
 
       return resources.map((resource: customProperty.CustomPropertyRawPayload) => {
         return customProperty.CustomProperty.create(resource, this, this.http)
