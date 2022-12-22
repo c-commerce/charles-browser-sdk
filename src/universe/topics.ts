@@ -6,75 +6,55 @@ interface IInjectableDataObject {
 }
 
 abstract class TopicGenerator {
-  public abstract template: string
+  public abstract get template (): string
   public abstract generateTopic (data?: IInjectableDataObject, ...args: any[]): string
-  public abstract isTopic (topic: string, data?: IInjectableDataObject): boolean
+  public isTopic (topic: string, data?: IInjectableDataObject): boolean {
+    return topic === this.template
+  }
 }
+
+const uuidRegex = '[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}'
 
 export default {
   api: {
     message: new (class extends TopicGenerator {
-      template: string = 'api/message'
+      template = 'api/message'
       generateTopic (): string {
         return this.template
-      }
-
-      isTopic (topic: string): boolean {
-        return topic === this.template
       }
     })(),
     feeds: new (class extends TopicGenerator {
-      template: string = 'api/feeds'
+      template = 'api/feeds'
       generateTopic (): string {
         return this.template
-      }
-
-      isTopic (topic: string): boolean {
-        return topic === this.template
       }
     })(),
     feedsActivities: new (class extends TopicGenerator {
-      template: string = 'api/feeds/*/activities'
+      template = 'api/feeds/*/activities'
       generateTopic (): string {
         return this.template
-      }
-
-      isTopic (topic: string): boolean {
-        return topic === this.template
       }
     })(),
     feedsEvents: new (class extends TopicGenerator {
-      template: string = 'api/feeds/*/events'
+      template = 'api/feeds/*/events'
       generateTopic (): string {
         return this.template
-      }
-
-      isTopic (topic: string): boolean {
-        return topic === this.template
       }
     })(),
     feedsOrders: new (class extends TopicGenerator {
-      template: string = 'api/feeds/*/orders'
+      template = 'api/feeds/*/orders'
       generateTopic (): string {
         return this.template
-      }
-
-      isTopic (topic: string): boolean {
-        return topic === this.template
       }
     })(),
     feedsMessages: new (class extends TopicGenerator {
-      template: string = 'api/feeds/*/messages'
+      template = 'api/feeds/*/messages'
       generateTopic (): string {
         return this.template
       }
-
-      isTopic (topic: string): boolean {
-        return topic === this.template
-      }
     })(),
     feedMessages: new (class extends TopicGenerator {
-      template: string = 'api/feeds/${id}/messages'
+      template = 'api/feeds/${id}/messages'
       generateTopic (data: IInjectableDataObject): string {
         return this.template.replace('${id}', data.id)
       }
@@ -84,7 +64,7 @@ export default {
       }
     })(),
     feedMessagesStatus: new (class extends TopicGenerator {
-      template: string = 'api/feeds/${id}/messages/*/status'
+      template = 'api/feeds/${id}/messages/*/status'
       generateTopic (data: IInjectableDataObject): string {
         return this.template.replace('${id}', data.id)
       }
@@ -94,7 +74,7 @@ export default {
       }
     })(),
     feedMessagesReactions: new (class extends TopicGenerator {
-      template: string = 'api/feeds/${id}/messages/*/reactions'
+      template = 'api/feeds/${id}/messages/*/reactions'
       generateTopic (data: IInjectableDataObject): string {
         return this.template.replace('${id}', data.id)
       }
@@ -104,7 +84,7 @@ export default {
       }
     })(),
     feedEvents: new (class extends TopicGenerator {
-      template: string = 'api/feeds/${id}/events'
+      template = 'api/feeds/${id}/events'
       generateTopic (data: IInjectableDataObject): string {
         return this.template.replace('${id}', data.id)
       }
@@ -114,7 +94,7 @@ export default {
       }
     })(),
     feedOrders: new (class extends TopicGenerator {
-      template: string = 'api/feeds/${id}/orders'
+      template = 'api/feeds/${id}/orders'
       generateTopic (data: IInjectableDataObject): string {
         return this.template.replace('${id}', data.id)
       }
@@ -124,7 +104,7 @@ export default {
       }
     })(),
     feedTyping: new (class extends TopicGenerator {
-      template: string = 'api/feeds/${id}/typing'
+      template = 'api/feeds/${id}/typing'
       generateTopic (data: IInjectableDataObject): string {
         return this.template.replace('${id}', data.id)
       }
@@ -134,7 +114,7 @@ export default {
       }
     })(),
     feedPresence: new (class extends TopicGenerator {
-      template: string = 'api/feeds/${id}/presence'
+      template = 'api/feeds/${id}/presence'
       generateTopic (data: IInjectableDataObject): string {
         return this.template.replace('${id}', data.id)
       }
@@ -145,7 +125,7 @@ export default {
     })(),
     clients: {
       arm: new (class extends TopicGenerator {
-        template: string = 'api/clients/${clientId}/arm'
+        template = 'api/clients/${clientId}/arm'
         generateTopic (data: IInjectableDataObject): string {
           return template(
             this.template,
@@ -160,17 +140,13 @@ export default {
       })()
     },
     people: new (class extends TopicGenerator {
-      template: string = 'api/people'
+      template = 'api/people'
       generateTopic (): string {
         return this.template
       }
-
-      isTopic (topic: string): boolean {
-        return topic === this.template
-      }
     })(),
     personChange: new (class extends TopicGenerator {
-      template: string = 'api/people/${id}'
+      template = 'api/people/${id}'
       generateTopic (data: IInjectableDataObject): string {
         return this.template.replace('${id}', data.id)
       }
@@ -178,10 +154,16 @@ export default {
       isTopic (topic: string, data: IInjectableDataObject): boolean {
         return new RegExp(this.template.replace('${id}', data.id), 'g').test(topic)
       }
+    })(),
+    entityPresence: new (class extends TopicGenerator {
+      template = '/entity/${entityName}/${id}/presence/'
+      generateTopic (data: IInjectableDataObject): string {
+        return this.template.replace('${id}', data.id).replace('${entityName}', data.entityName)
+      }
+
+      isTopic (topic: string, data: IInjectableDataObject): boolean {
+        return new RegExp(this.template.replace('${id}', uuidRegex).replace('${entityName}', '[a-zA-Z]+(?:_[a-zA-Z]+)*'), 'g').test(topic)
+      }
     })()
   }
 }
-
-// export function availableTopics(): Map<string, TopicGenerator> {
-
-// }
