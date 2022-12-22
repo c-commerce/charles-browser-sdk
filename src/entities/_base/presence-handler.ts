@@ -1,20 +1,20 @@
 import { RealtimeClient, RealtimeMessage, RealtimeMessageMessage } from 'src/realtime'
 
-export interface PresenceUserPayload { id: string, name: string }
-export interface PresencePayload { user: PresenceUserPayload, isPresent: boolean }
+export interface PresenceStaffPayload { id: string, name: string }
+export interface PresencePayload { staff: PresenceStaffPayload, isPresent: boolean }
 
 export default class PresenceHandler {
-  public readonly currentPresence: PresenceUserPayload[] = []
+  public readonly currentPresence: PresenceStaffPayload[] = []
   private _selfTimer: ReturnType<typeof setInterval> | null = null
-  private readonly _userTimers: Array<{ userId: string, timer: ReturnType<typeof setTimeout> }> = []
-  public readonly onPresenceUpdated: Array<(presence: PresenceUserPayload[]) => void> = []
+  private readonly _staffTimers: Array<{ staffId: string, timer: ReturnType<typeof setTimeout> }> = []
+  public readonly onPresenceUpdated: Array<(presence: PresenceStaffPayload[]) => void> = []
   private readonly relay: Array<((presence: PresencePayload) => void)> = []
 
   constructor (
     private readonly mqtt: RealtimeClient,
     private readonly topic: string,
-    private readonly userToEmit: PresenceUserPayload,
-    onPresenceUpdated: (presence: PresenceUserPayload[]) => void,
+    private readonly staffToEmit: PresenceStaffPayload,
+    onPresenceUpdated: (presence: PresenceStaffPayload[]) => void,
     private readonly thresholdInSeconds: number = 10,
     relay: ((presence: PresencePayload) => void) | undefined = undefined) {
     this.onPresenceUpdated.push(onPresenceUpdated)
@@ -37,14 +37,14 @@ export default class PresenceHandler {
   }
 
   private _handlePresence (payload: PresencePayload): void {
-    if (payload.user.id !== this.userToEmit.id) {
+    if (payload.staff.id !== this.staffToEmit.id) {
       this.relay.forEach(cb => cb(payload))
       const didChange = this._maybeUpdatePresence(payload)
 
       if (didChange) {
         if (payload.isPresent) {
           this._publishPresence(true)
-          this._startUserTimer(payload.user)
+          this._startStaffTimer(payload.staff)
         }
         this.onPresenceUpdated.forEach(cb => cb(this.currentPresence))
       }
@@ -53,15 +53,15 @@ export default class PresenceHandler {
 
   private _maybeUpdatePresence (payload: PresencePayload): boolean {
     if (!payload.isPresent) {
-      const idx = this.currentPresence.findIndex(user => user.id === payload.user.id)
+      const idx = this.currentPresence.findIndex(staff => staff.id === payload.staff.id)
       if (idx >= 0) {
         this.currentPresence.splice(idx, 1)
         return true
       }
     } else {
-      const idx = this.currentPresence.findIndex(user => user.id === payload.user.id)
+      const idx = this.currentPresence.findIndex(staff => staff.id === payload.staff.id)
       if (idx === -1) {
-        this.currentPresence.push(payload.user)
+        this.currentPresence.push(payload.staff)
         return true
       }
     }
@@ -70,7 +70,7 @@ export default class PresenceHandler {
   }
 
   private _publishPresence (isPresent: boolean): void {
-    const payload: PresencePayload = { isPresent, user: this.userToEmit }
+    const payload: PresencePayload = { isPresent, staff: this.staffToEmit }
     this.mqtt.publish(this.topic, payload)
   }
 
@@ -78,31 +78,31 @@ export default class PresenceHandler {
     this._selfTimer = setInterval(() => this._publishPresence, this.thresholdInSeconds * 1000)
   }
 
-  private _startUserTimer (user: PresenceUserPayload): void {
-    const idx = this._userTimers.findIndex(r => r.userId === user.id)
+  private _startStaffTimer (staff: PresenceStaffPayload): void {
+    const idx = this._staffTimers.findIndex(r => r.staffId === staff.id)
     if (idx >= 0) {
-      clearTimeout(this._userTimers[idx].timer)
-      this._userTimers.splice(idx, 1)
+      clearTimeout(this._staffTimers[idx].timer)
+      this._staffTimers.splice(idx, 1)
     }
 
-    this._userTimers.push({
-      userId: user.id,
+    this._staffTimers.push({
+      staffId: staff.id,
       timer: setTimeout(() => {
-        this._handlePresence({ isPresent: false, user })
-        // Allow extra time to remove the user to account for network delays etc 1.2 is 20% extra
+        this._handlePresence({ isPresent: false, staff })
+        // Allow extra time to remove the staff to account for network delays etc 1.2 is 20% extra
       }, (this.thresholdInSeconds * 1.2) * 1000)
     })
   }
 
   public connectTracker (
-    onPresenceUpdated: (presence: PresenceUserPayload[]) => void,
+    onPresenceUpdated: (presence: PresenceStaffPayload[]) => void,
     relay: ((presence: PresencePayload) => void) | undefined = undefined): void {
     this.onPresenceUpdated.push(onPresenceUpdated)
     relay && this.relay.push(relay)
   }
 
   public disconnectTracker (
-    onPresenceUpdated: (presence: PresenceUserPayload[]) => void,
+    onPresenceUpdated: (presence: PresenceStaffPayload[]) => void,
     relay: ((presence: PresencePayload) => void) | undefined = undefined): void {
     this.onPresenceUpdated.includes(onPresenceUpdated) && this.onPresenceUpdated.splice(this.onPresenceUpdated.indexOf(onPresenceUpdated))
     relay && this.relay.includes(relay) && this.relay.splice(this.relay.indexOf(relay))
@@ -117,5 +117,6 @@ export default class PresenceHandler {
     this.mqtt.off('message', this._filterMessages)
     this.mqtt.unsubscribe(this.topic)
     this._selfTimer && clearInterval(this._selfTimer)
+    this._staffTimers && this._staffTimers.forEach()
   }
 }

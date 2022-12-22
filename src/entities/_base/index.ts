@@ -13,7 +13,7 @@ import { Universe } from '../../universe'
 import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { isEntity } from '../../helpers/entity'
 import snakeCase from 'just-snake-case'
-import PresenceHandler, { PresencePayload, PresenceUserPayload } from './presence-handler'
+import PresenceHandler, { PresencePayload, PresenceStaffPayload } from './presence-handler'
 import topics from 'src/universe/topics'
 import { RealtimeClient } from 'src/realtime'
 
@@ -417,8 +417,8 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   }
 
   public trackPresence (
-    user: PresenceUserPayload,
-    onPresenceUpdated: ((presence: PresenceUserPayload[]) => void),
+    staff: PresenceStaffPayload,
+    onPresenceUpdated: ((presence: PresenceStaffPayload[]) => void),
     thresholdInSeconds: number = 10,
     relay: ((presence: PresencePayload) => void) | undefined = undefined): () => void {
     const disconnect = (): void => {
@@ -441,7 +441,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     this.presenceHandler = new PresenceHandler(
       this.mqtt,
       topic,
-      user,
+      staff,
       onPresenceUpdated,
       thresholdInSeconds,
       relay
