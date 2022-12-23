@@ -17,7 +17,7 @@ import { UniverseEntity, EntitiesList, EntityFetchOptions } from '../../entities
 export interface FeedOptions {
   universe: Universe
   http: Universe['http']
-  mqtt: Universe['mqtt']
+  mqtt: realtime.RealtimeClient
   rawPayload?: FeedRawPayload
   initialized?: boolean
 }
@@ -96,7 +96,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
-  protected mqtt?: Universe['mqtt']
+  protected mqtt: realtime.RealtimeClient
   protected options: FeedOptions
   public initialized: boolean
 
@@ -160,7 +160,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
       // better solution was available
       this.participants = rawPayload.participants.map((item: string | PersonRawPayload) => {
         if (typeOf(item) === 'object') {
-          return Person.create(item as PersonRawPayload, this.universe, this.http)
+          return Person.create(item as PersonRawPayload, this.universe, this.http, this.mqtt)
         }
         return item as string
       })
@@ -174,13 +174,13 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     // The ossues arose in clients sharing the Feed[] state and making subequent calls, such as .init() on a Feed instance,
     // leaving them with some undefined data and possible re-renders
     if (Array.isArray(rawPayload.top_latest_events)) {
-      this.topLatestEvents = rawPayload.top_latest_events.map((item: EventRawPayload) => (Event.create(item, this, this.universe, this.http)))
+      this.topLatestEvents = rawPayload.top_latest_events.map((item: EventRawPayload) => (Event.create(item, this, this.universe, this.http, this.mqtt)))
     } else if (!rawPayload.top_latest_events && !Array.isArray(this.topLatestEvents)) {
       this.topLatestEvents = undefined
     } // ELSE no-op, meaning we keep what we got
 
     if (Array.isArray(rawPayload.top_latest_messages)) {
-      this.topLatestMessages = rawPayload.top_latest_messages.map((item: EventRawPayload) => (Event.create(item, this, this.universe, this.http)))
+      this.topLatestMessages = rawPayload.top_latest_messages.map((item: EventRawPayload) => (Event.create(item, this, this.universe, this.http, this.mqtt)))
     } else if (!rawPayload.top_latest_messages && !Array.isArray(this.topLatestMessages)) {
       this.topLatestMessages = undefined
     } // ELSE no-op, meaning we keep what we got
@@ -188,11 +188,11 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     return this
   }
 
-  public static create (payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed {
+  public static create (payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: realtime.RealtimeClient): Feed {
     return new Feed({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
-  public static createUninitialized (payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']): Feed {
+  public static createUninitialized (payload: FeedRawPayload, universe: Universe, http: Universe['http'], mqtt: realtime.RealtimeClient): Feed {
     return new Feed({ rawPayload: payload, universe, http, mqtt, initialized: false })
   }
 
@@ -225,6 +225,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     return new FeedReply({
       feed: this,
       http: this.http,
+      mqtt: this.mqtt,
       universe: this.universe,
       rawPayload: {
         content: contentOptions.content
@@ -303,7 +304,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     if (universeTopics.api.feedMessagesStatus.isTopic(msg.topic, this.serialize())) {
       let message
       if ((msg as realtime.RealtimeMessageMessage).payload.message) {
-        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this)
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this.mqtt, this)
       }
 
       this.emit('feed:message:status', { ...msg, message, feed: this })
@@ -313,7 +314,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     if (universeTopics.api.feedMessagesReactions.isTopic(msg.topic, this.serialize())) {
       let message
       if ((msg as realtime.RealtimeMessageMessage).payload.message) {
-        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this)
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this.mqtt, this)
       }
 
       this.emit('feed:message:reactions', { ...msg, message, feed: this })
@@ -325,7 +326,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     if (universeTopics.api.feedMessages.isTopic(msg.topic, this.serialize())) {
       let message
       if ((msg as realtime.RealtimeMessageMessage).payload.message) {
-        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this)
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this.universe, this.http, this.mqtt, this)
       }
 
       this.emit('feed:message', { ...msg, message, feed: this })
@@ -335,7 +336,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     if (universeTopics.api.feedEvents.isTopic(msg.topic, this.serialize())) {
       let event
       if ((msg as realtime.RealtimeMessageMessage).payload.event) {
-        event = Event.create((msg as realtime.RealtimeMessageMessage).payload.event as EventRawPayload, this, this.universe, this.http)
+        event = Event.create((msg as realtime.RealtimeMessageMessage).payload.event as EventRawPayload, this, this.universe, this.http, this.mqtt)
       }
 
       this.emit('feed:event', { ...msg, event, feed: this })
@@ -343,7 +344,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     if (universeTopics.api.feedOrders.isTopic(msg.topic, this.serialize())) {
       let order
       if ((msg as realtime.RealtimeMessageMessage).payload.order) {
-        order = Order.create((msg as realtime.RealtimeMessageMessage).payload.order as OrderRawPayload, this.universe, this.http)
+        order = Order.create((msg as realtime.RealtimeMessageMessage).payload.order as OrderRawPayload, this.universe, this.http, this.mqtt)
       }
 
       this.emit('feed:order', { ...msg, order, feed: this })
@@ -389,7 +390,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
       }
 
       events.forEach((eventRaw: EventRawPayload) => {
-        const e = Event.create(eventRaw, this, this.universe, this.http)
+        const e = Event.create(eventRaw, this, this.universe, this.http, this.mqtt)
         this.eventsMap.set(e.id, e)
       })
 
@@ -416,7 +417,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
       const events = res.data.data as FeedEventsRawPayload
 
       events.forEach((eventRaw: EventRawPayload) => {
-        const e = Event.create(eventRaw, this, this.universe, this.http)
+        const e = Event.create(eventRaw, this, this.universe, this.http, this.mqtt)
         this.eventsMap.set(e.id, e)
       })
 
@@ -441,7 +442,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
 
       const event = res.data.data[0] as EventRawPayload
 
-      return Event.create(event, this, this.universe, this.http)
+      return Event.create(event, this, this.universe, this.http, this.mqtt)
     } catch (err) {
       throw this.handleError(new FeedCreateEventRemoteError(err))
     }
@@ -461,7 +462,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
 
       const comment = res.data.data[0] as EventRawPayload
 
-      return Event.create(comment, this, this.universe, this.http)
+      return Event.create(comment, this, this.universe, this.http, this.mqtt)
     } catch (err) {
       throw this.handleError(new FeedCreateEventRemoteError(err))
     }
@@ -509,7 +510,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
 export interface FeedsOptions {
   universe: Universe
   http: Universe['http']
-  mqtt: Universe['mqtt']
+  mqtt: realtime.RealtimeClient
 }
 
 export class Feeds extends EntitiesList<Feed, FeedRawPayload> {
@@ -518,7 +519,7 @@ export class Feeds extends EntitiesList<Feed, FeedRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
-  private readonly mqtt?: Universe['mqtt']
+  private readonly mqtt: realtime.RealtimeClient
 
   constructor (options: FeedsOptions) {
     super()
@@ -529,7 +530,7 @@ export class Feeds extends EntitiesList<Feed, FeedRawPayload> {
   }
 
   protected parseItem (payload: FeedRawPayload): Feed {
-    return Feed.create(payload, this.universe, this.http, this.mqtt ?? null)
+    return Feed.create(payload, this.universe, this.http, this.mqtt)
   }
 
   public async getStream (options?: UniverseFetchOptions): Promise<Feeds> {
@@ -560,6 +561,7 @@ export class FeedReply {
   protected feed: Feed
   private readonly universe: Universe
   private readonly http: Universe['http']
+  private readonly mqtt: realtime.RealtimeClient
   private readonly options?: FeedReplyOptions
 
   public content: Reply['content']
@@ -573,6 +575,7 @@ export class FeedReply {
     this.feed = options.feed
     this.universe = options.universe
     this.http = options.http
+    this.mqtt = options.mqtt
     this.content = options.content
     this.rawAssets = options.rawAssets
     this.causes = options.causes
@@ -632,7 +635,7 @@ export class FeedReply {
         context: this.context ?? undefined
       })
 
-      return Event.create(res.data.data[0], this.feed, this.universe, this.http)
+      return Event.create(res.data.data[0], this.feed, this.universe, this.http, this.mqtt)
     } catch (err) {
       throw new FeedReplyError(err)
     }

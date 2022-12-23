@@ -179,9 +179,9 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
       }
       const response = await this.http.getClient()(opts)
 
-      const _feed = feed.Feed.createUninitialized({ id: response.data.data[0].id }, this.universe, this.http, null)
+      const _feed = feed.Feed.createUninitialized({ id: response.data.data[0].id }, this.universe, this.http, this.mqtt)
 
-      return event.Event.create(response.data.data[0], _feed, this.universe, this.http)
+      return event.Event.create(response.data.data[0], _feed, this.universe, this.http, this.mqtt)
     } catch (err) {
       const error = err as AxiosError
       if (error.response?.status === 403) {

@@ -499,7 +499,7 @@ export class Orders extends EntitiesList<Order, OrderRawPayload> {
   }
 
   protected parseItem (payload: OrderRawPayload): Order {
-    return Order.create(payload, this.universe, this.http)
+    return Order.create(payload, this.universe, this.http, this.mqtt)
   }
 
   public async getStream (options?: UniverseFetchOptions): Promise<Orders> {

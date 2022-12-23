@@ -139,6 +139,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: MessageOptions
   public initialized: boolean
 
@@ -177,6 +178,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     this.apiCarrier = options.universe
     this.endpoint = 'api/v0/messages'
     this.http = options.http
+    this.mqtt = options.mqtt
     this.options = options
     this.initialized = options.initialized ?? false
 
@@ -212,7 +214,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     this.processedData = rawPayload.processed_data
     this.replyables = rawPayload.replyables
     this.author = rawPayload.author
-    this.person = rawPayload.person ? Person.create({ id: rawPayload.person }, this.universe, this.http) : undefined
+    this.person = rawPayload.person ? Person.create({ id: rawPayload.person }, this.universe, this.http, this.mqtt) : undefined
     this.messageBroker = rawPayload.message_broker
     this.channelUser = rawPayload.channel_user
     this.statuses = rawPayload.statuses
@@ -235,8 +237,8 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     return this
   }
 
-  public static create (payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message {
-    return new Message({ rawPayload: payload, universe, http, initialized: true, feed })
+  public static create (payload: MessageRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient, feed?: Feed): Message {
+    return new Message({ rawPayload: payload, universe, http, mqtt, initialized: true, feed })
   }
 
   public serialize (): MessageRawPayload {
@@ -275,6 +277,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     return new MessageReply({
       message: this,
       http: this.http,
+      mqtt: this.mqtt,
       universe: this.universe,
       rawPayload: {
         content: contentOptions.content
@@ -287,6 +290,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     return new MessageFeedReply({
       message: this,
       http: this.http,
+      mqtt: this.mqtt,
       universe: this.universe,
       rawPayload: {
         content: contentOptions.content
@@ -482,7 +486,7 @@ export class MessageReply extends Reply {
       })
 
       if (this.feed) {
-        return Event.create(res.data.data[0], this.feed, this.universe, this.http)
+        return Event.create(res.data.data[0], this.feed, this.universe, this.http, this.mqtt)
       }
 
       return res.data.data[0] as ReplyResponse

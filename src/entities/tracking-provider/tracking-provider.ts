@@ -2,6 +2,7 @@
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions, EntitiesList } from '../_base'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseErrorV2, BaseErrorV2Properties } from '../../errors'
+import { RealtimeClient } from 'src/realtime'
 
 export interface TrackingProviderOptions extends UniverseEntityOptions {
   rawPayload?: TrackingProviderRawPayload
@@ -126,6 +127,7 @@ export class TrackingProvider extends UniverseEntity<TrackingProviderPayload, Tr
 export interface TrackingProvidersOptions {
   universe: Universe
   http: Universe['http']
+  mqtt: RealtimeClient
 }
 
 export class TrackingProviders extends EntitiesList<TrackingProvider, TrackingProviderRawPayload> {
@@ -141,10 +143,11 @@ export class TrackingProviders extends EntitiesList<TrackingProvider, TrackingPr
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.http = options.http
+    this.mqtt = options.mqtt
   }
 
   protected parseItem (payload: TrackingProviderRawPayload): TrackingProvider {
-    return TrackingProvider.create(payload, this.universe, this.http)
+    return TrackingProvider.create(payload, this.universe, this.http, this.mqtt)
   }
 
   public async getStream (options?: UniverseFetchOptions): Promise<TrackingProviders> {

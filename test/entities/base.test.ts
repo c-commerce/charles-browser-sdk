@@ -23,6 +23,7 @@ describe('Entities: base', () => {
       protected universe: UniverseEntityOptions['universe']
       protected apiCarrier: UniverseEntityOptions['universe']
       protected http: UniverseEntityOptions['http']
+      protected mqtt: UniverseEntityOptions['mqtt']
       protected options: ClsOptions
       public initialized: boolean
 
@@ -34,6 +35,7 @@ describe('Entities: base', () => {
         this.apiCarrier = options.universe
         this.endpoint = 'api/v0/cls_endpoint'
         this.http = options.http
+        this.mqtt = options.mqtt
         this.options = options
         this.initialized = options.initialized ?? false
 
@@ -97,10 +99,20 @@ describe('Entities: base', () => {
       }
     } as UniverseEntityOptions['http']
 
+    // TODO: Properly mock mqtt using jest refernce mocks
+    const mockMqtt = {
+      publish: jest.fn(),
+      on: jest.fn(),
+      off: jest.fn(),
+      subscribe: jest.fn(),
+      unsubscribe: jest.fn()
+    } as unknown as UniverseEntityOptions['mqtt']
+
     const inst = new Cls({
       rawPayload: obj,
       universe: mockUniverse,
-      http: mockHttp
+      http: mockHttp,
+      mqtt: mockMqtt
     })
 
     expect(inst).toBeInstanceOf(Cls)
@@ -189,7 +201,8 @@ describe('Entities: base', () => {
         name: 'something'
       },
       universe: mockUniverse,
-      http: postableMockHttp
+      http: postableMockHttp,
+      mqtt: mockMqtt
     })
 
     expect(instPostable).toBeInstanceOf(Cls)

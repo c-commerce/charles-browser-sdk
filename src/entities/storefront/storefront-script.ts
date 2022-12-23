@@ -1,6 +1,7 @@
 import Entity, { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { RealtimeClient } from 'src/realtime'
 
 export interface StorefrontScriptOptions extends UniverseEntityOptions {
   rawPayload?: StorefrontScriptRawPayload

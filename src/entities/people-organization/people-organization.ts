@@ -103,7 +103,7 @@ export class PeopleOrganization extends UniverseEntity<PeopleOrganizationPayload
     http: Universe['http'],
     mqtt: RealtimeClient
   ): PeopleOrganization {
-    return new PeopleOrganization({ rawPayload: payload, universe, http, initialized: false })
+    return new PeopleOrganization({ rawPayload: payload, universe, http, mqtt, initialized: false })
   }
 
   public serialize (): PeopleOrganizationRawPayload {

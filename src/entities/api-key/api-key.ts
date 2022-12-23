@@ -3,6 +3,7 @@ import qs from 'qs'
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions, EntitiesList } from '../_base'
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
 import { BaseError } from '../../errors'
+import { RealtimeClient } from 'src/realtime'
 
 export interface ApiKeyOptions extends UniverseEntityOptions {
   rawPayload?: ApiKeyRawPayload

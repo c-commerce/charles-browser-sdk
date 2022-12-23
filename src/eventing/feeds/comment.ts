@@ -1,3 +1,4 @@
+import { RealtimeClient } from 'src/realtime'
 import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../../entities/_base'
 import { Universe } from '../../universe'
 import { Feed } from './feed'
@@ -34,6 +35,7 @@ export class Comment extends UniverseEntity<CommentPayload, CommentRawPayload> {
   protected apiCarrier: Universe
   protected feed: Feed
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   public initialized: boolean
   protected options: CommentOptions
 
@@ -51,6 +53,7 @@ export class Comment extends UniverseEntity<CommentPayload, CommentRawPayload> {
     this.feed = options.feed
     this.endpoint = `${this.feed.id as string}/comments`
     this.http = options.http
+    this.mqtt = options.mqtt
     this.options = options
     this.initialized = options.initialized ?? false
 
@@ -71,12 +74,12 @@ export class Comment extends UniverseEntity<CommentPayload, CommentRawPayload> {
     return this
   }
 
-  public static create (payload: CommentRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Comment {
-    return new Comment({ rawPayload: payload, universe, http, initialized: true, feed })
+  public static create (payload: CommentRawPayload, feed: Feed, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Comment {
+    return new Comment({ rawPayload: payload, universe, http, mqtt, initialized: true, feed })
   }
 
-  public static createUninitialized (payload: CommentRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Comment {
-    return new Comment({ rawPayload: payload, universe, http, initialized: false, feed })
+  public static createUninitialized (payload: CommentRawPayload, feed: Feed, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Comment {
+    return new Comment({ rawPayload: payload, universe, http, mqtt, initialized: false, feed })
   }
 
   public serialize (): CommentRawPayload {

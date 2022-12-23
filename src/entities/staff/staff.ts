@@ -3,6 +3,7 @@ import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_bas
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { FeedRawPayload } from '../../eventing/feeds/feed'
+import { RealtimeClient } from 'src/realtime'
 
 export interface StaffOptions extends UniverseEntityOptions {
   rawPayload?: StaffRawPayload

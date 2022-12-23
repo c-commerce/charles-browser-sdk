@@ -3,6 +3,7 @@ import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_bas
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import qs from 'qs'
+import { RealtimeClient } from 'src/realtime'
 
 export interface AssetOptions extends UniverseEntityOptions {
   rawPayload?: AssetRawPayload

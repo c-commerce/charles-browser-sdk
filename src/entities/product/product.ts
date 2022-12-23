@@ -3,6 +3,7 @@ import { UniverseEntity, UniverseEntityOptions, EntityRawPayload } from '../_bas
 import { Universe } from '../../universe'
 import { Inventory, InventoryRawPayload } from '../inventory'
 import { BaseError } from '../../errors'
+import { RealtimeClient } from 'src/realtime'
 
 export interface ProductOptions extends UniverseEntityOptions {
   rawPayload?: ProductRawPayload
@@ -403,7 +404,7 @@ export class Product extends UniverseEntity<ProductPayload, ProductRawPayload> {
       const resources = response.data.data as InventoryRawPayload[]
 
       return resources.map((resource: InventoryRawPayload) => {
-        return Inventory.create(resource, this.universe, this.http)
+        return Inventory.create(resource, this.universe, this.http, this.mqtt)
       })
     } catch (err) {
       throw this.handleError(new ProductInventoryError(undefined, { error: err }))

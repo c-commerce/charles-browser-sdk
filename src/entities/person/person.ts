@@ -971,10 +971,10 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
         return resources
       }
 
-      const _feed = Feed.createUninitialized({ id: resources?.[0]?.feed }, this.universe, this.http, null)
+      const _feed = Feed.createUninitialized({ id: resources?.[0]?.feed }, this.universe, this.http, this.mqtt)
 
       return resources.map((item: EventRawPayload) => {
-        return Event.create(item, _feed, this.universe, this.http)
+        return Event.create(item, _feed, this.universe, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new PersonPreviewNotificationError(undefined, { error: err })

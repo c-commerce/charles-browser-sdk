@@ -423,7 +423,7 @@ export interface MeData {
 
 interface BaseResourceCreateable<T, K> {
   new(...args: any[]): T
-  create: (payload: K, universe: Universe, http: Universe['http'], mqtt: Universe['mqtt']) => T
+  create: (payload: K, universe: Universe, http: Universe['http'], mqtt: realtime.RealtimeClient) => T
 }
 
 interface BaseResourceList<T> {
@@ -642,7 +642,7 @@ export class Universe extends APICarrier {
     if (universeTopics.api.message.isTopic(msg.topic)) {
       let message
       if ((msg as realtime.RealtimeMessageMessage).payload.message) {
-        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this, this.http, this.mqtt)
+        message = Message.deserialize((msg as realtime.RealtimeMessageMessage).payload.message as MessageRawPayload, this, this.http, this.getMqttClient())
       }
       this.emit('universe:message', { ...msg, message })
       return
@@ -654,10 +654,10 @@ export class Universe extends APICarrier {
       let feedStruct
       if ((msg as realtime.RealtimeMessageMessage).payload.event) {
         const feedPayload: FeedRawPayload = { id: (msg as realtime.RealtimeMessageMessage).payload.event.feed }
-        feed = Feed.create(feedPayload, this, this.http, this.mqtt)
+        feed = Feed.create(feedPayload, this, this.http, this.getMqttClient())
         // This one is an actual feed, the one above is just a fake object with just an id
         feedStruct = (msg as realtime.RealtimeMessageMessage).payload.feed
-        event = Event.create((msg as realtime.RealtimeMessageMessage).payload.event as EventRawPayload, feed, this, this.http, this.mqtt)
+        event = Event.create((msg as realtime.RealtimeMessageMessage).payload.event as EventRawPayload, feed, this, this.http, this.getMqttClient())
       }
       this.emit('universe:feeds:events', { ...msg, event, feed: feed, feedStruct })
     }
@@ -666,8 +666,8 @@ export class Universe extends APICarrier {
       let message
       let feed
       if ((msg as realtime.RealtimeFeedsMessages).payload.message) {
-        message = Message.deserialize((msg as realtime.RealtimeFeedsMessages).payload.message as MessageRawPayload, this, this.http, this.mqtt)
-        feed = Feed.create((msg as realtime.RealtimeFeedsMessages).payload.feed as FeedRawPayload, this, this.http, this.mqtt)
+        message = Message.deserialize((msg as realtime.RealtimeFeedsMessages).payload.message as MessageRawPayload, this, this.http, this.getMqttClient())
+        feed = Feed.create((msg as realtime.RealtimeFeedsMessages).payload.feed as FeedRawPayload, this, this.http, this.getMqttClient())
       }
       this.emit('universe:feeds:messages', { ...msg, message, feed })
       return
@@ -676,7 +676,7 @@ export class Universe extends APICarrier {
     if (universeTopics.api.feeds.isTopic(msg.topic)) {
       let feed
       if ((msg as realtime.RealtimeFeeds).payload.feed) {
-        feed = Feed.create((msg as realtime.RealtimeFeeds).payload.feed as FeedRawPayload, this, this.http, this.mqtt)
+        feed = Feed.create((msg as realtime.RealtimeFeeds).payload.feed as FeedRawPayload, this, this.http, this.getMqttClient())
       }
       this.emit('universe:feeds', { ...msg, feed, action: (msg as realtime.RealtimeFeeds).payload.action })
       return
@@ -685,7 +685,7 @@ export class Universe extends APICarrier {
     if (universeTopics.api.people.isTopic(msg.topic)) {
       let _person
       if ((msg as realtime.RealtimePeople).payload.person) {
-        _person = person.Person.create((msg as realtime.RealtimePeople).payload.person, this, this.http, this.mqtt)
+        _person = person.Person.create((msg as realtime.RealtimePeople).payload.person, this, this.http, this.getMqttClient())
       }
       this.emit('universe:people', { ...msg, _person })
       return
@@ -768,231 +768,231 @@ export class Universe extends APICarrier {
   }
 
   private baseResourceFactory<T, K>(proto: BaseResourceCreateable<T, K>, payload: K): T {
-    return proto.create(payload, this, this.http, this.mqtt)
+    return proto.create(payload, this, this.http, this.getMqttClient())
   }
 
   public feed (payload: FeedRawPayload): Feed {
-    return Feed.create(payload, this, this.http, this.mqtt)
+    return Feed.create(payload, this, this.http, this.getMqttClient())
   }
 
   public product (payload: product.ProductRawPayload): product.Product {
-    return product.Product.create(payload, this, this.http, this.mqtt)
+    return product.Product.create(payload, this, this.http, this.getMqttClient())
   }
 
   public staff (payload: staff.StaffRawPayload): staff.Staff {
-    return staff.Staff.create(payload, this, this.http, this.mqtt)
+    return staff.Staff.create(payload, this, this.http, this.getMqttClient())
   }
 
   public track (payload: track.TrackRawPayload): track.Track {
-    return track.Track.create(payload, this, this.http, this.mqtt)
+    return track.Track.create(payload, this, this.http, this.getMqttClient())
   }
 
   public asset (payload: asset.AssetRawPayload): asset.Asset {
-    return asset.Asset.create(payload, this, this.http, this.mqtt)
+    return asset.Asset.create(payload, this, this.http, this.getMqttClient())
   }
 
   public cart (payload: cart.CartRawPayload): cart.Cart {
-    return cart.Cart.create(payload, this, this.http, this.mqtt)
+    return cart.Cart.create(payload, this, this.http, this.getMqttClient())
   }
 
   public order (payload: order.OrderRawPayload): order.Order {
-    return order.Order.create(payload, this, this.http, this.mqtt)
+    return order.Order.create(payload, this, this.http, this.getMqttClient())
   }
 
   public person (payload: person.PersonRawPayload): person.Person {
-    return person.Person.create(payload, this, this.http, this.mqtt)
+    return person.Person.create(payload, this, this.http, this.getMqttClient())
   }
 
   public address (payload: person.PersonAddressRawPayload): person.Address {
-    return person.Address.create(payload, this, this.http, this.mqtt)
+    return person.Address.create(payload, this, this.http, this.getMqttClient())
   }
 
   public phonenumber (payload: person.PersonPhoneNumberRawPayload): person.Phonenumber {
-    return person.Phonenumber.create(payload, this, this.http, this.mqtt)
+    return person.Phonenumber.create(payload, this, this.http, this.getMqttClient())
   }
 
   public channelUser (payload: person.PersonChannelUserRawPayload): channelUser.ChannelUser {
-    return channelUser.ChannelUser.create(payload, this, this.http, this.mqtt)
+    return channelUser.ChannelUser.create(payload, this, this.http, this.getMqttClient())
   }
 
   public email (payload: person.PersonEmailRawPayload): email.Email {
-    return email.Email.create(payload, this, this.http, this.mqtt)
+    return email.Email.create(payload, this, this.http, this.getMqttClient())
   }
 
   public ticket (payload: ticket.TicketRawPayload): ticket.Ticket {
-    return ticket.Ticket.create(payload, this, this.http, this.mqtt)
+    return ticket.Ticket.create(payload, this, this.http, this.getMqttClient())
   }
 
   public discount (payload: discount.DiscountRawPayload): discount.Discount {
-    return discount.Discount.create(payload, this, this.http, this.mqtt)
+    return discount.Discount.create(payload, this, this.http, this.getMqttClient())
   }
 
   public messageTemplate (payload: messageTemplate.MessageTemplateRawPayload): messageTemplate.MessageTemplate {
-    return messageTemplate.MessageTemplate.create(payload, this, this.http, this.mqtt)
+    return messageTemplate.MessageTemplate.create(payload, this, this.http, this.getMqttClient())
   }
 
   public productCategory (payload: productCategory.ProductCategoryRawPayload): productCategory.ProductCategory {
-    return productCategory.ProductCategory.create(payload, this, this.http, this.mqtt)
+    return productCategory.ProductCategory.create(payload, this, this.http, this.getMqttClient())
   }
 
   public productCategoryTree (payload: productCategoryTree.ProductCategoryTreeRawPayload): productCategoryTree.ProductCategoryTree {
-    return productCategoryTree.ProductCategoryTree.create(payload, this, this.http, this.mqtt)
+    return productCategoryTree.ProductCategoryTree.create(payload, this, this.http, this.getMqttClient())
   }
 
   public messageTemplateCategory (payload: messageTemplateCategory.MessageTemplateCategoryRawPayload): messageTemplateCategory.MessageTemplateCategory {
-    return messageTemplateCategory.MessageTemplateCategory.create(payload, this, this.http, this.mqtt)
+    return messageTemplateCategory.MessageTemplateCategory.create(payload, this, this.http, this.getMqttClient())
   }
 
   public messageTemplateCategoryTree (payload: messageTemplateCategoryTree.MessageTemplateCategoryTreeRawPayload): messageTemplateCategoryTree.MessageTemplateCategoryTree {
-    return messageTemplateCategoryTree.MessageTemplateCategoryTree.create(payload, this, this.http, this.mqtt)
+    return messageTemplateCategoryTree.MessageTemplateCategoryTree.create(payload, this, this.http, this.getMqttClient())
   }
 
   public customProperty (payload: customProperty.CustomPropertyRawPayload): customProperty.CustomProperty {
-    return customProperty.CustomProperty.create(payload, this, this.http, this.mqtt)
+    return customProperty.CustomProperty.create(payload, this, this.http, this.getMqttClient())
   }
 
   public tag (payload: tag.TagRawPayload): tag.Tag {
-    return tag.Tag.create(payload, this, this.http, this.mqtt)
+    return tag.Tag.create(payload, this, this.http, this.getMqttClient())
   }
 
   public tagGroup (payload: tagGroup.TagGroupRawPayload): tagGroup.TagGroup {
-    return tagGroup.TagGroup.create(payload, this, this.http, this.mqtt)
+    return tagGroup.TagGroup.create(payload, this, this.http, this.getMqttClient())
   }
 
   public configuration (payload: configuration.ConfigurationRawPayload): configuration.Configuration {
-    return configuration.Configuration.create(payload, this, this.http, this.mqtt)
+    return configuration.Configuration.create(payload, this, this.http, this.getMqttClient())
   }
 
   public inventory (payload: inventory.InventoryRawPayload): inventory.Inventory {
-    return inventory.Inventory.create(payload, this, this.http, this.mqtt)
+    return inventory.Inventory.create(payload, this, this.http, this.getMqttClient())
   }
 
   public integration (payload: integration.IntegrationRawPayload): integration.Integration {
-    return integration.Integration.create(payload, this, this.http, this.mqtt)
+    return integration.Integration.create(payload, this, this.http, this.getMqttClient())
   }
 
   public messageBroker (payload: messageBroker.MessageBrokerRawPayload): messageBroker.MessageBroker {
-    return messageBroker.MessageBroker.create(payload, this, this.http, this.mqtt)
+    return messageBroker.MessageBroker.create(payload, this, this.http, this.getMqttClient())
   }
 
   public storefront (payload: storefront.StorefrontRawPayload): storefront.Storefront {
-    return storefront.Storefront.create(payload, this, this.http, this.mqtt)
+    return storefront.Storefront.create(payload, this, this.http, this.getMqttClient())
   }
 
   public storefrontScript (payload: storefrontScript.StorefrontScriptRawPayload): storefrontScript.StorefrontScript {
-    return storefrontScript.StorefrontScript.create(payload, this, this.http, this.mqtt)
+    return storefrontScript.StorefrontScript.create(payload, this, this.http, this.getMqttClient())
   }
 
   public shippingMethod (payload: shippingMethod.ShippingMethodRawPayload): shippingMethod.ShippingMethod {
-    return shippingMethod.ShippingMethod.create(payload, this, this.http, this.mqtt)
+    return shippingMethod.ShippingMethod.create(payload, this, this.http, this.getMqttClient())
   }
 
   public route (payload: route.RouteRawPayload): route.Route {
-    return route.Route.create(payload, this, this.http, this.mqtt)
+    return route.Route.create(payload, this, this.http, this.getMqttClient())
   }
 
   public thing (payload: thing.ThingRawPayload): thing.Thing {
-    return thing.Thing.create(payload, this, this.http, this.mqtt)
+    return thing.Thing.create(payload, this, this.http, this.getMqttClient())
   }
 
   public nlu (payload: nlu.NluRawPayload): nlu.Nlu {
-    return nlu.Nlu.create(payload, this, this.http, this.mqtt)
+    return nlu.Nlu.create(payload, this, this.http, this.getMqttClient())
   }
 
   public intent (payload: intent.IntentRawPayload): intent.Intent {
-    return intent.Intent.create(payload, this, this.http, this.mqtt)
+    return intent.Intent.create(payload, this, this.http, this.getMqttClient())
   }
 
   public location (payload: location.LocationRawPayload): location.Location {
-    return location.Location.create(payload, this, this.http, this.mqtt)
+    return location.Location.create(payload, this, this.http, this.getMqttClient())
   }
 
   public message (payload: message.MessageRawPayload): message.Message {
-    return message.Message.create(payload, this, this.http, this.mqtt)
+    return message.Message.create(payload, this, this.http, this.getMqttClient())
   }
 
   public contactList (payload: contactList.ContactListRawPayload): contactList.ContactList {
-    return contactList.ContactList.create(payload, this, this.http, this.mqtt)
+    return contactList.ContactList.create(payload, this, this.http, this.getMqttClient())
   }
 
   public notificationCampaign (payload: notificationCampaign.NotificationCampaignRawPayload): notificationCampaign.NotificationCampaign {
-    return notificationCampaign.NotificationCampaign.create(payload, this, this.http, this.mqtt)
+    return notificationCampaign.NotificationCampaign.create(payload, this, this.http, this.getMqttClient())
   }
 
   public favorite (payload: favorite.FavoriteRawPayload): favorite.Favorite {
-    return favorite.Favorite.create(payload, this, this.http, this.mqtt)
+    return favorite.Favorite.create(payload, this, this.http, this.getMqttClient())
   }
 
   public knowledgeBase (payload: knowledgeBase.KnowledgeBaseRawPayload): knowledgeBase.KnowledgeBase {
-    return knowledgeBase.KnowledgeBase.create(payload, this, this.http, this.mqtt)
+    return knowledgeBase.KnowledgeBase.create(payload, this, this.http, this.getMqttClient())
   }
 
   public knowledgeBaseFaqItem (payload: knowledgeBaseFaqItem.KnowledgeBaseFaqItemRawPayload): knowledgeBaseFaqItem.KnowledgeBaseFaqItem {
-    return knowledgeBaseFaqItem.KnowledgeBaseFaqItem.create(payload, this, this.http, this.mqtt)
+    return knowledgeBaseFaqItem.KnowledgeBaseFaqItem.create(payload, this, this.http, this.getMqttClient())
   }
 
   public crm (payload: crm.CRMRawPayload): crm.CRM {
-    return crm.CRM.create(payload, this, this.http, this.mqtt)
+    return crm.CRM.create(payload, this, this.http, this.getMqttClient())
   }
 
   public deal (payload: deal.DealRawPayload): deal.Deal {
-    return deal.Deal.create(payload, this, this.http, this.mqtt)
+    return deal.Deal.create(payload, this, this.http, this.getMqttClient())
   }
 
   public pipeline (payload: pipeline.PipelineRawPayload): pipeline.Pipeline {
-    return pipeline.Pipeline.create(payload, this, this.http, this.mqtt)
+    return pipeline.Pipeline.create(payload, this, this.http, this.getMqttClient())
   }
 
   public pipelineStage (payload: pipelineStage.PipelineStageRawPayload): pipelineStage.PipelineStage {
-    return pipelineStage.PipelineStage.create(payload, this, this.http, this.mqtt)
+    return pipelineStage.PipelineStage.create(payload, this, this.http, this.getMqttClient())
   }
 
   public dealEvent (payload: dealEvent.DealEventRawPayload): dealEvent.DealEvent {
-    return dealEvent.DealEvent.create(payload, this, this.http, this.mqtt)
+    return dealEvent.DealEvent.create(payload, this, this.http, this.getMqttClient())
   }
 
   public messageSubscription (payload: messageSubscription.MessageSubscriptionRawPayload): messageSubscription.MessageSubscription {
-    return messageSubscription.MessageSubscription.create(payload, this, this.http, this.mqtt)
+    return messageSubscription.MessageSubscription.create(payload, this, this.http, this.getMqttClient())
   }
 
   public messageSubscriptionInstance (payload: messageSubscriptionInstance.MessageSubscriptionInstanceRawPayload): messageSubscriptionInstance.MessageSubscriptionInstance {
-    return messageSubscriptionInstance.MessageSubscriptionInstance.create(payload, this, this.http, this.mqtt)
+    return messageSubscriptionInstance.MessageSubscriptionInstance.create(payload, this, this.http, this.getMqttClient())
   }
 
   public peopleOrganization (payload: peopleOrganization.PeopleOrganizationRawPayload): peopleOrganization.PeopleOrganization {
-    return peopleOrganization.PeopleOrganization.create(payload, this, this.http, this.mqtt)
+    return peopleOrganization.PeopleOrganization.create(payload, this, this.http, this.getMqttClient())
   }
 
   public urlShortener (payload: urlShortener.UrlShortenerRawPayload): urlShortener.UrlShortener {
-    return urlShortener.UrlShortener.create(payload, this, this.http, this.mqtt)
+    return urlShortener.UrlShortener.create(payload, this, this.http, this.getMqttClient())
   }
 
   public apiKey (payload: apiKey.ApiKeyRawPayload): apiKey.ApiKey {
-    return apiKey.ApiKey.create(payload, this, this.http, this.mqtt)
+    return apiKey.ApiKey.create(payload, this, this.http, this.getMqttClient())
   }
 
   public import (payload: dataImport.ImportRawPayload): dataImport.Import {
-    return dataImport.Import.create(payload, this, this.http, this.mqtt)
+    return dataImport.Import.create(payload, this, this.http, this.getMqttClient())
   }
 
   public automationEngine (payload: automationEngine.AutomationEngineRawPayload): automationEngine.AutomationEngine {
-    return automationEngine.AutomationEngine.create(payload, this, this.http, this.mqtt)
+    return automationEngine.AutomationEngine.create(payload, this, this.http, this.getMqttClient())
   }
 
   public formProvider (payload: formProvider.FormProviderRawPayload): formProvider.FormProvider {
-    return formProvider.FormProvider.create(payload, this, this.http, this.mqtt)
+    return formProvider.FormProvider.create(payload, this, this.http, this.getMqttClient())
   }
 
   public formInstance (payload: formInstance.FormInstanceRawPayload): formInstance.FormInstance {
-    return formInstance.FormInstance.create(payload, this, this.http, this.mqtt)
+    return formInstance.FormInstance.create(payload, this, this.http, this.getMqttClient())
   }
 
   public corsOrigin (payload: corsOrigin.CorsOriginRawPayload): corsOrigin.CorsOrigin {
-    return corsOrigin.CorsOrigin.create(payload, this, this.http, this.mqtt)
+    return corsOrigin.CorsOrigin.create(payload, this, this.http, this.getMqttClient())
   }
 
   public trackingProvider (payload: trackingProvider.TrackingProviderRawPayload): trackingProvider.TrackingProvider {
-    return trackingProvider.TrackingProvider.create(payload, this, this.http, this.mqtt)
+    return trackingProvider.TrackingProvider.create(payload, this, this.http, this.getMqttClient())
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -1127,7 +1127,7 @@ export class Universe extends APICarrier {
   public get feeds (): UniverseFeeds {
     return {
       fromJson: (payloads: FeedRawPayload[]): Feed[] => {
-        return payloads.map((item) => (Feed.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (Feed.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (feeds: Feed[]): FeedRawPayload[] => {
         return feeds.map((item) => (item.serialize()))
@@ -1156,7 +1156,7 @@ export class Universe extends APICarrier {
           }
 
           return feeds.map((feed: FeedRawPayload) => {
-            return Feed.create(feed, this, this.http, this.mqtt)
+            return Feed.create(feed, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new FeedsFetchRemoteError(undefined, { error: err })
@@ -1185,7 +1185,7 @@ export class Universe extends APICarrier {
         const inst = new Feeds({
           universe: this,
           http: this.http,
-          mqtt: this.mqtt
+          mqtt: this.getMqttClient()
         })
 
         const ret = await inst.getStream(options)
@@ -1212,7 +1212,7 @@ export class Universe extends APICarrier {
   public get people (): UniversePeople {
     return {
       fromJson: (payloads: person.PersonRawPayload[]): person.Person[] => {
-        return payloads.map((item) => (person.Person.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (person.Person.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (people: person.Person[]): person.PersonRawPayload[] => {
         return people.map((item) => (item.serialize()))
@@ -1237,7 +1237,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: person.PersonRawPayload) => {
-            return person.Person.create(resource, this, this.http, this.mqtt)
+            return person.Person.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new person.PeopleFetchRemoteError(undefined, { error: err })
@@ -1266,7 +1266,8 @@ export class Universe extends APICarrier {
       stream: async (options?: UniverseFetchOptions): Promise<person.People> => {
         const inst = new person.People({
           universe: this,
-          http: this.http
+          http: this.http,
+          mqtt: this.getMqttClient()
         })
 
         const ret = await inst.getStream(options)
@@ -1276,7 +1277,8 @@ export class Universe extends APICarrier {
       export: async (options?: UniverseExportCsvOptions): Promise<Blob> => {
         const inst = new person.People({
           universe: this,
-          http: this.http
+          http: this.http,
+          mqtt: this.getMqttClient()
         })
 
         const ret = await inst.exportCsv(options)
@@ -1300,7 +1302,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: staff.StaffRawPayload) => {
-        return staff.Staff.create(resource, this, this.http, this.mqtt)
+        return staff.Staff.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new staff.StaffsFetchRemoteError(undefined, { error: err })
@@ -1310,7 +1312,7 @@ export class Universe extends APICarrier {
   public get tracks (): UniverseTracks {
     return {
       fromJson: (payloads: track.TrackRawPayload[]): track.Track[] => {
-        return payloads.map((item) => (track.Track.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (track.Track.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (products: track.Track[]): track.TrackRawPayload[] => {
         return products.map((item) => (item.serialize()))
@@ -1329,7 +1331,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: track.TrackRawPayload) => {
-            return track.Track.create(resource, this, this.http, this.mqtt)
+            return track.Track.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new track.TracksFetchRemoteError(undefined, { error: err })
@@ -1368,7 +1370,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: track.TrackRawPayload) => {
-            return track.Track.create(resource, this, this.http, this.mqtt)
+            return track.Track.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new track.TracksFetchRemoteError(undefined, { error: err })
@@ -1383,7 +1385,7 @@ export class Universe extends APICarrier {
       const resources = res.data.data as asset.AssetRawPayload[]
 
       return resources.map((resource: asset.AssetRawPayload) => {
-        return asset.Asset.create(resource, this, this.http, this.mqtt)
+        return asset.Asset.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new asset.AssetsFetchRemoteError(undefined, { error: err })
@@ -1393,7 +1395,7 @@ export class Universe extends APICarrier {
   public get products (): UniverseProducts {
     return {
       fromJson: (payloads: ProductRawPayload[]): Product[] => {
-        return payloads.map((item) => (Product.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (Product.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (products: Product[]): ProductRawPayload[] => {
         return products.map((item) => (item.serialize()))
@@ -1416,7 +1418,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: product.ProductRawPayload) => {
-            return product.Product.create(resource, this, this.http, this.mqtt)
+            return product.Product.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new product.ProductsFetchRemoteError(undefined, { error: err })
@@ -1450,7 +1452,7 @@ export class Universe extends APICarrier {
       const resources = res.data.data as ticket.TicketRawPayload[]
 
       return resources.map((resource: ticket.TicketRawPayload) => {
-        return ticket.Ticket.create(resource, this, this.http, this.mqtt)
+        return ticket.Ticket.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new ticket.TicketsFetchRemoteError(undefined, { error: err })
@@ -1474,7 +1476,7 @@ export class Universe extends APICarrier {
   public get carts (): IUniverseCarts {
     return {
       fromJson: (payloads: cart.CartRawPayload[]): cart.Cart[] => {
-        return payloads.map((item) => (cart.Cart.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (cart.Cart.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (carts: cart.Cart[]): cart.CartRawPayload[] => {
         return carts.map((item) => (item.serialize()))
@@ -1496,7 +1498,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: cart.CartRawPayload) => {
-            return cart.Cart.create(resource, this, this.http, this.mqtt)
+            return cart.Cart.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new cart.CartsFetchRemoteError(undefined, { error: err })
@@ -1541,7 +1543,7 @@ export class Universe extends APICarrier {
   public get orders (): IUniverseOrders {
     return {
       fromJson: (payloads: order.OrderRawPayload[]): order.Order[] => {
-        return payloads.map((item) => (order.Order.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (order.Order.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (orders: order.Order[]): order.OrderRawPayload[] => {
         return orders.map((item) => (item.serialize()))
@@ -1575,7 +1577,7 @@ export class Universe extends APICarrier {
       const resources = res.data.data as discount.DiscountRawPayload[]
 
       return resources.map((resource: discount.DiscountRawPayload) => {
-        return discount.Discount.create(resource, this, this.http, this.mqtt)
+        return discount.Discount.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new discount.DiscountsFetchRemoteError(undefined, { error: err })
@@ -1593,7 +1595,7 @@ export class Universe extends APICarrier {
       const resources = res.data.data as messageTemplate.MessageTemplateRawPayload[]
 
       return resources.map((resource: messageTemplate.MessageTemplateRawPayload) => {
-        return messageTemplate.MessageTemplate.create(resource, this, this.http, this.mqtt)
+        return messageTemplate.MessageTemplate.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new messageTemplate.MessageTemplatesFetchRemoteError(undefined, { error: err })
@@ -1614,7 +1616,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: productCategory.ProductCategoryRawPayload) => {
-        return productCategory.ProductCategory.create(resource, this, this.http, this.mqtt)
+        return productCategory.ProductCategory.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new productCategory.ProductCategoriesFetchRemoteError(undefined, { error: err })
@@ -1635,7 +1637,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: productCategoryTree.ProductCategoryTreeRawPayload) => {
-        return productCategoryTree.ProductCategoryTree.create(resource, this, this.http, this.mqtt)
+        return productCategoryTree.ProductCategoryTree.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new productCategoryTree.ProductCategoryTreesFetchRemoteError(undefined, { error: err })
@@ -1648,7 +1650,7 @@ export class Universe extends APICarrier {
       const resources = res.data.data as messageTemplateCategory.MessageTemplateCategoryRawPayload[]
 
       return resources.map((resource: messageTemplateCategory.MessageTemplateCategoryRawPayload) => {
-        return messageTemplateCategory.MessageTemplateCategory.create(resource, this, this.http, this.mqtt)
+        return messageTemplateCategory.MessageTemplateCategory.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new messageTemplateCategory.MessageTemplateCategoriesFetchRemoteError(undefined, { error: err })
@@ -1661,7 +1663,7 @@ export class Universe extends APICarrier {
       const resources = res.data.data as messageTemplateCategoryTree.MessageTemplateCategoryTreeRawPayload[]
 
       return resources.map((resource: messageTemplateCategoryTree.MessageTemplateCategoryTreeRawPayload) => {
-        return messageTemplateCategoryTree.MessageTemplateCategoryTree.create(resource, this, this.http, this.mqtt)
+        return messageTemplateCategoryTree.MessageTemplateCategoryTree.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new messageTemplateCategoryTree.MessageTemplateCategoryTreesFetchRemoteError(undefined, { error: err })
@@ -1682,7 +1684,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: customProperty.CustomPropertyRawPayload) => {
-        return customProperty.CustomProperty.create(resource, this, this.http, this.mqtt)
+        return customProperty.CustomProperty.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new customProperty.CustomPropertiesFetchRemoteError(undefined, { error: err })
@@ -1703,7 +1705,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: K) => {
-        return proto.create(resource, this, this.http, this.mqtt)
+        return proto.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-throw-literal,new-cap
@@ -1728,7 +1730,7 @@ export class Universe extends APICarrier {
   }
 
   public dataExport (payload: dataExport.DataExportRawPayload): dataExport.DataExport {
-    return dataExport.DataExport.create(payload, this, this.http, this.mqtt)
+    return dataExport.DataExport.create(payload, this, this.http, this.getMqttClient())
   }
 
   public async uiConfigurations ({ query: { owner = 'self' }, ...rest }: { query: { owner: string }, [key: string]: any }): Promise<configuration.Configuration[] | configuration.ConfigurationRawPayload[] | undefined> {
@@ -1774,7 +1776,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: inventory.InventoryRawPayload) => {
-        return inventory.Inventory.create(resource, this, this.http, this.mqtt)
+        return inventory.Inventory.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new inventory.InventoriesFetchRemoteError(undefined, { error: err })
@@ -1796,7 +1798,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: integration.IntegrationRawPayload) => {
-        return integration.Integration.create(resource, this, this.http, this.mqtt)
+        return integration.Integration.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new integration.IntegrationsFetchRemoteError(undefined, { error: err })
@@ -1860,7 +1862,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: messageBroker.MessageBrokerRawPayload) => {
-        return messageBroker.MessageBroker.create(resource, this, this.http, this.mqtt)
+        return messageBroker.MessageBroker.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new messageBroker.MessageBrokersFetchRemoteError(undefined, { error: err })
@@ -1882,7 +1884,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: storefront.StorefrontRawPayload) => {
-        return storefront.Storefront.create(resource, this, this.http, this.mqtt)
+        return storefront.Storefront.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new storefront.StorefrontsFetchRemoteError(undefined, { error: err })
@@ -1904,7 +1906,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: storefront.StorefrontRawPayload) => {
-        return storefrontScript.StorefrontScript.create(resource, this, this.http, this.mqtt)
+        return storefrontScript.StorefrontScript.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new storefrontScript.StorefrontScriptFetchRemoteError(undefined, { error: err })
@@ -1926,7 +1928,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: shippingMethod.ShippingMethodRawPayload) => {
-        return shippingMethod.ShippingMethod.create(resource, this, this.http, this.mqtt)
+        return shippingMethod.ShippingMethod.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new shippingMethod.ShippingMethodsFetchRemoteError(undefined, { error: err })
@@ -1948,7 +1950,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: route.RouteRawPayload) => {
-        return route.Route.create(resource, this, this.http, this.mqtt)
+        return route.Route.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new route.RoutesFetchRemoteError(undefined, { error: err })
@@ -1970,7 +1972,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: thing.ThingRawPayload) => {
-        return thing.Thing.create(resource, this, this.http, this.mqtt)
+        return thing.Thing.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new thing.ThingsFetchRemoteError(undefined, { error: err })
@@ -1992,7 +1994,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: nlu.NluRawPayload) => {
-        return nlu.Nlu.create(resource, this, this.http, this.mqtt)
+        return nlu.Nlu.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new nlu.NlusFetchRemoteError(undefined, { error: err })
@@ -2014,7 +2016,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: intent.IntentRawPayload) => {
-        return intent.Intent.create(resource, this, this.http, this.mqtt)
+        return intent.Intent.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new intent.IntentsFetchRemoteError(undefined, { error: err })
@@ -2036,7 +2038,7 @@ export class Universe extends APICarrier {
       }
 
       return resources.map((resource: location.LocationRawPayload) => {
-        return location.Location.create(resource, this, this.http, this.mqtt)
+        return location.Location.create(resource, this, this.http, this.getMqttClient())
       })
     } catch (err) {
       throw new location.LocationsFetchRemoteError(undefined, { error: err })
@@ -2046,7 +2048,7 @@ export class Universe extends APICarrier {
   public get contactLists (): IUniverseContactLists {
     return {
       fromJson: (payloads: contactList.ContactListRawPayload[]): contactList.ContactList[] => {
-        return payloads.map((item) => (contactList.ContactList.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (contactList.ContactList.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (contactLists: contactList.ContactList[]): contactList.ContactListRawPayload[] => {
         return contactLists.map((item) => (item.serialize()))
@@ -2068,7 +2070,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: contactList.ContactListRawPayload) => {
-            return contactList.ContactList.create(resource, this, this.http, this.mqtt)
+            return contactList.ContactList.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new contactList.ContactListsFetchRemoteError(undefined, { error: err })
@@ -2099,7 +2101,7 @@ export class Universe extends APICarrier {
   public get notificationCampaigns (): IUniverseNotificationCampaigns {
     return {
       fromJson: (payloads: notificationCampaign.NotificationCampaignRawPayload[]): notificationCampaign.NotificationCampaign[] => {
-        return payloads.map((item) => (notificationCampaign.NotificationCampaign.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (notificationCampaign.NotificationCampaign.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (contactLists: notificationCampaign.NotificationCampaign[]): notificationCampaign.NotificationCampaignRawPayload[] => {
         return contactLists.map((item) => (item.serialize()))
@@ -2121,7 +2123,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: notificationCampaign.NotificationCampaignRawPayload) => {
-            return notificationCampaign.NotificationCampaign.create(resource, this, this.http, this.mqtt)
+            return notificationCampaign.NotificationCampaign.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new notificationCampaign.NotificationCampaignsFetchRemoteError(undefined, { error: err })
@@ -2168,7 +2170,7 @@ export class Universe extends APICarrier {
   public get deals (): IUniverseDeals {
     return {
       fromJson: (payloads: deal.DealRawPayload[]): deal.Deal[] => {
-        return payloads.map((item) => (deal.Deal.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (deal.Deal.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (payloads: deal.Deal[]): deal.DealRawPayload[] => {
         return payloads.map((item) => (item.serialize()))
@@ -2190,7 +2192,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: deal.DealRawPayload) => {
-            return deal.Deal.create(resource, this, this.http, this.mqtt)
+            return deal.Deal.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new deal.DealsFetchRemoteError(undefined, { error: err })
@@ -2221,7 +2223,7 @@ export class Universe extends APICarrier {
   public get messageSubscriptions (): IUniverseMessageSubscriptions {
     return {
       fromJson: (payloads: messageSubscription.MessageSubscriptionPayload[]): messageSubscription.MessageSubscription[] => {
-        return payloads.map((item) => (messageSubscription.MessageSubscription.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (messageSubscription.MessageSubscription.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (payloads: messageSubscription.MessageSubscription[]): messageSubscription.MessageSubscriptionPayload[] => {
         return payloads.map((item) => (item.serialize()))
@@ -2244,7 +2246,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: messageSubscription.MessageSubscriptionPayload) => {
-            return messageSubscription.MessageSubscription.create(resource, this, this.http, this.mqtt)
+            return messageSubscription.MessageSubscription.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new messageSubscription.MessageSubscriptionFetchRemoteError(undefined, { error: err })
@@ -2303,7 +2305,7 @@ export class Universe extends APICarrier {
   public get imports (): IUniverseImports {
     return {
       fromJson: (payloads: dataImport.ImportRawPayload[]): dataImport.Import[] => {
-        return payloads.map((item) => (dataImport.Import.create(item, this, this.http, this.mqtt)))
+        return payloads.map((item) => (dataImport.Import.create(item, this, this.http, this.getMqttClient())))
       },
       toJson: (payloads: dataImport.Import[]): dataImport.ImportRawPayload[] => {
         return payloads.map((item) => (item.serialize()))
@@ -2325,7 +2327,7 @@ export class Universe extends APICarrier {
           }
 
           return resources.map((resource: dataImport.ImportRawPayload) => {
-            return dataImport.Import.create(resource, this, this.http, this.mqtt)
+            return dataImport.Import.create(resource, this, this.http, this.getMqttClient())
           })
         } catch (err) {
           throw new dataImport.ImportsFetchRemoteError(undefined, { error: err })
@@ -2382,7 +2384,7 @@ export class Universe extends APICarrier {
   }
 
   public peopleList (): person.People {
-    return new person.People({ universe: this, http: this.http })
+    return new person.People({ universe: this, http: this.http, mqtt: this.getMqttClient() })
   }
 
   public trackingProvidersList (): trackingProvider.TrackingProviders {

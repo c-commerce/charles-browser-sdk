@@ -7,6 +7,7 @@ import {
   StorefrontScriptRawPayload,
   StorefrontScriptsFetchRemoteError
 } from './storefront-script'
+import { RealtimeClient } from 'src/realtime'
 
 export interface StorefrontOptions extends UniverseEntityOptions {
   rawPayload?: StorefrontRawPayload
@@ -321,7 +322,7 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
       }
 
       return resources.map((resource: StorefrontScriptRawPayload) => {
-        return StorefrontScript.create(resource, this.universe, this.http)
+        return StorefrontScript.create(resource, this.universe, this.http, this.mqtt)
       })
     } catch (err) {
       throw new StorefrontScriptsFetchRemoteError(undefined, { error: err })

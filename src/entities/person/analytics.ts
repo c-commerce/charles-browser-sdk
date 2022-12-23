@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 
 export interface AnalyticsOptions extends UniverseEntityOptions {
   rawPayload?: AnalyticsRawPayload
@@ -67,7 +68,7 @@ export class Analytics {
   }
 
   public static createUninitialized (payload: AnalyticsRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Analytics {
-    return new Analytics({ rawPayload: payload, universe, http, initialized: false })
+    return new Analytics({ rawPayload: payload, universe, http, mqtt, initialized: false })
   }
 
   public serialize (): AnalyticsRawPayload {

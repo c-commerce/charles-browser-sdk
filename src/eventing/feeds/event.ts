@@ -3,6 +3,7 @@ import { Feed, FEED_ENDPOINT } from './feed'
 import { BaseError } from '../../errors'
 import { Message } from '../../messaging/message'
 import { UniverseEntity } from '../../entities/_base'
+import { RealtimeClient } from 'src/realtime'
 
 export enum EventTypesEnum {
   resource = 'resource',
@@ -31,6 +32,7 @@ export interface EventOptions {
   universe: Universe
   feed: Feed
   http: Universe['http']
+  mqtt: RealtimeClient
   rawPayload?: EventRawPayload
   initialized?: boolean
 }
@@ -96,6 +98,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
   protected apiCarrier: Universe
   protected _feed: Feed
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: EventOptions
   public initialized: boolean
 
@@ -128,6 +131,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     this._feed = options.feed
     this.endpoint = `${FEED_ENDPOINT}/${this._feed.id as string}/events`
     this.http = options.http
+    this.mqtt = options.mqtt
     this.options = options
     this.initialized = options.initialized ?? false
 
@@ -170,12 +174,12 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     return this
   }
 
-  public static create (payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event {
-    return new Event({ rawPayload: payload, universe, http, initialized: true, feed })
+  public static create (payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Event {
+    return new Event({ rawPayload: payload, universe, http, mqtt, initialized: true, feed })
   }
 
-  public static createUninitialized (payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http']): Event {
-    return new Event({ rawPayload: payload, universe, http, initialized: false, feed })
+  public static createUninitialized (payload: EventRawPayload, feed: Feed, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Event {
+    return new Event({ rawPayload: payload, universe, http, mqtt, initialized: false, feed })
   }
 
   public serialize (): EventRawPayload {
