@@ -12,7 +12,7 @@ import { throwExceptionFromCommonError } from '../helpers'
 
 import axios, { Canceler, CancelToken } from 'axios'
 
-import { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
+import Entity, { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 
 import {
   ANALYTICS_ENDPOINT,
@@ -85,6 +85,8 @@ import * as trackingProvider from '../entities/tracking-provider/tracking-provid
 
 import * as dataExportMeta from '../entities/data-export/data-meta'
 import * as dataExport from '../entities/data-export/data-export'
+import PresenceEntityManager from '../realtime/presence/presence-entity-manager'
+import { PresencePayload, PresenceStaffPayload } from 'src/realtime/presence/presence-handler'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -915,7 +917,7 @@ export class Universe extends APICarrier {
     return contactList.ContactList.create(payload, this, this.http)
   }
 
-  public notificationCampaign (payload: notificationCampaign.NotificationCampaignRawPayload): notificationCampaign.NotificationCampaign {
+  public notificationCampaign (payload: notificationCampaign.NotificationCampaignRawPayload | undefined = undefined): notificationCampaign.NotificationCampaign {
     return notificationCampaign.NotificationCampaign.create(payload, this, this.http)
   }
 
@@ -1016,6 +1018,14 @@ export class Universe extends APICarrier {
     } catch (err) {
       throw new UniverseApiRequestError(undefined, { error: err })
     }
+  }
+
+  public trackEntityPresence<T extends Entity<any, any>>(entity: T,
+    staff: PresenceStaffPayload,
+    onPresenceUpdated: ((presence: PresenceStaffPayload[]) => void),
+    thresholdInSeconds: number = 3,
+    relay: ((presence: PresencePayload) => void) | undefined = undefined): PresenceEntityManager<T> {
+    return new PresenceEntityManager(this.getMqttClient(), entity, staff, onPresenceUpdated, thresholdInSeconds, relay)
   }
 
   private setCachedMeData (data?: MeData | null): Universe {

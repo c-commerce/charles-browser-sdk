@@ -13,9 +13,6 @@ import { Universe } from '../../universe'
 import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { isEntity } from '../../helpers/entity'
 import snakeCase from 'just-snake-case'
-import PresenceHandler, { PresencePayload, PresenceUserPayload } from './presence-handler'
-import topics from 'src/universe/topics'
-import { RealtimeClient } from 'src/realtime'
 
 export interface RawPatchItem {
   op: 'replace' | 'add' | 'remove'
@@ -75,8 +72,6 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
 
   protected abstract apiCarrier: APICarrier
   protected abstract http: APICarrier['http']
-  protected abstract mqtt: RealtimeClient
-  protected presenceHandler: PresenceHandler | null = null
 
   /**
    * @ignore
@@ -414,40 +409,6 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
 
     // TODO: this should change if we get PUT or PATCH (application/json) endpoints
     throw new TypeError('save requires a sendable payload')
-  }
-
-  public trackPresence (
-    user: PresenceUserPayload,
-    onPresenceUpdated: ((presence: PresenceUserPayload[]) => void),
-    thresholdInSeconds: number = 10,
-    relay: ((presence: PresencePayload) => void) | undefined = undefined): () => void {
-    const disconnect = (): void => {
-      this.presenceHandler?.disconnectTracker(onPresenceUpdated, relay)
-      if (!this.presenceHandler?.hasActiveTrackers()) {
-        this.presenceHandler?.destroy()
-        this.presenceHandler = null
-      }
-    }
-    if (this.presenceHandler) {
-      this.presenceHandler.connectTracker(onPresenceUpdated, relay)
-      return disconnect
-    }
-
-    const topic = topics.api.entityPresence.generateTopic({
-      id: this.id,
-      entityName: this.entityName
-    })
-
-    this.presenceHandler = new PresenceHandler(
-      this.mqtt,
-      topic,
-      user,
-      onPresenceUpdated,
-      thresholdInSeconds,
-      relay
-    )
-
-    return disconnect
   }
 }
 

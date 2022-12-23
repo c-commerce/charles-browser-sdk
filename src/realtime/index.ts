@@ -2,7 +2,7 @@ import { connect, MqttClient, Packet, ClientSubscribeCallback, PacketCallback } 
 import events from 'events'
 import * as uuid from '../helpers/uuid'
 import { BaseError } from '../errors'
-import { PresencePayload } from 'src/entities/_base/presence-handler'
+import { PresencePayload } from './presence/presence-handler'
 
 type MqttProtocoldIdOptions = 'MQTT'
 type IMessagePayloadTypes = 'json' | 'string'

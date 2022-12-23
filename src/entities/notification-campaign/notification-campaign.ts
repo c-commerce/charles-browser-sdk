@@ -239,7 +239,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     return this
   }
 
-  public static create (payload: NotificationCampaignRawPayload, universe: Universe, http: Universe['http']): NotificationCampaign {
+  public static create (payload: NotificationCampaignRawPayload | undefined, universe: Universe, http: Universe['http']): NotificationCampaign {
     return new NotificationCampaign({ rawPayload: payload, universe, http, initialized: true })
   }
 
