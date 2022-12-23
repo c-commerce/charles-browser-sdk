@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 import { NotificationCampaign } from './notification-campaign'
 
@@ -73,6 +74,7 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: StaticEntryOptions
   public initialized: boolean
 
@@ -101,6 +103,7 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -131,8 +134,8 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
     return this
   }
 
-  public static create (payload: NotificationCampaignStaticEntryRawPayload, universe: Universe, http: Universe['http']): NotificationCampaignStaticEntry {
-    return new NotificationCampaignStaticEntry({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: NotificationCampaignStaticEntryRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): NotificationCampaignStaticEntry {
+    return new NotificationCampaignStaticEntry({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): NotificationCampaignStaticEntryRawPayload {
@@ -167,7 +170,8 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
   public static createUninitialized (
     payload: NotificationCampaignStaticEntryRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt: RealtimeClient
   ): NotificationCampaignStaticEntry {
     return new NotificationCampaignStaticEntry({ rawPayload: payload, universe, http, initialized: false })
   }

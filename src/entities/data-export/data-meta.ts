@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface DataExportMetaOptions extends UniverseEntityOptions {
@@ -28,6 +29,7 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: DataExportMetaOptions
   public initialized: boolean
 
@@ -44,6 +46,7 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -58,8 +61,8 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
     return this
   }
 
-  public static create (payload: DataExportMetaRawPayload, universe: Universe, http: Universe['http']): DataExportMeta {
-    return new DataExportMeta({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: DataExportMetaRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): DataExportMeta {
+    return new DataExportMeta({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): DataExportMetaRawPayload {

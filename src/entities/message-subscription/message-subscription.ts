@@ -186,6 +186,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: MessageSubscriptionOptions
   public initialized: boolean
 
@@ -214,6 +215,7 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -241,8 +243,8 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     return this
   }
 
-  public static create (payload: MessageSubscriptionRawPayload, universe: Universe, http: Universe['http']): MessageSubscription {
-    return new MessageSubscription({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: MessageSubscriptionRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): MessageSubscription {
+    return new MessageSubscription({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): MessageSubscriptionRawPayload {
@@ -383,6 +385,7 @@ export class MessageSubscriptions extends EntitiesList<MessageSubscription, Mess
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
 
   constructor (options: NotificationCampaignsOptions) {
     super()

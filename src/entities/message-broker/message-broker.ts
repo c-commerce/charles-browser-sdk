@@ -78,6 +78,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: MessageBrokerOptions
   public initialized: boolean
 
@@ -110,6 +111,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -168,8 +170,8 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
     }
   }
 
-  public static create (payload: MessageBrokerRawPayload, universe: Universe, http: Universe['http']): MessageBroker {
-    return new MessageBroker({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: MessageBrokerRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): MessageBroker {
+    return new MessageBroker({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public async setup (): Promise<number> {

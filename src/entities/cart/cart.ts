@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 import { IDiscountType } from '../discount/discount'
 
@@ -237,6 +238,7 @@ export class CartItem {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: CartOptions
 
   public id?: CartItemPayload['id']
@@ -300,7 +302,7 @@ export class CartItem {
     return this
   }
 
-  public static create (payload: CartItemRawPayload, universe: Universe, http: Universe['http']): CartItem {
+  public static create (payload: CartItemRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): CartItem {
     return new CartItem({ rawPayload: payload, universe, http })
   }
 
@@ -341,6 +343,7 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: CartOptions
   public initialized: boolean
 
@@ -395,6 +398,7 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -453,8 +457,8 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     return this
   }
 
-  public static create (payload: CartRawPayload, universe: Universe, http: Universe['http']): Cart {
-    return new Cart({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: CartRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Cart {
+    return new Cart({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): CartRawPayload {

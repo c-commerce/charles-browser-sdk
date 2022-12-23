@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface FavoriteOptions extends UniverseEntityOptions {
@@ -49,6 +50,7 @@ export class Favorite extends UniverseEntity<FavoritePayload, FavoriteRawPayload
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: FavoriteOptions
   public initialized: boolean
 
@@ -71,6 +73,7 @@ export class Favorite extends UniverseEntity<FavoritePayload, FavoriteRawPayload
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -92,8 +95,8 @@ export class Favorite extends UniverseEntity<FavoritePayload, FavoriteRawPayload
     return this
   }
 
-  public static create (payload: FavoriteRawPayload, universe: Universe, http: Universe['http']): Favorite {
-    return new Favorite({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: FavoriteRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Favorite {
+    return new Favorite({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): FavoriteRawPayload {

@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 import { Pipeline, PipelineStage } from '../crm'
 import { PeopleOrganization } from '../people-organization'
@@ -93,6 +94,7 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: DealOptions
   public initialized: boolean
 
@@ -141,6 +143,7 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload && options.rawPayload.person) {
       this.endpoint = `api/v0/people/${options.rawPayload.person}/deals`
@@ -213,8 +216,8 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     return this
   }
 
-  public static create (payload: DealRawPayload, universe: Universe, http: Universe['http']): Deal {
-    return new Deal({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: DealRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Deal {
+    return new Deal({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): DealRawPayload {

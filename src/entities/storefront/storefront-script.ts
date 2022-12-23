@@ -53,6 +53,7 @@ export class StorefrontScript extends UniverseEntity<StorefrontScriptPayload, St
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: StorefrontScriptOptions
   public initialized: boolean
 
@@ -82,6 +83,7 @@ export class StorefrontScript extends UniverseEntity<StorefrontScriptPayload, St
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
     this.endpoint = 'api/v0/storefronts/scripts'
 
     if (options?.rawPayload) {
@@ -116,8 +118,8 @@ export class StorefrontScript extends UniverseEntity<StorefrontScriptPayload, St
     return this
   }
 
-  public static create (payload: StorefrontScriptRawPayload, universe: Universe, http: Universe['http']): StorefrontScript {
-    return new StorefrontScript({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: StorefrontScriptRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): StorefrontScript {
+    return new StorefrontScript({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): StorefrontScriptRawPayload {

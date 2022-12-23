@@ -66,6 +66,7 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: ImageProxyOptions
   public initialized: boolean
 
@@ -90,6 +91,7 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -113,8 +115,8 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
     return this
   }
 
-  public static create (payload: ImageProxyRawPayload, universe: Universe, http: Universe['http']): ImageProxy {
-    return new ImageProxy({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: ImageProxyRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): ImageProxy {
+    return new ImageProxy({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): ImageProxyRawPayload {

@@ -207,6 +207,7 @@ export class OrderItem {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: OrderOptions
 
   public qty?: OrderItemPayload['qty']
@@ -252,7 +253,7 @@ export class OrderItem {
     return this
   }
 
-  public static create (payload: OrderItemRawPayload, universe: Universe, http: Universe['http']): OrderItem {
+  public static create (payload: OrderItemRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): OrderItem {
     return new OrderItem({ rawPayload: payload, universe, http })
   }
 
@@ -284,6 +285,7 @@ export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: OrderOptions
   public initialized: boolean
 
@@ -335,6 +337,7 @@ export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -389,8 +392,8 @@ export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
     return this
   }
 
-  public static create (payload: OrderRawPayload, universe: Universe, http: Universe['http']): Order {
-    return new Order({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: OrderRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Order {
+    return new Order({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): OrderRawPayload {
@@ -486,6 +489,7 @@ export class Orders extends EntitiesList<Order, OrderRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
 
   constructor (options: OrdersOptions) {
     super()

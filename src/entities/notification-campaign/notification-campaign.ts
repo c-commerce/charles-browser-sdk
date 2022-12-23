@@ -158,6 +158,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: NotificationCampaignOptions
   public initialized: boolean
 
@@ -199,6 +200,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -239,8 +241,8 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     return this
   }
 
-  public static create (payload: NotificationCampaignRawPayload, universe: Universe, http: Universe['http']): NotificationCampaign {
-    return new NotificationCampaign({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: NotificationCampaignRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): NotificationCampaign {
+    return new NotificationCampaign({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): NotificationCampaignRawPayload {
@@ -621,6 +623,7 @@ export class NotificationCampaigns extends EntitiesList<NotificationCampaign, No
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
 
   constructor (options: NotificationCampaignsOptions) {
     super()

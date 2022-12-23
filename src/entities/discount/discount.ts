@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface DiscountOptions extends UniverseEntityOptions {
@@ -59,6 +60,7 @@ export class Discount extends UniverseEntity<DiscountPayload, DiscountRawPayload
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: DiscountOptions
   public initialized: boolean
 
@@ -82,6 +84,7 @@ export class Discount extends UniverseEntity<DiscountPayload, DiscountRawPayload
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -102,8 +105,8 @@ export class Discount extends UniverseEntity<DiscountPayload, DiscountRawPayload
     return this
   }
 
-  public static create (payload: DiscountRawPayload, universe: Universe, http: Universe['http']): Discount {
-    return new Discount({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: DiscountRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Discount {
+    return new Discount({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): DiscountRawPayload {

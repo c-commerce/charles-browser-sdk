@@ -65,6 +65,7 @@ export class Track extends UniverseEntity<TrackPayload, TrackRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: TrackOptions
   public initialized: boolean
 
@@ -89,6 +90,7 @@ export class Track extends UniverseEntity<TrackPayload, TrackRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -113,8 +115,8 @@ export class Track extends UniverseEntity<TrackPayload, TrackRawPayload> {
     return this
   }
 
-  public static create (payload: TrackRawPayload, universe: Universe, http: Universe['http']): Track {
-    return new Track({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: TrackRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Track {
+    return new Track({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): TrackRawPayload {

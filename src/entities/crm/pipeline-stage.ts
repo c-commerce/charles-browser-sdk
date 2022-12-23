@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface PipelineStageOptions extends UniverseEntityOptions {
@@ -50,6 +51,7 @@ export class PipelineStage extends UniverseEntity<PipelineStagePayload, Pipeline
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: PipelineStageOptions
   public initialized: boolean
 
@@ -77,6 +79,7 @@ export class PipelineStage extends UniverseEntity<PipelineStagePayload, Pipeline
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
     this.endpoint = ''
 
     if (options?.rawPayload && options.rawPayload.crm && options.rawPayload.pipeline) {
@@ -109,14 +112,15 @@ export class PipelineStage extends UniverseEntity<PipelineStagePayload, Pipeline
     return this
   }
 
-  public static create (payload: PipelineStageRawPayload, universe: Universe, http: Universe['http']): PipelineStage {
-    return new PipelineStage({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: PipelineStageRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): PipelineStage {
+    return new PipelineStage({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public static createUninitialized (
     payload: PipelineStageRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt: RealtimeClient
   ): PipelineStage {
     return new PipelineStage({ rawPayload: payload, universe, http, initialized: false })
   }

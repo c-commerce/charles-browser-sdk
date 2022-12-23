@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface IntegrationOptions extends UniverseEntityOptions {
@@ -60,6 +61,7 @@ export class Integration extends UniverseEntity<IntegrationPayload, IntegrationR
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: IntegrationOptions
   public initialized: boolean
 
@@ -82,6 +84,7 @@ export class Integration extends UniverseEntity<IntegrationPayload, IntegrationR
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -103,8 +106,8 @@ export class Integration extends UniverseEntity<IntegrationPayload, IntegrationR
     return this
   }
 
-  public static create (payload: IntegrationRawPayload, universe: Universe, http: Universe['http']): Integration {
-    return new Integration({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: IntegrationRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Integration {
+    return new Integration({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): IntegrationRawPayload {

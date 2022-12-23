@@ -151,6 +151,7 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: MessageTemplateOptions
   public initialized: boolean
   public endpoint: string
@@ -184,6 +185,7 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -217,8 +219,8 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
     return this
   }
 
-  public static create (payload: MessageTemplateRawPayload, universe: Universe, http: Universe['http']): MessageTemplate {
-    return new MessageTemplate({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: MessageTemplateRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): MessageTemplate {
+    return new MessageTemplate({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): MessageTemplateRawPayload {

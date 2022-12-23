@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface DealEventOptions extends UniverseEntityOptions {
@@ -46,6 +47,7 @@ export class DealEvent extends UniverseEntity<DealEventPayload, DealEventRawPayl
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: DealEventOptions
   public initialized: boolean
 
@@ -71,6 +73,7 @@ export class DealEvent extends UniverseEntity<DealEventPayload, DealEventRawPayl
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
     this.endpoint = ''
 
     if (options?.rawPayload && options.rawPayload.deal) {
@@ -101,8 +104,8 @@ export class DealEvent extends UniverseEntity<DealEventPayload, DealEventRawPayl
     return this
   }
 
-  public static create (payload: DealEventRawPayload, universe: Universe, http: Universe['http']): DealEvent {
-    return new DealEvent({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: DealEventRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): DealEvent {
+    return new DealEvent({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): DealEventRawPayload {

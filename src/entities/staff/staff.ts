@@ -59,6 +59,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: StaffOptions
   public initialized: boolean
 
@@ -90,6 +91,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -120,8 +122,8 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
     return this
   }
 
-  public static create (payload: StaffRawPayload, universe: Universe, http: Universe['http']): Staff {
-    return new Staff({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: StaffRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Staff {
+    return new Staff({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): StaffRawPayload {

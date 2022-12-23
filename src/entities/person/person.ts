@@ -27,7 +27,6 @@ import { PossibleDuplicatesRawPayload, PossibleDuplicatesPayload, PossibleDuplic
 
 export interface PersonOptions extends UniverseEntityOptions {
   rawPayload?: PersonRawPayload
-  mqtt?: Universe['mqtt']
 }
 
 export interface AddressOptions extends PersonOptions {
@@ -216,19 +215,21 @@ class AddressArray<T> extends Array<T> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: realtime.RealtimeClient
   protected person: Person
 
-  constructor (items: T[], universe: Universe, http: Universe['http'], person: Person) {
+  constructor (items: T[], universe: Universe, http: Universe['http'], mqtt: realtime.RealtimeClient, person: Person) {
     super(...items)
     this.universe = universe
     this.apiCarrier = universe
     this.http = http
     this.person = person
+    this.mqtt = mqtt
     Object.setPrototypeOf(this, AddressArray.prototype)
   }
 
   public fromJson (payloads: PersonAddressRawPayload[]): Address[] {
-    return payloads.map(item => Address.create(item, this.universe, this.http))
+    return payloads.map(item => Address.create(item, this.universe, this.http, this.mqtt))
   }
 
   public toJson (items: Address[]): PersonAddressRawPayload[] {
@@ -254,7 +255,7 @@ class AddressArray<T> extends Array<T> {
       }
 
       return resources.map((item: PersonAddressRawPayload) => {
-        return Address.create(item, this.universe, this.http)
+        return Address.create(item, this.universe, this.http, this.mqtt)
       })
     } catch (err) {
       throw new AddressFetchRemoteError(undefined, { error: err })
@@ -272,7 +273,7 @@ class AddressArray<T> extends Array<T> {
       const resources = res.data.data as PersonAddressRawPayload[]
 
       return resources.map((item: PersonAddressRawPayload) => {
-        return Address.create(item, this.universe, this.http)
+        return Address.create(item, this.universe, this.http, this.mqtt)
       })[0]
     } catch (err) {
       throw new AddressCreateRemoteError(undefined, { error: err })
@@ -318,7 +319,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
-  protected mqtt?: Universe['mqtt']
+  protected mqtt: realtime.RealtimeClient
   protected options: PersonOptions
   public initialized: boolean
 
@@ -359,6 +360,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -401,28 +403,28 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     // (that way we can keep embed data across patching)
 
     if (rawPayload.analytics && this.initialized) {
-      this.analytics = Analytics.create(rawPayload.analytics, this.universe, this.http)
+      this.analytics = Analytics.create(rawPayload.analytics, this.universe, this.http, this.mqtt)
     } else if (rawPayload.analytics && !this.initialized) {
-      this.analytics = Analytics.createUninitialized(rawPayload.analytics, this.universe, this.http)
+      this.analytics = Analytics.createUninitialized(rawPayload.analytics, this.universe, this.http, this.mqtt)
     } else if (!this.analytics) {
       this.analytics = undefined
     }
 
     if (rawPayload.emails && this.initialized) {
-      this.emails = rawPayload.emails.map(i => Email.create(i, this.universe, this.http))
+      this.emails = rawPayload.emails.map(i => Email.create(i, this.universe, this.http, this.mqtt))
     } else if (rawPayload.emails && !this.initialized) {
       this.emails = rawPayload.emails.map(i =>
-        Email.createUninitialized(i, this.universe, this.http)
+        Email.createUninitialized(i, this.universe, this.http, this.mqtt)
       )
     } else if (!this.emails) {
       this.emails = undefined
     }
 
     if (rawPayload.addresses && this.initialized) {
-      this._addresses = rawPayload.addresses.map(i => Address.create(i, this.universe, this.http))
+      this._addresses = rawPayload.addresses.map(i => Address.create(i, this.universe, this.http, this.mqtt))
     } else if (rawPayload.addresses && !this.initialized) {
       this._addresses = rawPayload.addresses.map(i =>
-        Address.createUninitialized(i, this.universe, this.http)
+        Address.createUninitialized(i, this.universe, this.http, this.mqtt)
       )
     } else if (!this._addresses) {
       this._addresses = undefined
@@ -430,11 +432,11 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
 
     if (rawPayload.phonenumbers && this.initialized) {
       this._phonenumbers = rawPayload.phonenumbers.map(i =>
-        Phonenumber.create(i, this.universe, this.http)
+        Phonenumber.create(i, this.universe, this.http, this.mqtt)
       )
     } else if (rawPayload.phonenumbers && !this.initialized) {
       this._phonenumbers = rawPayload.phonenumbers.map(i =>
-        Phonenumber.createUninitialized(i, this.universe, this.http)
+        Phonenumber.createUninitialized(i, this.universe, this.http, this.mqtt)
       )
     } else if (!this._phonenumbers) {
       this._phonenumbers = undefined
@@ -442,11 +444,11 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
 
     if (rawPayload.channel_users && this.initialized) {
       this.channelUsers = rawPayload.channel_users.map(i =>
-        ChannelUser.create(i, this.universe, this.http)
+        ChannelUser.create(i, this.universe, this.http, this.mqtt)
       )
     } else if (rawPayload.channel_users && !this.initialized) {
       this.channelUsers = rawPayload.channel_users.map(i =>
-        ChannelUser.createUninitialized(i, this.universe, this.http)
+        ChannelUser.createUninitialized(i, this.universe, this.http, this.mqtt)
       )
     } else if (!this.channelUsers) {
       this.channelUsers = undefined
@@ -459,7 +461,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     payload: PersonRawPayload,
     universe: Universe,
     http: Universe['http'],
-    mqtt?: Universe['mqtt']
+    mqtt: realtime.RealtimeClient
   ): Person {
     return new Person({ rawPayload: payload, universe, http, initialized: true, mqtt })
   }
@@ -624,7 +626,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
 
       const res = await this.http?.getClient()(opts)
       const person = res.data.data[0] as PersonRawPayload
-      return Person.create(person, this.universe, this.http)
+      return Person.create(person, this.universe, this.http, this.mqtt)
     } catch (err) {
       throw new PersonMergeRemoteError(undefined, { error: err })
     }
@@ -680,7 +682,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
       }
       const ordersMap = new Map()
       orders.forEach((orderRaw: OrderRawPayload) => {
-        const o = Order.create(orderRaw, this.universe, this.http)
+        const o = Order.create(orderRaw, this.universe, this.http, this.mqtt)
         ordersMap.set(o.id, o)
       })
 
@@ -709,7 +711,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public get carts (): IPersonCarts {
     return {
       fromJson: (payloads: CartRawPayload[]): Cart[] => {
-        return payloads.map(item => Cart.create(item, this.universe, this.http))
+        return payloads.map(item => Cart.create(item, this.universe, this.http, this.mqtt))
       },
       toJson: (payloads: Cart[]): CartRawPayload[] => {
         return payloads.map(item => item.serialize())
@@ -731,7 +733,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
           }
 
           return carts.map((cart: CartRawPayload) => {
-            return Cart.create(cart, this.universe, this.http)
+            return Cart.create(cart, this.universe, this.http, this.mqtt)
           })
         } catch (err) {
           throw new CartsFetchRemoteError(undefined, { error: err })
@@ -748,7 +750,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
           const carts = res.data.data as CartRawPayload[]
 
           return carts.map((cart: CartRawPayload) => {
-            return Cart.create(cart, this.universe, this.http)
+            return Cart.create(cart, this.universe, this.http, this.mqtt)
           })[0]
         } catch (err) {
           throw new CartCreateRemoteError(undefined, { error: err })
@@ -776,7 +778,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public get deals (): IPersonDeals {
     return {
       fromJson: (payloads: DealRawPayload[]): Deal[] => {
-        return payloads.map(item => Deal.create(item, this.universe, this.http))
+        return payloads.map(item => Deal.create(item, this.universe, this.http, this.mqtt))
       },
       toJson: (payloads: Deal[]): DealRawPayload[] => {
         return payloads.map(item => item.serialize())
@@ -798,7 +800,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
           }
 
           return deals.map((deal: DealRawPayload) => {
-            return Deal.create(deal, this.universe, this.http)
+            return Deal.create(deal, this.universe, this.http, this.mqtt)
           })
         } catch (err) {
           throw new DealsFetchRemoteError(undefined, { error: err })
@@ -815,7 +817,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
           const deals = res.data.data as DealRawPayload[]
 
           return deals.map((deal: DealRawPayload) => {
-            return Deal.create(deal, this.universe, this.http)
+            return Deal.create(deal, this.universe, this.http, this.mqtt)
           })[0]
         } catch (err) {
           throw new DealCreateRemoteError(undefined, { error: err })
@@ -828,7 +830,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
    * Address accessor
    */
   get addresses (): AddressArray<Address> {
-    const ret = new AddressArray<Address>(this._addresses ?? [], this.universe, this.http, this)
+    const ret = new AddressArray<Address>(this._addresses ?? [], this.universe, this.http, this.mqtt, this)
 
     return ret
   }
@@ -857,7 +859,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
       }
 
       return messageSubscriptionInstances.map((messageSubscriptionInstance: MessageSubscriptionInstanceRawPayload) => {
-        return MessageSubscriptionInstance.create(messageSubscriptionInstance, this.universe, this.http)
+        return MessageSubscriptionInstance.create(messageSubscriptionInstance, this.universe, this.http, this.mqtt)
       })
     } catch (err) {
       throw new MessageSubscriptionInstancesFetchRemoteError(undefined, { error: err })
@@ -881,7 +883,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
       }
 
       return emails.map((email: EmailRawPayload) => {
-        return Email.create(email, this.universe, this.http)
+        return Email.create(email, this.universe, this.http, this.mqtt)
       })
     } catch (err) {
       throw new EmailsFetchRemoteError(undefined, { error: err })
@@ -889,21 +891,21 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   }
 
   public email (payload: EmailRawPayload): Email {
-    return Email.create({ ...payload, person: this.id }, this.universe, this.http)
+    return Email.create({ ...payload, person: this.id }, this.universe, this.http, this.mqtt)
   }
 
   public phonenumber (payload: PersonPhoneNumberRawPayload): Phonenumber {
-    return Phonenumber.create({ ...payload, person: this.id }, this.universe, this.http)
+    return Phonenumber.create({ ...payload, person: this.id }, this.universe, this.http, this.mqtt)
   }
 
   public address (payload: PersonAddressRawPayload): Address {
-    return Address.create({ ...payload, person: this.id }, this.universe, this.http)
+    return Address.create({ ...payload, person: this.id }, this.universe, this.http, this.mqtt)
   }
 
   public get phonenumbers (): IPersonPhonenumbers {
     return {
       fromJson: (payloads: PersonPhoneNumberRawPayload[]): Phonenumber[] => {
-        return payloads.map(item => Phonenumber.create(item, this.universe, this.http))
+        return payloads.map(item => Phonenumber.create(item, this.universe, this.http, this.mqtt))
       },
       toJson: (payloads: Phonenumber[]): PersonPhoneNumberRawPayload[] => {
         return payloads.map(item => item.serialize())
@@ -925,7 +927,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
           }
 
           return phonenumbers.map((phonenumber: PersonPhoneNumberRawPayload) => {
-            return Phonenumber.create(phonenumber, this.universe, this.http)
+            return Phonenumber.create(phonenumber, this.universe, this.http, this.mqtt)
           })
         } catch (err) {
           throw new PhonenumbersFetchRemoteError(undefined, { error: err })
@@ -942,7 +944,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
           const phonenumbers = res.data.data as PersonPhoneNumberRawPayload[]
 
           return phonenumbers.map((phonenumber: PersonPhoneNumberRawPayload) => {
-            return Phonenumber.create(phonenumber, this.universe, this.http)
+            return Phonenumber.create(phonenumber, this.universe, this.http, this.mqtt)
           })[0]
         } catch (err) {
           throw new PhonenumberCreateRemoteError(undefined, { error: err })
@@ -1030,7 +1032,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
         return resource
       }
 
-      return MessageSubscriptionInstance.create(resource, this.universe, this.http)
+      return MessageSubscriptionInstance.create(resource, this.universe, this.http, this.mqtt)
     } catch (err) {
       throw new HandleMessageSubscriptionRemoteError(err)
     }
@@ -1043,6 +1045,7 @@ export interface PersonGDPROptions {
 export interface PeopleOptions {
   universe: Universe
   http: Universe['http']
+  mqtt: realtime.RealtimeClient
 }
 
 export class People extends EntitiesList<Person, PersonRawPayload> {
@@ -1051,16 +1054,18 @@ export class People extends EntitiesList<Person, PersonRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: realtime.RealtimeClient
 
   constructor (options: PeopleOptions) {
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.http = options.http
+    this.mqtt = options.mqtt
   }
 
   protected parseItem (payload: PersonRawPayload): Person {
-    return Person.create(payload, this.universe, this.http)
+    return Person.create(payload, this.universe, this.http, this.mqtt)
   }
 
   public async getStream (options?: UniverseFetchOptions): Promise<People> {
@@ -1076,6 +1081,7 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: realtime.RealtimeClient
   protected options: AddressOptions
   public initialized: boolean
 
@@ -1108,6 +1114,7 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
     this.endpoint = ''
 
     if (options?.rawPayload && options.rawPayload.person) {
@@ -1148,17 +1155,19 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
   public static create (
     payload: PersonAddressRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt: realtime.RealtimeClient
   ): Address {
-    return new Address({ rawPayload: payload, universe, http, initialized: true })
+    return new Address({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public static createUninitialized (
     payload: PersonAddressRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt: realtime.RealtimeClient
   ): Address {
-    return new Address({ rawPayload: payload, universe, http, initialized: false })
+    return new Address({ rawPayload: payload, universe, http, mqtt, initialized: false })
   }
 
   public serialize (): PersonAddressRawPayload {
@@ -1209,6 +1218,7 @@ export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, Person
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: realtime.RealtimeClient
   protected options: PhonenumberOptions
   public initialized: boolean
 
@@ -1237,6 +1247,7 @@ export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, Person
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
     this.endpoint = ''
 
     if (options?.rawPayload && options.rawPayload.person) {
@@ -1272,17 +1283,19 @@ export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, Person
   public static create (
     payload: PersonPhoneNumberRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt: realtime.RealtimeClient
   ): Phonenumber {
-    return new Phonenumber({ rawPayload: payload, universe, http, initialized: true })
+    return new Phonenumber({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public static createUninitialized (
     payload: PersonPhoneNumberRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt: realtime.RealtimeClient
   ): Phonenumber {
-    return new Phonenumber({ rawPayload: payload, universe, http, initialized: false })
+    return new Phonenumber({ rawPayload: payload, universe, http, mqtt, initialized: false })
   }
 
   public serialize (): PersonPhoneNumberRawPayload {
@@ -1328,7 +1341,7 @@ export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, Person
         const res = await this.http.getClient()(opts)
         const resource = res.data.data[0] as ChannelUserRawPayload
 
-        return ChannelUser.create(resource, this.universe, this.http)
+        return ChannelUser.create(resource, this.universe, this.http, this.mqtt)
       }
     }
   }

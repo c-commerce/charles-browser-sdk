@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface UrlShortenerOptions extends UniverseEntityOptions {
@@ -87,6 +88,7 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: UrlShortenerOptions
   public initialized: boolean
 
@@ -117,6 +119,7 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -146,8 +149,8 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
     return this
   }
 
-  public static create (payload: UrlShortenerRawPayload, universe: Universe, http: Universe['http']): UrlShortener {
-    return new UrlShortener({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: UrlShortenerRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): UrlShortener {
+    return new UrlShortener({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): UrlShortenerRawPayload {

@@ -44,6 +44,7 @@ export class TrackingProvider extends UniverseEntity<TrackingProviderPayload, Tr
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: TrackingProviderOptions
   public initialized: boolean
 
@@ -68,6 +69,7 @@ export class TrackingProvider extends UniverseEntity<TrackingProviderPayload, Tr
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -91,8 +93,8 @@ export class TrackingProvider extends UniverseEntity<TrackingProviderPayload, Tr
     return this
   }
 
-  public static create (payload: TrackingProviderRawPayload, universe: Universe, http: Universe['http']): TrackingProvider {
-    return new TrackingProvider({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: TrackingProviderRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): TrackingProvider {
+    return new TrackingProvider({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): TrackingProviderRawPayload {
@@ -132,6 +134,7 @@ export class TrackingProviders extends EntitiesList<TrackingProvider, TrackingPr
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
 
   constructor (options: TrackingProvidersOptions) {
     super()

@@ -123,6 +123,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: ImportOptions
   public initialized: boolean
 
@@ -154,6 +155,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -185,8 +187,8 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
     return this
   }
 
-  public static create (payload: ImportRawPayload, universe: Universe, http: Universe['http']): Import {
-    return new Import({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: ImportRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Import {
+    return new Import({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): ImportRawPayload {

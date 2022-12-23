@@ -59,6 +59,7 @@ export class KnowledgeBase extends UniverseEntity<KnowledgeBasePayload, Knowledg
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: KnowledgeBaseOptions
   public initialized: boolean
 
@@ -87,6 +88,7 @@ export class KnowledgeBase extends UniverseEntity<KnowledgeBasePayload, Knowledg
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -115,8 +117,8 @@ export class KnowledgeBase extends UniverseEntity<KnowledgeBasePayload, Knowledg
     return this
   }
 
-  public static create (payload: KnowledgeBaseRawPayload, universe: Universe, http: Universe['http']): KnowledgeBase {
-    return new KnowledgeBase({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: KnowledgeBaseRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): KnowledgeBase {
+    return new KnowledgeBase({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): KnowledgeBaseRawPayload {

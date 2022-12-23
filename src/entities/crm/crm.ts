@@ -55,6 +55,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: CRMOptions
   public initialized: boolean
 
@@ -83,6 +84,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -110,8 +112,8 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     return this
   }
 
-  public static create (payload: CRMRawPayload, universe: Universe, http: Universe['http']): CRM {
-    return new CRM({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: CRMRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): CRM {
+    return new CRM({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): CRMRawPayload {

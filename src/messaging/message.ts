@@ -5,6 +5,7 @@ import { Person, PersonRawPayload } from '../entities/person'
 import { Assets, Asset } from '../entities/asset/asset'
 import { FeedRawPayload, Feed } from '../eventing/feeds'
 import { Event } from '../eventing/feeds/event'
+import { RealtimeClient } from 'src/realtime'
 
 export interface MessageOptions extends UniverseEntityOptions {
   universe: Universe
@@ -184,8 +185,8 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     }
   }
 
-  public static deserialize (payload: MessageRawPayload, universe: Universe, http: Universe['http'], feed?: Feed): Message {
-    return new Message({ rawPayload: payload, universe, http, feed })
+  public static deserialize (payload: MessageRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient, feed?: Feed): Message {
+    return new Message({ rawPayload: payload, universe, http, mqtt, feed })
   }
 
   protected deserialize (rawPayload: MessageRawPayload, options?: MessageOptions): Message {

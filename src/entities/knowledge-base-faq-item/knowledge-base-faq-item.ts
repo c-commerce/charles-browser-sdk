@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface KnowledgeBaseFaqItemOptions extends UniverseEntityOptions {
@@ -46,6 +47,7 @@ export class KnowledgeBaseFaqItem extends UniverseEntity<KnowledgeBaseFaqItemPay
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: KnowledgeBaseFaqItemOptions
   public initialized: boolean
 
@@ -71,6 +73,7 @@ export class KnowledgeBaseFaqItem extends UniverseEntity<KnowledgeBaseFaqItemPay
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -95,8 +98,8 @@ export class KnowledgeBaseFaqItem extends UniverseEntity<KnowledgeBaseFaqItemPay
     return this
   }
 
-  public static create (payload: KnowledgeBaseFaqItemRawPayload, universe: Universe, http: Universe['http']): KnowledgeBaseFaqItem {
-    return new KnowledgeBaseFaqItem({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: KnowledgeBaseFaqItemRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): KnowledgeBaseFaqItem {
+    return new KnowledgeBaseFaqItem({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): KnowledgeBaseFaqItemRawPayload {

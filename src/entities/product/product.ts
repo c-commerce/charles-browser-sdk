@@ -164,6 +164,7 @@ export class Product extends UniverseEntity<ProductPayload, ProductRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: ProductOptions
   public initialized: boolean
 
@@ -238,6 +239,7 @@ export class Product extends UniverseEntity<ProductPayload, ProductRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -309,8 +311,8 @@ export class Product extends UniverseEntity<ProductPayload, ProductRawPayload> {
     return this
   }
 
-  public static create (payload: ProductRawPayload, universe: Universe, http: Universe['http']): Product {
-    return new Product({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: ProductRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Product {
+    return new Product({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): ProductRawPayload {

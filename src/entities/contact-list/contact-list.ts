@@ -86,6 +86,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: ContactListOptions
   public initialized: boolean
 
@@ -114,6 +115,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -150,8 +152,8 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     return this
   }
 
-  public static create (payload: ContactListRawPayload, universe: Universe, http: Universe['http']): ContactList {
-    return new ContactList({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: ContactListRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): ContactList {
+    return new ContactList({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): ContactListRawPayload {
@@ -312,6 +314,7 @@ class StaticEntryArray<T> extends Array<T> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected contactList: ContactList
 
   constructor (items: T[], universe: Universe, http: Universe['http'], contactList: ContactList) {
@@ -426,6 +429,7 @@ export class ContactLists extends EntitiesList<ContactList, ContactListRawPayloa
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
 
   constructor (options: ContactListsOptions) {
     super()

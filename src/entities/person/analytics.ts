@@ -22,6 +22,7 @@ export class Analytics {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: AnalyticsOptions
   public initialized: boolean
 
@@ -41,6 +42,7 @@ export class Analytics {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -60,11 +62,11 @@ export class Analytics {
     return this
   }
 
-  public static create (payload: AnalyticsRawPayload, universe: Universe, http: Universe['http']): Analytics {
-    return new Analytics({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: AnalyticsRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Analytics {
+    return new Analytics({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
-  public static createUninitialized (payload: AnalyticsRawPayload, universe: Universe, http: Universe['http']): Analytics {
+  public static createUninitialized (payload: AnalyticsRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Analytics {
     return new Analytics({ rawPayload: payload, universe, http, initialized: false })
   }
 

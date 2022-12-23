@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface TagOptions extends UniverseEntityOptions {
@@ -40,6 +41,7 @@ export class Tag extends UniverseEntity<TagPayload, TagRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: TagOptions
   public initialized: boolean
 
@@ -63,6 +65,7 @@ export class Tag extends UniverseEntity<TagPayload, TagRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -85,8 +88,8 @@ export class Tag extends UniverseEntity<TagPayload, TagRawPayload> {
     return this
   }
 
-  public static create (payload: TagRawPayload, universe: Universe, http: Universe['http']): Tag {
-    return new Tag({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: TagRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Tag {
+    return new Tag({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): TagRawPayload {

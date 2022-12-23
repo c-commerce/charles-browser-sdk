@@ -28,6 +28,7 @@ export type RawPatch = RawPatchItem[]
 export interface EntityOptions {
   carrier: APICarrier
   http: APICarrier['http']
+  mqtt: RealtimeClient
   initialized?: boolean
 }
 

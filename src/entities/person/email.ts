@@ -2,6 +2,7 @@ import Entity, { UniverseEntity, UniverseEntityOptions, EntityRawPayload, RawPat
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import omit from 'just-omit'
+import { RealtimeClient } from 'src/realtime'
 
 export interface EmailRawPayload extends EntityRawPayload {
   readonly person?: string
@@ -32,6 +33,7 @@ export class Email extends UniverseEntity<EmailPayload, EmailRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: EmailOptions
   public initialized: boolean
   public endpoint: string
@@ -53,6 +55,7 @@ export class Email extends UniverseEntity<EmailPayload, EmailRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
     this.endpoint = ''
 
     if (options?.rawPayload && options.rawPayload.person) {
@@ -82,17 +85,19 @@ export class Email extends UniverseEntity<EmailPayload, EmailRawPayload> {
   public static create (
     payload: EmailRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt: RealtimeClient
   ): Email {
-    return new Email({ rawPayload: payload, universe, http, initialized: true })
+    return new Email({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public static createUninitialized (
     payload: EmailRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt: RealtimeClient
   ): Email {
-    return new Email({ rawPayload: payload, universe, http, initialized: false })
+    return new Email({ rawPayload: payload, universe, http, mqtt, initialized: false })
   }
 
   public serialize (): EmailRawPayload {

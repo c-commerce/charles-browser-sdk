@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface DataExportOptions extends UniverseEntityOptions {
@@ -31,6 +32,7 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawP
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: DataExportOptions
   public initialized: boolean
   public endpoint: string
@@ -46,6 +48,7 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawP
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload && options.rawPayload.name) {
       this.endpoint = `api/v0/data_export/${options.rawPayload.name}`
@@ -66,8 +69,8 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawP
     return this
   }
 
-  public static create (payload: DataExportRawPayload, universe: Universe, http: Universe['http']): DataExport {
-    return new DataExport({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: DataExportRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): DataExport {
+    return new DataExport({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): DataExportRawPayload {

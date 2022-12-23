@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface MessageTemplateCategoryOptions extends UniverseEntityOptions {
@@ -42,6 +43,7 @@ export class MessageTemplateCategory extends UniverseEntity<MessageTemplateCateg
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: MessageTemplateCategoryOptions
   public initialized: boolean
 
@@ -66,6 +68,7 @@ export class MessageTemplateCategory extends UniverseEntity<MessageTemplateCateg
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -89,8 +92,8 @@ export class MessageTemplateCategory extends UniverseEntity<MessageTemplateCateg
     return this
   }
 
-  public static create (payload: MessageTemplateCategoryRawPayload, universe: Universe, http: Universe['http']): MessageTemplateCategory {
-    return new MessageTemplateCategory({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: MessageTemplateCategoryRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): MessageTemplateCategory {
+    return new MessageTemplateCategory({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): MessageTemplateCategoryRawPayload {

@@ -44,6 +44,7 @@ export class ApiKey extends UniverseEntity<ApiKeyPayload, ApiKeyRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: ApiKeyOptions
   public initialized: boolean
 
@@ -68,6 +69,7 @@ export class ApiKey extends UniverseEntity<ApiKeyPayload, ApiKeyRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -91,8 +93,8 @@ export class ApiKey extends UniverseEntity<ApiKeyPayload, ApiKeyRawPayload> {
     return this
   }
 
-  public static create (payload: ApiKeyRawPayload, universe: Universe, http: Universe['http']): ApiKey {
-    return new ApiKey({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: ApiKeyRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): ApiKey {
+    return new ApiKey({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): ApiKeyRawPayload {
@@ -156,6 +158,7 @@ export class ApiKeys extends EntitiesList<ApiKey, ApiKeyRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
 
   constructor (options: ApiKeysOptions) {
     super()

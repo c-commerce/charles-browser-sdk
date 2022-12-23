@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface LocationOptions extends UniverseEntityOptions {
@@ -82,6 +83,7 @@ export class Location extends UniverseEntity<LocationPayload, LocationRawPayload
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: LocationOptions
   public initialized: boolean
 
@@ -113,6 +115,7 @@ export class Location extends UniverseEntity<LocationPayload, LocationRawPayload
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -143,8 +146,8 @@ export class Location extends UniverseEntity<LocationPayload, LocationRawPayload
     return this
   }
 
-  public static create (payload: LocationRawPayload, universe: Universe, http: Universe['http']): Location {
-    return new Location({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: LocationRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Location {
+    return new Location({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): LocationRawPayload {

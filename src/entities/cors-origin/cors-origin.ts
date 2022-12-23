@@ -36,6 +36,7 @@ export class CorsOrigin extends UniverseEntity<CorsOriginPayload, CorsOriginRawP
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: CorsOriginOptions
   public initialized: boolean
 
@@ -58,6 +59,7 @@ export class CorsOrigin extends UniverseEntity<CorsOriginPayload, CorsOriginRawP
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -79,8 +81,8 @@ export class CorsOrigin extends UniverseEntity<CorsOriginPayload, CorsOriginRawP
     return this
   }
 
-  public static create (payload: CorsOriginRawPayload, universe: Universe, http: Universe['http']): CorsOrigin {
-    return new CorsOrigin({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: CorsOriginRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): CorsOrigin {
+    return new CorsOrigin({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): CorsOriginRawPayload {
@@ -118,6 +120,7 @@ export class CorsOrigins extends EntitiesList<CorsOrigin, CorsOriginRawPayload> 
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
 
   constructor (options: CorsOriginsOptions) {
     super()

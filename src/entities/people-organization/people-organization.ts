@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 import { Address } from '../person'
 
@@ -43,6 +44,7 @@ export class PeopleOrganization extends UniverseEntity<PeopleOrganizationPayload
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: PeopleOrganizationOptions
   public initialized: boolean
 
@@ -67,6 +69,7 @@ export class PeopleOrganization extends UniverseEntity<PeopleOrganizationPayload
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -90,14 +93,15 @@ export class PeopleOrganization extends UniverseEntity<PeopleOrganizationPayload
     return this
   }
 
-  public static create (payload: PeopleOrganizationRawPayload, universe: Universe, http: Universe['http']): PeopleOrganization {
-    return new PeopleOrganization({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: PeopleOrganizationRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): PeopleOrganization {
+    return new PeopleOrganization({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public static createUninitialized (
     payload: PeopleOrganizationRawPayload,
     universe: Universe,
-    http: Universe['http']
+    http: Universe['http'],
+    mqtt: RealtimeClient
   ): PeopleOrganization {
     return new PeopleOrganization({ rawPayload: payload, universe, http, initialized: false })
   }

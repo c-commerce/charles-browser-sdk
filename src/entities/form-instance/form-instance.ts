@@ -58,6 +58,7 @@ export class FormInstance extends UniverseEntity<FormInstancePayload, FormInstan
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: FormInstanceOptions
   public initialized: boolean
 
@@ -90,6 +91,7 @@ export class FormInstance extends UniverseEntity<FormInstancePayload, FormInstan
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -121,8 +123,8 @@ export class FormInstance extends UniverseEntity<FormInstancePayload, FormInstan
     return this
   }
 
-  public static create (payload: FormInstanceRawPayload, universe: Universe, http: Universe['http']): FormInstance {
-    return new FormInstance({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: FormInstanceRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): FormInstance {
+    return new FormInstance({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): FormInstanceRawPayload {
@@ -192,6 +194,7 @@ export class FormInstances extends EntitiesList<FormInstance, FormInstanceRawPay
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
 
   constructor (options: FormInstancesOptions) {
     super()

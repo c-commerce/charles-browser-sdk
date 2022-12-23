@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 import { ApiKeys, ApiKeyRawPayload } from '../api-key'
 
@@ -88,6 +89,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: AutomationEngineOptions
   public initialized: boolean
 
@@ -117,6 +119,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -145,8 +148,8 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
     return this
   }
 
-  public static create (payload: AutomationEngineRawPayload, universe: Universe, http: Universe['http']): AutomationEngine {
-    return new AutomationEngine({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: AutomationEngineRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): AutomationEngine {
+    return new AutomationEngine({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): AutomationEngineRawPayload {

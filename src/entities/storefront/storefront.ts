@@ -53,6 +53,7 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: StorefrontOptions
   public initialized: boolean
 
@@ -80,6 +81,7 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -106,8 +108,8 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
     return this
   }
 
-  public static create (payload: StorefrontRawPayload, universe: Universe, http: Universe['http']): Storefront {
-    return new Storefront({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: StorefrontRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Storefront {
+    return new Storefront({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): StorefrontRawPayload {

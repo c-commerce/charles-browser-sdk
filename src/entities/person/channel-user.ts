@@ -6,6 +6,7 @@ import * as feed from '../../eventing/feeds/feed'
 import { BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import qs from 'qs'
 import type { AxiosError } from 'axios'
+import { RealtimeClient } from 'src/realtime'
 
 export interface ChannelProfile {
   is_verified: boolean
@@ -48,6 +49,7 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: ChannelUserOptions
   public initialized: boolean
 
@@ -89,6 +91,7 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -125,12 +128,12 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
     return this
   }
 
-  public static create (payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser {
-    return new ChannelUser({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: ChannelUserRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): ChannelUser {
+    return new ChannelUser({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
-  public static createUninitialized (payload: ChannelUserRawPayload, universe: Universe, http: Universe['http']): ChannelUser {
-    return new ChannelUser({ rawPayload: payload, universe, http, initialized: false })
+  public static createUninitialized (payload: ChannelUserRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): ChannelUser {
+    return new ChannelUser({ rawPayload: payload, universe, http, mqtt, initialized: false })
   }
 
   public serialize (): ChannelUserRawPayload {
@@ -200,7 +203,7 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
 
       const res = await this.http.getClient()(opts)
       const resource = res.data.data[0] as ChannelUserRawPayload
-      return ChannelUser.create(resource, this.universe, this.http)
+      return ChannelUser.create(resource, this.universe, this.http, this.mqtt)
     } catch (err) {
       throw new ChannelUserVerifyRemoteError(err)
     }
@@ -218,7 +221,7 @@ export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUs
 
       const res = await this.http.getClient()(opts)
       const resource = res.data.data[0] as ChannelUserRawPayload
-      return ChannelUser.create(resource, this.universe, this.http)
+      return ChannelUser.create(resource, this.universe, this.http, this.mqtt)
     } catch (err) {
       throw new ChannelUserVerifyRemoteError(err)
     }

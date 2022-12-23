@@ -59,6 +59,7 @@ export class Ticket extends UniverseEntity<TicketPayload, TicketRawPayload> {
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: TicketOptions
   public initialized: boolean
 
@@ -91,6 +92,7 @@ export class Ticket extends UniverseEntity<TicketPayload, TicketRawPayload> {
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -123,8 +125,8 @@ export class Ticket extends UniverseEntity<TicketPayload, TicketRawPayload> {
     return this
   }
 
-  public static create (payload: TicketRawPayload, universe: Universe, http: Universe['http']): Ticket {
-    return new Ticket({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: TicketRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Ticket {
+    return new Ticket({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): TicketRawPayload {

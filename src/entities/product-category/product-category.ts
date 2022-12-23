@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface ProductCategoryOptions extends UniverseEntityOptions {
@@ -56,6 +57,7 @@ export class ProductCategory extends UniverseEntity<ProductCategoryPayload, Prod
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: ProductCategoryOptions
   public initialized: boolean
 
@@ -87,6 +89,7 @@ export class ProductCategory extends UniverseEntity<ProductCategoryPayload, Prod
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -117,8 +120,8 @@ export class ProductCategory extends UniverseEntity<ProductCategoryPayload, Prod
     return this
   }
 
-  public static create (payload: ProductCategoryRawPayload, universe: Universe, http: Universe['http']): ProductCategory {
-    return new ProductCategory({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: ProductCategoryRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): ProductCategory {
+    return new ProductCategory({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): ProductCategoryRawPayload {

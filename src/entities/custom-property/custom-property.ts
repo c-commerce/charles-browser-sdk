@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface CustomPropertyOptions extends UniverseEntityOptions {
@@ -103,6 +104,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: CustomPropertyOptions
   public initialized: boolean
 
@@ -136,6 +138,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -168,8 +171,8 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
     return this
   }
 
-  public static create (payload: CustomPropertyRawPayload, universe: Universe, http: Universe['http']): CustomProperty {
-    return new CustomProperty({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: CustomPropertyRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): CustomProperty {
+    return new CustomProperty({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): CustomPropertyRawPayload {

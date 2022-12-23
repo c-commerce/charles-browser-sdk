@@ -1,6 +1,7 @@
 
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
+import { RealtimeClient } from 'src/realtime'
 import { BaseError } from '../../errors'
 
 export interface InventoryOptions extends UniverseEntityOptions {
@@ -46,6 +47,7 @@ export class Inventory extends UniverseEntity<InventoryPayload, InventoryRawPayl
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
+  protected mqtt: RealtimeClient
   protected options: InventoryOptions
   public initialized: boolean
 
@@ -72,6 +74,7 @@ export class Inventory extends UniverseEntity<InventoryPayload, InventoryRawPayl
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
+    this.mqtt = options.mqtt
 
     if (options?.rawPayload) {
       this.deserialize(options.rawPayload)
@@ -97,8 +100,8 @@ export class Inventory extends UniverseEntity<InventoryPayload, InventoryRawPayl
     return this
   }
 
-  public static create (payload: InventoryRawPayload, universe: Universe, http: Universe['http']): Inventory {
-    return new Inventory({ rawPayload: payload, universe, http, initialized: true })
+  public static create (payload: InventoryRawPayload, universe: Universe, http: Universe['http'], mqtt: RealtimeClient): Inventory {
+    return new Inventory({ rawPayload: payload, universe, http, mqtt, initialized: true })
   }
 
   public serialize (): InventoryRawPayload {
