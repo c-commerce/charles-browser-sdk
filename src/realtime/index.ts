@@ -2,6 +2,7 @@ import { connect, MqttClient, Packet, ClientSubscribeCallback, PacketCallback } 
 import events from 'events'
 import * as uuid from '../helpers/uuid'
 import { BaseError } from '../errors'
+import { PresencePayload } from './presence/presence-handler'
 
 type MqttProtocoldIdOptions = 'MQTT'
 type IMessagePayloadTypes = 'json' | 'string'
@@ -17,7 +18,7 @@ export interface RealtimeMessage {
   payloadType: IMessagePayloadTypes
   payload: {
     [key: string]: any
-  } | string
+  } | PresencePayload | string
 }
 
 export interface RealtimeMessageMessage extends RealtimeMessage {
