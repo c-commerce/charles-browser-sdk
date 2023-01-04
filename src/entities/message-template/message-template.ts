@@ -54,6 +54,18 @@ export interface MessageTemplateRawPayloadQuickReply {
   image_url?: string
 }
 
+export interface MessageTemplateRawPayloadLocalizedContentHistoryEntry {
+  status?: string
+  timestamp?: string
+  disable_info?: {
+    disable_date?: string
+  }
+  other_info?: {
+    title?: string
+    description?: string
+  }
+}
+
 export interface MessageTemplateRawPayloadLocalizedContent {
   locale?: string
   status?: string
@@ -75,6 +87,7 @@ export interface MessageTemplateRawPayloadLocalizedContent {
     translation_append?: string | null
     replies?: MessageTemplateRawPayloadQuickReply[]
   }
+  status_history?: MessageTemplateRawPayloadLocalizedContentHistoryEntry[]
 }
 
 export type MessageTemplateRawPayloadParameters = {
