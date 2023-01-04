@@ -1,3 +1,10 @@
+# [4.138.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.137.0...v4.138.0) (2023-01-04)
+
+
+### Features
+
+* **message-template:** add status history data typing ([d8867ca](https://github.com/c-commerce/charles-browser-sdk/commit/d8867cac80fffaf9eaafb1c1742fa1ea825514b1))
+
 # [4.137.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.136.0...v4.137.0) (2023-01-04)
 
 
