@@ -1,3 +1,11 @@
+# [4.137.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.136.0...v4.137.0) (2023-01-04)
+
+
+### Features
+
+* **Presence:** create entity presence manager ([92f027b](https://github.com/c-commerce/charles-browser-sdk/commit/92f027b1b73e08301b56fa6302859e01c300958d))
+* **Presence:** implemented presence handler and base entity presence tracker ([7d26a2f](https://github.com/c-commerce/charles-browser-sdk/commit/7d26a2f9377c4600fc26f47b381c846774b0a7db))
+
 # [4.136.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.135.1...v4.136.0) (2022-12-06)
 
 
