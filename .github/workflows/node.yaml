@@ -49,9 +49,10 @@ jobs:
 
             rm -rf ./node_modules/typedoc/node_modules/typescript
             cp -r ./node_modules/typescript ./node_modules/typedoc/node_modules/typescript
-      
+      - run: .github/install-python2.sh
       - name: test
         run: npm run test:prod
+      
       
       - name: build
         run: npm run build
