@@ -161,7 +161,7 @@ export interface NotificationCampaignPayload {
  */
 export class NotificationCampaign extends UniverseEntity<NotificationCampaignPayload, NotificationCampaignRawPayload> {
   public get entityName (): string {
-    return 'notification_campaign'
+    return 'notification_campaigns'
   }
 
   protected universe: Universe

@@ -316,7 +316,7 @@ export interface PersonPayload {
  */
 export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public get entityName (): string {
-    return 'person'
+    return 'persons'
   }
 
   protected universe: Universe
@@ -1078,7 +1078,7 @@ export class People extends EntitiesList<Person, PersonRawPayload> {
 
 export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressRawPayload> {
   public get entityName (): string {
-    return 'address'
+    return 'addresses'
   }
 
   protected universe: Universe
@@ -1215,7 +1215,7 @@ export interface PhonenumberToAccessor {
 
 export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload> {
   public get entityName (): string {
-    return 'phonenumber'
+    return 'phonenumbers'
   }
 
   protected universe: Universe

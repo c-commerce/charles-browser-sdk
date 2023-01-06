@@ -41,7 +41,7 @@ export interface MessageTemplateCategoryTreePayload {
  */
 export class MessageTemplateCategoryTree extends UniverseEntity<MessageTemplateCategoryTreePayload, MessageTemplateCategoryTreeRawPayload> {
   public get entityName (): string {
-    return 'message_template_category_tree'
+    return 'message_template_category_trees'
   }
 
   protected universe: Universe

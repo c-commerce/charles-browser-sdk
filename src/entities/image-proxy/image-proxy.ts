@@ -64,7 +64,7 @@ export interface ImageProxyPayload {
  */
 export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayload> {
   public get entityName (): string {
-    return 'image_proxy'
+    return 'image_proxies'
   }
 
   protected universe: Universe

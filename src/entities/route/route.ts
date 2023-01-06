@@ -46,7 +46,7 @@ export interface RoutePayload {
  */
 export class Route extends UniverseEntity<RoutePayload, RouteRawPayload> {
   public get entityName (): string {
-    return 'route'
+    return 'routes'
   }
 
   protected universe: Universe

@@ -76,7 +76,7 @@ export interface MessageBrokerPayload {
  */
 export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageBrokerRawPayload> {
   public get entityName (): string {
-    return 'message_broker'
+    return 'message_brokers'
   }
 
   protected universe: Universe

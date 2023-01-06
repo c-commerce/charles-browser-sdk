@@ -94,7 +94,7 @@ export declare interface Feed {
 
 export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
   public get entityName (): string {
-    return 'feed'
+    return 'feeds'
   }
 
   protected universe: Universe

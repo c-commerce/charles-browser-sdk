@@ -121,7 +121,7 @@ export interface ImportPayload {
  */
 export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   public get entityName (): string {
-    return 'import'
+    return 'imports'
   }
 
   protected universe: Universe

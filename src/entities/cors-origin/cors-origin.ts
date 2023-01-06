@@ -34,7 +34,7 @@ export interface CorsOriginPayload {
  */
 export class CorsOrigin extends UniverseEntity<CorsOriginPayload, CorsOriginRawPayload> {
   public get entityName (): string {
-    return 'cors_origin'
+    return 'cors_origins'
   }
 
   protected universe: Universe

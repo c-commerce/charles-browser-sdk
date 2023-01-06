@@ -42,7 +42,7 @@ export interface ApiKeyPayload {
  */
 export class ApiKey extends UniverseEntity<ApiKeyPayload, ApiKeyRawPayload> {
   public get entityName (): string {
-    return 'api_key'
+    return 'api_keys'
   }
 
   protected universe: Universe

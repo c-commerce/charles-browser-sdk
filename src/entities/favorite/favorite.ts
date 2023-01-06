@@ -47,7 +47,7 @@ export interface FavoritePayload {
  */
 export class Favorite extends UniverseEntity<FavoritePayload, FavoriteRawPayload> {
   public get entityName (): string {
-    return 'favorite'
+    return 'favorites'
   }
 
   protected universe: Universe

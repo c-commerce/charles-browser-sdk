@@ -164,6 +164,16 @@ export default {
       isTopic (topic: string, data: IInjectableDataObject): boolean {
         return new RegExp(this.template.replace('${id}', uuidRegex).replace('${entityName}', '[a-zA-Z]+(?:_[a-zA-Z]+)*'), 'g').test(topic)
       }
+    })(),
+    entityChanges: new (class extends TopicGenerator {
+      get template (): string { return 'entity/${entityName}/${id}/changed' }
+      generateTopic (data: IInjectableDataObject): string {
+        return this.template.replace('${entityName}', data.entityName).replace('${id}', data.id ?? '+')
+      }
+
+      isTopic (topic: string, data: IInjectableDataObject): boolean {
+        return new RegExp(/^entity\/?([0-9a-zA-Z_-].{1,64}|\+)\/(([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(\+))\/changed$/, 'g').test(topic)
+      }
     })()
   }
 }

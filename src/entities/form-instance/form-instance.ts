@@ -56,7 +56,7 @@ export interface FormInstancePayload {
  */
 export class FormInstance extends UniverseEntity<FormInstancePayload, FormInstanceRawPayload> {
   public get entityName (): string {
-    return 'form_instance'
+    return 'form_instances'
   }
 
   protected universe: Universe

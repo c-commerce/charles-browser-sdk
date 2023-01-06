@@ -31,7 +31,7 @@ export interface CommentPayload {
 
 export class Comment extends UniverseEntity<CommentPayload, CommentRawPayload> {
   public get entityName (): string {
-    return 'comment'
+    return 'comments'
   }
 
   protected universe: Universe

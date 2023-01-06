@@ -57,7 +57,7 @@ export interface DiscountPayload {
  */
 export class Discount extends UniverseEntity<DiscountPayload, DiscountRawPayload> {
   public get entityName (): string {
-    return 'discount'
+    return 'discounts'
   }
 
   protected universe: Universe

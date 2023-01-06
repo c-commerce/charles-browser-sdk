@@ -51,7 +51,7 @@ export interface StorefrontScriptPayload {
  */
 export class StorefrontScript extends UniverseEntity<StorefrontScriptPayload, StorefrontScriptRawPayload> {
   public get entityName (): string {
-    return 'storefront_script'
+    return 'storefront_scripts'
   }
 
   protected universe: Universe

@@ -36,7 +36,7 @@ export interface TagGroupPayload {
  */
 export class TagGroup extends UniverseEntity<TagGroupPayload, TagGroupRawPayload> {
   public get entityName (): string {
-    return 'tag_group'
+    return 'tag_groups'
   }
 
   protected universe: Universe

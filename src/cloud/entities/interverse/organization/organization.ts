@@ -32,7 +32,7 @@ export interface InterverseOrganizationPayload {
  */
 export class InterverseOrganization extends Entity<InterverseOrganizationPayload, InterverseOrganizationRawPayload> {
   public get entityName (): string {
-    return 'interverse_organization'
+    return 'interverse_organizations'
   }
 
   protected apiCarrier: APICarrier

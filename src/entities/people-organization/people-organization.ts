@@ -41,7 +41,7 @@ export interface PeopleOrganizationPayload {
  */
 export class PeopleOrganization extends UniverseEntity<PeopleOrganizationPayload, PeopleOrganizationRawPayload> {
   public get entityName (): string {
-    return 'people_organization'
+    return 'people_organizations'
   }
 
   protected universe: Universe

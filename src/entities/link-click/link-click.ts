@@ -22,7 +22,7 @@ export interface LinkClickPayload extends SnakeToCamelCase<Omit<LinkClickRawPayl
 
 export class LinkClick extends Entity<LinkClickPayload, LinkClickRawPayload> implements LinkClickPayload {
   public get entityName (): string {
-    return 'link_click'
+    return 'link_clicks'
   }
 
   protected universe: Universe

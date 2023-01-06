@@ -49,7 +49,7 @@ export interface UniversesPoolUpdateAllResponse {
  */
 export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRawPayload> {
   public get entityName (): string {
-    return 'universe_pool'
+    return 'universe_pools'
   }
 
   protected apiCarrier: APICarrier
