@@ -1,3 +1,10 @@
+## [4.138.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.138.1...v4.138.2) (2023-01-11)
+
+
+### Bug Fixes
+
+* **types:** add missing type for message templates ([1033e74](https://github.com/c-commerce/charles-browser-sdk/commit/1033e747314b6abf6adda00ca06d1975bcd3d5cc))
+
 ## [4.138.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.138.0...v4.138.1) (2023-01-11)
 
 
