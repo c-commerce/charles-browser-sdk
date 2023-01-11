@@ -146,7 +146,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
     }
   }
 
-  protected deserialize (rawPayload: CustomPropertyRawPayload): CustomProperty {
+  protected deserialize (rawPayload: CustomPropertyRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -200,7 +200,7 @@ export class CustomProperty extends UniverseEntity<CustomPropertyPayload, Custom
     }
   }
 
-  public async init (): Promise<CustomProperty | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

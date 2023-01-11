@@ -47,7 +47,7 @@ export class Analytics {
     }
   }
 
-  protected deserialize (rawPayload: AnalyticsRawPayload): Analytics {
+  protected deserialize (rawPayload: AnalyticsRawPayload): this {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined

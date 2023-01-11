@@ -164,7 +164,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: ImportRawPayload): Import {
+  protected deserialize (rawPayload: ImportRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -216,7 +216,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
     }
   }
 
-  public async init (): Promise<Import | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

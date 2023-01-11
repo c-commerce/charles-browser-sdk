@@ -127,7 +127,7 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
     }
   }
 
-  protected deserialize (rawPayload: UrlShortenerRawPayload): UrlShortener {
+  protected deserialize (rawPayload: UrlShortenerRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -155,6 +155,8 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
   }
 
   public serialize (): UrlShortenerRawPayload {
+    // TODO: set fixed payload for configurations and labels and stop deep cloning them
+
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
@@ -166,16 +168,16 @@ export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShorten
       is_proxy: this.isProxy,
       is_default: this.isDefault,
       proxy_vendor: this.proxyVendor,
-      kind: this.kind,
+      kind: this.kind ?? null,
       external_reference_id: this.externalReferenceId,
-      configuration: this.configuration,
+      configuration: JSON.parse(JSON.stringify(this.configuration)),
       integration_configuration: this.integrationConfiguration,
       is_set_up: this.isSetUp,
-      labels: this.labels
+      labels: JSON.parse(JSON.stringify(this.labels))
     }
   }
 
-  public async init (): Promise<UrlShortener | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

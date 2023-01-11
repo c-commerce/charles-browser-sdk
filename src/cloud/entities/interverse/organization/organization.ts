@@ -62,7 +62,7 @@ export class InterverseOrganization extends Entity<InterverseOrganizationPayload
     }
   }
 
-  protected deserialize (rawPayload: InterverseOrganizationRawPayload): InterverseOrganization {
+  protected deserialize (rawPayload: InterverseOrganizationRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -90,7 +90,7 @@ export class InterverseOrganization extends Entity<InterverseOrganizationPayload
     }
   }
 
-  public async init (): Promise<InterverseOrganization | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

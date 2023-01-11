@@ -94,7 +94,7 @@ export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: ReleaseRawPayload): Release {
+  protected deserialize (rawPayload: ReleaseRawPayload): this {
     this.setRawPayload(rawPayload)
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
@@ -139,7 +139,7 @@ export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
     }
   }
 
-  public async init (): Promise<Release | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

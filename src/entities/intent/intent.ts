@@ -97,7 +97,7 @@ export class Intent extends UniverseEntity<IntentPayload, IntentRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: IntentRawPayload): Intent {
+  protected deserialize (rawPayload: IntentRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -147,7 +147,7 @@ export class Intent extends UniverseEntity<IntentPayload, IntentRawPayload> {
     }
   }
 
-  public async init (): Promise<Intent | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

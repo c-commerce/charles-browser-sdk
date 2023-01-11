@@ -68,7 +68,7 @@ export class Email extends UniverseEntity<EmailPayload, EmailRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: EmailRawPayload): Email {
+  protected deserialize (rawPayload: EmailRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -112,28 +112,28 @@ export class Email extends UniverseEntity<EmailPayload, EmailRawPayload> {
     }
   }
 
-  public async patch (changePart: EmailRawPayload): Promise<Entity<EmailPayload, EmailRawPayload>> {
+  public async patch (changePart: EmailRawPayload): Promise<this> {
     if (!this.person) {
       throw new EmailPatchRemoteError('Email patch requires person to be set.')
     }
     return await this._patch(omit(changePart, ['person']))
   }
 
-  public async applyPatch (patch: RawPatch): Promise<Entity<EmailPayload, EmailRawPayload>> {
+  public async applyPatch (patch: RawPatch): Promise<this> {
     if (!this.person) {
       throw new EmailApplyPatchRemoteError('Email apply patch requires person to be set.')
     }
     return await this._applyPatch(patch)
   }
 
-  public async save (payload: EmailRawPayload): Promise<Entity<EmailPayload, EmailRawPayload>> {
+  public async save (payload: EmailRawPayload): Promise<this> {
     if (!this.person) {
       throw new EmailSaveRemoteError('Email save requires person to be set.')
     }
     return await this._save(omit(payload, ['person']))
   }
 
-  public async delete (): Promise<Entity<EmailPayload, EmailRawPayload>> {
+  public async delete (): Promise<this> {
     if (!this.person) {
       throw new EmailPatchRemoteError('Email delete requires person to be set.')
     }

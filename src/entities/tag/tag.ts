@@ -73,7 +73,7 @@ export class Tag extends UniverseEntity<TagPayload, TagRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: TagRawPayload): Tag {
+  protected deserialize (rawPayload: TagRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -107,7 +107,7 @@ export class Tag extends UniverseEntity<TagPayload, TagRawPayload> {
     }
   }
 
-  public async init (): Promise<Tag | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

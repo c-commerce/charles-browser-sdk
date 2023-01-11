@@ -155,7 +155,7 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: DealRawPayload): Deal {
+  protected deserialize (rawPayload: DealRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -259,7 +259,7 @@ export class Deal extends UniverseEntity<DealPayload, DealRawPayload> {
     }
   }
 
-  public async init (): Promise<Deal | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

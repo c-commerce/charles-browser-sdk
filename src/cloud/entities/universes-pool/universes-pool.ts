@@ -82,7 +82,7 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
     }
   }
 
-  protected deserialize (rawPayload: UniversesPoolRawPayload): UniversesPool {
+  protected deserialize (rawPayload: UniversesPoolRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -136,7 +136,7 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
     }
   }
 
-  public async init (): Promise<UniversesPool | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

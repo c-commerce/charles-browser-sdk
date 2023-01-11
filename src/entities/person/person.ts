@@ -373,7 +373,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: PersonRawPayload): Person {
+  protected deserialize (rawPayload: PersonRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -580,11 +580,11 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     }
   }
 
-  public async patch (changePart: PersonRawPayload): Promise<Person> {
-    return await super.patch(omit(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users', 'analytics'])) as Person
+  public async patch (changePart: PersonRawPayload): Promise<this> {
+    return await super.patch(omit(changePart, ['emails', 'phonenumbers', 'addresses', 'channel_users', 'analytics']))
   }
 
-  public async delete (options?: EntityDeleteOptions): Promise<Person> {
+  public async delete (options?: EntityDeleteOptions): Promise<this> {
     if (this.id === null || this.id === undefined) throw new TypeError('delete requires id to be set.')
 
     try {
@@ -1127,7 +1127,7 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
     }
   }
 
-  protected deserialize (rawPayload: PersonAddressRawPayload): Address {
+  protected deserialize (rawPayload: PersonAddressRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -1193,7 +1193,7 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
     }
   }
 
-  public async patch (changePart: PersonAddressRawPayload): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>> {
+  public async patch (changePart: PersonAddressRawPayload): Promise<this> {
     if (!this.person) {
       throw new AddressPatchRemoteError('Address patch requires person to be set.')
     }
@@ -1201,7 +1201,7 @@ export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressR
     return await this._patch(changePart)
   }
 
-  public async applyPatch (patch: RawPatch): Promise<Entity<PersonAddressPayload, PersonAddressRawPayload>> {
+  public async applyPatch (patch: RawPatch): Promise<this> {
     if (!this.person) {
       throw new AddressPatchRemoteError('Address patch requires person to be set.')
     }
@@ -1260,7 +1260,7 @@ export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, Person
     }
   }
 
-  protected deserialize (rawPayload: PersonPhoneNumberRawPayload): Phonenumber {
+  protected deserialize (rawPayload: PersonPhoneNumberRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -1315,7 +1315,7 @@ export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, Person
     }
   }
 
-  public async patch (changePart: PersonPhoneNumberRawPayload): Promise<Entity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload>> {
+  public async patch (changePart: PersonPhoneNumberRawPayload): Promise<this> {
     if (!this.person) {
       throw new PhonenumberPatchRemoteError('Phonenumber patch requires person to be set.')
     }
@@ -1323,7 +1323,7 @@ export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, Person
     return await this._patch(changePart)
   }
 
-  public async applyPatch (patch: RawPatch): Promise<Entity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload>> {
+  public async applyPatch (patch: RawPatch): Promise<this> {
     if (!this.person) {
       throw new PhonenumberApplyPatchRemoteError('Phonenumber applyPatch requires person to be set.')
     }

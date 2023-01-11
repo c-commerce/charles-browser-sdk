@@ -192,7 +192,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     return new Message({ rawPayload: payload, universe, http, feed })
   }
 
-  protected deserialize (rawPayload: MessageRawPayload, options?: MessageOptions): Message {
+  protected deserialize (rawPayload: MessageRawPayload, options?: MessageOptions): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -298,7 +298,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     })
   }
 
-  public async init (): Promise<Message | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

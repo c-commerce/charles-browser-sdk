@@ -65,7 +65,7 @@ export class Domain extends Entity<DomainPayload, DomainRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: DomainRawPayload): Domain {
+  protected deserialize (rawPayload: DomainRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -94,7 +94,7 @@ export class Domain extends Entity<DomainPayload, DomainRawPayload> {
     }
   }
 
-  public async init (): Promise<Domain | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

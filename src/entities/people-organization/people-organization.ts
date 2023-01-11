@@ -77,7 +77,7 @@ export class PeopleOrganization extends UniverseEntity<PeopleOrganizationPayload
     }
   }
 
-  protected deserialize (rawPayload: PeopleOrganizationRawPayload): PeopleOrganization {
+  protected deserialize (rawPayload: PeopleOrganizationRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -121,7 +121,7 @@ export class PeopleOrganization extends UniverseEntity<PeopleOrganizationPayload
     }
   }
 
-  public async init (): Promise<PeopleOrganization | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

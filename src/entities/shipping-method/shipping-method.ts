@@ -79,7 +79,7 @@ export class ShippingMethod extends UniverseEntity<ShippingMethodPayload, Shippi
     }
   }
 
-  protected deserialize (rawPayload: ShippingMethodRawPayload): ShippingMethod {
+  protected deserialize (rawPayload: ShippingMethodRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -111,7 +111,7 @@ export class ShippingMethod extends UniverseEntity<ShippingMethodPayload, Shippi
     }
   }
 
-  public async init (): Promise<ShippingMethod | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

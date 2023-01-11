@@ -120,7 +120,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
     }
   }
 
-  protected deserialize (rawPayload: MessageBrokerRawPayload): MessageBroker {
+  protected deserialize (rawPayload: MessageBrokerRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id

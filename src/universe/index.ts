@@ -10,7 +10,7 @@ import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 import { throwExceptionFromCommonError } from '../helpers'
 
-import axios, { Canceler, CancelToken } from 'axios'
+import axios, { AxiosResponse, Canceler, CancelToken } from 'axios'
 
 import Entity, { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 
@@ -86,7 +86,9 @@ import * as trackingProvider from '../entities/tracking-provider/tracking-provid
 import * as dataExportMeta from '../entities/data-export/data-meta'
 import * as dataExport from '../entities/data-export/data-export'
 import PresenceEntityManager from '../realtime/presence/presence-entity-manager'
-import { PresencePayload, PresenceStaffPayload } from 'src/realtime/presence/presence-handler'
+import { PresencePayload, PresenceStaffPayload } from '../realtime/presence/presence-handler'
+import * as linkClick from '../entities/link-click/link-click'
+import * as campaignLinkClick from '../entities/link-click/campaign-link-click'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -340,6 +342,12 @@ export interface IUniverseMessageSubscriptions {
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
 }
 
+export interface ICampaignLinkClicks {
+  fromJson: (campaignLinkClicks: campaignLinkClick.CampaignLinkClickRawPayload[]) => campaignLinkClick.CampaignLinkClick[]
+  toJson: (campaignLinkClicks: campaignLinkClick.CampaignLinkClick[]) => campaignLinkClick.CampaignLinkClickRawPayload[]
+  fetchCount: (options?: EntityFetchOptions<Partial<campaignLinkClick.CampaignLinkFetchOptions>>) => Promise<{ count: number }>
+  fetch: (options?: EntityFetchOptions<Partial<campaignLinkClick.CampaignLinkFetchOptions>>) => Promise<campaignLinkClick.CampaignLinkClick[] | campaignLinkClick.CampaignLinkClickRawPayload[] | undefined>
+}
 export class UniverseUnauthenticatedError extends BaseError {
   public name = 'UniverseUnauthenticatedError'
   constructor (public message: string = 'Invalid or expired session.', properties?: any) {
@@ -995,6 +1003,10 @@ export class Universe extends APICarrier {
 
   public trackingProvider (payload: trackingProvider.TrackingProviderRawPayload): trackingProvider.TrackingProvider {
     return trackingProvider.TrackingProvider.create(payload, this, this.http)
+  }
+
+  public linkClick (payload: linkClick.LinkClickRawPayload): linkClick.LinkClick {
+    return linkClick.LinkClick.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
@@ -2358,6 +2370,57 @@ export class Universe extends APICarrier {
           }
         } catch (err) {
           throw new dataImport.ImportsFetchCountRemoteError(undefined, { error: err })
+        }
+      }
+    }
+  }
+
+  public get campaignLinkClicks (): ICampaignLinkClicks {
+    const fromJson = (campaignLinkClicks: campaignLinkClick.CampaignLinkClickRawPayload[]): campaignLinkClick.CampaignLinkClick[] => {
+      return campaignLinkClicks.map((item) => (campaignLinkClick.CampaignLinkClick.create(item, this, this.http)))
+    }
+    return {
+      fromJson,
+      toJson: (campaignLinkClicks: campaignLinkClick.CampaignLinkClick[]): campaignLinkClick.CampaignLinkClickRawPayload[] => {
+        return campaignLinkClicks.map((item) => (item.serialize()))
+      },
+      fetch: async (options?: EntityFetchOptions<Partial<campaignLinkClick.CampaignLinkFetchOptions>>): Promise<campaignLinkClick.CampaignLinkClick[] | campaignLinkClick.CampaignLinkClickRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/${campaignLinkClick.CampaignLinkClick.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+          const res: AxiosResponse<{ data: campaignLinkClick.CampaignLinkClickRawPayload[] }> = await this.http.getClient()(opts)
+
+          if (options && options.raw === true) {
+            return res.data.data
+          }
+
+          return fromJson(res.data.data)
+        } catch (err) {
+          throw new campaignLinkClick.CampaignLinkClickFetchRemoteError(undefined, { error: err })
+        }
+      },
+      fetchCount: async (options?: EntityFetchOptions<Partial<campaignLinkClick.CampaignLinkFetchOptions>>): Promise<{ count: number }> => {
+        try {
+          const opts = {
+            method: 'HEAD',
+            url: `${this.universeBase}/${campaignLinkClick.CampaignLinkClick.endpoint}`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          return {
+            count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+          }
+        } catch (err) {
+          throw new campaignLinkClick.CampaignLinkClickFetchRemoteError(undefined, { error: err })
         }
       }
     }

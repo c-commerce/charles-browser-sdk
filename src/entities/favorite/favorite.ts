@@ -81,7 +81,7 @@ export class Favorite extends UniverseEntity<FavoritePayload, FavoriteRawPayload
     }
   }
 
-  protected deserialize (rawPayload: FavoriteRawPayload): Favorite {
+  protected deserialize (rawPayload: FavoriteRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -113,7 +113,7 @@ export class Favorite extends UniverseEntity<FavoritePayload, FavoriteRawPayload
     }
   }
 
-  public async init (): Promise<Favorite | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

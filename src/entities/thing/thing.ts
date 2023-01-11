@@ -86,7 +86,7 @@ export class Thing extends UniverseEntity<ThingPayload, ThingRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: ThingRawPayload): Thing {
+  protected deserialize (rawPayload: ThingRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -126,7 +126,7 @@ export class Thing extends UniverseEntity<ThingPayload, ThingRawPayload> {
     }
   }
 
-  public async init (): Promise<Thing | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

@@ -85,7 +85,7 @@ export class UniverseUser extends Entity<UniverseUserPayload, UniverseUserRawPay
     }
   }
 
-  protected deserialize (rawPayload: UniverseUserRawPayload): UniverseUser {
+  protected deserialize (rawPayload: UniverseUserRawPayload): this {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -123,7 +123,7 @@ export class UniverseUser extends Entity<UniverseUserPayload, UniverseUserRawPay
     }
   }
 
-  public async init (): Promise<UniverseUser | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

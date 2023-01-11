@@ -92,7 +92,7 @@ export class FormProvider extends UniverseEntity<FormProviderPayload, FormProvid
     }
   }
 
-  protected deserialize (rawPayload: FormProviderRawPayload): FormProvider {
+  protected deserialize (rawPayload: FormProviderRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -138,7 +138,7 @@ export class FormProvider extends UniverseEntity<FormProviderPayload, FormProvid
     }
   }
 
-  public async init (): Promise<FormProvider | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

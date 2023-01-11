@@ -97,7 +97,7 @@ export class Nlu extends UniverseEntity<NluPayload, NluRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: NluRawPayload): Nlu {
+  protected deserialize (rawPayload: NluRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -147,7 +147,7 @@ export class Nlu extends UniverseEntity<NluPayload, NluRawPayload> {
     }
   }
 
-  public async init (): Promise<Nlu | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

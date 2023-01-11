@@ -85,7 +85,7 @@ export class MessageSubscriptionInstance extends UniverseEntity<MessageSubscript
     }
   }
 
-  protected deserialize (rawPayload: MessageSubscriptionInstanceRawPayload): MessageSubscriptionInstance {
+  protected deserialize (rawPayload: MessageSubscriptionInstanceRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -127,7 +127,7 @@ export class MessageSubscriptionInstance extends UniverseEntity<MessageSubscript
     }
   }
 
-  public async init (): Promise<MessageSubscriptionInstance | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

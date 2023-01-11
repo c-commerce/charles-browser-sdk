@@ -81,7 +81,7 @@ export class KnowledgeBaseFaqItem extends UniverseEntity<KnowledgeBaseFaqItemPay
     }
   }
 
-  protected deserialize (rawPayload: KnowledgeBaseFaqItemRawPayload): KnowledgeBaseFaqItem {
+  protected deserialize (rawPayload: KnowledgeBaseFaqItemRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -119,7 +119,7 @@ export class KnowledgeBaseFaqItem extends UniverseEntity<KnowledgeBaseFaqItemPay
     }
   }
 
-  public async init (): Promise<KnowledgeBaseFaqItem | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

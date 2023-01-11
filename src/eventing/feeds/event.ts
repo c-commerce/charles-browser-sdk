@@ -140,7 +140,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: EventRawPayload): Event {
+  protected deserialize (rawPayload: EventRawPayload): this {
     // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
     // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
     if (!this.id) this.id = rawPayload.id
@@ -204,7 +204,7 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     }
   }
 
-  public async init (): Promise<Event | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

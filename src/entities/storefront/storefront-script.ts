@@ -97,7 +97,7 @@ export class StorefrontScript extends UniverseEntity<StorefrontScriptPayload, St
     }
   }
 
-  protected deserialize (rawPayload: StorefrontScriptRawPayload): StorefrontScript {
+  protected deserialize (rawPayload: StorefrontScriptRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -144,7 +144,7 @@ export class StorefrontScript extends UniverseEntity<StorefrontScriptPayload, St
     }
   }
 
-  public async init (): Promise<StorefrontScript | undefined> {
+  public async init (): Promise<this> {
     if (!this.storefront || this.storefront.length === 0) {
       throw new StorefrontScriptNoStorefrontError('Cannot init storefront script without a storefront"')
     }
@@ -162,35 +162,35 @@ export class StorefrontScript extends UniverseEntity<StorefrontScriptPayload, St
     }
   }
 
-  public async patch (changePart: StorefrontScriptRawPayload): Promise<Entity<StorefrontScriptPayload, StorefrontScriptRawPayload>> {
+  public async patch (changePart: StorefrontScriptRawPayload): Promise<this> {
     if (!this.storefront || this.storefront.length === 0) {
       throw new StorefrontScriptNoStorefrontError('Cannot patch storefront script without a storefront"')
     }
     return await this._patch(changePart)
   }
 
-  public async post (): Promise<Entity<StorefrontScriptPayload, StorefrontScriptRawPayload>> {
+  public async post (): Promise<this> {
     if (!this.storefront || this.storefront.length === 0) {
       throw new StorefrontScriptNoStorefrontError('Cannot post storefront script without a storefront"')
     }
     return await this._post()
   }
 
-  public async put (): Promise<Entity<StorefrontScriptPayload, StorefrontScriptRawPayload>> {
+  public async put (): Promise<this> {
     if (!this.storefront || this.storefront.length === 0) {
       throw new StorefrontScriptNoStorefrontError('Cannot post storefront script without a storefront"')
     }
     return await this._put()
   }
 
-  public async delete (): Promise<Entity<StorefrontScriptPayload, StorefrontScriptRawPayload>> {
+  public async delete (): Promise<this> {
     if (!this.storefront || this.storefront.length === 0) {
       throw new StorefrontScriptNoStorefrontError('Cannot post storefront script without a storefront"')
     }
     return await this._delete()
   }
 
-  public async save (payload?: StorefrontScriptRawPayload): Promise<Entity<StorefrontScriptPayload, StorefrontScriptRawPayload>> {
+  public async save (payload?: StorefrontScriptRawPayload): Promise<this> {
     if (!this.storefront || this.storefront.length === 0) {
       throw new StorefrontScriptNoStorefrontError('Cannot post storefront script without a storefront"')
     }

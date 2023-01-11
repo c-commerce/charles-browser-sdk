@@ -100,7 +100,7 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
     }
   }
 
-  protected deserialize (rawPayload: ImageProxyRawPayload): ImageProxy {
+  protected deserialize (rawPayload: ImageProxyRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -136,7 +136,7 @@ export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayl
     }
   }
 
-  public async init (): Promise<ImageProxy | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

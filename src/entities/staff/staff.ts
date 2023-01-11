@@ -100,7 +100,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: StaffRawPayload): Staff {
+  protected deserialize (rawPayload: StaffRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -150,7 +150,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
     }
   }
 
-  public async init (): Promise<Staff | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

@@ -90,7 +90,7 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
     }
   }
 
-  protected deserialize (rawPayload: StorefrontRawPayload): Storefront {
+  protected deserialize (rawPayload: StorefrontRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -132,7 +132,7 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
     }
   }
 
-  public async init (): Promise<Storefront | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

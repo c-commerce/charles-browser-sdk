@@ -101,7 +101,7 @@ export class Ticket extends UniverseEntity<TicketPayload, TicketRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: TicketRawPayload): Ticket {
+  protected deserialize (rawPayload: TicketRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -155,7 +155,7 @@ export class Ticket extends UniverseEntity<TicketPayload, TicketRawPayload> {
     }
   }
 
-  public async init (): Promise<Ticket | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 
