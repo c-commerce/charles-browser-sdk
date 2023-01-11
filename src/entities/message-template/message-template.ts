@@ -71,6 +71,12 @@ export interface MessageTemplateRawPayloadLocalizedContentItemAction {
   button_type?: 'url' | string
   text?: string
   url?: string
+  original_url?: string
+  utm_id?: string,
+  dynamic?: boolean,
+  utm_medium?: string,
+  utm_source?: string,
+  utm_campaign?: string
 }
 
 export interface MessageTemplateRawPayloadLocalizedContent {
