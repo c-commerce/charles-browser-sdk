@@ -53,6 +53,10 @@ export interface ReleasePayload {
  * @category Entity
  */
 export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
+  public get entityName (): string {
+    return 'release'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: ReleaseOptions

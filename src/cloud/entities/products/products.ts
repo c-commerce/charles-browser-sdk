@@ -43,6 +43,10 @@ export interface ProductPayload {
  * @category Entity
  */
 export class Product extends Entity<ProductPayload, ProductRawPayload> {
+  public get entityName (): string {
+    return 'product'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: ProductOptions

@@ -155,6 +155,10 @@ export interface NotificationCampaignPayload {
  * @category Entity
  */
 export class NotificationCampaign extends UniverseEntity<NotificationCampaignPayload, NotificationCampaignRawPayload> {
+  public get entityName (): string {
+    return 'notification_campaign'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

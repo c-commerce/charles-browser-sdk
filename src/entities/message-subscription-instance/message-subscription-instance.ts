@@ -45,6 +45,10 @@ export interface MessageSubscriptionInstancePayload {
  * @category Entity
  */
 export class MessageSubscriptionInstance extends UniverseEntity<MessageSubscriptionInstancePayload, MessageSubscriptionInstanceRawPayload> {
+  public get entityName (): string {
+    return 'message_subscription_instance'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

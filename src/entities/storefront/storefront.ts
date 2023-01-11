@@ -50,6 +50,10 @@ export interface StorefrontPayload {
  * @category Entity
  */
 export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawPayload> {
+  public get entityName (): string {
+    return 'storefront'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

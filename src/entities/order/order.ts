@@ -281,6 +281,10 @@ export class OrderItem {
  * @category CommerceEntity
  */
 export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
+  public get entityName (): string {
+    return 'order'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

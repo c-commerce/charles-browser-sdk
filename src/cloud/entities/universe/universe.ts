@@ -96,6 +96,10 @@ export interface SaveMultipleResponse {
  * @category Entity
  */
 export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRawPayload> {
+  public get entityName (): string {
+    return 'cloud_universe'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: CloudUniverseOptions

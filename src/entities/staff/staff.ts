@@ -56,6 +56,10 @@ export interface StaffPayload {
  * @category Entity
  */
 export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
+  public get entityName (): string {
+    return 'staff'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

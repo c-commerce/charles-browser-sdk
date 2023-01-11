@@ -70,6 +70,10 @@ export interface NotificationCampaignStaticEntryPayload {
  * @category Entity
  */
 export class NotificationCampaignStaticEntry extends UniverseEntity<NotificationCampaignStaticEntryPayload, NotificationCampaignStaticEntryRawPayload> {
+  public get entityName (): string {
+    return 'notification_campaign_static_entry'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

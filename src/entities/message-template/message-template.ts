@@ -72,10 +72,10 @@ export interface MessageTemplateRawPayloadLocalizedContentItemAction {
   text?: string
   url?: string
   original_url?: string
-  utm_id?: string,
-  dynamic?: boolean,
-  utm_medium?: string,
-  utm_source?: string,
+  utm_id?: string
+  dynamic?: boolean
+  utm_medium?: string
+  utm_source?: string
   utm_campaign?: string
 }
 
@@ -175,6 +175,10 @@ export interface MessageTemplatePayload {
  * @category Entity
  */
 export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, MessageTemplateRawPayload> {
+  public get entityName (): string {
+    return 'message_template'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

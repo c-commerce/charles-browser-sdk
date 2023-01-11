@@ -44,6 +44,10 @@ export interface ShippingMethodPayload {
  * @category Entity
  */
 export class ShippingMethod extends UniverseEntity<ShippingMethodPayload, ShippingMethodRawPayload> {
+  public get entityName (): string {
+    return 'shipping_method'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

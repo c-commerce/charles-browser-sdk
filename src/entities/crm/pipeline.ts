@@ -45,6 +45,10 @@ export interface PipelinePayload {
  * @category Entity
  */
 export class Pipeline extends UniverseEntity<PipelinePayload, PipelineRawPayload> {
+  public get entityName (): string {
+    return 'pipeline'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

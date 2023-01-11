@@ -315,6 +315,10 @@ export interface PersonPayload {
  * @category Entity
  */
 export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
+  public get entityName (): string {
+    return 'person'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
@@ -1073,6 +1077,10 @@ export class People extends EntitiesList<Person, PersonRawPayload> {
 }
 
 export class Address extends UniverseEntity<PersonAddressPayload, PersonAddressRawPayload> {
+  public get entityName (): string {
+    return 'address'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
@@ -1206,6 +1214,10 @@ export interface PhonenumberToAccessor {
 }
 
 export class Phonenumber extends UniverseEntity<PersonPhoneNumberPayload, PersonPhoneNumberRawPayload> {
+  public get entityName (): string {
+    return 'phonenumber'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

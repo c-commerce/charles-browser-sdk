@@ -53,6 +53,10 @@ export interface CloudUniversesWabaPayload {
  * @category Entity
  */
 export class CloudUniversesWaba extends Entity<CloudUniversesWabaPayload, CloudUniversesWabaRawPayload> {
+  public get entityName (): string {
+    return 'cloud_universes_waba'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: CloudUniversesWabaOptions

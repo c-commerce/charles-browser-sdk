@@ -41,6 +41,10 @@ export interface ApiKeyPayload {
  * @category Entity
  */
 export class ApiKey extends UniverseEntity<ApiKeyPayload, ApiKeyRawPayload> {
+  public get entityName (): string {
+    return 'api_key'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

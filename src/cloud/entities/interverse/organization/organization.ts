@@ -31,6 +31,10 @@ export interface InterverseOrganizationPayload {
  * @category Entity
  */
 export class InterverseOrganization extends Entity<InterverseOrganizationPayload, InterverseOrganizationRawPayload> {
+  public get entityName (): string {
+    return 'interverse_organization'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: InterverseOrganizationOptions

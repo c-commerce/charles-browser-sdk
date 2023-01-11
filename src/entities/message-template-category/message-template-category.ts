@@ -39,6 +39,10 @@ export interface MessageTemplateCategoryPayload {
  * @category Entity
  */
 export class MessageTemplateCategory extends UniverseEntity<MessageTemplateCategoryPayload, MessageTemplateCategoryRawPayload> {
+  public get entityName (): string {
+    return 'message_template_category'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

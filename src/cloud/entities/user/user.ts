@@ -44,6 +44,10 @@ export interface UniverseUserPayload {
  * @category Entity
  */
 export class UniverseUser extends Entity<UniverseUserPayload, UniverseUserRawPayload> {
+  public get entityName (): string {
+    return 'universe_user'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: UniverseUserOptions

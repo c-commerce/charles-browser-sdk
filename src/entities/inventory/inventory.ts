@@ -43,6 +43,10 @@ export interface InventoryPayload {
  * @category Entity
  */
 export class Inventory extends UniverseEntity<InventoryPayload, InventoryRawPayload> {
+  public get entityName (): string {
+    return 'inventory'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

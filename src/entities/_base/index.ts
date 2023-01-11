@@ -12,7 +12,6 @@ import { APICarrier } from '../../base'
 import { Universe } from '../../universe'
 import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { isEntity } from '../../helpers/entity'
-import snakeCase from 'just-snake-case'
 
 export interface RawPatchItem {
   op: 'replace' | 'add' | 'remove'
@@ -88,9 +87,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
     }
   }
 
-  public get entityName (): string {
-    return snakeCase(this.constructor.name)
-  }
+  public abstract get entityName (): string
 
   /**
    * @ignore

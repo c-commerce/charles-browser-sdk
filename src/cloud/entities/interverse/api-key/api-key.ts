@@ -38,6 +38,10 @@ export interface ApiKeyPayload {
  * @category Entity
  */
 export class ApiKey extends Entity<ApiKeyPayload, ApiKeyRawPayload> {
+  public get entityName (): string {
+    return 'api_key'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: ApiKeyOptions

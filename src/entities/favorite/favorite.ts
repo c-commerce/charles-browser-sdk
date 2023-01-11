@@ -46,6 +46,10 @@ export interface FavoritePayload {
  * @category Entity
  */
 export class Favorite extends UniverseEntity<FavoritePayload, FavoriteRawPayload> {
+  public get entityName (): string {
+    return 'favorite'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

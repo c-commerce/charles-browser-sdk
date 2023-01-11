@@ -43,6 +43,10 @@ export interface DealEventPayload {
  * @category Entity
  */
 export class DealEvent extends UniverseEntity<DealEventPayload, DealEventRawPayload> {
+  public get entityName (): string {
+    return 'deal_event'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

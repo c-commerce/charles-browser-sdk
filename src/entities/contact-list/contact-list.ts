@@ -83,6 +83,10 @@ export interface ContactListPayload {
  * @category Entity
  */
 export class ContactList extends UniverseEntity<ContactListPayload, ContactListRawPayload> {
+  public get entityName (): string {
+    return 'contact_list'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

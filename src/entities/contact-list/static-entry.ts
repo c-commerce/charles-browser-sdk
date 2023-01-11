@@ -61,6 +61,10 @@ export interface ContactListStaticEntryPayload {
  * @category Entity
  */
 export class ContactListStaticEntry extends UniverseEntity<ContactListStaticEntryPayload, ContactListStaticEntryRawPayload> {
+  public get entityName (): string {
+    return 'contact_list_static_entry'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

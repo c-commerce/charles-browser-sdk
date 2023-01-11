@@ -53,6 +53,10 @@ export interface IntentPayload {
  * @category Entity
  */
 export class Intent extends UniverseEntity<IntentPayload, IntentRawPayload> {
+  public get entityName (): string {
+    return 'intent'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

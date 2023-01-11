@@ -338,6 +338,10 @@ export class CartItem {
  * @category CommerceEntity
  */
 export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
+  public get entityName (): string {
+    return 'cart'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
