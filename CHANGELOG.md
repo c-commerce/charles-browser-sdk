@@ -1,3 +1,10 @@
+## [4.138.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.138.0...v4.138.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* **types:** add a missing actions typing for the localized template content ([5667751](https://github.com/c-commerce/charles-browser-sdk/commit/56677517343d9380df2a8798214739175f659bc3))
+
 # [4.138.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.137.0...v4.138.0) (2023-01-04)
 
 
