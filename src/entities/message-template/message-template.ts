@@ -66,7 +66,15 @@ export interface MessageTemplateRawPayloadLocalizedContentHistoryEntry {
   }
 }
 
+export interface MessageTemplateRawPayloadLocalizedContentItemAction {
+  type?: 'button' | string
+  button_type?: 'url' | string
+  text?: string
+  url?: string
+}
+
 export interface MessageTemplateRawPayloadLocalizedContent {
+  actions?: MessageTemplateRawPayloadLocalizedContentItemAction[]
   locale?: string
   status?: string
   rejection_reason?: string | null
