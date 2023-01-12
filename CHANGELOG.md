@@ -1,3 +1,10 @@
+## [4.138.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.138.2...v4.138.3) (2023-01-12)
+
+
+### Bug Fixes
+
+* **Entity:** fixed entity-name implementation ([22edd0f](https://github.com/c-commerce/charles-browser-sdk/commit/22edd0f07d5e87465046905192808cc65adbaf7e))
+
 ## [4.138.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.138.1...v4.138.2) (2023-01-11)
 
 
