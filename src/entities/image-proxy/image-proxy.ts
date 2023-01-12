@@ -63,6 +63,10 @@ export interface ImageProxyPayload {
  * @category Entity
  */
 export class ImageProxy extends UniverseEntity<ImageProxyPayload, ImageProxyPayload> {
+  public get entityName (): string {
+    return 'image_proxy'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

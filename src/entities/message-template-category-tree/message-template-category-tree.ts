@@ -40,6 +40,10 @@ export interface MessageTemplateCategoryTreePayload {
  * @category Entity
  */
 export class MessageTemplateCategoryTree extends UniverseEntity<MessageTemplateCategoryTreePayload, MessageTemplateCategoryTreeRawPayload> {
+  public get entityName (): string {
+    return 'message_template_category_tree'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

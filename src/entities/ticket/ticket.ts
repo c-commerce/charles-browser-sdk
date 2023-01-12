@@ -56,6 +56,10 @@ export interface TicketPayload {
  * @category Entity
  */
 export class Ticket extends UniverseEntity<TicketPayload, TicketRawPayload> {
+  public get entityName (): string {
+    return 'ticket'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

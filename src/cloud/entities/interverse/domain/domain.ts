@@ -31,6 +31,10 @@ export interface DomainPayload {
  * @category Entity
  */
 export class Domain extends Entity<DomainPayload, DomainRawPayload> {
+  public get entityName (): string {
+    return 'domain'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: DomainOptions

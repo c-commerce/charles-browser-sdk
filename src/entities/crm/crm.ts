@@ -52,6 +52,10 @@ export interface CRMPayload {
  * @category Entity
  */
 export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
+  public get entityName (): string {
+    return 'crm'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

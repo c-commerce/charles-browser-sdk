@@ -57,6 +57,10 @@ export interface IntegrationPayload {
  * @category Entity
  */
 export class Integration extends UniverseEntity<IntegrationPayload, IntegrationRawPayload> {
+  public get entityName (): string {
+    return 'integration'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

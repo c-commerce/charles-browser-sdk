@@ -53,6 +53,10 @@ export interface ProductCategoryPayload {
  * @category Entity
  */
 export class ProductCategory extends UniverseEntity<ProductCategoryPayload, ProductCategoryRawPayload> {
+  public get entityName (): string {
+    return 'product_category'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

@@ -84,6 +84,10 @@ export interface OrganizationInviteUserRawPayload {
  * @category Entity
  */
 export class Organization extends Entity<OrganizationPayload, OrganizationRawPayload> {
+  public get entityName (): string {
+    return 'organization'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: OrganizationOptions

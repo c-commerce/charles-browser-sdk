@@ -100,6 +100,10 @@ export interface CustomPropertyPayload {
  * @category Entity
  */
 export class CustomProperty extends UniverseEntity<CustomPropertyPayload, CustomPropertyRawPayload> {
+  public get entityName (): string {
+    return 'custom_property'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

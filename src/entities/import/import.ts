@@ -120,6 +120,10 @@ export interface ImportPayload {
  * @category Entity
  */
 export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
+  public get entityName (): string {
+    return 'import'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

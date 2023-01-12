@@ -79,6 +79,10 @@ export interface LocationAddressRawPayload {
  * @category Entity
  */
 export class Location extends UniverseEntity<LocationPayload, LocationRawPayload> {
+  public get entityName (): string {
+    return 'location'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

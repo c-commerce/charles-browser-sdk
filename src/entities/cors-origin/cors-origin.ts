@@ -33,6 +33,10 @@ export interface CorsOriginPayload {
  * @category Entity
  */
 export class CorsOrigin extends UniverseEntity<CorsOriginPayload, CorsOriginRawPayload> {
+  public get entityName (): string {
+    return 'cors_origin'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

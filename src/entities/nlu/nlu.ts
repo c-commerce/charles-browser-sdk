@@ -53,6 +53,10 @@ export interface NluPayload {
  * @category Entity
  */
 export class Nlu extends UniverseEntity<NluPayload, NluRawPayload> {
+  public get entityName (): string {
+    return 'nlu'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

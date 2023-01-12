@@ -48,6 +48,10 @@ export interface UniversesPoolUpdateAllResponse {
  * @category Entity
  */
 export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRawPayload> {
+  public get entityName (): string {
+    return 'universe_pool'
+  }
+
   protected apiCarrier: APICarrier
   protected http: Cloud['http']
   protected options: UniversesPoolOptions

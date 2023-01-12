@@ -29,6 +29,10 @@ export interface EmailPayload {
 }
 
 export class Email extends UniverseEntity<EmailPayload, EmailRawPayload> {
+  public get entityName (): string {
+    return 'email'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

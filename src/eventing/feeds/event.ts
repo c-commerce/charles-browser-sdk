@@ -92,6 +92,10 @@ export interface EventPayload {
 }
 
 export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
+  public get entityName (): string {
+    return 'event'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected _feed: Feed

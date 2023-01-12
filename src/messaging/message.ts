@@ -135,6 +135,10 @@ export interface MessagePayload {
 // export type Message = MessagePayload
 
 export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
+  public get entityName (): string {
+    return 'message'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

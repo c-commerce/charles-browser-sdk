@@ -17,6 +17,10 @@ describe('Entities: base', () => {
     }
 
     class Cls extends UniverseEntity<ClsPayload, ClsRawPayload> {
+      public get entityName (): string {
+        return 'cls'
+      }
+
       public id?: ClsPayload['id']
       public name?: ClsPayload['name']
 

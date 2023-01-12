@@ -62,6 +62,10 @@ export interface TrackPayload {
  * @category Entity
  */
 export class Track extends UniverseEntity<TrackPayload, TrackRawPayload> {
+  public get entityName (): string {
+    return 'track'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

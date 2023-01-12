@@ -47,6 +47,10 @@ export interface PipelineStagePayload {
  * @category Entity
  */
 export class PipelineStage extends UniverseEntity<PipelineStagePayload, PipelineStageRawPayload> {
+  public get entityName (): string {
+    return 'pipeline_stage'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

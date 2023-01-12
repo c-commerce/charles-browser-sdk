@@ -40,6 +40,10 @@ export interface PeopleOrganizationPayload {
  * @category Entity
  */
 export class PeopleOrganization extends UniverseEntity<PeopleOrganizationPayload, PeopleOrganizationRawPayload> {
+  public get entityName (): string {
+    return 'people_organization'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

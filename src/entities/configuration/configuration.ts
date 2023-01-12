@@ -69,6 +69,10 @@ export interface ConfigurationPayload {
  * @category Entity
  */
 export class Configuration extends UniverseEntity<ConfigurationPayload, ConfigurationRawPayload> {
+  public get entityName (): string {
+    return 'configuration'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

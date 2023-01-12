@@ -85,6 +85,10 @@ export interface TriggerableFlowsResponse {
  * @category Entity
  */
 export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, AutomationEngineRawPayload> {
+  public get entityName (): string {
+    return 'automation_engine'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

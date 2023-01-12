@@ -75,6 +75,10 @@ export interface MessageBrokerPayload {
  * @category Entity
  */
 export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageBrokerRawPayload> {
+  public get entityName (): string {
+    return 'message_broker'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']

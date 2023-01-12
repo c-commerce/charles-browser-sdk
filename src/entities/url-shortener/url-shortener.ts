@@ -84,6 +84,10 @@ export interface UrlShortenerPayload {
  * @category Entity
  */
 export class UrlShortener extends UniverseEntity<UrlShortenerPayload, UrlShortenerRawPayload> {
+  public get entityName (): string {
+    return 'url_shortener'
+  }
+
   protected universe: Universe
   protected apiCarrier: Universe
   protected http: Universe['http']
