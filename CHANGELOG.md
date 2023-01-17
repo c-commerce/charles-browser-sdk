@@ -1,3 +1,10 @@
+# [4.139.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.138.3...v4.139.0) (2023-01-17)
+
+
+### Features
+
+* **storefronts:** added storefront uninstall route ([07a34db](https://github.com/c-commerce/charles-browser-sdk/commit/07a34db7aab21221a35675631456d15645a5a259))
+
 ## [4.138.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.138.2...v4.138.3) (2023-01-12)
 
 
