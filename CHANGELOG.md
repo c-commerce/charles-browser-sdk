@@ -1,3 +1,11 @@
+# [4.140.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.139.0...v4.140.0) (2023-01-18)
+
+
+### Features
+
+* **notification-campaign:** added attributionMeta ([247892e](https://github.com/c-commerce/charles-browser-sdk/commit/247892e3d5c1323d356fac167f0c9593d2624236))
+* **notification-campaign:** added attributionMeta ([929f672](https://github.com/c-commerce/charles-browser-sdk/commit/929f672699e0fe7a3f0389bcd31a0e6ac72fbab9))
+
 # [4.139.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.138.3...v4.139.0) (2023-01-17)
 
 
