@@ -117,6 +117,10 @@ export interface NotificationCampaignRawPayload {
     status?: NotificationCampaignStatusType
     timestamp?: string
   }>
+
+  readonly attribution_meta?: {
+    [key: string]: any
+  }
 }
 
 export interface NotificationCampaignPayload {
@@ -147,6 +151,7 @@ export interface NotificationCampaignPayload {
   readonly messageAuthor?: NotificationCampaignRawPayload['message_author']
   readonly armLock?: NotificationCampaignRawPayload['arm_lock']
   readonly statusHistory?: NotificationCampaignRawPayload['status_history']
+  readonly attributionMeta?: NotificationCampaignRawPayload['attribution_meta']
 }
 
 /**
@@ -194,6 +199,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   public messageAuthor?: NotificationCampaignPayload['messageAuthor']
   public armLock?: NotificationCampaignPayload['armLock']
   public statusHistory?: NotificationCampaignPayload['statusHistory']
+  public attributionMeta?: NotificationCampaignPayload['attributionMeta']
 
   constructor (options: NotificationCampaignOptions) {
     super()
@@ -239,6 +245,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     this.defaultLanguage = rawPayload.default_language
     this.armLock = rawPayload.arm_lock
     this.statusHistory = rawPayload.status_history
+    this.attributionMeta = rawPayload.attribution_meta
 
     return this
   }
@@ -275,7 +282,9 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       analytics: this.analytics,
       message_author: this.messageAuthor,
       arm_lock: this.armLock,
-      status_history: this.statusHistory
+      status_history: this.statusHistory,
+      attribution_meta: this.attributionMeta
+
     }
   }
 
