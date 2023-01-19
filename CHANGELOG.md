@@ -1,3 +1,10 @@
+# [4.141.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.140.0...v4.141.0) (2023-01-19)
+
+
+### Features
+
+* **subscriptions:** add new fields ([daf5243](https://github.com/c-commerce/charles-browser-sdk/commit/daf524353615a335e152eef95a20584840c5ac2b))
+
 # [4.140.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.139.0...v4.140.0) (2023-01-18)
 
 
