@@ -142,6 +142,8 @@ export interface MessageSubscriptionRawPayload {
   readonly description?: string
   readonly kind?: IMessageSubscriptionKindType
   readonly scope?: string
+  readonly message_template_paused?: boolean
+  readonly message_template_paused_active?: boolean
   readonly message_templates?: IMessageSubscriptionMessagesTemplates
   readonly event_route_template?: IMessageSubscriptionEventRouteTemplate
   readonly configuration?: {
@@ -172,6 +174,8 @@ export interface MessageSubscriptionPayload {
   readonly description?: MessageSubscriptionRawPayload['description']
   readonly kind?: MessageSubscriptionRawPayload['kind']
   readonly scope?: MessageSubscriptionRawPayload['scope']
+  readonly messageTemplatePaused?: MessageSubscriptionRawPayload['message_template_paused']
+  readonly messageTemplatePausedActive?: MessageSubscriptionRawPayload['message_template_paused_active']
   readonly messageTemplates?: MessageSubscriptionRawPayload['message_templates']
   readonly eventRouteTemplate?: MessageSubscriptionRawPayload['event_route_template']
   readonly configuration?: MessageSubscriptionRawPayload['configuration']
@@ -206,6 +210,8 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
   public description?: MessageSubscriptionPayload['description']
   public kind?: MessageSubscriptionPayload['kind']
   public scope?: MessageSubscriptionPayload['scope']
+  public messageTemplatePaused?: MessageSubscriptionPayload['messageTemplatePaused']
+  public messageTemplatePausedActive?: MessageSubscriptionPayload['messageTemplatePausedActive']
   public messageTemplates?: MessageSubscriptionPayload['messageTemplates']
   public eventRouteTemplate?: MessageSubscriptionPayload['eventRouteTemplate']
   public configuration?: MessageSubscriptionPayload['configuration']
@@ -238,6 +244,8 @@ export class MessageSubscription extends UniverseEntity<MessageSubscriptionPaylo
     this.description = rawPayload.description
     this.kind = rawPayload.kind
     this.scope = rawPayload.scope
+    this.messageTemplatePaused = rawPayload.message_template_paused
+    this.messageTemplatePausedActive = rawPayload.message_template_paused_active
     this.messageTemplates = rawPayload.message_templates
     this.eventRouteTemplate = rawPayload.event_route_template
     this.configuration = rawPayload.configuration
