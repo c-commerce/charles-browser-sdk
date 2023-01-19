@@ -340,7 +340,8 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
           'Content-Type': 'application/json; charset=utf-8',
           'Content-Length': '0'
         },
-        responseType: 'json'
+        responseType: 'json',
+        timeout: 60000
       }
 
       const res = await this.http?.getClient()(opts)
