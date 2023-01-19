@@ -1,3 +1,10 @@
+## [4.141.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.141.0...v4.141.1) (2023-01-19)
+
+
+### Bug Fixes
+
+* **storefronts:** increased timeout ([9ed0693](https://github.com/c-commerce/charles-browser-sdk/commit/9ed0693add3de934ca5eee4dc56e17f224f406c9))
+
 # [4.141.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.140.0...v4.141.0) (2023-01-19)
 
 
