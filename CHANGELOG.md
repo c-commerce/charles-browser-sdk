@@ -1,3 +1,10 @@
+## [4.141.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.141.1...v4.141.2) (2023-01-20)
+
+
+### Bug Fixes
+
+* **General:** typing for entity functions ([4d2b102](https://github.com/c-commerce/charles-browser-sdk/commit/4d2b10267d57dafcb162ca2592788428cddb7d69))
+
 ## [4.141.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.141.0...v4.141.1) (2023-01-19)
 
 
