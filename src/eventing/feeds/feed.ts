@@ -140,7 +140,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: FeedRawPayload): Feed {
+  protected deserialize (rawPayload: FeedRawPayload): this {
     // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
     // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
     if (!this.id) this.id = rawPayload.id
@@ -245,7 +245,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
    * Else, call {@link Feed.fetch} and {@link Feed.setupDefaultMessageListeners} separately.
    * @param options
    */
-  public async init (options?: EntityFetchOptions): Promise<Feed | undefined> {
+  public async init (options?: EntityFetchOptions): Promise<this> {
     try {
       await this.fetch(options)
 

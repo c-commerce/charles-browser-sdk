@@ -92,7 +92,7 @@ export class Integration extends UniverseEntity<IntegrationPayload, IntegrationR
     }
   }
 
-  protected deserialize (rawPayload: IntegrationRawPayload): Integration {
+  protected deserialize (rawPayload: IntegrationRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -124,7 +124,7 @@ export class Integration extends UniverseEntity<IntegrationPayload, IntegrationR
     }
   }
 
-  public async init (): Promise<Integration | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

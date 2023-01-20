@@ -114,7 +114,7 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
     }
   }
 
-  protected deserialize (rawPayload: NotificationCampaignStaticEntryRawPayload): NotificationCampaignStaticEntry {
+  protected deserialize (rawPayload: NotificationCampaignStaticEntryRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -158,7 +158,7 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
     }
   }
 
-  public async init (): Promise<NotificationCampaignStaticEntry | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

@@ -119,7 +119,7 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
     }
   }
 
-  protected deserialize (rawPayload: OrganizationRawPayload): Organization {
+  protected deserialize (rawPayload: OrganizationRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -217,7 +217,7 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
     }
   }
 
-  public async init (): Promise<Organization | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

@@ -93,7 +93,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: CRMRawPayload): CRM {
+  protected deserialize (rawPayload: CRMRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -137,7 +137,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     }
   }
 
-  public async init (): Promise<CRM | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

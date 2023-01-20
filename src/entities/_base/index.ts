@@ -45,9 +45,9 @@ export interface EntityDeleteQuery {
   [key: string]: any
 }
 
-export interface EntityFetchOptions {
+export interface EntityFetchOptions<T = EntityFetchQuery> {
   raw?: boolean
-  query?: EntityFetchQuery
+  query?: T
   timeout?: number
   endpoint?: string
 }
@@ -64,11 +64,39 @@ export class HookableEvented extends EventEmitter {
 
 }
 
-export default abstract class Entity<Payload, RawPayload> extends HookableEvented {
+export abstract class View<Payload, RawPayload> extends HookableEvented {
   protected hooks: {
     [key: string]: SyncHook | SyncBailHook | SyncWaterfallHook | SyncLoopHook | AsyncParallelHook | AsyncParallelBailHook | AsyncSeriesHook | AsyncSeriesBailHook | AsyncSeriesWaterfallHook
   }
 
+  protected abstract apiCarrier: APICarrier
+  protected abstract http: APICarrier['http']
+
+  protected _rawPayload?: RawPayload | null = null
+
+  public static endpoint: string
+
+  public abstract get entityName (): string
+
+  constructor () {
+    super()
+    this.hooks = {
+      beforeSetRawPayload: new SyncHook(['beforeSetRawPayload'])
+    }
+  }
+
+  public abstract serialize (): RawPayload
+  protected abstract deserialize (rawPayload: RawPayload): this
+
+  protected setRawPayload (p: RawPayload): this {
+    this.hooks.beforeSetRawPayload.call(p)
+    this._rawPayload = JSON.parse(JSON.stringify(p))
+
+    return this
+  }
+}
+
+export default abstract class Entity<Payload, RawPayload> extends View<Payload, RawPayload> {
   protected abstract apiCarrier: APICarrier
   protected abstract http: APICarrier['http']
 
@@ -80,24 +108,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   public abstract id?: string
   public abstract endpoint: string
 
-  constructor () {
-    super()
-    this.hooks = {
-      beforeSetRawPayload: new SyncHook(['beforeSetRawPayload'])
-    }
-  }
-
   public abstract get entityName (): string
-
-  /**
-   * @ignore
-   */
-  protected setRawPayload (p: RawPayload): Entity<Payload, RawPayload> {
-    this.hooks.beforeSetRawPayload.call(p)
-    this._rawPayload = JSON.parse(JSON.stringify(p))
-
-    return this
-  }
 
   public static isEntity (object: any): Boolean {
     return isEntity(object)
@@ -107,7 +118,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
    * Convert object to a JS struct.
    */
   public abstract serialize (): RawPayload
-  protected abstract deserialize (rawPayload: RawPayload): Entity<Payload, RawPayload>
+  protected abstract deserialize (rawPayload: RawPayload): this
 
   /**
    * @ignore
@@ -121,7 +132,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Fetch the current state of this object.
    */
-  public async fetch (options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
+  public async fetch (options?: EntityFetchOptions): Promise<this> {
     // we allow implementers to override us by calling ._fetch directly and e.g. handle our error differently
     return await this._fetch(options)
   }
@@ -129,7 +140,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _fetch (options?: EntityFetchOptions): Promise<Entity<Payload, RawPayload>> {
+  protected async _fetch (options?: EntityFetchOptions): Promise<this> {
     if (this.id === null || this.id === undefined) throw new TypeError('fetch requires id to be set.')
 
     try {
@@ -157,7 +168,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
    * Change this object on the remote by partially applying a change object to it as diff.
    * @param changePart
    */
-  public async patch (changePart: RawPayload): Promise<Entity<Payload, RawPayload>> {
+  public async patch (changePart: RawPayload): Promise<this> {
     // we allow implementers to override us by calling ._patch directly and e.g. handle our error differently
     return await this._patch(changePart)
   }
@@ -165,7 +176,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _patch (changePart: RawPayload): Promise<Entity<Payload, RawPayload>> {
+  protected async _patch (changePart: RawPayload): Promise<this> {
     if (this._rawPayload === null || this._rawPayload === undefined) throw new TypeError('patch requires raw payload to be set.')
     if (!changePart) throw new TypeError('patch requires incoming object to be set.')
     if (this.id === null || this.id === undefined) throw new TypeError('patch requires id to be set.')
@@ -199,19 +210,19 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   }
 
   /**
-   * Apply a patch diff directly, for full control. This is useful if you are manipulating deep data
+   * Apply a patch diff directly, for full control. this is useful if you are manipulating deep data
    * and do not want opinionated functions, such as .patch.
    *
    * @param patch
    */
-  public async applyPatch (patch: RawPatch): Promise<Entity<Payload, RawPayload>> {
+  public async applyPatch (patch: RawPatch): Promise<this> {
     return await this._applyPatch(patch)
   }
 
   /**
    * @ignore
    */
-  protected async _applyPatch (patch: RawPatch): Promise<Entity<Payload, RawPayload>> {
+  protected async _applyPatch (patch: RawPatch): Promise<this> {
     if (!patch) throw new TypeError('apply patch requires incoming patch to be set.')
     if (this.id === null || this.id === undefined) throw new TypeError('apply patch requires id to be set.')
 
@@ -239,7 +250,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Create this object on the remote.
    */
-  public async post (): Promise<Entity<Payload, RawPayload>> {
+  public async post (): Promise<this> {
     // we allow implementers to override us by calling ._post directly and e.g. handle our error differently
     return await this._post()
   }
@@ -247,7 +258,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _post (): Promise<Entity<Payload, RawPayload>> {
+  protected async _post (): Promise<this> {
     try {
       const opts = {
         method: 'POST',
@@ -272,7 +283,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Clones this object on the remote.
    */
-  public async clone (options?: EntityPostOptions): Promise<Entity<Payload, RawPayload>> {
+  public async clone (options?: EntityPostOptions): Promise<this> {
     // we allow implementers to override us by calling ._clone directly and e.g. handle our error differently
     return await this._clone(options)
   }
@@ -280,7 +291,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _clone (options?: EntityPostOptions): Promise<Entity<Payload, RawPayload>> {
+  protected async _clone (options?: EntityPostOptions): Promise<this> {
     if (this.id === null || this.id === undefined) throw new TypeError('clone requires id to be set.')
 
     try {
@@ -307,7 +318,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Replace all properties on the remote.
    */
-  public async put (): Promise<Entity<Payload, RawPayload>> {
+  public async put (): Promise<this> {
     // we allow implementers to override us by calling ._put directly and e.g. handle our error differently
     return await this._put()
   }
@@ -315,7 +326,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _put (): Promise<Entity<Payload, RawPayload>> {
+  protected async _put (): Promise<this> {
     if (this.id === null || this.id === undefined) throw new TypeError('put requires id to be set.')
 
     try {
@@ -345,7 +356,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * Delete this object on the remote.
    */
-  public async delete (options?: EntityDeleteOptions): Promise<Entity<Payload, RawPayload>> {
+  public async delete (options?: EntityDeleteOptions): Promise<this> {
     // we allow implementers to override us by calling ._delete directly and e.g. handle our error differently
     return await this._delete(options)
   }
@@ -353,7 +364,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _delete (options?: EntityDeleteOptions): Promise<Entity<Payload, RawPayload>> {
+  protected async _delete (options?: EntityDeleteOptions): Promise<this> {
     if (this.id === null || this.id === undefined) throw new TypeError('delete requires id to be set.')
 
     try {
@@ -382,7 +393,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
    * Save a change to this local object, by either creating or patching it or replacing all proeprties on the remote.
    * @param payload
    */
-  public async save (payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
+  public async save (payload?: RawPayload): Promise<this> {
     // we allow implementers to override us by calling ._save directly and e.g. handle our error differently
     return await this._save(payload)
   }
@@ -390,7 +401,7 @@ export default abstract class Entity<Payload, RawPayload> extends HookableEvente
   /**
    * @ignore
    */
-  protected async _save (payload?: RawPayload): Promise<Entity<Payload, RawPayload>> {
+  protected async _save (payload?: RawPayload): Promise<this> {
     if (this.id && payload === undefined) {
       return await this.put()
     }

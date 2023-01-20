@@ -94,7 +94,7 @@ export class CloudUniversesWaba extends Entity<CloudUniversesWabaPayload, CloudU
     }
   }
 
-  protected deserialize (rawPayload: CloudUniversesWabaRawPayload): CloudUniversesWaba {
+  protected deserialize (rawPayload: CloudUniversesWabaRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -139,7 +139,7 @@ export class CloudUniversesWaba extends Entity<CloudUniversesWabaPayload, CloudU
     }
   }
 
-  public async init (): Promise<CloudUniversesWaba | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

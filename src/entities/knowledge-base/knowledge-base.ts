@@ -97,7 +97,7 @@ export class KnowledgeBase extends UniverseEntity<KnowledgeBasePayload, Knowledg
     }
   }
 
-  protected deserialize (rawPayload: KnowledgeBaseRawPayload): KnowledgeBase {
+  protected deserialize (rawPayload: KnowledgeBaseRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -142,7 +142,7 @@ export class KnowledgeBase extends UniverseEntity<KnowledgeBasePayload, Knowledg
     }
   }
 
-  public async init (): Promise<KnowledgeBase | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

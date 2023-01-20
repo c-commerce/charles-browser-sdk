@@ -54,7 +54,7 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
     }
   }
 
-  protected deserialize (rawPayload: DataExportMetaRawPayload): DataExportMeta {
+  protected deserialize (rawPayload: DataExportMetaRawPayload): this {
     this.setRawPayload(rawPayload)
     this.id = rawPayload.id
     this.data = rawPayload.data
@@ -74,7 +74,7 @@ export class DataExportMeta extends UniverseEntity<DataExportMetaPayload, DataEx
     }
   }
 
-  public async init (): Promise<DataExportMeta | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

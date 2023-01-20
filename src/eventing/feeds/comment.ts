@@ -63,7 +63,7 @@ export class Comment extends UniverseEntity<CommentPayload, CommentRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: CommentRawPayload): Comment {
+  protected deserialize (rawPayload: CommentRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id

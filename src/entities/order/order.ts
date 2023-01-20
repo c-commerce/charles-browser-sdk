@@ -234,7 +234,7 @@ export class OrderItem {
     }
   }
 
-  protected deserialize (rawPayload: OrderItemRawPayload): OrderItem {
+  protected deserialize (rawPayload: OrderItemRawPayload): this {
     this.qty = rawPayload.qty
     this.sku = rawPayload.sku
     this.name = rawPayload.name
@@ -345,7 +345,7 @@ export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: OrderRawPayload): Order {
+  protected deserialize (rawPayload: OrderRawPayload): this {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined

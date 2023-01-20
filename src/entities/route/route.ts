@@ -84,7 +84,7 @@ export class Route extends UniverseEntity<RoutePayload, RouteRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: RouteRawPayload): Route {
+  protected deserialize (rawPayload: RouteRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -124,7 +124,7 @@ export class Route extends UniverseEntity<RoutePayload, RouteRawPayload> {
     }
   }
 
-  public async init (): Promise<Route | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

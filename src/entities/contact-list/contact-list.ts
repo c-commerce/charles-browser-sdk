@@ -124,7 +124,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     }
   }
 
-  protected deserialize (rawPayload: ContactListRawPayload): ContactList {
+  protected deserialize (rawPayload: ContactListRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -176,7 +176,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     }
   }
 
-  public async init (): Promise<ContactList | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

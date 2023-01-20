@@ -215,7 +215,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  protected deserialize (rawPayload: NotificationCampaignRawPayload): NotificationCampaign {
+  protected deserialize (rawPayload: NotificationCampaignRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -288,7 +288,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async init (): Promise<NotificationCampaign | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

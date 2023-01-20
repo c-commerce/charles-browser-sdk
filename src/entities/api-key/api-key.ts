@@ -78,7 +78,7 @@ export class ApiKey extends UniverseEntity<ApiKeyPayload, ApiKeyRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: ApiKeyRawPayload): ApiKey {
+  protected deserialize (rawPayload: ApiKeyRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -114,7 +114,7 @@ export class ApiKey extends UniverseEntity<ApiKeyPayload, ApiKeyRawPayload> {
     }
   }
 
-  public async init (): Promise<ApiKey | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

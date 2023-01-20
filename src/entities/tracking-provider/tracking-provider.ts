@@ -78,7 +78,7 @@ export class TrackingProvider extends UniverseEntity<TrackingProviderPayload, Tr
     }
   }
 
-  protected deserialize (rawPayload: TrackingProviderRawPayload): TrackingProvider {
+  protected deserialize (rawPayload: TrackingProviderRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -114,7 +114,7 @@ export class TrackingProvider extends UniverseEntity<TrackingProviderPayload, Tr
     }
   }
 
-  public async init (): Promise<TrackingProvider | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

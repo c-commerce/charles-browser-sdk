@@ -60,7 +60,7 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawP
     }
   }
 
-  protected deserialize (rawPayload: DataExportRawPayload): DataExport {
+  protected deserialize (rawPayload: DataExportRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.data = rawPayload.data

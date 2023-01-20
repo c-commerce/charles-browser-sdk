@@ -92,7 +92,7 @@ export class PipelineStage extends UniverseEntity<PipelineStagePayload, Pipeline
     }
   }
 
-  protected deserialize (rawPayload: PipelineStageRawPayload): PipelineStage {
+  protected deserialize (rawPayload: PipelineStageRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -144,7 +144,7 @@ export class PipelineStage extends UniverseEntity<PipelineStagePayload, Pipeline
     }
   }
 
-  public async init (): Promise<PipelineStage | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

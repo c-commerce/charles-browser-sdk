@@ -98,7 +98,7 @@ export class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: AssetRawPayload): Asset {
+  protected deserialize (rawPayload: AssetRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -142,7 +142,7 @@ export class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
     }
   }
 
-  public async init (): Promise<Asset | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

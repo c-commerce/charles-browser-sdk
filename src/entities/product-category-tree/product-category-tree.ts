@@ -85,7 +85,7 @@ export class ProductCategoryTree extends UniverseEntity<ProductCategoryTreePaylo
     }
   }
 
-  protected deserialize (rawPayload: ProductCategoryTreeRawPayload): ProductCategoryTree {
+  protected deserialize (rawPayload: ProductCategoryTreeRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -127,7 +127,7 @@ export class ProductCategoryTree extends UniverseEntity<ProductCategoryTreePaylo
     }
   }
 
-  public async init (): Promise<ProductCategoryTree | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

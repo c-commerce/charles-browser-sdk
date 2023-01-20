@@ -123,7 +123,7 @@ export class Location extends UniverseEntity<LocationPayload, LocationRawPayload
     }
   }
 
-  protected deserialize (rawPayload: LocationRawPayload): Location {
+  protected deserialize (rawPayload: LocationRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -173,7 +173,7 @@ export class Location extends UniverseEntity<LocationPayload, LocationRawPayload
     }
   }
 
-  public async init (): Promise<Location | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

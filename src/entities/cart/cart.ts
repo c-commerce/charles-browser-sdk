@@ -273,7 +273,7 @@ export class CartItem {
     }
   }
 
-  protected deserialize (rawPayload: CartItemRawPayload): CartItem {
+  protected deserialize (rawPayload: CartItemRawPayload): this {
     this.id = rawPayload.id
     this.qty = rawPayload.qty
     this.sku = rawPayload.sku
@@ -405,7 +405,7 @@ export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: CartRawPayload): Cart {
+  protected deserialize (rawPayload: CartRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id

@@ -82,7 +82,7 @@ export class Inventory extends UniverseEntity<InventoryPayload, InventoryRawPayl
     }
   }
 
-  protected deserialize (rawPayload: InventoryRawPayload): Inventory {
+  protected deserialize (rawPayload: InventoryRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -122,7 +122,7 @@ export class Inventory extends UniverseEntity<InventoryPayload, InventoryRawPayl
     }
   }
 
-  public async init (): Promise<Inventory | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

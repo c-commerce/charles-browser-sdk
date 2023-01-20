@@ -68,7 +68,7 @@ export class CorsOrigin extends UniverseEntity<CorsOriginPayload, CorsOriginRawP
     }
   }
 
-  protected deserialize (rawPayload: CorsOriginRawPayload): CorsOrigin {
+  protected deserialize (rawPayload: CorsOriginRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -100,7 +100,7 @@ export class CorsOrigin extends UniverseEntity<CorsOriginPayload, CorsOriginRawP
     }
   }
 
-  public async init (): Promise<CorsOrigin | undefined> {
+  public async init (): Promise<this | undefined> {
     try {
       await this.fetch()
 

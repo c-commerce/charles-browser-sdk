@@ -127,7 +127,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
     }
   }
 
-  protected deserialize (rawPayload: AutomationEngineRawPayload): AutomationEngine {
+  protected deserialize (rawPayload: AutomationEngineRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -173,7 +173,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
     }
   }
 
-  public async init (): Promise<AutomationEngine | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

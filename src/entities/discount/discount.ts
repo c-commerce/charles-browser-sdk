@@ -92,7 +92,7 @@ export class Discount extends UniverseEntity<DiscountPayload, DiscountRawPayload
     }
   }
 
-  protected deserialize (rawPayload: DiscountRawPayload): Discount {
+  protected deserialize (rawPayload: DiscountRawPayload): this {
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
@@ -124,7 +124,7 @@ export class Discount extends UniverseEntity<DiscountPayload, DiscountRawPayload
     }
   }
 
-  public async init (): Promise<Discount | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

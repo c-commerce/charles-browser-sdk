@@ -77,7 +77,7 @@ export class MessageTemplateCategoryTree extends UniverseEntity<MessageTemplateC
     }
   }
 
-  protected deserialize (rawPayload: MessageTemplateCategoryTreeRawPayload): MessageTemplateCategoryTree {
+  protected deserialize (rawPayload: MessageTemplateCategoryTreeRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -113,7 +113,7 @@ export class MessageTemplateCategoryTree extends UniverseEntity<MessageTemplateC
     }
   }
 
-  public async init (): Promise<MessageTemplateCategoryTree | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 

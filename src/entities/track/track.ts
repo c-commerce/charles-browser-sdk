@@ -99,7 +99,7 @@ export class Track extends UniverseEntity<TrackPayload, TrackRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: TrackRawPayload): Track {
+  protected deserialize (rawPayload: TrackRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.id = rawPayload.id
@@ -136,7 +136,7 @@ export class Track extends UniverseEntity<TrackPayload, TrackRawPayload> {
     }
   }
 
-  public async init (): Promise<Track | undefined> {
+  public async init (): Promise<this> {
     try {
       await this.fetch()
 
