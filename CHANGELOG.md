@@ -1,3 +1,10 @@
+# [4.142.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.141.2...v4.142.0) (2023-01-25)
+
+
+### Features
+
+* **universe:** Add GET universe session info ([c845246](https://github.com/c-commerce/charles-browser-sdk/commit/c845246c42616b15a8c9a95de4b36ac2e1753b68))
+
 ## [4.141.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.141.1...v4.141.2) (2023-01-20)
 
 
