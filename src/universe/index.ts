@@ -402,6 +402,15 @@ export class UniverseMeError extends BaseError {
   }
 }
 
+export class UniverseSessionError extends BaseError {
+  public name = 'UniverseSessionError'
+  constructor (public message: string = 'Unexptected error fetching session data', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseSessionError.prototype)
+  }
+}
+
 export interface UniverseErrors {
   UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError
   UniverseForbiddenError: new () => UniverseForbiddenError
@@ -1081,6 +1090,32 @@ export class Universe extends APICarrier {
       throwExceptionFromCommonError(error as ClientError)
 
       throw new UniverseMeError(undefined, { error })
+    }
+  }
+
+  /**
+   * Fetch the session data of the current user.
+   * If you receive an instance of UniverseUnauthenticatedError you should logout the current session and create a new one.
+   * UniverseUnauthenticatedError: 401
+   * UniverseForbiddenError: 403
+   * UniverseBadGatewayError: 502
+   * UniverseServiceUnavailableError: 503
+   * UniverseTimeoutError: 504
+   */
+  public async session (): Promise<MeData | never> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universeBase}/api/v0/me/session`
+      }
+
+      const response = await this.http.getClient()(opts)
+
+      return response?.data?.data
+    } catch (error) {
+      throwExceptionFromCommonError(error as ClientError)
+
+      throw new UniverseSessionError(undefined, { error })
     }
   }
 
