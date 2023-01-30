@@ -1074,11 +1074,12 @@ export class Universe extends APICarrier {
    * UniverseServiceUnavailableError: 503
    * UniverseTimeoutError: 504
    */
-  public async me (): Promise<MeData | never> {
+  public async me (skipInterceptors = false): Promise<MeData | never> {
     try {
       const opts = {
         method: 'GET',
-        url: `${this.universeBase}/api/v0/me`
+        url: `${this.universeBase}/api/v0/me`,
+        skipInterceptors
       }
 
       const response = await this.http.getClient()(opts)
