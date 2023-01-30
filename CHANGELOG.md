@@ -1,3 +1,10 @@
+# [4.143.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.142.0...v4.143.0) (2023-01-30)
+
+
+### Features
+
+* **Universe/Me:** support relaying flag for interceptor skipping ([928b302](https://github.com/c-commerce/charles-browser-sdk/commit/928b302ae29fbf7826ff7232cb23b8514a69c973))
+
 # [4.142.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.141.2...v4.142.0) (2023-01-25)
 
 
