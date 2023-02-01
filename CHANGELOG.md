@@ -1,3 +1,10 @@
+# [4.144.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.143.0...v4.144.0) (2023-02-01)
+
+
+### Features
+
+* **EntityChanges:** created handler and manager and required helper methods for entity change tracking ([1e36734](https://github.com/c-commerce/charles-browser-sdk/commit/1e36734b384bd8b2210017470c29995684e87fd1))
+
 # [4.143.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.142.0...v4.143.0) (2023-01-30)
 
 
