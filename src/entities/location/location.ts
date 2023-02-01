@@ -80,7 +80,7 @@ export interface LocationAddressRawPayload {
  */
 export class Location extends UniverseEntity<LocationPayload, LocationRawPayload> {
   public get entityName (): string {
-    return 'location'
+    return 'locations'
   }
 
   protected universe: Universe

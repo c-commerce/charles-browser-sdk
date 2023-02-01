@@ -71,7 +71,7 @@ export interface NotificationCampaignStaticEntryPayload {
  */
 export class NotificationCampaignStaticEntry extends UniverseEntity<NotificationCampaignStaticEntryPayload, NotificationCampaignStaticEntryRawPayload> {
   public get entityName (): string {
-    return 'notification_campaign_static_entry'
+    return 'notification_campaign_static_entries'
   }
 
   protected universe: Universe

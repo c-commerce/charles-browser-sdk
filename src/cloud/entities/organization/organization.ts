@@ -85,7 +85,7 @@ export interface OrganizationInviteUserRawPayload {
  */
 export class Organization extends Entity<OrganizationPayload, OrganizationRawPayload> {
   public get entityName (): string {
-    return 'organization'
+    return 'organizations'
   }
 
   protected apiCarrier: APICarrier

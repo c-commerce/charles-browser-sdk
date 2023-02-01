@@ -33,7 +33,7 @@ export interface CampaignLinkFetchOptions {
 
 export class CampaignLinkClick extends View<CampaignLinkClickPayload, CampaignLinkClickRawPayload> implements CampaignLinkClickPayload {
   public get entityName (): string {
-    return 'campaign_link_click'
+    return 'campaign_link_clicks'
   }
 
   protected universe: Universe

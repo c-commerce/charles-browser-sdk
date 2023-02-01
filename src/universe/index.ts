@@ -89,6 +89,9 @@ import PresenceEntityManager from '../realtime/presence/presence-entity-manager'
 import { PresencePayload, PresenceStaffPayload } from '../realtime/presence/presence-handler'
 import * as linkClick from '../entities/link-click/link-click'
 import * as campaignLinkClick from '../entities/link-click/campaign-link-click'
+import { ChangesHandler, ChangeType, CustomChangeEventHandler } from '../realtime/changes/changes-handler'
+import ChangesEntityManager from '../realtime/changes/changes-entity-manager'
+import { getEntityName } from '../helpers/entity'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -1047,6 +1050,16 @@ export class Universe extends APICarrier {
     thresholdInSeconds: number = 3,
     relay: ((presence: PresencePayload) => void) | undefined = undefined): PresenceEntityManager<T> {
     return new PresenceEntityManager(this.getMqttClient(), entity, staff, onPresenceUpdated, thresholdInSeconds, relay)
+  }
+
+  public trackEntityChanges<T>(entity: Entity<any, T>,
+    types: ChangeType[] = [ChangeType.updated, ChangeType.deleted],
+    customHandler: Partial<CustomChangeEventHandler<T>> | undefined = undefined): ChangesEntityManager<T> {
+    return new ChangesEntityManager<T>(this.getMqttClient(), entity, types, customHandler)
+  }
+
+  public trackEntityCreation<T>(onCreated: (entity: T) => void, entityConstructor: any = undefined, id: string | undefined = undefined): ChangesHandler<T> {
+    return new ChangesHandler<T>(this.getMqttClient(), { onCreated }, { entityName: getEntityName(entityConstructor) ?? undefined, id }, [ChangeType.created])
   }
 
   private setCachedMeData (data?: MeData | null): Universe {

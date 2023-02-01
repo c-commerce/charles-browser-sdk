@@ -45,7 +45,7 @@ export interface ShippingMethodPayload {
  */
 export class ShippingMethod extends UniverseEntity<ShippingMethodPayload, ShippingMethodRawPayload> {
   public get entityName (): string {
-    return 'shipping_method'
+    return 'shipping_methods'
   }
 
   protected universe: Universe

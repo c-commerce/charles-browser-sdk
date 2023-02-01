@@ -63,7 +63,7 @@ export interface TrackPayload {
  */
 export class Track extends UniverseEntity<TrackPayload, TrackRawPayload> {
   public get entityName (): string {
-    return 'track'
+    return 'tracks'
   }
 
   protected universe: Universe

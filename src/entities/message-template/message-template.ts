@@ -176,7 +176,7 @@ export interface MessageTemplatePayload {
  */
 export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, MessageTemplateRawPayload> {
   public get entityName (): string {
-    return 'message_template'
+    return 'message_templates'
   }
 
   protected universe: Universe

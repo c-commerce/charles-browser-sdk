@@ -30,7 +30,7 @@ export interface EmailPayload {
 
 export class Email extends UniverseEntity<EmailPayload, EmailRawPayload> {
   public get entityName (): string {
-    return 'email'
+    return 'emails'
   }
 
   protected universe: Universe

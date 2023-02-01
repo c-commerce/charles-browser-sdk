@@ -62,7 +62,7 @@ export interface ContactListStaticEntryPayload {
  */
 export class ContactListStaticEntry extends UniverseEntity<ContactListStaticEntryPayload, ContactListStaticEntryRawPayload> {
   public get entityName (): string {
-    return 'contact_list_static_entry'
+    return 'contact_list_static_entries'
   }
 
   protected universe: Universe

@@ -48,7 +48,7 @@ export interface ThingPayload {
  */
 export class Thing extends UniverseEntity<ThingPayload, ThingRawPayload> {
   public get entityName (): string {
-    return 'thing'
+    return 'things'
   }
 
   protected universe: Universe

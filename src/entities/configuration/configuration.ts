@@ -70,7 +70,7 @@ export interface ConfigurationPayload {
  */
 export class Configuration extends UniverseEntity<ConfigurationPayload, ConfigurationRawPayload> {
   public get entityName (): string {
-    return 'configuration'
+    return 'configurations'
   }
 
   protected universe: Universe

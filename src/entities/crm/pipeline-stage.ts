@@ -48,7 +48,7 @@ export interface PipelineStagePayload {
  */
 export class PipelineStage extends UniverseEntity<PipelineStagePayload, PipelineStageRawPayload> {
   public get entityName (): string {
-    return 'pipeline_stage'
+    return 'pipeline_stages'
   }
 
   protected universe: Universe

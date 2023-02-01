@@ -46,7 +46,7 @@ export interface MessageSubscriptionInstancePayload {
  */
 export class MessageSubscriptionInstance extends UniverseEntity<MessageSubscriptionInstancePayload, MessageSubscriptionInstanceRawPayload> {
   public get entityName (): string {
-    return 'message_subscription_instance'
+    return 'message_subscription_instances'
   }
 
   protected universe: Universe

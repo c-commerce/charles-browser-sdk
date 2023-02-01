@@ -58,7 +58,7 @@ export interface CloudUniversesWabasPhonenumberPayload {
  */
 export class CloudUniversesWabasPhonenumber extends Entity<CloudUniversesWabasPhonenumberPayload, CloudUniversesWabasPhonenumberRawPayload> {
   public get entityName (): string {
-    return 'cloud_universes_waba_phonenumber'
+    return 'cloud_universes_waba_phonenumbers'
   }
 
   protected apiCarrier: APICarrier

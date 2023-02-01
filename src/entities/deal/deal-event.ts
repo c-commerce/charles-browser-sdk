@@ -44,7 +44,7 @@ export interface DealEventPayload {
  */
 export class DealEvent extends UniverseEntity<DealEventPayload, DealEventRawPayload> {
   public get entityName (): string {
-    return 'deal_event'
+    return 'deal_events'
   }
 
   protected universe: Universe

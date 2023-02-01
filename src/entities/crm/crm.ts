@@ -53,7 +53,7 @@ export interface CRMPayload {
  */
 export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
   public get entityName (): string {
-    return 'crm'
+    return 'crms'
   }
 
   protected universe: Universe

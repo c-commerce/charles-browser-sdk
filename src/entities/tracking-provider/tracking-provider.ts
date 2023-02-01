@@ -42,7 +42,7 @@ export interface TrackingProviderPayload {
  */
 export class TrackingProvider extends UniverseEntity<TrackingProviderPayload, TrackingProviderRawPayload> {
   public get entityName (): string {
-    return 'tracking_provider'
+    return 'tracking_providers'
   }
 
   protected universe: Universe

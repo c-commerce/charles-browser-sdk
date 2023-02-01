@@ -93,7 +93,7 @@ export interface EventPayload {
 
 export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
   public get entityName (): string {
-    return 'event'
+    return 'events'
   }
 
   protected universe: Universe

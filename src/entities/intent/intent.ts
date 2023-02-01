@@ -54,7 +54,7 @@ export interface IntentPayload {
  */
 export class Intent extends UniverseEntity<IntentPayload, IntentRawPayload> {
   public get entityName (): string {
-    return 'intent'
+    return 'intents'
   }
 
   protected universe: Universe

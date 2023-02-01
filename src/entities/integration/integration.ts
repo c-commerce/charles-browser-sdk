@@ -58,7 +58,7 @@ export interface IntegrationPayload {
  */
 export class Integration extends UniverseEntity<IntegrationPayload, IntegrationRawPayload> {
   public get entityName (): string {
-    return 'integration'
+    return 'integrations'
   }
 
   protected universe: Universe

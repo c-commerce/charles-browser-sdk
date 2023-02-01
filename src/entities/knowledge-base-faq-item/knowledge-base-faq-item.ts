@@ -44,7 +44,7 @@ export interface KnowledgeBaseFaqItemPayload {
  */
 export class KnowledgeBaseFaqItem extends UniverseEntity<KnowledgeBaseFaqItemPayload, KnowledgeBaseFaqItemRawPayload> {
   public get entityName (): string {
-    return 'knowledge_base_faq_item'
+    return 'knowledge_base_faq_items'
   }
 
   protected universe: Universe

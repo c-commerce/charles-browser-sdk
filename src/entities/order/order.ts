@@ -282,7 +282,7 @@ export class OrderItem {
  */
 export class Order extends UniverseEntity<OrderPayload, OrderRawPayload> {
   public get entityName (): string {
-    return 'order'
+    return 'orders'
   }
 
   protected universe: Universe

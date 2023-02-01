@@ -46,7 +46,7 @@ export interface ChannelUserOptions extends UniverseEntityOptions {
 
 export class ChannelUser extends UniverseEntity<ChannelUserRawPayload, ChannelUserRawPayload> {
   public get entityName (): string {
-    return 'channel_user'
+    return 'channel_users'
   }
 
   protected universe: Universe

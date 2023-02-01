@@ -54,7 +54,7 @@ export interface ReleasePayload {
  */
 export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
   public get entityName (): string {
-    return 'release'
+    return 'releases'
   }
 
   protected apiCarrier: APICarrier

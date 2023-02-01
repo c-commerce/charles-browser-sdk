@@ -339,7 +339,7 @@ export class CartItem {
  */
 export class Cart extends UniverseEntity<CartPayload, CartRawPayload> {
   public get entityName (): string {
-    return 'cart'
+    return 'carts'
   }
 
   protected universe: Universe

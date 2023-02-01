@@ -57,7 +57,7 @@ export interface TicketPayload {
  */
 export class Ticket extends UniverseEntity<TicketPayload, TicketRawPayload> {
   public get entityName (): string {
-    return 'ticket'
+    return 'tickets'
   }
 
   protected universe: Universe

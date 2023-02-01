@@ -60,6 +60,11 @@ export interface EntityDeleteOptions {
   query?: EntityFetchQuery
 }
 
+export type DeletableEntity<Payload, RawPayload> = Entity<Payload, RawPayload> & {
+  deleted: boolean
+  _rawPayload: (RawPayload & { deleted: boolean }) | null
+}
+
 export class HookableEvented extends EventEmitter {
 
 }
@@ -119,6 +124,13 @@ export default abstract class Entity<Payload, RawPayload> extends View<Payload, 
    */
   public abstract serialize (): RawPayload
   protected abstract deserialize (rawPayload: RawPayload): this
+
+  /**
+   * this serves as a package-internal relay for deserialize
+   */
+  public __updateLocalPayload (rawPayload: RawPayload): Entity<Payload, RawPayload> {
+    return this.deserialize(rawPayload)
+  }
 
   /**
    * @ignore

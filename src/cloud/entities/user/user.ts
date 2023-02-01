@@ -45,7 +45,7 @@ export interface UniverseUserPayload {
  */
 export class UniverseUser extends Entity<UniverseUserPayload, UniverseUserRawPayload> {
   public get entityName (): string {
-    return 'universe_user'
+    return 'universe_users'
   }
 
   protected apiCarrier: APICarrier

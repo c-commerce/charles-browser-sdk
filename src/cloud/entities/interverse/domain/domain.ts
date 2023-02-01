@@ -32,7 +32,7 @@ export interface DomainPayload {
  */
 export class Domain extends Entity<DomainPayload, DomainRawPayload> {
   public get entityName (): string {
-    return 'domain'
+    return 'domains'
   }
 
   protected apiCarrier: APICarrier
