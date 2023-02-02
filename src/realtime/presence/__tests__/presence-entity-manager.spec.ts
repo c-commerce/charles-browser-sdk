@@ -49,6 +49,7 @@ describe('SDK: Realtime: Presence entity manager', () => {
       mockOnUpdated,
       1,
       undefined,
+      undefined,
       handler
     )
 

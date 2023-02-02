@@ -1,14 +1,14 @@
 import { RealtimeClient, RealtimeMessage, RealtimeMessageMessage } from 'src/realtime'
 
 export interface PresenceStaffPayload { id: string, name: string }
-export interface PresencePayload { staff: PresenceStaffPayload, isPresent: boolean }
+export interface PresencePayload<T> { staff: PresenceStaffPayload, isPresent: boolean, extraPayload?: T }
 
-export default class PresenceHandler {
+export default class PresenceHandler<ExtraPayload = never> {
   public readonly currentPresence: PresenceStaffPayload[] = []
   private _selfTimer: ReturnType<typeof setInterval> | null = null
   private readonly _staffTimers: Array<{ staffId: string, timer: ReturnType<typeof setTimeout> }> = []
   private readonly _onPresenceUpdated: Array<(presence: PresenceStaffPayload[]) => void> = []
-  private readonly _relays: Array<((presence: PresencePayload) => void)> = []
+  private readonly _relays: Array<((presence: PresencePayload<ExtraPayload>) => void)> = []
 
   constructor (
     private readonly mqtt: RealtimeClient,
@@ -16,7 +16,8 @@ export default class PresenceHandler {
     private readonly staffToEmit: PresenceStaffPayload,
     onPresenceUpdated: (presence: PresenceStaffPayload[]) => void,
     private readonly thresholdInSeconds: number,
-    relay: ((presence: PresencePayload) => void) | undefined = undefined) {
+    private readonly getExtraPayload: (() => ExtraPayload) | undefined = undefined,
+    relay: ((presence: PresencePayload<ExtraPayload>) => void) | undefined = undefined) {
     this._filterMessages = this._filterMessages.bind(this)
 
     this._onPresenceUpdated.push(onPresenceUpdated)
@@ -36,11 +37,11 @@ export default class PresenceHandler {
 
   private _filterMessages (message: RealtimeMessage | RealtimeMessageMessage): void {
     if (this.topic === message.topic && message.payload) {
-      this._handlePresence(message.payload as PresencePayload)
+      this._handlePresence(message.payload as PresencePayload<ExtraPayload>)
     }
   }
 
-  private _handlePresence (payload: PresencePayload): void {
+  private _handlePresence (payload: PresencePayload<ExtraPayload>): void {
     if (payload.staff.id !== this.staffToEmit.id) {
       this._relays.forEach(cb => cb(payload))
       const didChange = this._maybeUpdatePresence(payload)
@@ -55,7 +56,7 @@ export default class PresenceHandler {
     }
   }
 
-  private _maybeUpdatePresence (payload: PresencePayload): boolean {
+  private _maybeUpdatePresence (payload: PresencePayload<ExtraPayload>): boolean {
     if (!payload.isPresent) {
       const idx = this.currentPresence.findIndex(staff => staff.id === payload.staff.id)
       if (idx >= 0) {
@@ -74,7 +75,11 @@ export default class PresenceHandler {
   }
 
   private _publishPresence (isPresent: boolean): void {
-    const payload: PresencePayload = { isPresent, staff: this.staffToEmit }
+    const payload: PresencePayload<ExtraPayload> = { isPresent, staff: this.staffToEmit }
+    // A little performance enhancement is to only send the extra data for when the user is present
+    if (this.getExtraPayload && isPresent) {
+      payload.extraPayload = this.getExtraPayload()
+    }
     this.mqtt.publish(this.topic, JSON.stringify(payload))
   }
 
@@ -100,7 +105,7 @@ export default class PresenceHandler {
 
   public connectTracker (
     onPresenceUpdated: (presence: PresenceStaffPayload[]) => void,
-    relay: ((presence: PresencePayload) => void) | undefined = undefined): void {
+    relay: ((presence: PresencePayload<ExtraPayload>) => void) | undefined = undefined): void {
     if (!this._onPresenceUpdated.includes(onPresenceUpdated)) {
       this._onPresenceUpdated.push(onPresenceUpdated)
     }
@@ -111,7 +116,7 @@ export default class PresenceHandler {
 
   public disconnectTracker (
     onPresenceUpdated: ((presence: PresenceStaffPayload[]) => void) | undefined | null,
-    relay: ((presence: PresencePayload) => void) | undefined = undefined): void {
+    relay: ((presence: PresencePayload<ExtraPayload>) => void) | undefined = undefined): void {
     if (onPresenceUpdated && this._onPresenceUpdated.includes(onPresenceUpdated)) {
       this._onPresenceUpdated.splice(this._onPresenceUpdated.indexOf(onPresenceUpdated))
     }
