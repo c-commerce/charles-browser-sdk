@@ -1044,12 +1044,13 @@ export class Universe extends APICarrier {
     }
   }
 
-  public trackEntityPresence<T extends Entity<any, any>>(entity: T,
+  public trackEntityPresence<T extends Entity<any, any>, ExtraPayload = never>(entity: T,
     staff: PresenceStaffPayload,
     onPresenceUpdated: ((presence: PresenceStaffPayload[]) => void),
     thresholdInSeconds: number = 3,
-    relay: ((presence: PresencePayload) => void) | undefined = undefined): PresenceEntityManager<T> {
-    return new PresenceEntityManager(this.getMqttClient(), entity, staff, onPresenceUpdated, thresholdInSeconds, relay)
+    getExtraPayload: (() => ExtraPayload) | undefined = undefined,
+    relay: ((presence: PresencePayload<ExtraPayload>) => void) | undefined = undefined): PresenceEntityManager<T, ExtraPayload> {
+    return new PresenceEntityManager(this.getMqttClient(), entity, staff, onPresenceUpdated, thresholdInSeconds, getExtraPayload, relay)
   }
 
   public trackEntityChanges<T>(entity: Entity<any, T>,

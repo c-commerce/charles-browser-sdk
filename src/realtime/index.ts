@@ -7,7 +7,7 @@ import { PresencePayload } from './presence/presence-handler'
 type MqttProtocoldIdOptions = 'MQTT'
 type IMessagePayloadTypes = 'json' | 'string'
 
-export interface RealtimeMessage {
+export interface RealtimeMessage<ExtraPayload = never> {
   topic: string
   mqttClientId: string | number | undefined
   clientId: string
@@ -18,7 +18,7 @@ export interface RealtimeMessage {
   payloadType: IMessagePayloadTypes
   payload: {
     [key: string]: any
-  } | PresencePayload | string
+  } | PresencePayload<ExtraPayload> | string
 }
 
 export interface RealtimeMessageMessage extends RealtimeMessage {

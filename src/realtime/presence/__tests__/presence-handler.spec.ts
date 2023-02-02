@@ -229,6 +229,30 @@ describe('SDK: Realtime: Presence handler', () => {
     handler.destroy()
   })
 
+  it('Must publish self presence extra payload correctly', () => {
+    const mqttMocks = generateMockMqtt()
+    const onUpdate = jest.fn()
+    const mockExtraPayload: jest.Mock<string> = jest.fn()
+    mockExtraPayload.mockReturnValueOnce('SECTION_1')
+
+    // Forced typing here is a form of testing the typing detection it will fail the test if typing is incorrect.
+    const handler: PresenceHandler<string> = new PresenceHandler(mqttMocks.mockClient, MOCK_TOPIC, MOCK_STAFF, onUpdate, 3, mockExtraPayload)
+    const MOCK_PRESENCE = { isPresent: true, staff: MOCK_STAFF }
+    const MOCK_PRESENCE_2 = { isPresent: true, staff: MOCK_STAFF_2, extraPayload: 'SECTION_1' }
+
+    mqttMocks.clientPublish.mockReset()
+
+    mqttMocks.messageOnRelay?.({
+      topic: MOCK_TOPIC,
+      payload: MOCK_PRESENCE_2
+    } as unknown as RealtimeMessage)
+
+    expect(mqttMocks.clientPublish).toHaveBeenCalledTimes(1)
+    expect(mqttMocks.clientPublish).toBeCalledWith(MOCK_TOPIC, JSON.stringify(MOCK_PRESENCE))
+
+    handler.destroy()
+  })
+
   it('Must periodically publish self presence correctly', () => {
     const mqttMocks = generateMockMqtt()
     const onUpdate = jest.fn()
@@ -269,7 +293,7 @@ describe('SDK: Realtime: Presence handler', () => {
     const onUpdate = jest.fn()
     const relay = jest.fn()
     const externalRelay = jest.fn()
-    const handler = new PresenceHandler(mqttMocks.mockClient, MOCK_TOPIC, MOCK_STAFF, onUpdate, 3, relay)
+    const handler = new PresenceHandler(mqttMocks.mockClient, MOCK_TOPIC, MOCK_STAFF, onUpdate, 3, undefined, relay)
     handler.connectTracker(onUpdate, externalRelay)
     handler.connectTracker(onUpdate, externalRelay)
     onUpdate.mockReset()
@@ -296,7 +320,7 @@ describe('SDK: Realtime: Presence handler', () => {
     const mqttMocks = generateMockMqtt()
     const onUpdate = jest.fn()
     const relay = jest.fn()
-    const handler = new PresenceHandler(mqttMocks.mockClient, MOCK_TOPIC, MOCK_STAFF, onUpdate, 3, relay)
+    const handler = new PresenceHandler(mqttMocks.mockClient, MOCK_TOPIC, MOCK_STAFF, onUpdate, 3, undefined, relay)
     handler.disconnectTracker(null, relay)
     onUpdate.mockReset()
 

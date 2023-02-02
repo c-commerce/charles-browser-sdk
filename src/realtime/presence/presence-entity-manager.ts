@@ -3,15 +3,16 @@ import topics from '../../universe/topics'
 import { RealtimeClient } from '..'
 import PresenceHandler, { PresencePayload, PresenceStaffPayload } from './presence-handler'
 
-export default class PresenceEntityManager<T extends Entity<any, any>> {
+export default class PresenceEntityManager<T extends Entity<any, any>, ExtraPayload = never> {
   constructor (
     private readonly mqtt: RealtimeClient,
     private readonly entity: T,
     private readonly user: PresenceStaffPayload,
     private readonly onPresenceUpdated: ((presence: PresenceStaffPayload[]) => void),
     private readonly thresholdInSeconds: number,
-    private readonly relay: ((presence: PresencePayload) => void) | undefined = undefined,
-    private presenceHandler: PresenceHandler | null = null) {
+    private readonly getExtraPayload: (() => ExtraPayload) | undefined = undefined,
+    private readonly relay: ((presence: PresencePayload<ExtraPayload>) => void) | undefined = undefined,
+    private presenceHandler: PresenceHandler<ExtraPayload> | null = null) {
     this.init()
   }
 
@@ -24,12 +25,13 @@ export default class PresenceEntityManager<T extends Entity<any, any>> {
         entityName: this.entity.entityName
       })
 
-      this.presenceHandler = new PresenceHandler(
+      this.presenceHandler = new PresenceHandler<ExtraPayload>(
         this.mqtt,
         topic,
         this.user,
         this.onPresenceUpdated,
         this.thresholdInSeconds,
+        this.getExtraPayload,
         this.relay
       )
     }
