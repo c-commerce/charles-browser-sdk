@@ -1,3 +1,10 @@
+# [4.145.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.144.0...v4.145.0) (2023-02-02)
+
+
+### Features
+
+* **Presence:** added support for extra payload ([30b653b](https://github.com/c-commerce/charles-browser-sdk/commit/30b653b1ea8178b513078b50e9494b75b3d23b2e))
+
 # [4.144.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.143.0...v4.144.0) (2023-02-01)
 
 
