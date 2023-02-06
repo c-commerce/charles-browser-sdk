@@ -37,6 +37,7 @@ export interface FeedRawPayload {
   readonly answered?: boolean
   readonly created_at?: string
   readonly latest_activity_at?: string
+  readonly last_incoming_message_at?: string
   readonly updated_at?: string
   readonly top_latest_events?: EventRawPayload[]
   readonly top_latest_messages?: EventRawPayload[]
@@ -54,6 +55,7 @@ export interface FeedPayload {
   readonly createdAt?: Date | null
   readonly updatedAt?: Date | null
   readonly latestActivityAt?: Date | null
+  readonly lastIncomingMessageAt?: Date | null
   readonly deleted?: boolean
   readonly hidden?: boolean
   readonly open?: boolean
@@ -117,6 +119,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
   public createdAt?: Date | null
   public updatedAt?: Date | null
   public latestActivityAt?: Date | null
+  public lastIncomingMessageAt?: Date | null
   public deleted?: boolean
   public hidden?: boolean
   public open?: boolean
@@ -153,6 +156,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.latestActivityAt = rawPayload.latest_activity_at ? new Date(rawPayload.latest_activity_at) : undefined
+    this.lastIncomingMessageAt = rawPayload.last_incoming_message_at ? new Date(rawPayload.last_incoming_message_at) : undefined
     this.deleted = rawPayload.deleted
     this.hidden = rawPayload.hidden
     this.open = rawPayload.open
@@ -215,6 +219,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       latest_activity_at: this.latestActivityAt ? this.latestActivityAt.toISOString() : undefined,
+      last_incoming_message_at: this.lastIncomingMessageAt ? this.lastIncomingMessageAt.toISOString() : undefined,
       deleted: this.deleted,
       hidden: this.hidden,
       open: this.open,
