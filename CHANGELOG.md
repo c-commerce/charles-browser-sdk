@@ -1,3 +1,10 @@
+# [4.146.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.145.0...v4.146.0) (2023-02-06)
+
+
+### Features
+
+* **feed:** add last incoming message at field to feed entity ([1b969d0](https://github.com/c-commerce/charles-browser-sdk/commit/1b969d0cd5ff25c9fc80aab6a35d14cdb654e351))
+
 # [4.145.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.144.0...v4.145.0) (2023-02-02)
 
 
