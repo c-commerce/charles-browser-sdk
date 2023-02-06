@@ -44,7 +44,7 @@ export interface EventRawPayload {
 
   readonly resource_type?: IEventResourceType | null
   readonly resource?: string
-  readonly payload?: Message | object
+  readonly payload?: Message
   readonly type?: IEventType | null
   readonly flagged?: boolean
   readonly marked?: boolean
