@@ -1,3 +1,10 @@
+## [4.147.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.147.0...v4.147.1) (2023-02-07)
+
+
+### Bug Fixes
+
+* **cloud.universe:** fix cloud universe deserialization ([c9f8bff](https://github.com/c-commerce/charles-browser-sdk/commit/c9f8bff430afb90d760b6efb52d17db93db56c69))
+
 # [4.147.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.146.0...v4.147.0) (2023-02-07)
 
 
