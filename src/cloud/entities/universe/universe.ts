@@ -34,6 +34,7 @@ export interface CloudUniverseRawPayload {
   readonly organization?: string
   readonly status?: object
   readonly release?: string | null
+  readonly migrated?: boolean | null
 
 }
 
@@ -50,6 +51,7 @@ export interface CloudUniversePayload {
   readonly organization?: CloudUniverseRawPayload['organization']
   readonly status?: CloudUniverseRawPayload['status']
   readonly release?: CloudUniverseRawPayload['release']
+  readonly migrated?: CloudUniverseRawPayload['migrated']
 }
 
 export interface UniverseDeployStatus {
@@ -119,6 +121,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   public organization?: CloudUniversePayload['organization']
   public status?: CloudUniversePayload['status']
   public release?: CloudUniversePayload['release']
+  public migrated?: CloudUniversePayload['migrated']
 
   constructor (options: CloudUniverseOptions) {
     super()
@@ -230,7 +233,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       pool: this.pool,
       organization: this.organization,
       status: this.status,
-      release: this.release
+      release: this.release,
+      migrated: this.migrated
     }
   }
 
