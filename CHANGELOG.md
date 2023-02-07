@@ -1,3 +1,10 @@
+# [4.147.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.146.0...v4.147.0) (2023-02-07)
+
+
+### Features
+
+* **cloud.universe:** expose migrated flag when serializing Cloud Universe payload ([a361d84](https://github.com/c-commerce/charles-browser-sdk/commit/a361d84a9ed74c1b3d912502d53fdc0999afbd29))
+
 # [4.146.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.145.0...v4.146.0) (2023-02-06)
 
 
