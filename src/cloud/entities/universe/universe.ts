@@ -194,6 +194,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     this.organization = rawPayload.organization
     this.status = rawPayload.status
     this.release = rawPayload.release
+    this.migrated = rawPayload.migrated
     return this
   }
 
