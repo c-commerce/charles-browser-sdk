@@ -364,7 +364,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
       }
 
       const res = await this.http?.getClient()(opts)
-      return res.status
+      return res.data.data
     } catch (err) {
       throw this.handleError(new CRMCreateExternalUserFromPersonError(undefined, { error: err }))
     }
