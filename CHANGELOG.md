@@ -1,3 +1,10 @@
+## [4.147.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.147.1...v4.147.2) (2023-02-09)
+
+
+### Bug Fixes
+
+* **crm:** bypass CU obj after contact creation ([f256a1f](https://github.com/c-commerce/charles-browser-sdk/commit/f256a1fb476342c6153b58765afa5f8f6ef885ea))
+
 ## [4.147.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.147.0...v4.147.1) (2023-02-07)
 
 
