@@ -4,3 +4,7 @@ export type SnakeToCamelCaseField<S> =
     S
 
 export type SnakeToCamelCase<T extends { [key: string]: any }> = {[K in keyof T as SnakeToCamelCaseField<K>]: T[K]}
+
+export type CastToDate<T, K extends keyof T> = {
+  [P in keyof T]: P extends K ? Date | null : T[P]
+}

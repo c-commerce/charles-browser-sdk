@@ -2,6 +2,7 @@
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
+import { CastToDate, SnakeToCamelCase } from 'src/helpers/case-convert-type'
 
 export interface ProductCategoryOptions extends UniverseEntityOptions {
   rawPayload?: ProductCategoryRawPayload
@@ -25,34 +26,17 @@ export interface ProductCategoryRawPayload {
   readonly comment?: string
   readonly storefront?: string
   readonly proxy_payload?: string
+  readonly products_count?: number
 }
 
-export interface ProductCategoryPayload {
-  readonly id?: ProductCategoryRawPayload['id']
-  readonly createdAt?: Date | null
-  readonly updatedAt?: Date | null
-  readonly deleted?: ProductCategoryRawPayload['deleted']
-  readonly active?: ProductCategoryRawPayload['active']
-
-  readonly isProxy?: ProductCategoryRawPayload['is_proxy']
-  readonly name?: ProductCategoryRawPayload['name']
-  readonly summary?: ProductCategoryRawPayload['summary']
-  readonly customId?: ProductCategoryRawPayload['custom_id']
-  readonly externalReferenceId?: ProductCategoryRawPayload['external_reference_id']
-  readonly externalReferenceCustomId?: ProductCategoryRawPayload['external_reference_custom_id']
-  readonly proxyVendor?: ProductCategoryRawPayload['proxy_vendor']
-  readonly description?: ProductCategoryRawPayload['description']
-  readonly comment?: ProductCategoryRawPayload['comment']
-  readonly storefront?: ProductCategoryRawPayload['storefront']
-  readonly proxyPayload?: ProductCategoryRawPayload['proxy_payload']
-}
+export interface ProductCategoryPayload extends SnakeToCamelCase<CastToDate<ProductCategoryRawPayload, 'created_at' | 'updated_at'>>{}
 
 /**
  * Manage product categories.
  *
  * @category Entity
  */
-export class ProductCategory extends UniverseEntity<ProductCategoryPayload, ProductCategoryRawPayload> {
+export class ProductCategory extends UniverseEntity<ProductCategoryPayload, ProductCategoryRawPayload> implements ProductCategoryPayload {
   public get entityName (): string {
     return 'product_categories'
   }
@@ -82,6 +66,7 @@ export class ProductCategory extends UniverseEntity<ProductCategoryPayload, Prod
   public comment?: ProductCategoryPayload['comment']
   public storefront?: ProductCategoryPayload['storefront']
   public proxyPayload?: ProductCategoryPayload['proxyPayload']
+  public productsCount?: ProductCategoryPayload['productsCount']
 
   constructor (options: ProductCategoryOptions) {
     super()
@@ -117,6 +102,7 @@ export class ProductCategory extends UniverseEntity<ProductCategoryPayload, Prod
     this.comment = rawPayload.comment
     this.storefront = rawPayload.storefront
     this.proxyPayload = rawPayload.proxy_payload
+    this.productsCount = rawPayload.products_count
 
     return this
   }
@@ -143,7 +129,8 @@ export class ProductCategory extends UniverseEntity<ProductCategoryPayload, Prod
       description: this.description,
       comment: this.comment,
       storefront: this.storefront,
-      proxy_payload: this.proxyPayload
+      proxy_payload: this.proxyPayload,
+      products_count: this.productsCount
     }
   }
 
