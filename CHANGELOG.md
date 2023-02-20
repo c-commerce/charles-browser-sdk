@@ -1,3 +1,10 @@
+# [4.148.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.147.2...v4.148.0) (2023-02-20)
+
+
+### Features
+
+* **ProductCategory:** added support for products_count ([dbdb1c3](https://github.com/c-commerce/charles-browser-sdk/commit/dbdb1c38a86adc378b66a6b98707c69aa5f9e403))
+
 ## [4.147.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.147.1...v4.147.2) (2023-02-09)
 
 
