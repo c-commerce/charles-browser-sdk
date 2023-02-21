@@ -1,3 +1,11 @@
+# [4.149.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.148.0...v4.149.0) (2023-02-21)
+
+
+### Features
+
+* **message:** add typing for feed reply endpoint message attachment payload ([aa73fca](https://github.com/c-commerce/charles-browser-sdk/commit/aa73fca186bc73d27eb8991b7c248fe3c0c5b53b))
+* **message-template:** add missing typing for interactive list in quick replies ([b11f1f0](https://github.com/c-commerce/charles-browser-sdk/commit/b11f1f0e7e514a60010cf8b0634842e162084927))
+
 # [4.148.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.147.2...v4.148.0) (2023-02-20)
 
 
