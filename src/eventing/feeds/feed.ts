@@ -4,8 +4,8 @@ import universeTopics from '../../universe/topics'
 import * as realtime from '../../realtime'
 import { BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import {
-  Reply, Message, MessageRawPayload,
-  MessageRawPayloadAttachment, MessageReplyContentOptions, ReplyResponse, ReplyOptions
+  Reply, Message, MessageOptions, MessageRawPayload, MessageFeedReplyRawPayload,
+  MessageRawPayloadAttachment, MessageFeedReplyContentOptions, ReplyResponse
 } from '../../messaging/message'
 import { Asset, Assets } from '../../entities/asset'
 import { Person, PersonRawPayload } from '../../entities/person'
@@ -551,15 +551,15 @@ export class Feeds extends EntitiesList<Feed, FeedRawPayload> {
   }
 }
 
-export type FeedReplyContentOptions = MessageReplyContentOptions
+export type FeedReplyContentOptions = MessageFeedReplyContentOptions
 
 export type FeedReplyResponse = ReplyResponse
 
-export interface FeedReplyOptions extends ReplyOptions {
+export interface FeedReplyOptions extends MessageOptions, MessageFeedReplyContentOptions {
   feed: Feed
   universe: Universe
   http: Universe['http']
-  rawPayload?: MessageRawPayload
+  rawPayload?: MessageFeedReplyRawPayload
   rawAssets?: FormData
   causes?: object[] | null
   context?: object | null

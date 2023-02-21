@@ -18,7 +18,11 @@ export interface MessageRawPayloadAttachment {
   // NOTE: the API is capable of digesting any mime type, however both messaging platforms and UIs are not.
   // This likely means that the "group" of types that is denoted by "type" is likely what implementers are after.
   mime_type?: string
-  payload: string | null | object
+  payload: string | object | null
+}
+
+export type MessageFeedReplyRawPayloadAttachment = MessageRawPayloadAttachment & {
+  filename?: string | null
 }
 
 export interface MessageStatus {
@@ -34,6 +38,16 @@ export interface MessageStatus {
   payload?: any
 }
 
+export interface MessageContent {
+  body?: string | null
+  attachments?: MessageRawPayloadAttachment[]
+}
+
+export interface MessageFeedReplyContent {
+  body?: string | null
+  attachments?: MessageFeedReplyRawPayloadAttachment[]
+}
+
 export interface MessageRawPayload extends EntityRawPayload {
   readonly id?: string
   readonly source_type?: string
@@ -41,10 +55,7 @@ export interface MessageRawPayload extends EntityRawPayload {
   readonly tz?: string
   readonly date?: string
   readonly content_type?: 'text' | 'mixed'
-  readonly content?: {
-    body?: string | null
-    attachments?: MessageRawPayloadAttachment[]
-  }
+  readonly content?: MessageContent
   readonly external_reference_id?: string
   readonly external_person_reference_id?: string
   readonly external_channel_reference_id?: string
@@ -85,6 +96,10 @@ export interface MessageRawPayload extends EntityRawPayload {
   } | null
   readonly statuses?: MessageStatus[]
   readonly reactions?: MessageReaction[] | null
+}
+
+export type MessageFeedReplyRawPayload = Omit<MessageRawPayload, 'content'> & {
+  readonly content?: MessageFeedReplyContent
 }
 
 export interface MessageReaction {
@@ -286,7 +301,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     })
   }
 
-  public replyFeed (contentOptions: MessageReplyContentOptions): MessageFeedReply {
+  public replyFeed (contentOptions: MessageFeedReplyContentOptions): MessageFeedReply {
     return new MessageFeedReply({
       message: this,
       http: this.http,
@@ -400,6 +415,10 @@ export interface MessageReplyContentOptions {
   rawAssets?: FormData
   causes?: object[] | null
   context?: object | null
+}
+
+export type MessageFeedReplyContentOptions = Omit<MessageReplyContentOptions, 'content'> & {
+  content: MessageFeedReplyContent
 }
 
 export interface ReplyOptions extends MessageOptions, MessageReplyContentOptions { }

@@ -79,6 +79,38 @@ export interface MessageTemplateRawPayloadLocalizedContentItemAction {
   utm_campaign?: string
 }
 
+export interface MessageTemplateRawPayloadQuickReplies {
+  translate?: boolean
+  translation_prepend?: string | null
+  translation_append?: string | null
+  replies?: MessageTemplateRawPayloadQuickReply[]
+}
+
+export interface MessageTemplateRawPayloadList {
+  body?: string
+  type?: 'list' | string | null
+  button?: {
+    text?: string | null
+    type?: string | null
+    button_type?: string | null
+  }
+  footer?: {
+    type?: string | null
+    payload?: string | null
+  } | null
+  header?: {
+    type?: string | null
+    payload?: string | null
+  } | null
+  sections?: Array<{
+    rows?: Array<{
+      title?: string
+      description?: string
+    }> | null
+    title?: string | null
+  }> | null
+}
+
 export interface MessageTemplateRawPayloadLocalizedContent {
   actions?: MessageTemplateRawPayloadLocalizedContentItemAction[]
   locale?: string
@@ -95,12 +127,7 @@ export interface MessageTemplateRawPayloadLocalizedContent {
   } | null
   attachments?: MessageTemplateRawPayloadAttachment[] | MessageTemplateRawPayloadLocation[] | MessageTemplateRawPayloadCarousel[] | any
   approved?: boolean
-  quick_replies?: {
-    translate?: boolean
-    translation_prepend?: string | null
-    translation_append?: string | null
-    replies?: MessageTemplateRawPayloadQuickReply[]
-  }
+  quick_replies?: MessageTemplateRawPayloadQuickReplies & MessageTemplateRawPayloadList
   status_history?: MessageTemplateRawPayloadLocalizedContentHistoryEntry[]
 }
 
