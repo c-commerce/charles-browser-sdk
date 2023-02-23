@@ -10,7 +10,7 @@ import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 import { throwExceptionFromCommonError } from '../helpers'
 
-import axios, { AxiosResponse, Canceler, CancelToken } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, Canceler, CancelToken } from 'axios'
 
 import Entity, { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 
@@ -92,6 +92,8 @@ import * as campaignLinkClick from '../entities/link-click/campaign-link-click'
 import { ChangesHandler, ChangeType, CustomChangeEventHandler } from '../realtime/changes/changes-handler'
 import ChangesEntityManager from '../realtime/changes/changes-entity-manager'
 import { getEntityName } from '../helpers/entity'
+import { me } from './me'
+import { bindClassProperties } from '../helpers/namespace'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -351,6 +353,15 @@ export interface ICampaignLinkClicks {
   fetchCount: (options?: EntityFetchOptions<Partial<campaignLinkClick.CampaignLinkFetchOptions>>) => Promise<{ count: number }>
   fetch: (options?: EntityFetchOptions<Partial<campaignLinkClick.CampaignLinkFetchOptions>>) => Promise<campaignLinkClick.CampaignLinkClick[] | campaignLinkClick.CampaignLinkClickRawPayload[] | undefined>
 }
+
+export class UniverseBadRequestError extends BaseError {
+  public name = 'UniverseBadRequestError'
+  constructor (public message: string = 'Bad Request.', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseBadRequestError.prototype)
+  }
+}
 export class UniverseUnauthenticatedError extends BaseError {
   public name = 'UniverseUnauthenticatedError'
   constructor (public message: string = 'Invalid or expired session.', properties?: any) {
@@ -414,6 +425,15 @@ export class UniverseSessionError extends BaseError {
   }
 }
 
+export class UniverseMePreferencesError extends BaseError {
+  public name = 'UniverseMePreferencesError'
+  constructor (public message: string = 'Unexptected error updating me preferences', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseMePreferencesError.prototype)
+  }
+}
+
 export interface UniverseErrors {
   UniverseUnauthenticatedError: new () => UniverseUnauthenticatedError
   UniverseForbiddenError: new () => UniverseForbiddenError
@@ -440,6 +460,7 @@ export interface MeData {
   }
   permissions: UniversePermissionType[]
   roles: UniversePermissionType[]
+  preferences: staff.StaffRawPayload['preferences']
   staff: staff.StaffRawPayload
 }
 
@@ -516,7 +537,7 @@ export class Universe extends APICarrier {
   public universeHost: string = 'hello-charles.com'
   public mqttUniverseBase: string
   private static readonly endpoint: string = 'api/v0/universes'
-  private _cachedMeData?: MeData
+  protected _cachedMeData?: MeData
 
   public constructor (options: UniverseOptions) {
     // NOTE: there is a bit unfortunate duplication necessary because of https://github.com/microsoft/TypeScript/issues/8277
@@ -541,6 +562,7 @@ export class Universe extends APICarrier {
     this.status = new UniverseStatus({ universe: this })
     this.health = new UniverseHealth({ universe: this })
     this.http = options.http
+    bindClassProperties(this, 'me')
 
     return this
   }
@@ -1063,7 +1085,7 @@ export class Universe extends APICarrier {
     return new ChangesHandler<T>(this.getMqttClient(), { onCreated }, { entityName: getEntityName(entityConstructor) ?? undefined, id }, [ChangeType.created])
   }
 
-  private setCachedMeData (data?: MeData | null): Universe {
+  protected setCachedMeData (data?: MeData | null): Universe {
     if (!data) {
       this._cachedMeData = undefined
     } else {
@@ -1088,25 +1110,7 @@ export class Universe extends APICarrier {
    * UniverseServiceUnavailableError: 503
    * UniverseTimeoutError: 504
    */
-  public async me (skipInterceptors = false): Promise<MeData | never> {
-    try {
-      const opts = {
-        method: 'GET',
-        url: `${this.universeBase}/api/v0/me`,
-        skipInterceptors
-      }
-
-      const response = await this.http.getClient()(opts)
-
-      this.setCachedMeData(response?.data?.data)
-
-      return response?.data?.data
-    } catch (error) {
-      throwExceptionFromCommonError(error as ClientError)
-
-      throw new UniverseMeError(undefined, { error })
-    }
-  }
+  public me = me
 
   /**
    * Fetch the session data of the current user.

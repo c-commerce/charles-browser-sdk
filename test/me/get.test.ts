@@ -44,6 +44,16 @@ describe('v0: Me: can get me data', () => {
               },
               permissions: [],
               roles: [],
+              preferences: {
+                message_template_favorites: [
+                  {
+                    id: 'MOCK_TEMP_1'
+                  },
+                  {
+                    id: 'MOCK_TEMP_2'
+                  }
+                ]
+              },
               staff: {
                 id: 'SOME_STAFF_ID',
                 created_at: '2020-04-10T19:18:01.604Z',
@@ -61,7 +71,17 @@ describe('v0: Me: can get me data', () => {
                 ],
                 roles: [
                   'agent'
-                ]
+                ],
+                preferences: {
+                  message_template_favorites: [
+                    {
+                      id: 'MOCK_TEMP_1'
+                    },
+                    {
+                      id: 'MOCK_TEMP_2'
+                    }
+                  ]
+                }
               }
             }
           }
@@ -75,8 +95,10 @@ describe('v0: Me: can get me data', () => {
     expect(meData).toBeDefined()
     expect(meData?.staff).toBeDefined()
     expect(meData?.user).toBeDefined()
+    expect(meData?.preferences).toBeDefined()
     expect(meData?.user.sub).toBe('SOME_USER_ID')
     expect(meData?.staff.id).toBe('SOME_STAFF_ID')
+    expect(meData?.staff.preferences?.message_template_favorites?.length).toBe(2)
   })
 
   test.each`

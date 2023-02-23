@@ -8,6 +8,15 @@ export interface StaffOptions extends UniverseEntityOptions {
   rawPayload?: StaffRawPayload
 }
 
+export interface StaffMessageTemplateFavorite {
+  id: string
+  created_at: string
+  locale: string
+}
+export interface StaffPreferences {
+  message_template_favorites?: StaffMessageTemplateFavorite[]
+}
+
 export interface StaffRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly updated_at?: string
@@ -28,6 +37,7 @@ export interface StaffRawPayload extends EntityRawPayload {
     [key: string]: any
   }
   readonly custom_id?: string
+  readonly preferences?: StaffPreferences
 }
 
 export interface StaffPayload {
@@ -48,6 +58,7 @@ export interface StaffPayload {
   readonly permissions?: StaffRawPayload['permissions']
   readonly invite?: StaffRawPayload['invite']
   readonly customId?: StaffRawPayload['custom_id']
+  readonly preferences?: StaffRawPayload['preferences']
 }
 
 /**
@@ -85,6 +96,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
   public permissions?: StaffRawPayload['permissions']
   public invite?: StaffRawPayload['invite']
   public customId?: StaffRawPayload['custom_id']
+  public preferences?: StaffRawPayload['preferences']
 
   constructor (options: StaffOptions) {
     super()
@@ -120,6 +132,7 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
     this.permissions = rawPayload.permissions
     this.invite = rawPayload.invite
     this.customId = rawPayload.custom_id
+    this.preferences = rawPayload.preferences
 
     return this
   }
@@ -146,7 +159,8 @@ export class Staff extends UniverseEntity<StaffPayload, StaffRawPayload> {
       roles: this.roles,
       permissions: this.permissions,
       invite: this.invite,
-      custom_id: this.customId
+      custom_id: this.customId,
+      preferences: this.preferences
     }
   }
 
