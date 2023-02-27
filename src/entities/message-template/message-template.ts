@@ -54,6 +54,10 @@ export interface MessageTemplateRawPayloadQuickReply {
   image_url?: string
 }
 
+export interface MessageTemplateRawPayloadContentSubmitHistoryEntry {
+  timestamp: string
+}
+
 export interface MessageTemplateRawPayloadLocalizedContentHistoryEntry {
   status?: string
   timestamp?: string
@@ -129,6 +133,7 @@ export interface MessageTemplateRawPayloadLocalizedContent {
   approved?: boolean
   quick_replies?: MessageTemplateRawPayloadQuickReplies & MessageTemplateRawPayloadList
   status_history?: MessageTemplateRawPayloadLocalizedContentHistoryEntry[]
+  submit_history?: MessageTemplateRawPayloadContentSubmitHistoryEntry[]
 }
 
 export type MessageTemplateRawPayloadParameters = {
