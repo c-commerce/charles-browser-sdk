@@ -1,3 +1,10 @@
+# [4.150.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.149.0...v4.150.0) (2023-02-28)
+
+
+### Features
+
+* **MessageTemplate:** add submit_history type support ([631d83e](https://github.com/c-commerce/charles-browser-sdk/commit/631d83e33e847c9ea66351e340dec0999423daf3))
+
 # [4.149.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.148.0...v4.149.0) (2023-02-21)
 
 
