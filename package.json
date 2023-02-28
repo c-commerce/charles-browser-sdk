@@ -33,7 +33,7 @@
     "build": "npm run clean && npm run build:bundle",
     "clean": "rimraf dist docs",
     "test": "cross-env TZ=Europe/Berlin jest --coverage",
-    "test:watch": "cross-env TZ=Europe/Berlin jest --watchAll --runInBand",
+    "test:watch": "cross-env TZ=Europe/Berlin node --inspect node_modules/.bin/jest --watchAll --runInBand",
     "tdd": "npm run test:watch",
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache --runInBand",
     "deploy-docs": "ts-node tools/gh-pages-publish",

@@ -409,7 +409,7 @@ export class UniverseTimeoutError extends BaseError {
 
 export class UniverseMeError extends BaseError {
   public name = 'UniverseMeError'
-  constructor (public message: string = 'Unexptected error fetching me data', properties?: any) {
+  constructor (public message: string = 'Unexpected error fetching me data', properties?: any) {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseMeError.prototype)
@@ -418,7 +418,7 @@ export class UniverseMeError extends BaseError {
 
 export class UniverseSessionError extends BaseError {
   public name = 'UniverseSessionError'
-  constructor (public message: string = 'Unexptected error fetching session data', properties?: any) {
+  constructor (public message: string = 'Unexpected error fetching session data', properties?: any) {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseSessionError.prototype)
@@ -427,7 +427,7 @@ export class UniverseSessionError extends BaseError {
 
 export class UniverseMePreferencesError extends BaseError {
   public name = 'UniverseMePreferencesError'
-  constructor (public message: string = 'Unexptected error updating me preferences', properties?: any) {
+  constructor (public message: string = 'Unexpected error updating me preferences', properties?: any) {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseMePreferencesError.prototype)
@@ -2685,7 +2685,7 @@ export class UniverseSearchCanceled extends BaseError {
 
 export class UniverseApiRequestError extends BaseError {
   public name = 'UniverseApiRequestError'
-  constructor (public message: string = 'Unexptected error making api request.', properties?: any) {
+  constructor (public message: string = 'Unexpected error making api request.', properties?: any) {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseApiRequestError.prototype)
@@ -2694,7 +2694,7 @@ export class UniverseApiRequestError extends BaseError {
 
 export class UniverseVersionsError extends BaseError {
   public name = 'UniverseVersionsError'
-  constructor (public message: string = 'Unexptected response making versions request.', properties?: any) {
+  constructor (public message: string = 'Unexpected response making versions request.', properties?: any) {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseVersionsError.prototype)
@@ -2703,7 +2703,7 @@ export class UniverseVersionsError extends BaseError {
 
 export class UniverseSelfError extends BaseError {
   public name = 'UniverseSelfError'
-  constructor (public message: string = 'Unexptected response making self request.', properties?: any) {
+  constructor (public message: string = 'Unexpected response making self request.', properties?: any) {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseSelfError.prototype)
@@ -2712,7 +2712,7 @@ export class UniverseSelfError extends BaseError {
 
 export class UniverseHealthzError extends BaseError {
   public name = 'UniverseHealthzError'
-  constructor (public message: string = 'Unexptected response making health request.', properties?: any) {
+  constructor (public message: string = 'Unexpected response making health request.', properties?: any) {
     super(message, properties)
 
     Object.setPrototypeOf(this, UniverseHealthzError.prototype)
