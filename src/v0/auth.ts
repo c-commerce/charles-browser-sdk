@@ -212,7 +212,7 @@ export class Auth {
         permissions: response.data.data.permissions || [],
         roles: response.data.data.roles
       }
-    } catch (err) {
+    } catch (err: any) {
       const error = new errors.AuthenticationFailed(undefined, {
         error: err, body: !!err.response && err.response.data ? err.response.data : null
       })
