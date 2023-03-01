@@ -4,6 +4,7 @@
     "esModuleInterop": true,
     "traceResolution": false,
     "listEmittedFiles": false,
+    "allowJs": true,
     "listFiles": false,
     "pretty": true,
     "target": "es5",
