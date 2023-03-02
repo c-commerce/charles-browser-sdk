@@ -2,9 +2,6 @@
 
 > The browser utility for working with the Charles API.
 
----
-
-[![CircleCI](https://circleci.com/gh/c-commerce/charles-browser-sdk/tree/master.svg?style=svg)](https://circleci.com/gh/c-commerce/charles-browser-sdk/tree/master)
 
 ## Usage
 
