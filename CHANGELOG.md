@@ -1,3 +1,10 @@
+# [4.151.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.150.0...v4.151.0) (2023-03-02)
+
+
+### Features
+
+* **UniverseMe:** add template favorites methods ([867d469](https://github.com/c-commerce/charles-browser-sdk/commit/867d46974b09f8518c730d74ec923b9d43a1ecc0))
+
 # [4.150.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.149.0...v4.150.0) (2023-02-28)
 
 
