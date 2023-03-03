@@ -1,3 +1,11 @@
+## [4.151.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.151.1...v4.151.2) (2023-03-03)
+
+
+### Bug Fixes
+
+* **staff:** fix favorite template typing ([18f4291](https://github.com/c-commerce/charles-browser-sdk/commit/18f4291be474449761214aee06c4ce353ba7eac0))
+* **test:** fix jest transform regex ([7bd8ab9](https://github.com/c-commerce/charles-browser-sdk/commit/7bd8ab9cb36a9b072d75e6777f55da7dff96a4fe))
+
 ## [4.151.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.151.0...v4.151.1) (2023-03-03)
 
 
