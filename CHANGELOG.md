@@ -1,3 +1,10 @@
+## [4.151.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.151.0...v4.151.1) (2023-03-03)
+
+
+### Bug Fixes
+
+* **ProductCategory:** fixed virtual props handling ([62c22c3](https://github.com/c-commerce/charles-browser-sdk/commit/62c22c3c76ccb2c0bb778c83bc558582b47d02f7))
+
 # [4.151.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.150.0...v4.151.0) (2023-03-02)
 
 
