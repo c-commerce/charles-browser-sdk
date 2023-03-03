@@ -9,12 +9,12 @@ export interface StaffOptions extends UniverseEntityOptions {
 }
 
 export interface StaffMessageTemplateFavorite {
-  id: string
-  created_at: string
-  locale: string
+  id?: string
+  created_at?: string
+  locale?: string
 }
 export interface StaffPreferences {
-  message_template_favorites?: Array<Partial<StaffMessageTemplateFavorite>>
+  message_template_favorites?: StaffMessageTemplateFavorite[]
 }
 
 export interface StaffRawPayload extends EntityRawPayload {
