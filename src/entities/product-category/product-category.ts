@@ -2,7 +2,7 @@
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { CastToDate, SnakeToCamelCase } from 'src/helpers/case-convert-type'
+import { CastToDate, Mutable, SnakeToCamelCase } from 'src/helpers/case-convert-type'
 
 export interface ProductCategoryOptions extends UniverseEntityOptions {
   rawPayload?: ProductCategoryRawPayload
@@ -26,7 +26,7 @@ export interface ProductCategoryRawPayload {
   readonly comment?: string
   readonly storefront?: string
   readonly proxy_payload?: string
-  readonly products_count?: number
+  readonly products_count?: number | null
 }
 
 export interface ProductCategoryPayload extends SnakeToCamelCase<CastToDate<ProductCategoryRawPayload, 'created_at' | 'updated_at'>>{}
@@ -112,13 +112,12 @@ export class ProductCategory extends UniverseEntity<ProductCategoryPayload, Prod
   }
 
   public serialize (): ProductCategoryRawPayload {
-    return {
+    const serialized = {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
       updated_at: this.updatedAt ? this.updatedAt.toISOString() : undefined,
       deleted: this.deleted ?? false,
       active: this.active ?? true,
-
       is_proxy: this.isProxy,
       name: this.name,
       summary: this.summary,
@@ -129,8 +128,24 @@ export class ProductCategory extends UniverseEntity<ProductCategoryPayload, Prod
       description: this.description,
       comment: this.comment,
       storefront: this.storefront,
-      proxy_payload: this.proxyPayload,
-      products_count: this.productsCount
+      proxy_payload: this.proxyPayload
+    }
+    /*
+     *  virtual props:
+     *  the existance of virtual props must match the original raw payload otherwise it will
+     *  fail the update cause they technically don't exist on the db side
+     *  another solution would be serializing all payloads before saving them in __rawPayload
+     *  another solution would be defrentiating between views and entities on the backend side and match it here
+     */
+
+    const virtualProps: Mutable<Partial<ProductCategoryRawPayload>> = {}
+    if (this._rawPayload?.products_count !== undefined) {
+      virtualProps.products_count = this._rawPayload?.products_count
+    }
+
+    return {
+      ...serialized,
+      ...virtualProps
     }
   }
 

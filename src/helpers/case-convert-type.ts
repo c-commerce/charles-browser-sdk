@@ -8,3 +8,6 @@ export type SnakeToCamelCase<T extends { [key: string]: any }> = {[K in keyof T 
 export type CastToDate<T, K extends keyof T> = {
   [P in keyof T]: P extends K ? Date | null : T[P]
 }
+export type Mutable<T> = {
+  -readonly [K in keyof T]: T[K]
+}
