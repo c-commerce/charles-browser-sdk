@@ -270,6 +270,8 @@ export interface UniverseAnalytics {
 export interface UniverseFeeds {
   fetch: (options?: UniverseFetchOptions) => Promise<Feed[] | FeedRawPayload[] | undefined>
   fetchCount: (options?: UniverseFetchOptions) => Promise<{ count: number }>
+  fetchOpenCount: () => Promise<{count: number}>
+  fetchUnansweredCount: () => Promise<{count: number}>
   fromJson: (feeds: FeedRawPayload[]) => Feed[]
   toJson: (feeds: Feed[]) => FeedRawPayload[]
   stream: (options?: UniverseFetchOptions) => Promise<Feeds>
@@ -1201,6 +1203,26 @@ export class Universe extends APICarrier {
         } catch (err) {
           throw new FeedFetchCountRemoteError(undefined, { error: err })
         }
+      },
+      async fetchOpenCount (): Promise<{ count: number }> {
+        return await this.fetchCount({
+          query: {
+            deleted: false,
+            open: true,
+            kind: ['Contact']
+          }
+        })
+      },
+
+      async fetchUnansweredCount (): Promise<{ count: number }> {
+        return await this.fetchCount({
+          query: {
+            deleted: false,
+            answered: false,
+            open: true,
+            kind: ['Contact']
+          }
+        })
       },
       stream: async (options?: UniverseFetchOptions): Promise<Feeds> => {
         const inst = new Feeds({

@@ -54,6 +54,7 @@ describe('Universe: set hosting environment dynamically', () => {
 
 const genUniverse = (params: {
   clientMockResolveValue?: any
+  clientMockResolvedHeaders?: any
   universeCachedMeData?: any
 } = {}): {
   universe: Universe
@@ -61,8 +62,11 @@ const genUniverse = (params: {
 } => {
   const clientMock = jest.fn()
 
-  if (params.clientMockResolveValue) {
-    clientMock.mockResolvedValue({ data: { data: params.clientMockResolveValue } })
+  if (params.clientMockResolveValue || params.clientMockResolvedHeaders) {
+    clientMock.mockResolvedValue({
+      headers: params.clientMockResolvedHeaders,
+      data: { data: params.clientMockResolveValue }
+    })
   }
 
   const client = {
@@ -83,9 +87,56 @@ const genUniverse = (params: {
   return { universe, clientMock }
 }
 
+describe('Universe: feeds: can handle basic operations', () => {
+  it('can fetch the number of unanswered feeds', async () => {
+    const expectedCount = 4
+    const { universe, clientMock } = genUniverse({
+      clientMockResolvedHeaders: {
+        'X-Resource-Count': expectedCount
+      }
+    })
+
+    const actualCount = await universe.feeds.fetchUnansweredCount()
+    expect(clientMock).toHaveBeenCalledTimes(1)
+    expect(clientMock).toHaveBeenCalledWith({
+      method: 'HEAD',
+      url: 'https://dev.hello-charles.com/api/v0/feeds',
+      params: {
+        answered: false,
+        deleted: false,
+        kind: ['Contact'],
+        open: true
+      }
+    })
+
+    expect(actualCount).toStrictEqual({ count: expectedCount })
+  })
+
+  it('can fetch the number of open feeds', async () => {
+    const expectedCount = 4
+    const { universe, clientMock } = genUniverse({
+      clientMockResolvedHeaders: {
+        'X-Resource-Count': expectedCount
+      }
+    })
+
+    const actualCount = await universe.feeds.fetchOpenCount()
+    expect(clientMock).toHaveBeenCalledTimes(1)
+    expect(clientMock).toHaveBeenCalledWith({
+      method: 'HEAD',
+      url: 'https://dev.hello-charles.com/api/v0/feeds',
+      params: {
+        deleted: false,
+        kind: ['Contact'],
+        open: true
+      }
+    })
+
+    expect(actualCount).toStrictEqual({ count: expectedCount })
+  })
+})
+
 describe('Universe: me: can handle basic operations', () => {
-  // const mockedDate = new Date('1993-08-06')
-  // jest.spyOn(global, 'Date').mockImplementation(() => mockedDate as unknown as string)
   beforeAll(() => jest.useFakeTimers().setSystemTime(new Date('1993-08-06')))
   afterAll(() => jest.useRealTimers())
 
