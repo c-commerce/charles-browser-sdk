@@ -14,51 +14,51 @@ export interface MessageBrokerOptions extends UniverseEntityOptions {
 export type BrokerStatus = 'CONNECTED' | 'FLAGGED' | 'RESTRICTED'
 export type MessagingLimitTier = 'TIER_1K' | 'TIER_10K' | 'TIER_100K' | 'TIER_250K' | 'TIER_UNLIMITED'
 export interface MessageBrokerExternalStatusPayload {
-  id: string
-  waba: Waba
-  status: BrokerStatus
-  name_status: string
-  account_mode: string
-  quality_score: { score: QualityScore }
-  verified_name: string
-  new_name_status: string
-  display_phone_number: string
-  messaging_limit_tier: MessagingLimitTier
-  code_verification_status: string
-  is_official_business_account: boolean
+  id?: string
+  waba?: Waba
+  status?: BrokerStatus
+  name_status?: string
+  account_mode?: string
+  quality_score?: { score: QualityScore }
+  verified_name?: string
+  new_name_status?: string
+  display_phone_number?: string
+  messaging_limit_tier?: MessagingLimitTier
+  code_verification_status?: string
+  is_official_business_account?: boolean
 }
 
 interface Waba {
-  id: string
-  name: string
-  currency: string
-  timezone_id: string
-  phone_numbers: Phonenumber[]
-  primary_funding_id: string
-  account_review_status: string
-  message_template_namespace: string
-  on_behalf_of_business_info: OnBehalfOfBusinessInfo
+  id?: string
+  name?: string
+  currency?: string
+  timezone_id?: string
+  phone_numbers?: Phonenumber[]
+  primary_funding_id?: string
+  account_review_status?: string
+  message_template_namespace?: string
+  on_behalf_of_business_info?: OnBehalfOfBusinessInfo
 }
 
 interface OnBehalfOfBusinessInfo {
-  id: string
-  name: string
-  type: string
-  status: string
+  id?: string
+  name?: string
+  type?: string
+  status?: string
 }
 
 interface Phonenumber {
-  id: string
-  status: string
-  name_status: string
-  account_mode: string
+  id?: string
+  status?: string
+  name_status?: string
+  account_mode?: string
   quality_score?: { score: QualityScore }
-  verified_name: string
-  new_name_status: string
-  display_phone_number: string
+  verified_name?: string
+  new_name_status?: string
+  display_phone_number?: string
   messaging_limit_tier?: string
-  code_verification_status: string
-  is_official_business_account: boolean
+  code_verification_status?: string
+  is_official_business_account?: boolean
 }
 
 export interface QualityScore {
