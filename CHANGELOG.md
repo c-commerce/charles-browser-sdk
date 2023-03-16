@@ -1,3 +1,11 @@
+# [4.152.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.151.2...v4.152.0) (2023-03-16)
+
+
+### Features
+
+* **MessageBroker:** add status typing ([377d3ba](https://github.com/c-commerce/charles-browser-sdk/commit/377d3ba487d2b258149b2b22b26352f034361b90))
+* **MessageBroker:** make fields optional ([3655102](https://github.com/c-commerce/charles-browser-sdk/commit/3655102c44041617db01f40fc52abdc62e31ce41))
+
 ## [4.151.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.151.1...v4.151.2) (2023-03-03)
 
 
