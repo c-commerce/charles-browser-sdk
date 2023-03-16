@@ -69,6 +69,11 @@ export interface EventRawPayload {
   readonly context?: string | object | null
   readonly feed?: string
   readonly data?: object
+  readonly name?: string
+  readonly read?: string
+  readonly delivered?: string
+  readonly accepted?: string
+  readonly failed?: string
 }
 
 export interface EventPayload {
@@ -89,6 +94,11 @@ export interface EventPayload {
   readonly context?: EventRawPayload['context']
   readonly feed?: EventRawPayload['feed']
   readonly data?: EventRawPayload['data']
+  readonly name?: EventRawPayload['name']
+  readonly read?: EventRawPayload['read']
+  readonly delivered?: EventRawPayload['delivered']
+  readonly accepted?: EventRawPayload['accepted']
+  readonly failed?: EventRawPayload['failed']
 }
 
 export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
@@ -122,6 +132,11 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
   public context?: EventPayload['context']
   public feed?: EventPayload['feed']
   public data?: EventPayload['data']
+  public name?: EventPayload['name']
+  public read?: EventPayload['read']
+  public delivered?: EventPayload['delivered']
+  public accepted?: EventPayload['accepted']
+  public failed?: EventPayload['failed']
 
   static eventTypes = EventTypesEnum
 
@@ -159,6 +174,11 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
     this.suggestions = rawPayload.suggestions
     this.context = rawPayload.context
     this.data = rawPayload.data
+    this.name = rawPayload.name
+    this.read = rawPayload.read
+    this.delivered = rawPayload.delivered
+    this.accepted = rawPayload.accepted
+    this.failed = rawPayload.failed
 
     // we will store the feed id on this property, in case an event is initialized without a feed context
     this.feed = rawPayload.feed
@@ -200,7 +220,12 @@ export class Event extends UniverseEntity<EventPayload, EventRawPayload> {
       suggestions: this.suggestions,
       context: this.context,
       feed: this.feed,
-      data: this.data
+      data: this.data,
+      name: this.name,
+      read: this.read,
+      delivered: this.delivered,
+      accepted: this.accepted,
+      failed: this.failed
     }
   }
 
