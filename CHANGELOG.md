@@ -1,3 +1,10 @@
+# [4.153.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.152.0...v4.153.0) (2023-03-17)
+
+
+### Features
+
+* **delivered-contacts-sortable:** amended event entity to parse new values ([c50a98d](https://github.com/c-commerce/charles-browser-sdk/commit/c50a98deba90ef30fd003e087e0d2cf5f0570dd1))
+
 # [4.152.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.151.2...v4.152.0) (2023-03-16)
 
 
