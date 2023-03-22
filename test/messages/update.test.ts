@@ -84,7 +84,7 @@ describe('v0: Messages: can alter a message', () => {
 
     try {
       await inst.messages().update(messageId, updateObject)
-    } catch (err) {
+    } catch (err: any) {
       expect(err.name).toBe('MessageUpdateFailed')
     }
   })

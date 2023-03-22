@@ -11,5 +11,6 @@
     "CHANGELOG.md": true,
     "package-lock.json": true,
     "yarn.lock": true,
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
