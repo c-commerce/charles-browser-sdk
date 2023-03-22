@@ -4,8 +4,8 @@ import { throwExceptionFromCommonError } from '../helpers'
 import { MeData, Universe, UniverseBadRequestError, UniverseForbiddenError, UniverseMeError, UniverseMePreferencesError, UniverseSessionError } from '.'
 import { PatchOpts } from 'src/helpers/json-patch-type'
 
-type addTemplateFavoriteArg = Omit<StaffMessageTemplateFavorite, 'created_at'>
-type removeTemplateFavoriteArg = Omit<StaffMessageTemplateFavorite, 'created_at'> & {created_at?: string}
+type AddTemplateFavoriteArg = Omit<StaffMessageTemplateFavorite, 'created_at'>
+type RemoveTemplateFavoriteArg = Omit<StaffMessageTemplateFavorite, 'created_at'> & { created_at?: string }
 
 export class UniverseMe {
   private cachedMeData?: MeData
@@ -97,40 +97,32 @@ export class UniverseMe {
     }
   }
 
-  public async addTemplateFavorite (favorite: addTemplateFavoriteArg): Promise<MeData> {
+  public async addTemplateFavorite (favorite: AddTemplateFavoriteArg): Promise<MeData> {
     const { staffRequestOpts, meData } = await this.getPatchConfig()
 
     if (staffRequestOpts === null) throw new UniverseForbiddenError('User does not exist as a staff member.')
 
-    const messageFavorites = meData?.preferences?.message_template_favorites
-    if (!Array.isArray(messageFavorites) || messageFavorites === undefined) {
-      staffRequestOpts.data.push({
-        op: 'add',
-        path: '/preferences/message_template_favorites',
-        value: []
-      })
-    } else {
-      if (messageFavorites.length >= 7) {
-        throw new UniverseBadRequestError('Cannot have more than 7 message template favorites per user.', { response: { status: 400 } })
-      }
-      if (messageFavorites.some(f => f.id === favorite.id && f.locale === favorite.locale)) {
-        throw new UniverseBadRequestError('This template has already been added to favorites.', { response: { status: 400 } })
-      }
+    const messageFavorites = meData?.preferences?.message_template_favorites?.slice() ?? []
+
+    if (messageFavorites.some(f => f.id === favorite.id && f.locale === favorite.locale)) {
+      throw new UniverseBadRequestError('This template has already been added to favorites.', { response: { status: 400 } })
     }
 
+    messageFavorites.push({
+      ...favorite,
+      created_at: new Date().toISOString()
+    })
+
     staffRequestOpts.data.push({
-      op: 'add',
-      path: '/preferences/message_template_favorites/-',
-      value: {
-        ...favorite,
-        created_at: new Date().toISOString()
-      }
+      op: 'replace',
+      path: '/preferences/message_template_favorites',
+      value: messageFavorites
     })
 
     return await this.patchStaffPreferences(staffRequestOpts)
   }
 
-  public async removeTemplateFavorite (favorite: removeTemplateFavoriteArg): Promise<MeData> {
+  public async removeTemplateFavorite (favorite: RemoveTemplateFavoriteArg): Promise<MeData> {
     const { staffRequestOpts, meData } = await this.getPatchConfig()
 
     if (staffRequestOpts === null) throw new UniverseForbiddenError('User does not exist as a staff member.')
