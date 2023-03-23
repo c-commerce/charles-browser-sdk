@@ -222,9 +222,9 @@ describe('Universe: me: can handle basic operations', () => {
     expect(clientMock).toHaveBeenCalledWith({
       data: [
         {
-          op: 'add',
-          path: '/preferences/message_template_favorites/-',
-          value: newFavorite
+          op: 'replace',
+          path: '/preferences/message_template_favorites',
+          value: [previousFavorite, newFavorite]
         }
       ],
       method: 'PATCH',
@@ -274,14 +274,9 @@ describe('Universe: me: can handle basic operations', () => {
     expect(clientMock).toHaveBeenCalledWith({
       data: [
         {
-          op: 'add',
+          op: 'replace',
           path: '/preferences/message_template_favorites',
-          value: []
-        },
-        {
-          op: 'add',
-          path: '/preferences/message_template_favorites/-',
-          value: newFavorite
+          value: [newFavorite]
         }
       ],
       method: 'PATCH',
@@ -291,41 +286,63 @@ describe('Universe: me: can handle basic operations', () => {
     expect((universe as any).me.cachedMeData).toStrictEqual(expectedMe)
   })
 
-  it('addTemplateFavorite method errors when trying to add an 8th favorite', async () => {
-    const favorites: StaffMessageTemplateFavorite[] = []
-
-    for (let i = 1; i < 8; i++) {
-      favorites.push({
-        id: `MockId${i}`,
+  it('addTemplateFavorite allows adding more than 7 message template favorites', async () => {
+    const previousFavorites: StaffMessageTemplateFavorite[] = new Array(7).fill(null).map((_, index) => {
+      return {
+        id: `MockId${index}`,
         created_at: 'datetime',
         locale: 'fr'
-      })
+      }
+    })
+    const previousPreferences = {
+      message_template_favorites: previousFavorites
     }
-    const meData = {
+    const previousMe = {
+      user: 'UserId',
+      staff: { id: 'EXPECTED_STAFF_ID', preferences: previousPreferences },
+      preferences: previousPreferences
+    }
+    const newFavorite = {
+      id: 'MockId8',
+      created_at: '1993-08-06T00:00:00.000Z',
+      locale: 'de'
+    }
+    const expectedMe = {
       user: 'UserId',
       staff: {
         id: 'EXPECTED_STAFF_ID',
         preferences: {
-          message_template_favorites: favorites
+          message_template_favorites: [...previousFavorites, newFavorite]
         }
       },
       preferences: {
-        message_template_favorites: favorites
+        message_template_favorites: [...previousFavorites, newFavorite]
       }
     }
 
     const { universe, clientMock } = genUniverse({
-      universeCachedMeData: meData
-    })
-    const addReq: () => void = async () => await universe.me.addTemplateFavorite({
-      id: 'MockId8',
-      locale: 'de'
+      clientMockResolveValue: [expectedMe.staff],
+      universeCachedMeData: previousMe
     })
 
-    await expect(addReq).rejects.toThrow(UniverseBadRequestError)
-    await expect(addReq).rejects.toThrow('Cannot have more than 7 message template favorites per user.')
+    expect((universe as any).me.cachedMeData).toBe(previousMe)
 
-    expect(clientMock).not.toHaveBeenCalled()
+    const res = await universe.me.addTemplateFavorite(newFavorite)
+
+    expect(clientMock).toHaveBeenCalledTimes(1)
+    expect(clientMock).toHaveBeenCalledWith({
+      data: [
+        {
+          op: 'replace',
+          path: '/preferences/message_template_favorites',
+          value: [...previousFavorites, newFavorite]
+        }
+      ],
+      method: 'PATCH',
+      url: 'https://dev.hello-charles.com/api/v0/staff/EXPECTED_STAFF_ID'
+    })
+    expect(res).toStrictEqual(expectedMe)
+    expect((universe as any).me.cachedMeData).toStrictEqual(expectedMe)
   })
 
   it('addTemplateFavorite method errors when trying to append a template which had already been favorited', async () => {
