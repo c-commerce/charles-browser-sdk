@@ -1,3 +1,10 @@
+# [4.154.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.153.0...v4.154.0) (2023-03-23)
+
+
+### Features
+
+* **me:** remove 7 message template favorites limit ([551578b](https://github.com/c-commerce/charles-browser-sdk/commit/551578bbf98c2859e3a952cd55af9d69d788dfad))
+
 # [4.153.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.152.0...v4.153.0) (2023-03-17)
 
 
