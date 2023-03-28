@@ -9,7 +9,7 @@ import universeTopics from './topics'
 import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 
-import axios, { AxiosResponse, Canceler, CancelToken } from 'axios'
+import axios, { AxiosResponse, Canceler, CancelToken, AxiosRequestConfig } from 'axios'
 
 import Entity, { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 
@@ -2590,6 +2590,19 @@ export class Universe extends APICarrier {
       throw new UniverseSearchError(undefined, { error: err })
     }
   }
+
+  public async meilisearchProxy (opts: AxiosRequestConfig): Promise<any> {
+    const _opts = {
+      ...opts,
+      url: `${this.universeBase}/${opts.url ?? ''}`
+    }
+    try {
+      const res = await this.http.getClient().request(_opts)
+      return res
+    } catch (err) {
+      throw new UniverseMeilisearchProxyError(err)
+    }
+  }
 }
 
 export class UnviverseSingleton extends Universe {
@@ -2682,5 +2695,13 @@ export class UniverseInsertSeedDataError extends BaseError {
   constructor (properties?: any) {
     super('Could not insert seed data from template.', properties)
     Object.setPrototypeOf(this, UniverseInsertSeedDataError.prototype)
+  }
+}
+
+export class UniverseMeilisearchProxyError extends BaseError {
+  public name = 'UniverseMeilisearchProxyError'
+  constructor (properties?: any) {
+    super('Could not proxy meilisearch request.', properties)
+    Object.setPrototypeOf(this, UniverseMeilisearchProxyError.prototype)
   }
 }
