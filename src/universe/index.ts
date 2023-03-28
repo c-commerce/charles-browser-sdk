@@ -25,6 +25,7 @@ import * as staff from '../entities/staff/staff'
 import * as track from '../entities/track/track'
 import * as asset from '../entities/asset/asset'
 import * as person from '../entities/person/person'
+import * as personContact from '../entities/person/person-contact'
 import * as channelUser from '../entities/person/channel-user'
 import * as email from '../entities/person/email'
 import * as product from '../entities/product/product'
@@ -2455,6 +2456,10 @@ export class Universe extends APICarrier {
 
   public peopleList (): person.People {
     return new person.People({ universe: this, http: this.http })
+  }
+
+  public peopleContactsList (): personContact.PeopleContacts {
+    return new personContact.PeopleContacts({ universe: this, http: this.http })
   }
 
   public trackingProvidersList (): trackingProvider.TrackingProviders {

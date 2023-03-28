@@ -1040,6 +1040,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     }
   }
 }
+
 export interface PersonGDPROptions {
   password?: string
 }
