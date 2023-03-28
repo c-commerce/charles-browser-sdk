@@ -1,3 +1,10 @@
+# [4.155.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.154.0...v4.155.0) (2023-03-28)
+
+
+### Features
+
+* **person-contact:** add entity ([3bb3e3d](https://github.com/c-commerce/charles-browser-sdk/commit/3bb3e3d14e8e95957a1b9ba3647f7843dda01710))
+
 # [4.154.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.153.0...v4.154.0) (2023-03-23)
 
 
