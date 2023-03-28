@@ -1,3 +1,10 @@
+# [4.156.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.155.0...v4.156.0) (2023-03-28)
+
+
+### Features
+
+* **Universe:** added meilisearch proxy endpoint ([0f034ae](https://github.com/c-commerce/charles-browser-sdk/commit/0f034ae97943881a2ff294c0cabd5552885abc9a))
+
 # [4.155.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.154.0...v4.155.0) (2023-03-28)
 
 
