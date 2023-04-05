@@ -353,6 +353,10 @@ export interface ICampaignLinkClicks {
   fetch: (options?: EntityFetchOptions<Partial<campaignLinkClick.CampaignLinkFetchOptions>>) => Promise<campaignLinkClick.CampaignLinkClick[] | campaignLinkClick.CampaignLinkClickRawPayload[] | undefined>
 }
 
+export interface IPersonContact {
+  export: (options?: UniverseExportCsvOptions) => Promise<Blob>
+}
+
 export class UniverseBadRequestError extends BaseError {
   public name = 'UniverseBadRequestError'
   constructor (public message: string = 'Bad Request.', properties?: any) {
@@ -1303,6 +1307,19 @@ export class Universe extends APICarrier {
 
         const ret = await inst.exportCsv(options)
 
+        return ret
+      }
+    }
+  }
+
+  public get peopleContacts (): IPersonContact {
+    return {
+      export: async (options?: UniverseExportCsvOptions): Promise<Blob> => {
+        const inst = new personContact.PeopleContacts({
+          universe: this,
+          http: this.http
+        })
+        const ret = await inst.exportCsv(options)
         return ret
       }
     }
