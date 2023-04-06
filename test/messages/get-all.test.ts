@@ -122,7 +122,7 @@ describe('v0: Messages: can get all messages', () => {
     try {
       const inst = await initInstance({ universe: UNIVERSE })
       await inst.messages().getAll()
-    } catch (err) {
+    } catch (err: any) {
       expect(err.name).toBe('MessagesFetchFailed')
     }
   })
