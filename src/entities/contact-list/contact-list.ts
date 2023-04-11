@@ -58,6 +58,15 @@ export interface ContactListRawPayload {
   readonly static_entries?: ContactListStaticEntryRawPayload[]
   readonly labels?: object
   readonly parent?: string
+  readonly external_list_reference_id?: string
+  readonly external_list_type?: 'list' | 'segment' | null
+  readonly broker?: string
+  readonly source_type?: string
+  readonly source_api?: string
+  readonly proxy_reference_id?: string
+  readonly links?: object
+  readonly last_synced_at?: string
+  readonly is_syncing?: boolean
 }
 
 export interface ContactListPayload {
@@ -75,6 +84,15 @@ export interface ContactListPayload {
   readonly staticEntries?: ContactListStaticEntry[]
   readonly labels?: ContactListRawPayload['labels']
   readonly parent?: ContactListRawPayload['parent']
+  readonly externalListReferenceId?: ContactListRawPayload['external_list_reference_id']
+  readonly externalListType?: ContactListRawPayload['external_list_type']
+  readonly broker?: ContactListRawPayload['broker']
+  readonly sourceType?: ContactListRawPayload['source_type']
+  readonly sourceApi?: ContactListRawPayload['source_api']
+  readonly proxyReferenceId?: ContactListRawPayload['proxy_reference_id']
+  readonly links?: ContactListRawPayload['links']
+  readonly lastSyncedAt?: Date | null
+  readonly isSyncing?: ContactListRawPayload['is_syncing']
 }
 
 /**
@@ -109,7 +127,15 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   public labels?: ContactListPayload['labels']
   public parent?: ContactListPayload['parent']
   public _staticEntries?: ContactListPayload['staticEntries']
-
+  public externalListReferenceId?: ContactListPayload['externalListReferenceId']
+  public externalListType?: ContactListPayload['externalListType']
+  public broker?: ContactListPayload['broker']
+  public sourceType?: ContactListPayload['sourceType']
+  public sourceApi?: ContactListPayload['sourceApi']
+  public proxyReferenceId?: ContactListPayload['proxyReferenceId']
+  public links?: ContactListPayload['links']
+  public lastSyncedAt?: ContactListPayload['lastSyncedAt']
+  public isSyncing?: ContactListPayload['isSyncing']
   constructor (options: ContactListOptions) {
     super()
     this.universe = options.universe
@@ -140,6 +166,15 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.author = rawPayload.author
     this.labels = rawPayload.labels
     this.parent = rawPayload.parent
+    this.externalListReferenceId = rawPayload.external_list_reference_id
+    this.externalListType = rawPayload.external_list_type
+    this.broker = rawPayload.broker
+    this.sourceType = rawPayload.source_type
+    this.sourceApi = rawPayload.source_api
+    this.proxyReferenceId = rawPayload.proxy_reference_id
+    this.links = rawPayload.links
+    this.lastSyncedAt = rawPayload.last_synced_at ? new Date(rawPayload.last_synced_at) : undefined
+    this.isSyncing = rawPayload.is_syncing
 
     if (rawPayload.static_entries && this.initialized) {
       this._staticEntries = rawPayload.static_entries.map(i => ContactListStaticEntry.create(i, this.universe, this.http))
@@ -172,7 +207,16 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       type: this.type,
       author: this.author,
       labels: this.labels,
-      parent: this.parent
+      parent: this.parent,
+      external_list_reference_id: this.externalListReferenceId,
+      external_list_type: this.externalListType,
+      broker: this.broker,
+      source_type: this.sourceType,
+      source_api: this.sourceApi,
+      proxy_reference_id: this.proxyReferenceId,
+      links: this.links,
+      last_synced_at: this.lastSyncedAt ? this.lastSyncedAt.toISOString() : undefined,
+      is_syncing: this.isSyncing
     }
   }
 
