@@ -1,3 +1,10 @@
+# [4.157.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.156.0...v4.157.0) (2023-04-11)
+
+
+### Features
+
+* **Campaign:** enable scheduling ([da994ab](https://github.com/c-commerce/charles-browser-sdk/commit/da994ab1073098441d2fc6e3abc007d5284e11fd))
+
 # [4.156.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.155.0...v4.156.0) (2023-03-28)
 
 
