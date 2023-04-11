@@ -31,6 +31,10 @@ export interface NotificationCampaignTestRawPayload {
   communication_language?: string
 }
 
+export interface NotificationCampaignPublishOpts extends EntityFetchOptions {
+  publish_date?: string
+}
+
 export type NotificationCampaignStatusType =
 'draft' // user: campaign has been saved, but nothing else has been done with it. The campaign is not ready to be sent
 | 'armed' // user: the campaign is ready to be sent, all recipient are primed and ready to be targetted
@@ -622,6 +626,37 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       throw this.handleError(new NotificationCampaignSyncAnalyticsRemoteError(err))
     }
   }
+
+  public async schedulePublish (options?: NotificationCampaignPublishOpts): Promise<NotificationCampaign | NotificationCampaignStaticEntryRawPayload > {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign schedule publish requires id to be set')
+
+    const body = {
+      publish_date: options?.publish_date
+    }
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/schedule/publish${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        timeout: options?.timeout ?? 60000,
+        data: body
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data[0] as NotificationCampaignRawPayload
+
+      if (options && options.raw === true) {
+        return data
+      }
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignSchedulePublishRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 export interface NotificationCampaignsOptions {
@@ -777,8 +812,16 @@ export class NotificationCampaignDeleteInvalidContactsRemoteError extends BaseEr
 export class NotificationCampaignSyncAnalyticsRemoteError extends BaseErrorV2 {
   public name = 'NotificationCampaignSyncAnalyticsRemoteError'
   public message = 'Could not enqueue campaign analytics sync.'
-  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+  constructor (err: Error | unknown, props?: BaseErrorV2Properties) {
     super(err as Error, props)
     Object.setPrototypeOf(this, NotificationCampaignSyncAnalyticsRemoteError.prototype)
+  }
+}
+export class NotificationCampaignSchedulePublishRemoteError extends BaseErrorV2 {
+  public name = 'NotificationCampaignSchedulePublishRemoteError'
+  public message = 'Could not schedule campaign publish.'
+  constructor (err: Error | unknown, props?: BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, NotificationCampaignSchedulePublishRemoteError.prototype)
   }
 }
