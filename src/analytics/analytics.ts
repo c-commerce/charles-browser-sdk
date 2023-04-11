@@ -28,19 +28,14 @@ export interface AnalyticsReportMetric {
   query: AnalyticsReportQuery
 }
 
-export interface AnalyticsReport {
+export interface AnalyticsReport<T = any> {
   count: number
   created_at: string
   metric: AnalyticsReportMetric
-  values: Object[]
+  values: T[]
 }
 
-export interface SubscriptionsAnalyticsReport {
-  count: number
-  created_at: string
-  metric: AnalyticsReportMetric
-  values: Array<[string, number]>
-}
+export type SubscriptionsAnalyticsReport = AnalyticsReport<[string, number]>
 
 export interface SubscriptionsAnalyticsSummaryReport {
   count: number
