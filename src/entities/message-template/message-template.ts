@@ -56,6 +56,8 @@ export interface MessageTemplateRawPayloadQuickReply {
 
 export interface MessageTemplateRawPayloadContentSubmitHistoryEntry {
   timestamp: string
+  category?: string
+  approved_category?: string
 }
 
 export interface MessageTemplateRawPayloadLocalizedContentHistoryEntry {
@@ -67,6 +69,14 @@ export interface MessageTemplateRawPayloadLocalizedContentHistoryEntry {
   other_info?: {
     title?: string
     description?: string
+  }
+  reason?: string
+  payload?: {
+    event?: string
+    reason?: string
+    message_template_id?: number
+    message_template_name?: string
+    message_template_language?: string
   }
 }
 
@@ -119,6 +129,8 @@ export interface MessageTemplateRawPayloadLocalizedContent {
   actions?: MessageTemplateRawPayloadLocalizedContentItemAction[]
   locale?: string
   status?: string
+  category?: string
+  previous_category?: string
   rejection_reason?: string | null
   body?: string
   header?: {
@@ -163,6 +175,7 @@ export interface MessageTemplateRawPayload {
     body?: string | null
     // DEPRECATED
     attachments?: MessageTemplateRawPayloadAttachment[] | null
+    preview_urls?: boolean
     i18n?: MessageTemplateRawPayloadLocalizedContent[] | null
   } | null
   readonly configuration?: object
