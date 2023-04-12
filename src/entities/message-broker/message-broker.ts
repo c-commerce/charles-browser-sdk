@@ -382,6 +382,25 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
     }
   }
 
+  public async getStats (options: EntityFetchOptions): Promise<object | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('message broker stats requires id to be set')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/stats`,
+        params: {
+          ...(options?.query ? options.query : {})
+        }
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data
+      return resources
+    } catch (err) {
+      throw this.handleError(new MessageBrokerStatsRemoteError(undefined, { error: err }))
+    }
+  }
+
   public async sendMessageFromMessageTemplate (messageTemplate: messageTemplate.MessageTemplate, channelUserExternalReferenceId: string, language: string, parameters?: object | object[] | null): Promise<event.Event | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('message broker notification requires id to be set')
 
@@ -478,6 +497,14 @@ export class MessageBrokerUpdateProfileRemoteError extends BaseError {
   constructor (public message: string = 'Could not update profile of message broker.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, MessageBrokerUpdateProfileRemoteError.prototype)
+  }
+}
+
+export class MessageBrokerStatsRemoteError extends BaseError {
+  public name = 'MessageBrokerStatsRemoteError'
+  constructor (public message: string = 'Could get stats of message broker.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, MessageBrokerStatsRemoteError.prototype)
   }
 }
 
