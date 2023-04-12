@@ -1,3 +1,10 @@
+# [4.158.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.157.0...v4.158.0) (2023-04-12)
+
+
+### Features
+
+* **MessageTemplate:** update typing ([4cbcd44](https://github.com/c-commerce/charles-browser-sdk/commit/4cbcd44a37abc7a468e46a3339f1d0f14c7fc510))
+
 # [4.157.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.156.0...v4.157.0) (2023-04-11)
 
 
