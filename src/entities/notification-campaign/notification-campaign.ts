@@ -631,7 +631,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     if (this.id === null || this.id === undefined) throw new TypeError('campaign schedule publish requires id to be set')
 
     const body = {
-      publish_date: options?.publish_date
+      date: options?.publish_date
     }
 
     try {
@@ -644,6 +644,32 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
         responseType: 'json',
         timeout: options?.timeout ?? 60000,
         data: body
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data[0] as NotificationCampaignRawPayload
+
+      if (options && options.raw === true) {
+        return data
+      }
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignSchedulePublishRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async unschedulePublish (options?: EntityFetchOptions): Promise<NotificationCampaign | NotificationCampaignStaticEntryRawPayload > {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign schedule unpublish requires id to be set')
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/schedule/publish`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        timeout: options?.timeout ?? 60000
       }
       const res = await this.http.getClient()(opts)
       const data = res.data.data[0] as NotificationCampaignRawPayload
