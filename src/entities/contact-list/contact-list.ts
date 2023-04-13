@@ -61,10 +61,14 @@ export interface ContactListRawPayload {
   readonly external_list_reference_id?: string
   readonly external_list_type?: 'list' | 'segment' | null
   readonly broker?: string
-  readonly source_type?: string
-  readonly source_api?: string
+  // as we support list import only from klaviyo right now, only those enums are set.
+  // if we support more in the furture, we need to add them here.
+  readonly source_type?: 'klaviyo' | null
+  readonly source_api?: 'charles_klaviyo_app' | null
   readonly proxy_reference_id?: string
-  readonly links?: object
+  readonly links?: null | {
+    external?: string | null
+  }
   readonly last_synced_at?: string
   readonly is_syncing?: boolean
 }
