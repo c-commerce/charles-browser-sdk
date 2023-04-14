@@ -1,3 +1,10 @@
+# [4.159.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.158.0...v4.159.0) (2023-04-14)
+
+
+### Features
+
+* **contact-export:** updated interface and passed export fn to personContact ([a2aacac](https://github.com/c-commerce/charles-browser-sdk/commit/a2aacaceb021509861cd4ba5eb0c36964f8206c2))
+
 # [4.158.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.157.0...v4.158.0) (2023-04-12)
 
 
