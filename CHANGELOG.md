@@ -1,3 +1,10 @@
+# [4.160.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.159.0...v4.160.0) (2023-04-14)
+
+
+### Features
+
+* **NotificationCampaign:** add an unschedule method ([6e3944f](https://github.com/c-commerce/charles-browser-sdk/commit/6e3944fa60b75d2fbadf1cef30f655650cd080a8))
+
 # [4.159.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.158.0...v4.159.0) (2023-04-14)
 
 
