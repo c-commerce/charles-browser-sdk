@@ -210,6 +210,48 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
     }
   }
 
+  public async syncContactLists (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM syncContactLists requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/contact_lists`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new CRMSyncContactListsRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async syncContactListStaticEntries (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM syncContactListStaticEntries requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/contact_list_static_entries`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new CRMSyncContactListStaticEntriesRemoteError(undefined, { error: err }))
+    }
+  }
+
   public async syncPipelines (): Promise<number | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('CRM syncPipelines requires id to be set.')
 
@@ -475,6 +517,24 @@ export class CRMSyncChannelUsersRemoteError extends BaseErrorV2 {
   constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
     super(err as Error, props)
     Object.setPrototypeOf(this, CRMSyncChannelUsersRemoteError.prototype)
+  }
+}
+
+export class CRMSyncContactListsRemoteError extends BaseErrorV2 {
+  public name = 'CRMSyncContactListsRemoteError'
+  public message = 'Could not start sync of crm contact lists.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, CRMSyncContactListsRemoteError.prototype)
+  }
+}
+
+export class CRMSyncContactListStaticEntriesRemoteError extends BaseErrorV2 {
+  public name = 'CRMSyncContactListStaticEntriesRemoteError'
+  public message = 'Could not start sync of crm contact list static entries.'
+  constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, CRMSyncContactListStaticEntriesRemoteError.prototype)
   }
 }
 
