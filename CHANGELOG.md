@@ -1,3 +1,12 @@
+# [4.161.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.160.0...v4.161.0) (2023-04-17)
+
+
+### Features
+
+* **crm/klaviyo:** Add more sync routes ([3c33e6e](https://github.com/c-commerce/charles-browser-sdk/commit/3c33e6e55b646e75ad4d79fc213cf4e3900b6f3f))
+* **crm/klaviyo:** Extend contact list model to handle new fields from API ([7c9ca2f](https://github.com/c-commerce/charles-browser-sdk/commit/7c9ca2f396bb9ede70c01f3d6c2b12d6aef5e4cb))
+* **crm/klaviyo:** Extend contact list model to handle new fields from API - clarify types more explicit ([75781b4](https://github.com/c-commerce/charles-browser-sdk/commit/75781b4eb96ffc7b25923005e7c0900845d7bba5))
+
 # [4.160.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.159.0...v4.160.0) (2023-04-14)
 
 
