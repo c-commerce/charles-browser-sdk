@@ -1,3 +1,10 @@
+## [4.161.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.161.0...v4.161.1) (2023-04-18)
+
+
+### Bug Fixes
+
+* **ContactList:** omitted last_syned_at ([c887256](https://github.com/c-commerce/charles-browser-sdk/commit/c8872562f2633ab7f1c04e9e27383f8b9c94ab94))
+
 # [4.161.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.160.0...v4.161.0) (2023-04-17)
 
 
