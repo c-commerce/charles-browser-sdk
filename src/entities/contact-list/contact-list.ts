@@ -8,6 +8,7 @@ import {
   ContactListStaticEntryDeleteRemoteError
 } from './static-entry'
 import qs from 'qs'
+import omit from 'just-omit'
 
 export interface ContactListOptions extends UniverseEntityOptions {
   rawPayload?: ContactListRawPayload
@@ -156,7 +157,8 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   }
 
   protected deserialize (rawPayload: ContactListRawPayload): this {
-    this.setRawPayload(rawPayload)
+    // last_synced_at is not editable on client-api and so it has to be ommited as readonly prop
+    this.setRawPayload(omit(rawPayload, ['last_synced_at']))
 
     this.id = rawPayload.id
     this.createdAt = rawPayload.created_at ? new Date(rawPayload.created_at) : undefined
@@ -220,7 +222,6 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       source_api: this.sourceApi,
       proxy_reference_id: this.proxyReferenceId,
       links: this.links,
-      last_synced_at: this.lastSyncedAt ? this.lastSyncedAt.toISOString() : undefined,
       is_syncing: this.isSyncing
     }
   }
