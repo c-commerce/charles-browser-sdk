@@ -19,6 +19,20 @@ export interface PersonNames {
   readonly name?: string
 }
 
+export interface ChannelUserNamesRawPayload {
+  readonly first_name?: string
+  readonly middle_name?: string
+  readonly last_name?: string
+  readonly name?: string
+}
+
+export interface ChannelUserNames {
+  readonly firstName?: string
+  readonly middleName?: string
+  readonly lastName?: string
+  readonly name?: string
+}
+
 export interface PersonContactRawPayload extends EntityRawPayload {
   readonly created_at?: string
   readonly tags?: string[]
@@ -46,7 +60,9 @@ export interface PersonContactRawPayload extends EntityRawPayload {
   readonly analytics_product_categories_bought_from?: string[]
   readonly analytics_last_outgoing_message_at?: string
   readonly analytics_notification_campaign_clicks?: string[]
-  readonly names?: PersonNamesRawPayload
+  readonly person_name_info?: PersonNamesRawPayload
+  readonly display_name?: string
+  readonly cu_names_info?: ChannelUserNamesRawPayload[]
   readonly emails?: PersonEmailRawPayload[]
   readonly phonenumbers?: PersonPhoneNumberRawPayload[]
 }
@@ -79,7 +95,9 @@ export interface PersonContactPayload {
   readonly analyticsProductCategoriesBoughtFrom?: PersonContactRawPayload['analytics_product_categories_bought_from']
   readonly analyticsLastOutgoingMessageAt?: PersonContactRawPayload['analytics_last_outgoing_message_at']
   readonly analyticsNotificationCampaignClicks?: PersonContactRawPayload['analytics_notification_campaign_clicks']
-  readonly names?: PersonNames
+  readonly person_name_info?: PersonNames
+  readonly cu_names_info?: ChannelUserNames[]
+  readonly display_name?: string
   readonly emails?: Email[]
   readonly phonenumbers?: Phonenumber[]
 }
@@ -128,7 +146,9 @@ export class PersonContact extends UniverseEntity<PersonContactPayload, PersonCo
   public analyticsProductCategoriesBoughtFrom?: PersonContactPayload['analyticsProductCategoriesBoughtFrom']
   public analyticsLastOutgoingMessageAt?: PersonContactPayload['analyticsLastOutgoingMessageAt']
   public analyticsNotificationCampaignClicks?: PersonContactPayload['analyticsNotificationCampaignClicks']
-  public names?: PersonContactPayload['names']
+  public person_name_info?: PersonContactPayload['person_name_info']
+  public cu_names_info?: PersonContactPayload['cu_names_info']
+  public display_name?: PersonContactPayload['display_name']
   public emails?: PersonContactPayload['emails']
   public phonenumbers?: PersonContactPayload['phonenumbers']
 
@@ -180,13 +200,13 @@ export class PersonContact extends UniverseEntity<PersonContactPayload, PersonCo
     this.analyticsLastOutgoingMessageAt = rawPayload.analytics_last_outgoing_message_at
     this.analyticsNotificationCampaignClicks = rawPayload.analytics_notification_campaign_clicks
 
-    this.names = rawPayload.names
+    this.person_name_info = rawPayload.person_name_info
       ? {
-        firstName: rawPayload.names.first_name,
-        nickname: rawPayload.names.nickname,
-        middleName: rawPayload.names.middle_name,
-        lastName: rawPayload.names.last_name,
-        name: rawPayload.names.name
+        firstName: rawPayload.person_name_info.first_name,
+        nickname: rawPayload.person_name_info.nickname,
+        middleName: rawPayload.person_name_info.middle_name,
+        lastName: rawPayload.person_name_info.last_name,
+        name: rawPayload.person_name_info.name
       }
       : undefined
 
@@ -253,16 +273,16 @@ export class PersonContact extends UniverseEntity<PersonContactPayload, PersonCo
       analytics_last_outgoing_message_at: this.analyticsLastOutgoingMessageAt,
       analytics_notification_campaign_clicks: this.analyticsNotificationCampaignClicks,
 
-      names: this.names
+      person_name_info: this.person_name_info
         ? {
-          first_name: this.names.firstName,
-          nickname: this.names.nickname,
-          middle_name: this.names.middleName,
-          last_name: this.names.lastName,
-          name: this.names.name
+          first_name: this.person_name_info.firstName,
+          nickname: this.person_name_info.nickname,
+          middle_name: this.person_name_info.middleName,
+          last_name: this.person_name_info.lastName,
+          name: this.person_name_info.name
         }
         : undefined,
-
+      display_name: this.display_name,
       emails: Array.isArray(this.emails) ? this.emails.map(item => item.serialize()) : undefined,
       phonenumbers: Array.isArray(this.phonenumbers) ? this.phonenumbers.map(item => item.serialize()) : undefined
     }
