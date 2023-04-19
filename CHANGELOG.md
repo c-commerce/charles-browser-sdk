@@ -1,3 +1,10 @@
+## [4.161.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.161.1...v4.161.2) (2023-04-19)
+
+
+### Bug Fixes
+
+* **Campaign:** add opt to unschedule to force armed status ([53fa522](https://github.com/c-commerce/charles-browser-sdk/commit/53fa522e51847201e358e80ab81dc29566d64973))
+
 ## [4.161.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.161.0...v4.161.1) (2023-04-18)
 
 
