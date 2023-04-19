@@ -35,6 +35,10 @@ export interface NotificationCampaignPublishOpts extends EntityFetchOptions {
   publish_date?: string
 }
 
+export interface NotificationCampaignUnscheduleOpts extends EntityFetchOptions {
+  set_status_to?: 'draft' | 'armed'
+}
+
 export type NotificationCampaignStatusType =
 'draft' // user: campaign has been saved, but nothing else has been done with it. The campaign is not ready to be sent
 | 'armed' // user: the campaign is ready to be sent, all recipient are primed and ready to be targetted
@@ -658,8 +662,12 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async unschedulePublish (options?: EntityFetchOptions): Promise<NotificationCampaign | NotificationCampaignStaticEntryRawPayload > {
+  public async unschedulePublish (options?: NotificationCampaignUnscheduleOpts): Promise<NotificationCampaign | NotificationCampaignStaticEntryRawPayload > {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign schedule unpublish requires id to be set')
+
+    const body = {
+      set_status_to: options?.set_status_to
+    }
 
     try {
       const opts = {
@@ -669,7 +677,8 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 60000
+        timeout: options?.timeout ?? 60000,
+        data: body
       }
       const res = await this.http.getClient()(opts)
       const data = res.data.data[0] as NotificationCampaignRawPayload
