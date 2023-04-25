@@ -161,6 +161,7 @@ export interface PersonRawPayload extends EntityRawPayload {
   readonly analytics?: PersonAnalyticsRawPayload
   readonly default_address?: string | null
   readonly language_preference?: string
+  readonly direct_feed?: string
 }
 
 export interface IPersonCarts {
@@ -307,6 +308,7 @@ export interface PersonPayload {
   readonly analytics?: Analytics
   readonly defaultAddress?: PersonRawPayload['default_address']
   readonly languagePreference?: PersonRawPayload['language_preference']
+  readonly directFeed?: PersonRawPayload['direct_feed']
 }
 
 /**
@@ -354,6 +356,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
   public analytics?: PersonPayload['analytics']
   public defaultAddress?: PersonPayload['defaultAddress']
   public languagePreference?: PersonPayload['languagePreference']
+  public directFeed?: PersonPayload['directFeed']
 
   constructor (options: PersonOptions) {
     super()
@@ -396,7 +399,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     this.customProperties = rawPayload.custom_properties
     this.defaultAddress = rawPayload.default_address
     this.languagePreference = rawPayload.language_preference
-
+    this.directFeed = rawPayload.direct_feed
     // in the following we are going to set virtual properties
     // e.g. from embeds. We want make sure that their fallback is undefined
     // as we might affect upstreeam data users.
@@ -500,7 +503,8 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
         : undefined,
       channel_users: Array.isArray(this.channelUsers)
         ? this.channelUsers.map(item => item.serialize())
-        : undefined
+        : undefined,
+      direct_feed: this.directFeed
     }
   }
 
@@ -508,7 +512,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     try {
       await this.fetch({
         query: {
-          embed: ['channel_users', 'phonenumbers', 'addresses', 'emails', 'analytics']
+          embed: ['channel_users', 'phonenumbers', 'addresses', 'emails', 'analytics', 'direct_feed']
         }
       })
 
