@@ -1,3 +1,10 @@
+# [4.162.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.161.2...v4.162.0) (2023-04-25)
+
+
+### Features
+
+* **contact-direct-feed:** added directFeed onto entity ([f5edc1b](https://github.com/c-commerce/charles-browser-sdk/commit/f5edc1b4206f75ce108dc2b62524f4046045551d))
+
 ## [4.161.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.161.1...v4.161.2) (2023-04-19)
 
 
