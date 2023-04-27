@@ -25,6 +25,7 @@ export interface PersonContactRawPayload extends EntityRawPayload {
   readonly active?: boolean
   readonly deleted?: boolean
   readonly gender?: string
+  readonly display_name?: string
   readonly date_of_birth?: string
   readonly custom_properties?: object
   readonly channel_participations?: string[]
@@ -58,6 +59,7 @@ export interface PersonContactPayload {
   readonly active?: PersonContactRawPayload['active']
   readonly deleted?: PersonContactRawPayload['deleted']
   readonly gender?: PersonContactRawPayload['gender']
+  readonly displayName?: PersonContactRawPayload['display_name']
   readonly dateOfBirth?: PersonContactRawPayload['date_of_birth']
   readonly customProperties?: PersonContactRawPayload['custom_properties']
   readonly channelParticipations?: PersonContactRawPayload['channel_participations']
@@ -107,6 +109,7 @@ export class PersonContact extends UniverseEntity<PersonContactPayload, PersonCo
   public active?: PersonContactPayload['active']
   public deleted?: PersonContactPayload['deleted']
   public gender?: PersonContactPayload['gender']
+  public displayName?: PersonContactPayload['displayName']
   public dateOfBirth?: PersonContactPayload['dateOfBirth']
   public customProperties?: PersonContactPayload['customProperties']
   public channelParticipations?: PersonContactPayload['channelParticipations']
@@ -155,6 +158,7 @@ export class PersonContact extends UniverseEntity<PersonContactPayload, PersonCo
     this.active = rawPayload.active ?? true
     this.deleted = rawPayload.deleted ?? false
     this.gender = rawPayload.gender
+    this.displayName = rawPayload.display_name
     this.dateOfBirth = rawPayload.date_of_birth
     this.customProperties = rawPayload.custom_properties
 
@@ -228,6 +232,7 @@ export class PersonContact extends UniverseEntity<PersonContactPayload, PersonCo
       active: this.active ?? true,
       deleted: this.deleted ?? false,
       gender: this.gender,
+      display_name: this.displayName,
       date_of_birth: this.dateOfBirth,
       custom_properties: this.customProperties,
 

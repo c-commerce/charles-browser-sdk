@@ -325,7 +325,7 @@ export class Cloud extends APICarrier {
       this.setCachedMeData(response.data.data)
 
       return response.data.data
-    } catch (err) {
+    } catch (err: object | any) {
       if (err?.response?.status === 401) {
         throw new CloudUnauthenticatedError(undefined, { error: err })
       }
