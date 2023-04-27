@@ -1,3 +1,10 @@
+## [4.162.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.162.0...v4.162.1) (2023-04-27)
+
+
+### Bug Fixes
+
+* **person contact:** fix renaming ([c6a1235](https://github.com/c-commerce/charles-browser-sdk/commit/c6a12358eab53a2bcfa60d6a39da2e6213b8e393))
+
 # [4.162.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.161.2...v4.162.0) (2023-04-25)
 
 
