@@ -1,3 +1,10 @@
+## [4.163.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.163.0...v4.163.1) (2023-05-03)
+
+
+### Bug Fixes
+
+* **cloud:** fix releases with versions endpoint ([5b8134f](https://github.com/c-commerce/charles-browser-sdk/commit/5b8134f4d2c8286f1d97cba2c8f1b2689be97316))
+
 # [4.163.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.162.1...v4.163.0) (2023-05-03)
 
 
