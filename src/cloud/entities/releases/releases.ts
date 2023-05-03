@@ -28,6 +28,34 @@ export interface ReleaseRawPayload {
   readonly release?: string
 }
 
+export interface VersionEntityRawPayload {
+  readonly id?: string
+  readonly created_at?: string
+  readonly updated_at?: string
+  readonly deleted?: boolean
+  readonly active?: boolean
+  readonly name?: string
+  readonly product?: string
+  readonly latest?: boolean
+}
+
+export interface ReleaseEntityRawPayload {
+  readonly id?: string
+  readonly created_at?: string
+  readonly updated_at?: string
+  readonly deleted?: boolean
+  readonly active?: boolean
+  readonly name?: string
+  readonly default_display_name?: string
+  readonly latest?: boolean
+}
+
+export interface ReleaseWithVersionsRawPayload {
+  readonly id?: string
+  readonly release?: ReleaseEntityRawPayload
+  readonly versions?: VersionEntityRawPayload[]
+}
+
 export interface ReleasePayload {
   readonly id?: ReleaseRawPayload['id']
   readonly createdAt?: Date | null
