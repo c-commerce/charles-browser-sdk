@@ -410,6 +410,15 @@ export class Cloud extends APICarrier {
     return await this.makeBaseResourceListRequest<releases.Release, releases.Releases, releases.ReleaseRawPayload, EntityFetchOptions, releases.ReleasesFetchRemoteError>(releases.Release, releases.Releases, releases.ReleasesFetchRemoteError, options)
   }
 
+  public async releasesWithVersions (options?: EntityFetchOptions): Promise<releases.ReleaseWithVersionsRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/releases`)
+      return res.data?.data as releases.ReleaseWithVersionsRawPayload[]
+    } catch (err) {
+      throw new releases.ReleasesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
   public async versions (): Promise<{ multiverse: string } | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.cloudBase}/api/versions`)
