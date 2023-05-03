@@ -412,7 +412,7 @@ export class Cloud extends APICarrier {
 
   public async releasesWithVersions (options?: EntityFetchOptions): Promise<releases.ReleaseWithVersionsRawPayload[] | undefined> {
     try {
-      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/releases`)
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/releases/versions`)
       return res.data?.data as releases.ReleaseWithVersionsRawPayload[]
     } catch (err) {
       throw new releases.ReleasesFetchRemoteError(undefined, { error: err })
