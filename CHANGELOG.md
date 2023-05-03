@@ -1,3 +1,10 @@
+# [4.163.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.162.1...v4.163.0) (2023-05-03)
+
+
+### Features
+
+* **cloud:** add releases with versions wrapper ([66ba363](https://github.com/c-commerce/charles-browser-sdk/commit/66ba363bec7aa7998bdc254e16014bc9001470ae))
+
 ## [4.162.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.162.0...v4.162.1) (2023-04-27)
 
 
