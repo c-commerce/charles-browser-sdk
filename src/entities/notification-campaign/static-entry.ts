@@ -2,7 +2,7 @@
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { NotificationCampaign } from './notification-campaign'
+import { MessageStatus } from 'src/messaging/message'
 
 export interface StaticEntryOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignStaticEntryRawPayload
@@ -44,6 +44,8 @@ export interface NotificationCampaignStaticEntryRawPayload {
   readonly channel_type?: string
   readonly message_broker?: string
   readonly invalid?: boolean
+  readonly message_statuses?: MessageStatus[]
+  readonly external_person_reference_id?: string
 }
 
 export interface NotificationCampaignStaticEntryPayload {
@@ -61,7 +63,8 @@ export interface NotificationCampaignStaticEntryPayload {
   readonly channelType?: NotificationCampaignStaticEntryRawPayload['channel_type']
   readonly messageBroker?: NotificationCampaignStaticEntryRawPayload['message_broker']
   readonly invalid?: NotificationCampaignStaticEntryRawPayload['invalid']
-
+  readonly messageStatuses?: NotificationCampaignStaticEntryRawPayload['message_statuses']
+  readonly externalPersonReferenceId?: NotificationCampaignStaticEntryRawPayload['external_person_reference_id']
 }
 
 /**
@@ -96,6 +99,8 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
   public channelType?: NotificationCampaignStaticEntryPayload['channelType']
   public messageBroker?: NotificationCampaignStaticEntryPayload['messageBroker']
   public invalid?: NotificationCampaignStaticEntryPayload['invalid']
+  public messageStatuses?: NotificationCampaignStaticEntryPayload['messageStatuses']
+  public externalPersonReferenceId?: NotificationCampaignStaticEntryPayload['externalPersonReferenceId']
 
   constructor (options: StaticEntryOptions) {
     super()
@@ -131,6 +136,8 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
     this.channelType = rawPayload.channel_type
     this.messageBroker = rawPayload.message_broker
     this.invalid = rawPayload.invalid
+    this.messageStatuses = rawPayload.message_statuses
+    this.externalPersonReferenceId = rawPayload.external_person_reference_id
 
     return this
   }
@@ -154,7 +161,9 @@ export class NotificationCampaignStaticEntry extends UniverseEntity<Notification
       communication_language: this.communicationLanguage,
       channel_type: this.channelType,
       message_broker: this.messageBroker,
-      invalid: this.invalid
+      invalid: this.invalid,
+      message_statuses: this.messageStatuses,
+      external_person_reference_id: this.externalPersonReferenceId
     }
   }
 
