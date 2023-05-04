@@ -419,6 +419,15 @@ export class Cloud extends APICarrier {
     }
   }
 
+  public async productVersions (options?: EntityFetchOptions): Promise<releases.VersionEntityRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/versions`)
+      return res.data?.data as releases.VersionEntityRawPayload[]
+    } catch (err) {
+      throw new releases.ReleasesFetchRemoteError(undefined, { error: err })
+    }
+  }
+
   public async versions (): Promise<{ multiverse: string } | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.cloudBase}/api/versions`)

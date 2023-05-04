@@ -4,7 +4,8 @@ import {
   Releases,
   ReleaseRawPayload,
   ReleaseWithVersionsRawPayload,
-  ReleasesFetchRemoteError
+  ReleasesFetchRemoteError,
+  VersionEntityRawPayload
 } from './releases'
 
 export {
@@ -12,5 +13,6 @@ export {
   Releases,
   ReleaseRawPayload,
   ReleaseWithVersionsRawPayload,
-  ReleasesFetchRemoteError
+  ReleasesFetchRemoteError,
+  VersionEntityRawPayload
 }
