@@ -1,3 +1,10 @@
+# [4.165.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.164.0...v4.165.0) (2023-05-04)
+
+
+### Features
+
+* **CampaignInvalidContacts:** reenable the feature ([93279c1](https://github.com/c-commerce/charles-browser-sdk/commit/93279c1743adb7be6a3f09ce9ff8eb2ecc9991b0))
+
 # [4.164.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.163.1...v4.164.0) (2023-05-04)
 
 
