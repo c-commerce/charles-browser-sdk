@@ -1,3 +1,10 @@
+# [4.164.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.163.1...v4.164.0) (2023-05-04)
+
+
+### Features
+
+* **cloud:** add cloud method for getting all versions for all products ([cf2262d](https://github.com/c-commerce/charles-browser-sdk/commit/cf2262d64386d52fbba189db0abe760e43768e98))
+
 ## [4.163.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.163.0...v4.163.1) (2023-05-03)
 
 
