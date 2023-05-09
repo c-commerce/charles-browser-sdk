@@ -11,6 +11,25 @@ export interface MessageBrokerOptions extends UniverseEntityOptions {
   rawPayload?: MessageBrokerRawPayload
 }
 
+interface WapiMessageBrokerStatsBase {
+  start: number
+  end: number
+  phone_numbers?: string[]
+}
+export interface WapiMessageBrokerAnalyticsStats extends WapiMessageBrokerStatsBase{
+  granularity: 'DAY' | 'HALF_HOUR' | 'MONTH'
+  product_types?: string[]
+  country_codes?: string[]
+}
+export interface WapiMessageBrokerConversationAnalyticsStats extends WapiMessageBrokerStatsBase{
+  granularity: 'DAILY' | 'HALF_HOUR' | 'MONTHLY'
+  metric_types?: 'COST' | 'CONVERSATION'
+  conversation_types?: 'FREE_ENTRY' | 'FREE_TIER' | 'REGULAR'
+  conversation_directions?: 'business_initiated' | 'user_initiated'
+  conversation_categories?: 'authentication' | 'marketing' | 'service' | 'utility'
+  dimensions?: 'phone' | 'country' | 'conversation_type' | 'conversation_direction'
+}
+
 export type BrokerStatus = 'CONNECTED' | 'FLAGGED' | 'RESTRICTED'
 export type MessagingLimitTier = 'TIER_1K' | 'TIER_10K' | 'TIER_100K' | 'TIER_250K' | 'TIER_UNLIMITED'
 export interface MessageBrokerExternalStatusPayload {
@@ -382,13 +401,32 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
     }
   }
 
-  public async getStats (options: EntityFetchOptions): Promise<object | undefined> {
+  public async getMessagingStats (options: EntityFetchOptions<WapiMessageBrokerAnalyticsStats>): Promise<object | undefined> {
     if (this.id === null || this.id === undefined) throw new TypeError('message broker stats requires id to be set')
 
     try {
       const opts = {
         method: 'GET',
-        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/stats`,
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/messaging_stats`,
+        params: {
+          ...(options?.query ? options.query : {})
+        }
+      }
+      const res = await this.http.getClient()(opts)
+      const resources = res.data.data
+      return resources
+    } catch (err) {
+      throw this.handleError(new MessageBrokerStatsRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async getConversationStats (options: EntityFetchOptions<WapiMessageBrokerConversationAnalyticsStats>): Promise<object | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('message broker stats requires id to be set')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/conversation_stats`,
         params: {
           ...(options?.query ? options.query : {})
         }
