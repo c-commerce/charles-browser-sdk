@@ -18,7 +18,8 @@ import {
   AnalyticsFetchRemoteError,
   AnalyticsReport,
   SubscriptionAnalyticsResponse,
-  SubscriberBaseAnalyticsResponse
+  SubscriberBaseAnalyticsResponse,
+  JourneysTriggeredMetrics
 } from '../analytics/analytics'
 
 import * as staff from '../entities/staff/staff'
@@ -266,6 +267,8 @@ export interface UniverseAnalytics {
   feedOpenedClosed: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   feedConversion: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   peopleMessagingChannelParticipationDistribution: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
+  // Omitted the standard UinverseAnalyticsOptions as none of them are utilised.
+  journeysTriggered: (options?: any) => Promise<JourneysTriggeredMetrics | undefined>
 }
 
 export interface UniverseFeeds {
@@ -1132,6 +1135,9 @@ export class Universe extends APICarrier {
       },
       feedConversion: async (options?: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
         return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/feeds/conversion/counts', options)
+      },
+      journeysTriggered: async (options?): Promise<JourneysTriggeredMetrics> => {
+        return await this.makeAnalyticsRequest<JourneysTriggeredMetrics, any>('/journeys_triggered/', options)
       }
     }
   }

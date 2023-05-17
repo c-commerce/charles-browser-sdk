@@ -63,6 +63,17 @@ export interface TotalSubscriberBaseAnalyticsReport {
   total: number
 }
 
+export interface JourneysTriggeredMetrics {
+  week: {
+    count: number
+    trend: number
+  }
+  month: {
+    count: number
+    trend: number
+  }
+}
+
 export type SubscriptionAnalyticsResponse = [
   SubscriptionsAnalyticsReport,
   SubscriptionsAnalyticsReport,
