@@ -13,14 +13,6 @@ import axios, { AxiosResponse, Canceler, CancelToken, AxiosRequestConfig } from 
 
 import Entity, { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 
-import {
-  ANALYTICS_ENDPOINT,
-  AnalyticsFetchRemoteError,
-  AnalyticsReport,
-  SubscriptionAnalyticsResponse,
-  SubscriberBaseAnalyticsResponse
-} from '../analytics/analytics'
-
 import * as staff from '../entities/staff/staff'
 import * as track from '../entities/track/track'
 import * as asset from '../entities/asset/asset'
@@ -74,15 +66,10 @@ import * as imgProxy from '../entities/image-proxy/image-proxy'
 import * as apiKey from '../entities/api-key/api-key'
 import * as dataImport from '../entities/import/import' // NOTE: cannot use import as it is a reserved keyword
 import * as automationEngine from '../entities/automation-engine/automation-engine'
-
 import * as formProvider from '../entities/form-provider/form-provider'
-
 import * as formInstance from '../entities/form-instance/form-instance'
-
 import * as corsOrigin from '../entities/cors-origin/cors-origin'
-
 import * as trackingProvider from '../entities/tracking-provider/tracking-provider'
-
 import * as dataExportMeta from '../entities/data-export/data-meta'
 import * as dataExport from '../entities/data-export/data-export'
 import PresenceEntityManager from '../realtime/presence/presence-entity-manager'
@@ -93,6 +80,8 @@ import { ChangesHandler, ChangeType, CustomChangeEventHandler } from '../realtim
 import ChangesEntityManager from '../realtime/changes/changes-entity-manager'
 import { getEntityName } from '../helpers/entity'
 import { UniverseMe } from './me'
+import { analytics } from './analytics'
+import type { UniverseAnalytics } from './analytics'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -239,33 +228,6 @@ export interface UniverseProxies {
   privacy: {
     media: (uri: string) => string
   }
-}
-
-/* Analytics */
-export interface UniverseAnalyticsOptions {
-  start: string
-  timezone: string
-  end: string
-  period?: string
-}
-
-export interface UniverseAnalyticsEventsOptions {
-  timezone: string
-  start: string
-  end: string
-  datepart?: string
-}
-
-export interface UniverseAnalytics {
-  orders: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
-  revenues: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
-  xau: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
-  subscriberBaseEvents: (options?: UniverseAnalyticsEventsOptions) => Promise<SubscriberBaseAnalyticsResponse | undefined>
-  subscriptionEventsBySubscriptionId: (subscriptionId: string, options?: UniverseAnalyticsEventsOptions) => Promise<SubscriptionAnalyticsResponse | undefined>
-  subscriptionEvents: (options?: UniverseAnalyticsEventsOptions) => Promise<SubscriptionAnalyticsResponse | undefined>
-  feedOpenedClosed: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
-  feedConversion: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
-  peopleMessagingChannelParticipationDistribution: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
 }
 
 export interface UniverseFeeds {
@@ -1088,52 +1050,9 @@ export class Universe extends APICarrier {
     return new ChangesHandler<T>(this.getMqttClient(), { onCreated }, { entityName: getEntityName(entityConstructor) ?? undefined, id }, [ChangeType.created])
   }
 
-  private async makeAnalyticsRequest<T, K>(endpointSlug: string, options?: K): Promise<T> {
-    try {
-      const opts = {
-        method: 'GET',
-        url: `${this.universeBase}/${ANALYTICS_ENDPOINT}${endpointSlug}`,
-        params: options
-      }
-
-      const res = await this.http.getClient()(opts)
-      return res.data.data as T
-    } catch (err) {
-      throw new AnalyticsFetchRemoteError(undefined, { error: err })
-    }
-  }
-
   /* Analytics & Reports */
   public get analytics (): UniverseAnalytics {
-    return {
-      orders: async (options?: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/commerce/orders/distribution/count', options)
-      },
-      revenues: async (options?: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/commerce/revenues/distribution', options)
-      },
-      xau: async (options?: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/messages/xau/count', options)
-      },
-      subscriberBaseEvents: async (options?: UniverseAnalyticsEventsOptions): Promise<SubscriberBaseAnalyticsResponse | undefined> => {
-        return await this.makeAnalyticsRequest<SubscriberBaseAnalyticsResponse, UniverseAnalyticsEventsOptions>('/events/subscriptions/subscriber_base', options)
-      },
-      subscriptionEventsBySubscriptionId: async (subscriptionId: string, options?: UniverseAnalyticsEventsOptions): Promise<SubscriptionAnalyticsResponse | undefined> => {
-        return await this.makeAnalyticsRequest<SubscriptionAnalyticsResponse, UniverseAnalyticsEventsOptions>(`/events/subscriptions/${subscriptionId}`, options)
-      },
-      subscriptionEvents: async (options?: UniverseAnalyticsEventsOptions): Promise<SubscriptionAnalyticsResponse | undefined> => {
-        return await this.makeAnalyticsRequest<SubscriptionAnalyticsResponse, UniverseAnalyticsEventsOptions>('/events/subscriptions', options)
-      },
-      peopleMessagingChannelParticipationDistribution: async (options?: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/people/channel_participation/distribution', options)
-      },
-      feedOpenedClosed: async (options?: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/feeds/open_close/distribution/count', options)
-      },
-      feedConversion: async (options?: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
-        return await this.makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/feeds/conversion/counts', options)
-      }
-    }
+    return analytics.call(this)
   }
 
   /**
