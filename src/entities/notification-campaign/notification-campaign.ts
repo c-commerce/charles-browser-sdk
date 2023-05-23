@@ -853,7 +853,7 @@ export class NotificationCampaignSyncAnalyticsRemoteError extends BaseErrorV2 {
   }
 }
 
-enum NotificationCampaignSchedulePublishRemoteErrorReasons {
+export enum NotificationCampaignSchedulePublishRemoteErrorReasons {
   'campaign_schedule_missing' = 'campaign_schedule_missing',
   'campaign_status_not_scheduled' = 'campaign_status_not_scheduled',
   'campaign_rearm_in_progress' = 'campaign_rearm_in_progress',
