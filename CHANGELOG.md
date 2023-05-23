@@ -1,3 +1,10 @@
+## [4.167.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.167.0...v4.167.1) (2023-05-23)
+
+
+### Bug Fixes
+
+* **NotificationCampaign:** add export ([35e7852](https://github.com/c-commerce/charles-browser-sdk/commit/35e7852d96e09cf4e3bd62f1182d729aac555e0f))
+
 # [4.167.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.166.0...v4.167.0) (2023-05-23)
 
 
