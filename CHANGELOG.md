@@ -1,3 +1,10 @@
+# [4.167.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.166.0...v4.167.0) (2023-05-23)
+
+
+### Features
+
+* **NotificationCampaign:** append error msg to schedule err ([ee72a79](https://github.com/c-commerce/charles-browser-sdk/commit/ee72a79c2bdb48e7050a4b597c0bcfdfc30e6647))
+
 # [4.166.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.165.0...v4.166.0) (2023-05-23)
 
 
