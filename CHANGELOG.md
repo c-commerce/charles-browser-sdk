@@ -1,3 +1,10 @@
+# [4.166.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.165.0...v4.166.0) (2023-05-23)
+
+
+### Features
+
+* **analytics:** add flow triggered analytics report ([8a22c48](https://github.com/c-commerce/charles-browser-sdk/commit/8a22c481be4f86d0194bdd0e9e628826b453bfda))
+
 # [4.165.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.164.0...v4.165.0) (2023-05-04)
 
 
