@@ -1,3 +1,10 @@
+## [4.167.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.167.1...v4.167.2) (2023-05-24)
+
+
+### Bug Fixes
+
+* **NotificationCampaign:** switch from enum to type ([7b3a7d3](https://github.com/c-commerce/charles-browser-sdk/commit/7b3a7d343a343b5ca7b7a5ca225a53619baca097))
+
 ## [4.167.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.167.0...v4.167.1) (2023-05-23)
 
 
