@@ -7,6 +7,7 @@ import qs from 'qs'
 import { Feed } from '../../eventing/feeds/feed'
 import { ContactList, ContactListRawPayload } from '../contact-list/contact-list'
 import { ContactListStaticEntriesFetchRemoteError, NotificationCampaignStaticEntry, NotificationCampaignStaticEntryRawPayload } from './static-entry'
+import { MessageTemplate } from '../message-template'
 
 export interface NotificationCampaignOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignRawPayload
@@ -60,7 +61,7 @@ export interface NotificationCampaignRawPayload {
   readonly summary?: string
   readonly is_published?: boolean
   readonly published_at?: string
-  readonly message_template?: string
+  readonly message_template?: string | MessageTemplate
   readonly message_template_parameters?: Array<{
     name?: string
     order_index?: number
@@ -118,6 +119,7 @@ export interface NotificationCampaignRawPayload {
   readonly default_language?: string
   readonly analytics?: {
     static_entries_count?: number | null
+    valid_static_entries_count?: number | null
     [key: string]: any
   }
   readonly arm_lock?: boolean

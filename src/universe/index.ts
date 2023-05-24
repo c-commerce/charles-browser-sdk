@@ -82,6 +82,7 @@ import { getEntityName } from '../helpers/entity'
 import { UniverseMe } from './me'
 import { analytics } from './analytics'
 import type { UniverseAnalytics } from './analytics'
+import ChangesRawManager, { RawPayload } from '../realtime/changes/changes-raw-manager'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -1044,6 +1045,13 @@ export class Universe extends APICarrier {
     types: ChangeType[] = [ChangeType.updated, ChangeType.deleted],
     customHandler: Partial<CustomChangeEventHandler<T>> | undefined = undefined): ChangesEntityManager<T> {
     return new ChangesEntityManager<T>(this.getMqttClient(), entity, types, customHandler)
+  }
+
+  public trackRawEntityChanges<T>(raw: RawPayload,
+    entityName: string,
+    types: ChangeType[] = [ChangeType.updated, ChangeType.deleted],
+    customHandler: Partial<CustomChangeEventHandler<T>> | undefined = undefined): ChangesRawManager<T> {
+    return new ChangesRawManager<T>(this.getMqttClient(), raw, entityName, types, customHandler)
   }
 
   public trackEntityCreation<T>(onCreated: (entity: T) => void, entityConstructor: any = undefined, id: string | undefined = undefined): ChangesHandler<T> {
