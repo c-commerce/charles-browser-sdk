@@ -75,3 +75,57 @@ export type SubscriberBaseAnalyticsResponse = [
   SubscriberBaseAnalyticsSummaryReport,
   TotalSubscriberBaseAnalyticsReport
 ]
+
+export interface FlowsTriggeredAnalyticsResponse {
+  week: {
+    current: number
+    previous: number
+  }
+  month: {
+    current: number
+    previous: number
+  }
+}
+
+export interface MessageBrokerConversationsAnalyticsOptions {
+  start: string
+  end: string
+}
+
+export interface MessageBrokerConversationsAnalyticsResponse {
+  created_at: string
+  metric: {
+    job: AnalyticsReportJob
+    query: {
+      start: string
+      end: string
+      resolution: 'DAILY'
+    }
+  }
+  values: Array<{
+    date: string
+    start: number
+    end: number
+    conversations: Record<'UTILITY' | 'MARKETING' | 'SERVICE' | 'AUTHENTICATION' | 'UNKNOWN', number>
+  }>
+}
+
+export interface MessageBrokerMessagesCountAnalyticsOptions {
+  start: string
+  end: string
+}
+
+export interface MessageBrokerMessagesCountAnalyticsResponse {
+  created_at: string
+  metric: {
+    job: AnalyticsReportJob
+    query: {
+      start: string
+      end: string
+    }
+  }
+  count: {
+    sent: number
+    delivered: number
+  }
+}

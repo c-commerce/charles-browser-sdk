@@ -5,7 +5,12 @@ import {
   AnalyticsFetchRemoteError,
   AnalyticsReport,
   SubscriptionAnalyticsResponse,
-  SubscriberBaseAnalyticsResponse
+  SubscriberBaseAnalyticsResponse,
+  FlowsTriggeredAnalyticsResponse,
+  MessageBrokerConversationsAnalyticsOptions,
+  MessageBrokerConversationsAnalyticsResponse,
+  MessageBrokerMessagesCountAnalyticsOptions,
+  MessageBrokerMessagesCountAnalyticsResponse
 } from '../analytics/analytics'
 
 export interface UniverseAnalyticsOptions {
@@ -22,17 +27,6 @@ export interface UniverseAnalyticsEventsOptions {
   datepart?: string
 }
 
-export interface UniverseAnalyticsMonthWeekTrendReport {
-  week: {
-    current: number
-    previous: number
-  }
-  month: {
-    current: number
-    previous: number
-  }
-}
-
 export interface UniverseAnalytics {
   orders: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   revenues: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
@@ -43,11 +37,13 @@ export interface UniverseAnalytics {
   feedOpenedClosed: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   feedConversion: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   peopleMessagingChannelParticipationDistribution: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
-  flowsTriggered: () => Promise<UniverseAnalyticsMonthWeekTrendReport | undefined>
+  flowsTriggered: () => Promise<FlowsTriggeredAnalyticsResponse | undefined>
+  messageBrokerConversations: (options?: MessageBrokerConversationsAnalyticsOptions) => Promise<MessageBrokerConversationsAnalyticsResponse | undefined>
+  messageBrokerMessagesCount: (options?: MessageBrokerMessagesCountAnalyticsOptions) => Promise<MessageBrokerMessagesCountAnalyticsResponse | undefined>
 }
 
 export function analytics (this: Universe): UniverseAnalytics {
-  const makeAnalyticsRequest = async <T, K>(endpointSlug: string, options?: K): Promise<T> => {
+  const makeAnalyticsRequest = async <TResult, TOptions>(endpointSlug: string, options?: TOptions): Promise<TResult> => {
     try {
       const opts = {
         method: 'GET',
@@ -56,7 +52,7 @@ export function analytics (this: Universe): UniverseAnalytics {
       }
 
       const res = await this.http.getClient()(opts)
-      return res.data.data as T
+      return res.data.data as TResult
     } catch (err) {
       throw new AnalyticsFetchRemoteError(undefined, { error: err })
     }
@@ -90,8 +86,14 @@ export function analytics (this: Universe): UniverseAnalytics {
     feedConversion: async (options?: UniverseAnalyticsOptions): Promise<AnalyticsReport[]> => {
       return await makeAnalyticsRequest<AnalyticsReport[], UniverseAnalyticsOptions>('/feeds/conversion/counts', options)
     },
-    flowsTriggered: async (): Promise<UniverseAnalyticsMonthWeekTrendReport> => {
-      return await makeAnalyticsRequest<UniverseAnalyticsMonthWeekTrendReport, undefined>('/flows_triggered')
+    flowsTriggered: async (): Promise<FlowsTriggeredAnalyticsResponse> => {
+      return await makeAnalyticsRequest<FlowsTriggeredAnalyticsResponse, undefined>('/flows_triggered')
+    },
+    messageBrokerConversations: async (options?: MessageBrokerConversationsAnalyticsOptions): Promise<MessageBrokerConversationsAnalyticsResponse> => {
+      return await makeAnalyticsRequest<MessageBrokerConversationsAnalyticsResponse, MessageBrokerConversationsAnalyticsOptions>('/message_broker/conversations', options)
+    },
+    messageBrokerMessagesCount: async (options?: MessageBrokerMessagesCountAnalyticsOptions): Promise<MessageBrokerMessagesCountAnalyticsResponse> => {
+      return await makeAnalyticsRequest<MessageBrokerMessagesCountAnalyticsResponse, MessageBrokerMessagesCountAnalyticsOptions>('/message_broker/messages_count', options)
     }
   }
 }
