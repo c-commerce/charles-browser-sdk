@@ -1,3 +1,10 @@
+# [4.168.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.167.2...v4.168.0) (2023-05-25)
+
+
+### Features
+
+* **analytics:** add message broker reports ([72fd705](https://github.com/c-commerce/charles-browser-sdk/commit/72fd70585da748e84f6132b03c0381924f77ab19))
+
 ## [4.167.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.167.1...v4.167.2) (2023-05-24)
 
 
