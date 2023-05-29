@@ -1042,20 +1042,21 @@ export class Universe extends APICarrier {
   }
 
   public trackEntityChanges<T>(entity: Entity<any, T>,
-    types: ChangeType[] = [ChangeType.updated, ChangeType.deleted],
+    types: ChangeType[] = ['updated', 'deleted'],
     customHandler: Partial<CustomChangeEventHandler<T>> | undefined = undefined): ChangesEntityManager<T> {
     return new ChangesEntityManager<T>(this.getMqttClient(), entity, types, customHandler)
   }
 
   public trackRawEntityChanges<T>(raw: RawPayload,
     entityName: string,
-    types: ChangeType[] = [ChangeType.updated, ChangeType.deleted],
+    types: ChangeType[] = ['updated', 'deleted'],
+    embeds: Array<keyof T> = [],
     customHandler: Partial<CustomChangeEventHandler<T>> | undefined = undefined): ChangesRawManager<T> {
-    return new ChangesRawManager<T>(this.getMqttClient(), raw, entityName, types, customHandler)
+    return new ChangesRawManager<T>(this.getMqttClient(), raw, entityName, embeds, types, customHandler)
   }
 
   public trackEntityCreation<T>(onCreated: (entity: T) => void, entityConstructor: any = undefined, id: string | undefined = undefined): ChangesHandler<T> {
-    return new ChangesHandler<T>(this.getMqttClient(), { onCreated }, { entityName: getEntityName(entityConstructor) ?? undefined, id }, [ChangeType.created])
+    return new ChangesHandler<T>(this.getMqttClient(), { onCreated }, { entityName: getEntityName(entityConstructor) ?? undefined, id }, ['created'])
   }
 
   /* Analytics & Reports */

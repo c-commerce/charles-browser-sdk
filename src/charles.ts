@@ -10,16 +10,13 @@ import { Client, ClientOptions } from './client'
 import { environment } from './environment'
 import { Universe, UnviverseSingleton, UniverseOptions } from './universe'
 import { Cloud, CloudSingleton, CloudOptions } from './cloud'
-import { isEntity } from './helpers/entity'
 
 export {
   v0,
   Universe,
   UniverseOptions,
   Cloud,
-  CloudOptions,
-  // Export helper functions
-  isEntity
+  CloudOptions
 }
 
 export const defaultOptions: CharlesSDKOptions = {
@@ -290,3 +287,7 @@ export class Charles extends CharlesClient {
 }
 
 export default Charles.getInstance({ universe: defaultOptions.universe })
+
+export * from './helpers'
+export * from './entities/message-template'
+export * from './entities/notification-campaign'

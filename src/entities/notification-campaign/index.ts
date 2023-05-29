@@ -1,12 +1,32 @@
 
-import {
-  NotificationCampaign,
-  NotificationCampaigns,
-  NotificationCampaignsFetchRemoteError
-} from './notification-campaign'
-
 export {
   NotificationCampaign,
   NotificationCampaigns,
-  NotificationCampaignsFetchRemoteError
-}
+  NotificationCampaignsFetchRemoteError,
+  NotificationCampaignArmError,
+  NotificationCampaignContinueError,
+  NotificationCampaignContinueErrorReasons,
+  NotificationCampaignCreateContactListFromRemainingRecipientsRemoteError,
+  NotificationCampaignDeleteInvalidContactsRemoteError,
+  NotificationCampaignFetchRemoteError,
+  NotificationCampaignGetFeedEventsError,
+  NotificationCampaignInitializationError,
+  NotificationCampaignOptions,
+  NotificationCampaignPauseError,
+  NotificationCampaignPayload,
+  NotificationCampaignPreflightError,
+  NotificationCampaignPreviewRemoteError,
+  NotificationCampaignPreviewStaticEntriesCountRemoteError,
+  NotificationCampaignPublishError,
+  NotificationCampaignPublishOpts,
+  NotificationCampaignRawPayload,
+  NotificationCampaignSchedulePublishRemoteError,
+  NotificationCampaignSchedulePublishRemoteErrorReasons,
+  NotificationCampaignStatusType,
+  NotificationCampaignSyncAnalyticsRemoteError,
+  NotificationCampaignTestError,
+  NotificationCampaignTestRawPayload,
+  NotificationCampaignUnscheduleOpts,
+  NotificationCampaignsFetchCountRemoteError,
+  NotificationCampaignsOptions,
+} from './notification-campaign'

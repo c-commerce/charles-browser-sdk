@@ -1,12 +1,27 @@
 
-import {
-  MessageTemplate,
-  MessageTemplates,
-  MessageTemplatesFetchRemoteError
-} from './message-template'
-
 export {
   MessageTemplate,
   MessageTemplates,
-  MessageTemplatesFetchRemoteError
-}
+  MessageTemplatesFetchRemoteError,
+  MessageTemplateFetchRemoteError,
+  MessageTemplateInitializationError,
+  MessageTemplateOptions,
+  MessageTemplatePayload,
+  MessageTemplatePostOptions,
+  MessageTemplatePreviewRemoteError,
+  MessageTemplateRawPayload,
+  MessageTemplateRawPayloadAttachment,
+  MessageTemplateRawPayloadCarousel,
+  MessageTemplateRawPayloadCarouselItem,
+  MessageTemplateRawPayloadCarouselItemAction,
+  MessageTemplateRawPayloadContentSubmitHistoryEntry,
+  MessageTemplateRawPayloadList,
+  MessageTemplateRawPayloadLocalizedContent,
+  MessageTemplateRawPayloadLocalizedContentHistoryEntry,
+  MessageTemplateRawPayloadLocalizedContentItemAction,
+  MessageTemplateRawPayloadLocation,
+  MessageTemplateRawPayloadParameters,
+  MessageTemplateRawPayloadQuickReplies,
+  MessageTemplateRawPayloadQuickReply,
+  MessageTemplateSubmitRemoteError
+} from './message-template'

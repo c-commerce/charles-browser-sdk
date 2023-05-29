@@ -7,7 +7,7 @@ import qs from 'qs'
 import { Feed } from '../../eventing/feeds/feed'
 import { ContactList, ContactListRawPayload } from '../contact-list/contact-list'
 import { ContactListStaticEntriesFetchRemoteError, NotificationCampaignStaticEntry, NotificationCampaignStaticEntryRawPayload } from './static-entry'
-import { MessageTemplate } from '../message-template'
+import { MessageTemplateRawPayload } from '../message-template/message-template'
 
 export interface NotificationCampaignOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignRawPayload
@@ -61,7 +61,7 @@ export interface NotificationCampaignRawPayload {
   readonly summary?: string
   readonly is_published?: boolean
   readonly published_at?: string
-  readonly message_template?: string | MessageTemplate
+  readonly message_template?: string | MessageTemplateRawPayload
   readonly message_template_parameters?: Array<{
     name?: string
     order_index?: number
@@ -800,10 +800,15 @@ export class NotificationCampaignGetFeedEventsError extends BaseError {
     Object.setPrototypeOf(this, NotificationCampaignGetFeedEventsError.prototype)
   }
 }
+
+export type NotificationCampaignContinueErrorReasons = 'message_template_is_paused' | 'campaign_status_not_paused'
+
 export class NotificationCampaignContinueError extends BaseError {
   public name = 'NotificationCampaignContinueError'
+  public failureMsg?: NotificationCampaignContinueErrorReasons
   constructor (public message: string = 'Could not continue notification campaign', properties?: any) {
     super(message, properties)
+    this.failureMsg = this.properties.error?.response?.data?.msg as NotificationCampaignContinueErrorReasons
     Object.setPrototypeOf(this, NotificationCampaignContinueError.prototype)
   }
 }
@@ -855,8 +860,7 @@ export class NotificationCampaignSyncAnalyticsRemoteError extends BaseErrorV2 {
   }
 }
 
-export type NotificationCampaignSchedulePublishRemoteErrorReasons = 'campaign_schedule_missing' | 'campaign_status_not_scheduled' | 'campaign_rearm_in_progress'
-| 'campaign_job_refs_missing'
+export type NotificationCampaignSchedulePublishRemoteErrorReasons = 'campaign_schedule_missing' | 'campaign_status_not_scheduled' | 'campaign_rearm_in_progress' | 'campaign_job_refs_missing'
 
 export class NotificationCampaignSchedulePublishRemoteError extends BaseErrorV2 {
   public name = 'NotificationCampaignSchedulePublishRemoteError'
