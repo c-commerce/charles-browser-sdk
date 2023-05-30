@@ -1,7 +1,7 @@
 import topics from '../../universe/topics'
 import { RealtimeClient, RealtimeMessage, RealtimeMessageMessage } from '..'
 
-export enum ChangeType { created = 'created', deleted = 'deleted', updated = 'updated' }
+export type ChangeType = 'created' | 'deleted' | 'updated'
 
 export interface PayloadData {
   id?: string
@@ -38,7 +38,7 @@ export class ChangesHandler<T> {
     private readonly mqtt: RealtimeClient,
     private readonly eventHandler: Partial<ChangeEventHandler<T>>,
     private readonly payload: PayloadData,
-    types: ChangeType[] = [ChangeType.updated, ChangeType.deleted]
+    types: ChangeType[] = ['updated', 'deleted']
   ) {
     this._filterMessages = this._filterMessages.bind(this)
     this.types = types.concat()
@@ -54,13 +54,13 @@ export class ChangesHandler<T> {
   private _filterMessages (message: RealtimeMessage | RealtimeMessageMessage): void {
     if (this._isChangeTopic(message) && this.types.includes(message.payload.action)) {
       switch (message.payload.action) {
-        case ChangeType.created:
+        case 'created':
           this.eventHandler.onCreated?.(message.payload.entity)
           break
-        case ChangeType.updated:
+        case 'updated':
           this.eventHandler.onUpdated?.(message.payload.entity, message.payload.before?.entity)
           break
-        case ChangeType.deleted:
+        case 'deleted':
           this.eventHandler.onDeleted?.()
           break
       }

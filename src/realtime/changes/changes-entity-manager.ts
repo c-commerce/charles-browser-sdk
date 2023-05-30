@@ -10,7 +10,7 @@ export default class ChangesEntityManager<T> implements ChangeEventHandler<T> {
   constructor (
     private readonly mqtt: RealtimeClient,
     private readonly entity: Entity<any, T>,
-    types: ChangeType[] = [ChangeType.updated, ChangeType.deleted],
+    types: ChangeType[] = ['updated', 'deleted'],
     private readonly customHandler: Partial<CustomChangeEventHandler<T>> | undefined = undefined) {
     this.changesHandler = new ChangesHandler<T>(
       this.mqtt,

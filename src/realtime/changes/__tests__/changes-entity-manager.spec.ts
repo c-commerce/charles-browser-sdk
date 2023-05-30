@@ -15,7 +15,7 @@ jest.mock('../changes-handler', () => {
       handlerMock(v1, v2, v3, v4)
       return {
         destroy: destroyMock,
-        types: [ChangeType.created]
+        types: ['created']
       }
     }
   }
@@ -49,7 +49,7 @@ describe('Realtime', () => {
           entityName: 'my-fake-entity'
         } as unknown as Entity<any, any>
 
-        const manager = new ChangesEntityManager<any>({} as unknown as RealtimeClient, payload, [ChangeType.created])
+        const manager = new ChangesEntityManager<any>({} as unknown as RealtimeClient, payload, ['created'])
         manager.disconnect()
 
         expect(destroyMock).toHaveBeenCalled()
@@ -134,7 +134,7 @@ describe('Realtime', () => {
 
         const mockOnCreated = jest.fn()
 
-        const manager = new ChangesEntityManager<any>({} as unknown as RealtimeClient, entity, [ChangeType.created], {
+        const manager = new ChangesEntityManager<any>({} as unknown as RealtimeClient, entity, ['created'], {
           onCreated: mockOnCreated
         })
         manager.onCreated({

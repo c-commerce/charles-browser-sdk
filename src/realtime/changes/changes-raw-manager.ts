@@ -1,3 +1,4 @@
+import pick from 'just-pick'
 import { RealtimeClient } from '..'
 import { ChangeEventHandler, ChangesHandler, ChangeType, CustomChangeEventHandler } from './changes-handler'
 
@@ -11,7 +12,8 @@ export default class ChangesRawManager<T> implements ChangeEventHandler<T> {
     private readonly mqtt: RealtimeClient,
     private readonly raw: RawPayload,
     private readonly entityName: string,
-    types: ChangeType[] = [ChangeType.updated, ChangeType.deleted],
+    private readonly embeds: Array<keyof T>,
+    types: ChangeType[] = ['updated', 'deleted'],
     private readonly customHandler: Partial<CustomChangeEventHandler<T>> | undefined = undefined) {
     this.changesHandler = new ChangesHandler<T>(
       this.mqtt,
@@ -58,7 +60,8 @@ export default class ChangesRawManager<T> implements ChangeEventHandler<T> {
   }
 
   _internalOnUpdated (newPayload: T, oldPayload?: T): void {
-    Object.assign(this.raw, newPayload)
+    const ignoreables = pick(this.raw, this.embeds as string[])
+    Object.assign(this.raw, newPayload, ignoreables)
   }
 
   public disconnect (): void {

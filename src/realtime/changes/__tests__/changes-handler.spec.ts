@@ -68,7 +68,7 @@ describe('Realtime', () => {
           onUpdated,
           onDeleted,
           onCreated
-        }, payload, [ChangeType.created, ChangeType.deleted, ChangeType.updated])
+        }, payload, ['created', 'deleted', 'updated'])
 
         const subscriber = onMock.mock.calls[0][1]
         subscriber({
@@ -141,7 +141,7 @@ describe('Realtime', () => {
 
         const handler = new ChangesHandler<any>(mqtt as unknown as RealtimeClient, {
           onDeleted
-        }, payload, [ChangeType.created, ChangeType.updated])
+        }, payload, ['created', 'updated'])
 
         const subscriber = onMock.mock.calls[0][1]
         subscriber({
@@ -165,7 +165,7 @@ describe('Realtime', () => {
           entityName: 'my-fake-entity'
         }
 
-        const handler = new ChangesHandler<any>(mqtt as unknown as RealtimeClient, {}, payload, [ChangeType.created, ChangeType.deleted, ChangeType.updated])
+        const handler = new ChangesHandler<any>(mqtt as unknown as RealtimeClient, {}, payload, ['created', 'deleted', 'updated'])
 
         const subscriber = onMock.mock.calls[0][1]
         subscriber({

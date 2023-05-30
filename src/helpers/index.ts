@@ -1,3 +1,2 @@
-import { throwExceptionFromCommonError } from './throwExceptionFromCommonError'
-
-export { throwExceptionFromCommonError }
+export { throwExceptionFromCommonError } from './throwExceptionFromCommonError'
+export { isDeletable, isEntity, getEntityName } from './entity'
