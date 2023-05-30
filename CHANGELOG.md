@@ -1,3 +1,10 @@
+# [4.169.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.168.0...v4.169.0) (2023-05-30)
+
+
+### Features
+
+* **NotificationCampaign): handled message template paused state feat(RawChangesHandler): added support for embeds feat(Typescript:** exported notification campaign, message template, helpers from entry point ([a0d213b](https://github.com/c-commerce/charles-browser-sdk/commit/a0d213b1522c43bf00c1735abe2f52eb4d8c23a3))
+
 # [4.168.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.167.2...v4.168.0) (2023-05-25)
 
 
