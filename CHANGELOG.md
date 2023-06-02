@@ -1,3 +1,10 @@
+# [4.170.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.169.0...v4.170.0) (2023-06-02)
+
+
+### Features
+
+* **ScheduledCampaign:** add better errors ([ad69cd6](https://github.com/c-commerce/charles-browser-sdk/commit/ad69cd65b87cd2d53464024e0bf22d50695f05ca))
+
 # [4.169.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.168.0...v4.169.0) (2023-05-30)
 
 
