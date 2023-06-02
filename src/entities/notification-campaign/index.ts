@@ -20,6 +20,8 @@ export {
   NotificationCampaignPublishError,
   NotificationCampaignPublishOpts,
   NotificationCampaignRawPayload,
+  NotificationCampaignUnschedulePublishRemoteError,
+  NotificationCampaignUnschedulePublishRemoteErrorReasons,
   NotificationCampaignSchedulePublishRemoteError,
   NotificationCampaignSchedulePublishRemoteErrorReasons,
   NotificationCampaignStatusType,
@@ -28,5 +30,5 @@ export {
   NotificationCampaignTestRawPayload,
   NotificationCampaignUnscheduleOpts,
   NotificationCampaignsFetchCountRemoteError,
-  NotificationCampaignsOptions,
+  NotificationCampaignsOptions
 } from './notification-campaign'

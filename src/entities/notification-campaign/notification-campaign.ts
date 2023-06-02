@@ -691,7 +691,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
 
       return this.deserialize(data)
     } catch (err) {
-      throw new NotificationCampaignSchedulePublishRemoteError(err)
+      throw new NotificationCampaignUnschedulePublishRemoteError(err)
     }
   }
 }
@@ -860,10 +860,22 @@ export class NotificationCampaignSyncAnalyticsRemoteError extends BaseErrorV2 {
   }
 }
 
-export type NotificationCampaignSchedulePublishRemoteErrorReasons = 'campaign_schedule_missing' | 'campaign_status_not_scheduled' | 'campaign_rearm_in_progress' | 'campaign_job_refs_missing'
+export type NotificationCampaignUnschedulePublishRemoteErrorReasons = 'campaign_schedule_missing' | 'campaign_status_not_scheduled' | 'campaign_rearm_in_progress' | 'campaign_job_refs_missing'
 
+export class NotificationCampaignUnschedulePublishRemoteError extends BaseErrorV2 {
+  public name = 'NotificationCampaignUnschedulePublishRemoteError'
+  public message = 'Could not unschedule campaign publish.'
+  public failureMsg?: NotificationCampaignUnschedulePublishRemoteErrorReasons
+  constructor (err: any, props?: BaseErrorV2Properties) {
+    super(err as Error, props)
+    this.failureMsg = this.properties.error?.response?.data?.msg as NotificationCampaignUnschedulePublishRemoteErrorReasons
+    Object.setPrototypeOf(this, NotificationCampaignUnschedulePublishRemoteError.prototype)
+  }
+}
+
+export type NotificationCampaignSchedulePublishRemoteErrorReasons = 'cannot schedule campaign in the past' | 'cannot schedule rearm after publish'
 export class NotificationCampaignSchedulePublishRemoteError extends BaseErrorV2 {
-  public name = 'NotificationCampaignSchedulePublishRemoteError'
+  public name = 'NotificationCampaignUnschedulePublishRemoteError'
   public message = 'Could not schedule campaign publish.'
   public failureMsg?: NotificationCampaignSchedulePublishRemoteErrorReasons
   constructor (err: any, props?: BaseErrorV2Properties) {
