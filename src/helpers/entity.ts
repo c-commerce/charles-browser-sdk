@@ -8,6 +8,10 @@ export function isDeletable (object: any): object is DeletableEntity<any, any> {
   return isEntity(object) && 'deleted' in object
 }
 
+export function isEmbedded <T = any> (obj: T | string): obj is string {
+  return !!obj && typeof obj !== 'string'
+}
+
 export function getEntityName (entityOrConstructor: any): string | null {
   if (!entityOrConstructor) return null
   if ('entityName' in entityOrConstructor) {
