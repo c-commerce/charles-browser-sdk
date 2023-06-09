@@ -1,3 +1,10 @@
+# [4.171.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.170.0...v4.171.0) (2023-06-09)
+
+
+### Features
+
+* **Helpers:** add a typeguard for embeds and tests ([6eeaaf1](https://github.com/c-commerce/charles-browser-sdk/commit/6eeaaf1066fd454353ec7c4d1455314d24ae0405))
+
 # [4.170.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.169.0...v4.170.0) (2023-06-02)
 
 
