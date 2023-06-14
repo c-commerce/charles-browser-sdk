@@ -1,3 +1,10 @@
+# [4.172.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.171.0...v4.172.0) (2023-06-14)
+
+
+### Features
+
+* **universe.ts:** add operator routes support ([2bea14a](https://github.com/c-commerce/charles-browser-sdk/commit/2bea14abe2e2414e34b6c0b338cbef87f3f0d5b2))
+
 # [4.171.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.170.0...v4.171.0) (2023-06-09)
 
 
