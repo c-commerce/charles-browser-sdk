@@ -21,6 +21,23 @@ export interface DeployOptions {
   }
 }
 
+export interface DeployVersionPayload {
+  readonly universe: string | [string]
+  readonly 'client-api'?: string
+  readonly 'agent-ui'?: string
+  readonly 'cloudsql-proxy'?: string
+}
+
+export interface SingleDeployVersionResponse {
+  readonly [uni: string]: number
+}
+
+export type DeployVersionResponse = SingleDeployVersionResponse | [SingleDeployVersionResponse]
+
+export type OperatorUniverseResponse = {
+  readonly universe: [string]
+}
+
 export interface CloudUniverseRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -407,6 +424,53 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+  public async operatorUniverses (): Promise<OperatorUniverseResponse> {
+    const operatorEndpoint = 'api/v0/universes/operator'
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${operatorEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status, msg, data } = res.data
+      if (status === 200) {
+        return data
+      } else {
+        throw this.handleError(new OperatorUniverseError())
+      }
+    } catch (err) {
+      throw this.handleError(new OperatorUniverseError())
+    }
+  }
+
+  public async deployVersion (payload: DeployVersionPayload): Promise<DeployVersionResponse> {
+    const operatorEndpoint = 'api/v0/universes/operator'
+    try {
+      const opts = {
+        method: 'PATCH',
+        url: `${this.apiCarrier?.injectables?.base}/${operatorEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: payload
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status, msg, data } = res.data
+      if (status === 200) {
+        return data
+      } else {
+        throw this.handleError(new DeployVersionError())
+      }
+    } catch (err) {
+      throw this.handleError(new DeployVersionError())
+    }
+  }
+
   universe (item: any, universe: any, http: Client): any {
     throw new Error('Method not implemented.')
   }
@@ -502,5 +566,21 @@ export class DestroyUniverseError extends BaseError {
   constructor (public message: string = 'Error destroying universe', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, DestroyUniverseError.prototype)
+  }
+}
+
+export class OperatorUniverseError extends BaseError {
+  public name = 'OperatorUniverseError'
+  constructor (public message: string = 'Could not fetch universes from cluster.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, OperatorUniverseError.prototype)
+  }
+}
+
+export class DeployVersionError extends BaseError {
+  public name = 'DeployVersionError'
+  constructor (public message: string = 'Could not deploy new version to universes.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, DeployVersionError.prototype)
   }
 }
