@@ -1,7 +1,8 @@
 import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../universe'
-import { UniverseEntity, UniverseEntityOptions, EntityRawPayload, EntitiesList } from '../_base'
+import { UniverseEntity, UniverseEntityOptions, EntityRawPayload, EntitiesList, EntitiesListExportCsvOptions } from '../_base'
 import { PersonEmailRawPayload, PersonPhoneNumberRawPayload, Phonenumber } from './person'
 import { Email } from './email'
+import qs from 'qs'
 
 export interface PersonNamesRawPayload {
   readonly first_name?: string
@@ -304,6 +305,29 @@ export class PeopleContacts extends EntitiesList<PersonContact, PersonContactRaw
 
   public async getStream (options?: UniverseFetchOptions): Promise<EntitiesList<PersonContact, PersonContactRawPayload>> {
     return (await this._getStream(options)) as PeopleContacts
+  }
+
+  public async _exportCsv (options?: EntitiesListExportCsvOptions): Promise<Blob> {
+    const opts = {
+      method: 'POST',
+      timeout: 60000,
+      url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+      headers: {
+        Accept: 'text/csv'
+      },
+      data: {
+        ...options?.body
+      },
+      responseType: 'blob'
+    }
+
+    // eslint-disable-next-line @typescript-eslint/return-await
+    return await this.http?.getClient()(opts)
+      .then((res: { data: any }) => res.data)
+      .catch((err: any) => {
+        this.emit('error', err)
+        return undefined
+      })
   }
 
   public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {

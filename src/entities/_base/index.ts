@@ -499,6 +499,7 @@ export interface EntitiesListFetchOptions {
 
 export interface EntitiesListExportCsvOptions {
   query?: EntitiesListExportCsvQuery
+  body?: EntitiesListExportCsvQuery
 }
 
 export interface IEntitiesListDeleteManyPayload {
