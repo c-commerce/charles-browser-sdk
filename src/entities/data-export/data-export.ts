@@ -7,18 +7,28 @@ export interface DataExportOptions extends UniverseEntityOptions {
   rawPayload?: DataExportRawPayload
 }
 
+export interface DataExportFilter {
+  id: string
+  values: string[] | string[][]
+}
+
 export interface DataExportRawPayload {
   readonly data?: { [key: string]: any }
   readonly name?: string
-  readonly dateRange?: { [key: string]: any }
-  readonly filteredColumn?: string
+  filters?: DataExportFilter[]
 }
 
 export interface DataExportPayload {
   readonly data?: DataExportRawPayload['data']
   readonly name?: DataExportRawPayload['name']
-  readonly dateRange?: DataExportRawPayload['dateRange']
-  readonly filteredColumn?: DataExportRawPayload['filteredColumn']
+  readonly filters?: DataExportRawPayload['filters']
+}
+
+export interface DataExportFilterOptions {
+  name: string
+  id: string
+  options: string[] | undefined
+  type: string
 }
 
 /**
@@ -38,21 +48,26 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawP
   protected options: DataExportOptions
   public initialized: boolean
   public endpoint: string
+  public optionsEndpoint: string
   public data?: DataExportPayload['data']
-  public dateRange?: DataExportPayload['dateRange']
-  public filteredColumn?: DataExportPayload['filteredColumn']
+  public filters?: DataExportPayload['filters']
 
   constructor (options: DataExportOptions) {
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.endpoint = 'api/v0/data_export/'
+    this.optionsEndpoint = ''
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
 
     if (options?.rawPayload && options.rawPayload.name) {
       this.endpoint = `api/v0/data_export/${options.rawPayload.name}`
+    }
+
+    if (options.rawPayload?.filters && options.rawPayload.name) {
+      this.optionsEndpoint = `api/v0/data_export/${options.rawPayload.name}/filterOptions`
     }
 
     if (options?.rawPayload) {
@@ -64,8 +79,7 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawP
     this.setRawPayload(rawPayload)
 
     this.data = rawPayload.data
-    this.dateRange = rawPayload.dateRange
-    this.filteredColumn = rawPayload.filteredColumn
+    this.filters = rawPayload.filters
 
     return this
   }
@@ -78,6 +92,24 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawP
     return {
       data: this.data
 
+    }
+  }
+
+  public async fetchOptions (): Promise<DataExportFilterOptions | DataExportFilterOptions[] | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${this.optionsEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+      return response.data.data
+    } catch (err) {
+      throw this.handleError(new DataExportInitializationError(undefined, { error: err }))
     }
   }
 
