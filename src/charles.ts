@@ -291,3 +291,4 @@ export default Charles.getInstance({ universe: defaultOptions.universe })
 export * from './helpers'
 export * from './entities/message-template'
 export * from './entities/notification-campaign'
+export * from './entities/feature-flag'
