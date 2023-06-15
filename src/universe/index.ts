@@ -83,6 +83,7 @@ import { UniverseMe } from './me'
 import { analytics } from './analytics'
 import type { UniverseAnalytics } from './analytics'
 import ChangesRawManager, { RawPayload } from '../realtime/changes/changes-raw-manager'
+import { FeatureFlagFetchError, FeatureFlagRawPayload } from '../entities/feature-flag'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -2429,6 +2430,16 @@ export class Universe extends APICarrier {
     })
 
     return this
+  }
+
+  public async featureFlags (): Promise<FeatureFlagRawPayload[] | undefined> {
+    try {
+      const res = await this.http.getClient().get(`${this.universeBase}/api/v0/feature_flags`)
+
+      return res.data?.data
+    } catch (err) {
+      throw new FeatureFlagFetchError(undefined, { error: err })
+    }
   }
 
   public async versions (): Promise<{ universe: string } | undefined> {
