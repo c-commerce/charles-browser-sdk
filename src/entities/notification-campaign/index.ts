@@ -28,5 +28,5 @@ export {
   NotificationCampaignTestRawPayload,
   NotificationCampaignUnscheduleOpts,
   NotificationCampaignsFetchCountRemoteError,
-  NotificationCampaignsOptions,
+  NotificationCampaignsOptions
 } from './notification-campaign'

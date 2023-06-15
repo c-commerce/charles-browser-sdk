@@ -10,13 +10,13 @@ export interface PayloadData {
 
 export interface ChangeEventHandler<T> {
   onCreated: (payload: T) => void
-  onDeleted: () => void
+  onDeleted: (payload: T) => void
   onUpdated: (newPayload: T, oldPayload?: T) => void
 }
 
 export interface CustomChangeEventHandler<T> {
   onCreated: (payload: T, internalReaction: () => void) => void
-  onDeleted: (internalReaction: () => void) => void
+  onDeleted: (payload: T, internalReaction: () => void) => void
   onUpdated: (newPayload: T, internalReaction: () => void, oldPayload?: T) => void
 }
 
@@ -61,7 +61,7 @@ export class ChangesHandler<T> {
           this.eventHandler.onUpdated?.(message.payload.entity, message.payload.before?.entity)
           break
         case 'deleted':
-          this.eventHandler.onDeleted?.()
+          this.eventHandler.onDeleted?.(message.payload.entity)
           break
       }
     }

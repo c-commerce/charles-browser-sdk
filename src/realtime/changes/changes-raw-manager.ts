@@ -39,8 +39,8 @@ export default class ChangesRawManager<T> implements ChangeEventHandler<T> {
     Object.assign(this.raw, payload)
   }
 
-  onDeleted (): void {
-    this.customHandler?.onDeleted?.(() => this._internalOnDeleted)
+  onDeleted (payload: T): void {
+    this.customHandler?.onDeleted?.(payload, () => this._internalOnDeleted)
     if (!this.customHandler?.onDeleted) {
       this._internalOnDeleted()
     }
