@@ -1,3 +1,10 @@
+## [4.172.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.172.0...v4.172.1) (2023-06-15)
+
+
+### Bug Fixes
+
+* **contact-export:** adjusted the sdk to send contact export data in body ([f080385](https://github.com/c-commerce/charles-browser-sdk/commit/f0803857b0d6ed3b525dff8e9f89e0014f90a0e7))
+
 # [4.172.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.171.0...v4.172.0) (2023-06-14)
 
 
