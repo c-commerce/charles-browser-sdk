@@ -1,11 +1,14 @@
-import { Feed, FeedRawPayload, FeedPayload } from './feed'
-import { Event, EventRawPayload, EventPayload } from './event'
-
 export {
   Feed,
   FeedRawPayload,
   FeedPayload,
-  Event,
-  EventRawPayload,
-  EventPayload
-}
+  FeedFetchCountRemoteError,
+  FeedFetchEventsRemoteError,
+  FeedFetchLatestEventsRemoteError,
+  FeedReplyError,
+  FeedFetchRemoteError,
+  FeedsFetchRemoteError,
+  FeedInitializationError,
+  FeedCreateEventRemoteError
+} from './feed'
+export { Event, EventRawPayload, EventPayload } from './event'
