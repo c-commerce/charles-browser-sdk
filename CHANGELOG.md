@@ -1,3 +1,10 @@
+# [4.173.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.172.1...v4.173.0) (2023-06-15)
+
+
+### Features
+
+* **FeatureFlag:** added featureflag fetch endpoint ([19bbb18](https://github.com/c-commerce/charles-browser-sdk/commit/19bbb18c7a94a8406ffe9cb030ae7dbe8da2b8fc))
+
 ## [4.172.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.172.0...v4.172.1) (2023-06-15)
 
 
