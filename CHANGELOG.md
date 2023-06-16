@@ -1,3 +1,10 @@
+# [4.174.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.173.0...v4.174.0) (2023-06-16)
+
+
+### Features
+
+* **data-export:** changed the data-export typing ([1057dbf](https://github.com/c-commerce/charles-browser-sdk/commit/1057dbfae539041dccc582b9c53ed90e4ea46ee8))
+
 # [4.173.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.172.1...v4.173.0) (2023-06-15)
 
 
