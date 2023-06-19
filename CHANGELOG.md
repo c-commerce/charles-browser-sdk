@@ -1,3 +1,10 @@
+# [4.175.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.174.0...v4.175.0) (2023-06-19)
+
+
+### Features
+
+* **Product:** exposed product entities ([535c76e](https://github.com/c-commerce/charles-browser-sdk/commit/535c76e785c37e607d1aafe8d900b3a002595a94))
+
 # [4.174.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.173.0...v4.174.0) (2023-06-16)
 
 
