@@ -33,6 +33,7 @@ export interface PersonContactRawPayload extends EntityRawPayload {
   readonly sentiment?: string
   readonly sentiment_value?: string
   readonly message_subscriptions_granted?: string[]
+  readonly message_subscriptions_withdrawn_or_denied?: string[]
   readonly message_subscription_has_at_least_one_granted?: boolean
   readonly message_subscription_has_at_least_one_opt_out?: boolean
   readonly message_subscription_has_any?: boolean
@@ -67,6 +68,7 @@ export interface PersonContactPayload {
   readonly sentiment?: PersonContactRawPayload['sentiment']
   readonly sentimentValue?: PersonContactRawPayload['sentiment_value']
   readonly messageSubscriptionsGranted?: PersonContactRawPayload['message_subscriptions_granted']
+  readonly messageSubscriptionsWithdrawnOrDenied?: PersonContactRawPayload['message_subscriptions_withdrawn_or_denied']
   readonly messageSubscriptionHasAtLeastOneGranted?: PersonContactRawPayload['message_subscription_has_at_least_one_granted']
   readonly messageSubscriptionHasAtLeastOneOptOut?: PersonContactRawPayload['message_subscription_has_at_least_one_opt_out']
   readonly messageSubscriptionHasAny?: PersonContactRawPayload['message_subscription_has_any']
@@ -117,6 +119,7 @@ export class PersonContact extends UniverseEntity<PersonContactPayload, PersonCo
   public sentiment?: PersonContactPayload['sentiment']
   public sentimentValue?: PersonContactPayload['sentimentValue']
   public messageSubscriptionsGranted?: PersonContactPayload['messageSubscriptionsGranted']
+  public messageSubscriptionsWithdrawnOrDenied?: PersonContactPayload['messageSubscriptionsWithdrawnOrDenied']
   public messageSubscriptionHasAtLeastOneGranted?: PersonContactPayload['messageSubscriptionHasAtLeastOneGranted']
   public messageSubscriptionHasAtLeastOneOptOut?: PersonContactPayload['messageSubscriptionHasAtLeastOneOptOut']
   public messageSubscriptionHasAny?: PersonContactPayload['messageSubscriptionHasAny']
@@ -168,6 +171,7 @@ export class PersonContact extends UniverseEntity<PersonContactPayload, PersonCo
     this.sentimentValue = rawPayload.sentiment_value
 
     this.messageSubscriptionsGranted = rawPayload.message_subscriptions_granted
+    this.messageSubscriptionsWithdrawnOrDenied = rawPayload.message_subscriptions_withdrawn_or_denied
     this.messageSubscriptionHasAtLeastOneGranted = rawPayload.message_subscription_has_at_least_one_granted
     this.messageSubscriptionHasAtLeastOneOptOut = rawPayload.message_subscription_has_at_least_one_opt_out
     this.messageSubscriptionHasAny = rawPayload.message_subscription_has_any
