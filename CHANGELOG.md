@@ -1,3 +1,10 @@
+# [4.176.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.175.0...v4.176.0) (2023-06-20)
+
+
+### Features
+
+* **contacts:** add withdrawn or denied message subscriptions ([75d334d](https://github.com/c-commerce/charles-browser-sdk/commit/75d334deb9e6401090281c30f014455ec315648f))
+
 # [4.175.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.174.0...v4.175.0) (2023-06-19)
 
 
