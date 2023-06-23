@@ -17,6 +17,7 @@ export interface UniversesPoolRawPayload {
   readonly count?: string
   readonly status?: string
   readonly configuration?: string
+  readonly lock?: boolean
 }
 
 export interface UniversesPoolPayload {
@@ -29,6 +30,7 @@ export interface UniversesPoolPayload {
   readonly count?: UniversesPoolRawPayload['count']
   readonly status?: UniversesPoolRawPayload['status']
   readonly configuration?: UniversesPoolRawPayload['configuration']
+  readonly lock?: UniversesPoolRawPayload['lock']
 }
 
 export interface UniversePoolDeployStatus {
@@ -68,6 +70,7 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
   public count?: UniversesPoolPayload['count']
   public status?: UniversesPoolPayload['status']
   public configuration?: UniversesPoolPayload['configuration']
+  public lock?: UniversesPoolPayload['lock']
 
   constructor (options: UniversesPoolOptions) {
     super()
@@ -94,6 +97,7 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
     this.count = rawPayload.count
     this.status = rawPayload.status
     this.configuration = rawPayload.configuration
+    this.lock = rawPayload.lock
 
     return this
   }
@@ -112,7 +116,8 @@ export class UniversesPool extends Entity<UniversesPoolPayload, UniversesPoolRaw
       name: this.name,
       count: this.count,
       status: this.status,
-      configuration: this.configuration
+      configuration: this.configuration,
+      lock: this.lock ?? false
     }
   }
 
