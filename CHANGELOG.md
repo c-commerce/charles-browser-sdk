@@ -1,3 +1,10 @@
+# [4.177.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.176.0...v4.177.0) (2023-06-23)
+
+
+### Features
+
+* **universes-pool.ts:** added lock field to pool payload ([2d54bf6](https://github.com/c-commerce/charles-browser-sdk/commit/2d54bf641819b36c8e57a5c44318387eefb12139))
+
 # [4.176.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.175.0...v4.176.0) (2023-06-20)
 
 
