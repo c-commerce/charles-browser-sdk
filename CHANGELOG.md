@@ -1,3 +1,10 @@
+# [4.178.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.177.0...v4.178.0) (2023-07-04)
+
+
+### Features
+
+* **releases.ts:** TECH-6782 - added release creation support ([dc3b0f6](https://github.com/c-commerce/charles-browser-sdk/commit/dc3b0f692bf3168abfb5163fb1a29f03c48afe0f))
+
 # [4.177.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.176.0...v4.177.0) (2023-06-23)
 
 
