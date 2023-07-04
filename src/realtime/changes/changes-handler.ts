@@ -37,7 +37,7 @@ export class ChangesHandler<T> {
   constructor (
     private readonly mqtt: RealtimeClient,
     private readonly eventHandler: Partial<ChangeEventHandler<T>>,
-    private readonly payload: PayloadData,
+    payload: PayloadData,
     types: ChangeType[] = ['updated', 'deleted']
   ) {
     this._filterMessages = this._filterMessages.bind(this)

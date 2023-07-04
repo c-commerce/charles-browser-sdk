@@ -143,7 +143,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
     }
   }
 
-  protected deserialize (rawPayload: FeedRawPayload): this {
+  public deserialize (rawPayload: FeedRawPayload): this {
     // NOTE: in order not to trigger potential callers reactivity, we only set the ID if it is not set.
     // in any case the overriding behaviour would be unwanted, but is harder to achieve in a or our TS setup
     if (!this.id) this.id = rawPayload.id
@@ -172,7 +172,7 @@ export class Feed extends UniverseEntity<FeedPayload, FeedRawPayload> {
         }
         return item as string
       })
-    } else if (!rawPayload.participants && !Array.isArray(this.topLatestEvents)) {
+    } else if (!rawPayload.participants && !Array.isArray(this.participants)) {
       this.participants = undefined
     }
 
