@@ -50,6 +50,13 @@ export interface ReleaseEntityRawPayload {
   readonly latest?: boolean
 }
 
+export interface CreateReleasePayload {
+  readonly default_display_name: string
+  readonly agent_ui: string
+  readonly client_api: string
+  readonly latest?: boolean
+}
+
 export interface ReleaseWithVersionsRawPayload {
   readonly id?: string
   readonly release?: ReleaseEntityRawPayload
@@ -112,7 +119,7 @@ export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
   constructor (options: ReleaseOptions) {
     super()
     this.apiCarrier = options.carrier
-    this.endpoint = 'api/v0/universes/releases'
+    this.endpoint = 'api/v0/releases'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -195,11 +202,29 @@ export class Release extends Entity<ReleasePayload, ReleaseRawPayload> {
       throw this.handleError(new ReleasesGetImageTagsError(undefined, { error: err }))
     }
   }
+
+  public async createRelease (payload: CreateReleasePayload): Promise<ReleaseEntityRawPayload> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: payload
+      }
+      const res = await this.http?.getClient()(opts) 
+      return res.data.data
+    } catch (err: object | any) {
+      throw this.handleError(new ReleaseCreationError())
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Releases {
-  public static endpoint: string = 'api/v0/universes/releases'
+  public static endpoint: string = 'api/v0/releases'
 }
 
 export class ReleaseInitializationError extends BaseError {
@@ -207,6 +232,14 @@ export class ReleaseInitializationError extends BaseError {
   constructor (public message: string = 'Could not initialize Release.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, ReleaseInitializationError.prototype)
+  }
+}
+
+export class ReleaseCreationError extends BaseError {
+  public name = 'ReleaseCreationError'
+  constructor (public message: string = 'Could not create a new Release.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ReleaseCreationError.prototype)
   }
 }
 
