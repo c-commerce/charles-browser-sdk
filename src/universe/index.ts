@@ -76,7 +76,7 @@ import PresenceEntityManager from '../realtime/presence/presence-entity-manager'
 import { PresencePayload, PresenceStaffPayload } from '../realtime/presence/presence-handler'
 import * as linkClick from '../entities/link-click/link-click'
 import * as campaignLinkClick from '../entities/link-click/campaign-link-click'
-import { ChangesHandler, ChangeType, CustomChangeEventHandler } from '../realtime/changes/changes-handler'
+import { ChangeEventHandler, ChangesHandler, ChangeType, CustomChangeEventHandler } from '../realtime/changes/changes-handler'
 import ChangesEntityManager from '../realtime/changes/changes-entity-manager'
 import { getEntityName } from '../helpers/entity'
 import { UniverseMe } from './me'
@@ -1056,8 +1056,12 @@ export class Universe extends APICarrier {
     return new ChangesRawManager<T>(this.getMqttClient(), raw, entityName, embeds, types, customHandler)
   }
 
-  public trackEntityCreation<T>(onCreated: (entity: T) => void, entityConstructor: any = undefined, id: string | undefined = undefined): ChangesHandler<T> {
-    return new ChangesHandler<T>(this.getMqttClient(), { onCreated }, { entityName: getEntityName(entityConstructor) ?? undefined, id }, ['created'])
+  public trackEntity<T>(
+    customHandler: Partial<ChangeEventHandler<T>>,
+    entityConstructor: any = undefined,
+    id: string | undefined = undefined,
+    types: ChangeType[] = ['created', 'updated', 'deleted']): ChangesHandler<T> {
+    return new ChangesHandler<T>(this.getMqttClient(), customHandler, { entityName: getEntityName(entityConstructor) ?? undefined, id }, types)
   }
 
   /* Analytics & Reports */

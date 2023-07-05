@@ -279,3 +279,6 @@ export class UninstantiatedRealtimeClient extends BaseError {
     super(message, properties)
   }
 }
+
+export * from './changes'
+export * from './presence'

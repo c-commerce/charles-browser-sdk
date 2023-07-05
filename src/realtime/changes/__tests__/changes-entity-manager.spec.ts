@@ -65,7 +65,7 @@ describe('Realtime', () => {
         } as unknown as DeletableFacadeEntityOptions)
 
         const manager = new ChangesEntityManager<any>({} as unknown as RealtimeClient, entity)
-        manager.onDeleted()
+        manager.onDeleted({})
 
         expect(entity.deleted).toBeTruthy()
       })
@@ -79,7 +79,7 @@ describe('Realtime', () => {
         } as unknown as FacadeEntityOptions)
 
         const manager = new ChangesEntityManager<any>({} as unknown as RealtimeClient, entity)
-        manager.onDeleted()
+        manager.onDeleted({})
 
         expect('deleted' in entity).toBeFalsy()
       })
