@@ -1,3 +1,11 @@
+# [4.179.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.178.0...v4.179.0) (2023-07-05)
+
+
+### Features
+
+* **ChangesTracking:** added enhancements to changes tracking ([5a61169](https://github.com/c-commerce/charles-browser-sdk/commit/5a6116934ad11875e520adf183d3a0d95f1369eb))
+* **feeds:** change deserialize method to public, minor fixes ([5e06c91](https://github.com/c-commerce/charles-browser-sdk/commit/5e06c91e94e12ad1c5f8843c41e2137e39d4e319))
+
 # [4.178.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.177.0...v4.178.0) (2023-07-04)
 
 
