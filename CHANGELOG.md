@@ -1,3 +1,10 @@
+## [4.180.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.180.0...v4.180.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* **ContactList:** better typing ([6b6987a](https://github.com/c-commerce/charles-browser-sdk/commit/6b6987a9e4d2c2f0b24295c91da1f00caefde0c9))
+
 # [4.180.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.179.0...v4.180.0) (2023-07-06)
 
 
