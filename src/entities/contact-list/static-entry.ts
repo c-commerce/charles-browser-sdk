@@ -3,7 +3,8 @@ import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
 import { ContactLists } from './contact-list'
-
+import { ChannelUserRawPayload } from '../person/channel-user'
+import { TagRawPayload } from '../tag/tag'
 export interface StaticEntryOptions extends UniverseEntityOptions {
   rawPayload?: ContactListStaticEntryRawPayload
 }
@@ -20,13 +21,15 @@ export interface ContactListStaticEntryRawPayload {
     type?: 'person'
     payload?: {
       id?: string
+      channel_users?: ChannelUserRawPayload[]
+      tags?: TagRawPayload[]
     }
   } | {
     type?: 'channel_user'
     payload?: {
       id?: string
     }
-  }| {
+  } | {
     type?: 'external_channel_user'
     payload?: {
       message_broker?: string
