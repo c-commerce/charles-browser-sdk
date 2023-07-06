@@ -1,3 +1,10 @@
+# [4.180.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.179.0...v4.180.0) (2023-07-06)
+
+
+### Features
+
+* **update-static-entries:** added payloads to better type static entries ([97b72df](https://github.com/c-commerce/charles-browser-sdk/commit/97b72df8cd5ed01221ce93a241c56ac690fd57d5))
+
 # [4.179.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.178.0...v4.179.0) (2023-07-05)
 
 
