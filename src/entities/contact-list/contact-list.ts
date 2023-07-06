@@ -57,7 +57,7 @@ export interface ContactListRawPayload {
     user?: string[]
   }
   readonly static_entries?: ContactListStaticEntryRawPayload[]
-  readonly labels?: object
+  readonly labels?: Record<string | number | symbol, any>
   readonly parent?: string
   readonly external_list_reference_id?: string
   // only klavyio related, need to be unified somewhere when we support more
