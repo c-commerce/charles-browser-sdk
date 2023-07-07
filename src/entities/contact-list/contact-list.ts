@@ -9,6 +9,7 @@ import {
 } from './static-entry'
 import qs from 'qs'
 import omit from 'just-omit'
+import { RuleGroupExpr } from './audience-builder-types'
 
 export interface ContactListOptions extends UniverseEntityOptions {
   rawPayload?: ContactListRawPayload
@@ -37,7 +38,6 @@ export interface ContactListSplitConfiguration {
     amount?: number
   } | object | null
 }
-
 export interface ContactListRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -51,6 +51,7 @@ export interface ContactListRawPayload {
     effect?: 'include' | 'exclude'
     query?: string
   }> | null
+  readonly rules?: RuleGroupExpr
   readonly type?: 'dynamic' | 'static'
   readonly author?: {
     staff?: string[]
@@ -85,6 +86,7 @@ export interface ContactListPayload {
   readonly name?: ContactListRawPayload['name']
   readonly summary?: ContactListRawPayload['summary']
   readonly filters?: ContactListRawPayload['filters']
+  readonly rules?: ContactListRawPayload['rules']
   readonly type?: ContactListRawPayload['type']
   readonly author?: ContactListRawPayload['author']
   readonly staticEntries?: ContactListStaticEntry[]
@@ -128,6 +130,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   public name?: ContactListPayload['name']
   public summary?: ContactListPayload['summary']
   public filters?: ContactListPayload['filters']
+  public rules?: ContactListPayload['rules']
   public type?: ContactListPayload['type']
   public author?: ContactListPayload['author']
   public labels?: ContactListPayload['labels']
@@ -169,6 +172,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.name = rawPayload.name
     this.summary = rawPayload.summary
     this.filters = rawPayload.filters
+    this.rules = rawPayload.rules
     this.type = rawPayload.type
     this.author = rawPayload.author
     this.labels = rawPayload.labels
@@ -211,6 +215,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       name: this.name,
       summary: this.summary,
       filters: this.filters,
+      rules: this.rules,
       type: this.type,
       author: this.author,
       labels: this.labels,
