@@ -1,3 +1,10 @@
+# [4.181.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.180.1...v4.181.0) (2023-07-07)
+
+
+### Features
+
+* **ContactList:** add new AB fields ([bb954e9](https://github.com/c-commerce/charles-browser-sdk/commit/bb954e98de91202ea7b568162c4dcdf8526f12f7))
+
 ## [4.180.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.180.0...v4.180.1) (2023-07-06)
 
 
