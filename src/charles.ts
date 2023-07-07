@@ -288,6 +288,7 @@ export class Charles extends CharlesClient {
 
 export default Charles.getInstance({ universe: defaultOptions.universe })
 
+export * from './entities/contact-list'
 export * from './helpers'
 export * from './entities/message-template'
 export * from './entities/notification-campaign'
