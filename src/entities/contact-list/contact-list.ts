@@ -74,6 +74,7 @@ export interface ContactListRawPayload {
   }
   readonly last_synced_at?: string
   readonly is_syncing?: boolean
+  readonly hide?: string[] | null
 }
 
 export interface ContactListPayload {
@@ -101,6 +102,7 @@ export interface ContactListPayload {
   readonly links?: ContactListRawPayload['links']
   readonly lastSyncedAt?: Date | null
   readonly isSyncing?: ContactListRawPayload['is_syncing']
+  readonly hide?: ContactListRawPayload['hide']
 }
 
 /**
@@ -145,6 +147,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   public links?: ContactListPayload['links']
   public lastSyncedAt?: ContactListPayload['lastSyncedAt']
   public isSyncing?: ContactListPayload['isSyncing']
+  public hide?: ContactListPayload['hide']
   constructor (options: ContactListOptions) {
     super()
     this.universe = options.universe
@@ -186,6 +189,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.links = rawPayload.links
     this.lastSyncedAt = rawPayload.last_synced_at ? new Date(rawPayload.last_synced_at) : undefined
     this.isSyncing = rawPayload.is_syncing
+    this.hide = rawPayload.hide
 
     if (rawPayload.static_entries && this.initialized) {
       this._staticEntries = rawPayload.static_entries.map(i => ContactListStaticEntry.create(i, this.universe, this.http))
@@ -227,7 +231,8 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       source_api: this.sourceApi,
       proxy_reference_id: this.proxyReferenceId,
       links: this.links,
-      is_syncing: this.isSyncing
+      is_syncing: this.isSyncing,
+      hide: this.hide
     }
   }
 
@@ -253,7 +258,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
         responseType: 'json'
       }
 
-      return await this.http?.getClient()(opts)
+      return this.http?.getClient()(opts)
     } catch (err) {
       throw this.handleError(new ContactListImportRemoteError(undefined, { error: err }))
     }
