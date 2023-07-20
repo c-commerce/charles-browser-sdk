@@ -1,3 +1,10 @@
+## [4.182.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.182.0...v4.182.1) (2023-07-20)
+
+
+### Bug Fixes
+
+* **SDK:** fix some exports ([ce708e3](https://github.com/c-commerce/charles-browser-sdk/commit/ce708e3b96407b1b760dceb91092d99437f765eb))
+
 # [4.182.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.181.0...v4.182.0) (2023-07-20)
 
 
