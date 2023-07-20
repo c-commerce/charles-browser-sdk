@@ -1,3 +1,10 @@
+# [4.182.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.181.0...v4.182.0) (2023-07-20)
+
+
+### Features
+
+* **ContactLists:** add hide property ([54bfb1e](https://github.com/c-commerce/charles-browser-sdk/commit/54bfb1ed4f7aba5ecfee965516d751d5fdb5e0c7))
+
 # [4.181.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.180.1...v4.181.0) (2023-07-07)
 
 
