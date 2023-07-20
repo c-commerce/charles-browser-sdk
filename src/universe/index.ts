@@ -165,17 +165,6 @@ export interface UniverseFetch<E, R> {
   (options?: UniverseFetchOptions): Promise<E | undefined>
 }
 
-export declare interface Universe {
-  on: ((event: 'raw-error' | 'error', cb: (error: Error) => void) => this) & ((event:
-  'armed' // currently unused
-  | 'universe:message' // receive any message in this universe
-  | 'universe:feeds:messages' // receive any message in any feed in this universe
-  | 'universe:feeds:events' // receive any event in any feed in this universe
-  | 'universe:feeds' // receive notifications about feeds and their updates, also which action happened for that feed
-  | string,
-    cb: Function) => this)
-}
-
 export interface UnviverseSearchResultItem {
   document: object
 }
