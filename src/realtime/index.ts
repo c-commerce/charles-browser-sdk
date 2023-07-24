@@ -129,6 +129,7 @@ export class RealtimeClient extends events.EventEmitter {
   private readonly client?: MqttClient
   private readonly mqttOptions: MqttOptions
   private last: RealtimeLastMessageReference | null = null
+  private readonly topicStore: Map<string, number> = new Map()
 
   constructor (options: RealtimeClientOptions) {
     super()
@@ -235,13 +236,42 @@ export class RealtimeClient extends events.EventEmitter {
     }
   }
 
-  public subscribe (topic: string | string[], cb?: Function): RealtimeClient {
-    this.getClient().subscribe(topic, cb as ClientSubscribeCallback)
+  public subscribe (topic: string | string[], cb?: Function, force: boolean = false): RealtimeClient {
+    const handleSubscription = (topic: string, cb?: Function): void => {
+      const currentCount = this.topicStore.get(topic) ?? 0
+
+      if (currentCount === 0 || force) {
+        this.getClient().subscribe(topic, cb as ClientSubscribeCallback)
+      }
+      this.topicStore.set(topic, currentCount + 1)
+    }
+
+    if (Array.isArray(topic)) {
+      topic.forEach(t => handleSubscription(t, cb))
+    } else {
+      handleSubscription(topic, cb)
+    }
+
     return this
   }
 
-  public unsubscribe (topic: string | string[], cb?: Function): RealtimeClient {
-    this.getClient().unsubscribe(topic, cb as PacketCallback ?? undefined)
+  public unsubscribe (topic: string | string[], cb?: Function, force: boolean = false): RealtimeClient {
+    const handleUnsubscription = (topic: string, cb?: Function): void => {
+      const currentCount = this.topicStore.get(topic) ?? 0
+      this.topicStore.set(topic, currentCount - 1)
+
+      if (currentCount <= 1 || force) {
+        this.getClient().unsubscribe(topic, cb as PacketCallback ?? undefined)
+        this.topicStore.delete(topic)
+      }
+    }
+
+    if (Array.isArray(topic)) {
+      topic.forEach(t => handleUnsubscription(t, cb))
+    } else {
+      handleUnsubscription(topic, cb)
+    }
+
     return this
   }
 
