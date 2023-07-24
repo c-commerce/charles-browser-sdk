@@ -1,3 +1,10 @@
+## [4.182.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.182.1...v4.182.2) (2023-07-24)
+
+
+### Bug Fixes
+
+* **RealtimeClient:** fixed subscription handling ([0803a3f](https://github.com/c-commerce/charles-browser-sdk/commit/0803a3fc976156e563cb60a054e40d3c59a6ec2f))
+
 ## [4.182.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.182.0...v4.182.1) (2023-07-20)
 
 
