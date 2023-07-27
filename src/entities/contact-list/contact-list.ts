@@ -346,6 +346,26 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     }
   }
 
+  public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
+    const opts = {
+      method: 'GET',
+      timeout: 60000,
+      url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id as string}/preview/export${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+      headers: {
+        Accept: 'text/csv'
+      },
+      responseType: 'blob'
+    }
+
+    // eslint-disable-next-line @typescript-eslint/return-await
+    return await this.http?.getClient()(opts)
+      .then((res: { data: any }) => res.data)
+      .catch((err: any) => {
+        this.emit('error', err)
+        return undefined
+      })
+  }
+
   /**
    * Static entry accessor
    *
