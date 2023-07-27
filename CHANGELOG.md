@@ -1,3 +1,10 @@
+# [4.183.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.182.2...v4.183.0) (2023-07-27)
+
+
+### Features
+
+* **segment-list:** created a new endpoint to properly export segments and lists ([86b815f](https://github.com/c-commerce/charles-browser-sdk/commit/86b815f80c88eb8b19bb65aca347331d71e812eb))
+
 ## [4.182.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.182.1...v4.182.2) (2023-07-24)
 
 
