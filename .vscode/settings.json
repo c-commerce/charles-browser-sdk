@@ -11,5 +11,6 @@
     "CHANGELOG.md": true,
     "package-lock.json": true,
     "yarn.lock": true,
-  }
+  },
+  "GitHooks.hooksDirectory": "/Users/daniel.cameron/Documents/charles-browser-sdk/.git/hooks"
 }
