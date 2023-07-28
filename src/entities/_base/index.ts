@@ -12,7 +12,6 @@ import { APICarrier } from '../../base'
 import { Universe } from '../../universe'
 import { BaseError, BaseErrorV2, BaseErrorV2Properties } from '../../errors'
 import { isEntity } from '../../helpers/entity'
-import { processPatches } from '../../helpers/json-patch'
 import { OpPatch } from '../../@types/json-patch'
 
 export interface RawPatchItem {
@@ -196,12 +195,12 @@ export default abstract class Entity<Payload, RawPayload> extends View<Payload, 
     if (this.id === null || this.id === undefined) throw new TypeError('patch requires id to be set.')
 
     try {
-      const patch = processPatches(diff(
+      const patch = diff(
         this._rawPayload as unknown as object,
         // first merge with what we got, in order not to throw away any properties
         { ...this._rawPayload, ...changePart } as unknown as object,
         jsonPatchPathConverter
-      ) as OpPatch[])
+      ) as OpPatch[]
 
       const opts = {
         method: 'PATCH',
