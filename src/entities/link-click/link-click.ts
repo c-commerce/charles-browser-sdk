@@ -1,5 +1,5 @@
-import { SnakeToCamelCase } from 'src/helpers/case-convert-type'
-import { Universe } from 'src/universe'
+import { SnakeToCamelCase } from '../../helpers/case-convert-type'
+import { Universe } from '../../universe'
 import Entity, { UniverseEntityOptions } from '../_base'
 
 export interface LinkClickOptions extends UniverseEntityOptions {

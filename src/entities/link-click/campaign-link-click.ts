@@ -1,6 +1,6 @@
 import { BaseError } from '../../errors'
-import { SnakeToCamelCase } from 'src/helpers/case-convert-type'
-import { Universe } from 'src/universe'
+import { SnakeToCamelCase } from '../../helpers/case-convert-type'
+import { Universe } from '../../universe'
 import { UniverseEntityOptions, View } from '../_base'
 
 export interface CampaignLinkClickOptions extends UniverseEntityOptions {

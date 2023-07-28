@@ -1,6 +1,6 @@
 import { Universe, UniverseBadRequestError, UniverseForbiddenError } from './index'
 import { Client } from '../client'
-import { StaffMessageTemplateFavorite } from 'src/entities/staff/staff'
+import { StaffMessageTemplateFavorite } from '../entities/staff/staff'
 
 describe('Universe: set hosting environment dynamically', () => {
   const client = Client.getInstance({

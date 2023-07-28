@@ -2,7 +2,7 @@
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { MessageStatus } from 'src/messaging/message'
+import { MessageStatus } from '../../messaging/message'
 
 export interface StaticEntryOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignStaticEntryRawPayload

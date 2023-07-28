@@ -2,7 +2,7 @@
 import { UniverseEntityOptions, UniverseEntity } from '../_base'
 import { Universe } from '../../universe'
 import { BaseError } from '../../errors'
-import { CastToDate, Mutable, SnakeToCamelCase } from 'src/helpers/case-convert-type'
+import { CastToDate, Mutable, SnakeToCamelCase } from '../../helpers/case-convert-type'
 
 export interface ProductCategoryOptions extends UniverseEntityOptions {
   rawPayload?: ProductCategoryRawPayload
