@@ -1,4 +1,4 @@
-import { RealtimeClient, RealtimeMessage, RealtimeMessageMessage } from 'src/realtime'
+import { RealtimeClient, RealtimeMessage, RealtimeMessageMessage } from '../../realtime'
 
 export interface PresenceStaffPayload { id: string, name: string }
 export interface PresencePayload<T> { staff: PresenceStaffPayload, isPresent: boolean, extraPayload?: T }

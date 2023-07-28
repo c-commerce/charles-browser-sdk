@@ -2,7 +2,7 @@ import { Client, ClientError } from '../client'
 import { StaffMessageTemplateFavorite } from '../entities/staff/staff'
 import { throwExceptionFromCommonError } from '../helpers'
 import { MeData, Universe, UniverseBadRequestError, UniverseForbiddenError, UniverseMeError, UniverseMePreferencesError, UniverseSessionError } from '.'
-import { PatchOpts } from 'src/helpers/json-patch-type'
+import { PatchOpts } from '../@types/json-patch'
 
 type AddTemplateFavoriteArg = Omit<StaffMessageTemplateFavorite, 'created_at'>
 type RemoveTemplateFavoriteArg = Omit<StaffMessageTemplateFavorite, 'created_at'> & { created_at?: string }
