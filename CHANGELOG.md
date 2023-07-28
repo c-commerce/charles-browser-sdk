@@ -1,3 +1,10 @@
+# [4.184.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.183.1...v4.184.0) (2023-07-28)
+
+
+### Features
+
+* revert contact_list changes & handle undefined patches ([fc057d0](https://github.com/c-commerce/charles-browser-sdk/commit/fc057d042767cc74be00ae4a99ce1b065c16f6a5))
+
 ## [4.183.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.183.0...v4.183.1) (2023-07-28)
 
 
