@@ -158,4 +158,87 @@ describe('Entities: base', () => {
 
     expect(instPostable.serialize()).toStrictEqual({ id: '5678', name: 'something' })
   })
+
+  it('can handle undefined patches', async () => {
+    const obj = {
+      id: '1234',
+      name: null
+    }
+
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const mockUniverse = {
+      universeBase: 'https://my-business.hello-charles.com',
+      injectables: {
+        base: 'https://my-business.hello-charles.com'
+      }
+    } as UniverseEntityOptions['universe']
+
+    const mockCallback = jest.fn((opts: object) => {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      return {
+        responseStatus: 200,
+        data: {
+          data: [
+            {
+              id: '1234',
+              name: 'new name'
+            }
+          ]
+        }
+      } as object
+    })
+
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const mockHttp = {
+      getClient () {
+        return (opts: object) => {
+          return mockCallback(opts)
+        }
+      }
+    } as UniverseEntityOptions['http']
+
+    const inst = new Cls({
+      rawPayload: obj,
+      universe: mockUniverse,
+      http: mockHttp
+    })
+
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    expect(inst['_rawPayload']).toStrictEqual({ id: '1234', name: null })
+
+    await inst.patch({ name: 'new name', newField: undefined } as any)
+
+    expect(mockCallback.mock.calls.length).toBe(1)
+    expect(mockCallback.mock.calls[0][0]).toStrictEqual({
+      data: [
+        { op: 'replace', path: '/name', value: 'new name' },
+        { op: 'add', path: '/newField', value: null }
+      ],
+      headers: {
+        'Content-Type': 'application/json-patch+json'
+      },
+      method: 'PATCH',
+      responseType: 'json',
+      url: 'https://my-business.hello-charles.com/api/v0/cls_endpoint/1234'
+    })
+
+    mockCallback.mockClear()
+
+    await inst.patch({ name: undefined } as any)
+
+    expect(mockCallback.mock.calls.length).toBe(1)
+    expect(mockCallback.mock.calls[0][0]).toStrictEqual({
+      data: [
+        { op: 'replace', path: '/name', value: null }
+      ],
+      headers: {
+        'Content-Type': 'application/json-patch+json'
+      },
+      method: 'PATCH',
+      responseType: 'json',
+      url: 'https://my-business.hello-charles.com/api/v0/cls_endpoint/1234'
+    })
+
+    mockCallback.mockReset()
+  })
 })

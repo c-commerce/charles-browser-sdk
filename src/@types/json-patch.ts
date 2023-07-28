@@ -1,27 +1,27 @@
 export type OpPatch = AddPatch | RemovePatch | ReplacePatch | MovePatch | CopyPatch | TestPatch
-interface Patch {
+export interface Patch {
   path: string
 }
-interface AddPatch extends Patch {
+export interface AddPatch extends Patch {
   op: 'add'
   value: any
 }
-interface RemovePatch extends Patch {
+export interface RemovePatch extends Patch {
   op: 'remove'
 }
-interface ReplacePatch extends Patch {
+export interface ReplacePatch extends Patch {
   op: 'replace'
   value: any
 }
-interface MovePatch extends Patch {
+export interface MovePatch extends Patch {
   op: 'move'
   from: string
 }
-interface CopyPatch extends Patch {
+export interface CopyPatch extends Patch {
   op: 'copy'
   from: string
 }
-interface TestPatch extends Patch {
+export interface TestPatch extends Patch {
   op: 'test'
   value: any
 }
