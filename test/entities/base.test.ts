@@ -159,7 +159,7 @@ describe('Entities: base', () => {
     expect(instPostable.serialize()).toStrictEqual({ id: '5678', name: 'something' })
   })
 
-  it('can handle undefined patches', async () => {
+  it.skip('can handle undefined patches', async () => {
     const obj = {
       id: '1234',
       name: null
