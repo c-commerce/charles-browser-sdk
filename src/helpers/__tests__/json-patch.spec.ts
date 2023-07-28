@@ -1,4 +1,4 @@
-import { OpPatch } from 'src/@types/json-patch'
+import { OpPatch } from '../../@types/json-patch'
 import { processPatches } from '../json-patch'
 
 describe('Test processPatches', () => {

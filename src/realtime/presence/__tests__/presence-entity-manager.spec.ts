@@ -1,4 +1,4 @@
-import { RealtimeClient } from 'src/realtime'
+import { RealtimeClient } from '../../../realtime'
 import PresenceEntityManager from '../presence-entity-manager'
 import PresenceHandler, { PresenceStaffPayload } from '../presence-handler'
 

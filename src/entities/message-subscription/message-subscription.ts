@@ -4,7 +4,7 @@ import { Universe, UniverseFetchOptions, UniverseExportCsvOptions } from '../../
 import { BaseError } from '../../errors'
 import qs from 'qs'
 import { MessageSubscriptionInstance, MessageSubscriptionInstanceGetAllRemoteError, MessageSubscriptionInstanceRawPayload } from '../message-subscription-instance/message-subscription-instance'
-import { FeedEventsRawPayload } from 'src/eventing/feeds/feed'
+import { FeedEventsRawPayload } from '../../eventing/feeds/feed'
 
 export interface MessageSubscriptionOptions extends UniverseEntityOptions {
   rawPayload?: MessageSubscriptionRawPayload

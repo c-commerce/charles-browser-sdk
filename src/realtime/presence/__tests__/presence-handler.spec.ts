@@ -1,4 +1,4 @@
-import type { RealtimeClient, RealtimeMessage, RealtimeMessageMessage } from 'src/realtime'
+import type { RealtimeClient, RealtimeMessage, RealtimeMessageMessage } from '../../../realtime'
 import PresenceHandler from '../presence-handler'
 
 interface IMockRealtimeClient extends RealtimeClient {}
