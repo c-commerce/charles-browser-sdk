@@ -1,5 +1,4 @@
-
-import {
+export {
   Person,
   People,
   PeopleFetchRemoteError,
@@ -8,9 +7,6 @@ import {
 } from './person'
 
 export {
-  Person,
-  People,
-  PeopleFetchRemoteError,
-  PersonRawPayload,
-  Address
-}
+  ChannelUser,
+  ChannelUserRawPayload
+} from './channel-user'
