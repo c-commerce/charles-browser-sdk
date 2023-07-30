@@ -1,3 +1,10 @@
+# [4.185.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.184.0...v4.185.0) (2023-07-30)
+
+
+### Features
+
+* **channel-user:** add missing exports ([8549187](https://github.com/c-commerce/charles-browser-sdk/commit/8549187d98c14cb9a9e1a1949ed377ab97154b1c))
+
 # [4.184.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.183.1...v4.184.0) (2023-07-28)
 
 
