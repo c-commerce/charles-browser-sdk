@@ -1,3 +1,10 @@
+## [4.185.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.185.0...v4.185.1) (2023-07-31)
+
+
+### Bug Fixes
+
+* **Person:** fixed entity name ([40fa57c](https://github.com/c-commerce/charles-browser-sdk/commit/40fa57ca133486ee4490b13e2a43c2dadc0ae2f4))
+
 # [4.185.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.184.0...v4.185.0) (2023-07-30)
 
 
