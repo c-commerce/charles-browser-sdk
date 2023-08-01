@@ -18,6 +18,7 @@ export interface OrganizationRawPayload {
   readonly verified?: boolean
   readonly external_billing_account_id?: string
   readonly owner?: string
+  readonly parent_organization?: string
 }
 
 export interface CreateOrganizationUserRawPayload {
@@ -37,6 +38,7 @@ export interface OrganizationPayload {
   readonly verified?: OrganizationRawPayload['verified']
   readonly externalBillingAccountId?: OrganizationRawPayload['external_billing_account_id']
   readonly owner?: OrganizationRawPayload['owner']
+  readonly parentOrganization?: OrganizationRawPayload['parent_organization']
 }
 
 export interface CreateOrganizationUserPayload {
@@ -105,6 +107,7 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
   public verified?: OrganizationPayload['verified']
   public externalBillingAccountId?: OrganizationPayload['externalBillingAccountId']
   public owner?: OrganizationPayload['owner']
+  public parentOrganization?: OrganizationPayload['parentOrganization']
 
   constructor (options: OrganizationOptions) {
     super()
@@ -132,7 +135,7 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
     this.verified = rawPayload.verified
     this.externalBillingAccountId = rawPayload.external_billing_account_id
     this.owner = rawPayload.owner
-
+    this.parentOrganization = rawPayload.parent_organization
     return this
   }
 
@@ -213,7 +216,8 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
       status: this.status,
       verified: this.verified,
       external_billing_account_id: this.externalBillingAccountId,
-      owner: this.owner
+      owner: this.owner,
+      parent_organization: this.parentOrganization
     }
   }
 
@@ -224,6 +228,29 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
       return this
     } catch (err) {
       throw this.handleError(new OrganizationInitializationError(undefined, { error: err }))
+    }
+  }
+
+  public async getChildren (): Promise<OrganizationRawPayload[]> {
+    if (!this.id) throw new TypeError('Organization.getChildren required organization id to be set')
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        params: {
+          parent_organization: this.id
+        }
+
+      }
+      const res = await this.http?.getClient()(opts)
+      const children = res.data.data as OrganizationRawPayload[]
+      return children
+    } catch (err) {
+      throw this.handleError(new OrganizationGetChildrenError(undefined, { error: err }))
     }
   }
 }
@@ -269,5 +296,13 @@ export class InviteUserError extends BaseError {
   constructor (public message: string = 'Error inviting new user', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, InviteUserError.prototype)
+  }
+}
+
+export class OrganizationGetChildrenError extends BaseError {
+  public name = 'OrganizationGetChildrenError'
+  constructor (public message: string = 'Could not get organization children.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, OrganizationGetChildrenError.prototype)
   }
 }
