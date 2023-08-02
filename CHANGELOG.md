@@ -1,3 +1,10 @@
+## [4.186.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.186.0...v4.186.1) (2023-08-02)
+
+
+### Bug Fixes
+
+* **realtime:** fix event typing, export realtime ([c3ca68d](https://github.com/c-commerce/charles-browser-sdk/commit/c3ca68d29a54046f25b400857c460242ee42eac8))
+
 # [4.186.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.185.1...v4.186.0) (2023-08-01)
 
 
