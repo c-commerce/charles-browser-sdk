@@ -9,6 +9,7 @@ import {
 } from './static-entry'
 import qs from 'qs'
 import omit from 'just-omit'
+import { RuleGroupExpr } from './audience-builder-types'
 
 export interface ContactListOptions extends UniverseEntityOptions {
   rawPayload?: ContactListRawPayload
@@ -50,6 +51,7 @@ export interface ContactListRawPayload {
     effect?: 'include' | 'exclude'
     query?: string
   }> | null
+  readonly rules?: RuleGroupExpr | null
   readonly type?: 'dynamic' | 'static'
   readonly author?: {
     staff?: string[]
@@ -72,6 +74,7 @@ export interface ContactListRawPayload {
   }
   readonly last_synced_at?: string
   readonly is_syncing?: boolean
+  readonly hide?: string[] | null
 }
 
 export interface ContactListPayload {
@@ -84,6 +87,7 @@ export interface ContactListPayload {
   readonly name?: ContactListRawPayload['name']
   readonly summary?: ContactListRawPayload['summary']
   readonly filters?: ContactListRawPayload['filters']
+  readonly rules?: ContactListRawPayload['rules']
   readonly type?: ContactListRawPayload['type']
   readonly author?: ContactListRawPayload['author']
   readonly staticEntries?: ContactListStaticEntry[]
@@ -98,6 +102,7 @@ export interface ContactListPayload {
   readonly links?: ContactListRawPayload['links']
   readonly lastSyncedAt?: Date | null
   readonly isSyncing?: ContactListRawPayload['is_syncing']
+  readonly hide?: ContactListRawPayload['hide']
 }
 
 /**
@@ -127,6 +132,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   public name?: ContactListPayload['name']
   public summary?: ContactListPayload['summary']
   public filters?: ContactListPayload['filters']
+  public rules?: ContactListPayload['rules']
   public type?: ContactListPayload['type']
   public author?: ContactListPayload['author']
   public labels?: ContactListPayload['labels']
@@ -141,6 +147,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   public links?: ContactListPayload['links']
   public lastSyncedAt?: ContactListPayload['lastSyncedAt']
   public isSyncing?: ContactListPayload['isSyncing']
+  public hide?: ContactListPayload['hide']
   constructor (options: ContactListOptions) {
     super()
     this.universe = options.universe
@@ -168,6 +175,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.name = rawPayload.name
     this.summary = rawPayload.summary
     this.filters = rawPayload.filters
+    this.rules = rawPayload.rules ?? null
     this.type = rawPayload.type
     this.author = rawPayload.author
     this.labels = rawPayload.labels
@@ -181,6 +189,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.links = rawPayload.links
     this.lastSyncedAt = rawPayload.last_synced_at ? new Date(rawPayload.last_synced_at) : undefined
     this.isSyncing = rawPayload.is_syncing
+    this.hide = rawPayload.hide ?? null
 
     if (rawPayload.static_entries && this.initialized) {
       this._staticEntries = rawPayload.static_entries.map(i => ContactListStaticEntry.create(i, this.universe, this.http))
@@ -210,6 +219,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       name: this.name,
       summary: this.summary,
       filters: this.filters,
+      rules: this.rules ?? null,
       type: this.type,
       author: this.author,
       labels: this.labels,
@@ -221,7 +231,8 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       source_api: this.sourceApi,
       proxy_reference_id: this.proxyReferenceId,
       links: this.links,
-      is_syncing: this.isSyncing
+      is_syncing: this.isSyncing,
+      hide: this.hide ?? null
     }
   }
 
