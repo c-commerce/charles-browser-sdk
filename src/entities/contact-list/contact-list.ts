@@ -171,7 +171,6 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.updatedAt = rawPayload.updated_at ? new Date(rawPayload.updated_at) : undefined
     this.deleted = rawPayload.deleted ?? false
     this.active = rawPayload.active ?? true
-
     this.name = rawPayload.name
     this.summary = rawPayload.summary
     this.filters = rawPayload.filters
