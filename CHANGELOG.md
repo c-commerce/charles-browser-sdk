@@ -1,3 +1,10 @@
+# [4.187.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.186.1...v4.187.0) (2023-08-08)
+
+
+### Features
+
+* empty for deployment ([b8fc1a6](https://github.com/c-commerce/charles-browser-sdk/commit/b8fc1a602102d581e9716dc6bfc674e76d44fcf6))
+
 ## [4.186.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.186.0...v4.186.1) (2023-08-02)
 
 
