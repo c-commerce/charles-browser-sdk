@@ -1,3 +1,10 @@
+# [4.188.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.187.0...v4.188.0) (2023-08-09)
+
+
+### Features
+
+* **universe.ts:** send additional info to CCA for CR ([1b54f15](https://github.com/c-commerce/charles-browser-sdk/commit/1b54f15aa22c7f173af09f70e66a9046942778b9))
+
 # [4.187.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.186.1...v4.187.0) (2023-08-08)
 
 
