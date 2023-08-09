@@ -11,6 +11,13 @@ export interface CloudUniverseOptions extends EntityOptions {
   rawPayload?: CloudUniverseRawPayload
 }
 
+type LogLevel = 'none' | 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
+
+export interface DeployOperatorOptions {
+  readonly size: 'small' | 'large',
+  readonly logLevel: LogLevel
+}
+
 export interface DeployOptions {
   readonly method: string
   readonly url: string
@@ -400,13 +407,13 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
-  public async deploy (payload?: [string]): Promise<string> {
+  public async deploy (payload: [string], operatorOpts: DeployOperatorOptions): Promise<string> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.deploy requires universe id to be set.')
     let deployEndpoint = `api/v0/universes/${this.id}/deploy/v2`
-    const ids = payload ?? [] as unknown as [string]
-    if (ids) {
-      deployEndpoint = 'api/v0/universes/deploy/v2'
-    }
+    // const ids = payload ?? [] as unknown as [string]
+    // if (ids) {
+    deployEndpoint = 'api/v0/universes/deploy/v2'
+    // }
     try {
       const opts: DeployOptions = {
         method: 'PUT',
@@ -415,7 +422,10 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        data: { ids }
+        data: {
+          ids: payload,
+          ...operatorOpts
+        }
       }
       const res = await this.http?.getClient()(opts)
       return res.statusText
