@@ -1,0 +1,47 @@
+name: Deploy & Release
+
+description: 'Creates a git tag on conditions and may be releasing something'
+
+inputs:
+  gh-token:
+    description: The regular GH token
+    required: true
+  deploy-token:
+    description: A token that allows releasing
+    required: true
+
+
+# outputs:
+#   SEMANTIC_LOG: ${{ steps.semantic.outputs.SEMANTIC_LOG }}
+
+# runs-on: ubuntu-latest
+  # timeout-minutes: 25
+
+runs:
+  using: "composite"
+  steps:
+  # needs: [build]
+
+  # if: github.event_name != 'pull_request'
+
+  # - name: Checkout repository
+  #   if: steps.semantic.outputs.SEMANTIC_LOG != 'norelease'
+  #   uses: actions/checkout@v3
+  #   with:
+  #     fetch-depth: "0"
+  #     persist-credentials: false
+
+  - name: Semantic Release
+    shell: bash
+
+    id: semantic
+    run: |
+      npm run semantic-release |& tee -a semantic-log.txt
+      grep -E "(Published release)" semantic-log.txt || echo norelease
+      echo "::set-output name=SEMANTIC_LOG::$(grep -E "(Published release)" semantic-log.txt || echo norelease)"
+    env:
+      GITHUB_TOKEN: ${{ inputs.deploy-token }}
+
+  - run: echo "a release"
+    shell: bash
+      # gh-uni-cloud-npm-submitter@c-com-solution-alpha.iam.gserviceaccount.com
