@@ -6,6 +6,24 @@ on:
   pull_request:
     branches: [ master, develop ]
 
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: write
+  id-token: write
+  issues: write
+  packages: write
+  pull-requests: write
+  statuses: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   build:
 
@@ -21,8 +39,11 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
     steps:
-      - uses: actions/checkout@v2
-
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
       - name: Cache node modules
         uses: actions/cache@v2
         env:
@@ -60,8 +81,10 @@ jobs:
       - name: coverage
         run: npm run coverage
       # - run: git describe --exact-match --tags HEAD && npm run docs && npm run deploy-docs
-      - name: release
-        run: npm run semantic-release || true
+      - uses: ./.github/actions/deploy-release
+        with:
+          gh-token: ${{ secrets.CHARLES_BROWSER_SDK_RELEASER_PAT }}
+          deploy-token: ${{ secrets.CHARLES_BROWSER_SDK_RELEASER_PAT }}
 
       - name: build-docs
         run: npm run build:docs && npm run build:storybooks:prepare && npm run build:storybooks
