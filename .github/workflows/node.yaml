@@ -83,8 +83,8 @@ jobs:
       # - run: git describe --exact-match --tags HEAD && npm run docs && npm run deploy-docs
       - uses: ./.github/actions/deploy-release
         with:
-          gh-token: ${{ secrets.CHARLES_RELEASER_PAT }}
-          deploy-token: ${{ secrets.CHARLES_RELEASER_PAT }}
+          gh-token: ${{ secrets.CHARLES_BROWSER_SDK_RELEASER_PAT }}
+          deploy-token: ${{ secrets.CHARLES_BROWSER_SDK_RELEASER_PAT }}
 
       - name: build-docs
         run: npm run build:docs && npm run build:storybooks:prepare && npm run build:storybooks
