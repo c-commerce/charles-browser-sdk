@@ -41,9 +41,20 @@ export interface SingleDeployVersionResponse {
 
 export type DeployVersionResponse = SingleDeployVersionResponse | [SingleDeployVersionResponse]
 
-export type OperatorUniverseResponse = {
-  readonly universe: [string]
+export type OperatorUniverse = {
+  readonly id: string
+  readonly name?: string
+  readonly configuration: {
+    readonly versions: {
+      readonly agent_ui: string
+      readonly api: string
+    }
+  }
+  readonly logLevel?: LogLevel
+  readonly size?: 'small' | 'large'
 }
+
+export type OperatorUniverseResponse = OperatorUniverse | [OperatorUniverse]
 
 export interface CloudUniverseRawPayload {
   readonly id?: string
@@ -457,6 +468,29 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+  public async operatorUniverse (id: string): Promise<OperatorUniverseResponse> {
+    const operatorEndpoint = `api/v0/universes/operator/${id}`
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${operatorEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status, msg, data } = res.data
+      if (status === 200) {
+        return data
+      } else {
+        throw this.handleError(new OperatorUniverseError())
+      }
+    } catch (err) {
+      throw this.handleError(new OperatorUniverseError())
+    }
+  }
+
   public async deployVersion (payload: DeployVersionPayload): Promise<DeployVersionResponse> {
     const operatorEndpoint = 'api/v0/universes/operator'
     try {
@@ -581,7 +615,7 @@ export class DestroyUniverseError extends BaseError {
 
 export class OperatorUniverseError extends BaseError {
   public name = 'OperatorUniverseError'
-  constructor (public message: string = 'Could not fetch universes from cluster.', properties?: any) {
+  constructor (public message: string = 'Could not fetch universe(s) from cluster.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, OperatorUniverseError.prototype)
   }
