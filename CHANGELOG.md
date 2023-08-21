@@ -1,3 +1,17 @@
+# [4.189.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.188.0...v4.189.0) (2023-08-21)
+
+
+### Bug Fixes
+
+* **ci:** make sem release run again ([f2fe5b8](https://github.com/c-commerce/charles-browser-sdk/commit/f2fe5b84d76dd528aa0e9db3cb5665e47d90c47b))
+* **ci:** use new secret for sem release ([2a541ae](https://github.com/c-commerce/charles-browser-sdk/commit/2a541ae01e1b1c51c8809c834cb87d570d052ab0))
+* **staff-payload:** updated entity to contain missing displayName ([76351ec](https://github.com/c-commerce/charles-browser-sdk/commit/76351ec6d4b8da4fff98776820b7cb618858633a))
+
+
+### Features
+
+* **universe.ts:** added support for single operator universe request ([8f7d7e8](https://github.com/c-commerce/charles-browser-sdk/commit/8f7d7e8126f3d1634efda939791f64e90d1b0988))
+
 # [4.188.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.187.0...v4.188.0) (2023-08-09)
 
 
