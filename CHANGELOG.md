@@ -1,3 +1,10 @@
+# [4.190.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.189.0...v4.190.0) (2023-08-23)
+
+
+### Features
+
+* **universe.ts:** added log level support ([bafb865](https://github.com/c-commerce/charles-browser-sdk/commit/bafb8657c182c0bd9b98da4d32aa40cfabe14194))
+
 # [4.189.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.188.0...v4.189.0) (2023-08-21)
 
 
