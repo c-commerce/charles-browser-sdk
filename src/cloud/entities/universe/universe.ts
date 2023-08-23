@@ -18,6 +18,11 @@ export interface DeployOperatorOptions {
   readonly logLevel: LogLevel
 }
 
+export interface PatchOperatorOptions {
+  readonly size?: 'small' | 'large',
+  readonly logLevel?: LogLevel
+}
+
 export interface DeployOptions {
   readonly method: string
   readonly url: string
@@ -52,6 +57,7 @@ export type OperatorUniverse = {
   }
   readonly logLevel?: LogLevel
   readonly size?: 'small' | 'large'
+  readonly userHasPermissions? : boolean
 }
 
 export type OperatorUniverseResponse = OperatorUniverse | [OperatorUniverse]
@@ -491,6 +497,28 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+  public async patchOperatorOptions (id: string, payload: PatchOperatorOptions): Promise<void> {
+    const endpoint = `api/v0/universes/operator/${id}/options`
+    try {
+      const opts = {
+        method: 'PATCH',
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: payload
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status } = res.data
+      if (status !== 200) {
+        throw this.handleError(new DeployVersionError())
+      }
+    } catch (err) {
+      throw this.handleError(new OperatorPatchOptionsError())
+    }
+  }
+
   public async deployVersion (payload: DeployVersionPayload): Promise<DeployVersionResponse> {
     const operatorEndpoint = 'api/v0/universes/operator'
     try {
@@ -626,5 +654,13 @@ export class DeployVersionError extends BaseError {
   constructor (public message: string = 'Could not deploy new version to universes.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, DeployVersionError.prototype)
+  }
+}
+
+export class OperatorPatchOptionsError extends BaseError {
+  public name = 'OperatorPatchOptionsError'
+  constructor (public message: string = 'Could not update operator options.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, OperatorPatchOptionsError.prototype)
   }
 }
