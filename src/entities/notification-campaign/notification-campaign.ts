@@ -20,13 +20,6 @@ interface IStaticContactItem {
   }
 }
 
-// export interface NotificationCampaignRawPayloadTargetRef {
-//   targetRefs?: Array<{
-//     type?: 'list' | 'subscription'
-//     resource?: string
-//   }>
-// }
-
 export interface NotificationCampaignTestRawPayload {
   resource: IStaticContactItem | IStaticContactItem[]
   communication_language?: string
@@ -75,6 +68,7 @@ export interface NotificationCampaignRawPayload {
   readonly excludes?: Array<{
     type?: 'list' | 'subscription'
     resource?: string
+    is_optin_exclusion_rule?: boolean
   }>
   readonly status?: NotificationCampaignStatusType
   readonly statusses?: Array<{
