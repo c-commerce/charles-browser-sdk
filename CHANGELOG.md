@@ -1,3 +1,10 @@
+# [4.191.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.190.0...v4.191.0) (2023-08-25)
+
+
+### Features
+
+* **NotificationCampaign:** adapt excludes type to lists audience ([81bb22a](https://github.com/c-commerce/charles-browser-sdk/commit/81bb22af4e35042005ebc572dfc863e93bfe8607))
+
 # [4.190.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.189.0...v4.190.0) (2023-08-23)
 
 
