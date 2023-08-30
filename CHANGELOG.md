@@ -1,3 +1,10 @@
+# [4.192.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.191.0...v4.192.0) (2023-08-30)
+
+
+### Features
+
+* **resync campaign analytics:** added handler for route to recalculate, related to TECH-8187 ([8f75831](https://github.com/c-commerce/charles-browser-sdk/commit/8f758312d40d017154969d23e88ec15944c6cf18))
+
 # [4.191.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.190.0...v4.191.0) (2023-08-25)
 
 
