@@ -27,6 +27,7 @@ export interface NotificationCampaignTestRawPayload {
 
 export interface NotificationCampaignPublishOpts extends EntityFetchOptions {
   publish_date?: string
+  is_instant_publish?: boolean
 }
 
 export interface NotificationCampaignUnscheduleOpts extends EntityFetchOptions {
@@ -360,6 +361,9 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
+  /**
+   * @deprecated please use schedulePublish with date as current and is_instant_publish: true
+   */
   public async publish (options?: EntityPostOptions): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
 
@@ -631,7 +635,8 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     if (this.id === null || this.id === undefined) throw new TypeError('campaign schedule publish requires id to be set')
 
     const body = {
-      date: options?.publish_date
+      date: options?.publish_date,
+      is_instant_publish: options?.is_instant_publish
     }
 
     try {
