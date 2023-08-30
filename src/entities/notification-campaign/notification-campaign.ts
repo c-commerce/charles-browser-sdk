@@ -688,6 +688,24 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       throw new NotificationCampaignUnschedulePublishRemoteError(err)
     }
   }
+
+  public async recalculateAnalytics (): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign recalculate analytics requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/analytics/recalculate`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      }
+      const res = await this.http.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw new NotificationCampaignRecalculateAnalyticsRemoteError(undefined, { error: err })
+    }
+  }
 }
 
 export interface NotificationCampaignsOptions {
@@ -876,5 +894,16 @@ export class NotificationCampaignSchedulePublishRemoteError extends BaseErrorV2 
     super(err as Error, props)
     this.failureMsg = this.properties.error?.response?.data?.msg as NotificationCampaignSchedulePublishRemoteErrorReasons
     Object.setPrototypeOf(this, NotificationCampaignSchedulePublishRemoteError.prototype)
+  }
+}
+
+export class NotificationCampaignRecalculateAnalyticsRemoteError extends BaseErrorV2 {
+  public name = 'NotificationCampaignRecalculateAnalyticsRemoteError'
+  public message = 'Could not enqueue campaign analytics recalculation.'
+  public failureMsg?: 'campaign_analytics_missing'
+  constructor (err: Error | unknown, props?: BaseErrorV2Properties) {
+    super(err as Error, props)
+    this.failureMsg = this.properties.error?.response?.data?.msg as 'campaign_analytics_missing'
+    Object.setPrototypeOf(this, NotificationCampaignSyncAnalyticsRemoteError.prototype)
   }
 }
