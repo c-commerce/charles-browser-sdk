@@ -1,3 +1,10 @@
+# [4.193.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.192.0...v4.193.0) (2023-08-31)
+
+
+### Features
+
+* deprecated legacy publish ([e145c17](https://github.com/c-commerce/charles-browser-sdk/commit/e145c174484a5b49addebff5647abc8160b43e9b))
+
 # [4.192.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.191.0...v4.192.0) (2023-08-30)
 
 
