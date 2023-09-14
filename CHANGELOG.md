@@ -1,3 +1,10 @@
+# [4.194.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.193.0...v4.194.0) (2023-09-14)
+
+
+### Features
+
+* **universe.ts:** added support for iam endpoints ([9f6b7be](https://github.com/c-commerce/charles-browser-sdk/commit/9f6b7be2857eae8231dce4a3104b155303d567ee))
+
 # [4.193.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.192.0...v4.193.0) (2023-08-31)
 
 
