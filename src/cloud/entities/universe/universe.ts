@@ -62,6 +62,36 @@ export type OperatorUniverse = {
 
 export type OperatorUniverseResponse = OperatorUniverse | [OperatorUniverse]
 
+export type UniverseIam = {
+  readonly member: string
+  readonly resource: string
+  readonly role: string
+  readonly expires?: string
+}
+
+export type UniverseIamUser = {
+  readonly email: string
+  readonly type: string
+}
+
+export type UniverseIamPrivilege = {
+  readonly resource: string
+  readonly role: string
+  readonly expiresInDays?: Number
+}
+
+export type UniversePutIamPayload = {
+  readonly users: [UniverseIamUser]
+  readonly privileges: [UniverseIamPrivilege]
+}
+
+export type UniverseDeleteIamPayload = {
+  readonly user: UniverseIamUser
+  readonly privilege: UniverseIamPrivilege
+}
+
+export type UniverseIamResponse = [UniverseIam] | []
+
 export interface CloudUniverseRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -543,6 +573,58 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+  public async putIamPrivileges (payload: UniversePutIamPayload): Promise<UniverseIamResponse> {
+    if (this.id === null || this.id === undefined) throw new TypeError('universe.putIamPrivileges() requires universe id to be set.')
+    const endpoint = `api/v0/universes/iam/${this.id}`
+    
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: payload
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status, msg, data } = res.data
+      if (status === 200) {
+        return data
+      } else {
+        throw this.handleError(new UniverseIamError())
+      }
+    } catch (err) {
+      throw this.handleError(new UniverseIamError())
+    }
+  }
+
+  public async deleteIamPrivilege (payload: UniverseDeleteIamPayload): Promise<UniverseIamResponse> {
+    if (this.id === null || this.id === undefined) throw new TypeError('universe.putIamPrivileges() requires universe id to be set.')
+    const endpoint = `api/v0/universes/iam/${this.id}`
+    
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: payload
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status, msg, data } = res.data
+      if (status === 200) {
+        return data
+      } else {
+        throw this.handleError(new UniverseIamError())
+      }
+    } catch (err) {
+      throw this.handleError(new UniverseIamError())
+    }
+  }
+
   universe (item: any, universe: any, http: Client): any {
     throw new Error('Method not implemented.')
   }
@@ -654,6 +736,14 @@ export class DeployVersionError extends BaseError {
   constructor (public message: string = 'Could not deploy new version to universes.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, DeployVersionError.prototype)
+  }
+}
+
+export class UniverseIamError extends BaseError {
+  public name = 'UniverseIamError'
+  constructor (public message: string = 'Could not apply universe iam changes.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, UniverseIamError.prototype)
   }
 }
 
