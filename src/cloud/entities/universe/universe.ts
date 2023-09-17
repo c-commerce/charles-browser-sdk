@@ -55,9 +55,11 @@ export type OperatorUniverse = {
       readonly api: string
     }
   }
+  readonly privileges: [UniverseIam]
   readonly logLevel?: LogLevel
   readonly size?: 'small' | 'large'
-  readonly userHasPermissions? : boolean
+  readonly userHasPermissions?: boolean
+  readonly isLive?: boolean
 }
 
 export type OperatorUniverseResponse = OperatorUniverse | [OperatorUniverse]
@@ -504,8 +506,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
-  public async operatorUniverse (id: string): Promise<OperatorUniverseResponse> {
-    const operatorEndpoint = `api/v0/universes/operator/${id}`
+  public async fetchCrd (): Promise<OperatorUniverseResponse> {
+    const operatorEndpoint = `api/v0/universes/operator/${this.id}`
     try {
       const opts = {
         method: 'GET',
