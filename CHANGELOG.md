@@ -1,3 +1,10 @@
+## [4.194.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.194.0...v4.194.1) (2023-09-17)
+
+
+### Bug Fixes
+
+* **universe.ts:** added privileges to fetchCRD ([9050403](https://github.com/c-commerce/charles-browser-sdk/commit/90504036bf230d1fc8ea7a268a6127a4d6b0b0e3))
+
 # [4.194.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.193.0...v4.194.0) (2023-09-14)
 
 
