@@ -1,3 +1,10 @@
+# [4.195.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.194.1...v4.195.0) (2023-09-18)
+
+
+### Features
+
+* **NotificationCampaign:** add stop method ([13423ac](https://github.com/c-commerce/charles-browser-sdk/commit/13423ac2a0a177815d191624880c56836b31ede3))
+
 ## [4.194.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.194.0...v4.194.1) (2023-09-17)
 
 
