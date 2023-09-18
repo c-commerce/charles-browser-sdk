@@ -434,6 +434,30 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
+  /**
+   * @description Stop a paused campaign. Campaign needs to be scheduled.
+   */
+  public async stop (options?: EntityFetchOptions): Promise<NotificationCampaign> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign stop requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/schedule/stop${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data[0] as NotificationCampaignRawPayload
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignStopError(undefined, { error: err })
+    }
+  }
+
   public async test (payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
 
@@ -835,6 +859,14 @@ export class NotificationCampaignPauseError extends BaseError {
   constructor (public message: string = 'Could not pause notification campaign.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, NotificationCampaignPauseError.prototype)
+  }
+}
+
+export class NotificationCampaignStopError extends BaseError {
+  public name = 'NotificationCampaignStopError'
+  constructor (public message: string = 'Could not stop notification campaign.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, NotificationCampaignStopError.prototype)
   }
 }
 

@@ -2554,7 +2554,7 @@ export class Universe extends APICarrier {
   public async meilisearchProxy (opts: AxiosRequestConfig): Promise<any> {
     const _opts = {
       ...opts,
-      url: `${this.universeBase}/${opts.url ?? ''}`
+      url: `${this.universeBase}/${opts.url as string ?? ''}`
     }
     try {
       const res = await this.http.getClient().request(_opts)
