@@ -44,6 +44,18 @@ export type NotificationCampaignStatusType =
 | 'done' // user: the campaign was published the campaign has run. This does not indicate success.
 | 'errored' // user: execution was attempted but errored immediately. Errors per target are not indicated
 
+export type NotificationCampaignPreviewEntry = Omit<NotificationCampaignStaticEntryRawPayload, 'id' | 'resource'> & {
+  resource: {
+    type?: 'person'
+    payload?: {
+      id?: string
+      name?: string
+      first_name?: string
+      last_name?: string
+    }
+  }
+}
+
 export interface NotificationCampaignRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -501,23 +513,44 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async preview (options?: EntityFetchOptions): Promise<NotificationCampaign> {
+  public async preview (options?: EntityFetchOptions): Promise<NotificationCampaignPreviewEntry[]> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign preview requires id to be set.')
 
     try {
       const opts = {
-        method: 'POST',
+        method: 'GET',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 60000
+        timeout: options?.timeout ?? 120000
       }
       const res = await this.http.getClient()(opts)
-      const data = res.data.data[0] as NotificationCampaignRawPayload
+      return res.data.data as NotificationCampaignPreviewEntry[]
+    } catch (err) {
+      throw new NotificationCampaignPreviewRemoteError(undefined, { error: err })
+    }
+  }
 
-      return this.deserialize(data)
+  public async previewCount (): Promise<{ count: number }> {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign preview requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'HEAD',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/preview`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        timeout: 120000
+      }
+      const res = await this.http.getClient()(opts)
+
+      return {
+        count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+      }
     } catch (err) {
       throw new NotificationCampaignPreviewRemoteError(undefined, { error: err })
     }
