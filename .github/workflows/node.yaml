@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ master, develop, beta, alpha ]
   pull_request:
-    branches: [ master, develop ]
+    branches: [ master, develop, beta, alpha ]
 
 permissions:
   actions: write
@@ -29,7 +29,7 @@ jobs:
 
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     strategy:
       matrix:
         node-version: [ 14.17.4 ]
@@ -37,7 +37,7 @@ jobs:
     env:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -61,7 +61,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      
+
       - name: install
         # Replace typedoc's typescript dep with currently installed version
         # because it comes with an incompatible version
@@ -73,8 +73,8 @@ jobs:
       - run: .github/install-python2.sh
       - name: test
         run: npm run test:prod
-      
-      
+
+
       - name: build
         run: npm run build
 
