@@ -1,3 +1,10 @@
+# [4.196.0-beta.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.195.0...v4.196.0-beta.1) (2023-09-20)
+
+
+### Features
+
+* **NotificationCampaign:** switched preview endpoint to match new interface ([bd137a7](https://github.com/c-commerce/charles-browser-sdk/commit/bd137a72f71d131fe2693c63ad1884a6ff7d2b3e))
+
 # [4.195.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.194.1...v4.195.0) (2023-09-18)
 
 
