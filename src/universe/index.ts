@@ -754,6 +754,24 @@ export class Universe extends APICarrier {
     }
   }
 
+  public async gofDefined (): Promise<{ globalOptOutValid: boolean, flowUri: string } | undefined> {
+    const endpointGOF = 'api/v0/universe/optout/global-optout'
+    const opts = {
+      method: 'GET',
+      url: `${this.universeBase}/${endpointGOF}`,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      responseType: 'json'
+    }
+    try {
+      const res = await this.http.getClient()(opts)
+      return { ...res.data.data }
+    } catch (err) {
+      throw new UniverseGOFError()
+    }
+  }
+
   public get ready (): boolean {
     // TODO: implement
     return false
@@ -2655,6 +2673,13 @@ export class UniverseInsertSeedDataError extends BaseError {
   constructor (properties?: any) {
     super('Could not insert seed data from template.', properties)
     Object.setPrototypeOf(this, UniverseInsertSeedDataError.prototype)
+  }
+}
+export class UniverseGOFError extends BaseError {
+  public name = 'UniverseGOFError'
+  constructor (properties?: any) {
+    super('Could not fetch global-opt-out settings.', properties)
+    Object.setPrototypeOf(this, UniverseGOFError.prototype)
   }
 }
 
