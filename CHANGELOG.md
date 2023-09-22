@@ -1,3 +1,10 @@
+# [4.197.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.196.0...v4.197.0) (2023-09-22)
+
+
+### Features
+
+* **universe.ts:** added revoke iam privileges support ([1fc485e](https://github.com/c-commerce/charles-browser-sdk/commit/1fc485e04e8cb148b9946003739ecefc887d1790))
+
 # [4.196.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.195.0...v4.196.0) (2023-09-22)
 
 
