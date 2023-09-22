@@ -1,3 +1,10 @@
+## [4.197.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.197.0...v4.197.1) (2023-09-22)
+
+
+### Bug Fixes
+
+* **AB:** add order placed types ([e02c3f6](https://github.com/c-commerce/charles-browser-sdk/commit/e02c3f6d5d40c337ba361e3dee7d74b042f135da))
+
 # [4.197.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.196.0...v4.197.0) (2023-09-22)
 
 
