@@ -31,6 +31,11 @@ export const dataset = [
         label: 'products.bought',
         value: 'events.products.bought',
         source: null
+      },
+      {
+        label: 'orders.done',
+        value: 'person.orders.done',
+        source: 'resource-picker.source.store'
       }
     ],
     disabled: false
@@ -39,21 +44,21 @@ export const dataset = [
     category: 'properties',
     disabled: false,
     operands: [
-      {
-        label: 'predicted-mood',
-        value: 'properties.predicted-mood',
-        source: null
-      },
+      // {
+      //   label: 'predicted-mood',
+      //   value: 'properties.predicted-mood',
+      //   source: null
+      // },
       {
         label: 'tags',
         value: 'properties.tags',
         source: null
       },
-      {
-        label: 'storefront-vendor-tags',
-        value: 'properties.storefront-vendor-tags',
-        source: null
-      },
+      // {
+      //   label: 'storefront-vendor-tags',
+      //   value: 'properties.storefront-vendor-tags',
+      //   source: null
+      // },
       {
         label: 'total-order',
         value: 'properties.total-order',
