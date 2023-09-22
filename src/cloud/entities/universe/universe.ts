@@ -602,9 +602,35 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   }
 
   public async deleteIamPrivilege (payload: UniverseDeleteIamPayload): Promise<UniverseIamResponse> {
-    if (this.id === null || this.id === undefined) throw new TypeError('universe.putIamPrivileges() requires universe id to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('universe.deleteIamPrivilege() requires universe id to be set.')
     const endpoint = `api/v0/universes/iam/${this.id}`
-    
+
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: payload
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status, msg, data } = res.data
+      if (status === 200) {
+        return data
+      } else {
+        throw this.handleError(new UniverseIamError())
+      }
+    } catch (err) {
+      throw this.handleError(new UniverseIamError())
+    }
+  }
+
+  public async revokeIamPrivileges (payload: UniverseIamUser): Promise<UniverseIamResponse> {
+    if (this.id === null || this.id === undefined) throw new TypeError('universe.revokeIamPrivileges() requires universe id to be set.')
+    const endpoint = `api/v0/universes/iam/${this.id}/revoke`
+
     try {
       const opts = {
         method: 'DELETE',
