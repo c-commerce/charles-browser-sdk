@@ -1,3 +1,10 @@
+# [4.198.0-beta.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.197.1...v4.198.0-beta.1) (2023-09-25)
+
+
+### Features
+
+* **Message:** added errors field ([7b8d498](https://github.com/c-commerce/charles-browser-sdk/commit/7b8d49826b7c5b9d793028102ca6e1356c791a5a))
+
 ## [4.197.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.197.0...v4.197.1) (2023-09-22)
 
 
