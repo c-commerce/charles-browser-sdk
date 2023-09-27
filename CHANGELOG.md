@@ -1,3 +1,11 @@
+# [4.198.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.197.1...v4.198.0) (2023-09-27)
+
+
+### Features
+
+* **gof:** integrating gof endpoint ([e785594](https://github.com/c-commerce/charles-browser-sdk/commit/e785594a4ac9457ca7b1ecb353aec72de869b9d0))
+* **Message:** added errors field ([409b190](https://github.com/c-commerce/charles-browser-sdk/commit/409b19051b5a3c2f0bc6a62e78450d6548ce2dc3))
+
 ## [4.197.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.197.0...v4.197.1) (2023-09-22)
 
 
