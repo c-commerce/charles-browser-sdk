@@ -96,6 +96,7 @@ export interface MessageRawPayload extends EntityRawPayload {
   } | null
   readonly statuses?: MessageStatus[]
   readonly reactions?: MessageReaction[] | null
+  readonly errors?: Array<{ code: number, title?: string, details?: string }>
 }
 
 export type MessageFeedReplyRawPayload = Omit<MessageRawPayload, 'content'> & {
@@ -145,6 +146,7 @@ export interface MessagePayload {
   readonly reactions?: MessageRawPayload['reactions']
   readonly person?: Person
   readonly feed?: Feed
+  readonly errors?: MessageRawPayload['errors']
 }
 
 // export type Message = MessagePayload
@@ -188,6 +190,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
   public reactions?: MessagePayload['reactions']
   public person?: Person
   public feed?: Feed
+  public errors?: MessageRawPayload['errors']
 
   constructor (options: MessageOptions) {
     super()
@@ -235,6 +238,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     this.channelUser = rawPayload.channel_user
     this.statuses = rawPayload.statuses
     this.reactions = rawPayload.reactions
+    this.errors = rawPayload.errors
 
     // TODO: check if this functionality is still needed or at all wanted. What
     // we likely try to achieve is harmonizing messages from from fetches and MQTT events.
@@ -285,7 +289,8 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
       reactions: this.reactions,
       person: this.person ? this.person.id : undefined,
       // TODO: this likely seems a bug because of the above, associated comment
-      feed: this.feed ? this.feed.id : undefined
+      feed: this.feed ? this.feed.id : undefined,
+      errors: this.errors
     }
   }
 
