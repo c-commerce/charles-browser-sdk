@@ -432,14 +432,6 @@ export class MessageSubscriptionInitializationError extends BaseError {
   }
 }
 
-export class MessageSubscriptionDuplicateError extends BaseError {
-  public name = 'MessageSubscriptionDuplicateError'
-  constructor (public message: string = 'Could not duplicate message_subscription.', properties?: any) {
-    super(message, properties)
-    Object.setPrototypeOf(this, MessageSubscriptionDuplicateError.prototype)
-  }
-}
-
 export class MessageSubscriptionFetchRemoteError extends BaseError {
   public name = 'MessageSubscriptionFetchRemoteError'
   constructor (public message: string = 'Could not get message_subscription.', properties?: any) {

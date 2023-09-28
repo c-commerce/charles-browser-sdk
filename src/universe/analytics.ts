@@ -10,7 +10,8 @@ import {
   MessageBrokerConversationsAnalyticsOptions,
   MessageBrokerConversationsAnalyticsResponse,
   MessageBrokerMessagesCountAnalyticsOptions,
-  MessageBrokerMessagesCountAnalyticsResponse
+  MessageBrokerMessagesCountAnalyticsResponse,
+  SubscriberMetrics
 } from '../analytics/analytics'
 
 export interface UniverseAnalyticsOptions {
@@ -40,6 +41,7 @@ export interface UniverseAnalytics {
   flowsTriggered: () => Promise<FlowsTriggeredAnalyticsResponse | undefined>
   messageBrokerConversations: (options?: MessageBrokerConversationsAnalyticsOptions) => Promise<MessageBrokerConversationsAnalyticsResponse | undefined>
   messageBrokerMessagesCount: (options?: MessageBrokerMessagesCountAnalyticsOptions) => Promise<MessageBrokerMessagesCountAnalyticsResponse | undefined>
+  subscriberMetrics: () => Promise<SubscriberMetrics | undefined>
 }
 
 export function analytics (this: Universe): UniverseAnalytics {
@@ -94,6 +96,9 @@ export function analytics (this: Universe): UniverseAnalytics {
     },
     messageBrokerMessagesCount: async (options?: MessageBrokerMessagesCountAnalyticsOptions): Promise<MessageBrokerMessagesCountAnalyticsResponse> => {
       return await makeAnalyticsRequest<MessageBrokerMessagesCountAnalyticsResponse, MessageBrokerMessagesCountAnalyticsOptions>('/message_broker/messages_count', options)
+    },
+    subscriberMetrics: async (options?: UniverseAnalyticsOptions): Promise<SubscriberMetrics> => {
+      return await makeAnalyticsRequest<SubscriberMetrics, undefined>('/universe/subscriptions')
     }
   }
 }
