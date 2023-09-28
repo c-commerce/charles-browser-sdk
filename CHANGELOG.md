@@ -1,3 +1,10 @@
+# [4.199.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.198.0...v4.199.0) (2023-09-28)
+
+
+### Features
+
+* **subscriber-metrics:** added type and handler for calling metrics endpoint ([af079ed](https://github.com/c-commerce/charles-browser-sdk/commit/af079ed8884a80b0961e9defc9c1cd822ac2a6b5))
+
 # [4.198.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.197.1...v4.198.0) (2023-09-27)
 
 
