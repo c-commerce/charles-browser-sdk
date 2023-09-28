@@ -129,3 +129,10 @@ export interface MessageBrokerMessagesCountAnalyticsResponse {
     delivered: number
   }
 }
+
+export interface SubscriberMetrics {
+  subscribers: number
+  unsubscribers: number
+  total_subscribers: number
+  date: string
+}
