@@ -1,3 +1,10 @@
+# [4.201.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.200.0...v4.201.0) (2023-10-11)
+
+
+### Features
+
+* **message:** add held field to message ([eb7fd7e](https://github.com/c-commerce/charles-browser-sdk/commit/eb7fd7ed3c705667e49207a8a3d3b94ff24faa7f))
+
 # [4.200.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.199.0...v4.200.0) (2023-10-11)
 
 
