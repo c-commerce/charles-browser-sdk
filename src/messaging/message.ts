@@ -27,7 +27,7 @@ export type MessageFeedReplyRawPayloadAttachment = MessageRawPayloadAttachment &
 
 export interface MessageStatus {
   date?: any
-  status?: 'read' | 'delivered' | 'failed'
+  status?: 'read' | 'delivered' | 'failed' | 'held'
   external_person_reference_id?: any
   person?: {
     id?: string
@@ -66,6 +66,7 @@ export interface MessageRawPayload extends EntityRawPayload {
   readonly broker?: string
   readonly deleted?: string
   readonly is_processed?: string
+  readonly is_held?: boolean
   readonly processed_data?: string
   readonly message_broker?: string | null
   readonly channel_user?: string | null
@@ -137,6 +138,7 @@ export interface MessagePayload {
   readonly broker?: string
   readonly deleted?: string
   readonly isProcessed?: string
+  readonly isHeld?: boolean
   readonly processedData?: string
   readonly replyables?: MessageRawPayload['replyables'] | null
   readonly author?: MessageRawPayload['author']
@@ -181,6 +183,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
   public broker?: string
   public deleted?: string
   public isProcessed?: string
+  public isHeld?: boolean
   public processedData?: string
   public replyables?: MessageRawPayload['replyables']
   public author?: MessageRawPayload['author']
@@ -230,6 +233,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
     this.broker = rawPayload.broker
     this.deleted = rawPayload.deleted
     this.isProcessed = rawPayload.is_processed
+    this.isHeld = rawPayload.is_held
     this.processedData = rawPayload.processed_data
     this.replyables = rawPayload.replyables
     this.author = rawPayload.author
@@ -280,6 +284,7 @@ export class Message extends UniverseEntity<MessagePayload, MessageRawPayload> {
       broker: this.broker,
       deleted: this.deleted,
       is_processed: this.isProcessed,
+      is_held: this.isHeld,
       processed_data: this.processedData,
       replyables: this.replyables,
       author: this.author,
