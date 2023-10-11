@@ -1,7 +1,7 @@
 import { Universe } from '../../universe'
 import { Feed, FEED_ENDPOINT } from './feed'
 import { BaseError } from '../../errors'
-import { Message } from '../../messaging/message'
+import { Message, MessageRawPayload } from '../../messaging/message'
 import { UniverseEntity } from '../../entities/_base'
 
 export enum EventTypesEnum {
@@ -44,7 +44,7 @@ export interface EventRawPayload {
 
   readonly resource_type?: IEventResourceType | null
   readonly resource?: string
-  readonly payload?: Message
+  readonly payload?: MessageRawPayload
   readonly type?: IEventType | null
   readonly flagged?: boolean
   readonly marked?: boolean
