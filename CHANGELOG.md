@@ -1,3 +1,10 @@
+# [4.200.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.199.0...v4.200.0) (2023-10-11)
+
+
+### Features
+
+* **Types:** add a few types ([6a70d11](https://github.com/c-commerce/charles-browser-sdk/commit/6a70d11b48be1b6ff8b2d07111a66f56879c58da))
+
 # [4.199.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.198.0...v4.199.0) (2023-09-28)
 
 
