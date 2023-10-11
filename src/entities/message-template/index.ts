@@ -23,5 +23,6 @@ export {
   MessageTemplateRawPayloadParameters,
   MessageTemplateRawPayloadQuickReplies,
   MessageTemplateRawPayloadQuickReply,
-  MessageTemplateSubmitRemoteError
+  MessageTemplateSubmitRemoteError,
+  QualityScore
 } from './message-template'

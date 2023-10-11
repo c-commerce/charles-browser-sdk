@@ -125,10 +125,13 @@ export interface MessageTemplateRawPayloadList {
   }> | null
 }
 
+export type QualityScore = 'GREEN' | 'YELLOW' | 'RED' | 'UNKNOWN'
 export interface MessageTemplateRawPayloadLocalizedContent {
   actions?: MessageTemplateRawPayloadLocalizedContentItemAction[]
   locale?: string
   status?: string
+  previous_quality_score?: QualityScore
+  quality_score?: QualityScore
   category?: string
   previous_category?: string
   rejection_reason?: string | null
