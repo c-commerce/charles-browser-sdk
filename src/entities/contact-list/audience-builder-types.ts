@@ -78,6 +78,11 @@ export const dataset = [
         label: 'custom-property',
         value: 'properties.custom-property',
         source: null
+      },
+      {
+        label: 'email',
+        value: 'properties.email',
+        source: null
       }
     ]
   },
