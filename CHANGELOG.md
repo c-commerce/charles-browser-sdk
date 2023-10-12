@@ -1,3 +1,10 @@
+# [4.202.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.201.0...v4.202.0) (2023-10-12)
+
+
+### Features
+
+* fetch top performing flows ([be11f4f](https://github.com/c-commerce/charles-browser-sdk/commit/be11f4fb3297c332234f05795af8bbb38e44e6b5))
+
 # [4.201.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.200.0...v4.201.0) (2023-10-11)
 
 
