@@ -84,7 +84,7 @@ import { analytics } from './analytics'
 import type { UniverseAnalytics } from './analytics'
 import ChangesRawManager, { RawPayload } from '../realtime/changes/changes-raw-manager'
 import { FeatureFlagFetchError, FeatureFlagRawPayload } from '../entities/feature-flag'
-
+import { FlowRawPayload } from '../entities/flow/flow'
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -288,6 +288,14 @@ export interface IUniverseNotificationCampaigns {
   fromJson: (notificationCampaigns: notificationCampaign.NotificationCampaignRawPayload[]) => notificationCampaign.NotificationCampaign[]
   toJson: (notificationCampaigns: notificationCampaign.NotificationCampaign[]) => notificationCampaign.NotificationCampaignRawPayload[]
   fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
+}
+
+export interface IUniverseTopFlows {
+  fetch: (options?: UniverseFetchOptions) => Promise<FlowRawPayload[] | undefined>
+  fromJson: (notificationCampaigns: FlowRawPayload[]) => FlowRawPayload[]
+  toJson: (notificationCampaigns: FlowRawPayload[]) => FlowRawPayload[]
+  fetchCount: (options?: EntityFetchOptions) => Promise<{ count: number }>
+
 }
 export interface IUniverseDeals {
   fetch: (options?: UniverseFetchOptions) => Promise<deal.Deal[] | deal.DealRawPayload[] | undefined>
@@ -2135,6 +2143,38 @@ export class Universe extends APICarrier {
         } catch (err) {
           throw new notificationCampaign.NotificationCampaignsFetchCountRemoteError(undefined, { error: err })
         }
+      }
+    }
+  }
+
+  public get topPerformingFlows (): IUniverseTopFlows {
+    return {
+      fromJson: (payloads: FlowRawPayload[]): FlowRawPayload[] => {
+        return payloads
+      },
+      toJson: (flows: FlowRawPayload[]): FlowRawPayload[] => {
+        return flows
+      },
+      fetch: async (options?: UniverseFetchOptions): Promise<FlowRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/api/v0/analytics/reports/top_flows`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+          const res = await this.http.getClient()(opts)
+          const resources = res.data.data as FlowRawPayload[]
+
+          return resources
+        } catch (err) {
+          throw new BaseError('Failed to fetch top flows', { error: err })
+        }
+      },
+      fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
+        const count = await Promise.resolve(3)
+        return { count }
       }
     }
   }
