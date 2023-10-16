@@ -198,7 +198,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
     return await this.universe.apiKeysList().fetch(opts)
   }
 
-  public async syncFlows (): Promise<number> {
+  public async syncFlows (): Promise<AutomationEngine[]> {
     if (this.id === null || this.id === undefined) throw new TypeError('AutomationEngine syncFlows requires id to be set.')
 
     try {
