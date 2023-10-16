@@ -48,7 +48,10 @@ export type DeployVersionResponse = SingleDeployVersionResponse | [SingleDeployV
 
 export type OperatorUniverse = {
   readonly id: string
-  readonly name?: string
+  readonly name: string,
+  readonly pool: string,
+  readonly organization: string,
+  readonly createdAt: string,
   readonly configuration: {
     readonly versions: {
       readonly agent_ui: string
@@ -56,10 +59,12 @@ export type OperatorUniverse = {
     }
   }
   readonly privileges: [UniverseIam]
-  readonly logLevel?: LogLevel
-  readonly size?: 'small' | 'large'
-  readonly userHasPermissions?: boolean
-  readonly isLive?: boolean
+  readonly logLevel: LogLevel
+  readonly size: 'small' | 'large'
+  readonly userHasPermissions: boolean,
+  readonly status: string,
+  readonly applied: boolean,
+  readonly isLive: boolean
 }
 
 export type OperatorUniverseResponse = OperatorUniverse | [OperatorUniverse]
