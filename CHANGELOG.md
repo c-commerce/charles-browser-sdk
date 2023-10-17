@@ -1,3 +1,10 @@
+## [4.202.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.202.0...v4.202.1) (2023-10-17)
+
+
+### Bug Fixes
+
+* **sync-flows-promise:** fixed erroneuos Number promise, as the syncflows fn provides an [] ([a6ecf49](https://github.com/c-commerce/charles-browser-sdk/commit/a6ecf49b8d9f089e853c51ff20320a302450b229))
+
 # [4.202.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.201.0...v4.202.0) (2023-10-12)
 
 
