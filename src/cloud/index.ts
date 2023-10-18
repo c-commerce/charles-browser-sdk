@@ -440,6 +440,16 @@ export class Cloud extends APICarrier {
     }
   }
 
+  public async operatorUniverses (): Promise<universe.OperatorUniverseResponse> {
+    try {
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/universes/operator`)
+
+      return res.data?.data
+    } catch (err) {
+      throw new universe.OperatorUniverseError()
+    }
+  }
+
   public async healthz (): Promise<{ message: string } | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.cloudBase}/api/healthz`)

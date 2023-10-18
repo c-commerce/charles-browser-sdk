@@ -3,12 +3,18 @@ import {
   CloudUniverse,
   CloudUniverses,
   CloudUniverseRawPayload,
-  CloudUniversesFetchRemoteError
+  CloudUniversesFetchRemoteError,
+  OperatorUniverse,
+  OperatorUniverseResponse,
+  OperatorUniverseError
 } from './universe'
 
 export {
   CloudUniverse,
   CloudUniverseRawPayload,
   CloudUniverses,
-  CloudUniversesFetchRemoteError
+  CloudUniversesFetchRemoteError,
+  OperatorUniverse,
+  OperatorUniverseResponse,
+  OperatorUniverseError
 }
