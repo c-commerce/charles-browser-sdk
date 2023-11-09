@@ -7,6 +7,7 @@ import {
   AssociateUsersPayload,
   CrmUser
 } from '../../entities/crm/crm-user'
+import { ContactListRawPayload } from '../contact-list'
 
 export interface CRMOptions extends UniverseEntityOptions {
   rawPayload?: CRMRawPayload
@@ -409,6 +410,29 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
       return res.data.data
     } catch (err) {
       throw this.handleError(new CRMCreateExternalUserFromPersonError(undefined, { error: err }))
+    }
+  }
+
+  public async syncSingleKlaviyoList (contactListId: ContactListRawPayload['id']): Promise<number | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM syncSingleKlaviyoList requires id to be set.')
+    if (this.id === null || this.id === undefined) throw new TypeError('CRM syncSingleKlaviyoList requires id to be set.')
+    if (!contactListId) throw new TypeError('CRM syncSingleKlaviyoList requires contactListId to be set.')
+
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/contact_list_static_entries/${contactListId}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Content-Length': '0'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.status
+    } catch (err) {
+      throw this.handleError(new CRMSyncContactListStaticEntriesRemoteError(undefined, { error: err }))
     }
   }
 }
