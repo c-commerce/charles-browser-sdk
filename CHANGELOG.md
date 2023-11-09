@@ -1,3 +1,10 @@
+# [4.204.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.203.0...v4.204.0) (2023-11-09)
+
+
+### Features
+
+* **klaviyo-detail-sync:** added handling for single list sync ([590b426](https://github.com/c-commerce/charles-browser-sdk/commit/590b426003d7bad99a967e3b2526e7fce076835f))
+
 # [4.203.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.202.1...v4.203.0) (2023-10-18)
 
 
