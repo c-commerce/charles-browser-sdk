@@ -11,7 +11,9 @@ import {
   MessageBrokerConversationsAnalyticsResponse,
   MessageBrokerMessagesCountAnalyticsOptions,
   MessageBrokerMessagesCountAnalyticsResponse,
-  SubscriberMetrics
+  SubscriberMetrics,
+  RevenueMetrics,
+  RevenueFields
 } from '../analytics/analytics'
 
 export interface UniverseAnalyticsOptions {
@@ -28,6 +30,15 @@ export interface UniverseAnalyticsEventsOptions {
   datepart?: string
 }
 
+export interface UniverseRevenueMetricsOptions {
+  groupBy?: 'day' | 'week' | 'month' | 'year' | 'version'
+  version: 'last_touch' | 'testing'
+  // The following fields are date iso strings
+  start: string
+  end: string
+  fields?: Array<keyof RevenueFields>
+}
+
 export interface UniverseAnalytics {
   orders: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
   revenues: (options?: UniverseAnalyticsOptions) => Promise<AnalyticsReport[] | undefined>
@@ -42,6 +53,7 @@ export interface UniverseAnalytics {
   messageBrokerConversations: (options?: MessageBrokerConversationsAnalyticsOptions) => Promise<MessageBrokerConversationsAnalyticsResponse | undefined>
   messageBrokerMessagesCount: (options?: MessageBrokerMessagesCountAnalyticsOptions) => Promise<MessageBrokerMessagesCountAnalyticsResponse | undefined>
   subscriberMetrics: () => Promise<SubscriberMetrics | undefined>
+  revenueMetrics: (options: UniverseRevenueMetricsOptions) => Promise<RevenueMetrics | undefined>
 }
 
 export function analytics (this: Universe): UniverseAnalytics {
@@ -99,6 +111,9 @@ export function analytics (this: Universe): UniverseAnalytics {
     },
     subscriberMetrics: async (options?: UniverseAnalyticsOptions): Promise<SubscriberMetrics> => {
       return await makeAnalyticsRequest<SubscriberMetrics, undefined>('/universe/subscriptions')
+    },
+    revenueMetrics: async (options: UniverseRevenueMetricsOptions): Promise<RevenueMetrics> => {
+      return await makeAnalyticsRequest<RevenueMetrics, UniverseRevenueMetricsOptions>('/attribution', options)
     }
   }
 }
