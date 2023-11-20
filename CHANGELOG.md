@@ -1,3 +1,10 @@
+# [4.205.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.204.0...v4.205.0) (2023-11-20)
+
+
+### Features
+
+* **attrib window settings:** added typing for configuration.settings ([ddc43bc](https://github.com/c-commerce/charles-browser-sdk/commit/ddc43bca9630a50ea8e5e5b37e8a2669699d4a86))
+
 # [4.204.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.203.0...v4.204.0) (2023-11-09)
 
 
