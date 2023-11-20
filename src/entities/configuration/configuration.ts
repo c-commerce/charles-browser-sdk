@@ -15,6 +15,17 @@ export interface ConfigurationOOODay {
   }>
 }
 
+export interface ConfigurationSettings {
+  default_timezone?: string | null
+  default_currency?: string | null
+  default_language?: string | null
+  last_touch_attribution_window?: number | null
+  last_touch_attribution_window_history?: Array<{
+    date: string
+    value: number
+  }> | null
+}
+
 export interface ConfigurationRawPayload {
   readonly id?: string
   readonly created_at?: string
@@ -23,7 +34,7 @@ export interface ConfigurationRawPayload {
   readonly active?: boolean
   readonly owner?: string
   readonly configuration?: {
-    settings?: object
+    settings?: ConfigurationSettings
     api?: object
     feedback?: object
     out_of_office?: {
