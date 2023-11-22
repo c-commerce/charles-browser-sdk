@@ -1,3 +1,10 @@
+# [4.206.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.205.0...v4.206.0) (2023-11-22)
+
+
+### Features
+
+* **revenue-metrics-handlers:** added revenueMetrics sdk fn for homepage & chart ([ecf2b7d](https://github.com/c-commerce/charles-browser-sdk/commit/ecf2b7d68c7eeb19ab4eb31c0b35e1023c78afd7))
+
 # [4.205.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.204.0...v4.205.0) (2023-11-20)
 
 
