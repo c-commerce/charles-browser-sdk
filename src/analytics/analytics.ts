@@ -136,3 +136,38 @@ export interface SubscriberMetrics {
   total_subscribers: number
   date: string
 }
+
+export interface RevenueFields {
+  distinct_person_count?: number
+  orders_count?: number
+  conversation_business_count?: number
+  conversation_marketing_count?: number
+  conversation_utility_count?: number
+  journeys_count?: number
+  journeys_revenue_gross_total?: number
+  journeys_revenue_net_total?: number
+  campaigns_count?: number
+  campaigns_revenue_net_total?: number
+  campaigns_revenue_gross_total?: number
+  per_conversation_mean?: number
+  revenue_gross_total?: number
+  revenue_net_total?: number
+}
+
+export interface RevenueMetricsValue extends RevenueFields {
+  timeframe_start: string // DateTime ISO string
+  timeframe_end: string // DateTime ISO string
+  label: string
+}
+
+export interface RevenueMetrics {
+  created_at: string
+  metric: {
+    job: AnalyticsReportJob
+    query: {
+      start: string
+      end: string
+    }
+  }
+  values: RevenueMetricsValue[]
+}
