@@ -1,3 +1,10 @@
+## [4.206.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.206.1...v4.206.2) (2023-12-06)
+
+
+### Bug Fixes
+
+* **revenue-metrics-versions:** added versions to SDK to be optional arr or str. ([e594695](https://github.com/c-commerce/charles-browser-sdk/commit/e5946951861b003cfddb1d0dea24284e520fdc05))
+
 ## [4.206.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.206.0...v4.206.1) (2023-12-06)
 
 
