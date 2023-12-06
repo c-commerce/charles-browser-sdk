@@ -13,7 +13,8 @@ import {
   MessageBrokerMessagesCountAnalyticsResponse,
   SubscriberMetrics,
   RevenueMetrics,
-  RevenueFields
+  RevenueFields,
+  RevenueVersions
 } from '../analytics/analytics'
 
 export interface UniverseAnalyticsOptions {
@@ -32,7 +33,7 @@ export interface UniverseAnalyticsEventsOptions {
 
 export interface UniverseRevenueMetricsOptions {
   groupBy?: 'day' | 'week' | 'month' | 'year' | 'version'
-  version: 'last_touch' | 'testing'
+  version?: RevenueVersions | RevenueVersions[]
   // The following fields are date iso strings
   start: string
   end: string

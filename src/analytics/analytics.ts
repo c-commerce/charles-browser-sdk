@@ -154,6 +154,12 @@ export interface RevenueFields {
   revenue_net_total?: number
 }
 
+export type RevenueVersions =
+  'last_touch' |
+  'testing' |
+  'coupon_code_unstitched' |
+  'coupon_code_all'
+
 export interface RevenueMetricsValue extends RevenueFields {
   timeframe_start: string // DateTime ISO string
   timeframe_end: string // DateTime ISO string
