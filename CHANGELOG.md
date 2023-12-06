@@ -1,3 +1,10 @@
+## [4.206.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.206.0...v4.206.1) (2023-12-06)
+
+
+### Bug Fixes
+
+* **NotificationCampaign:** fix properties ([d7d5b1c](https://github.com/c-commerce/charles-browser-sdk/commit/d7d5b1c29cfe75bdb252c910c78cfd79c6bc534c))
+
 # [4.206.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.205.0...v4.206.0) (2023-11-22)
 
 
