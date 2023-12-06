@@ -43,6 +43,7 @@ export type NotificationCampaignStatusType =
 | 'published' // user: the campaign was published and might be executing or will execute
 | 'done' // user: the campaign was published the campaign has run. This does not indicate success.
 | 'errored' // user: execution was attempted but errored immediately. Errors per target are not indicated
+| 'scheduled' // user: the campaign has been scheduled
 
 export type NotificationCampaignPreviewEntry = Omit<NotificationCampaignStaticEntryRawPayload, 'id' | 'resource'> & {
   resource: {
@@ -94,6 +95,7 @@ export interface NotificationCampaignRawPayload {
   readonly schedule?: {
     enabled?: boolean
     at?: string
+    is_instant_publish?: boolean
   }
   readonly execution?: {
     enabled?: boolean
