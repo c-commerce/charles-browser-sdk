@@ -7,7 +7,7 @@ import qs from 'qs'
 import { Feed } from '../../eventing/feeds/feed'
 import { ContactList, ContactListRawPayload } from '../contact-list/contact-list'
 import { ContactListStaticEntriesFetchRemoteError, NotificationCampaignStaticEntry, NotificationCampaignStaticEntryRawPayload } from './static-entry'
-import { MessageTemplateRawPayload } from '../message-template/message-template'
+import { MessageTemplate, MessageTemplateRawPayload } from '../message-template/message-template'
 
 export interface NotificationCampaignOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignRawPayload
@@ -472,7 +472,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
-  public async test (payload: NotificationCampaignTestRawPayload): Promise<NotificationCampaign> {
+  public async test (payload: NotificationCampaignTestRawPayload): Promise<MessageTemplate> {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign publish requires id to be set.')
 
     try {
@@ -486,9 +486,10 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
         data: payload
       }
       const res = await this.http.getClient()(opts)
-      const data = res.data.data[0] as NotificationCampaignRawPayload
+      const data = res.data.data[0] as MessageTemplateRawPayload
 
-      return this.deserialize(data)
+      // we return the message template at that point to show for further FE evaluation
+      return this.universe.messageTemplate(data)
     } catch (err) {
       throw new NotificationCampaignTestError(undefined, { error: err })
     }
