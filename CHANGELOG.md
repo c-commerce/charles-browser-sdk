@@ -1,3 +1,10 @@
+# [4.207.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.206.2...v4.207.0) (2023-12-08)
+
+
+### Features
+
+* extend message tempate type + fix return type of test route ([de7ce57](https://github.com/c-commerce/charles-browser-sdk/commit/de7ce5730cc841369eea953c60f98ad5936c3652))
+
 ## [4.206.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.206.1...v4.206.2) (2023-12-06)
 
 
