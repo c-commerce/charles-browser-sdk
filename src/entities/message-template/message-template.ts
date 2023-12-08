@@ -146,6 +146,7 @@ export interface MessageTemplateRawPayloadLocalizedContent {
   quick_replies?: MessageTemplateRawPayloadQuickReplies & MessageTemplateRawPayloadList
   status_history?: MessageTemplateRawPayloadLocalizedContentHistoryEntry[]
   submit_history?: MessageTemplateRawPayloadContentSubmitHistoryEntry[]
+  last_successful_test?: string
 }
 
 export type MessageTemplateRawPayloadParameters = {
