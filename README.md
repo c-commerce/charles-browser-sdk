@@ -57,3 +57,7 @@ import Auth from '@heycharles/browser-sdk/dist/lib/Auth'
 ## LICENSE
 
 Apache-2.0
+
+## Contributing
+
+Please see [contributing](./CONTRIBUTING.md)
