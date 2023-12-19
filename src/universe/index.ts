@@ -1580,15 +1580,20 @@ export class Universe extends APICarrier {
     }
   }
 
-  public async messageTemplates (): Promise<messageTemplate.MessageTemplate[] | undefined> {
+  public async messageTemplates (options?: EntityFetchOptions): Promise<messageTemplate.MessageTemplate[] | messageTemplate.MessageTemplateRawPayload[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${messageTemplate.MessageTemplates.endpoint}`, {
         // Fetch only none-FlowBuilder templates (That are of kind "AutomationEngine")
         params: {
-          kind: ['Generic', 'ProductGeneral', 'ProductDetail']
+          kind: ['Generic', 'ProductGeneral', 'ProductDetail'],
+          ...(options?.query ?? {})
         }
       })
       const resources = res.data.data as messageTemplate.MessageTemplateRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
 
       return resources.map((resource: messageTemplate.MessageTemplateRawPayload) => {
         return messageTemplate.MessageTemplate.create(resource, this, this.http)
@@ -1640,10 +1645,14 @@ export class Universe extends APICarrier {
     }
   }
 
-  public async messageTemplateCategories (): Promise<messageTemplateCategory.MessageTemplateCategory[] | undefined> {
+  public async messageTemplateCategories (options?: EntityFetchOptions): Promise<messageTemplateCategory.MessageTemplateCategory[] | messageTemplateCategory.MessageTemplateCategoryRawPayload[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${messageTemplateCategory.MessageTemplateCategories.endpoint}`)
       const resources = res.data.data as messageTemplateCategory.MessageTemplateCategoryRawPayload[]
+
+      if (options && options.raw === true) {
+        return resources
+      }
 
       return resources.map((resource: messageTemplateCategory.MessageTemplateCategoryRawPayload) => {
         return messageTemplateCategory.MessageTemplateCategory.create(resource, this, this.http)
