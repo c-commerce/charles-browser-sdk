@@ -14,7 +14,7 @@ export class BaseError extends Error {
     Object.setPrototypeOf(this, BaseError.prototype)
   }
 
-  static handleCommonProperties<T>(maybeError: T, additionalProperties?: { [key: string]: any }): { [key: string]: any } {
+  static handleCommonProperties<T extends {}>(maybeError: T, additionalProperties?: { [key: string]: any }): { [key: string]: any } {
     const props = Object.assign(
       { error: maybeError },
       additionalProperties ?? {},
