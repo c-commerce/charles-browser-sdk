@@ -1,3 +1,10 @@
+# [4.208.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.207.0...v4.208.0) (2024-01-03)
+
+
+### Features
+
+* **message-templates:** add raw option to fetching message templates and categories ([328c12d](https://github.com/c-commerce/charles-browser-sdk/commit/328c12ddae0cd559bcf5857eefb6552771576d91))
+
 # [4.207.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.206.2...v4.207.0) (2023-12-08)
 
 
