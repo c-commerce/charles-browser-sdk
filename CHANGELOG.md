@@ -1,3 +1,10 @@
+# [4.209.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.208.0...v4.209.0) (2024-01-04)
+
+
+### Features
+
+* remove examples, refactor github action ([ab24a18](https://github.com/c-commerce/charles-browser-sdk/commit/ab24a18ccefa747854a881594ad27bc160d61e74))
+
 # [4.208.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.207.0...v4.208.0) (2024-01-03)
 
 
