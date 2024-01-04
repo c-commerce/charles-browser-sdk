@@ -25,10 +25,7 @@
     "lint": "eslint -c ./.eslintrc.js --ext .ts src/**/*.ts test/**/*.ts",
     "prebuild": "rimraf dist",
     "build:main": "tsc -p tsconfig.release.json",
-    "build:docs:all": "npm run build:docs && npm run build:storybooks",
     "build:docs": "typedoc --out docs --hideGenerator  --excludeExternals --excludeProtected --categorizeByGroup true --defaultCategory \"Misc.\" --theme minimal src",
-    "build:storybooks:prepare": "(cd examples/vue && npm i && cd -)",
-    "build:storybooks": "(cd examples/vue && npm run build-storybook && cd -)",
     "build:bundle": "tsc --module commonjs -p tsconfig.release.json",
     "build": "npm run clean && npm run build:bundle",
     "clean": "rimraf dist docs",
@@ -63,20 +60,16 @@
       "js"
     ],
     "watchPathIgnorePatterns": [
-      "<rootDir>/dist",
-      "<rootDir>/examples"
+      "<rootDir>/dist"
     ],
     "testPathIgnorePatterns": [
-      "<rootDir>/dist",
-      "<rootDir>/examples"
+      "<rootDir>/dist"
     ],
     "transformIgnorePatterns": [
-      "<rootDir>/dist",
-      "<rootDir>/examples"
+      "<rootDir>/dist"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "/examples/",
       "/test/",
       "/src/@types/"
     ],

@@ -2,94 +2,56 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ master ]
   pull_request:
-    branches: [ master, develop ]
+    branches: [ master ]
 
 permissions:
-  actions: write
-  checks: write
   contents: write
-  deployments: write
-  id-token: write
   issues: write
-  packages: write
   pull-requests: write
-  statuses: write
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-concurrency:
-  group: ${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_HELLO_CHARLES_AUTOMATION_TOKEN }}
+  node-version: "14.17.4"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
-    strategy:
-      matrix:
-        node-version: [ 14.17.4 ]
 
-    env:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
           persist-credentials: false
+
       - name: Cache node modules
         uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: '**/node_modules'
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
-      
-      - name: install
-        # Replace typedoc's typescript dep with currently installed version
-        # because it comes with an incompatible version
-        run: |
-            npm install
+          node-version: ${{ env.node-version }}
 
-            rm -rf ./node_modules/typedoc/node_modules/typescript
-            cp -r ./node_modules/typescript ./node_modules/typedoc/node_modules/typescript
-      - run: .github/install-python2.sh
+      - name: install
+        run: npm install
+
       - name: test
         run: npm run test:prod
-      
-      
+
       - name: build
         run: npm run build
 
       - name: coverage
         run: npm run coverage
-      # - run: git describe --exact-match --tags HEAD && npm run docs && npm run deploy-docs
-      - uses: ./.github/actions/deploy-release
-        with:
-          gh-token: ${{ secrets.CHARLES_BROWSER_SDK_RELEASER_PAT }}
-          deploy-token: ${{ secrets.CHARLES_BROWSER_SDK_RELEASER_PAT }}
 
-      - name: build-docs
-        run: npm run build:docs && npm run build:storybooks:prepare && npm run build:storybooks
-
-      - name: deploy-docs
-        run: npm run deploy-docs
-
-
+      - name: release
+        run: npm run semantic-release
