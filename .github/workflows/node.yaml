@@ -13,7 +13,7 @@ permissions:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_HELLO_CHARLES_AUTOMATION_TOKEN }}
   node-version: "14.17.4"
 
 jobs:
