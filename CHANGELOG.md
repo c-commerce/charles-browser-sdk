@@ -1,3 +1,10 @@
+# [4.210.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.209.0...v4.210.0) (2024-01-12)
+
+
+### Features
+
+* **tech-9882/synced-contacts:** added abstraction fns for calling synced contact information ([2017f2e](https://github.com/c-commerce/charles-browser-sdk/commit/2017f2e3983c646bf101cced5bb77f5685a67a84))
+
 # [4.209.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.208.0...v4.209.0) (2024-01-04)
 
 
