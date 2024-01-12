@@ -177,3 +177,9 @@ export interface RevenueMetrics {
   }
   values: RevenueMetricsValue[]
 }
+
+export interface SyncedContactsResponse {
+  total_subscriber_count: number
+  stitched_subscriber_count: number
+  stitching_rate_percentage: number
+}

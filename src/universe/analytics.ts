@@ -14,7 +14,8 @@ import {
   SubscriberMetrics,
   RevenueMetrics,
   RevenueFields,
-  RevenueVersions
+  RevenueVersions,
+  SyncedContactsResponse
 } from '../analytics/analytics'
 
 export interface UniverseAnalyticsOptions {
@@ -55,6 +56,7 @@ export interface UniverseAnalytics {
   messageBrokerMessagesCount: (options?: MessageBrokerMessagesCountAnalyticsOptions) => Promise<MessageBrokerMessagesCountAnalyticsResponse | undefined>
   subscriberMetrics: () => Promise<SubscriberMetrics | undefined>
   revenueMetrics: (options: UniverseRevenueMetricsOptions) => Promise<RevenueMetrics | undefined>
+  syncedContacts: () => Promise<SyncedContactsResponse | undefined>
 }
 
 export function analytics (this: Universe): UniverseAnalytics {
@@ -115,6 +117,9 @@ export function analytics (this: Universe): UniverseAnalytics {
     },
     revenueMetrics: async (options: UniverseRevenueMetricsOptions): Promise<RevenueMetrics> => {
       return await makeAnalyticsRequest<RevenueMetrics, UniverseRevenueMetricsOptions>('/attribution', options)
+    },
+    syncedContacts: async (): Promise<SyncedContactsResponse> => {
+      return await makeAnalyticsRequest<SyncedContactsResponse, undefined>('/synced_contacts')
     }
   }
 }
