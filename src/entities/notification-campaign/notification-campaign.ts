@@ -30,9 +30,18 @@ export interface NotificationCampaignPublishOpts extends EntityFetchOptions {
   is_instant_publish?: boolean
 }
 
+export interface NotificationCampaignBlueprintScheduleOpts extends EntityFetchOptions {
+  pattern: string
+  max_audience: null | number
+}
+
 export interface NotificationCampaignUnscheduleOpts extends EntityFetchOptions {
   set_status_to?: 'draft' | 'armed'
 }
+
+export type NotificationCampaignType =
+'instance' // normal instance of a campaign
+| 'blueprint' // blueprint of a campaign, used for recurring campaigns
 
 export type NotificationCampaignStatusType =
 'draft' // user: campaign has been saved, but nothing else has been done with it. The campaign is not ready to be sent
@@ -140,6 +149,16 @@ export interface NotificationCampaignRawPayload {
   readonly attribution_meta?: {
     [key: string]: any
   }
+
+  readonly parent?: string
+  readonly campaign_type?: NotificationCampaignStatusType
+  readonly blueprint_meta?: {
+    [key: string]: any
+  }
+  readonly blueprint_configuration?: {
+    pattern?: string
+    max_audience?: number
+  }
 }
 
 export interface NotificationCampaignPayload {
@@ -171,6 +190,10 @@ export interface NotificationCampaignPayload {
   readonly armLock?: NotificationCampaignRawPayload['arm_lock']
   readonly statusHistory?: NotificationCampaignRawPayload['status_history']
   readonly attributionMeta?: NotificationCampaignRawPayload['attribution_meta']
+  readonly parent?: NotificationCampaignRawPayload['parent']
+  readonly campaignType?: NotificationCampaignRawPayload['campaign_type']
+  readonly blueprintMeta?: NotificationCampaignRawPayload['blueprint_meta']
+  readonly blueprintConfiguration?: NotificationCampaignRawPayload['blueprint_configuration']
 }
 
 /**
@@ -219,6 +242,10 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
   public armLock?: NotificationCampaignPayload['armLock']
   public statusHistory?: NotificationCampaignPayload['statusHistory']
   public attributionMeta?: NotificationCampaignPayload['attributionMeta']
+  public parent?: NotificationCampaignPayload['parent']
+  public campaignType?: NotificationCampaignPayload['campaignType']
+  public blueprintMeta?: NotificationCampaignPayload['blueprintMeta']
+  public blueprintConfiguration?: NotificationCampaignPayload['blueprintConfiguration']
 
   constructor (options: NotificationCampaignOptions) {
     super()
@@ -265,6 +292,9 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     this.armLock = rawPayload.arm_lock
     this.statusHistory = rawPayload.status_history
     this.attributionMeta = rawPayload.attribution_meta
+    this.parent = rawPayload.parent
+    this.campaignType = rawPayload.campaign_type
+    this.blueprintMeta = rawPayload.blueprint_meta
 
     return this
   }
@@ -691,6 +721,64 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     }
   }
 
+  public async scheduleBlueprint (options?: NotificationCampaignBlueprintScheduleOpts): Promise<NotificationCampaign | NotificationCampaignStaticEntryRawPayload > {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign blueprint publish requires id to be set')
+
+    const body = {
+      pattern: options?.pattern,
+      max_audience: options?.max_audience
+    }
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/blueprint/schedule`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        timeout: options?.timeout ?? 60000,
+        data: body
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data[0] as NotificationCampaignRawPayload
+
+      if (options && options.raw === true) {
+        return data
+      }
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignBlueprintScheduleError(err)
+    }
+  }
+
+  public async unscheduleBlueprint (options?: EntityFetchOptions): Promise<NotificationCampaign | NotificationCampaignStaticEntryRawPayload > {
+    if (this.id === null || this.id === undefined) throw new TypeError('campaign blueprint stop requires id to be set')
+
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/blueprint/unschedule`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        timeout: options?.timeout ?? 60000,
+      }
+      const res = await this.http.getClient()(opts)
+      const data = res.data.data[0] as NotificationCampaignRawPayload
+
+      if (options && options.raw === true) {
+        return data
+      }
+
+      return this.deserialize(data)
+    } catch (err) {
+      throw new NotificationCampaignBlueprintUnscheduleError(err)
+    }
+  }
+
   public async schedulePublish (options?: NotificationCampaignPublishOpts): Promise<NotificationCampaign | NotificationCampaignStaticEntryRawPayload > {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign schedule publish requires id to be set')
 
@@ -942,6 +1030,24 @@ export class NotificationCampaignSyncAnalyticsRemoteError extends BaseErrorV2 {
   constructor (err: Error | unknown, props?: BaseErrorV2Properties) {
     super(err as Error, props)
     Object.setPrototypeOf(this, NotificationCampaignSyncAnalyticsRemoteError.prototype)
+  }
+}
+
+export class NotificationCampaignBlueprintScheduleError extends BaseErrorV2 {
+  public name = 'NotificationCampaignBlueprintScheduleError'
+  public message = 'Could not schedule blueprint based campaign'
+  constructor (err: Error | unknown, props?: BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, NotificationCampaignBlueprintScheduleError.prototype)
+  }
+}
+
+export class NotificationCampaignBlueprintUnscheduleError extends BaseErrorV2 {
+  public name = 'NotificationCampaignBlueprintUnscheduleError'
+  public message = 'Could not schedule blueprint based campaign'
+  constructor (err: Error | unknown, props?: BaseErrorV2Properties) {
+    super(err as Error, props)
+    Object.setPrototypeOf(this, NotificationCampaignBlueprintUnscheduleError.prototype)
   }
 }
 
