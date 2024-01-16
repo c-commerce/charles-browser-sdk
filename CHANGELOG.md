@@ -1,3 +1,10 @@
+# [4.211.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.210.0...v4.211.0) (2024-01-16)
+
+
+### Features
+
+* **NotificationCampaign:** [TECH-9502] add blueprint publish and blueprint stop methods and payload ([0342a57](https://github.com/c-commerce/charles-browser-sdk/commit/0342a5765a33a461453b24a235343bf5b67aa52e))
+
 # [4.210.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.209.0...v4.210.0) (2024-01-12)
 
 
