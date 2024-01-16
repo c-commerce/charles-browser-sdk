@@ -755,7 +755,6 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
 
   public async unscheduleBlueprint (options?: EntityFetchOptions): Promise<NotificationCampaign | NotificationCampaignStaticEntryRawPayload > {
     if (this.id === null || this.id === undefined) throw new TypeError('campaign blueprint stop requires id to be set')
-
     try {
       const opts = {
         method: 'POST',
