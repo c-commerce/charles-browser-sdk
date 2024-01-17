@@ -1,3 +1,10 @@
+# [4.212.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.211.0...v4.212.0) (2024-01-17)
+
+
+### Features
+
+* **TECH-9883-TECH-9920/settings-page-attribution:** update SDK to match BE attribution pattern. ([a309103](https://github.com/c-commerce/charles-browser-sdk/commit/a3091034c07858d46ed80740b3f33c3c2221dbcb))
+
 # [4.211.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.210.0...v4.211.0) (2024-01-16)
 
 
