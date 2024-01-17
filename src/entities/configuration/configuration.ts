@@ -14,22 +14,25 @@ export interface ConfigurationOOODay {
     end: string
   }>
 }
+
+export interface ConfigurationAttribution {
+  last_touch_attribution_window?: number | null
+  last_touch_attribution_window_history?: Array<{
+    date: string
+    value: number
+  }> | null
+  enabled_attribution_models?: {
+    last_touch?: boolean
+    coupon_code_unstitched?: boolean
+    coupon_code_all?: boolean
+  }
+}
+
 export interface ConfigurationSettings {
   default_timezone?: string | null
   default_currency?: string | null
   default_language?: string | null
-  attribution?: {
-    last_touch_attribution_window?: number | null
-    last_touch_attribution_window_history?: Array<{
-      date: string
-      value: number
-    }> | null
-    enabled_attribution_models?: {
-      last_touch?: boolean
-      coupon_code_unstitched?: boolean
-      coupon_code_all?: boolean
-    }
-  }
+  attribution?: ConfigurationAttribution
 }
 
 export interface ConfigurationRawPayload {
