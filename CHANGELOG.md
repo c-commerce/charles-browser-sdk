@@ -1,3 +1,10 @@
+## [4.212.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.0...v4.212.1) (2024-01-17)
+
+
+### Bug Fixes
+
+* **settings-page:** updated to use exportable interface to fix FE errors accessing the obj. ([a1e0161](https://github.com/c-commerce/charles-browser-sdk/commit/a1e0161c3edf37d11b38efcf7aab44de35fa306d))
+
 # [4.212.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.211.0...v4.212.0) (2024-01-17)
 
 
