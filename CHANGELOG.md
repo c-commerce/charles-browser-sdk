@@ -1,3 +1,10 @@
+## [4.212.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.1...v4.212.2) (2024-01-18)
+
+
+### Bug Fixes
+
+* **TECH-9920/attribution-history-types:** expanded the typings to enable history or attrib models in FE tables ([c743220](https://github.com/c-commerce/charles-browser-sdk/commit/c74322079966aac844e316bda65befe036c15756))
+
 ## [4.212.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.0...v4.212.1) (2024-01-17)
 
 
