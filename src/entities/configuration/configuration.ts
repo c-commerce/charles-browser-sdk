@@ -15,12 +15,23 @@ export interface ConfigurationOOODay {
   }>
 }
 
+export enum AttributionModel {
+  LAST_TOUCH = 'last_touch',
+  COUPON_CODE_UNSTITCHED = 'coupon_code_unstitched',
+  COUPON_CODE_ALL = 'coupon_code_all'
+}
+
+export type AttributionModels = Record<AttributionModel, boolean>
+
+export interface AttributionHistory {
+  date: string
+  value: number
+  enabledModels: AttributionModels
+}
+
 export interface ConfigurationAttribution {
   last_touch_attribution_window?: number | null
-  last_touch_attribution_window_history?: Array<{
-    date: string
-    value: number
-  }> | null
+  last_touch_attribution_window_history?: AttributionHistory[] | null
   enabled_attribution_models?: {
     last_touch?: boolean
     coupon_code_unstitched?: boolean
