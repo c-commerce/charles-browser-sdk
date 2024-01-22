@@ -1,3 +1,10 @@
+## [4.212.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.2...v4.212.3) (2024-01-22)
+
+
+### Bug Fixes
+
+* **revert-settings-page-update:** reverted changes, commented out code to be reused later ([fffdb4e](https://github.com/c-commerce/charles-browser-sdk/commit/fffdb4ecd58a92e9fdbf0b4b72bf145074a4b237))
+
 ## [4.212.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.1...v4.212.2) (2024-01-18)
 
 
