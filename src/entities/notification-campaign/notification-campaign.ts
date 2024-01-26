@@ -295,6 +295,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     this.parent = rawPayload.parent
     this.campaignType = rawPayload.campaign_type
     this.blueprintMeta = rawPayload.blueprint_meta
+    this.blueprintConfiguration = rawPayload.blueprint_configuration
 
     return this
   }
@@ -1065,7 +1066,7 @@ export class NotificationCampaignUnschedulePublishRemoteError extends BaseErrorV
 
 export type NotificationCampaignSchedulePublishRemoteErrorReasons = 'cannot schedule campaign in the past' | 'cannot schedule rearm after publish'
 export class NotificationCampaignSchedulePublishRemoteError extends BaseErrorV2 {
-  public name = 'NotificationCampaignUnschedulePublishRemoteError'
+  public name = 'NotificationCampaignSchedulePublishRemoteError'
   public message = 'Could not schedule campaign publish.'
   public failureMsg?: NotificationCampaignSchedulePublishRemoteErrorReasons
   constructor (err: any, props?: BaseErrorV2Properties) {
