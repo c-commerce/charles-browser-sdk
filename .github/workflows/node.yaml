@@ -14,7 +14,7 @@ permissions:
 env:
   GITHUB_TOKEN: ${{ secrets.CHARLES_RELEASER_PAT }}
   NPM_TOKEN: ${{ secrets.NPM_HELLO_CHARLES_AUTOMATION_TOKEN }}
-  node-version: "14.17.4"
+  node-version: "20.8.0"
 
 jobs:
   build:
