@@ -1,3 +1,10 @@
+## [4.212.4](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.3...v4.212.4) (2024-01-26)
+
+
+### Bug Fixes
+
+* **NotificationCampaign:** add blueprintConfiguration deserialization, correct copy/paste error ([d962bcd](https://github.com/c-commerce/charles-browser-sdk/commit/d962bcddf60e7204227c600b83674e1d8f624d9e))
+
 ## [4.212.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.2...v4.212.3) (2024-01-22)
 
 
