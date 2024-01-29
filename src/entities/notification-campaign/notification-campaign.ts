@@ -151,7 +151,7 @@ export interface NotificationCampaignRawPayload {
   }
 
   readonly parent?: string
-  readonly campaign_type?: NotificationCampaignStatusType
+  readonly campaign_type?: NotificationCampaignType
   readonly blueprint_meta?: {
     [key: string]: any
   }
