@@ -1,3 +1,10 @@
+## [4.212.5](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.4...v4.212.5) (2024-01-29)
+
+
+### Bug Fixes
+
+* **NotificationCampaign:** use correct type for campaign_type ([6e8722d](https://github.com/c-commerce/charles-browser-sdk/commit/6e8722d810a85eb14e36108b31baec5ec4e07bcb))
+
 ## [4.212.4](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.3...v4.212.4) (2024-01-26)
 
 
