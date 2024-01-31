@@ -1,5 +1,6 @@
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe, UniverseFetchOptions } from '../../universe'
+import { DataExportFilter } from '../data-export/data-export'
 import { BaseError } from '../../errors'
 import { AxiosResponse } from 'axios'
 
@@ -20,7 +21,7 @@ export interface AsyncExportRawPayload {
   readonly expires_at?: string
 
   readonly type?: string
-  readonly request?: any
+  readonly request?: DataExportFilter[]
   readonly staff_ids?: string[]
 }
 
@@ -254,3 +255,5 @@ export class AsyncExportsCountRemoteError extends BaseError {
     Object.setPrototypeOf(this, AsyncExportsCountRemoteError.prototype)
   }
 }
+
+// TODO: add extra error handlers for async export edge cases such as in progress
