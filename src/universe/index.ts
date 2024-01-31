@@ -85,6 +85,7 @@ import type { UniverseAnalytics } from './analytics'
 import ChangesRawManager, { RawPayload } from '../realtime/changes/changes-raw-manager'
 import { FeatureFlagFetchError, FeatureFlagRawPayload } from '../entities/feature-flag'
 import { FlowRawPayload } from '../entities/flow/flow'
+import * as asyncExport from '../entities/async-exports'
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -1034,6 +1035,10 @@ export class Universe extends APICarrier {
 
   public linkClick (payload: linkClick.LinkClickRawPayload): linkClick.LinkClick {
     return linkClick.LinkClick.create(payload, this, this.http)
+  }
+
+  public asyncExport (payload: asyncExport.AsyncExportRawPayload): asyncExport.AsyncExport {
+    return asyncExport.AsyncExport.create(payload, this, this.http)
   }
 
   // hygen:factory:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.

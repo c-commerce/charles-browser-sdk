@@ -1,7 +1,7 @@
 import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_base'
 import { Universe, UniverseFetchOptions } from '../../universe'
 import { BaseError } from '../../errors'
-import qs from 'qs'
+import { AxiosResponse } from 'axios'
 
 export interface AsyncExportOptions extends UniverseEntityOptions {
   rawPayload?: AsyncExportRawPayload
@@ -36,6 +36,7 @@ export interface AsyncExportPayload {
   readonly signedAt?: AsyncExportRawPayload['signed_at']
   readonly expiresAt?: AsyncExportRawPayload['expires_at']
 
+  // Not optional - fix the undefined BS later
   readonly type?: AsyncExportRawPayload['type']
   readonly request?: AsyncExportRawPayload['request']
   readonly staffIds?: AsyncExportRawPayload['staff_ids']
@@ -111,6 +112,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
       expires_at: this.expiresAt,
 
       type: this.type,
+      // What will this look like
       request: this.request,
       staff_ids: this.staffIds
     }
@@ -127,7 +129,8 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
   }
 
   // This schedules a job for exporting data. The job will be executed asynchronously.
-  public async createExport (payload: AsyncExportRawPayload | AsyncExportPayload): Promise<AsyncExport | undefined> {
+  // We only care about the status code here, so we don't need to return the payload.
+  public async createExport (payload: AsyncExportRawPayload | AsyncExportPayload): Promise<AxiosResponse> {
     try {
       const opts = {
         method: 'POST',
@@ -141,9 +144,10 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
 
       const response = await this.http.getClient()(opts)
 
-      const responseData = response.data.data[0]
+      // Maybe not needed but for now
+      // const responseData = response.data.data[0]
 
-      return AsyncExport.create(responseData, this.universe, this.http)
+      return response
     } catch (err) {
       throw this.handleError(new AsyncExportInitializationError(undefined, { error: err }))
     }
