@@ -83,6 +83,11 @@ export const dataset = [
         label: 'email',
         value: 'properties.email',
         source: null
+      },
+      {
+        label: 'birthday',
+        value: 'properties.birthday',
+        source: null
       }
     ]
   },
