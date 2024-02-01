@@ -1,3 +1,10 @@
+# [4.213.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.6...v4.213.0) (2024-02-01)
+
+
+### Features
+
+* add ab birthday property ([0b6a646](https://github.com/c-commerce/charles-browser-sdk/commit/0b6a646df410c3a25054898a6b43385d96b49c50))
+
 ## [4.212.6](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.5...v4.212.6) (2024-02-01)
 
 
