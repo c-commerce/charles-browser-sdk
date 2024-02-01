@@ -1,3 +1,10 @@
+## [4.212.6](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.5...v4.212.6) (2024-02-01)
+
+
+### Bug Fixes
+
+* **use cc model again:** updated to use new attribution settings ([c947ac3](https://github.com/c-commerce/charles-browser-sdk/commit/c947ac38800c06bb85b01b847389c5821bb8a4b4))
+
 ## [4.212.5](https://github.com/c-commerce/charles-browser-sdk/compare/v4.212.4...v4.212.5) (2024-01-29)
 
 
