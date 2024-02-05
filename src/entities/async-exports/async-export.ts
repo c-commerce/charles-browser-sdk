@@ -2,10 +2,15 @@ import { UniverseEntityOptions, UniverseEntity, EntityFetchOptions } from '../_b
 import { Universe, UniverseFetchOptions } from '../../universe'
 import { DataExportFilter } from '../data-export/data-export'
 import { BaseError } from '../../errors'
-import { AxiosResponse } from 'axios'
 
 export interface AsyncExportOptions extends UniverseEntityOptions {
   rawPayload?: AsyncExportRawPayload
+}
+
+export interface AsyncExportResponse {
+  data?: AsyncExportRawPayload[] | AsyncExportRawPayload
+  status: number
+  statusText: string
 }
 
 export interface AsyncExportRawPayload {
@@ -69,6 +74,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
 
   public type?: AsyncExportPayload['type']
   public request?: AsyncExportPayload['request']
+  // todo: remove this
   public staffIds?: AsyncExportPayload['staffIds']
 
   constructor (options: AsyncExportOptions) {
@@ -113,7 +119,6 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
       expires_at: this.expiresAt,
 
       type: this.type,
-      // What will this look like
       request: this.request,
       staff_ids: this.staffIds
     }
@@ -129,9 +134,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
     }
   }
 
-  // This schedules a job for exporting data. The job will be executed asynchronously.
-  // We only care about the status code here, so we don't need to return the payload.
-  public async createExport (payload: AsyncExportRawPayload | AsyncExportPayload): Promise<AxiosResponse> {
+  public async createExport (payload: AsyncExportRawPayload | AsyncExportPayload): Promise<AsyncExportResponse> {
     try {
       const opts = {
         method: 'POST',
@@ -145,11 +148,17 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
 
       const response = await this.http.getClient()(opts)
 
-      // Maybe not needed but for now
-      // const responseData = response.data.data[0]
-
-      return response
-    } catch (err) {
+      return {
+        data: response.data.data,
+        status: response.status,
+        statusText: response.statusText
+      }
+    } catch (err: any) {
+      // Handle the 304 and 202 status codes to notify user correctly of no change / adding a new user to the export
+      const response: AsyncExportResponse = { status: err?.response?.status, statusText: err?.response?.statusText }
+      if (err.response.status === 304 || err.response.status === 202) {
+        return response
+      }
       throw this.handleError(new AsyncExportInitializationError(undefined, { error: err }))
     }
   }
@@ -255,5 +264,3 @@ export class AsyncExportsCountRemoteError extends BaseError {
     Object.setPrototypeOf(this, AsyncExportsCountRemoteError.prototype)
   }
 }
-
-// TODO: add extra error handlers for async export edge cases such as in progress
