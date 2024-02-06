@@ -1,3 +1,10 @@
+# [4.214.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.213.1...v4.214.0) (2024-02-06)
+
+
+### Features
+
+* **settings page attrib again again:** reimplement again again ([3e4dec7](https://github.com/c-commerce/charles-browser-sdk/commit/3e4dec71386cbc0a1db19b438288f0c289ebca18))
+
 ## [4.213.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.213.0...v4.213.1) (2024-02-01)
 
 
