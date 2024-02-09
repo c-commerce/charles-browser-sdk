@@ -1,3 +1,10 @@
+# [4.215.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.214.1...v4.215.0) (2024-02-09)
+
+
+### Features
+
+* **async-export-types:** adds the async export entity, fns and handling ([11d002b](https://github.com/c-commerce/charles-browser-sdk/commit/11d002beefb5a24c15432a9707a47bb32fbbf1bd))
+
 ## [4.214.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.214.0...v4.214.1) (2024-02-09)
 
 
