@@ -1,3 +1,10 @@
+## [4.214.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.214.0...v4.214.1) (2024-02-09)
+
+
+### Bug Fixes
+
+* **remove attribution config again:** not releasing so reverting to older state to not break. ([aad8c0c](https://github.com/c-commerce/charles-browser-sdk/commit/aad8c0cb1d6fe0b28557648979e2bdff308924f0))
+
 # [4.214.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.213.1...v4.214.0) (2024-02-06)
 
 
