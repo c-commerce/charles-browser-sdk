@@ -43,12 +43,7 @@ export interface ConfigurationSettings {
   default_timezone?: string | null
   default_currency?: string | null
   default_language?: string | null
-  // attribution?: ConfigurationAttribution,
-  last_touch_attribution_window?: number | null
-  last_touch_attribution_window_history?: Array<{
-    date: string
-    value: number
-  }> | null
+  attribution?: ConfigurationAttribution
 }
 
 export interface ConfigurationRawPayload {
