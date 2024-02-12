@@ -1,3 +1,10 @@
+# [4.216.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.215.0...v4.216.0) (2024-02-12)
+
+
+### Features
+
+* **coupon-code:** updated sdk for the 5th time ([2c1a78b](https://github.com/c-commerce/charles-browser-sdk/commit/2c1a78b2bb2310b159b26c36856a0154f91f3a81))
+
 # [4.215.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.214.1...v4.215.0) (2024-02-09)
 
 
