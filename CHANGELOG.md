@@ -1,3 +1,10 @@
+## [4.216.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.216.0...v4.216.1) (2024-02-19)
+
+
+### Bug Fixes
+
+* **list splitting amount:** add total contacts for BE division just incase. ([8a01bc6](https://github.com/c-commerce/charles-browser-sdk/commit/8a01bc6675bdd929d24881604ef64ce70e979847))
+
 # [4.216.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.215.0...v4.216.0) (2024-02-12)
 
 
