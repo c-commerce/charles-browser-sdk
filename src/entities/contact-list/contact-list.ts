@@ -36,6 +36,7 @@ export interface ContactListSplitConfiguration {
   readonly configuration?: {
     type?: ICartStatusType
     amount?: number
+    totalContacts?: number
   } | object | null
 }
 export interface ContactListRawPayload {
