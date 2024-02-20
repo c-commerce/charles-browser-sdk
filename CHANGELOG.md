@@ -1,3 +1,10 @@
+# [4.217.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.216.1...v4.217.0) (2024-02-20)
+
+
+### Features
+
+* **Flows:** add an endpoint for all flows ([08ef477](https://github.com/c-commerce/charles-browser-sdk/commit/08ef47728b0c38d9faadf00ae64e754862010f97))
+
 ## [4.216.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.216.0...v4.216.1) (2024-02-19)
 
 
