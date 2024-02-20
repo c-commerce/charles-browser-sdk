@@ -2174,6 +2174,7 @@ export class Universe extends APICarrier {
             }
           }
           const res = await this.http.getClient()(opts)
+
           const resources = res.data.data as FlowRawPayload[]
 
           return resources
@@ -2184,6 +2185,30 @@ export class Universe extends APICarrier {
       fetchCount: async (options?: UniverseFetchOptions): Promise<{ count: number }> => {
         const count = await Promise.resolve(3)
         return { count }
+      }
+    }
+  }
+
+  public get flows (): {fetch: (options?: UniverseFetchOptions) => Promise<FlowRawPayload[] | undefined>} {
+    return {
+      fetch: async (options?: UniverseFetchOptions): Promise<FlowRawPayload[] | undefined> => {
+        try {
+          const opts = {
+            method: 'GET',
+            url: `${this.universeBase}/api/v0/analytics/reports/flows`,
+            params: {
+              ...(options?.query ?? {})
+            }
+          }
+
+          const res = await this.http.getClient()(opts)
+
+          const resources = res.data.data as FlowRawPayload[]
+
+          return resources
+        } catch (err) {
+          throw new BaseError('Failed to fetch top flows', { error: err })
+        }
       }
     }
   }
