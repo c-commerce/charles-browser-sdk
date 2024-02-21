@@ -5,6 +5,7 @@ export interface FlowRawPayload {
   flowName: string
   revenue: number
   triggered: number
+  category?: string
   source?: string
   clicks?: number
   revenuePerTrigger?: number
