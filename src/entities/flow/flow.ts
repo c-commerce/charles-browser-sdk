@@ -3,9 +3,9 @@ export type TriggerType = 'SHOP_TRIGGER' | 'MESSAGE_KEYWORD_TRIGGER' | 'MESSAGE_
 export interface FlowRawPayload {
   flowId: string
   flowName: string
+  flowCategory: string | undefined
   revenue: number
   triggered: number
-  category?: string
   source?: string
   clicks?: number
   revenuePerTrigger?: number
