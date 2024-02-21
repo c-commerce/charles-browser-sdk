@@ -2200,7 +2200,7 @@ export class Universe extends APICarrier {
         try {
           const opts = {
             method: 'GET',
-            url: `${this.universeBase}/api/v0/analytics/reports/flows`,
+            url: `${this.universeBase}/api/v0/journeys/flows`,
             params: {
               ...(options?.query ?? {})
             }
