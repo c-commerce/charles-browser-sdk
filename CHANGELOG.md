@@ -1,3 +1,10 @@
+## [4.217.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.217.0...v4.217.1) (2024-02-21)
+
+
+### Bug Fixes
+
+* **Flows:** slight change of route ([c58cbc3](https://github.com/c-commerce/charles-browser-sdk/commit/c58cbc3f2368a1a104634de2576b90be22d2c6ef))
+
 # [4.217.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.216.1...v4.217.0) (2024-02-20)
 
 
