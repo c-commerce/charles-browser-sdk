@@ -1,3 +1,10 @@
+## [4.217.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.217.1...v4.217.2) (2024-02-21)
+
+
+### Bug Fixes
+
+* **Flow:** typing ([c080302](https://github.com/c-commerce/charles-browser-sdk/commit/c080302bf961dc2e4eb0ffe982975b88ccf6d9c8))
+
 ## [4.217.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.217.0...v4.217.1) (2024-02-21)
 
 
