@@ -4,6 +4,7 @@ export const ANALYTICS_ENDPOINT = 'api/v0/analytics/reports'
 
 export class AnalyticsFetchRemoteError extends BaseError {
   public name = 'AnalyticsFetchRemoteError'
+
   constructor (public message: string = 'Could not get analytics.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AnalyticsFetchRemoteError.prototype)
@@ -144,21 +145,25 @@ export interface RevenueFields {
   conversation_marketing_count?: number
   conversation_utility_count?: number
   journeys_count?: number
-  journeys_revenue_gross_total?: number
   journeys_revenue_net_total?: number
+  journeys_revenue_gross_total?: number
+  journeys_refunds_gross_total?: number
   campaigns_count?: number
   campaigns_revenue_net_total?: number
   campaigns_revenue_gross_total?: number
-  per_conversation_mean?: number
-  revenue_gross_total?: number
+  campaigns_refunds_gross_total?: number
   revenue_net_total?: number
+  revenue_gross_total?: number
+  refunds_gross_total?: number
+  per_conversation_mean?: number
+  currency?: string
 }
 
 export type RevenueVersions =
-  'last_touch' |
-  'testing' |
-  'coupon_code_unstitched' |
-  'coupon_code_all'
+  | 'last_touch'
+  | 'testing'
+  | 'coupon_code_unstitched'
+  | 'coupon_code_all'
 
 export interface RevenueMetricsValue extends RevenueFields {
   timeframe_start: string // DateTime ISO string
