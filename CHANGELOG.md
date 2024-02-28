@@ -1,3 +1,10 @@
+# [4.218.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.217.3...v4.218.0) (2024-02-28)
+
+
+### Features
+
+* **revenue-metrics:** add grouping and filtering by fields ([1bcdac5](https://github.com/c-commerce/charles-browser-sdk/commit/1bcdac551dd6661849858e14330a0b6c14bb405d)), closes [charles-client-api#2351](https://github.com/charles-client-api/issues/2351)
+
 ## [4.217.3](https://github.com/c-commerce/charles-browser-sdk/compare/v4.217.2...v4.217.3) (2024-02-21)
 
 
