@@ -1,3 +1,11 @@
+# [4.219.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.218.0...v4.219.0) (2024-03-12)
+
+
+### Features
+
+* **auth:** [TECH-10754] Added prismatic-io token federation ([5a65e78](https://github.com/c-commerce/charles-browser-sdk/commit/5a65e785b90da5d77575d1dc9f349cdcc559801f))
+* **auth:** [TECH-10754] Added prismatic-io token federation ([c5df6c9](https://github.com/c-commerce/charles-browser-sdk/commit/c5df6c9a088e1fe68dd0617ff11916c15ecc5790))
+
 # [4.218.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.217.3...v4.218.0) (2024-02-28)
 
 
