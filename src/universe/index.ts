@@ -401,6 +401,15 @@ export class UniverseSessionError extends BaseError {
   }
 }
 
+export class UniverseMePrismaticFederationError extends BaseError {
+  public name = 'UniverseMePrismaticFederationError'
+  constructor (public message: string = 'Unexptected error federating prismatic token', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, UniverseMeError.prototype)
+  }
+}
+
 export class UniverseMePreferencesError extends BaseError {
   public name = 'UniverseMePreferencesError'
   constructor (public message: string = 'Unexptected error updating me preferences', properties?: any) {

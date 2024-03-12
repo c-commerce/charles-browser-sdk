@@ -1,11 +1,16 @@
 import { Client, ClientError } from '../client'
 import { StaffMessageTemplateFavorite } from '../entities/staff/staff'
 import { throwExceptionFromCommonError } from '../helpers'
-import { MeData, Universe, UniverseBadRequestError, UniverseForbiddenError, UniverseMeError, UniverseMePreferencesError, UniverseSessionError } from '.'
+import { MeData, Universe, UniverseBadRequestError, UniverseForbiddenError, UniverseMeError, UniverseMePreferencesError, UniverseMePrismaticFederationError, UniverseSessionError } from '.'
 import { PatchOpts } from '../@types/json-patch'
 
 type AddTemplateFavoriteArg = Omit<StaffMessageTemplateFavorite, 'created_at'>
 type RemoveTemplateFavoriteArg = Omit<StaffMessageTemplateFavorite, 'created_at'> & { created_at?: string }
+
+export interface PrismaticCredentials {
+  baseUrl: string
+  token: string
+}
 
 export class UniverseMe {
   private cachedMeData?: MeData
@@ -94,6 +99,31 @@ export class UniverseMe {
       throwExceptionFromCommonError(error as ClientError)
 
       throw new UniverseSessionError(undefined, { error })
+    }
+  }
+
+  /**
+   * Federates a user from client-api to Prismatic, to be used by the Prismatic embedded marketplace.
+   * This method handles the process of obtaining Prismatic credentials via federation.
+   *
+   * @throws {UniverseMePrismaticFederationError} - Throws a custom error if the federation process fails.
+   *
+   * @returns {Promise<PrismaticCredentials>} - A promise that resolves to the Prismatic credentials.
+   */
+  public async federatePrismaticToken (): Promise<PrismaticCredentials> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universe.universeBase}/api/v0/auth/federation/prismatic`
+      }
+
+      const response = await this.http.getClient()(opts)
+
+      return response?.data?.data
+    } catch (error) {
+      throwExceptionFromCommonError(error as ClientError)
+
+      throw new UniverseMePrismaticFederationError(undefined, { error })
     }
   }
 
