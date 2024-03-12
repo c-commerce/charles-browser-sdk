@@ -101,7 +101,7 @@ export interface UniverseRevenueMetricsOptions {
   /**
    * Data filters to apply before aggregations, note that the `start` and `end` dates are always applied!
    */
-  filters: Record<UniverseRevenueDataFilters, string[] | string>
+  filters?: Record<UniverseRevenueDataFilters, string[] | string>
 
   /**
    * Configure the precision digits of the aggregated values, by default it will be 2 digits!
