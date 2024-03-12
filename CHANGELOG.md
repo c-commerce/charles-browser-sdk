@@ -1,3 +1,10 @@
+## [4.219.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.219.0...v4.219.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* **revenue-analytics:** make filters optional on UniverseRevenueMetricsOptions ([90184c1](https://github.com/c-commerce/charles-browser-sdk/commit/90184c13704a457ec19c7d30461a8c8ec895bd82))
+
 # [4.219.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.218.0...v4.219.0) (2024-03-12)
 
 
