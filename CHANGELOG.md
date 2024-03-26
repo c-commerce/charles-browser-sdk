@@ -1,3 +1,10 @@
+# [4.220.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.219.1...v4.220.0) (2024-03-26)
+
+
+### Features
+
+* **universe.ts:** added churning support on universes ([6f11739](https://github.com/c-commerce/charles-browser-sdk/commit/6f1173970dc633e1fd486735423be0f8d2dc8578))
+
 ## [4.219.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.219.0...v4.219.1) (2024-03-12)
 
 
