@@ -12,6 +12,7 @@ export interface CloudUniverseOptions extends EntityOptions {
 }
 
 type LogLevel = 'none' | 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
+type ChurnLevel = 'None' | 'Light' | 'Medium' | 'Full'
 
 export interface DeployOperatorOptions {
   readonly size: 'small' | 'large',
@@ -534,6 +535,31 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+	public async patchChurn (churnLevel: ChurnLevel): Promise<void> {
+		if (this.id === null || this.id === undefined) throw new TypeError('Universe.patchChurn requires universe id to be set.')
+		const endpoint = `api/v0/universes/${this.id}/churn`
+		try {
+			const opts = {
+				method: 'POST',
+				url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				responseType: 'json',
+				data: {
+					churnLevel
+				}
+			}
+			const res = await this.http?.getClient()(opts)
+			const { status } = res.data
+			if (status !== 200) {
+				throw this.handleError(new PatchChurnError())
+			}
+		} catch (err) {
+			throw this.handleError(new PatchChurnError())
+		}
+	}
+
   public async patchOperatorOptions (id: string, payload: PatchOperatorOptions): Promise<void> {
     const endpoint = `api/v0/universes/operator/${id}/options`
     try {
@@ -769,6 +795,14 @@ export class DeployVersionError extends BaseError {
   constructor (public message: string = 'Could not deploy new version to universes.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, DeployVersionError.prototype)
+  }
+}
+
+export class PatchChurnError extends BaseError {
+  public name = 'PatchChurnError'
+  constructor (public message: string = 'Could not set Universe churn level.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, PatchChurnError.prototype)
   }
 }
 
