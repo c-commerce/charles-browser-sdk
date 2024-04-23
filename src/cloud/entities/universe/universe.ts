@@ -34,18 +34,22 @@ export interface DeployOptions {
   }
 }
 
-export interface DeployVersionPayload {
+export interface DeployReleasePayload {
   readonly universe: string | [string]
-  readonly 'client-api'?: string
-  readonly 'agent-ui'?: string
-  readonly 'cloudsql-proxy'?: string
+	readonly release: {
+		readonly name: string
+		readonly author: string
+		readonly 'client-api'?: string
+  	readonly 'agent-ui'?: string
+  	readonly 'cloudsql-proxy'?: string
+	}
 }
 
-export interface SingleDeployVersionResponse {
+export interface SingleDeployReleaseResponse {
   readonly [uni: string]: number
 }
 
-export type DeployVersionResponse = SingleDeployVersionResponse | [SingleDeployVersionResponse]
+export type DeployReleaseResponse = SingleDeployReleaseResponse | [SingleDeployReleaseResponse]
 
 export type OperatorUniverse = {
   readonly id: string
@@ -575,14 +579,14 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       const res = await this.http?.getClient()(opts)
       const { status } = res.data
       if (status !== 200) {
-        throw this.handleError(new DeployVersionError())
+        throw this.handleError(new OperatorPatchOptionsError())
       }
     } catch (err) {
       throw this.handleError(new OperatorPatchOptionsError())
     }
   }
 
-  public async deployVersion (payload: DeployVersionPayload): Promise<DeployVersionResponse> {
+  public async deployRelease (payload: DeployReleasePayload): Promise<DeployReleaseResponse> {
     const operatorEndpoint = 'api/v0/universes/operator'
     try {
       const opts = {
@@ -599,10 +603,10 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       if (status === 200) {
         return data
       } else {
-        throw this.handleError(new DeployVersionError())
+        throw this.handleError(new DeployReleaseError())
       }
     } catch (err) {
-      throw this.handleError(new DeployVersionError())
+      throw this.handleError(new DeployReleaseError())
     }
   }
 
@@ -790,11 +794,11 @@ export class OperatorUniverseError extends BaseError {
   }
 }
 
-export class DeployVersionError extends BaseError {
-  public name = 'DeployVersionError'
-  constructor (public message: string = 'Could not deploy new version to universes.', properties?: any) {
+export class DeployReleaseError extends BaseError {
+  public name = 'DeployReleaseError'
+  constructor (public message: string = 'Could not deploy new release to universes.', properties?: any) {
     super(message, properties)
-    Object.setPrototypeOf(this, DeployVersionError.prototype)
+    Object.setPrototypeOf(this, DeployReleaseError.prototype)
   }
 }
 
