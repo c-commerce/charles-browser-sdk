@@ -1,3 +1,10 @@
+# [4.221.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.220.0...v4.221.0) (2024-04-23)
+
+
+### Features
+
+* **universe.ts:** added author and name to release deploy function ([64ba89a](https://github.com/c-commerce/charles-browser-sdk/commit/64ba89a2e8515ad772e412af2b7e84cea2623828))
+
 # [4.220.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.219.1...v4.220.0) (2024-03-26)
 
 
