@@ -17,6 +17,7 @@ export interface OrganizationRawPayload {
   readonly status?: string
   readonly verified?: boolean
   readonly external_billing_account_id?: string
+	readonly external_crm_account?: string
   readonly owner?: string
   readonly parent_organization?: string
 }
@@ -37,6 +38,7 @@ export interface OrganizationPayload {
   readonly status?: OrganizationRawPayload['status']
   readonly verified?: OrganizationRawPayload['verified']
   readonly externalBillingAccountId?: OrganizationRawPayload['external_billing_account_id']
+	readonly externalCrmAccount?: OrganizationRawPayload['external_crm_account']
   readonly owner?: OrganizationRawPayload['owner']
   readonly parentOrganization?: OrganizationRawPayload['parent_organization']
 }
@@ -106,6 +108,7 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
   public status?: OrganizationPayload['status']
   public verified?: OrganizationPayload['verified']
   public externalBillingAccountId?: OrganizationPayload['externalBillingAccountId']
+	public externalCrmAccount?: OrganizationPayload['externalCrmAccount']
   public owner?: OrganizationPayload['owner']
   public parentOrganization?: OrganizationPayload['parentOrganization']
 
@@ -134,6 +137,7 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
     this.status = rawPayload.status
     this.verified = rawPayload.verified
     this.externalBillingAccountId = rawPayload.external_billing_account_id
+		this.externalCrmAccount = rawPayload.external_crm_account
     this.owner = rawPayload.owner
     this.parentOrganization = rawPayload.parent_organization
     return this
@@ -216,6 +220,7 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
       status: this.status,
       verified: this.verified,
       external_billing_account_id: this.externalBillingAccountId,
+			external_crm_account: this.externalCrmAccount,
       owner: this.owner,
       parent_organization: this.parentOrganization
     }
