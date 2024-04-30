@@ -1,3 +1,10 @@
+# [4.222.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.221.0...v4.222.0) (2024-04-30)
+
+
+### Features
+
+* **organization:** added missing field to organizations ([7487739](https://github.com/c-commerce/charles-browser-sdk/commit/7487739480f49eb3b801c0010a321579a7189787))
+
 # [4.221.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.220.0...v4.221.0) (2024-04-23)
 
 
