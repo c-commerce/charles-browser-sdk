@@ -279,7 +279,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
       const opts = {
         method: 'POST',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/upload`,
-        timeout: 60000,
+        timeout: 600000,
         headers: {
           'Content-Type': 'multipart/form-data'
         },
