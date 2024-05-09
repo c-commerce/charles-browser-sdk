@@ -1,3 +1,10 @@
+## [4.222.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.222.0...v4.222.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* **Import:** increased timeout ([8f2bc03](https://github.com/c-commerce/charles-browser-sdk/commit/8f2bc03aee2cc083c24a457389cc905e1de1a7c5))
+
 # [4.222.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.221.0...v4.222.0) (2024-04-30)
 
 
