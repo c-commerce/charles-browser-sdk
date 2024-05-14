@@ -236,28 +236,31 @@ export class Organization extends Entity<OrganizationPayload, OrganizationRawPay
     }
   }
 
-  public async getChildren (): Promise<OrganizationRawPayload[]> {
-    if (!this.id) throw new TypeError('Organization.getChildren required organization id to be set')
-    try {
-      const opts = {
-        method: 'GET',
-        url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}`,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        responseType: 'json',
-        params: {
-          parent_organization: this.id
-        }
-
-      }
-      const res = await this.http?.getClient()(opts)
-      const children = res.data.data as OrganizationRawPayload[]
-      return children
-    } catch (err) {
-      throw this.handleError(new OrganizationGetChildrenError(undefined, { error: err }))
-    }
-  }
+  public async getChildren (): Promise<Organization[]> {
+		if (!this.id) throw new TypeError('Organization.getChildren requires organization id to be set')
+		try {
+			const opts = {
+				method: 'GET',
+				url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}`,
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				responseType: 'json',
+				params: {
+					parent_organization: this.id
+				}
+			}
+			const res = await this.http?.getClient()(opts)
+			const childrenRaw: OrganizationRawPayload[] = res.data.data
+			const children: Organization[] = childrenRaw.map(childRaw => {
+				const organization = new Organization({ rawPayload: childRaw, carrier: this.apiCarrier, http: this.http, initialized: true })
+				return organization.deserialize(childRaw)
+			})
+			return children
+		} catch (err) {
+			throw this.handleError(new OrganizationGetChildrenError(undefined, { error: err }))
+		}
+	}
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
