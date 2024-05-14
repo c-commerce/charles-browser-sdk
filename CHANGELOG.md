@@ -1,3 +1,10 @@
+## [4.222.2](https://github.com/c-commerce/charles-browser-sdk/compare/v4.222.1...v4.222.2) (2024-05-14)
+
+
+### Bug Fixes
+
+* **organization:** fix organization getChildren returning raw data ([9a5566d](https://github.com/c-commerce/charles-browser-sdk/commit/9a5566d712883eb3b718a0e27764ef616eff49b4))
+
 ## [4.222.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.222.0...v4.222.1) (2024-05-09)
 
 
