@@ -1,3 +1,10 @@
+# [4.224.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.223.0...v4.224.0) (2024-06-13)
+
+
+### Features
+
+* **StaticArray:** added count functionality ([1a8adeb](https://github.com/c-commerce/charles-browser-sdk/commit/1a8adeb844d00187ad10d517fd35da7a084c992f))
+
 # [4.223.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.222.2...v4.223.0) (2024-05-24)
 
 
