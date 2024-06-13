@@ -441,6 +441,27 @@ class StaticEntryArray<T> extends Array<T> {
     }
   }
 
+  public async count (
+    options?: EntityFetchOptions
+  ): Promise<{ count: number } | undefined> {
+    try {
+      const opts = {
+        method: 'HEAD',
+        url: `${this.universe.universeBase}/${ContactLists.endpoint}/${this.contactList.id as string}/static_entries`,
+        params: {
+          ...(options?.query ? options.query : {})
+        }
+      }
+      const response = await this.http.getClient()(opts)
+
+      return {
+        count: Number(response.headers['X-Resource-Count'] || response.headers['x-resource-count'])
+      }
+    } catch (err) {
+      throw new ContactListStaticEntryFetchRemoteError(undefined, { error: err })
+    }
+  }
+
   async create (payload: ContactListStaticEntryRawPayload): Promise<ContactListStaticEntry | undefined> {
     try {
       const opts = {
