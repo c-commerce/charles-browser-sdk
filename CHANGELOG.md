@@ -1,3 +1,10 @@
+# [4.225.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.224.0...v4.225.0) (2024-07-08)
+
+
+### Features
+
+* **universe.ts:** add id to DeployReleasePayload ([064a951](https://github.com/c-commerce/charles-browser-sdk/commit/064a951697adec47fe6583c9187e4c7de7958a96))
+
 # [4.224.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.223.0...v4.224.0) (2024-06-13)
 
 
