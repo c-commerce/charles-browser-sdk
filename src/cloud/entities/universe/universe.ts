@@ -37,6 +37,7 @@ export interface DeployOptions {
 export interface DeployReleasePayload {
   readonly universe: string | [string]
 	readonly release: {
+		readonly id: string
 		readonly name: string
 		readonly author: string
 		readonly 'client-api'?: string
