@@ -1,3 +1,10 @@
+# [4.226.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.225.0...v4.226.0) (2024-07-09)
+
+
+### Features
+
+* **universe.ts:** add fetch release history function ([f87a2a4](https://github.com/c-commerce/charles-browser-sdk/commit/f87a2a47add26fd10711c3e00a86881cac7b4077))
+
 # [4.225.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.224.0...v4.225.0) (2024-07-08)
 
 
