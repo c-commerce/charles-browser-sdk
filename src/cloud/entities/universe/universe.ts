@@ -75,6 +75,18 @@ export type OperatorUniverse = {
 
 export type OperatorUniverseResponse = OperatorUniverse | [OperatorUniverse]
 
+export type ReleaseHistoryResponse = {
+	readonly id: string
+	readonly universe: string
+	readonly deployed_at: string
+	readonly deployed_by: string
+	readonly release: string
+	readonly versions: {
+		readonly name: string
+		readonly product: string
+	}[]
+}
+
 export type UniverseIam = {
   readonly member: string
   readonly resource: string
@@ -587,6 +599,30 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+	public async fetchReleaseHistory (): Promise<ReleaseHistoryResponse[]> {
+		if (this.id === null || this.id === undefined) throw new TypeError('Universe.getReleaseHistory requires universe id to be set.')
+    const endpoint = `api/v0/universes/release-history/${this.id}`
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status, msg, data } = res.data
+      if (status === 200) {
+        return data
+      } else {
+        throw this.handleError(new ReleaseHistoryError())
+      }
+    } catch (err) {
+      throw this.handleError(new ReleaseHistoryError())
+    }
+  }
+
   public async deployRelease (payload: DeployReleasePayload): Promise<DeployReleaseResponse> {
     const operatorEndpoint = 'api/v0/universes/operator'
     try {
@@ -808,6 +844,14 @@ export class PatchChurnError extends BaseError {
   constructor (public message: string = 'Could not set Universe churn level.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, PatchChurnError.prototype)
+  }
+}
+
+export class ReleaseHistoryError extends BaseError {
+  public name = 'ReleaseHistoryError'
+  constructor (public message: string = 'Could not fetch Universe release history.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, ReleaseHistoryError.prototype)
   }
 }
 
