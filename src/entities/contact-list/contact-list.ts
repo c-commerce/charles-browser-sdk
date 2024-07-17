@@ -352,9 +352,9 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       timeout: 60000,
       url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id as string}/preview/export${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
       headers: {
-        Accept: 'text/csv'
+        'Content-Type': 'application/json; charset=utf-8'
       },
-      responseType: 'blob'
+      responseType: 'json'
     }
 
     // eslint-disable-next-line @typescript-eslint/return-await
