@@ -1,3 +1,10 @@
+# [4.227.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.226.0...v4.227.0) (2024-07-17)
+
+
+### Features
+
+* **ContactList:** migrate export to async export ([2b1bc9e](https://github.com/c-commerce/charles-browser-sdk/commit/2b1bc9e931b302598c147ddf7d82e9ed26a03ada))
+
 # [4.226.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.225.0...v4.226.0) (2024-07-09)
 
 
