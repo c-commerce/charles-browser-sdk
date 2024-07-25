@@ -1,3 +1,10 @@
+# [4.228.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.227.0...v4.228.0) (2024-07-25)
+
+
+### Features
+
+* **DataExport:** added export to csv functionality ([12977bd](https://github.com/c-commerce/charles-browser-sdk/commit/12977bd0509ce7380db543bd3e214e75b3a3eb0a))
+
 # [4.227.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.226.0...v4.227.0) (2024-07-17)
 
 
