@@ -8,7 +8,8 @@ import {
 import {
   DataExport,
   DataExports,
-  DataExportFetchRemoteError
+  DataExportFetchRemoteError,
+  DataExportFilterOptions
 } from './data-export'
 
 export {
@@ -17,5 +18,6 @@ export {
   DataExportMetaFetchRemoteError,
   DataExport,
   DataExports,
-  DataExportFetchRemoteError
+  DataExportFetchRemoteError,
+  DataExportFilterOptions
 }
