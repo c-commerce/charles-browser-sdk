@@ -131,6 +131,25 @@ export class DataExport extends UniverseEntity<DataExportPayload, DataExportRawP
       throw this.handleError(new DataExportInitializationError(undefined, { error: err }))
     }
   }
+
+  public async exportCsv (payload: { filters: Array<{ id: string, values: string[] | string[][] }> } = { filters: [] }): Promise<any | undefined> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/api/v0/analytics/reports-hub/${this.options.rawPayload?.name ?? ''}/export`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: payload,
+        responseType: 'json'
+      }
+
+      const response = await this.http?.getClient()(opts)
+      return response.data.data
+    } catch (err) {
+      throw this.handleError(new DataExportInitializationError(undefined, { error: err }))
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
