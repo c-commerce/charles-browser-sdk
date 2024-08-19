@@ -1,3 +1,10 @@
+# [4.229.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.228.0...v4.229.0) (2024-08-19)
+
+
+### Features
+
+* **cloud:** add get configuration support ([c253b5e](https://github.com/c-commerce/charles-browser-sdk/commit/c253b5ecd5bbc6fe51c0d8ee961f34f1ed12a14b))
+
 # [4.228.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.227.0...v4.228.0) (2024-07-25)
 
 
