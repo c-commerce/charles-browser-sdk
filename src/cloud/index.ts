@@ -460,6 +460,16 @@ export class Cloud extends APICarrier {
     }
   }
 
+  public async configuration (): Promise<any> {
+    try {
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/configuration`)
+
+      return res.data?.data
+    } catch (err) {
+      throw new ConfigurationError()
+    }
+  }
+
   public async healthz (): Promise<{ message: string } | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.cloudBase}/api/healthz`)
@@ -529,5 +539,14 @@ export class CloudHealthzError extends BaseError {
     super(message, properties)
 
     Object.setPrototypeOf(this, CloudHealthzError.prototype)
+  }
+}
+
+export class ConfigurationError extends BaseError {
+  public name = 'ConfigurationError'
+  constructor (public message: string = 'Could not retrieve configuration', properties?: any) {
+    super(message, properties)
+
+    Object.setPrototypeOf(this, ConfigurationError.prototype)
   }
 }
