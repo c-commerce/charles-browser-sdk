@@ -395,7 +395,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 60000
+        timeout: options?.timeout
       }
 
       const res = await this.http?.getClient()(opts)
@@ -420,7 +420,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 60000
+        timeout: options?.timeout
       }
       const res = await this.http.getClient()(opts)
       const data = res.data.data[0] as NotificationCampaignRawPayload
@@ -558,7 +558,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 120000
+        timeout: options?.timeout
       }
       const res = await this.http.getClient()(opts)
       return res.data.data as NotificationCampaignPreviewEntry[]
@@ -577,8 +577,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        responseType: 'json',
-        timeout: 120000
+        responseType: 'json'
       }
       const res = await this.http.getClient()(opts)
 
@@ -604,7 +603,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 60000
+        timeout: options?.timeout
       }
 
       const res = await this.http?.getClient()(opts)
@@ -738,7 +737,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 60000,
+        timeout: options?.timeout,
         data: body
       }
       const res = await this.http.getClient()(opts)
@@ -764,7 +763,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 60000,
+        timeout: options?.timeout
       }
       const res = await this.http.getClient()(opts)
       const data = res.data.data[0] as NotificationCampaignRawPayload
@@ -795,7 +794,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 60000,
+        timeout: options?.timeout,
         data: body
       }
       const res = await this.http.getClient()(opts)
@@ -826,7 +825,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 60000,
+        timeout: options?.timeout,
         data: body
       }
       const res = await this.http.getClient()(opts)

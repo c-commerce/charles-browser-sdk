@@ -49,7 +49,7 @@ export interface AsyncExportPayload {
 }
 
 export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportRawPayload> {
-  public get entityName (): string {
+  public get entityName(): string {
     return 'async_exports'
   }
 
@@ -76,7 +76,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
   public type?: AsyncExportPayload['type']
   public request?: AsyncExportPayload['request']
 
-  constructor (options: AsyncExportOptions) {
+  constructor(options: AsyncExportOptions) {
     super()
     this.universe = options.universe
     this.apiCarrier = options.universe
@@ -90,7 +90,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
     }
   }
 
-  protected deserialize (rawPayload: AsyncExportRawPayload): this {
+  protected deserialize(rawPayload: AsyncExportRawPayload): this {
     this.setRawPayload(rawPayload)
 
     this.type = rawPayload.type
@@ -100,11 +100,11 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
     return this
   }
 
-  public static create (payload: AsyncExportRawPayload, universe: Universe, http: Universe['http']): AsyncExport {
+  public static create(payload: AsyncExportRawPayload, universe: Universe, http: Universe['http']): AsyncExport {
     return new AsyncExport({ rawPayload: payload, universe, http, initialized: true })
   }
 
-  public serialize (): AsyncExportRawPayload {
+  public serialize(): AsyncExportRawPayload {
     return {
       id: this.id,
       created_at: this.createdAt ? this.createdAt.toISOString() : undefined,
@@ -123,7 +123,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
     }
   }
 
-  public async init (): Promise<AsyncExport | undefined> {
+  public async init(): Promise<AsyncExport | undefined> {
     try {
       await this.fetch()
 
@@ -133,7 +133,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
     }
   }
 
-  public async createExport (payload: AsyncExportRawPayload | AsyncExportPayload): Promise<AsyncExportResponse> {
+  public async createExport(payload: AsyncExportRawPayload | AsyncExportPayload): Promise<AsyncExportResponse> {
     try {
       const opts = {
         method: 'POST',
@@ -162,7 +162,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
     }
   }
 
-  public async exports (options?: EntityFetchOptions): Promise<AsyncExport[] | AsyncExportRawPayload[] | undefined> {
+  public async exports(options?: EntityFetchOptions): Promise<AsyncExport[] | AsyncExportRawPayload[] | undefined> {
     try {
       const opts = {
         method: 'GET',
@@ -172,7 +172,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
         },
         params: options?.query,
         responseType: 'json',
-        timeout: options?.timeout ?? 10000
+        timeout: options?.timeout
       }
 
       const response = await this.http.getClient()(opts)
@@ -191,12 +191,12 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
     }
   }
 
-  public async exportsCount (options?: EntityFetchOptions): Promise<{ count: number } | undefined> {
+  public async exportsCount(options?: EntityFetchOptions): Promise<{ count: number } | undefined> {
     try {
       const opts = {
         method: 'HEAD',
         url: `${this.universe.universeBase}/${this.endpoint}`,
-        timeout: options?.timeout ?? 10000
+        timeout: options?.timeout
       }
 
       const res = await this.http.getClient()(opts)
@@ -208,7 +208,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
     }
   }
 
-  public async export (id: string, options?: UniverseFetchOptions): Promise<AsyncExport | AsyncExportRawPayload |undefined> {
+  public async export(id: string, options?: UniverseFetchOptions): Promise<AsyncExport | AsyncExportRawPayload | undefined> {
     try {
       const opts = {
         method: 'GET',
@@ -218,7 +218,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
         },
         params: options?.query,
         responseType: 'json',
-        timeout: options?.timeout ?? 10000
+        timeout: options?.timeout
       }
 
       const response = await this.http.getClient()(opts)
@@ -234,7 +234,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
 
 export class AsyncExportInitializationError extends BaseError {
   public name = 'AsyncExportInitializationError'
-  constructor (public message: string = 'Could not initialize async export.', properties?: any) {
+  constructor(public message: string = 'Could not initialize async export.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AsyncExportInitializationError.prototype)
   }
@@ -242,7 +242,7 @@ export class AsyncExportInitializationError extends BaseError {
 
 export class AsyncExportFetchRemoteError extends BaseError {
   public name = 'AsyncExportFetchRemoteError'
-  constructor (public message: string = 'Could not get async export.', properties?: any) {
+  constructor(public message: string = 'Could not get async export.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AsyncExportFetchRemoteError.prototype)
   }
@@ -250,7 +250,7 @@ export class AsyncExportFetchRemoteError extends BaseError {
 
 export class AsyncExportDeleteError extends BaseError {
   public name = 'AsyncExportDeleteError'
-  constructor (public message: string = 'Could not delete async export.', properties?: any) {
+  constructor(public message: string = 'Could not delete async export.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AsyncExportDeleteError.prototype)
   }
@@ -258,7 +258,7 @@ export class AsyncExportDeleteError extends BaseError {
 
 export class AsyncExportsCountRemoteError extends BaseError {
   public name = 'AsyncExportsCountRemoteError'
-  constructor (public message: string = 'Could not get async exports count.', properties?: any) {
+  constructor(public message: string = 'Could not get async exports count.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, AsyncExportsCountRemoteError.prototype)
   }

@@ -53,7 +53,7 @@ export class Client {
     this.axiosInstance = axios.create({
       withCredentials: this.options.withCredentials ?? undefined,
       // baseURL: options.base || 'https://api.hello-charles.com',
-      timeout: options.timeout ?? 10000,
+      timeout: options.timeout,
       headers: {
         ...options.headers,
         ...defaultHeaders
