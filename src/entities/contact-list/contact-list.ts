@@ -276,7 +276,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
           'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json',
-        timeout: options?.timeout ?? 10000
+        timeout: options?.timeout
       }
 
       const res = await this.http?.getClient()(opts)
@@ -302,7 +302,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       const opts = {
         method: 'HEAD',
         url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
-        timeout: options?.timeout ?? 10000
+        timeout: options?.timeout
       }
 
       const res = await this.http.getClient()(opts)
@@ -328,7 +328,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
         },
         responseType: 'json',
         data: splitConfig,
-        timeout: options?.timeout ?? 30000
+        timeout: options?.timeout
       }
 
       const res = await this.http?.getClient()(opts)
@@ -349,7 +349,6 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   public async exportCsv (options?: UniverseExportCsvOptions): Promise<Blob> {
     const opts = {
       method: 'GET',
-      timeout: 60000,
       url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}/${this.id as string}/preview/export${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
       headers: {
         'Content-Type': 'application/json; charset=utf-8'

@@ -344,7 +344,7 @@ export class MessageTemplate extends UniverseEntity<MessageTemplatePayload, Mess
       const opts = {
         method: 'POST',
         url: `${this.universe?.universeBase}/${this.endpoint}/${this.id as string}/submit`,
-        timeout: options?.timeout ?? 30000,
+        timeout: options?.timeout,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },

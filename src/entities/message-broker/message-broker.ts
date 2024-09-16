@@ -340,7 +340,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
     try {
       const opts = {
         method: 'PUT',
-        timeout: options?.timeout ?? 60000,
+        timeout: options?.timeout ,
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/profile`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

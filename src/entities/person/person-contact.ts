@@ -314,7 +314,6 @@ export class PeopleContacts extends EntitiesList<PersonContact, PersonContactRaw
   public async _exportCsv (options?: EntitiesListExportCsvOptions): Promise<Blob> {
     const opts = {
       method: 'POST',
-      timeout: 60000,
       url: `${this.apiCarrier?.injectables?.base}/${this.endpoint}${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
       headers: {
         Accept: 'text/csv'

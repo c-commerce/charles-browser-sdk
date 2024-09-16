@@ -172,7 +172,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
         },
         params: options?.query,
         responseType: 'json',
-        timeout: options?.timeout ?? 10000
+        timeout: options?.timeout
       }
 
       const response = await this.http.getClient()(opts)
@@ -196,7 +196,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
       const opts = {
         method: 'HEAD',
         url: `${this.universe.universeBase}/${this.endpoint}`,
-        timeout: options?.timeout ?? 10000
+        timeout: options?.timeout
       }
 
       const res = await this.http.getClient()(opts)
@@ -208,7 +208,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
     }
   }
 
-  public async export (id: string, options?: UniverseFetchOptions): Promise<AsyncExport | AsyncExportRawPayload |undefined> {
+  public async export (id: string, options?: UniverseFetchOptions): Promise<AsyncExport | AsyncExportRawPayload | undefined> {
     try {
       const opts = {
         method: 'GET',
@@ -218,7 +218,7 @@ export class AsyncExport extends UniverseEntity<AsyncExportPayload, AsyncExportR
         },
         params: options?.query,
         responseType: 'json',
-        timeout: options?.timeout ?? 10000
+        timeout: options?.timeout
       }
 
       const response = await this.http.getClient()(opts)

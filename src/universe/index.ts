@@ -1224,7 +1224,7 @@ export class Universe extends APICarrier {
             params: {
               ...(options?.query ?? {})
             },
-            timeout: options?.timeout ?? 60000
+            timeout: options?.timeout
 
           }
 
@@ -1250,7 +1250,7 @@ export class Universe extends APICarrier {
             params: {
               ...(options?.query ?? {})
             },
-            timeout: options?.timeout ?? 60000
+            timeout: options?.timeout
           }
 
           const res = await this.http.getClient()(opts)

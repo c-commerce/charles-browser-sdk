@@ -160,7 +160,6 @@ export class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
       }
 
       const opts = {
-        timeout: 60000,
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -244,7 +243,7 @@ export class Assets {
       }
 
       const opts = {
-        timeout: options?.timeout ?? 60000,
+        timeout: options?.timeout,
         headers: {
           'Content-Type': 'multipart/form-data'
         }
