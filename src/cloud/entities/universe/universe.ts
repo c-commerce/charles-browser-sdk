@@ -41,8 +41,8 @@ export interface DeployReleasePayload {
     readonly name: string
     readonly author: string
     readonly 'client-api'?: string
-  	readonly 'agent-ui'?: string
-  	readonly 'cloudsql-proxy'?: string
+    readonly 'agent-ui'?: string
+    readonly 'cloudsql-proxy'?: string
   }
 }
 
