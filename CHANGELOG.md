@@ -1,3 +1,12 @@
+## [4.229.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.229.0...v4.229.1) (2024-09-16)
+
+
+### Bug Fixes
+
+* lint issues ([9d744bb](https://github.com/c-commerce/charles-browser-sdk/commit/9d744bb7b39619d37dcec5e7b9ca49aabde0600a))
+* remove default timeout ([36b312f](https://github.com/c-commerce/charles-browser-sdk/commit/36b312f1ceb86f3e13e8732e9cb1cca249c0b139))
+* universe lint issues ([960edf7](https://github.com/c-commerce/charles-browser-sdk/commit/960edf7c0f2417148acae9c89af2dd96b6718433))
+
 # [4.229.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.228.0...v4.229.0) (2024-08-19)
 
 
