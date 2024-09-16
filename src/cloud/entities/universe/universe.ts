@@ -15,12 +15,12 @@ type LogLevel = 'none' | 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
 type ChurnLevel = 'None' | 'Light' | 'Medium' | 'Full'
 
 export interface DeployOperatorOptions {
-  readonly size: 'small' | 'large',
+  readonly size: 'small' | 'large'
   readonly logLevel: LogLevel
 }
 
 export interface PatchOperatorOptions {
-  readonly size?: 'small' | 'large',
+  readonly size?: 'small' | 'large'
   readonly logLevel?: LogLevel
 }
 
@@ -36,14 +36,14 @@ export interface DeployOptions {
 
 export interface DeployReleasePayload {
   readonly universe: string | [string]
-	readonly release: {
-		readonly id: string
-		readonly name: string
-		readonly author: string
-		readonly 'client-api'?: string
+  readonly release: {
+    readonly id: string
+    readonly name: string
+    readonly author: string
+    readonly 'client-api'?: string
   	readonly 'agent-ui'?: string
   	readonly 'cloudsql-proxy'?: string
-	}
+  }
 }
 
 export interface SingleDeployReleaseResponse {
@@ -52,12 +52,12 @@ export interface SingleDeployReleaseResponse {
 
 export type DeployReleaseResponse = SingleDeployReleaseResponse | [SingleDeployReleaseResponse]
 
-export type OperatorUniverse = {
+export interface OperatorUniverse {
   readonly id: string
-  readonly name: string,
-  readonly pool: string,
-  readonly organization: string,
-  readonly createdAt: string,
+  readonly name: string
+  readonly pool: string
+  readonly organization: string
+  readonly createdAt: string
   readonly configuration: {
     readonly versions: {
       readonly agent_ui: string
@@ -67,50 +67,50 @@ export type OperatorUniverse = {
   readonly privileges: [UniverseIam]
   readonly logLevel: LogLevel
   readonly size: 'small' | 'large'
-  readonly userHasPermissions: boolean,
-  readonly status: string,
-  readonly applied: boolean,
+  readonly userHasPermissions: boolean
+  readonly status: string
+  readonly applied: boolean
   readonly isLive: boolean
 }
 
 export type OperatorUniverseResponse = OperatorUniverse | [OperatorUniverse]
 
-export type ReleaseHistoryResponse = {
-	readonly id: string
-	readonly universe: string
-	readonly deployed_at: string
-	readonly deployed_by: string
-	readonly release: string
-	readonly versions: {
-		readonly name: string
-		readonly product: string
-	}[]
+export interface ReleaseHistoryResponse {
+  readonly id: string
+  readonly universe: string
+  readonly deployed_at: string
+  readonly deployed_by: string
+  readonly release: string
+  readonly versions: Array<{
+    readonly name: string
+    readonly product: string
+  }>
 }
 
-export type UniverseIam = {
+export interface UniverseIam {
   readonly member: string
   readonly resource: string
   readonly role: string
   readonly expires?: string
 }
 
-export type UniverseIamUser = {
+export interface UniverseIamUser {
   readonly email: string
   readonly type: string
 }
 
-export type UniverseIamPrivilege = {
+export interface UniverseIamPrivilege {
   readonly resource: string
   readonly role: string
   readonly expiresInDays?: Number
 }
 
-export type UniversePutIamPayload = {
+export interface UniversePutIamPayload {
   readonly users: [UniverseIamUser]
   readonly privileges: [UniverseIamPrivilege]
 }
 
-export type UniverseDeleteIamPayload = {
+export interface UniverseDeleteIamPayload {
   readonly user: UniverseIamUser
   readonly privilege: UniverseIamPrivilege
 }
@@ -515,7 +515,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        responseType: 'json',
+        responseType: 'json'
       }
       const res = await this.http?.getClient()(opts)
       const { status, msg, data } = res.data
@@ -538,7 +538,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        responseType: 'json',
+        responseType: 'json'
       }
       const res = await this.http?.getClient()(opts)
       const { status, msg, data } = res.data
@@ -552,30 +552,30 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
-	public async patchChurn (churnLevel: ChurnLevel): Promise<void> {
-		if (this.id === null || this.id === undefined) throw new TypeError('Universe.patchChurn requires universe id to be set.')
-		const endpoint = `api/v0/universes/${this.id}/churn`
-		try {
-			const opts = {
-				method: 'POST',
-				url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
-				headers: {
-					'Content-Type': 'application/json; charset=utf-8'
-				},
-				responseType: 'json',
-				data: {
-					churnLevel
-				}
-			}
-			const res = await this.http?.getClient()(opts)
-			const { status } = res.data
-			if (status !== 200) {
-				throw this.handleError(new PatchChurnError())
-			}
-		} catch (err) {
-			throw this.handleError(new PatchChurnError())
-		}
-	}
+  public async patchChurn (churnLevel: ChurnLevel): Promise<void> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Universe.patchChurn requires universe id to be set.')
+    const endpoint = `api/v0/universes/${this.id}/churn`
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        data: {
+          churnLevel
+        }
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status } = res.data
+      if (status !== 200) {
+        throw this.handleError(new PatchChurnError())
+      }
+    } catch (err) {
+      throw this.handleError(new PatchChurnError())
+    }
+  }
 
   public async patchOperatorOptions (id: string, payload: PatchOperatorOptions): Promise<void> {
     const endpoint = `api/v0/universes/operator/${id}/options`
@@ -599,8 +599,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
-	public async fetchReleaseHistory (): Promise<ReleaseHistoryResponse[]> {
-		if (this.id === null || this.id === undefined) throw new TypeError('Universe.getReleaseHistory requires universe id to be set.')
+  public async fetchReleaseHistory (): Promise<ReleaseHistoryResponse[]> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Universe.getReleaseHistory requires universe id to be set.')
     const endpoint = `api/v0/universes/release-history/${this.id}`
     try {
       const opts = {
@@ -650,7 +650,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   public async putIamPrivileges (payload: UniversePutIamPayload): Promise<UniverseIamResponse> {
     if (this.id === null || this.id === undefined) throw new TypeError('universe.putIamPrivileges() requires universe id to be set.')
     const endpoint = `api/v0/universes/iam/${this.id}`
-    
+
     try {
       const opts = {
         method: 'PUT',
