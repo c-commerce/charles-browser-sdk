@@ -1,3 +1,10 @@
+# [4.231.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.230.0...v4.231.0) (2024-11-13)
+
+
+### Features
+
+* **Assets:** added support for signing urls ([b9912ad](https://github.com/c-commerce/charles-browser-sdk/commit/b9912ad0ed2392ff6e339e21bcb75f3b9c45ce64))
+
 # [4.230.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.229.1...v4.230.0) (2024-11-13)
 
 
