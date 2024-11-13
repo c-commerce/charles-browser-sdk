@@ -660,6 +660,25 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     }
   }
 
+  public async scheduleGDPRDeletePerson (): Promise<object> {
+    if (this.id === null || this.id === undefined) throw new TypeError('GDPR delete requires id to be set.')
+    try {
+      const opts = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        url: `${this.universe?.universeBase}/${this.endpoint}/cleanup/gdpr/${this.id}`,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data[0] as object
+    } catch (err) {
+      throw new BaseError('Failed to schedule gdpr delete', { error: err })
+    }
+  }
+
   /** Orders accessor
    *  ```js
    * //fetch all orders of a person
