@@ -68,6 +68,7 @@ export class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
   public initialized: boolean
 
   public endpoint: string
+  public v1Endpoint: string
 
   public id?: AssetPayload['id']
   public createdAt?: AssetPayload['createdAt']
@@ -89,6 +90,7 @@ export class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.endpoint = 'api/v0/assets'
+    this.v1Endpoint = 'api/v1/assets'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -202,6 +204,52 @@ export class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
       })
     } catch (err) {
       throw new AssetUploadAndTransformError(undefined, { error: err })
+    }
+  }
+
+  public async getForwardedViewUrlById (): Promise<string | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('forwardById requires id to be set.')
+    return `${this.universe?.universeBase}/${this.v1Endpoint}/${this.id}/forward`
+  }
+
+  public async getForwardedViewUrlByUri (uri: string): Promise<string | undefined> {
+    return `${this.universe?.universeBase}/${this.v1Endpoint}/forward?uri=${uri}`
+  }
+
+  public async requestViewUrlById (): Promise<string | undefined> {
+    if (this.id === null || this.id === undefined) throw new TypeError('requestById requires id to be set.')
+    try {
+      const opts = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        url: `${this.universe?.universeBase}/${this.v1Endpoint}/${this.id}/request`,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data.ref as string
+    } catch (err) {
+      throw new BaseError('Failed to fetch view Url', { error: err })
+    }
+  }
+
+  public async requestViewUrlByUri (uri: string): Promise<string | undefined> {
+    try {
+      const opts = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        url: `${this.universe?.universeBase}/${this.v1Endpoint}/request?uri=${uri}`,
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data.ref as string
+    } catch (err) {
+      throw new BaseError('Failed to fetch view Url', { error: err })
     }
   }
 }
