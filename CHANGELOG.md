@@ -1,3 +1,10 @@
+# [4.230.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.229.1...v4.230.0) (2024-11-13)
+
+
+### Features
+
+* **People:** added gdpr delete ([83adac0](https://github.com/c-commerce/charles-browser-sdk/commit/83adac0e130c50305e4737723880925027a4bbc2))
+
 ## [4.229.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.229.0...v4.229.1) (2024-09-16)
 
 
