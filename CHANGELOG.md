@@ -1,3 +1,10 @@
+## [4.231.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.231.0...v4.231.1) (2024-11-14)
+
+
+### Bug Fixes
+
+* **NotificationCampaign:** fixed issue with serialize issue where message_template is not properly serialized ([fe10206](https://github.com/c-commerce/charles-browser-sdk/commit/fe1020680f7a445bb07740546649e2ef00f806b0))
+
 # [4.231.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.230.0...v4.231.0) (2024-11-13)
 
 
