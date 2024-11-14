@@ -316,7 +316,7 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
       summary: this.summary,
       is_published: this.isPublished,
       published_at: this.publishedAt,
-      message_template: this.messageTemplate,
+      message_template: typeof this.messageTemplate === 'object' ? this.messageTemplate?.id : this.messageTemplate,
       message_template_parameters: this.messageTemplateParameters,
       includes: this.includes,
       excludes: this.excludes,
