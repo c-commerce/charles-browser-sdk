@@ -90,6 +90,7 @@ export interface ImportRawPayload {
   readonly date?: Date
   readonly labels?: object
   readonly original_file_name?: string
+  readonly metadata?: object
 
 }
 
@@ -112,6 +113,7 @@ export interface ImportPayload {
   readonly date?: ImportRawPayload['date']
   readonly labels?: ImportRawPayload['labels']
   readonly originalFileName?: ImportRawPayload['original_file_name']
+  readonly metadata?: ImportRawPayload['metadata']
 }
 
 /**
@@ -149,6 +151,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
   public date?: ImportPayload['date']
   public labels?: ImportPayload['labels']
   public originalFileName?: ImportPayload['originalFileName']
+  public metadata?: ImportPayload['metadata']
 
   constructor (options: ImportOptions) {
     super()
@@ -185,6 +188,7 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
     this.date = rawPayload.date
     this.labels = rawPayload.labels
     this.originalFileName = rawPayload.original_file_name
+    this.metadata = rawPayload.metadata
 
     return this
   }
@@ -212,7 +216,8 @@ export class Import extends UniverseEntity<ImportPayload, ImportRawPayload> {
       import_from: this.importFrom,
       date: this.date,
       labels: this.labels,
-      original_file_name: this.originalFileName
+      original_file_name: this.originalFileName,
+      metadata: this.metadata
     }
   }
 
