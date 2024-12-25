@@ -1,3 +1,10 @@
+# [4.232.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.231.1...v4.232.0) (2024-12-25)
+
+
+### Features
+
+* **Import:** added metadata ([116c16a](https://github.com/c-commerce/charles-browser-sdk/commit/116c16aa21b9d8d0b41faf934d888dba3fd81a8b))
+
 ## [4.231.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.231.0...v4.231.1) (2024-11-14)
 
 
