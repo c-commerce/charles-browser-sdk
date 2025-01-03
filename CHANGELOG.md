@@ -1,3 +1,10 @@
+## [4.232.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.232.0...v4.232.1) (2025-01-03)
+
+
+### Bug Fixes
+
+* **Asset:** fixed issue with upload not respecting uri payloads ([d31f556](https://github.com/c-commerce/charles-browser-sdk/commit/d31f55691199efa7a890d6c8f437ca390fdd81d0))
+
 # [4.232.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.231.1...v4.232.0) (2024-12-25)
 
 
