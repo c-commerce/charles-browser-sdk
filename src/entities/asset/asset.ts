@@ -154,16 +154,18 @@ export class Asset extends UniverseEntity<AssetPayload, AssetRawPayload> {
     }
   }
 
-  public async upload (payload: FormData, options?: AssetsPostOptions): Promise<Asset[] | undefined> {
+  public async upload (payload: FormData | string, options?: AssetsPostOptions): Promise<Asset[] | undefined> {
     try {
       const queryOptions = {
         public: true,
         ...options
       }
 
+      const contentType = typeof payload === 'string' ? 'text/plain' : 'multipart/form-data'
+
       const opts = {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': contentType
         }
       }
 
