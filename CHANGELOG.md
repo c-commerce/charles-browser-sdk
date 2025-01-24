@@ -1,3 +1,10 @@
+# [4.233.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.232.1...v4.233.0) (2025-01-24)
+
+
+### Features
+
+* **universe:** force release ([ceadb9b](https://github.com/c-commerce/charles-browser-sdk/commit/ceadb9bfdddb0ccf431384db745ef97e3729bd6e))
+
 ## [4.232.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.232.0...v4.232.1) (2025-01-03)
 
 
