@@ -554,7 +554,7 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
 
   public async patchChurn (churnLevel: ChurnLevel): Promise<void> {
     if (this.id === null || this.id === undefined) throw new TypeError('Universe.patchChurn requires universe id to be set.')
-    const endpoint = `api/v0/universes/${this.id}/churn`
+    const endpoint = `api/v0/universes/churn/${this.id}`
     try {
       const opts = {
         method: 'POST',
