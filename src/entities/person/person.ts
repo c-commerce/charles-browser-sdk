@@ -978,7 +978,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
     }
   }
 
-  public async previewNotification (params: PreviewNotificationParams, language: string, parameters?: any[] | object, options?: EntityFetchOptions): Promise<EventRawPayload[]> {
+  public async previewNotification (params: PreviewNotificationParams, language: string, clientId: string, parameters?: any[] | object, options?: EntityFetchOptions): Promise<EventRawPayload[]> {
     if (!(this.id && params?.messageTemplateId && params?.channelUserId)) throw new TypeError('message template preview setup requires person id, channelUser id and message template id to be set.')
 
     try {
@@ -987,6 +987,7 @@ export class Person extends UniverseEntity<PersonPayload, PersonRawPayload> {
         url: `${this.universe.universeBase}/api/v0/people/${this.id}/channel_users/${params.channelUserId}/notifications/templates/${params.messageTemplateId}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
         data: {
           language,
+          client_id: clientId,
           parameters
         }
       }
