@@ -1,3 +1,10 @@
+# [4.234.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.233.0...v4.234.0) (2025-02-05)
+
+
+### Features
+
+* add client_id to preview endpoint ([f26a253](https://github.com/c-commerce/charles-browser-sdk/commit/f26a253286e88b2b3a2609fad9f29bd0ba8a66b3))
+
 # [4.233.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.232.1...v4.233.0) (2025-01-24)
 
 
