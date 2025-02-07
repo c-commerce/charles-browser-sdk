@@ -1,3 +1,10 @@
+# [4.235.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.234.0...v4.235.0) (2025-02-07)
+
+
+### Features
+
+* **ContactList:** added list preview v1 ([f747ff8](https://github.com/c-commerce/charles-browser-sdk/commit/f747ff81838cc1d2effdab050c0511ece409eda7))
+
 # [4.234.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.233.0...v4.234.0) (2025-02-05)
 
 
