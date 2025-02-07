@@ -11,6 +11,26 @@ import qs from 'qs'
 import omit from 'just-omit'
 import { RuleGroupExpr } from './audience-builder-types'
 
+export interface PreviewContact {
+  person: {
+    id: string
+    first_name: string
+    last_name: string
+    name: string
+    tags: string[]
+    channel_users: Array<{
+      id: string
+      source_type: string
+      source_api: string
+      external_person_reference_id: string
+      name: null | string
+      first_name: null | string
+      last_name: null | string
+    }>
+  }
+  static_entry: string
+}
+
 export interface ContactListOptions extends UniverseEntityOptions {
   rawPayload?: ContactListRawPayload
 }
@@ -123,6 +143,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   public initialized: boolean
 
   public endpoint: string
+  public endpointV1: string
 
   public id?: ContactListPayload['id']
   public createdAt?: ContactListPayload['createdAt']
@@ -154,6 +175,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.universe = options.universe
     this.apiCarrier = options.universe
     this.endpoint = 'api/v0/contact_lists'
+    this.endpointV1 = 'api/v1/contact_lists'
     this.http = options.http
     this.options = options
     this.initialized = options.initialized ?? false
@@ -288,6 +310,42 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       return resources.map((item: ContactListStaticEntryRawPayload) => {
         return ContactListStaticEntry.create(item, this.universe, this.http)
       })
+    } catch (err) {
+      throw this.handleError(new ContactListPreviewRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async previewV1 (options?: EntityFetchOptions<{ limit?: number, offset?: number }>): Promise<PreviewContact[]> {
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe?.universeBase}/${this.endpointV1}/${this.id as string}/preview${options?.query ? qs.stringify(options.query, { addQueryPrefix: true }) : ''}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json',
+        timeout: options?.timeout
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data as PreviewContact[]
+    } catch (err) {
+      throw this.handleError(new ContactListPreviewRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async previewV1Count (options?: EntityFetchOptions<never>): Promise<{ count: number }> {
+    try {
+      const opts = {
+        method: 'HEAD',
+        url: `${this.universe?.universeBase}/${this.endpointV1}/${this.id as string}/preview`,
+        timeout: options?.timeout
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return {
+        count: Number(res.headers['X-Resource-Count'] || res.headers['x-resource-count'])
+      }
     } catch (err) {
       throw this.handleError(new ContactListPreviewRemoteError(undefined, { error: err }))
     }

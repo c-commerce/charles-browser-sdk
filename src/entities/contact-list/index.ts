@@ -1,5 +1,6 @@
 
 import {
+  PreviewContact,
   ContactList,
   ContactLists,
   ContactListRawPayload,
@@ -12,6 +13,7 @@ import {
 } from './static-entry'
 
 export {
+  PreviewContact,
   ContactList,
   ContactLists,
   ContactListRawPayload,
