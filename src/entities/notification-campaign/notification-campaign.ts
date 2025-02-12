@@ -53,6 +53,7 @@ export type NotificationCampaignStatusType =
 | 'done' // user: the campaign was published the campaign has run. This does not indicate success.
 | 'errored' // user: execution was attempted but errored immediately. Errors per target are not indicated
 | 'scheduled' // user: the campaign has been scheduled
+| 'notified' // user: the campaign owners been notified of last status change
 
 export type NotificationCampaignPreviewEntry = Omit<NotificationCampaignStaticEntryRawPayload, 'id' | 'resource'> & {
   resource: {
