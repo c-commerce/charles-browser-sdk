@@ -1,3 +1,10 @@
+## [4.235.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.235.0...v4.235.1) (2025-02-12)
+
+
+### Bug Fixes
+
+* **NotificationCampaign:** added missing status ([fe2183b](https://github.com/c-commerce/charles-browser-sdk/commit/fe2183b4bc6fa608db2c206031c5138b6553439a))
+
 # [4.235.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.234.0...v4.235.0) (2025-02-07)
 
 
