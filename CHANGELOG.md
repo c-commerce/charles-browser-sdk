@@ -1,3 +1,10 @@
+# [4.237.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.236.0...v4.237.0) (2025-02-27)
+
+
+### Features
+
+* **KlaviyoOath:** Allow passing response body from setup endpoint ([adc7555](https://github.com/c-commerce/charles-browser-sdk/commit/adc7555d4343c18c97f7e804e049041c92eae2bc))
+
 # [4.236.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.235.1...v4.236.0) (2025-02-27)
 
 
