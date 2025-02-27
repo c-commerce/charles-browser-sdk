@@ -1846,7 +1846,7 @@ export class Universe extends APICarrier {
    * @param setupEndpoint vendor specific endpoint
    * @param version endpoint version
    */
-  public async setupIntegration (payload: object, setupEndpoint: string, version = 'v0'): Promise<number | undefined> {
+  public async setupIntegration (payload: object, setupEndpoint: string, version = 'v0'): Promise<number | undefined | AxiosResponse<any>> {
     try {
       const opts = {
         method: 'POST',
@@ -1861,6 +1861,10 @@ export class Universe extends APICarrier {
       }
 
       const res = await this.http?.getClient()(opts)
+      if (version !== 'v0') {
+        return res
+      }
+
       return res.status
     } catch (err) {
       throw new integration.IntegrationsSetupRemoteError(undefined, { error: err })
