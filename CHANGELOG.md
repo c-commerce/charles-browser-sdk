@@ -1,3 +1,10 @@
+# [4.236.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.235.1...v4.236.0) (2025-02-27)
+
+
+### Features
+
+* **KlaviyoOath:** Allow passing version to setup endpoint ([c795273](https://github.com/c-commerce/charles-browser-sdk/commit/c795273e12cf74ab9f19334e45fdc6c552c39351))
+
 ## [4.235.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.235.0...v4.235.1) (2025-02-12)
 
 
