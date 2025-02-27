@@ -1844,12 +1844,13 @@ export class Universe extends APICarrier {
    * Integration setup, calls vendor specific setup endpoint
    * @param payload data needed for vendor integration setup
    * @param setupEndpoint vendor specific endpoint
+   * @param version endpoint version
    */
-  public async setupIntegration (payload: object, setupEndpoint: string): Promise<number | undefined> {
+  public async setupIntegration (payload: object, setupEndpoint: string, version = 'v0'): Promise<number | undefined> {
     try {
       const opts = {
         method: 'POST',
-        url: `${this.universeBase}/${integration.Integrations.endpoint}/setup/${setupEndpoint}`,
+        url: `${this.universeBase}/${integration.Integrations.endpoint.replace('v0', version)}/setup/${setupEndpoint}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
