@@ -148,6 +148,14 @@ export class IntegrationInitializationError extends BaseError {
   }
 }
 
+export class IntegrationUninstallError extends BaseError {
+  public name = 'IntegrationUninstallError'
+  constructor (public message: string = 'Could not uninstall integration.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, IntegrationUninstallError.prototype)
+  }
+}
+
 export class IntegrationFetchRemoteError extends BaseError {
   public name = 'IntegrationFetchRemoteError'
   constructor (public message: string = 'Could not get integration.', properties?: any) {

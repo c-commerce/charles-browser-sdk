@@ -2,14 +2,20 @@ import qs from 'qs'
 import { UniverseHealth, UniverseStatus } from './status'
 import { Client } from '../client'
 import { APICarrier } from '../base'
-import { Feeds, Feed, FeedRawPayload, FeedsFetchRemoteError, FeedFetchCountRemoteError } from '../eventing/feeds/feed'
+import {
+  Feed,
+  FeedFetchCountRemoteError,
+  FeedRawPayload,
+  Feeds,
+  FeedsFetchRemoteError
+} from '../eventing/feeds/feed'
 import * as realtime from '../realtime'
 import { BaseError } from '../errors'
 import universeTopics from './topics'
 import { Message, MessageRawPayload } from '../messaging'
 import * as uuid from '../helpers/uuid'
 
-import axios, { AxiosResponse, Canceler, CancelToken, AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, Canceler, CancelToken } from 'axios'
 
 import Entity, { EntityFetchOptions, EntityFetchQuery } from '../entities/_base'
 
@@ -21,17 +27,19 @@ import * as personContact from '../entities/person/person-contact'
 import * as channelUser from '../entities/person/channel-user'
 import * as email from '../entities/person/email'
 import * as product from '../entities/product/product'
+import { Product, ProductRawPayload } from '../entities/product/product'
 import * as ticket from '../entities/ticket/ticket'
 import * as cart from '../entities/cart/cart'
 import * as order from '../entities/order/order'
 import * as discount from '../entities/discount/discount'
 import * as messageTemplate from '../entities/message-template/message-template'
-import { Product, ProductRawPayload } from '../entities/product/product'
-import { Event, EventRawPayload } from '../eventing/feeds/event'
+import { Event, EventRawPayload } from '../eventing'
 import * as productCategory from '../entities/product-category/product-category'
 import * as productCategoryTree from '../entities/product-category-tree/product-category-tree'
-import * as messageTemplateCategory from '../entities/message-template-category/message-template-category'
-import * as messageTemplateCategoryTree from '../entities/message-template-category-tree/message-template-category-tree'
+import * as messageTemplateCategory
+  from '../entities/message-template-category/message-template-category'
+import * as messageTemplateCategoryTree
+  from '../entities/message-template-category-tree/message-template-category-tree'
 import * as customProperty from '../entities/custom-property/custom-property'
 import * as tag from '../entities/tag/tag'
 import * as tagGroup from '../entities/tag-group/tag-group'
@@ -59,7 +67,8 @@ import * as pipeline from '../entities/crm/pipeline'
 import * as pipelineStage from '../entities/crm/pipeline-stage'
 import * as dealEvent from '../entities/deal/deal-event'
 import * as messageSubscription from '../entities/message-subscription/message-subscription'
-import * as messageSubscriptionInstance from '../entities/message-subscription-instance/message-subscription-instance'
+import * as messageSubscriptionInstance
+  from '../entities/message-subscription-instance/message-subscription-instance'
 import * as peopleOrganization from '../entities/people-organization/people-organization'
 import * as urlShortener from '../entities/url-shortener/url-shortener'
 import * as imgProxy from '../entities/image-proxy/image-proxy'
@@ -73,19 +82,25 @@ import * as trackingProvider from '../entities/tracking-provider/tracking-provid
 import * as dataExportMeta from '../entities/data-export/data-meta'
 import * as dataExport from '../entities/data-export/data-export'
 import PresenceEntityManager from '../realtime/presence/presence-entity-manager'
-import { PresencePayload, PresenceStaffPayload } from '../realtime/presence/presence-handler'
+import { PresencePayload, PresenceStaffPayload } from '../realtime'
 import * as linkClick from '../entities/link-click/link-click'
 import * as campaignLinkClick from '../entities/link-click/campaign-link-click'
-import { ChangeEventHandler, ChangesHandler, ChangeType, CustomChangeEventHandler } from '../realtime/changes/changes-handler'
+import {
+  ChangeEventHandler,
+  ChangesHandler,
+  ChangeType,
+  CustomChangeEventHandler
+} from '../realtime/changes/changes-handler'
 import ChangesEntityManager from '../realtime/changes/changes-entity-manager'
-import { getEntityName } from '../helpers/entity'
+import { getEntityName } from '../helpers'
 import { UniverseMe } from './me'
-import { analytics } from './analytics'
 import type { UniverseAnalytics } from './analytics'
+import { analytics } from './analytics'
 import ChangesRawManager, { RawPayload } from '../realtime/changes/changes-raw-manager'
 import { FeatureFlagFetchError, FeatureFlagRawPayload } from '../entities/feature-flag'
-import { FlowRawPayload } from '../entities/flow/flow'
+import { FlowRawPayload } from '../entities/flow'
 import * as asyncExport from '../entities/async-exports'
+
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
 export interface UniverseUser {
@@ -1868,6 +1883,23 @@ export class Universe extends APICarrier {
       return res.status
     } catch (err) {
       throw new integration.IntegrationsSetupRemoteError(undefined, { error: err })
+    }
+  }
+
+  public async uninstallIntegration (integrationName: string, version = 'v0'): Promise<AxiosResponse<any>> {
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universeBase}/${integration.Integrations.endpoint.replace('v0', version)}/uninstall/${integrationName}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      return await this.http?.getClient()(opts)
+    } catch (err) {
+      throw new integration.IntegrationUninstallError(undefined, { error: err })
     }
   }
 
