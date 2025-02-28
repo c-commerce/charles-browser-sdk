@@ -1,3 +1,10 @@
+# [4.238.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.237.0...v4.238.0) (2025-02-28)
+
+
+### Features
+
+* **KlaviyoOauth:** Add uninstall endpoint ([4c4e9c6](https://github.com/c-commerce/charles-browser-sdk/commit/4c4e9c6cb4f0fdcd6f45c441326d4f6629a40226))
+
 # [4.237.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.236.0...v4.237.0) (2025-02-27)
 
 
