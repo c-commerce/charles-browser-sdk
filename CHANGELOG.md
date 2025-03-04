@@ -1,3 +1,10 @@
+# [4.239.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.238.0...v4.239.0) (2025-03-04)
+
+
+### Features
+
+* **NotificationCampaign:** add swap template ([b02425a](https://github.com/c-commerce/charles-browser-sdk/commit/b02425a96c19aedc6b9452d3caa0a644011db262))
+
 # [4.238.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.237.0...v4.238.0) (2025-02-28)
 
 
