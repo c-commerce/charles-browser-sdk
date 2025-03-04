@@ -8,6 +8,7 @@ import { Feed } from '../../eventing/feeds/feed'
 import { ContactList, ContactListRawPayload } from '../contact-list/contact-list'
 import { ContactListStaticEntriesFetchRemoteError, NotificationCampaignStaticEntry, NotificationCampaignStaticEntryRawPayload } from './static-entry'
 import { MessageTemplate, MessageTemplateRawPayload } from '../message-template/message-template'
+import { AxiosResponse } from 'axios'
 
 export interface NotificationCampaignOptions extends UniverseEntityOptions {
   rawPayload?: NotificationCampaignRawPayload
@@ -430,6 +431,24 @@ export class NotificationCampaign extends UniverseEntity<NotificationCampaignPay
     } catch (err) {
       throw new NotificationCampaignPublishError(undefined, { error: err })
     }
+  }
+
+  public async swapTemplate (templateId: string): Promise<AxiosResponse<any>> {
+    if (!this.id) throw new TypeError('campaign swapTemplate requires id to be set.')
+
+    const opts = {
+      method: 'PUT',
+      url: `${this.universe.universeBase}/api/v1/notification_campaigns/${this.id}/message_template/swap`,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      responseType: 'json',
+      data: {
+        templateId
+      }
+    }
+
+    return await this.http.getClient()(opts)
   }
 
   /**
