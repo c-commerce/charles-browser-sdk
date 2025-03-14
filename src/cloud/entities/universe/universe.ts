@@ -725,6 +725,24 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     }
   }
 
+  public async restartClientApi (): Promise<void> {
+    if (this.id === null || this.id === undefined) throw new TypeError('Universe.restartClientApi requires universe id to be set.')
+    const endpoint = `api/v0/operator/restart-client-api/${this.id}`
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+      }
+      const res = await this.http?.getClient()(opts)
+      const { status } = res.data
+      if (status !== 200) {
+        throw this.handleError(new RestartClientApiError())
+      }
+    } catch (err) {
+      throw this.handleError(new RestartClientApiError())
+    }
+  }
+
   universe (item: any, universe: any, http: Client): any {
     throw new Error('Method not implemented.')
   }
@@ -868,5 +886,13 @@ export class OperatorPatchOptionsError extends BaseError {
   constructor (public message: string = 'Could not update operator options.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, OperatorPatchOptionsError.prototype)
+  }
+}
+
+export class RestartClientApiError extends BaseError {
+  public name = 'RestartClientApiError'
+  constructor (public message: string = 'Could not restart client api', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, RestartClientApiError.prototype)
   }
 }
