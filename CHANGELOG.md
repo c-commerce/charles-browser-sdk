@@ -1,3 +1,10 @@
+# [4.240.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.239.0...v4.240.0) (2025-03-14)
+
+
+### Features
+
+* **universe:** add restartClientApi function ([80f4c52](https://github.com/c-commerce/charles-browser-sdk/commit/80f4c525c346ba75bc6f0bf899d51dc8e46ddaeb))
+
 # [4.239.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.238.0...v4.239.0) (2025-03-04)
 
 
