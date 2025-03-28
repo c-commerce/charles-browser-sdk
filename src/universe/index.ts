@@ -100,6 +100,7 @@ import ChangesRawManager, { RawPayload } from '../realtime/changes/changes-raw-m
 import { FeatureFlagFetchError, FeatureFlagRawPayload } from '../entities/feature-flag'
 import { FlowRawPayload } from '../entities/flow'
 import * as asyncExport from '../entities/async-exports'
+import { IntegrationUpdateConfigError } from '../entities/integration/integration'
 
 // hygen:import:injection -  Please, don't delete this line: when running the cli for crud resources the new routes will be automatically added here.
 
@@ -1900,6 +1901,26 @@ export class Universe extends APICarrier {
       return await this.http?.getClient()(opts)
     } catch (err) {
       throw new integration.IntegrationUninstallError(undefined, { error: err })
+    }
+  }
+
+  public async updateUnifiedConfigs (payload: object): Promise<AxiosResponse<any>> {
+    try {
+      const opts = {
+        method: 'PUT',
+        url: `${this.universeBase}/${integration.Integrations.endpoint.replace('v0', 'v2')}/configs`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: {
+          payload
+        },
+        responseType: 'json'
+      }
+
+      return await this.http?.getClient()(opts)
+    } catch (err) {
+      throw new integration.IntegrationUpdateConfigError(undefined, { error: err })
     }
   }
 

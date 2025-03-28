@@ -18,6 +18,14 @@ export interface IntegrationRawPayload {
   readonly payload?: {
     [key: string]: any
   }
+  readonly event_subscriptions?: {
+    engagement_metrics?: {
+      subscribed: boolean
+    }
+    subscription?: {
+      subscribed: boolean
+    }
+  }
 }
 
 export interface AvailableIntegrationRawPayload {
@@ -77,6 +85,7 @@ export class Integration extends UniverseEntity<IntegrationPayload, IntegrationR
   public vendor?: IntegrationPayload['vendor']
   public type?: IntegrationPayload['type']
   public payload?: IntegrationPayload['payload']
+  public event_subscriptions?: IntegrationPayload['payload']
 
   constructor (options: IntegrationOptions) {
     super()
@@ -184,5 +193,13 @@ export class IntegrationsSetupRemoteError extends BaseError {
   constructor (public message: string = 'Could not setup vendor integration.', properties?: any) {
     super(message, properties)
     Object.setPrototypeOf(this, IntegrationsSetupRemoteError.prototype)
+  }
+}
+
+export class IntegrationUpdateConfigError extends BaseError {
+  public name = 'IntegrationUpdateConfigError'
+  constructor (public message: string = 'Could not update configs.', properties?: any) {
+    super(message, properties)
+    Object.setPrototypeOf(this, IntegrationUpdateConfigError.prototype)
   }
 }
