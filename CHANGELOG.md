@@ -1,3 +1,10 @@
+# [4.241.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.240.0...v4.241.0) (2025-03-28)
+
+
+### Features
+
+* add endpoint for unified update configs ([19bbad3](https://github.com/c-commerce/charles-browser-sdk/commit/19bbad3cab68ba318093d317eb2ab1df6d9bbea7))
+
 # [4.240.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.239.0...v4.240.0) (2025-03-14)
 
 
