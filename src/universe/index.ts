@@ -1904,7 +1904,7 @@ export class Universe extends APICarrier {
     }
   }
 
-  public async updateUnifiedConfigs (payload: object): Promise<AxiosResponse<any>> {
+  public async updateIntegrationUnifiedConfigs (payload: object): Promise<AxiosResponse<any>> {
     try {
       const opts = {
         method: 'PUT',
@@ -1912,9 +1912,7 @@ export class Universe extends APICarrier {
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         },
-        data: {
-          payload
-        },
+        data: payload,
         responseType: 'json'
       }
 
