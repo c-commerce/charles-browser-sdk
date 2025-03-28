@@ -1,3 +1,10 @@
+# [4.242.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.241.0...v4.242.0) (2025-03-28)
+
+
+### Features
+
+* change name and simplify payload ([2249fce](https://github.com/c-commerce/charles-browser-sdk/commit/2249fcef7abe414ecc8e1121b5e5dba338a6de24))
+
 # [4.241.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.240.0...v4.241.0) (2025-03-28)
 
 
