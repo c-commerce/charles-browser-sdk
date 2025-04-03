@@ -1904,7 +1904,23 @@ export class Universe extends APICarrier {
     }
   }
 
-  public async updateIntegrationUnifiedConfigs (payload: object): Promise<AxiosResponse<any>> {
+  public async updateIntegrationUnifiedConfigs (payload: {
+    identifiers: {
+      legacyIntegrationId?: string
+      crmIntegrationId?: string
+      prismaticAwareIntegrationId?: string
+    }
+    prismaticAwareIntegrationConfig: {
+      eventSubscriptions: object
+      userMappedProperties: Array<{
+        source: string
+        destination: string
+        id: string
+      }>
+    }
+    crmIntegrationConfig: object
+    prismaticConfigs: Array<{ key: string, value: string }>
+  }): Promise<AxiosResponse<{ success: boolean }>> {
     try {
       const opts = {
         method: 'PUT',
