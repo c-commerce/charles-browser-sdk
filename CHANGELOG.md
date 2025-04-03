@@ -1,3 +1,10 @@
+# [4.243.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.242.0...v4.243.0) (2025-04-03)
+
+
+### Features
+
+* add delete unified integration endpoint ([3df8850](https://github.com/c-commerce/charles-browser-sdk/commit/3df8850a444820965a89f3d2aa3e50d57925d3a4))
+
 # [4.242.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.241.0...v4.242.0) (2025-03-28)
 
 
