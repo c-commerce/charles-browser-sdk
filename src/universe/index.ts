@@ -1922,6 +1922,30 @@ export class Universe extends APICarrier {
     }
   }
 
+  public async deleteUnifiedIntegration (payload: {
+    identifiers: {
+      crmIntegrationId: string
+      legacyIntegrationId: string
+      prismaticAwareIntegrationId: string
+    }
+  }): Promise<AxiosResponse<{ success: boolean }>> {
+    try {
+      const opts = {
+        method: 'DELETE',
+        url: `${this.universeBase}/${integration.Integrations.endpoint.replace('v0', 'v2')}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: payload,
+        responseType: 'json'
+      }
+
+      return await this.http?.getClient()(opts)
+    } catch (err) {
+      throw new integration.IntegrationUpdateConfigError(undefined, { error: err })
+    }
+  }
+
   public async messageBrokers (options?: EntityFetchOptions): Promise<messageBroker.MessageBroker[] | messageBroker.MessageBrokerRawPayload[] | undefined> {
     try {
       const res = await this.http.getClient().get(`${this.universeBase}/${messageBroker.MessageBrokers.endpoint}`, {
