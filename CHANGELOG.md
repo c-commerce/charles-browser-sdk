@@ -1,3 +1,10 @@
+# [4.245.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.244.0...v4.245.0) (2025-04-04)
+
+
+### Features
+
+* add endpoint to deploy oauth integration ([111bf17](https://github.com/c-commerce/charles-browser-sdk/commit/111bf17d3ab4548b7f664c516bbc6595e80b36a7))
+
 # [4.244.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.243.0...v4.244.0) (2025-04-04)
 
 
