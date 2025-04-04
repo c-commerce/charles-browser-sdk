@@ -1904,6 +1904,25 @@ export class Universe extends APICarrier {
     }
   }
 
+  public async deployOauthIntegration (integrationName: string): Promise<AxiosResponse<{
+    ok: boolean
+  }>> {
+    try {
+      const opts = {
+        method: 'POST',
+        url: `${this.universeBase}/${integration.Integrations.endpoint.replace('v0', 'v1')}/deploy/${integrationName}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      return await this.http?.getClient()(opts)
+    } catch (err) {
+      throw new integration.IntegrationUpdateConfigError(undefined, { error: err })
+    }
+  }
+
   public async updateIntegrationUnifiedConfigs (payload: {
     identifiers: {
       legacyIntegrationId?: string
