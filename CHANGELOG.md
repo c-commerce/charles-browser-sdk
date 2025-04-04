@@ -1,3 +1,10 @@
+# [4.244.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.243.0...v4.244.0) (2025-04-04)
+
+
+### Features
+
+* add update configs type ([767cc79](https://github.com/c-commerce/charles-browser-sdk/commit/767cc790a6bdc3ce94c13e7d9c2cc7193f0f75a0))
+
 # [4.243.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.242.0...v4.243.0) (2025-04-03)
 
 
