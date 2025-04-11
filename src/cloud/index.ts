@@ -440,9 +440,9 @@ export class Cloud extends APICarrier {
     }
   }
 
-  public async operatorUniverses (): Promise<universe.OperatorUniverseResponse> {
+  public async operatorUniverses (qs?: string): Promise<universe.OperatorUniverseResponse> {
     try {
-      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/universes/operator`)
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/universes/operator${qs && typeof qs === 'string' ? `?${qs}` : ''}`)
 
       return res.data?.data
     } catch (err) {
