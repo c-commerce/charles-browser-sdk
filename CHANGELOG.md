@@ -1,3 +1,10 @@
+# [4.246.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.245.0...v4.246.0) (2025-04-11)
+
+
+### Features
+
+* allow fetching light churned unis for releases ([954a3cd](https://github.com/c-commerce/charles-browser-sdk/commit/954a3cd0d62b04a7ab1396666f328d49955f6e7f))
+
 # [4.245.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.244.0...v4.245.0) (2025-04-04)
 
 
