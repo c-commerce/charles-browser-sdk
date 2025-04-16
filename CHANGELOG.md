@@ -1,3 +1,10 @@
+# [4.247.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.246.0...v4.247.0) (2025-04-16)
+
+
+### Features
+
+* **update-readme:** move how to examples to SDK repo ([#309](https://github.com/c-commerce/charles-browser-sdk/issues/309)) ([97b5bc1](https://github.com/c-commerce/charles-browser-sdk/commit/97b5bc18d2c55d8bd4c8361b3c73ffe839974d51))
+
 # [4.246.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.245.0...v4.246.0) (2025-04-11)
 
 
