@@ -1,3 +1,10 @@
+# [4.248.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.247.0...v4.248.0) (2025-05-26)
+
+
+### Features
+
+* **optin-rule:** add types rule ([5d7d895](https://github.com/c-commerce/charles-browser-sdk/commit/5d7d895109d0054d745f617ef64dff75455ec5ad))
+
 # [4.247.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.246.0...v4.247.0) (2025-04-16)
 
 
