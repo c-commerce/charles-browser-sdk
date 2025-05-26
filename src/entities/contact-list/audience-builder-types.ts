@@ -111,6 +111,16 @@ export const dataset = [
         source: null
       },
       {
+        label: 'double-optin',
+        value: 'optins.double-optin',
+        source: null
+      },
+      {
+        label: 'single-optin',
+        value: 'optins.single-optin',
+        source: null
+      },
+      {
         label: 'many-optins',
         value: 'optins.many-optins',
         source: null
