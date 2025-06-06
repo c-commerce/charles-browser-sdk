@@ -1,3 +1,10 @@
+# [4.249.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.248.0...v4.249.0) (2025-06-06)
+
+
+### Features
+
+* **universe:** add otlp to patchoperatoroptions ([ad3e237](https://github.com/c-commerce/charles-browser-sdk/commit/ad3e237d133f51e1cb038823bf75a54a4cdba117))
+
 # [4.248.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.247.0...v4.248.0) (2025-05-26)
 
 
