@@ -22,6 +22,7 @@ export interface DeployOperatorOptions {
 export interface PatchOperatorOptions {
   readonly size?: 'small' | 'large'
   readonly logLevel?: LogLevel
+  readonly otlp?: boolean
 }
 
 export interface DeployOptions {
