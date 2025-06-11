@@ -24,6 +24,7 @@ export interface IntegrationRawPayload {
     }
     subscription?: {
       subscribed: boolean
+      upsert_email_required?: boolean
     }
   }
 }
