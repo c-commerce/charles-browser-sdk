@@ -1,3 +1,10 @@
+# [4.250.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.249.0...v4.250.0) (2025-06-12)
+
+
+### Features
+
+* **klaviyo-integration:** OCT-12411 extended Klaviyo int payload with upsert_email_required field ([53bcc95](https://github.com/c-commerce/charles-browser-sdk/commit/53bcc95fd1e62d164d28e5f7da7a1cb84b6451a3))
+
 # [4.249.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.248.0...v4.249.0) (2025-06-06)
 
 
