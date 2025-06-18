@@ -170,8 +170,7 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/products`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -190,8 +189,8 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/orders`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
+
         },
         responseType: 'json'
       }
@@ -210,8 +209,8 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/channel_users`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
+
         },
         responseType: 'json'
       }
@@ -230,8 +229,8 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/inventories`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
+
         },
         responseType: 'json'
       }
@@ -250,8 +249,8 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/locations`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
+
         },
         responseType: 'json'
       }
@@ -270,8 +269,8 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/product_categories`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
+
         },
         responseType: 'json'
       }
@@ -290,8 +289,8 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/shipping_methods`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
+
         },
         responseType: 'json'
       }
@@ -337,8 +336,8 @@ export class Storefront extends UniverseEntity<StorefrontPayload, StorefrontRawP
         method: 'POST',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/uninstall`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
+
         },
         responseType: 'json'
       }

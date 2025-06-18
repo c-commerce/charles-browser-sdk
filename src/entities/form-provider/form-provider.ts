@@ -156,8 +156,7 @@ export class FormProvider extends UniverseEntity<FormProviderPayload, FormProvid
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/form_instances`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }

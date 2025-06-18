@@ -163,8 +163,7 @@ export class Nlu extends UniverseEntity<NluPayload, NluRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/sync/intents`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
