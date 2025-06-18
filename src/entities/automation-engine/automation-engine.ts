@@ -206,8 +206,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/flows`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -227,8 +226,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
         method: 'GET',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/flows`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -249,8 +247,7 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/flows/${flowId}/trigger`,
         data,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }

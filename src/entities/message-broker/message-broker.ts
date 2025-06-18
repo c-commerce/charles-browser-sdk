@@ -256,8 +256,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id as string}/sync/message_templates`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -276,8 +275,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/messages`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -297,8 +295,7 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/messages/${externalPersonReferenceId}`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -340,11 +337,10 @@ export class MessageBroker extends UniverseEntity<MessageBrokerPayload, MessageB
     try {
       const opts = {
         method: 'PUT',
-        timeout: options?.timeout ,
+        timeout: options?.timeout,
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/profile`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         data: {
           ...(payload ?? undefined)

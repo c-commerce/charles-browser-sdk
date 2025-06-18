@@ -156,8 +156,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/custom_properties`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -177,8 +176,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/deals`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -198,8 +196,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/channel_users`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -219,8 +216,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/contact_lists`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -240,8 +236,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/contact_list_static_entries`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -261,8 +256,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/pipelines`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -282,8 +276,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/people_organizations`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -303,8 +296,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/setup`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -324,8 +316,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/users`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -345,8 +336,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'GET',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/users${qs.stringify(options?.query ?? {}, { addQueryPrefix: true })}`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
@@ -374,8 +364,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'POST',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/users/associate`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         data,
         responseType: 'json'
@@ -423,8 +412,7 @@ export class CRM extends UniverseEntity<CRMPayload, CRMRawPayload> {
         method: 'PUT',
         url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/sync/contact_list_static_entries/${contactListId}`,
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          'Content-Length': '0'
+          'Content-Type': 'application/json; charset=utf-8'
         },
         responseType: 'json'
       }
