@@ -1,3 +1,10 @@
+## [4.250.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.250.0...v4.250.1) (2025-06-18)
+
+
+### Bug Fixes
+
+* remove content length chrom blocks it ([ee89e11](https://github.com/c-commerce/charles-browser-sdk/commit/ee89e1128afce97b7adc65194cc686359e94fff4))
+
 # [4.250.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.249.0...v4.250.0) (2025-06-12)
 
 
