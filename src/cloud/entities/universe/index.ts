@@ -6,7 +6,10 @@ import {
   CloudUniversesFetchRemoteError,
   OperatorUniverse,
   OperatorUniverseResponse,
-  OperatorUniverseError
+  OperatorUniverseError,
+  OperatorMtUniverse,
+  OperatorMtUniverseResponse,
+  OperatorUniverseResponseV2
 } from './universe'
 
 export {
@@ -16,5 +19,8 @@ export {
   CloudUniversesFetchRemoteError,
   OperatorUniverse,
   OperatorUniverseResponse,
-  OperatorUniverseError
+  OperatorUniverseError,
+  OperatorMtUniverse,
+  OperatorMtUniverseResponse,
+  OperatorUniverseResponseV2
 }

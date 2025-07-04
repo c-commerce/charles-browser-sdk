@@ -460,6 +460,26 @@ export class Cloud extends APICarrier {
     }
   }
 
+  public async operatorUniversesV2 (qs?: string): Promise<universe.OperatorUniverseResponseV2> {
+    try {
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/universes/operator/v2${qs && typeof qs === 'string' ? `?${qs}` : ''}`)
+
+      return res.data?.data
+    } catch (err) {
+      throw new universe.OperatorUniverseError()
+    }
+  }
+
+  public async operatorChurnedUniversesV2 (): Promise<universe.OperatorUniverseResponseV2> {
+    try {
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/universes/operator/v2?churned=true`)
+
+      return res.data?.data
+    } catch (err) {
+      throw new universe.OperatorUniverseError()
+    }
+  }
+
   public async configuration (): Promise<any> {
     try {
       const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/configuration`)
