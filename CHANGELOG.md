@@ -1,3 +1,10 @@
+# [4.251.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.250.1...v4.251.0) (2025-07-04)
+
+
+### Features
+
+* add getOperatorUniversesV2 ([39d1453](https://github.com/c-commerce/charles-browser-sdk/commit/39d1453162cb90cbde347ba06ef0216848d9eb29))
+
 ## [4.250.1](https://github.com/c-commerce/charles-browser-sdk/compare/v4.250.0...v4.250.1) (2025-06-18)
 
 
