@@ -55,6 +55,7 @@ export type DeployReleaseResponse = SingleDeployReleaseResponse | [SingleDeployR
 
 export interface OperatorUniverse {
   readonly id: string
+  readonly mt: boolean
   readonly name: string
   readonly pool: string
   readonly organization: string
@@ -75,6 +76,22 @@ export interface OperatorUniverse {
 }
 
 export type OperatorUniverseResponse = OperatorUniverse | [OperatorUniverse]
+
+export interface OperatorMtUniverse {
+  readonly id: string
+  readonly mt: boolean
+  readonly name: string
+  readonly organization: string
+  readonly createdAt: string
+  // readonly status: string
+  // readonly applied: boolean
+  // readonly isLive: boolean
+  readonly rawCrd: any
+}
+
+export type OperatorMtUniverseResponse = OperatorMtUniverse | [OperatorMtUniverse]
+
+export type OperatorUniverseResponseV2 = [OperatorUniverse | OperatorMtUniverse]
 
 export interface ReleaseHistoryResponse {
   readonly id: string
