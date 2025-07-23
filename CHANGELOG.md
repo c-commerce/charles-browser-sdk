@@ -1,3 +1,10 @@
+# [4.252.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.251.0...v4.252.0) (2025-07-23)
+
+
+### Features
+
+* add universe host entity ([93376cc](https://github.com/c-commerce/charles-browser-sdk/commit/93376cc942bd7f61d1c3004d7ce81f3b359dc9bc))
+
 # [4.251.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.250.1...v4.251.0) (2025-07-04)
 
 
