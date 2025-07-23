@@ -11,7 +11,7 @@ export interface CloudUniverseOptions extends EntityOptions {
   rawPayload?: CloudUniverseRawPayload
 }
 
-type LogLevel = 'none' | 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
+export type LogLevel = 'none' | 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
 type ChurnLevel = 'None' | 'Light' | 'Medium' | 'Full'
 
 export interface DeployOperatorOptions {
