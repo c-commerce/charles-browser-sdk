@@ -12,6 +12,7 @@ import * as organization from './entities/organization'
 import * as universesPool from './entities/universes-pool'
 import * as universesWaba from './entities/universes-waba'
 import * as universesWabasPhonenumber from './entities/universes-wabas-phonenumber'
+import * as universesHosts from './entities/universes-hosts'
 import * as products from './entities/products'
 import * as releases from './entities/releases'
 import * as interverseOrganization from './entities/interverse/organization'
@@ -263,6 +264,10 @@ export class Cloud extends APICarrier {
     return universesWabasPhonenumber.CloudUniversesWabasPhonenumber.create(payload, this, this.http)
   }
 
+  public universeHost (payload: universesHosts.UniversesHostRawPayload): universesHosts.UniversesHost {
+    return universesHosts.UniversesHost.create(payload, this, this.http)
+  }
+
   public product (payload: products.ProductRawPayload): products.Product {
     return products.Product.create(payload, this, this.http)
   }
@@ -402,6 +407,10 @@ export class Cloud extends APICarrier {
     return await this.makeBaseResourceListRequest<universesWabasPhonenumber.CloudUniversesWabasPhonenumber, universesWabasPhonenumber.CloudUniversesWabasPhonenumbers, universesWabasPhonenumber.CloudUniversesWabasPhonenumberRawPayload, EntityFetchOptions, universesWabasPhonenumber.CloudUniversesWabasPhonenumbersFetchRemoteError>(universesWabasPhonenumber.CloudUniversesWabasPhonenumber, universesWabasPhonenumber.CloudUniversesWabasPhonenumbers, universesWabasPhonenumber.CloudUniversesWabasPhonenumbersFetchRemoteError, options)
   }
 
+  public async universesHosts (options?: EntityFetchOptions): Promise<universesHosts.UniversesHost[] | universesHosts.UniversesHostRawPayload[] | undefined> {
+    return await this.makeBaseResourceListRequest<universesHosts.UniversesHost, universesHosts.UniversesHosts, universesHosts.UniversesHostRawPayload, EntityFetchOptions, universesHosts.UniverseHostsFetchRemoteError>(universesHosts.UniversesHost, universesHosts.UniversesHosts, universesHosts.UniverseHostsFetchRemoteError, options)
+  }
+
   public async products (options?: EntityFetchOptions): Promise<products.Product[] | products.ProductRawPayload[] | undefined> {
     return await this.makeBaseResourceListRequest<products.Product, products.Products, products.ProductRawPayload, EntityFetchOptions, products.ProductsFetchRemoteError>(products.Product, products.Products, products.ProductsFetchRemoteError, options)
   }
@@ -477,6 +486,25 @@ export class Cloud extends APICarrier {
       return res.data?.data
     } catch (err) {
       throw new universe.OperatorUniverseError()
+    }
+  }
+
+  public async operatorMtHosts (qs?: string): Promise<any> {
+    try {
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/operator/mt-hosts${qs && typeof qs === 'string' ? `?${qs}` : ''}`)
+
+      return res.data?.data
+    } catch (err) {
+      throw new universe.OperatorUniverseError()
+    }
+  }
+
+  public async getAvailableMtHostSqlInstances (): Promise<Array<{name: string, available: boolean}>> {
+    try {
+      const res = await this.http.getClient().get(`${this.cloudBase}/api/v0/mt-hosts/sql-instances`)
+      return res.data?.data
+    } catch (err) {
+      throw new CloudApiRequestError()
     }
   }
 

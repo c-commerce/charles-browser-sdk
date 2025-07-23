@@ -9,7 +9,11 @@ import {
   OperatorUniverseError,
   OperatorMtUniverse,
   OperatorMtUniverseResponse,
-  OperatorUniverseResponseV2
+  OperatorUniverseResponseV2,
+  LogLevel,
+  ReleaseHistoryResponse,
+  ReleaseHistoryError,
+  UniverseIam
 } from './universe'
 
 export {
@@ -22,5 +26,9 @@ export {
   OperatorUniverseError,
   OperatorMtUniverse,
   OperatorMtUniverseResponse,
-  OperatorUniverseResponseV2
+  OperatorUniverseResponseV2,
+  LogLevel,
+  ReleaseHistoryResponse,
+  ReleaseHistoryError,
+  UniverseIam
 }
