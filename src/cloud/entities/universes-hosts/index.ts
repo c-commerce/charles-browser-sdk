@@ -2,12 +2,14 @@ import {
   UniversesHost,
   UniversesHosts,
   UniversesHostRawPayload,
-  UniverseHostsFetchRemoteError
+  UniverseHostsFetchRemoteError,
+  UniverseHostDeploymentResultMap
 } from './universes-hosts'
 
 export {
   UniversesHost,
   UniversesHosts,
   UniversesHostRawPayload,
-  UniverseHostsFetchRemoteError
+  UniverseHostsFetchRemoteError,
+  UniverseHostDeploymentResultMap
 }

@@ -133,6 +133,28 @@ export class UniversesHost extends Entity<UniversesHostPayload, UniversesHostRaw
     return new UniversesHost({ rawPayload: payload, carrier, http, initialized: true })
   }
 
+  public static async patchRelease (hostIds: string[], release: string, carrier: Cloud, http: Cloud['http']): Promise<UniverseHostDeploymentResultMap> {
+    const patchEndpoint = `api/v0/mt-hosts/release`
+    try {
+      const opts = {
+        method: 'PATCH',
+        url: `${carrier?.injectables?.base}/${patchEndpoint}`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        data: {
+          hostIds,
+          release
+        }
+      }
+
+      const res = await http?.getClient()(opts)
+      return res.data.data as UniverseHostDeploymentResultMap
+    } catch (err) {
+      throw new UniverseHostOperatorError(undefined, { error: err })
+    }
+  }
+
   public serialize (): UniversesHostRawPayload {
     return {
       id: this.id,
