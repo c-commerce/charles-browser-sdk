@@ -1,3 +1,10 @@
+# [4.253.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.252.0...v4.253.0) (2025-07-25)
+
+
+### Features
+
+* add mt-hosts static method for releases ([ea6e45a](https://github.com/c-commerce/charles-browser-sdk/commit/ea6e45a5707a24a856d9d8d91a72c66c5581e779))
+
 # [4.252.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.251.0...v4.252.0) (2025-07-23)
 
 
