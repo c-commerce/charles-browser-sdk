@@ -268,6 +268,10 @@ export class Cloud extends APICarrier {
     return universesHosts.UniversesHost.create(payload, this, this.http)
   }
 
+  public async patchUniverseHostsRelease (hostIds: string[], release: string): Promise<universesHosts.UniverseHostDeploymentResultMap> {
+    return await universesHosts.UniversesHost.patchRelease(hostIds, release, this, this.http)
+  }
+
   public product (payload: products.ProductRawPayload): products.Product {
     return products.Product.create(payload, this, this.http)
   }
