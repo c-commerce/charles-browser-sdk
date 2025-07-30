@@ -1,3 +1,10 @@
+# [4.254.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.253.0...v4.254.0) (2025-07-30)
+
+
+### Features
+
+* add support for saving and deploying multi tenant unis ([9b1eee9](https://github.com/c-commerce/charles-browser-sdk/commit/9b1eee961fac59d4fcffbd819ca99722867d1963))
+
 # [4.253.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.252.0...v4.253.0) (2025-07-25)
 
 
