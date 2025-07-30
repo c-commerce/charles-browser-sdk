@@ -149,6 +149,8 @@ export interface CloudUniverseRawPayload {
   readonly status?: object
   readonly release?: string | null
   readonly migrated?: boolean | null
+	readonly tenancy?: 'SINGLE' | 'MULTI'
+  readonly host?: string | null
 
 }
 
@@ -166,6 +168,8 @@ export interface CloudUniversePayload {
   readonly status?: CloudUniverseRawPayload['status']
   readonly release?: CloudUniverseRawPayload['release']
   readonly migrated?: CloudUniverseRawPayload['migrated']
+	readonly tenancy: 'SINGLE' | 'MULTI'
+  readonly host?: string | null
 }
 
 export interface UniverseDeployStatus {
@@ -206,6 +210,12 @@ export interface SaveMultipleResponse {
   readonly results: [SaveResponse]
 }
 
+export interface SaveMultiTenantPayload {
+  readonly name: string
+	readonly organization: string
+	readonly host: string
+}
+
 /**
  * Manage CloudUniverses.
  *
@@ -236,6 +246,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
   public status?: CloudUniversePayload['status']
   public release?: CloudUniversePayload['release']
   public migrated?: CloudUniversePayload['migrated']
+	public tenancy: 'SINGLE' | 'MULTI' = 'SINGLE'
+  public host?: string | null
 
   constructor (options: CloudUniverseOptions) {
     super()
@@ -309,6 +321,8 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
     this.status = rawPayload.status
     this.release = rawPayload.release
     this.migrated = rawPayload.migrated
+		this.tenancy = rawPayload.tenancy ?? 'SINGLE'
+		this.host = rawPayload.host ?? null
     return this
   }
 
@@ -349,7 +363,9 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       organization: this.organization,
       status: this.status,
       release: this.release,
-      migrated: this.migrated
+      migrated: this.migrated,
+      tenancy: this.tenancy,
+      host: this.host
     }
   }
 
@@ -523,6 +539,49 @@ export class CloudUniverse extends Entity<CloudUniversePayload, CloudUniverseRaw
       throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: err }))
     }
   }
+
+	public async saveMultiTenant (payload: SaveMultiTenantPayload): Promise<CloudUniverse> {
+		const endpoint = `api/v0/mt-universes`
+		try {
+			const opts = {
+				method: 'POST',
+				url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				responseType: 'json',
+				data: payload
+			}
+			const res = await this.http?.getClient()(opts)
+			if (res.status !== 200) {
+				throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: res.data }))
+			}
+			this.deserialize(res.data.data as CloudUniverseRawPayload)
+			return this
+		} catch (err) {
+			throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: err }))
+		}
+	}
+
+	public async deployMultiTenant (): Promise<void> {
+		const endpoint = `api/v0/mt-universes/${this.id}/deploy`
+		try {
+			const opts = {
+				method: 'POST',
+				url: `${this.apiCarrier?.injectables?.base}/${endpoint}`,
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8'
+				},
+				responseType: 'json'
+			}
+			const res = await this.http?.getClient()(opts)
+			if (res.status !== 200) {
+				throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError())
+			}
+		} catch (err) {
+			throw this.handleError(new CloudUniverseDeployFromUniverseConfigRemoteError(undefined, { error: err }))
+		}
+	}
 
   public async operatorUniverses (): Promise<OperatorUniverseResponse> {
     const operatorEndpoint = 'api/v0/universes/operator'
