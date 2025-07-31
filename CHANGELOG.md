@@ -1,3 +1,10 @@
+# [4.255.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.254.0...v4.255.0) (2025-07-31)
+
+
+### Features
+
+* add support for get one mt uni route ([a379138](https://github.com/c-commerce/charles-browser-sdk/commit/a3791389393837e8271d0fc55d2d4641babeb72f))
+
 # [4.254.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.253.0...v4.254.0) (2025-07-30)
 
 
