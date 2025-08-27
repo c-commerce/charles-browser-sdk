@@ -50,7 +50,7 @@ export class BaseErrorV2 extends Error {
   public humanReadableAPIErrorMessage?: string | null = null
   public humanReadableAPIErrorDescription?: string | null = null
 
-  constructor (err: Error | AxiosError<APIErrorPayload>, props?: BaseErrorV2Properties) {
+  constructor (err?: Error | AxiosError<APIErrorPayload>, props?: BaseErrorV2Properties) {
     super()
 
     if (props?.message) {
