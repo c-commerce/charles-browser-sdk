@@ -79,6 +79,17 @@ export interface TriggerableFlowsResponse {
   connectors: FlowbuilderConnector[]
 }
 
+export interface ReasoningStep {
+  timestamp: string
+  type: string
+  explanation: string
+}
+
+export interface ReasoningTraceResponse {
+  triggerMessageId: string
+  steps: ReasoningStep[]
+}
+
 /**
  * Manage automation_engines.
  *
@@ -254,6 +265,26 @@ export class AutomationEngine extends UniverseEntity<AutomationEnginePayload, Au
 
       const res = await this.http?.getClient()(opts)
       return res.status
+    } catch (err) {
+      throw this.handleError(new AutomationEngineFetchRemoteError(undefined, { error: err }))
+    }
+  }
+
+  public async fetchAgentReasoningTrace (traceId: string): Promise<ReasoningTraceResponse> {
+    if (this.id === null || this.id === undefined) throw new TypeError('AutomationEngine fetchAgentReasoningTrace requires id to be set.')
+
+    try {
+      const opts = {
+        method: 'GET',
+        url: `${this.universe.universeBase}/${this.endpoint}/${this.id}/reasoning-trace/${traceId}/explain`,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        },
+        responseType: 'json'
+      }
+
+      const res = await this.http?.getClient()(opts)
+      return res.data.data
     } catch (err) {
       throw this.handleError(new AutomationEngineFetchRemoteError(undefined, { error: err }))
     }
