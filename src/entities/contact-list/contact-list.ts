@@ -96,6 +96,7 @@ export interface ContactListRawPayload {
   readonly last_synced_at?: string
   readonly is_syncing?: boolean
   readonly hide?: string[] | null
+  readonly channel?: string
 }
 
 export interface ContactListPayload {
@@ -124,6 +125,7 @@ export interface ContactListPayload {
   readonly lastSyncedAt?: Date | null
   readonly isSyncing?: ContactListRawPayload['is_syncing']
   readonly hide?: ContactListRawPayload['hide']
+  readonly channel?: ContactListRawPayload['channel']
 }
 
 /**
@@ -170,6 +172,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
   public lastSyncedAt?: ContactListPayload['lastSyncedAt']
   public isSyncing?: ContactListPayload['isSyncing']
   public hide?: ContactListPayload['hide']
+  public channel?: ContactListPayload['channel']
   constructor (options: ContactListOptions) {
     super()
     this.universe = options.universe
@@ -212,6 +215,7 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
     this.lastSyncedAt = rawPayload.last_synced_at ? new Date(rawPayload.last_synced_at) : undefined
     this.isSyncing = rawPayload.is_syncing
     this.hide = rawPayload.hide ?? null
+    this.channel = rawPayload.channel
 
     if (rawPayload.static_entries && this.initialized) {
       this._staticEntries = rawPayload.static_entries.map(i => ContactListStaticEntry.create(i, this.universe, this.http))
@@ -254,7 +258,8 @@ export class ContactList extends UniverseEntity<ContactListPayload, ContactListR
       proxy_reference_id: this.proxyReferenceId,
       links: this.links,
       is_syncing: this.isSyncing,
-      hide: this.hide ?? null
+      hide: this.hide ?? null,
+      channel: this.channel
     }
   }
 
