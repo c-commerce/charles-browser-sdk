@@ -1,3 +1,16 @@
+# [4.256.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.255.0...v4.256.0) (2026-01-19)
+
+
+### Bug Fixes
+
+* Revert package-lock.json format upgrade (lockfileVersion 1) ([cd78309](https://github.com/c-commerce/charles-browser-sdk/commit/cd7830988f6ba0671fa2a6d69d88f74ab55d9724))
+* use trusted publishing, upgrade node to 22, upgrade pkgs, upgrade TS ([cf08258](https://github.com/c-commerce/charles-browser-sdk/commit/cf08258e4d0444dddbab3b4f0a11036dcfd2145c))
+
+
+### Features
+
+* Add optional channel attribute to contact_list type ([5d55410](https://github.com/c-commerce/charles-browser-sdk/commit/5d554108cf3f2b69f0f8549b3367e1e84405369b))
+
 # [4.255.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.254.0...v4.255.0) (2025-07-31)
 
 

@@ -1,8 +1,8 @@
 {
   "name": "@heycharles/browser-sdk",
-  "version": "4.255.0",
+  "version": "4.256.0",
   "description": "The Browser SDK for the Charles APIs.",
-  "keywords": [ ],
+  "keywords": [],
   "main": "dist/charles.js",
   "module": "dist/charles.js",
   "typings": "dist/types/charles.d.ts",
