@@ -2,19 +2,15 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 permissions:
   contents: write
   issues: write
+  id-token: write
   pull-requests: write
-
-env:
-  GITHUB_TOKEN: ${{ secrets.CHARLES_RELEASER_PAT }}
-  NPM_TOKEN: ${{ secrets.NPM_HELLO_CHARLES_AUTOMATION_TOKEN }}
-  node-version: "14.17.4"
 
 jobs:
   build:
@@ -23,35 +19,55 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
       - name: Cache node modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
+        id: cache
         env:
           cache-name: cache-node-modules
         with:
-          path: node_modules
+          path: |
+            ./node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
 
-      - name: Use Node.js ${{ env.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.node-version }}
+      - name: Install deps
+        if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_HELLO_CHARLES_AUTOMATION_TOKEN }}
+        run: npm ci
 
-      - name: install
-        run: npm install
-
-      - name: test
+      - name: Test
         run: npm run test:prod
 
-      - name: build
+      - name: Build
         run: npm run build
 
-      - name: coverage
-        run: npm run coverage
+      - name: Publish new version
+        env:
+          GITHUB_TOKEN: ${{ secrets.CHARLES_RELEASER_PAT }}
+          NPM_CONFIG_PROVENANCE: true
+        run: |
+          git config user.name "charles-platform"
+          git config user.email "charles-platform@users.noreply.github.com"
 
-      - name: release
-        run: npm run semantic-release
+          npm -g install npm@latest # Required by Trusted Publishing, min >= 11.5.1
+          npm --version
+          npm config set provenance true
+
+          npm run semantic-release
+
+      - name: Archive npm failure logs
+        uses: actions/upload-artifact@v6
+        if: failure()
+        with:
+          name: npm-logs
+          path: ~/.npm/_logs

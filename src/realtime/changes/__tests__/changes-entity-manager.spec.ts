@@ -142,7 +142,7 @@ describe('Realtime', () => {
           name: 'test2'
         })
 
-        expect(mockOnCreated).toBeCalled()
+        expect(mockOnCreated).toHaveBeenCalled()
         expect(entity.serialize()).toStrictEqual({
           id: '1',
           name: 'test'

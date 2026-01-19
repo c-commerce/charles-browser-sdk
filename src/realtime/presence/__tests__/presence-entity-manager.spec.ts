@@ -7,7 +7,7 @@ const handlerMock = jest.fn()
 jest.mock('../presence-handler', () => {
   return function (v1: any, v2: any, v3: any, v4: any, v5: any, v6: any, v7: any) {
     handlerMock(v1, v2, v3, v4, v5, v6, v7)
-    return { }
+    return {}
   }
 })
 
@@ -37,7 +37,7 @@ describe('SDK: Realtime: Presence entity manager', () => {
     jest.unmock('../presence-handler')
   })
 
-  function generateMocks (handler: PresenceHandler | undefined = undefined): {
+  function generateMocks(handler: PresenceHandler | undefined = undefined): {
     mockOnUpdated: jest.Mock<any, any>
     manager: PresenceEntityManager<any>
   } {
@@ -62,8 +62,8 @@ describe('SDK: Realtime: Presence entity manager', () => {
   it('init correctly', () => {
     const { mockOnUpdated } = generateMocks()
 
-    expect(handlerMock).toBeCalledTimes(1)
-    expect(handlerMock).toBeCalledWith(mockClient, '1', mockUser, mockOnUpdated, 1, undefined, undefined)
+    expect(handlerMock).toHaveBeenCalledTimes(1)
+    expect(handlerMock).toHaveBeenCalledWith(mockClient, '1', mockUser, mockOnUpdated, 1, undefined, undefined)
   })
 
   it('init correctly with existing handler', () => {
@@ -73,8 +73,8 @@ describe('SDK: Realtime: Presence entity manager', () => {
       connectTracker
     } as unknown as PresenceHandler)
 
-    expect(handlerMock).toBeCalledTimes(0)
-    expect(connectTracker).toBeCalledTimes(1)
+    expect(handlerMock).toHaveBeenCalledTimes(0)
+    expect(connectTracker).toHaveBeenCalledTimes(1)
   })
 
   it('disconnects correctly', () => {
@@ -92,12 +92,12 @@ describe('SDK: Realtime: Presence entity manager', () => {
     hasActiveTrackers.mockReturnValueOnce(true)
     manager.disconnect()
 
-    expect(disconnectTracker).toBeCalledTimes(1)
+    expect(disconnectTracker).toHaveBeenCalledTimes(1)
 
     hasActiveTrackers.mockReturnValueOnce(false)
     manager.disconnect()
 
-    expect(disconnectTracker).toBeCalledTimes(2)
-    expect(destroy).toBeCalledTimes(1)
+    expect(disconnectTracker).toHaveBeenCalledTimes(2)
+    expect(destroy).toHaveBeenCalledTimes(1)
   })
 })

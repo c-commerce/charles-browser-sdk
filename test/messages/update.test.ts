@@ -34,17 +34,15 @@ describe('v0: Messages: can alter a message', () => {
         ]
       })
 
-      mock
-        .onPut(`https://${UNIVERSE}.hello-charles.com/api/v0/messages/${messageId}`)
-        .reply(function (config) {
-          return [
-            200,
-            {
-              count: 1,
-              data: [updateObject]
-            }
-          ]
-        })
+      mock.onPut(`https://${UNIVERSE}.hello-charles.com/api/v0/messages/${messageId}`).reply(function (config) {
+        return [
+          200,
+          {
+            count: 1,
+            data: [updateObject]
+          }
+        ]
+      })
     }
 
     const inst = await initInstance({ universe: UNIVERSE })
@@ -73,11 +71,9 @@ describe('v0: Messages: can alter a message', () => {
           }
         ]
       })
-      mock
-        .onPut(`https:/${UNIVERSE}./hello-charles.com/api/v0/message/${messageId}`)
-        .reply(function (config) {
-          return [205]
-        })
+      mock.onPut(`https:/${UNIVERSE}./hello-charles.com/api/v0/message/${messageId}`).reply(function (config) {
+        return [205]
+      })
     }
 
     const inst = await initInstance({ universe: UNIVERSE })
@@ -85,7 +81,7 @@ describe('v0: Messages: can alter a message', () => {
     try {
       await inst.messages().update(messageId, updateObject)
     } catch (err) {
-      expect(err.name).toBe('MessageUpdateFailed')
+      expect((err as any).name).toBe('MessageUpdateFailed')
     }
   })
 })

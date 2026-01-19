@@ -45,7 +45,7 @@ describe('Auth: logout', () => {
     try {
       await auth.logout()
     } catch (err) {
-      expect(err.name).toBe('LogoutMissingToken')
+      expect((err as any).name).toBe('LogoutMissingToken')
     }
   })
 
@@ -129,7 +129,7 @@ describe('Auth: logout', () => {
       await auth.authenticate()
       await auth.logout()
     } catch (err) {
-      expect(err.name).toBe('LogoutFailed')
+      expect((err as any).name).toBe('LogoutFailed')
     }
   })
 })
