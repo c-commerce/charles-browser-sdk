@@ -361,7 +361,6 @@ export class Cloud extends APICarrier {
         return proto.create(resource, this, this.http)
       })
     } catch (err) {
-      // eslint-disable-next-line @typescript-eslint/no-throw-literal,new-cap
       throw new errorProto(undefined, { error: err })
     }
   }

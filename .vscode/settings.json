@@ -1,4 +1,13 @@
 {
+  "prettier.enable": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  // Auto fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+
   "search.exclude": {
     "**/.git": true,
     "**/node_modules": true,
@@ -10,6 +19,6 @@
     "coverage": true,
     "CHANGELOG.md": true,
     "package-lock.json": true,
-    "yarn.lock": true,
+    "yarn.lock": true
   }
 }

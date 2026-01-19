@@ -2,7 +2,7 @@
   "name": "@heycharles/browser-sdk",
   "version": "4.255.0",
   "description": "The Browser SDK for the Charles APIs.",
-  "keywords": [],
+  "keywords": [ ],
   "main": "dist/charles.js",
   "module": "dist/charles.js",
   "typings": "dist/types/charles.d.ts",
@@ -15,14 +15,18 @@
   "author": "Robert Jefe Lindstaedt <robert.lindstaedt@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/c-commerce/charles-browser-sdk"
+    "url": "https://github.com/c-commerce/charles-browser-sdk.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "license": "Apache-2.0",
   "engines": {
     "node": ">=12.0.0"
   },
   "scripts": {
-    "lint": "eslint -c ./.eslintrc.js --ext .ts src/**/*.ts test/**/*.ts",
+    "lint": "eslint src/**/*.ts test/**/*.ts",
     "prebuild": "rimraf dist",
     "build:main": "tsc -p tsconfig.release.json",
     "build:docs": "typedoc --out docs --hideGenerator  --excludeExternals --excludeProtected --categorizeByGroup true --defaultCategory \"Misc.\" --theme minimal src",
@@ -84,19 +88,18 @@
     "collectCoverage": false
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.6",
-    "@semantic-release/exec": "^4.0.0",
-    "@semantic-release/git": "^8.0.0",
-    "@semantic-release/npm": "^7.0.10",
+    "@eslint/js": "^9.39.2",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^13.1.3",
     "@types/dotenv": "^8.2.0",
-    "@types/jest": "^27.0.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.19.7",
     "@types/qs": "^6.9.1",
     "@types/readable-stream": "^2.3.12",
     "@types/serialize-error": "^4.0.1",
     "@types/ws": "^8.5.0",
-    "@typescript-eslint/eslint-plugin": "^4.12.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^4.12.0",
-    "@typescript-eslint/parser": "^4.12.0",
     "axios-mock-adapter": "^1.17.0",
     "browserify": "^16.2.3",
     "codecov": "^3.1.0",
@@ -107,34 +110,28 @@
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^8.2.0",
-    "eslint": "^7.17.0",
-    "eslint-config-standard-with-typescript": "^19.0.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^5.0.0",
-    "eslint-plugin-vue": "^7.4.1",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.0.0",
     "husky": "^0.14.3",
     "hygen": "^6.1.0",
-    "jest": "^27.0.0",
-    "jest-localstorage-mock": "^2.4.0",
+    "jest": "^30.2.0",
+    "jest-localstorage-mock": "^2.4.26",
     "lodash.camelcase": "^4.3.0",
-    "node": "^14.18.2",
-    "prettier": "^1.15.3",
+    "prettier": "^3.8.0",
     "prismjs": "^1.15.0",
     "prompt": "^1.0.0",
     "replace-in-file": "^3.4.2",
     "rimraf": "^3.0.2",
     "runtypes": "^4.1.0",
-    "semantic-release": "^17.4.3",
+    "semantic-release": "^25.0.2",
     "shelljs": "^0.8.4",
-    "ts-jest": "^27.0.0",
-    "ts-node": "^9.1.1",
-    "tsify": "^4.0.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-config-standard": "^9.0.0",
-    "typedoc": "^0.20.13",
-    "typescript": "4.1.3",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "tsify": "^5.0.4",
+    "typedoc": "^0.28.16",
+    "typescript": "5.4.2",
+    "typescript-eslint": "^8.53.0",
     "validate-commit-msg": "^2.14.0"
   },
   "dependencies": {
@@ -180,5 +177,6 @@
       "@semantic-release/npm",
       "@semantic-release/github"
     ]
-  }
+  },
+  "packageManager": "npm@11.7.0+sha512.c22099a6fff8d5b2286c2a09df5352b4858a7c0c716320f58989d60ad8b29ecf2ce6fdfe97ccb41c23ffb1272e1fa079f868487dd6b81d02a2a9e199c095a117"
 }

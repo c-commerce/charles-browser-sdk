@@ -50,11 +50,11 @@ describe('SDK: Realtime: Presence handler', () => {
     const onUpdate = jest.fn()
     const handler = new PresenceHandler(mqttMocks.mockClient, MOCK_TOPIC, MOCK_STAFF, onUpdate, 3)
 
-    expect(mqttMocks.clientOn).toBeCalledWith('message', expect.any(Function))
-    expect(mqttMocks.clientSub).toBeCalledWith(MOCK_TOPIC)
+    expect(mqttMocks.clientOn).toHaveBeenCalledWith('message', expect.any(Function))
+    expect(mqttMocks.clientSub).toHaveBeenCalledWith(MOCK_TOPIC)
 
     const MOCK_PRESENCE = { isPresent: true, staff: MOCK_STAFF }
-    expect(mqttMocks.clientPublish).toBeCalledWith(MOCK_TOPIC, JSON.stringify(MOCK_PRESENCE))
+    expect(mqttMocks.clientPublish).toHaveBeenCalledWith(MOCK_TOPIC, JSON.stringify(MOCK_PRESENCE))
 
     handler.destroy()
   })
@@ -67,10 +67,10 @@ describe('SDK: Realtime: Presence handler', () => {
 
     handler.destroy()
 
-    expect(mqttMocks.clientOff).toBeCalledWith('message', mqttMocks.clientOn.mock.calls[0][1])
-    expect(mqttMocks.clientUnSub).toBeCalledWith(MOCK_TOPIC)
+    expect(mqttMocks.clientOff).toHaveBeenCalledWith('message', mqttMocks.clientOn.mock.calls[0][1])
+    expect(mqttMocks.clientUnSub).toHaveBeenCalledWith(MOCK_TOPIC)
 
-    expect(mqttMocks.clientPublish).toBeCalledWith(MOCK_TOPIC, JSON.stringify(MOCK_PRESENCE))
+    expect(mqttMocks.clientPublish).toHaveBeenCalledWith(MOCK_TOPIC, JSON.stringify(MOCK_PRESENCE))
   })
 
   it('Must update presence correctly', () => {
@@ -84,7 +84,7 @@ describe('SDK: Realtime: Presence handler', () => {
       payload: MOCK_PRESENCE_2
     } as unknown as RealtimeMessage)
 
-    expect(onUpdate).toBeCalledWith([MOCK_STAFF_2])
+    expect(onUpdate).toHaveBeenCalledWith([MOCK_STAFF_2])
 
     onUpdate.mockReset()
 
@@ -94,7 +94,7 @@ describe('SDK: Realtime: Presence handler', () => {
       payload: MOCK_PRESENCE_2
     } as unknown as RealtimeMessage)
 
-    expect(onUpdate).toBeCalledWith([])
+    expect(onUpdate).toHaveBeenCalledWith([])
 
     handler.destroy()
   })
@@ -112,8 +112,8 @@ describe('SDK: Realtime: Presence handler', () => {
       payload: MOCK_PRESENCE_2
     } as unknown as RealtimeMessage)
 
-    expect(onUpdate).toBeCalledWith([MOCK_STAFF_2])
-    expect(onUpdate2).toBeCalledWith([MOCK_STAFF_2])
+    expect(onUpdate).toHaveBeenCalledWith([MOCK_STAFF_2])
+    expect(onUpdate2).toHaveBeenCalledWith([MOCK_STAFF_2])
     expect(handler.hasActiveTrackers).toBeTruthy()
     handler.destroy()
   })
@@ -132,8 +132,8 @@ describe('SDK: Realtime: Presence handler', () => {
       payload: MOCK_PRESENCE_2
     } as unknown as RealtimeMessage)
 
-    expect(onUpdate).toBeCalledWith([MOCK_STAFF_2])
-    expect(onUpdate2).toBeCalledWith([MOCK_STAFF_2])
+    expect(onUpdate).toHaveBeenCalledWith([MOCK_STAFF_2])
+    expect(onUpdate2).toHaveBeenCalledWith([MOCK_STAFF_2])
 
     handler.disconnectTracker(onUpdate2)
 
@@ -145,8 +145,8 @@ describe('SDK: Realtime: Presence handler', () => {
       payload: MOCK_PRESENCE_3
     } as unknown as RealtimeMessage)
 
-    expect(onUpdate).toBeCalledWith([MOCK_STAFF_2, MOCK_STAFF_3])
-    expect(onUpdate2).not.toBeCalled()
+    expect(onUpdate).toHaveBeenCalledWith([MOCK_STAFF_2, MOCK_STAFF_3])
+    expect(onUpdate2).not.toHaveBeenCalled()
 
     handler.destroy()
   })
@@ -186,7 +186,7 @@ describe('SDK: Realtime: Presence handler', () => {
     } as unknown as RealtimeMessage)
 
     expect(onUpdate).toHaveBeenCalledTimes(1)
-    expect(onUpdate).toBeCalledWith([MOCK_STAFF_2])
+    expect(onUpdate).toHaveBeenCalledWith([MOCK_STAFF_2])
 
     handler.destroy()
   })
@@ -224,7 +224,7 @@ describe('SDK: Realtime: Presence handler', () => {
     } as unknown as RealtimeMessage)
 
     expect(mqttMocks.clientPublish).toHaveBeenCalledTimes(1)
-    expect(mqttMocks.clientPublish).toBeCalledWith(MOCK_TOPIC, JSON.stringify(MOCK_PRESENCE))
+    expect(mqttMocks.clientPublish).toHaveBeenCalledWith(MOCK_TOPIC, JSON.stringify(MOCK_PRESENCE))
 
     handler.destroy()
   })
@@ -248,7 +248,7 @@ describe('SDK: Realtime: Presence handler', () => {
     } as unknown as RealtimeMessage)
 
     expect(mqttMocks.clientPublish).toHaveBeenCalledTimes(1)
-    expect(mqttMocks.clientPublish).toBeCalledWith(MOCK_TOPIC, JSON.stringify(MOCK_PRESENCE))
+    expect(mqttMocks.clientPublish).toHaveBeenCalledWith(MOCK_TOPIC, JSON.stringify(MOCK_PRESENCE))
 
     handler.destroy()
   })
@@ -277,13 +277,13 @@ describe('SDK: Realtime: Presence handler', () => {
       payload: MOCK_PRESENCE_2
     } as unknown as RealtimeMessage)
 
-    expect(onUpdate).toBeCalledTimes(1)
-    expect(onUpdate).toBeCalledWith([MOCK_STAFF_2])
+    expect(onUpdate).toHaveBeenCalledTimes(1)
+    expect(onUpdate).toHaveBeenCalledWith([MOCK_STAFF_2])
     onUpdate.mockReset()
     jest.advanceTimersByTime(1500)
 
-    expect(onUpdate).toBeCalledTimes(1)
-    expect(onUpdate).toBeCalledWith([])
+    expect(onUpdate).toHaveBeenCalledTimes(1)
+    expect(onUpdate).toHaveBeenCalledWith([])
 
     handler.destroy()
   })
@@ -305,12 +305,12 @@ describe('SDK: Realtime: Presence handler', () => {
       payload: MOCK_PRESENCE_2
     } as unknown as RealtimeMessage)
 
-    expect(onUpdate).toBeCalledTimes(1)
+    expect(onUpdate).toHaveBeenCalledTimes(1)
 
-    expect(relay).toBeCalledTimes(1)
+    expect(relay).toHaveBeenCalledTimes(1)
     expect(relay).toHaveBeenCalledWith(MOCK_PRESENCE_2)
 
-    expect(externalRelay).toBeCalledTimes(1)
+    expect(externalRelay).toHaveBeenCalledTimes(1)
     expect(externalRelay).toHaveBeenCalledWith(MOCK_PRESENCE_2)
 
     handler.destroy()
@@ -331,9 +331,9 @@ describe('SDK: Realtime: Presence handler', () => {
       payload: MOCK_PRESENCE_2
     } as unknown as RealtimeMessage)
 
-    expect(onUpdate).toBeCalledTimes(1)
+    expect(onUpdate).toHaveBeenCalledTimes(1)
 
-    expect(relay).toBeCalledTimes(0)
+    expect(relay).toHaveBeenCalledTimes(0)
     handler.destroy()
   })
 
@@ -349,7 +349,7 @@ describe('SDK: Realtime: Presence handler', () => {
       payload: MOCK_PRESENCE_2
     } as unknown as RealtimeMessage)
 
-    expect(onUpdate).toBeCalledTimes(0)
+    expect(onUpdate).toHaveBeenCalledTimes(0)
 
     handler.destroy()
   })
