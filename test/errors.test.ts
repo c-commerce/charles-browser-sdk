@@ -14,7 +14,7 @@ describe('SDK: errors', () => {
       public name = 'V2MockErrorClass'
       public message = 'some random error message'
 
-      constructor (err: Error | unknown, props? : BaseErrorV2Properties) {
+      constructor (err?: Error | unknown, props? : BaseErrorV2Properties) {
         super(err as Error, props)
         Object.setPrototypeOf(this, V2MockErrorClass.prototype)
       }
@@ -68,6 +68,19 @@ describe('SDK: errors', () => {
 
       expect(v2MockError.hasHumanReadableAPIErrorMessage()).toBe(true)
       expect(v2MockError.humanReadableAPIErrorMessage).toBe("Some API message")
+    }
+
+    {
+      const v2MockError = new V2MockErrorClass()
+
+      expect(v2MockError).toBeDefined()
+      expect(v2MockError.name).toBeDefined()
+      expect(v2MockError.message).toBeDefined()
+      expect(v2MockError.message).toEqual('some random error message')
+      expect(v2MockError.properties.error).toBeUndefined()
+
+      expect(v2MockError.hasHumanReadableAPIErrorMessage()).toBe(false)
+      expect(v2MockError.humanReadableAPIErrorMessage).toBeNull()
     }
   })
 })
