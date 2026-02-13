@@ -1,3 +1,6 @@
+***DEPRECATED***
+
+
 # Charles Browser SDK
 
 > The browser utility for working with the Charles API.
