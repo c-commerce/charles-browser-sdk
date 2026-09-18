@@ -1,3 +1,18 @@
+# [5.0.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.256.0...v5.0.0) (2026-09-18)
+
+
+### Code Refactoring
+
+* **universe:** remove the ImageProxy entity ([4f3a91f](https://github.com/c-commerce/charles-browser-sdk/commit/4f3a91f09952d631893ba54dd9edcb1e2f27bdc5))
+
+
+### BREAKING CHANGES
+
+* **universe:** Universe.imageProxies(), the ImageProxy entity
+exports and ImageProxyGetSessionCodeError are removed.
+
+Refs: PLAT-947
+
 # [4.256.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.255.0...v4.256.0) (2026-01-19)
 
 
