@@ -59,7 +59,7 @@ jobs:
           git config user.name "charles-platform"
           git config user.email "charles-platform@users.noreply.github.com"
 
-          npm -g install npm@latest # Required by Trusted Publishing, min >= 11.5.1
+          npm -g install npm@11 # Required by Trusted Publishing, min >= 11.5.1; npm 12 rejects the node in .nvmrc
           npm --version
           npm config set provenance true
 
