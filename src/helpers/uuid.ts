@@ -1,17 +1,21 @@
-// based on https://stackoverflow.com/a/21963136/3580261
-const lut: string[] = []
+const UUID_BYTES = 16
+const VERSION_BYTE_INDEX = 6
+const VARIANT_BYTE_INDEX = 8
 
-for (let i = 0; i < 256; i++) {
-  lut[i] = (i < 16 ? '0' : '') + (i).toString(16)
-}
-
+// CSPRNG-backed UUID v4. randomUUID needs a secure context, getRandomValues does not.
 export function v4 (): string {
-  const d0 = Math.random() * 0xffffffff | 0
-  const d1 = Math.random() * 0xffffffff | 0
-  const d2 = Math.random() * 0xffffffff | 0
-  const d3 = Math.random() * 0xffffffff | 0
-  return lut[d0 & 0xff] + lut[d0 >> 8 & 0xff] + lut[d0 >> 16 & 0xff] + lut[d0 >> 24 & 0xff] + '-' +
-    lut[d1 & 0xff] + lut[d1 >> 8 & 0xff] + '-' + lut[d1 >> 16 & 0x0f | 0x40] + lut[d1 >> 24 & 0xff] + '-' +
-    lut[d2 & 0x3f | 0x80] + lut[d2 >> 8 & 0xff] + '-' + lut[d2 >> 16 & 0xff] + lut[d2 >> 24 & 0xff] +
-    lut[d3 & 0xff] + lut[d3 >> 8 & 0xff] + lut[d3 >> 16 & 0xff] + lut[d3 >> 24 & 0xff]
+  if (typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID()
+  }
+
+  const bytes = crypto.getRandomValues(new Uint8Array(UUID_BYTES))
+
+  // RFC 4122: version nibble 4 in byte 6, variant bits 10xx in byte 8
+  bytes[VERSION_BYTE_INDEX] = (bytes[VERSION_BYTE_INDEX] & 0x0f) | 0x40
+  bytes[VARIANT_BYTE_INDEX] = (bytes[VARIANT_BYTE_INDEX] & 0x3f) | 0x80
+
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('')
+
+  // 8-4-4-4-12
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
 }

@@ -96,6 +96,7 @@ interface MqttOptions {
   keepalive?: number
   path?: string
   rejectUnauthorized: boolean
+  clientId?: string
 }
 
 const defaultMqttOptions: MqttOptions = {
@@ -140,8 +141,10 @@ export class RealtimeClient extends events.EventEmitter {
       ...options
     }
 
+    // CSPRNG default clientId (mqtt.js would use Math.random), caller override wins
     this.mqttOptions = {
       ...defaultMqttOptions,
+      clientId: this.generateClientId(),
       ...(options.mqttOptions ?? {})
     }
 
@@ -198,6 +201,11 @@ export class RealtimeClient extends events.EventEmitter {
     this.offline = true
     this.connected = false
     this.initialized = false
+  }
+
+  // 'mqttjs_' + 16 hex = 23 chars, the MQTT 3.1.1 limit every broker must accept
+  private generateClientId (): string {
+    return 'mqttjs_' + uuid.v4().replace(/-/g, '').slice(0, 16)
   }
 
   private getClient (): MqttClient {
