@@ -1,3 +1,11 @@
+## [5.0.1](https://github.com/c-commerce/charles-browser-sdk/compare/v5.0.0...v5.0.1) (2026-10-13)
+
+
+### Bug Fixes
+
+* **realtime:** CSPRNG MQTT client id, uuid fallback ([13b6809](https://github.com/c-commerce/charles-browser-sdk/commit/13b6809ab30c2fc25f1d3cad80ce2887d760b34f))
+* **uuid:** use crypto.randomUUID for v4 ([62ec3aa](https://github.com/c-commerce/charles-browser-sdk/commit/62ec3aa8835bfa43980ece352b4243ff848e73c1))
+
 # [5.0.0](https://github.com/c-commerce/charles-browser-sdk/compare/v4.256.0...v5.0.0) (2026-09-18)
 
 
