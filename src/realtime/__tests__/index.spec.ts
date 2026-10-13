@@ -1,8 +1,8 @@
-import { MqttClient } from 'mqtt'
+import { connect, MqttClient } from 'mqtt'
 import { RealtimeClient } from '..'
 
 jest.mock('mqtt', () => ({
-  connect: () => {
+  connect: jest.fn(() => {
     const _this = {
       on: (ev: string, cb: Function) => {
         if (ev === 'connect') {
@@ -15,10 +15,22 @@ jest.mock('mqtt', () => ({
     }
 
     return _this
-  }
+  })
 }))
 
 describe.only('Realtime -> RealtimeClient', () => {
+  it('Defaults the MQTT clientId to a CSPRNG id', () => {
+    new RealtimeClient({ base: 'wss://mock', username: 'mock' })
+
+    const connectOptions = (connect as jest.Mock).mock.calls.slice(-1)[0][1]
+    expect(connectOptions.clientId).toMatch(/^mqttjs_[0-9a-f]{16}$/)
+  })
+  it('Lets mqttOptions.clientId override the default', () => {
+    new RealtimeClient({ base: 'wss://mock', username: 'mock', mqttOptions: { rejectUnauthorized: false, clientId: 'custom-id' } })
+
+    const connectOptions = (connect as jest.Mock).mock.calls.slice(-1)[0][1]
+    expect(connectOptions.clientId).toBe('custom-id')
+  })
   it('Handles subscription properly: Single subscription ( single topic )', () => {
     const _instance = new RealtimeClient({ base: 'wss://mock', username: 'mock' })
     expect(_instance.connected).toBeTruthy()
