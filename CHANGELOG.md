@@ -1,3 +1,17 @@
+# [6.0.0](https://github.com/c-commerce/charles-browser-sdk/compare/v5.0.1...v6.0.0) (2026-11-05)
+
+
+* fix(realtime)!: verify the broker TLS certificate ([31247e3](https://github.com/c-commerce/charles-browser-sdk/commit/31247e3481399fd26f6c5de8690b160b159c3167))
+
+
+### BREAKING CHANGES
+
+* in Node, RealtimeClient and Universe reject a broker
+with an untrusted TLS certificate. Pass mqttOptions.ca or set
+NODE_EXTRA_CA_CERTS for a self-signed broker. Browsers are unchanged.
+
+Refs: PLAT-1641
+
 ## [5.0.1](https://github.com/c-commerce/charles-browser-sdk/compare/v5.0.0...v5.0.1) (2026-10-13)
 
 
