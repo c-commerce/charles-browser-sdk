@@ -57,6 +57,8 @@ new RealtimeClient({ ..., mqttOptions: { ca: fs.readFileSync('ca.pem') } })
 
 Or set `NODE_EXTRA_CA_CERTS=/path/ca.pem` for the process. This also covers `Universe`, which builds its own `RealtimeClient`. Browsers always verify certificates.
 
+mqtt.js does not emit `error` for a rejected certificate. The client emits `close` and `reconnect` in a loop. Run with `DEBUG=mqttjs*` to see the certificate error.
+
 ## Development
 
 - `npm t`: Runs test suite.
