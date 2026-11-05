@@ -47,6 +47,16 @@ Additionally, you can import the transpiled modules from `dist/lib` in case you 
 import Auth from '@heycharles/browser-sdk/dist/lib/Auth'
 ```
 
+## TLS in Node
+
+In Node, the realtime client (MQTT over wss) verifies the broker's TLS certificate. For a broker with a self-signed or private-CA certificate, pass the CA:
+
+```javascript
+new RealtimeClient({ ..., mqttOptions: { ca: fs.readFileSync('ca.pem') } })
+```
+
+Or set `NODE_EXTRA_CA_CERTS=/path/ca.pem` for the process. This also covers `Universe`, which builds its own `RealtimeClient`. Browsers always verify certificates.
+
 ## Development
 
 - `npm t`: Runs test suite.

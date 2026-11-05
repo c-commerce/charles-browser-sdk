@@ -95,17 +95,19 @@ interface MqttOptions {
   protocolVersion?: number
   keepalive?: number
   path?: string
-  rejectUnauthorized: boolean
+  rejectUnauthorized?: boolean
+  ca?: string | string[] | Buffer | Buffer[]
   clientId?: string
 }
 
+// No TLS override here, so Node keeps certificate verification on.
+// For brokers with a self-signed or private-CA certificate, pass the CA via `ca`.
 const defaultMqttOptions: MqttOptions = {
   clean: true,
   protocolId: 'MQTT',
   protocolVersion: 4,
   keepalive: 90,
-  path: '/ws',
-  rejectUnauthorized: false
+  path: '/ws'
 }
 
 interface RealtimeClientOptions {
