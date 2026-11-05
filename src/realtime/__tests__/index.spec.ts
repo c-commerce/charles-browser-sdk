@@ -26,10 +26,22 @@ describe.only('Realtime -> RealtimeClient', () => {
     expect(connectOptions.clientId).toMatch(/^mqttjs_[0-9a-f]{16}$/)
   })
   it('Lets mqttOptions.clientId override the default', () => {
-    new RealtimeClient({ base: 'wss://mock', username: 'mock', mqttOptions: { rejectUnauthorized: false, clientId: 'custom-id' } })
+    new RealtimeClient({ base: 'wss://mock', username: 'mock', mqttOptions: { clientId: 'custom-id' } })
 
     const connectOptions = (connect as jest.Mock).mock.calls.slice(-1)[0][1]
     expect(connectOptions.clientId).toBe('custom-id')
+  })
+  it('Does not disable TLS certificate verification by default', () => {
+    new RealtimeClient({ base: 'wss://mock', username: 'mock' })
+
+    const connectOptions = (connect as jest.Mock).mock.calls.slice(-1)[0][1]
+    expect(connectOptions.rejectUnauthorized).toBeUndefined()
+  })
+  it('Passes mqttOptions.ca through to connect()', () => {
+    new RealtimeClient({ base: 'wss://mock', username: 'mock', mqttOptions: { ca: 'mock-ca-pem' } })
+
+    const connectOptions = (connect as jest.Mock).mock.calls.slice(-1)[0][1]
+    expect(connectOptions.ca).toBe('mock-ca-pem')
   })
   it('Handles subscription properly: Single subscription ( single topic )', () => {
     const _instance = new RealtimeClient({ base: 'wss://mock', username: 'mock' })
